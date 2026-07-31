@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Видео | Parlo Italiano</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Stili specifici per la pagina video */
+        .video-page {
+            padding: 40px 0 80px;
+            background: #fafafc;
+        }
+
+        .video-page h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            color: #1e1e2f;
+        }
+
+        .video-page .subtitle {
+            text-align: center;
+            color: #555577;
+            font-size: 1.1rem;
+            margin-bottom: 48px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+        }
+
+        .video-card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+        }
+
+        .video-card .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #1e1e2f;
+        }
+
+        .video-card .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-card .video-info {
+            padding: 20px 24px 24px;
+        }
+
+        .video-card .video-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1e1e2f;
+        }
+
+        .video-card .video-info p {
+            font-size: 0.95rem;
+            color: #777799;
+            margin: 0;
+        }
+
+        .video-card .video-info .tag {
+            display: inline-block;
+            margin-top: 10px;
+            background: #d42e2e15;
+            color: #d42e2e;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 4px 14px;
+            border-radius: 50px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Menu di navigazione (lo stesso per tutte le pagine) */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            padding: 20px 0;
+            border-bottom: 2px solid #e4e6ee;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            font-weight: 600;
+            color: #555577;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #d42e2e;
+        }
+
+        .nav-menu a.active {
+            color: #d42e2e;
+            border-bottom: 3px solid #d42e2e;
+            padding-bottom: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-menu {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- MENU DI NAVIGAZIONE                       -->
+    <!-- ========================================= -->
+    <div class="container">
+        <nav class="nav-menu">
+            <a href="index.html">Главная</a>
+            <a href="videos.html" class="active">Видео</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- PAGINA VIDEO                              -->
+    <!-- ========================================= -->
+    <section class="video-page">
+        <div class="container">
+            <h1>🎬 Все видео</h1>
+            <p class="subtitle">Презентации, уроки и полезные материалы</p>
+
+            <div class="video-grid">
+
+                <!-- VIDEO 1: Presentazione di ANTONIO (insegnante) -->
+               <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/twJd8tSj8Iw?si=eSEpQ161t4eZ8bLp" 
+                              title="YouTube video player" 
+                                frameborder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                             allowfullscreen>
+                       </iframe>
+                    </div>
+                   <div class="video-info">
+                       <h3>Презентация Антонио</h3>
+                      <p>Об опыте преподавателя, методике и подходе к каждому ученику</p>
+                      <span class="tag">Преподаватель</span>
+                 </div>
+              </div>
+
+                <!-- VIDEO 2: Presentazione della SCUOLA -->
+              <div class="video-card">
+                 <div class="video-wrapper">
+                     <iframe src="https://www.youtube.com/embed/B7R07zI-2CA?si=ZFN-dVXM1uk-9kGL" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                               referrerpolicy="strict-origin-when-cross-origin" 
+                                allowfullscreen>
+                      </iframe>
+                   </div>
+                    <div class="video-info">
+                       <h3>Презентация школы</h3>
+                       <p>Как проходят занятия, структура курсов и наши преимущества</p>
+                       <span class="tag">О школе</span>
+                   </div>
+               </div>
+
+                <!-- VIDEO 3: Vacanze Studio -->
+                <div class="video-card">
+                   <div class="video-wrapper">
+                     <iframe src="https://www.youtube.com/embed/2kdhBsXOAf4?si=hAtlUKB-hnqTwjZ4" 
+                               title="YouTube video player" 
+                              frameborder="0" 
+                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                               allowfullscreen>
+                      </iframe>
+                  </div>
+                  <div class="video-info">
+                     <h3>Vacanze Studio</h3>
+                     <p>Изучайте итальянский язык во время отпуска в Италии</p>
+                        <span class="tag">Путешествия</span>
+                 </div>
+               </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- CONTATTI (inclusi per comodità)           -->
+    <!-- ========================================= -->
+    <section class="contact" id="contact">
+        <div class="container contact-grid">
+
+            <div class="contact-form">
+                <h2 class="section-title">Заполните, пожалуйста, форму</h2>
+                <p class="contact-subtitle">Мы свяжемся с вами в ближайшее время</p>
+                <form id="contactForm">
+                    <input type="text" id="name" placeholder="Ваше имя" required />
+                    <input type="email" id="email" placeholder="Ваш email" required />
+                    <input type="tel" id="phone" placeholder="Ваш телефон" />
+                    <textarea id="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                    <button type="submit" class="btn-primary">Отправить заявку</button>
+                    <p id="formStatus" class="form-status"></p>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h3>Наши контакты</h3>
+                <ul>
+                    <li><strong>📞 Телефон:</strong> <a href="tel:+77012068921">+7 701 206 89 21</a></li>
+                    <li><strong>💬 WhatsApp:</strong> <a href="https://wa.me/77012068921">Написать в WhatsApp</a></li>
+                    <li><strong>📧 Email:</strong> <a href="mailto:parloitaliano.kz@gmail.com">parloitaliano.kz@gmail.com</a></li>
+                </ul>
+                <div class="contact-legal">
+                    <p><strong>ИП Prospero</strong></p>
+                    <p>г. Алматы, Казахстан</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FOOTER                                    -->
+    <!-- ========================================= -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Школа итальянского языка Antonio. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
