@@ -1,0 +1,1044 @@
+/* ============================================
+   COLORI BANDIERA ITALIANA (versione leggera)
+============================================ */
+:root {
+    --verde-italia: #009246;
+    --bianco-italia: #FFFFFF;
+    --rosso-italia: #CE2B37;
+}
+
+/* ============================================
+   RESET & BASE
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #1B365D;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ============================================
+   TOP BANNER (logo + titolo + pulsante contatti)
+   Gradiente: Verde → Bianco (leggero)
+============================================ */
+.top-banner {
+    background: radial-gradient(circle at 30% 50%, rgba(0, 146, 70, 0.15) 0%, #FFFFFF 100%);
+    padding: 40px 0;
+    border-bottom: 2px solid rgba(0, 146, 70, 0.3);
+    width: 100%;
+}
+
+.top-banner-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(0, 146, 70, 0.5);
+}
+
+.brand-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.41;
+    letter-spacing: normal;
+    color: #1B365D;
+}
+
+.brand-name small {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #009246;
+    display: block;
+}
+
+/* ============================================
+   PULSANTE NEL BANNER (stile leggero)
+============================================ */
+.btn-phone {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1B365D;
+    background-color: transparent;
+    padding: 8px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: 1.5px solid rgba(0, 146, 70, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-phone:hover {
+    background-color: #CE2B37;
+    color: #FFFFFF;
+    border-color: #CE2B37;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   MENU DI NAVIGAZIONE (allineato a sinistra)
+   Gradiente: Bianco → Verde (leggero)
+============================================ */
+.nav-menu-wrapper {
+    background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 146, 70, 0.08) 100%);
+    border-bottom: 2px solid rgba(0, 146, 70, 0.2);
+    width: 100%;
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: flex-start;
+    gap: 32px;
+    padding: 16px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.nav-menu a {
+    font-family: 'Avenir-LT-W01_35-Light1475496', 'Avenir', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2.14;
+    letter-spacing: normal;
+    color: #1B365D;
+    background-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+}
+
+.nav-menu a:hover {
+    color: #CE2B37;
+}
+
+.nav-menu a.active {
+    color: #1B365D;
+    border-bottom: 3px solid #CE2B37;
+    padding-bottom: 4px;
+}
+
+/* ============================================
+   PULSANTI CTA
+============================================ */
+.btn-primary {
+    display: inline-block;
+    background-color: #CE2B37;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+}
+
+.btn-primary:hover {
+    background-color: #A3202A;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+.footer {
+    background: linear-gradient(135deg, #1B365D 0%, #0d1f36 100%);
+    padding: 24px 0;
+    text-align: center;
+    color: #BDC3C7;
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+/* ============================================
+   HERO (sfondo SCURO, box CHIARO)
+   Gradiente: Verde → Bianco (leggero)
+============================================ */
+.hero {
+    padding: 60px 0 80px;
+    background: radial-gradient(circle at 50% 30%, rgba(0, 146, 70, 0.12) 0%, #FFFFFF 100%);
+    width: 100%;
+}
+
+.hero-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    min-height: 300px;
+}
+
+.hero-box {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 40px 32px;
+    border-radius: 24px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+.hero-text h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 8px;
+}
+
+.hero-text .subtitle-hero {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #009246;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+}
+
+.hero-text .description {
+    font-size: 1.2rem;
+    color: #2C3E50;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ============================================
+   FOTO ANTONIO (sezione CHIARA, centrata)
+   Gradiente: Bianco → Rosso (leggero)
+============================================ */
+.photo-section {
+    padding: 60px 0;
+    background: radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.9) 0%, rgba(206, 43, 55, 0.10) 100%);
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-wrapper {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+    border: 3px solid rgba(0, 146, 70, 0.3);
+}
+
+.antonio-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* ============================================
+   МЫ ПРЕДЛАГАЕМ - 3 colonne (sfondo SCURO)
+   Gradiente: Rosso → Bianco (leggero)
+============================================ */
+.offer {
+    padding: 60px 0;
+    background: radial-gradient(circle at 30% 50%, rgba(206, 43, 55, 0.10) 0%, #FFFFFF 100%);
+    width: 100%;
+}
+
+.offer-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 48px;
+    color: #1B365D;
+}
+
+.offer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.offer-card {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(10px);
+    padding: 0 0 32px 0;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.offer-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+}
+
+.offer-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.offer-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.offer-card:hover .offer-image img {
+    transform: scale(1.05);
+}
+
+.offer-card h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.41;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #1B365D;
+    margin: 20px 24px 8px 24px;
+}
+
+.offer-subtitle {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+    color: #009246;
+    margin: 0 24px 16px 24px;
+}
+
+.offer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 24px;
+}
+
+.offer-list li {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    letter-spacing: normal;
+    text-align: center;
+    color: #2C3E50;
+    padding: 4px 0;
+}
+
+.offer-list li::before {
+    content: "• ";
+    color: #009246;
+    font-weight: 700;
+}
+
+/* Tablet e desktop: 3 colonne */
+@media (min-width: 768px) {
+    .offer-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+/* ============================================
+   ПОЧЕМУ ВЫБИРАЮТ НАС - 6 punti (sfondo CHIARO)
+   Gradiente: Bianco → Verde (leggero)
+============================================ */
+.why-us {
+    padding: 60px 0;
+    background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 146, 70, 0.08) 100%);
+    width: 100%;
+}
+
+.why-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    margin-bottom: 48px;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.why-item {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 28px 24px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.why-icon {
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+}
+
+.why-item h3 {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    margin-bottom: 4px;
+}
+
+.why-item p {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    letter-spacing: normal;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #2C3E50;
+    margin: 0;
+}
+
+/* Tablet (600px+) */
+@media (min-width: 600px) {
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+    .why-us {
+        padding: 80px 0;
+    }
+    
+    .why-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+    
+    .why-item {
+        padding: 40px 32px;
+    }
+    
+    .why-title {
+        font-size: 48px;
+    }
+}
+
+/* ============================================
+   VIDEO - Presentazione di Antonio (sfondo SCURO)
+   Gradiente: Verde → Rosso (leggero)
+============================================ */
+.video-section {
+    padding: 60px 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 146, 70, 0.12) 0%, rgba(206, 43, 55, 0.08) 100%);
+    width: 100%;
+}
+
+.video-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    margin-bottom: 40px;
+}
+
+.video-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Tablet (600px+) */
+@media (min-width: 600px) {
+    .video-section {
+        padding: 80px 0;
+    }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+    .video-section {
+        padding: 100px 0;
+    }
+    
+    .video-title {
+        font-size: 48px;
+    }
+    
+    .video-wrapper {
+        max-width: 900px;
+    }
+}
+
+/* ============================================
+   ОТЗЫВЫ НАШИХ СТУДЕНТОВ (sfondo CHIARO)
+   Gradiente: Bianco → Verde (leggero)
+============================================ */
+.testimonial {
+    padding: 60px 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 146, 70, 0.06) 100%);
+    width: 100%;
+}
+
+.testimonial-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    margin-bottom: 40px;
+}
+
+.testimonial-box {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(10px);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.testimonial-content {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.testimonial-image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(0, 146, 70, 0.3);
+}
+
+.testimonial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.testimonial-text {
+    flex: 1;
+}
+
+.testimonial-text blockquote {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: justify;
+    background-color: rgba(0, 0, 0, 0);
+    color: #2C3E50;
+    margin-bottom: 12px;
+    quotes: none;
+}
+
+.testimonial-text cite {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    font-style: normal;
+    display: block;
+}
+
+/* Tablet (600px+) */
+@media (min-width: 600px) {
+    .testimonial {
+        padding: 80px 0;
+    }
+    
+    .testimonial-box {
+        padding: 48px 40px;
+    }
+    
+    .testimonial-image {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+    .testimonial {
+        padding: 100px 0;
+    }
+    
+    .testimonial-title {
+        font-size: 48px;
+    }
+    
+    .testimonial-box {
+        padding: 56px 48px;
+        max-width: 1000px;
+    }
+    
+    .testimonial-image {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* Mobile (max 600px) */
+@media (max-width: 600px) {
+    .testimonial-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .testimonial-text blockquote {
+        text-align: center;
+    }
+    
+    .testimonial-text cite {
+        text-align: center;
+    }
+    
+    .testimonial-image {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+    }
+}
+
+/* ============================================
+   CONTATTI (sfondo SCURO)
+   Gradiente: Rosso → Verde (leggero)
+============================================ */
+.contact {
+    padding: 60px 0;
+    background: radial-gradient(circle at 50% 50%, rgba(206, 43, 55, 0.10) 0%, rgba(0, 146, 70, 0.06) 100%);
+    width: 100%;
+}
+
+.contact-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #1B365D;
+    margin-bottom: 40px;
+}
+
+.contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.contact-subtitle {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: #2C3E50;
+    margin-bottom: 24px;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    letter-spacing: normal;
+    padding: 14px 16px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    transition: border 0.3s ease;
+    background: #FFFFFF;
+    width: 100%;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #009246;
+    outline: none;
+}
+
+.contact-form .btn-primary {
+    display: inline-block;
+    background-color: #CE2B37;
+    color: #FFFFFF;
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.75;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+}
+
+.contact-form .btn-primary:hover {
+    background-color: #A3202A;
+    transform: translateY(-2px);
+}
+
+.form-status {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    margin-top: 8px;
+    color: #009246;
+    text-align: center;
+}
+
+.contact-info h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.41;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 20px;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+    color: #2C3E50;
+    margin-bottom: 14px;
+}
+
+.contact-info a {
+    color: #009246;
+    text-decoration: none;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.contact-legal {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    text-align: center;
+    color: #2C3E50;
+}
+
+/* Tablet (600px+) */
+@media (min-width: 600px) {
+    .contact {
+        padding: 80px 0;
+    }
+    
+    .contact-grid {
+        gap: 48px;
+    }
+    
+    .contact-info li {
+        text-align: left;
+    }
+    
+    .contact-info h3 {
+        text-align: left;
+    }
+    
+    .contact-legal {
+        text-align: left;
+    }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+    .contact {
+        padding: 100px 0;
+    }
+    
+    .contact-title {
+        font-size: 48px;
+    }
+    
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 60px;
+        align-items: start;
+        padding: 0 24px;
+    }
+    
+    .contact-form .btn-primary {
+        width: auto;
+        max-width: none;
+        align-self: flex-start;
+    }
+    
+    .contact-subtitle {
+        text-align: left;
+    }
+}
+
+/* ============================================
+   RESPONSIVE (tablet & desktop)
+============================================ */
+@media (min-width: 600px) {
+    .hero {
+        padding: 80px 0 100px;
+    }
+
+    .hero-text h1 {
+        font-size: 3.8rem;
+    }
+
+    .hero-text .subtitle-hero {
+        font-size: 1.6rem;
+    }
+
+    .hero-text .description {
+        font-size: 1.3rem;
+    }
+
+    .testimonial-box {
+        padding: 36px 40px;
+    }
+
+    .testimonial-box blockquote {
+        font-size: 1.15rem;
+    }
+
+    .contact-grid {
+        gap: 48px;
+    }
+
+    .contact-info {
+        text-align: left;
+    }
+
+    .brand-name {
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero {
+        padding: 100px 0 120px;
+    }
+
+    .hero-grid {
+        min-height: 400px;
+        padding: 0 24px;
+    }
+
+    .hero-text h1 {
+        font-size: 4.2rem;
+    }
+
+    .hero-text .subtitle-hero {
+        font-size: 1.8rem;
+    }
+
+    .hero-text .description {
+        font-size: 1.4rem;
+        max-width: 700px;
+    }
+
+    .nav-menu {
+        padding: 16px 40px;
+    }
+
+    .nav-menu a {
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        width: auto;
+        max-width: none;
+        padding: 16px 36px;
+        font-size: 1.1rem;
+    }
+
+    .top-banner {
+        padding: 40px 0;
+    }
+
+    .top-banner-inner {
+        padding: 0 24px;
+    }
+
+    .brand-logo {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .top-banner-inner {
+        padding: 0 40px;
+    }
+
+    .hero-grid {
+        padding: 0 40px;
+    }
+
+    .contact-grid {
+        padding: 0 40px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: 24px 0 32px;
+    }
+    .hero-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .hero-text {
+        flex: 1 1 50%;
+        text-align: left;
+    }
+    .hero-image {
+        flex: 1 1 40%;
+    }
+}
