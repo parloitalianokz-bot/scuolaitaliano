@@ -1521,6 +1521,61 @@ body {
 
 
 /* ============================================
+   CTA FLOTTANTE (invito all'azione)
+============================================ */
+.floating-cta {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #CE2B37;
+    color: #FFFFFF;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(206, 43, 55, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.floating-cta.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.floating-cta:hover {
+    background: #A3202A;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 30px rgba(206, 43, 55, 0.5);
+}
+
+.floating-cta i {
+    font-size: 18px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .floating-cta {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}
+
+
+/* ============================================
    RESPONSIVE (tablet & desktop)
 ============================================ */
 @media (min-width: 600px) {
