@@ -639,6 +639,73 @@ body {
     margin: 0;
 }
 
+
+/* ============================================
+   BADGE DI FIDUCIA
+============================================ */
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0, 146, 70, 0.10);
+    transition: transform 0.3s ease;
+}
+
+.trust-badge:hover {
+    transform: translateY(-4px);
+}
+
+.trust-badge img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+}
+
+.trust-badge i {
+    font-size: 28px;
+    color: #009246;
+}
+
+.trust-badge span {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1B365D;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .trust-badges {
+        gap: 12px;
+    }
+    .trust-badge {
+        padding: 8px 16px;
+    }
+    .trust-badge img {
+        height: 28px;
+    }
+    .trust-badge span {
+        font-size: 12px;
+    }
+}
+
+
+
+
 /* Tablet e desktop */
 @media (min-width: 600px) {
     .quality-grid {
@@ -1116,6 +1183,45 @@ body {
     
     .contact-subtitle {
         text-align: left;
+    }
+}
+
+
+/* ============================================
+   IMMAGINE NEI CONTATTI
+============================================ */
+.contact-side {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.contact-image {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.contact-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Desktop: immagine accanto al form */
+@media (min-width: 992px) {
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 60px;
+        align-items: start;
+        padding: 0 24px;
+    }
+    
+    .contact-side {
+        gap: 32px;
     }
 }
 
