@@ -16,6 +16,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     color: #1B365D;
@@ -137,7 +141,7 @@ body {
     background-color: rgba(0, 0, 0, 0);
     text-decoration: none;
     padding: 4px 0;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, border-bottom 0.2s ease; /* Aggiungi border-bottom */
 }
 
 .nav-menu a:hover {
@@ -243,6 +247,16 @@ body {
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.6;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1B365D;
 }
 
 /* ============================================
@@ -1042,3 +1056,4 @@ body {
         flex: 1 1 40%;
     }
 }
+
