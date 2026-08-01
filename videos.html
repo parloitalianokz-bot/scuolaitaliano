@@ -178,16 +178,26 @@
     </div>
 
     <!-- ========================================= -->
-    <!-- MENU DI NAVIGAZIONE                       -->
-    <!-- ========================================= -->
-    <div class="nav-menu-wrapper">
-        <nav class="nav-menu">
-            <a href="index.html">Главная</a>
-            <a href="videos.html" class="active">Видео</a>
+<!-- MENU DI NAVIGAZIONE                       -->
+<!-- ========================================= -->
+<div class="nav-menu-wrapper">
+    <div class="nav-menu-container">
+        <!-- Pulsante hamburger (visibile solo su mobile) -->
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <!-- Menu di navigazione -->
+        <nav class="nav-menu" id="navMenu">
+            <a href="index.html" class="active">Главная</a>
+            <a href="videos.html">Видео</a>
             <a href="reviews.html">Отзывы</a>
-            <a href="index.html#contact">Контакты</a>
+            <a href="#contact">Контакты</a>
         </nav>
     </div>
+</div>
 
     <!-- ========================================= -->
     <!-- SEZIONE VIDEO                             -->
