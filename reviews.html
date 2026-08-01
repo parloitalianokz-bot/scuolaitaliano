@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Отзывы | Parlo Italiano</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- Style globale -->
+    <link rel="stylesheet" href="css/style.css" />
+    
     <style>
-        /* Stili specifici per la pagina recensioni */
+        /* ============================================
+           STILI SPECIFICI PER LA PAGINA RECENSIONI
+        ============================================ */
         .reviews-page {
             padding: 40px 0 60px;
             background: #FFFFFF;
@@ -37,9 +45,10 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .review-card:hover .review-image img {
-    transform: scale(1.05); /* Leggero zoom al passaggio del mouse */
-}
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        }
 
         /* Alternanza colori: chiaro e scuro */
         .review-card:nth-child(odd) {
@@ -51,22 +60,27 @@
         }
 
         .review-image {
-    flex-shrink: 0;
-    width: 140px;        /* Aumentato da 100px */
-    height: 140px;       /* Aumentato da 100px */
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #009246;
-    box-shadow: 0 4px 16px rgba(0, 146, 70, 0.15); /* Leggera ombra per dare profondità */
-}
+            flex-shrink: 0;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #009246;
+            box-shadow: 0 4px 16px rgba(0, 146, 70, 0.15);
+        }
 
         .review-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-}
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover .review-image img {
+            transform: scale(1.05);
+        }
+
         .review-text {
             flex: 1;
         }
@@ -130,58 +144,59 @@
             color: #2C3E50;
             margin-top: 8px;
         }
-@media (max-width: 600px) {
-    .review-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 24px 16px;
-    }
 
-    .review-text blockquote {
-        text-align: center;
-    }
+        /* Responsive */
+        @media (max-width: 600px) {
+            .review-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 24px 16px;
+            }
 
-    .review-text cite {
-        text-align: center;
-    }
+            .review-text blockquote {
+                text-align: center;
+            }
 
-    .review-image {
-        width: 120px;      /* Aumentato da 80px */
-        height: 120px;     /* Aumentato da 80px */
-    }
+            .review-text cite {
+                text-align: center;
+            }
 
-    .reviews-title {
-        font-size: 32px;
-    }
+            .review-image {
+                width: 120px;
+                height: 120px;
+            }
 
-    .final-message p {
-        font-size: 22px;
-    }
-    .final-message .italian {
-        font-size: 18px;
-    }
-    .final-message .russian {
-        font-size: 16px;
-    }
-}
+            .reviews-title {
+                font-size: 32px;
+            }
+
+            .final-message p {
+                font-size: 22px;
+            }
+            .final-message .italian {
+                font-size: 18px;
+            }
+            .final-message .russian {
+                font-size: 16px;
+            }
+        }
 
         @media (min-width: 992px) {
-    .review-card {
-        padding: 40px 32px;
-    }
-    .review-image {
-        width: 160px;      /* Aumentato da 120px */
-        height: 160px;     /* Aumentato da 120px */
-    }
-    .review-text blockquote {
-        font-size: 18px;
-    }
-    .final-message p {
-        font-size: 32px;
-    }
-}
-        
+            .review-card {
+                padding: 40px 32px;
+            }
+            .review-image {
+                width: 160px;
+                height: 160px;
+            }
+            .review-text blockquote {
+                font-size: 18px;
+            }
+            .final-message p {
+                font-size: 32px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -388,7 +403,7 @@
     </section>
 
     <!-- ========================================= -->
-    <!-- CONTATTI (inclusi per comodità)           -->
+    <!-- CONTATTI                                  -->
     <!-- ========================================= -->
     <section class="contact" id="contact">
         <div class="container contact-grid">
@@ -400,25 +415,34 @@
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Parlo Italiano!" />
                     <input type="hidden" name="_template" value="table" />
-                    <input type="text" id="name" name="name" placeholder="Ф.И.О." required />
-                    <input type="email" id="email" name="email" placeholder="Ваш email" required />
-                    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" />
-                    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                    <input type="text" id="name" name="name" placeholder="Ф.И.О." required 
+                           oninput="validateField(this)" />
+                    <input type="email" id="email" name="email" placeholder="Ваш email" required 
+                           oninput="validateField(this)" />
+                    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" 
+                           oninput="validateField(this)" />
+                    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"
+                              oninput="validateField(this)"></textarea>
                     <button type="submit" class="btn-primary">Отправить заявку</button>
                     <p id="formStatus" class="form-status"></p>
                 </form>
             </div>
 
-            <div class="contact-info">
-                <h3>Наши контакты</h3>
-                <ul>
-                    <li><strong>📞 Телефон:</strong> <a href="tel:+77012068921">+7 701 206 89 21</a></li>
-                    <li><strong>💬 WhatsApp:</strong> <a href="https://wa.me/77012068921">Написать в WhatsApp</a></li>
-                    <li><strong>📧 Email:</strong> <a href="mailto:parloitaliano.kz@gmail.com">parloitaliano.kz@gmail.com</a></li>
-                </ul>
-                <div class="contact-legal">
-                    <p><strong>ИП Prospero</strong></p>
-                    <p>г. Алматы, Казахстан</p>
+            <div class="contact-side">
+                <div class="contact-image">
+                    <img src="images/contatti-bg.webp" alt="Свяжитесь с нами" loading="lazy" />
+                </div>
+                <div class="contact-info">
+                    <h3>Наши контакты</h3>
+                    <ul>
+                        <li><strong><i class="fas fa-phone"></i> Телефон:</strong> <a href="tel:+77012068921">+7 701 206 89 21</a></li>
+                        <li><strong><i class="fab fa-whatsapp"></i> WhatsApp:</strong> <a href="https://wa.me/77012068921">Написать в WhatsApp</a></li>
+                        <li><strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:parloitaliano.kz@gmail.com">parloitaliano.kz@gmail.com</a></li>
+                    </ul>
+                    <div class="contact-legal">
+                        <p><strong>ИП Prospero</strong></p>
+                        <p>г. Алматы, Казахстан</p>
+                    </div>
                 </div>
             </div>
 
