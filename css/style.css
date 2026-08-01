@@ -85,6 +85,13 @@ body {
     display: block;
 }
 
+/* Colore delle icone nei contatti */
+.contact-info i {
+    color: #009246;
+    width: 24px;
+    text-align: center;
+}
+
 /* ============================================
    PULSANTE NEL BANNER (stile leggero)
 ============================================ */
@@ -197,9 +204,22 @@ body {
 ============================================ */
 .hero {
     padding: 60px 0 80px;
-    background: radial-gradient(circle at 50% 30%, rgba(0, 146, 70, 0.12) 0%, #FFFFFF 100%);
     width: 100%;
+    position: relative;
+    background: 
+        linear-gradient(135deg, rgba(0, 146, 70, 0.05) 0%, rgba(255, 255, 255, 0.50) 100%),
+        url('images/hero-bg.webp') center/cover no-repeat;
 }
+
+/* Fallback per browser che non supportano WebP */
+@supports not (background-image: url('images/hero-bg.webp')) {
+    .hero {
+        background: 
+            linear-gradient(135deg, rgba(0, 146, 70, 0.05) 0%, rgba(255, 255, 255, 0.50) 100%),
+            url('images/hero-bg.jpg') center/cover no-repeat;
+    }
+}
+
 
 .hero-grid {
     display: flex;
@@ -510,6 +530,156 @@ body {
         font-size: 48px;
     }
 }
+
+
+/* ============================================
+   КАЧЕСТВО - Formazione e garanzia
+   Gradiente: Bianco → Verde (leggero)
+============================================ */
+.quality {
+    padding: 60px 0;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 146, 70, 0.06) 100%);
+    width: 100%;
+}
+
+.quality-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 32px;
+}
+
+.quality-content {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 0 16px;
+}
+
+.quality-text {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: justify;
+    color: #2C3E50;
+    margin-bottom: 16px;
+}
+
+.quality-text strong {
+    color: #009246;
+    font-weight: 700;
+}
+
+.quality-benefits-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 32px;
+}
+
+.quality-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.quality-item {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 28px 24px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 146, 70, 0.08);
+}
+
+.quality-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.quality-icon {
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+}
+
+.quality-item h4 {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 4px;
+}
+
+.quality-item p {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.88;
+    letter-spacing: normal;
+    text-align: center;
+    color: #2C3E50;
+    margin: 0;
+}
+
+/* Tablet e desktop */
+@media (min-width: 600px) {
+    .quality-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (min-width: 992px) {
+    .quality {
+        padding: 80px 0;
+    }
+    .quality-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+    .quality-item {
+        padding: 40px 32px;
+    }
+    .quality-title {
+        font-size: 48px;
+    }
+    .quality-benefits-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 600px) {
+    .quality-title {
+        font-size: 32px;
+    }
+    .quality-text {
+        font-size: 16px;
+        text-align: center;
+    }
+    .quality-benefits-title {
+        font-size: 24px;
+    }
+}
+
+
 
 /* ============================================
    VIDEO - Presentazione di Antonio (sfondo SCURO)
