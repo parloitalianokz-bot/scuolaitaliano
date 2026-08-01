@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Disabilita il pulsante durante l'invio
         const btn = form.querySelector('.btn-primary');
+        const originalText = btn.textContent;
         btn.disabled = true;
         btn.textContent = '⏳ Отправка...';
         status.textContent = '';
 
         try {
-            // Invia il form a FormSubmit
             const formData = new FormData(form);
             const response = await fetch(form.action, {
                 method: form.method,
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error(error);
         } finally {
             btn.disabled = false;
-            btn.textContent = 'Отправить заявку';
+            btn.textContent = originalText;
         }
     });
 });
