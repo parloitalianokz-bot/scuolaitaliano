@@ -119,23 +119,68 @@ body {
 }
 
 /* ============================================
-   MENU DI NAVIGAZIONE (allineato a sinistra)
-   Gradiente: Bianco → Verde (leggero)
+   MENU DI NAVIGAZIONE (hamburger)
 ============================================ */
 .nav-menu-wrapper {
     background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(0, 146, 70, 0.08) 100%);
     border-bottom: 2px solid rgba(0, 146, 70, 0.2);
     width: 100%;
+    position: relative;
 }
 
+.nav-menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+}
+
+/* Pulsante hamburger */
+.nav-toggle {
+    display: none; /* Nascosto su desktop */
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.hamburger-line {
+    width: 28px;
+    height: 3px;
+    background-color: #1B365D;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Animazione hamburger → X */
+.nav-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Menu di navigazione */
 .nav-menu {
     display: flex;
     justify-content: flex-start;
     gap: 32px;
-    padding: 16px 24px;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 0;
+    margin: 0;
     flex-wrap: wrap;
+    list-style: none;
+    transition: all 0.3s ease;
 }
 
 .nav-menu a {
@@ -145,10 +190,9 @@ body {
     line-height: 2.14;
     letter-spacing: normal;
     color: #1B365D;
-    background-color: rgba(0, 0, 0, 0);
     text-decoration: none;
     padding: 4px 0;
-    transition: color 0.2s ease, border-bottom 0.2s ease; /* Aggiungi border-bottom */
+    transition: color 0.2s ease, border-bottom 0.2s ease;
 }
 
 .nav-menu a:hover {
@@ -159,6 +203,45 @@ body {
     color: #1B365D;
     border-bottom: 3px solid #CE2B37;
     padding-bottom: 4px;
+}
+
+/* ============================================
+   RESPONSIVE: HAMBURGER SU MOBILE
+============================================ */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: flex; /* Mostra hamburger su mobile */
+    }
+
+    .nav-menu {
+        display: none; /* Nascondi menu di default */
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 16px 0;
+        background: #FFFFFF;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .nav-menu.open {
+        display: flex; /* Mostra menu quando aperto */
+    }
+
+    .nav-menu a {
+        font-size: 16px;
+        padding: 8px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-menu a.active {
+        border-bottom: none;
+        background: rgba(206, 43, 55, 0.06);
+        border-radius: 8px;
+        padding: 8px 0;
+    }
 }
 
 /* ============================================
