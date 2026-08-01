@@ -377,7 +377,7 @@ body {
 }
 
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     .hero-text h1 {
         font-size: 1.8rem;
         line-height: 1.1;
@@ -1707,4 +1707,3 @@ body {
         flex: 1 1 40%;
     }
 }
-
