@@ -949,6 +949,169 @@ body {
     }
 }
 
+
+/* ============================================
+   CAROSELLO RECENSIONI
+============================================ */
+.testimonial-carousel {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.testimonial-slides {
+    display: flex;
+    transition: transform 0.8s ease-in-out;
+}
+
+.testimonial-slide {
+    flex: 0 0 100%;
+    min-height: 200px;
+    padding: 40px 32px;
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.testimonial-slide-content {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.testimonial-slide-image {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #009246;
+}
+
+.testimonial-slide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.testimonial-slide-text {
+    flex: 1;
+}
+
+.testimonial-slide-text blockquote {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: justify;
+    color: #2C3E50;
+    margin-bottom: 8px;
+    quotes: none;
+}
+
+.testimonial-slide-text cite {
+    font-family: 'Alfabet', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.75;
+    letter-spacing: normal;
+    text-align: left;
+    color: #1B365D;
+    font-style: normal;
+    display: block;
+}
+
+/* Indicatori (pallini) */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.carousel-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #009246;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 0;
+}
+
+.carousel-dot.active {
+    background-color: #009246;
+    transform: scale(1.2);
+}
+
+.carousel-dot:hover {
+    transform: scale(1.1);
+}
+
+/* Link a tutte le recensioni */
+.reviews-link {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.btn-secondary {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #009246;
+    background-color: transparent;
+    padding: 12px 32px;
+    border: 2px solid #009246;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #009246;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 146, 70, 0.25);
+}
+
+/* Responsive carosello */
+@media (max-width: 600px) {
+    .testimonial-slide-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .testimonial-slide-text blockquote {
+        text-align: center;
+    }
+    
+    .testimonial-slide-text cite {
+        text-align: center;
+    }
+    
+    .testimonial-slide {
+        padding: 24px 16px;
+    }
+    
+    .testimonial-slide-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .btn-secondary {
+        font-size: 16px;
+        padding: 10px 24px;
+    }
+}
+
+
 /* ============================================
    RESPONSIVE (tablet & desktop)
 ============================================ */
