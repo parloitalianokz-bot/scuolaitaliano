@@ -4,43 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Видео | Parlo Italiano</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
     <style>
-        /* Stili specifici per la pagina video */
+        /* ============================================
+           STILI SPECIFICI PER LA PAGINA VIDEO
+        ============================================ */
         .video-page {
-            padding: 40px 0 80px;
-            background: #fafafc;
+            padding: 40px 0 60px;
+            background: #FFFFFF;
+            width: 100%;
         }
 
-        .video-page h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
+        .video-page-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.35;
+            letter-spacing: normal;
+            text-transform: uppercase;
             text-align: center;
+            color: #1B365D;
             margin-bottom: 12px;
-            color: #1e1e2f;
         }
 
-        .video-page .subtitle {
+        .video-page-subtitle {
+            font-family: 'Alfabet', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: normal;
             text-align: center;
-            color: #555577;
-            font-size: 1.1rem;
+            color: #2C3E50;
             margin-bottom: 48px;
         }
 
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: 1fr;
             gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
         }
 
         .video-card {
-            background: #ffffff;
-            border-radius: 20px;
+            background: #FFFFFF;
+            border-radius: 24px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .video-card:hover {
@@ -48,15 +63,15 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.10);
         }
 
-        .video-card .video-wrapper {
+        .video-wrapper {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             overflow: hidden;
-            background: #1e1e2f;
+            background: #1B365D;
         }
 
-        .video-card .video-wrapper iframe {
+        .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -65,70 +80,82 @@
             border: none;
         }
 
-        .video-card .video-info {
-            padding: 20px 24px 24px;
+        .video-info {
+            padding: 24px 28px 28px;
         }
 
-        .video-card .video-info h3 {
-            font-size: 1.1rem;
+        .video-info h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 22px;
             font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: normal;
+            color: #1B365D;
             margin-bottom: 6px;
-            color: #1e1e2f;
         }
 
-        .video-card .video-info p {
-            font-size: 0.95rem;
-            color: #777799;
-            margin: 0;
+        .video-info p {
+            font-family: 'Alfabet', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: normal;
+            color: #2C3E50;
+            margin: 0 0 12px 0;
         }
 
-        .video-card .video-info .tag {
+        .video-tag {
             display: inline-block;
-            margin-top: 10px;
-            background: #d42e2e15;
-            color: #d42e2e;
-            font-weight: 600;
-            font-size: 0.75rem;
-            padding: 4px 14px;
+            font-family: 'Alfabet', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #009246;
+            background: rgba(0, 146, 70, 0.10);
+            padding: 4px 16px;
             border-radius: 50px;
-            letter-spacing: 0.3px;
         }
 
-        /* Menu di navigazione (lo stesso per tutte le pagine) */
-        .nav-menu {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            padding: 20px 0;
-            border-bottom: 2px solid #e4e6ee;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
+        /* Tablet e desktop: griglia */
+        @media (min-width: 600px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
         }
 
-        .nav-menu a {
-            font-weight: 600;
-            color: #555577;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.2s ease;
-        }
-
-        .nav-menu a:hover {
-            color: #d42e2e;
-        }
-
-        .nav-menu a.active {
-            color: #d42e2e;
-            border-bottom: 3px solid #d42e2e;
-            padding-bottom: 4px;
+        @media (min-width: 992px) {
+            .video-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 32px;
+            }
+            .video-page {
+                padding: 60px 0 80px;
+            }
+            .video-page-title {
+                font-size: 48px;
+            }
+            .video-info {
+                padding: 28px 32px 32px;
+            }
+            .video-info h3 {
+                font-size: 24px;
+            }
         }
 
         @media (max-width: 600px) {
-            .video-grid {
-                grid-template-columns: 1fr;
+            .video-page-title {
+                font-size: 32px;
             }
-            .nav-menu {
-                gap: 16px;
+            .video-page-subtitle {
+                font-size: 16px;
+            }
+            .video-info {
+                padding: 20px;
+            }
+            .video-info h3 {
+                font-size: 19px;
             }
         }
     </style>
@@ -136,99 +163,113 @@
 <body>
 
     <!-- ========================================= -->
-<!-- MENU DI NAVIGAZIONE (con wrapper)        -->
-<!-- ========================================= -->
-<div class="nav-menu-wrapper">
-    <nav class="nav-menu">
-        <a href="index.html">Главная</a>
-        <a href="videos.html" class="active">Видео</a>
-        <a href="reviews.html">Отзывы</a>
-        <a href="index.html#contact">Контакты</a>
-    </nav>
-</div>
+    <!-- BANNER SUPERIORE                          -->
+    <!-- ========================================= -->
+    <div class="top-banner">
+        <div class="top-banner-inner">
+            <a href="index.html" class="brand" style="text-decoration: none;">
+                <img src="images/logo.jpg" alt="Parlo Italiano" class="brand-logo" />
+                <span class="brand-name">PARLO ITALIANO <br /><small>CON ANTONIO</small></span>
+            </a>
+            <a href="index.html#contact" class="btn-phone">📞 Связаться с нами</a>
+        </div>
+    </div>
 
     <!-- ========================================= -->
-    <!-- PAGINA VIDEO                              -->
+    <!-- MENU DI NAVIGAZIONE                       -->
+    <!-- ========================================= -->
+    <div class="nav-menu-wrapper">
+        <nav class="nav-menu">
+            <a href="index.html">Главная</a>
+            <a href="videos.html" class="active">Видео</a>
+            <a href="reviews.html">Отзывы</a>
+            <a href="index.html#contact">Контакты</a>
+        </nav>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- SEZIONE VIDEO                             -->
     <!-- ========================================= -->
     <section class="video-page">
         <div class="container">
-            <h1>🎬 Все видео</h1>
-            <p class="subtitle">Презентации, уроки и полезные материалы</p>
+            <h1 class="video-page-title">🎬 ВСЕ ВИДЕО</h1>
+            <p class="video-page-subtitle">Презентации, уроки и полезные материалы</p>
 
             <div class="video-grid">
 
-                <!-- VIDEO 1: Presentazione di ANTONIO (insegnante) -->
-               <div class="video-card">
+                <!-- VIDEO 1: Presentazione di Antonio -->
+                <div class="video-card">
                     <div class="video-wrapper">
                         <iframe src="https://www.youtube.com/embed/twJd8tSj8Iw?si=eSEpQ161t4eZ8bLp" 
-                              title="YouTube video player" 
-                                frameborder="0" 
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                referrerpolicy="strict-origin-when-cross-origin" 
-                             allowfullscreen>
-                       </iframe>
-                    </div>
-                   <div class="video-info">
-                       <h3>Презентация Антонио</h3>
-                      <p>Об опыте преподавателя, методике и подходе к каждому ученику</p>
-                      <span class="tag">Преподаватель</span>
-                 </div>
-              </div>
-
-                <!-- VIDEO 2: Presentazione della SCUOLA -->
-              <div class="video-card">
-                 <div class="video-wrapper">
-                     <iframe src="https://www.youtube.com/embed/B7R07zI-2CA?si=ZFN-dVXM1uk-9kGL" 
                                 title="YouTube video player" 
-                                frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                               referrerpolicy="strict-origin-when-cross-origin" 
                                 allowfullscreen>
-                      </iframe>
-                   </div>
+                        </iframe>
+                    </div>
                     <div class="video-info">
-                       <h3>Презентация школы</h3>
-                       <p>Как проходят занятия, структура курсов и наши преимущества</p>
-                       <span class="tag">О школе</span>
-                   </div>
-               </div>
+                        <h3>Презентация Антонио</h3>
+                        <p>Об опыте преподавателя, методике и подходе к каждому ученику</p>
+                        <span class="video-tag">Преподаватель</span>
+                    </div>
+                </div>
+
+                <!-- VIDEO 2: Presentazione della Scuola -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/B7R07zI-2CA?si=ZFN-dVXM1uk-9kGL" 
+                                title="YouTube video player" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Презентация школы</h3>
+                        <p>Как проходят занятия, структура курсов и наши преимущества</p>
+                        <span class="video-tag">О школе</span>
+                    </div>
+                </div>
 
                 <!-- VIDEO 3: Vacanze Studio -->
                 <div class="video-card">
-                   <div class="video-wrapper">
-                     <iframe src="https://www.youtube.com/embed/2kdhBsXOAf4?si=hAtlUKB-hnqTwjZ4" 
-                               title="YouTube video player" 
-                              frameborder="0" 
-                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                referrerpolicy="strict-origin-when-cross-origin" 
-                               allowfullscreen>
-                      </iframe>
-                  </div>
-                  <div class="video-info">
-                     <h3>Vacanze Studio</h3>
-                     <p>Изучайте итальянский язык во время отпуска в Италии</p>
-                        <span class="tag">Путешествия</span>
-                 </div>
-               </div>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/2kdhBsXOAf4?si=hAtlUKB-hnqTwjZ4" 
+                                title="YouTube video player" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Vacanze Studio</h3>
+                        <p>Изучайте итальянский язык во время отпуска в Италии</p>
+                        <span class="video-tag">Путешествия</span>
+                    </div>
+                </div>
 
             </div>
         </div>
     </section>
 
     <!-- ========================================= -->
-    <!-- CONTATTI (inclusi per comodità)           -->
+    <!-- CONTATTI                                  -->
     <!-- ========================================= -->
     <section class="contact" id="contact">
         <div class="container contact-grid">
 
             <div class="contact-form">
-                <h2 class="section-title">Заполните, пожалуйста, форму</h2>
+                <h2 class="contact-title">СВЯЖИТЕСЬ С НАМИ</h2>
                 <p class="contact-subtitle">Мы свяжемся с вами в ближайшее время</p>
-                <form id="contactForm">
-                    <input type="text" id="name" placeholder="Ваше имя" required />
-                    <input type="email" id="email" placeholder="Ваш email" required />
-                    <input type="tel" id="phone" placeholder="Ваш телефон" />
-                    <textarea id="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                <form id="contactForm" action="https://formsubmit.co/parloitaliano.kz@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Parlo Italiano!" />
+                    <input type="hidden" name="_template" value="table" />
+                    <input type="text" id="name" name="name" placeholder="Ф.И.О." required 
+                           oninput="validateField(this)" />
+                    <input type="email" id="email" name="email" placeholder="Ваш email" required 
+                           oninput="validateField(this)" />
+                    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" 
+                           oninput="validateField(this)" />
+                    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"
+                              oninput="validateField(this)"></textarea>
                     <button type="submit" class="btn-primary">Отправить заявку</button>
                     <p id="formStatus" class="form-status"></p>
                 </form>
