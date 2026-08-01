@@ -279,6 +279,22 @@ body {
     color: #1B365D;
 }
 
+
+@media (min-width: 600px) {
+    .hero-text h1 {
+        font-size: 3.2rem; /* Tablet */
+    }
+}
+
+
+@media (min-width: 992px) {
+    .hero-text h1 {
+        font-size: 4.2rem; /* Desktop */
+    }
+}
+
+
+
 /* ============================================
    FOTO ANTONIO (sezione CHIARA, centrata)
    Gradiente: Bianco → Rosso (leggero)
@@ -1422,8 +1438,16 @@ body {
     }
 
     .hero-text h1 {
-        font-size: 3.8rem;
-    }
+    font-family: 'Raleway', sans-serif;
+    font-size: 2.4rem; /* Ridotto da 3.2rem per mobile-first */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #1B365D;
+    margin-bottom: 8px;
+    word-break: break-word; /* Evita che il testo esca */
+}
 
     .hero-text .subtitle-hero {
         font-size: 1.6rem;
