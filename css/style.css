@@ -774,6 +774,9 @@ body {
     gap: 14px;
 }
 
+/* ============================================
+   VALIDAZIONE CAMPI FORM (bianco → azzurro)
+============================================ */
 .contact-form input,
 .contact-form textarea {
     font-family: 'Alfabet', sans-serif;
@@ -782,18 +785,32 @@ body {
     line-height: 1.88;
     letter-spacing: normal;
     padding: 14px 16px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
+    border: 2px solid #B8D4DB;
     border-radius: 12px;
-    transition: border 0.3s ease;
-    background: #FFFFFF;
+    background-color: #FFFFFF;
     width: 100%;
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Stato FOCUS (quando l'utente sta scrivendo) */
 .contact-form input:focus,
 .contact-form textarea:focus {
     border-color: #009246;
     outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 146, 70, 0.10);
 }
+
+/* Stato VALIDO (compilato correttamente) → AZZURRO */
+.contact-form input.valid,
+.contact-form textarea.valid {
+    background-color: #E8F4FD !important; /* Azzurro chiaro */
+    border-color: #4A90D9 !important;     /* Azzurro */
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15) !important;
+}
+
+/* ============================================
+   FINE VALIDAZIONE CAMPI FORM
+============================================ */
 
 .contact-form .btn-primary {
     display: inline-block;
