@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // 🔥 AGGIORNA L'OGGETTO CON IL NOME DELL'UTENTE (PRIMA DELL'INVIO)
+        const subjectInput = form.querySelector('input[name="_subject"]');
+        if (subjectInput) {
+            subjectInput.value = `Nuovo messaggio da ${name} - Parlo Italiano!`;
+        }
+
         // Disabilita il pulsante durante l'invio
         const btn = form.querySelector('.btn-primary');
         const originalText = btn.textContent;
@@ -43,6 +49,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 status.textContent = '✅ Спасибо! Мы свяжемся с вами в ближайшее время.';
                 status.style.color = '#2a7a2a';
                 form.reset();
+                
+                // Reset dell'oggetto al valore predefinito dopo l'invio
+                if (subjectInput) {
+                    subjectInput.value = 'Nuovo messaggio dal sito Parlo Italiano!';
+                }
             } else {
                 throw new Error('Errore di invio');
             }
