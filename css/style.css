@@ -205,10 +205,8 @@ body {
 .hero {
     padding: 60px 0 80px;
     width: 100%;
-    position: relative;
-    background: 
-        linear-gradient(135deg, rgba(0, 146, 70, 0.05) 0%, rgba(255, 255, 255, 0.50) 100%),
-        url('images/hero-bg.webp') center/cover no-repeat;
+    min-height: 400px;
+    background: url('https://parloitalianokz-bot.github.io/scuolaitaliano/images/hero-bg.webp') center/cover no-repeat;
 }
 
 /* Fallback per browser che non supportano WebP */
