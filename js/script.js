@@ -95,6 +95,39 @@ function stopCarousel() {
 }
 
 // ============================================
+// MENU HAMBURGER (toggle)
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if (navToggle && navMenu) {
+        // Apri/chiudi al click sull'hamburger
+        navToggle.addEventListener('click', function() {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        // Chiudi il menu quando un link viene cliccato
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        // Chiudi il menu quando si clicca fuori (opzionale)
+        document.addEventListener('click', function(event) {
+            const isClickInside = navToggle.contains(event.target) || navMenu.contains(event.target);
+            if (!isClickInside) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('open');
+            }
+        });
+    }
+});
+
+// ============================================
 // GESTIONE INVIO MODULO CONTATTI
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
