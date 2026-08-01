@@ -1,4 +1,56 @@
 // ============================================
+// Validazione campi form (bianco → azzurro)
+// ============================================
+
+function validateField(input) {
+    // Se il campo è vuoto, rimuovi la classe 'valid'
+    if (input.value.trim() === '') {
+        input.classList.remove('valid');
+        return;
+    }
+    
+    // Per il campo email: verifica che sia un'email valida
+    if (input.type === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(input.value.trim())) {
+            input.classList.add('valid');
+        } else {
+            input.classList.remove('valid');
+        }
+        return;
+    }
+    
+    // Per il campo telefono: verifica che abbia almeno 5 caratteri
+    if (input.type === 'tel') {
+        if (input.value.trim().length >= 5) {
+            input.classList.add('valid');
+        } else {
+            input.classList.remove('valid');
+        }
+        return;
+    }
+    
+    // Per tutti gli altri campi (text, textarea): se non è vuoto, è valido
+    if (input.value.trim() !== '') {
+        input.classList.add('valid');
+    } else {
+        input.classList.remove('valid');
+    }
+}
+
+// Inizializza i campi al caricamento della pagina
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('#contactForm input, #contactForm textarea');
+    inputs.forEach(function(input) {
+        // Se il campo è già compilato (es. autofill), valida subito
+        if (input.value.trim() !== '') {
+            validateField(input);
+        }
+    });
+});
+
+
+// ============================================
 // Gestione invio del modulo di contatto
 // ============================================
 
