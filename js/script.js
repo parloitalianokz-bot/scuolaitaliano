@@ -205,3 +205,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
+// ============================================
+// CTA FLOTTANTE
+// ============================================
+const floatingCta = document.getElementById('floatingCta');
+if (floatingCta) {
+    let isVisible = false;
+
+    window.addEventListener('scroll', function() {
+        // Mostra il pulsante dopo aver scrollato 300px
+        if (window.scrollY > 300) {
+            if (!isVisible) {
+                floatingCta.classList.add('visible');
+                isVisible = true;
+            }
+        } else {
+            if (isVisible) {
+                floatingCta.classList.remove('visible');
+                isVisible = false;
+            }
+        }
+    });
+
+    // Scorrimento fluido verso i contatti
+    floatingCta.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector('#contact');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
