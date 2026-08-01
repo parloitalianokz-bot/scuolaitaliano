@@ -219,14 +219,22 @@
                 <h2 class="contact-title">Заполните, пожалуйста, форму</h2>
                 <p class="contact-subtitle">Мы свяжемся с вами в ближайшее время</p>
                 <form id="contactForm" action="https://formsubmit.co/parloitaliano.kz@gmail.com" method="POST">
-    <!-- Campo nascosto per evitare spam (opzionale ma consigliato) -->
     <input type="hidden" name="_captcha" value="false">
-    <!-- Campo nascosto per il subject dell'email -->
-    <input type="hidden" name="_subject" value="Nuovo messaggio da {{ email }} - Parlo Italiano!" />
-    <input type="text" id="name" name="name" placeholder="Ваше имя" required />
-    <input type="email" id="email" name="email" placeholder="Ваш email" required />
-    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" />
-    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+    <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Parlo Italiano!" />
+    <input type="hidden" name="_template" value="table" />
+    
+    <input type="text" id="name" name="name" placeholder="Ф.И.О." required 
+           oninput="validateField(this)" />
+    
+    <input type="email" id="email" name="email" placeholder="Ваш email" required 
+           oninput="validateField(this)" />
+    
+    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" 
+           oninput="validateField(this)" />
+    
+    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"
+              oninput="validateField(this)"></textarea>
+    
     <button type="submit" class="btn-primary">Отправить заявку</button>
     <p id="formStatus" class="form-status"></p>
 </form>
