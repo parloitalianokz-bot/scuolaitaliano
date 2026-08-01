@@ -1387,6 +1387,31 @@ body {
     }
 }
 
+/* ============================================
+   SEPARATORI DECORATIVI
+============================================ */
+.section-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.section-divider .line {
+    flex: 1;
+    max-width: 80px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #009246, transparent);
+}
+
+.section-divider .icon {
+    font-size: 20px;
+    color: #009246;
+    opacity: 0.6;
+}
+
 
 /* ============================================
    RESPONSIVE (tablet & desktop)
