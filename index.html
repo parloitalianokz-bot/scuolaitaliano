@@ -23,15 +23,16 @@
 </div>
 
     <!-- ========================================= -->
-    <!-- MENU DI NAVIGAZIONE (con wrapper)        -->
-    <!-- ========================================= -->
-    <div class="nav-menu-wrapper">
-        <nav class="nav-menu">
-            <a href="index.html" class="active">Главная</a>
-            <a href="videos.html">Видео</a>
-            <a href="#contact">Контакты</a>
-        </nav>
-    </div>
+<!-- MENU DI NAVIGAZIONE (con wrapper)        -->
+<!-- ========================================= -->
+<div class="nav-menu-wrapper">
+    <nav class="nav-menu">
+        <a href="index.html" class="active">Главная</a>
+        <a href="videos.html">Видео</a>
+        <a href="reviews.html">Отзывы</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+</div>
 
 <!-- ========================================= -->
 <!-- 1. HERO - Заглавная секция                 -->
@@ -187,22 +188,23 @@
     
 
 <!-- ========================================= -->
-<!-- 6. ОТЗЫВЫ - Testimonial con foto           -->
+<!-- 6. ОТЗЫВЫ - Carosello automatico          -->
 <!-- ========================================= -->
-<section class="testimonial">
+<section class="testimonial" id="reviews">
     <div class="container">
         <h2 class="testimonial-title">ОТЗЫВЫ НАШИХ СТУДЕНТОВ</h2>
-        <div class="testimonial-box">
-            <div class="testimonial-content">
-                <div class="testimonial-image">
-                    <img src="images/saule.avif" alt="Сауле Имангазиева" loading="lazy" />
-                </div>
-                <div class="testimonial-text">
-                    <blockquote>
-                        Уроки пролетают незаметно! Поражает лёгкость подачи материала, кругозор и эрудиция преподавателя. Свободно говорит по русски, приводит в пример аналогии с русским, английским и даже казахским языками. Может свободно порассуждать о русской литературе. Интересны рассказы об Италии, ее истории, культуре, традициях. Скоро заканчиваются уроки в учебнике, но я не хочу прекращать занятия!
-                    </blockquote>
-                    <cite>— Сауле Имангазиева</cite>
-                </div>
+        
+        <div class="testimonial-carousel">
+            <div class="testimonial-slides" id="testimonialSlides">
+                <!-- Le slide verranno generate da JavaScript -->
+            </div>
+            
+            <!-- Indicatori (pallini) -->
+            <div class="carousel-dots" id="carouselDots"></div>
+            
+            <!-- Link a tutte le recensioni -->
+            <div class="reviews-link">
+                <a href="reviews.html" class="btn-secondary">📖 Читать все отзывы →</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Отзывы | Parlo Italiano</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Stili specifici per la pagina recensioni */
+        .reviews-page {
+            padding: 40px 0 60px;
+            background: #FFFFFF;
+            width: 100%;
+        }
+
+        .reviews-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.35;
+            letter-spacing: normal;
+            text-transform: uppercase;
+            text-align: center;
+            color: #1B365D;
+            margin-bottom: 48px;
+        }
+
+        .review-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            padding: 32px 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover .review-image img {
+    transform: scale(1.05); /* Leggero zoom al passaggio del mouse */
+}
+
+        /* Alternanza colori: chiaro e scuro */
+        .review-card:nth-child(odd) {
+            background: #F1F1F1;
+        }
+
+        .review-card:nth-child(even) {
+            background: #E1EFF2;
+        }
+
+        .review-image {
+    flex-shrink: 0;
+    width: 140px;        /* Aumentato da 100px */
+    height: 140px;       /* Aumentato da 100px */
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #009246;
+    box-shadow: 0 4px 16px rgba(0, 146, 70, 0.15); /* Leggera ombra per dare profondità */
+}
+
+        .review-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+        .review-text {
+            flex: 1;
+        }
+
+        .review-text blockquote {
+            font-family: 'Alfabet', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: normal;
+            text-align: justify;
+            color: #2C3E50;
+            margin-bottom: 8px;
+            quotes: none;
+        }
+
+        .review-text cite {
+            font-family: 'Alfabet', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.75;
+            letter-spacing: normal;
+            text-align: left;
+            color: #1B365D;
+            font-style: normal;
+            display: block;
+        }
+
+        /* Messaggio finale */
+        .final-message {
+            text-align: center;
+            padding: 48px 32px;
+            margin-top: 40px;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 146, 70, 0.08) 0%, rgba(206, 43, 55, 0.08) 100%);
+            border-radius: 24px;
+            border: 2px solid rgba(0, 146, 70, 0.15);
+        }
+
+        .final-message p {
+            font-family: 'Raleway', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: normal;
+            color: #1B365D;
+            margin-bottom: 8px;
+        }
+
+        .final-message .italian {
+            font-family: 'Raleway', sans-serif;
+            font-size: 22px;
+            font-weight: 300;
+            font-style: italic;
+            color: #CE2B37;
+        }
+
+        .final-message .russian {
+            font-family: 'Raleway', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            color: #2C3E50;
+            margin-top: 8px;
+        }
+@media (max-width: 600px) {
+    .review-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px 16px;
+    }
+
+    .review-text blockquote {
+        text-align: center;
+    }
+
+    .review-text cite {
+        text-align: center;
+    }
+
+    .review-image {
+        width: 120px;      /* Aumentato da 80px */
+        height: 120px;     /* Aumentato da 80px */
+    }
+
+    .reviews-title {
+        font-size: 32px;
+    }
+
+    .final-message p {
+        font-size: 22px;
+    }
+    .final-message .italian {
+        font-size: 18px;
+    }
+    .final-message .russian {
+        font-size: 16px;
+    }
+}
+
+        @media (min-width: 992px) {
+    .review-card {
+        padding: 40px 32px;
+    }
+    .review-image {
+        width: 160px;      /* Aumentato da 120px */
+        height: 160px;     /* Aumentato da 120px */
+    }
+    .review-text blockquote {
+        font-size: 18px;
+    }
+    .final-message p {
+        font-size: 32px;
+    }
+}
+        
+    </style>
+</head>
+<body>
+
+    <!-- ========================================= -->
+    <!-- BANNER SUPERIORE                          -->
+    <!-- ========================================= -->
+    <div class="top-banner">
+        <div class="top-banner-inner">
+            <a href="index.html" class="brand" style="text-decoration: none;">
+                <img src="images/logo.jpg" alt="Parlo Italiano" class="brand-logo" />
+                <span class="brand-name">PARLO ITALIANO <br /><small>CON ANTONIO</small></span>
+            </a>
+            <a href="index.html#contact" class="btn-phone">📞 Связаться с нами</a>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- MENU DI NAVIGAZIONE                       -->
+    <!-- ========================================= -->
+    <div class="nav-menu-wrapper">
+        <nav class="nav-menu">
+            <a href="index.html">Главная</a>
+            <a href="videos.html">Видео</a>
+            <a href="reviews.html" class="active">Отзывы</a>
+            <a href="index.html#contact">Контакты</a>
+        </nav>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- RECENSIONI                                -->
+    <!-- ========================================= -->
+    <section class="reviews-page">
+        <div class="container">
+            <h1 class="reviews-title">ОТЗЫВЫ</h1>
+
+            <!-- RECENSIONE 1 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/aza.avif" alt="Аза Тилинчинова" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Антонио - замечательный преподаватель. Очень терпеливо и качественно объясняет изучаемые темы. Мой выбор обучения - онлайн, так как он выигрышный! Преподаватель с тобой - в режиме реального времени. Пройденные уроки - сохраняются в записи, а материалы - бесплатны!</blockquote>
+                    <cite>Аза Тилинчинова</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 2 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/alina.avif" alt="Алина Кулбаева" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Та методика, которую использует Антонио, я считаю эффективной. Каждый урок мы повторяем правила, и практикуемся на заданиях. Задания становятся все сложнее, что мне очень нравится. Тексты очень интересные и забавные. За год обучения я уже хорошо изучила грамматику, приобрела весомый запас слов и научилась рассказывать о себе. Рекомендую всем школу Антонио, вы точно не пожалеете!</blockquote>
+                    <cite>Алина Кулбаева</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 3 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/saule.avif" alt="Сауле Имангазиева" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>О школе Антонио Марини я узнала в интернете. Занимаюсь второй год. С нетерпением жду каждого занятия. Уроки пролетают незаметно! Поражает лёгкость подачи материала, кругозор и эрудиция преподавателя. Свободно говорит по русски, приводит в пример аналогии с русским, английским и даже казахским языками. Может свободно порассуждать о русской литературе. Уроки проходят в онлайн режиме в группе по два- три человека. читаем и переводим текст, затем работаем с текстом, делаем упражнения, ведём диалоги. Ведётся видео запись урока. Все материалы урока доступны онлайн. Всегда интересны рассказы об Италии, ее истории, культуре, традициях. Скоро заканчиваются уроки в учебнике, но я не хочу прекращать занятия!</blockquote>
+                    <cite>Сауле Имангазиева</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 4 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/marina.avif" alt="Марина Богомолова" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Сложно назвать школу Antonio Marini «языковыми курсами или школой», этот удивительный стиль преподавания, такой легкий, интересный и жизненный. Для меня это скорее кусочек Италии. Это тот редкий случай, когда академические знания остаются в тебе без осознанности.</blockquote>
+                    <cite>Марина Богомолова</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 5 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/oxana.avif" alt="Оксана Данильченко" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Ничего в этой жизни не бывает случайно. Все почему-то и зачем-то. Почему-то вдруг расхотелось учить такой нужный и полезный, бесконечно изучаемый на стадии продолжающий и немогущий закончить английский язык, и поделать что-то совершенно ненужное, но приятное. Уроки Антонио проходят в непринужденной обстановке и раскрывают тему культуры, искусства и обычаев жителей Италии в разных регионах. Благодаря разностороннему подходу мне удалось сдать очень сложные тесты по туристическому направлению Италия, и о чудо, выиграть поездку на Сардинию! Вот такая неслучайность! Уверена, что без труда смогу общаться с итальянцами. Даже если не хватит слов, ведь язык итальянских жестов мы тоже изучили ). Grazie mille signor Antonio!</blockquote>
+                    <cite>Оксана Данильченко</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 6 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/saule_chubaeva.avif" alt="Сауле Чубаева" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Для меня итальянский язык это конечно изучение другой культуры, истории, менталитета, также изучение иностранного языка полезно для умственной деятельности. Так как я как любитель классической оперы, я знаю, что все музыкальные термины пришли из итальянского, много опер написано на итальянском. Уроки с носителем языка- Антонио - это большая удача в изучении итальянского. Все уроки проходят интересно, познавательно, кроме этого Антонио помогает найти общие правила грамматики между русским, казахским и итальянским языками.</blockquote>
+                    <cite>Сауле Чубаева</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 7 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/evgenia.avif" alt="Евгения Таран" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Занимаясь в школе достигла главного, переступить боязнь говорить!!! Пусть с ошибками, но итальянцы меня понимали и были рады общению. Всего один месяц занятий дал возможность сделать заказ в ресторане, покупки в продуктовой лавке, магазине. Возможность восторгаться окружающей средой! Не все могла сказать, но на много больше стала понимать в разговоре с местными (Рим, Венеция) Уроки проходят в легкой форме, без ощущения "зубрежки" все приходит во время общения, практики. Новые темы преподносятся легко, и как будто между делом, одна выходит из другой. Огромное спасибо за возможность изучать язык и культуру любимой страны!</blockquote>
+                    <cite>Евгения Таран</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 8 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/lisa.avif" alt="Лиза Прымжанова" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Хочу выразить благодарность Антонио за прекрасный курс итальянского языка. Всегда интересные занятия, много разговорной практики. После курса появилось желание идти на новые уровни. Антонио не только профессиональный преподаватель, но и хороший друг! Благодаря знанию языка значительно расширился кругозор, зная язык познаёшь другую жизнь. Язык очень мелодичный, язык искусства, музыки. Недавно я переехала в Италию. Период адаптации прошел гладко благодаря знаниям, полученным на курсах.</blockquote>
+                    <cite>Лиза Прымжанова</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 9 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/gauhar.avif" alt="Гаухар Тасымова" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>В 2012 году я поступила в школу моды и дизайна Istituto Marangoni (Милан, Италия), предварительно пройдя очень серьезную языковую подготовку у Антонио. Занятия с ним помогли мне понять важные языковые нюансы, менталитет итальянцев и позволили мне плавно и без стресса внедриться в процесс обучения. Я очень благодарна ему за знания и моральную поддержку!</blockquote>
+                    <cite>Гаухар Тасымова</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 10 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/elvira.avif" alt="Есдаулетова Эльвира Советкалиевна" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Благодаря Антонио, во время нашей семейной поездки в Италию мой ребенок прекрасно ориентировался в этой среде, знал местные обычаи и даже помогал нам с переводом. Теперь готовим документы в итальянский ВУЗ! Мы очень рады, что мы нашли Антонио, потому что с первых дней занятий был виден результат, у ребенка появился настоящий интерес к изучению итальянского языка.</blockquote>
+                    <cite>Есдаулетова Эльвира Советкалиевна</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 11 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/camilla.avif" alt="Камилла" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Всем привет! В школу Antonio Marini пришла, когда затосковала по Италии. Азы языка у меня были, и чуткий администратор мне подобрал соответствующую группу. Сразу понравилось, что нас учили живому разговорному языку; лексикон нарабатывали, читая басни и сказки, а не скучные официальные тексты. Грамматика, хоть и не являлась ядром занятия, незаметно и своевременно также вливалась в урок, куда без нее! Владение языком без понимания культуры народа для меня вещь невозможная, поэтому была рада расспрашивать Антонио о жизни в Италии, о его детстве и истории страны, на что он всегда охотно отвечал.</blockquote>
+                    <cite>Камилла</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 12 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/aygul.avif" alt="Айгуль Досжанова" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Итальянский для меня один из самых красивых и мелодичных языков мира. Знакомство с языком Данте я начала пять лет назад. Я была очень рада возможности изучать итальянский с носителем языка. Антонио заинтересовал студентов с первого урока. Его манера проводить занятия в игровой форме помогает с легкостью запоминать новые слова.</blockquote>
+                    <cite>Айгуль Досжанова</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 13 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/margarita.avif" alt="Маргарита Шленских" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Курсы итальянского языка помогли мне глубже понять культуру Италии, а также с лёгкостью внедриться в социальную среду, понять психологию людей, их предпочтения, да и в целом, расширился кругозор познаний, связанных с Италией. Знание языка улучшилось благодаря прекрасному преподавателю Антонио, который помог мне раскрыть языковой потенциал в процессе изучения. Его лекции всегда проходят в интересной, увлекательной форме и наполняют студентов новым багажом знаний и оптимизмом!</blockquote>
+                    <cite>Маргарита Шленских</cite>
+                </div>
+            </div>
+
+            <!-- RECENSIONE 14 -->
+            <div class="review-card">
+                <div class="review-image">
+                    <img src="images/aidana.avif" alt="Айдана" loading="lazy" />
+                </div>
+                <div class="review-text">
+                    <blockquote>Онлайн курсы итальянского языка у Антонио были очень эффективными, поскольку за короткие сроки мне удалось получить хорошую базу для переезда в Италию. Мне понравилось, что на уроках мы фокусировались именно на грамматике и структуре речи, также сразу учились применять пройденный материал на практике. Вся информация была структурированно преподнесена, внимание уделялось только самому важному. Сам процесс обучения был для меня увлекательным, ведь Антонио является носителем языка и в ходе урока делился интересными фактами о самом языке и культуре. Поэтому я могу пореккомендовать этот курс как людям, которым необходимо выучить итальянский язык в академических целях, так и для желающих узнать лучше итальянскую культуру.</blockquote>
+                    <cite>Айдана</cite>
+                </div>
+            </div>
+
+            <!-- ========================================= -->
+            <!-- MESSAGGIO FINALE                          -->
+            <!-- ========================================= -->
+            <div class="final-message">
+                <p>✨ Присоединяйтесь к нашим студентам!</p>
+                <p class="italian">"La vita è troppo corta per non essere italiano"</p>
+                <p class="russian">— Жизнь слишком коротка, чтобы не быть итальянцем</p>
+                <p style="margin-top: 16px; font-family: 'Raleway', sans-serif; font-size: 18px; color: #009246; font-weight: 600;">
+                    🌍 Vivi anche tu l'esperienza di parlare e pensare come un "italiano vero"
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- CONTATTI (inclusi per comodità)           -->
+    <!-- ========================================= -->
+    <section class="contact" id="contact">
+        <div class="container contact-grid">
+
+            <div class="contact-form">
+                <h2 class="contact-title">СВЯЖИТЕСЬ С НАМИ</h2>
+                <p class="contact-subtitle">Мы свяжемся с вами в ближайшее время</p>
+                <form id="contactForm" action="https://formsubmit.co/parloitaliano.kz@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Parlo Italiano!" />
+                    <input type="hidden" name="_template" value="table" />
+                    <input type="text" id="name" name="name" placeholder="Ф.И.О." required />
+                    <input type="email" id="email" name="email" placeholder="Ваш email" required />
+                    <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" />
+                    <textarea id="message" name="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                    <button type="submit" class="btn-primary">Отправить заявку</button>
+                    <p id="formStatus" class="form-status"></p>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h3>Наши контакты</h3>
+                <ul>
+                    <li><strong>📞 Телефон:</strong> <a href="tel:+77012068921">+7 701 206 89 21</a></li>
+                    <li><strong>💬 WhatsApp:</strong> <a href="https://wa.me/77012068921">Написать в WhatsApp</a></li>
+                    <li><strong>📧 Email:</strong> <a href="mailto:parloitaliano.kz@gmail.com">parloitaliano.kz@gmail.com</a></li>
+                </ul>
+                <div class="contact-legal">
+                    <p><strong>ИП Prospero</strong></p>
+                    <p>г. Алматы, Казахстан</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FOOTER                                    -->
+    <!-- ========================================= -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Школа итальянского языка Antonio. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
