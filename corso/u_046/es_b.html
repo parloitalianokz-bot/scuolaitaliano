@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 46 — Il funerale dello zio Augusto (Esercizio B)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    :focus-visible {
+      outline: 3px solid rgba(189, 105, 77, .55);
+      outline-offset: 3px;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo-funerale-augusto.jpg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .home-navigation {
+      display: flex;
+      justify-content: flex-start;
+      margin: 0 0 12px;
+    }
+    .home-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .home-navigation a:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      background: #eaf1e8;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(1.9rem, 5vw, 2.65rem);
+      letter-spacing: -.04em;
+      color: var(--primary-dark);
+      line-height: 1.12;
+    }
+    .hero-subtitle {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: .98rem;
+    }
+
+    /* Box Istruzioni */
+    .instruction-box {
+      background: #fff;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title {
+      font-size: .85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .instruction-text {
+      font-size: .98rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Top Controls */
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 14px 20px;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 16px;
+      background: rgba(255, 254, 250, .96);
+      box-shadow: 0 8px 22px rgba(43, 69, 46, .055);
+    }
+    .teacher-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .teacher-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+    .teacher-toggle input { accent-color: var(--primary); }
+
+    .mode-select-box {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select {
+      padding: 6px 10px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 8px;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: #fff;
+    }
+
+    button.reset-btn {
+      padding: 6px 14px;
+      border: 1px solid #fca5a5;
+      border-radius: 10px;
+      background: #fff;
+      color: #dc2626;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    button.reset-btn:hover { background: #fef2f2; }
+
+    .card {
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+      margin-bottom: 32px;
+    }
+
+    /* Navigazione Slide */
+    .slide-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .slide-navigation button,
+    .slide-navigation a {
+      min-height: 42px;
+      padding: 8px 18px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .slide-navigation a { display: inline-flex; align-items: center; }
+    .slide-navigation a[hidden] { display: none; }
+    .slide-navigation button:hover:not(:disabled),
+    .slide-navigation a:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+    .slide-navigation button:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+    .slide-progress {
+      color: var(--primary-dark);
+      font-size: .95rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    #token-mode-section { display: none; }
+    #token-mode-section.active-mode { display: block; }
+
+    #all-students-mode-section { display: none; }
+    #all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode #student-form-card { display: none; }
+
+    .token-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      background: var(--primary-light);
+      border-radius: 14px;
+    }
+    .btn-token {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    .btn-token.release { background: #bd694d; }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+
+    /* Layout Scheda */
+    .slide-item {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .03);
+    }
+    .slide-item[hidden] { display: none; }
+
+    .sentence-box {
+      font-size: 1.15rem;
+      line-height: 2.3;
+      color: var(--text);
+      padding: 24px;
+      background: #faf9f5;
+      border-radius: 16px;
+      border: 1px solid #e8e6dc;
+    }
+
+    input.inline-input {
+      display: inline-block;
+      padding: 4px 8px;
+      margin: 0 4px;
+      border: 1.5px solid #bdc3c7;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: #fff;
+      text-align: center;
+      outline: none;
+      transition: all .2s ease;
+    }
+    input.inline-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(71, 119, 85, .18);
+    }
+    input.inline-input:disabled {
+      background: #f1f5f1;
+      color: #2f5739;
+    }
+    input.inline-input.correct {
+      border-color: #278253;
+      background: #e1f1e5;
+      color: #17623c;
+    }
+    input.inline-input.incorrect {
+      border-color: #dc2626;
+      background: #fde8e7;
+      color: #991b1b;
+    }
+
+    .login-box {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .login-box label {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--primary-dark);
+      white-space: nowrap;
+    }
+    .login-box input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 10px;
+      font: inherit;
+      font-size: .95rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .save-status {
+      margin: 0 0 18px;
+      padding: 11px 14px;
+      border: 1px solid #b7dfc1;
+      border-radius: 12px;
+      background: var(--success-bg);
+      color: #17623c;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+    .save-status[hidden] { display: none; }
+
+    .answer-feedback {
+      margin: 10px 2px 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+    .answer-feedback.correct { background: var(--success-bg); color: var(--success); }
+    .answer-feedback.incorrect { background: #fde8e7; color: #dc2626; }
+    .answer-feedback[hidden] { display: none; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(71, 119, 85, .3);
+      margin-top: 18px;
+    }
+
+    .results-section h2 {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+    .question-responses { margin-bottom: 12px; }
+    .question-responses details {
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .question-responses summary {
+      padding: 14px 16px;
+      color: var(--primary-dark);
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--primary-light);
+    }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(120px, .35fr) 1fr;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .92rem;
+    }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { font-weight: 700; color: var(--primary-dark); }
+    .answer-text {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+      font-weight: 600;
+    }
+    .answer-text.review-approved { background: var(--success-bg); }
+    .answer-text.review-rejected { background: #fde8e7; }
+    .answer-text.auto-correct { background: var(--success-bg); }
+    .answer-text.auto-incorrect { background: #fde8e7; }
+    .answer-cell { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .answer-cell .answer-text { flex: 1; min-width: 0; }
+    .answer-review-controls { display: flex; flex-shrink: 0; gap: 2px; }
+    .answer-review-btn {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .answer-review-btn.approve { color: var(--success); }
+    .answer-review-btn.reject { color: #dc2626; }
+    .answer-review-btn:hover { background: #f1f3ef; }
+    .answer-review-btn[aria-pressed="true"] { background: #f1f3ef; }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .slide-item { padding: 14px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .sentence-box { font-size: 1rem; padding: 16px; }
+      input.inline-input { width: 55px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="index.html">← Torna all’inizio</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 46 · Grammatica</span>
+      <h1>I Pronomi Diretti e il Participio Passato</h1>
+      <p class="hero-subtitle">Добавьте прямые местоимения и согласуйте причастия!</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio B:</div>
+      <div class="instruction-text">
+        👉 <strong>Вставьте прямые местоимения и верное окончание причастий прошедшего времени:</strong>
+      </div>
+    </div>
+
+    <!-- Barra Controlli Superiore -->
+    <div id="status" class="top-controls">
+      <div class="teacher-controls">
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode">
+            <option value="token">Uno alla volta · По одному</option>
+            <option value="all">Tutti insieme · Все вместе</option>
+          </select>
+        </div>
+
+        <button id="reset" class="reset-btn" type="button" style="display:none;">⚠️ Сбросить · Azzera</button>
+        <button id="teacher-release-token" class="btn-token" type="button" style="display:none;">🔓 Libera il token</button>
+      </div>
+    </div>
+
+    <!-- MODALITÀ 1: UNO ALLA VOLTA -->
+    <section id="token-mode-section" class="card active-mode">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700; color:var(--primary-dark);"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+
+      <div id="token-slides-container"></div>
+
+      <nav class="slide-navigation" aria-label="Navigazione schede">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+        <a id="next-token-exercise" href="es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+
+    <!-- MODALITÀ 2: TUTTI INSIEME -->
+    <section id="all-students-mode-section">
+      <div class="card" id="student-form-card">
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+
+        <div id="student-slides-container"></div>
+
+        <nav class="slide-navigation" aria-label="Navigazione schede">
+          <button id="prev-student-slide" type="button">← Precedente</button>
+          <span id="progress-student-slide" class="slide-progress"></span>
+          <button id="next-student-slide" type="button">Successiva →</button>
+          <a id="next-student-exercise" href="es_c.html" hidden>Vai all’esercizio C →</a>
+        </nav>
+
+        <button type="button" id="btn-submit-all" class="btn-submit">📤 Отправить решение · Invia la risposta</button>
+      </div>
+
+      <div class="results-section">
+        <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+        <div id="responses-list">
+          <p style="color: var(--text-muted); font-size: .9rem;">Пока никто не отправил ответы...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    // 7 Schede dell'Esercizio B
+    const sentencesData = [
+      {
+        id: "b1",
+        num: "1.",
+        keys: ["o", "i", "a", "a"],
+        template: `Quando è mancat{{0:40}} il povero zio Augusto, al suo funerale sono venut{{1:40}} tutti i parenti. Sono venut{{2:40}} perfino la zia Berta da Bergamo, la zia Gemma da Genova e la zia Camilla da Canicattì. Naturalmente è venut{{3:40}} anche la zia Albina, che abita a due passi dal cimitero.`
+      },
+      {
+        id: "b2",
+        num: "2.",
+        keys: ["e", "e", "o", "le", "le", "e", "le"],
+        template: `Quando le zie si sono incontrat{{0:40}} al funerale, erano molto contente. Sono venut{{1:40}} con Carlo; lui è andat{{2:40}} a prender{{3:50}} alla stazione e all’aeroporto, e poi {{4:50}} ha portat{{5:40}} al cimitero. Marco invece doveva accompagnar{{6:50}} dopo il funerale.`
+      },
+      {
+        id: "b3",
+        num: "3.",
+        keys: ["la", "le", "l'", "a"],
+        template: `La zia Camilla doveva prendere l’aereo per la Sicilia, e Marco doveva portar{{0:50}} all’aeroporto; la zia Gemma e la zia Berta dovevano tornare in treno, e lui doveva portar{{1:50}} alla stazione. La zia Albina poteva tornare anche a piedi, ma era stanca e così Marco {{2:50}} ha accompagnat{{3:40}}.`
+      },
+      {
+        id: "b4",
+        num: "4.",
+        keys: ["i", "o", "l'", "o", ["lo", "glielo"], "o", "o"],
+        template: `Quando sono arrivat{{0:40}} alla stazione, la zia Gemma ha dett{{1:40}} che doveva fare il biglietto, perché non {{2:50}} aveva comprat{{3:40}}. Ha pregat{{6:40}} Marco di andare a comprar{{4:70}}; voleva il posto vicino al finestrino. Anche la zia Camilla, che credeva di essere già all’aeroporto, ha dett{{5:40}} che voleva il posto vicino al finestrino.`
+      },
+      {
+        id: "b5",
+        num: "5.",
+        keys: ["a", "l'", "a", "l'", "a"],
+        template: `I due treni, per Genova e per Bologna, partivano quasi contemporaneamente; e così c’è stat{{0:40}} un po’ di confusione. La zia Berta doveva andare a Bologna, ma Marco {{1:50}} ha mess{{2:40}} sul treno per Genova; la zia Gemma, invece, doveva andare a Genova, ma Marco {{3:50}} ha mess{{4:40}} sul treno per Bologna.`
+      },
+      {
+        id: "b6",
+        num: "6.",
+        keys: ["le", "e", "a", "a", "e"],
+        template: `Le valigie, invece, {{0:50}} ha mess{{1:40}} sui treni giusti: quella della zia Gemma è andat{{2:40}} a Genova con la zia Berta, e quella della zia Berta è andat{{3:40}} a Bologna con la zia Gemma. Intanto la zia Camilla e la zia Albina si sono addormentat{{4:40}} in macchina.`
+      },
+      {
+        id: "b7",
+        num: "7.",
+        keys: ["i", "l'", "o", "o", "l'", "a", ["l'", "la"], "a", "l'", "a"],
+        template: `Poi sono andat{{0:40}} all’aeroporto: l’aereo partiva proprio in quel momento, e per un pelo non {{1:50}} hanno pers{{2:40}}. Nella fretta, Marco ha di nuovo scambiat{{2:40}} le zie: ha svegliat{{3:40}} la zia Albina e {{4:50}} ha mess{{5:40}} sull’aereo, invece ha lasciato dormire la zia Camilla e {{6:50}}ha riportat{{7:40}} in città. La sua valigia però non c’era più: Marco {{8:50}} ha dat{{9:40}} alla zia Albina, e in quel momento stava volando verso la Sicilia.`
+      }
+    ];
+
+    function normalizeAnswer(value) {
+      return String(value || "")
+        .toLocaleLowerCase("it")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^\p{L}\p{N}\s]/gu, "")
+        .trim();
+    }
+
+    function isCorrectAnswer(answer, key) {
+      const acceptedAnswers = Array.isArray(key) ? key : [key];
+      return acceptedAnswers.some(option => normalizeAnswer(answer) === normalizeAnswer(option));
+    }
+
+    function createEmptyState() {
+      const state = {};
+      sentencesData.forEach(item => {
+        state[item.id] = new Array(item.keys.length).fill("");
+      });
+      return state;
+    }
+
+    let studentState = createEmptyState();
+    let studentSubmitted = false;
+    let tokenState = createEmptyState();
+    let activeTokenSlide = 0;
+    let activeStudentSlide = 0;
+
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const tokenStatusText = document.getElementById("token-status-text");
+
+
+    function buildSentenceHTML(item, isTokenMode, canEdit, currentState, onInputChange) {
+      let html = item.template;
+
+      item.keys.forEach((key, idx) => {
+        const keyPattern = new RegExp(`\\{\\{${idx}:(\\d+)\\}\\}`);
+        const match = html.match(keyPattern);
+        const width = match ? match[1] : 50;
+
+        const val = (currentState[item.id] && currentState[item.id][idx]) || "";
+        let inputClass = "inline-input";
+
+        if (!isTokenMode && studentSubmitted && val.trim()) {
+          const isOk = isCorrectAnswer(val, key);
+          inputClass += isOk ? " correct" : " incorrect";
+        }
+
+        const disabledAttr = canEdit ? "" : "disabled";
+
+        const inputHTML = `<input type="text" 
+          class="${inputClass}" 
+          style="width: ${width}px;" 
+          value="${val.replace(/"/g, '&quot;')}" 
+          data-itemid="${item.id}" 
+          data-keyidx="${idx}" 
+          ${disabledAttr} 
+          placeholder="___" />`;
+
+        html = html.replace(keyPattern, inputHTML);
+      });
+
+      return html;
+    }
+
+    function buildSlideItem(item, isTokenMode, canEdit, currentState, onInputChange) {
+      const box = document.createElement("div");
+      box.className = "slide-item";
+
+      const sentenceBox = document.createElement("div");
+      sentenceBox.className = "sentence-box";
+      sentenceBox.innerHTML = `<strong>${item.num}</strong> ` + buildSentenceHTML(item, isTokenMode, canEdit, currentState, onInputChange);
+
+      sentenceBox.querySelectorAll("input.inline-input").forEach(input => {
+        input.addEventListener("input", (e) => {
+          const kIdx = parseInt(e.target.dataset.keyidx, 10);
+          onInputChange(kIdx, e.target.value);
+        });
+      });
+
+      box.appendChild(sentenceBox);
+
+      const feedback = document.createElement("p");
+      feedback.className = "answer-feedback";
+      feedback.setAttribute("role", "status");
+      feedback.hidden = true;
+
+      if (!isTokenMode && studentSubmitted) {
+        const studentAnswers = currentState[item.id] || [];
+        const correctCount = item.keys.filter((key, i) => isCorrectAnswer(studentAnswers[i], key)).length;
+        const total = item.keys.length;
+
+        if (correctCount === total) {
+          feedback.textContent = `✓ Perfetto! (${correctCount}/${total})`;
+          feedback.className = "answer-feedback correct";
+        } else {
+          feedback.textContent = `✕ ${correctCount} su ${total} forme corrette. Controlla quelle evidenziate in rosso.`;
+          feedback.className = "answer-feedback incorrect";
+        }
+        feedback.hidden = false;
+      }
+
+      box.appendChild(feedback);
+      return box;
+    }
+
+    function setupNavigation(prevBtnId, nextBtnId, progressId, getCurrentSlide, setCurrentSlide, total) {
+      const prevBtn = document.getElementById(prevBtnId);
+      const nextBtn = document.getElementById(nextBtnId);
+      const progressSpan = document.getElementById(progressId);
+      const nextExerciseLink = document.getElementById(
+        nextBtnId === "next-token-slide" ? "next-token-exercise" : "next-student-exercise"
+      );
+
+      function updateNav() {
+        const current = getCurrentSlide();
+        const isLastSlide = current === total - 1;
+        prevBtn.disabled = current === 0;
+        nextBtn.hidden = isLastSlide;
+        nextExerciseLink.hidden = !isLastSlide;
+        progressSpan.textContent = `Frase ${current + 1} di ${total}`;
+      }
+
+      prevBtn.onclick = () => {
+        if (getCurrentSlide() > 0) {
+          setCurrentSlide(getCurrentSlide() - 1);
+          updateNav();
+          renderStudentSlides();
+          renderTokenSlides();
+        }
+      };
+
+      nextBtn.onclick = () => {
+        if (getCurrentSlide() < total - 1) {
+          setCurrentSlide(getCurrentSlide() + 1);
+          updateNav();
+          renderStudentSlides();
+          renderTokenSlides();
+        }
+      };
+
+      updateNav();
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") return;
+
+      if (currentWorkMode === "token") {
+        if ((e.key === "ArrowLeft" || e.key === "ArrowUp") && activeTokenSlide > 0) {
+          document.getElementById("prev-token-slide").click();
+        } else if ((e.key === "ArrowRight" || e.key === "ArrowDown") && activeTokenSlide < sentencesData.length - 1) {
+          document.getElementById("next-token-slide").click();
+        }
+      } else {
+        if ((e.key === "ArrowLeft" || e.key === "ArrowUp") && activeStudentSlide > 0) {
+          document.getElementById("prev-student-slide").click();
+        } else if ((e.key === "ArrowRight" || e.key === "ArrowDown") && activeStudentSlide < sentencesData.length - 1) {
+          document.getElementById("next-student-slide").click();
+        }
+      }
+    });
+
+    function renderStudentSlides() {
+      const container = document.getElementById("student-slides-container");
+      container.replaceChildren();
+
+      sentencesData.forEach((item, idx) => {
+        const box = buildSlideItem(item, false, true, studentState, (keyIdx, val) => {
+          if (!studentState[item.id]) studentState[item.id] = [];
+          studentState[item.id][keyIdx] = val;
+          studentSubmitted = false;
+          saveStatus.hidden = true;
+        });
+        box.hidden = idx !== activeStudentSlide;
+        container.appendChild(box);
+      });
+    }
+
+    function renderTokenSlides() {
+      const container = document.getElementById("token-slides-container");
+      const canEdit = currentWriter === myClientId;
+
+      if (canEdit && container.contains(document.activeElement)) return;
+
+      container.replaceChildren();
+
+      sentencesData.forEach((item, idx) => {
+        const box = buildSlideItem(item, true, canEdit, tokenState, (keyIdx, val) => {
+          if (!tokenState[item.id]) tokenState[item.id] = [];
+          tokenState[item.id][keyIdx] = val;
+          if (answersRef && currentWriter === myClientId) {
+            answersRef.child("tokenData").child("answers").set(tokenState);
+          }
+        });
+        box.hidden = idx !== activeTokenSlide;
+        container.appendChild(box);
+      });
+    }
+
+    let answersRef = null;
+    let isTeacher = !!window.parloUnit46Session?.isTeacher;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let allResponses = {};
+
+    if (isTeacher) {
+      document.body.classList.add("teacher-mode");
+      modeSelectorContainer.classList.add("visible");
+      resetButton.style.display = "inline-block";
+      teacherReleaseTokenButton.style.display = currentWorkMode === "token" ? "inline-block" : "none";
+    }
+
+    workModeSelect.addEventListener("change", (e) => {
+      if (answersRef && isTeacher) {
+        answersRef.child("workMode").set(e.target.value);
+      }
+    });
+
+    btnTakeToken.onclick = () => {
+      if (answersRef) {
+        if (currentWriter === myClientId) {
+          answersRef.child("tokenData").child("currentWriter").set(null);
+        } else if (!currentWriter) {
+          answersRef.child("tokenData").child("currentWriter").set(myClientId);
+        }
+      }
+    };
+
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) {
+        answersRef.child("tokenData").child("currentWriter").set(null);
+      }
+    });
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita46-funerale-augusto-b");
+
+        answersRef.on("value", (snapshot) => {
+          const data = snapshot.val() || {};
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+
+          const tData = data.tokenData || {};
+          currentWriter = tData.currentWriter || null;
+          if (tData.answers) {
+            tokenState = tData.answers;
+          }
+
+          allResponses = data.allStudentsData || {};
+          updateUIState();
+        });
+      } catch (e) {
+        console.error("Errore Firebase:", e);
+      }
+    }
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      const name = window.parloUnit46Session?.isTeacher ? "" : window.parloUnit46Session?.name;
+      if (!name) {
+        alert("Sessione studente non disponibile. Torna al login principale.");
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      const studentRef = answersRef.child("allStudentsData").child("students").child(studentId);
+
+      try {
+        await studentRef.update({
+          name,
+          answers: studentState,
+          timestamp: Date.now()
+        });
+
+        studentSubmitted = true;
+        renderStudentSlides();
+        saveStatus.textContent = "✅ Ответ отправлен учителю! · Risposta inviata all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (err) {
+        alert("Ошибка при отправке · Errore durante l'invio.");
+      }
+    });
+
+    function updateUIState() {
+      teacherReleaseTokenButton.style.display = isTeacher && currentWorkMode === "token" ? "inline-block" : "none";
+
+      if (currentWorkMode === "token") {
+        tokenSection.classList.add("active-mode");
+        allSection.classList.remove("active-mode");
+
+        if (!currentWriter) {
+          tokenStatusText.textContent = "";
+          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+          btnTakeToken.className = "btn-token";
+          btnTakeToken.disabled = false;
+        } else if (currentWriter === myClientId) {
+          tokenStatusText.textContent = "Вы редактируете · Stai modificando";
+          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
+          btnTakeToken.className = "btn-token release";
+          btnTakeToken.disabled = false;
+        } else {
+          tokenStatusText.textContent = "🔒 Пишет одноклассник · Compagno scrive";
+          btnTakeToken.textContent = "🔒 Пишет одноклассник · Compagno scrive";
+          btnTakeToken.className = "btn-token busy";
+          btnTakeToken.disabled = true;
+        }
+
+        renderTokenSlides();
+      } else {
+        tokenSection.classList.remove("active-mode");
+        allSection.classList.add("active-mode");
+        renderStudentSlides();
+        renderResponsesAllMode();
+      }
+    }
+
+    function renderResponsesAllMode() {
+      responsesList.replaceChildren();
+      const studentsData = allResponses.students || {};
+      const studentEntries = Object.entries(studentsData);
+
+      if (studentEntries.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.style.color = "var(--text-muted)";
+        emptyMessage.style.fontSize = ".9rem";
+        emptyMessage.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(emptyMessage);
+        return;
+      }
+
+      const groupedAnswers = document.createElement("div");
+      groupedAnswers.className = "question-responses";
+
+      sentencesData.forEach((item, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+
+        const summary = document.createElement("summary");
+        summary.textContent = `Frase ${item.num}`;
+        details.appendChild(summary);
+
+        const answerList = document.createElement("div");
+        answerList.className = "answer-list";
+
+        studentEntries.forEach(([studentId, sData]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = sData.name || "Studente";
+
+          const studentAnswers = sData.answers?.[item.id] || [];
+          const formattedAnswers = Array.isArray(studentAnswers) 
+            ? studentAnswers.map(a => a.trim() ? a : "—").join(", ")
+            : "—";
+
+          const isFullyCorrect = item.keys.every((key, i) => isCorrectAnswer(studentAnswers[i], key));
+
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          answer.textContent = formattedAnswers;
+
+          const reviewStatus = sData.reviews?.[item.id];
+          if (reviewStatus === "approved") {
+            answer.classList.add("review-approved");
+          } else if (reviewStatus === "rejected") {
+            answer.classList.add("review-rejected");
+          } else if (formattedAnswers !== "—") {
+            answer.classList.add(isFullyCorrect ? "auto-correct" : "auto-incorrect");
+          }
+
+          const answerCell = document.createElement("div");
+          answerCell.className = "answer-cell";
+          answerCell.appendChild(answer);
+
+          if (isTeacher && formattedAnswers !== "—") {
+            const controls = document.createElement("div");
+            controls.className = "answer-review-controls";
+
+            const approveButton = document.createElement("button");
+            approveButton.type = "button";
+            approveButton.className = "answer-review-btn approve";
+            approveButton.textContent = "✓";
+            approveButton.setAttribute("aria-label", `Approva la risposta di ${sData.name || "Studente"}`);
+            approveButton.setAttribute("aria-pressed", String(reviewStatus === "approved"));
+            approveButton.onclick = () => {
+              const nextValue = reviewStatus === "approved" ? null : "approved";
+              answersRef.child("allStudentsData").child("students").child(studentId).child("reviews").child(item.id).set(nextValue);
+            };
+
+            const rejectButton = document.createElement("button");
+            rejectButton.type = "button";
+            rejectButton.className = "answer-review-btn reject";
+            rejectButton.textContent = "✕";
+            rejectButton.setAttribute("aria-label", `Non approvare la risposta di ${sData.name || "Studente"}`);
+            rejectButton.setAttribute("aria-pressed", String(reviewStatus === "rejected"));
+            rejectButton.onclick = () => {
+              const nextValue = reviewStatus === "rejected" ? null : "rejected";
+              answersRef.child("allStudentsData").child("students").child(studentId).child("reviews").child(item.id).set(nextValue);
+            };
+
+            controls.append(approveButton, rejectButton);
+            answerCell.appendChild(controls);
+          }
+
+          row.append(author, answerCell);
+          answerList.appendChild(row);
+        });
+
+        details.appendChild(answerList);
+        groupedAnswers.appendChild(details);
+      });
+
+      responsesList.appendChild(groupedAnswers);
+    }
+
+    resetButton.addEventListener("click", () => {
+      if (confirm("Сбросить все ответы? · Azzera tutte le risposte?")) {
+        answersRef.set({
+          workMode: currentWorkMode,
+          tokenData: { currentWriter: null, answers: createEmptyState() },
+          allStudentsData: {}
+        });
+      }
+    });
+
+    setupNavigation("prev-token-slide", "next-token-slide", "progress-token-slide", () => activeTokenSlide, (val) => activeTokenSlide = val, sentencesData.length);
+    setupNavigation("prev-student-slide", "next-student-slide", "progress-student-slide", () => activeStudentSlide, (val) => activeStudentSlide = val, sentencesData.length);
+
+    renderStudentSlides();
+    renderTokenSlides();
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : Math.min(window.scrollY * 0.12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+</body>
+</html>
