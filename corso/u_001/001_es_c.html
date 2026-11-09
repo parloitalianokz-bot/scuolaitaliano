@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 1 — Racconta il testo (Esercizio C)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation select {
+      min-height: 42px; max-width: 100%; padding: 8px 14px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .home-navigation select:hover { background: var(--primary-light); border-color: var(--primary); }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box, .top-controls { margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .teacher-toggle { display: flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; }
+    .teacher-toggle input { accent-color: var(--primary); }
+    .reset-btn, .release-token-btn { min-height: 42px; padding: 6px 14px; border-radius: 10px; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    .reset-btn { border: 1px solid #fca5a5; background: #fff; color: #dc2626; }
+    .reset-btn:hover { background: #fef2f2; }
+    .release-token-btn { border: 1px solid #e8c58a; background: #fffaf0; color: #8a5a12; }
+    .release-token-btn:hover { background: #fff1d6; }
+    [hidden] { display: none !important; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    body.teacher-mode #student-form-card { display: block; }
+    body.teacher-mode #student-form-card > .token-bar,
+    body.teacher-mode #student-form-card .speech-prompts,
+    body.teacher-mode #student-form-card #recording-area { display: none !important; }
+    .login-box { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px; border-radius: 14px; background: var(--primary-light); }
+    .login-box label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; white-space: nowrap; }
+    .login-box input { flex: 1; min-width: 0; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .speech-prompts { position: relative; margin: 0 0 24px; padding: clamp(20px,4vw,28px); overflow: hidden; border: 1px solid #d8e5d8; border-radius: 20px; background: linear-gradient(145deg,#fffefa,#f2f7ef); box-shadow: 0 10px 28px rgba(43,69,46,.07); }
+    .speech-prompts::before { position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg,var(--primary),#a8c49f,var(--accent)); content: ""; }
+    .speech-prompts h2 { margin: 0; color: var(--primary-dark); font-size: clamp(1.2rem,3vw,1.45rem); }
+    .speech-prompts-intro { margin: 6px 0 18px; color: var(--text-muted); font-size: .94rem; line-height: 1.5; }
+    .story-starter { margin: 0 0 12px; padding: 12px 14px; border-left: 4px solid var(--accent); border-radius: 8px; background: #fff; color: var(--primary-dark); font-family: Georgia, 'Times New Roman', serif; font-size: 1.08rem; font-weight: 700; }
+    .speech-prompts-viewport { height: 220px; overflow-x: hidden; overflow-y: auto; padding: 2px 8px 2px 2px; scrollbar-color: #a8c49f #edf4ed; scrollbar-width: thin; overscroll-behavior: contain; }
+    .speech-prompts-track ol { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: prompt; }
+    .speech-prompts li { display: flex; align-items: flex-start; gap: 10px; min-height: 48px; padding: 10px 12px; border: 1px solid rgba(71,119,85,.14); border-radius: 14px; background: rgba(255,255,255,.88); font-size: .95rem; font-weight: 600; line-height: 1.35; counter-increment: prompt; }
+    .speech-prompts li::before { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border-radius: 10px; background: var(--primary-light); color: var(--primary-dark); font-size: .82rem; font-weight: 800; content: counter(prompt,decimal-leading-zero); }
+    .recording-controls { display: flex; justify-content: center; margin-bottom: 20px; }
+    .btn-mic { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font: inherit; font-size: 1.05rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); transition: .2s; }
+    .btn-mic:hover { background: var(--primary-dark); }
+    .btn-mic.recording { background: #dc2626; box-shadow: 0 4px 14px rgba(220,38,38,.4); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { transform: scale(1.02); } }
+    .speaking-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--primary-dark); font-size: .95rem; font-weight: 800; }
+    .speaker-name { color: var(--accent); }
+    .live-transcript-box { min-height: 160px; padding: 20px; border: 2px dashed #b7dfc1; border-radius: 18px; background: #faf9f5; font-size: 1.15rem; line-height: 1.7; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .live-transcript-box.placeholder { color: var(--text-muted); font-style: italic; }
+    .results-section h2 { margin: 0 0 16px; color: var(--primary-dark); font-size: 1.3rem; }
+    .answer-list { display: flex; flex-direction: column; gap: 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(130px,.3fr) 1fr; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: #fff; font-size: .95rem; }
+    .answer-author { color: var(--primary-dark); font-weight: 800; }
+    .answer-cell { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+    .answer-text { display: block; flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid #e8e6dc; border-radius: 10px; background: #faf9f5; overflow-wrap: anywhere; white-space: pre-wrap; line-height: 1.6; }
+    .answer-text.review-approved { border-color: #b7dfc1; background: var(--success-bg); color: var(--success); }
+    .answer-text.review-rejected { border-color: #fca5a5; background: #fde8e7; color: #dc2626; }
+    .answer-review-controls { display: flex; flex-shrink: 0; gap: 4px; margin-top: 4px; }
+    .answer-review-btn { width: 34px; height: 34px; padding: 0; border: 0; border-radius: 6px; background: transparent; font-size: 1.15rem; font-weight: 800; cursor: pointer; }
+    .answer-review-btn.approve { color: var(--success); }
+    .answer-review-btn.reject { color: #dc2626; }
+    .answer-review-btn:hover, .answer-review-btn[aria-pressed="true"] { background: #f1f3ef; }
+    .teacher-feedback { display: grid; grid-column: 1 / -1; gap: 8px; width: 100%; margin-top: 10px; }
+    .teacher-feedback label { color: var(--primary-dark); font-size: .82rem; font-weight: 800; }
+    .teacher-feedback textarea { width: 100%; min-height: 70px; padding: 10px 12px; border: 1px solid #d4e1d5; border-radius: 10px; background: #fff; color: var(--text); font: inherit; resize: vertical; }
+    .teacher-feedback-display { margin-top: 8px; padding: 10px 12px; border-left: 3px solid var(--accent); border-radius: 8px; background: #f5f1e7; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .exercise-navigation { display: flex; justify-content: flex-end; margin: 0 0 24px; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .login-box, .token-bar { align-items: stretch; flex-direction: column; }
+      .login-box label { white-space: normal; }
+      .answer-row { grid-template-columns: 1fr; gap: 6px; }
+      .speech-prompts-viewport { height: 220px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Menu dell’unità 001">
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 001</label>
+      <select id="exercise-menu">
+        <option value="001_lettura.html">Lettura</option>
+        <option value="001_es_a.html">Esercizio A</option>
+        <option value="001_es_b.html">Esercizio B</option>
+        <option value="001_es_c.html" selected>Esercizio C</option>
+        <option value="001_es_d.html">Esercizio D</option>
+        <option value="001_es_e.html">Esercizio E</option>
+        <option value="001_es_f.html">Esercizio F</option>
+        <option value="001_es_g.html">Esercizio G</option>
+        <option value="001_es_h.html">Esercizio H</option>
+        <option value="001_es_i.html">Esercizio I</option>
+        <option value="001_es_j.html">Esercizio J</option>
+        <option value="001_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="001_verbo_essere.html">Il verbo essere</option>
+        <option value="001_genere.html">Il genere del sostantivo</option>
+        <option value="001_indeterminativi.html">Articoli indeterminativi</option>
+        <option value="001_plurale.html">Il numero del sostantivo · Il plurale</option>
+        <option value="001_determinativi.html">Articoli determinativi</option>
+      </select>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 1 · Produzione Orale</span>
+      <h1>Un albergo in centro</h1>
+      <p class="hero-subtitle">Racconta il testo in italiano, aiutandoti con le domande.</p>
+      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio C</div>
+      <div class="instruction-text">👉 <strong>Перескажите текст. Не переживайте, если не помните всё точно! Главное — чтобы Вы смогли ясно рассказать текст.</strong><br>
+        <small style="color:var(--text-muted);">Возьмите слово и перескажите историю по-итальянски. Нажмите кнопку микрофона, чтобы начать запись; распознанный текст будет виден всей группе.</small>
+      </div>
+    </div>
+    <div id="top-controls" class="top-controls" hidden>
+      <div class="teacher-controls">
+        <button id="release-token" class="release-token-btn" type="button" hidden>🔓 Libera il turno</button>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+    <section id="student-form-card" class="card">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700;color:var(--primary-dark);" aria-live="polite"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+      <section class="speech-prompts" aria-labelledby="speech-prompts-title">
+        <h2 id="speech-prompts-title">💬 Domande per il racconto</h2>
+        <p class="speech-prompts-intro">Usa le domande come guida: non è necessario ricordare ogni dettaglio.</p>
+        <p class="story-starter">L’albergo Ponte Vecchio è a Firenze…</p>
+        <div class="speech-prompts-viewport" tabindex="0" aria-label="Domande scorrevoli: usa la rotellina, il touch o i tasti freccia per scorrere">
+          <div class="speech-prompts-track"><ol>
+            <li>Dov’è l’albergo Ponte Vecchio e com’è?</li>
+            <li>Perché l’albergo è comodo per gli stranieri?</li>
+            <li>Chi è Victor e perché è in Italia?</li>
+            <li>Chi sono Karl e Klaus e che cosa studiano?</li>
+            <li>Chi è Mary e perché è in Italia?</li>
+            <li>Chi è Yoko e per quale motivo è in Italia?</li>
+            <li>Chi è Olga e che cosa fa in Italia?</li>
+            <li>Chi è Paolo Rossi? Com’è la sua famiglia e perché è sempre occupato?</li>
+          </ol></div>
+        </div>
+      </section>
+      <div id="recording-area" class="recording-controls" hidden>
+        <button id="btn-toggle-mic" class="btn-mic" type="button">🎤 Inizia a parlare · Начать говорить</button>
+      </div>
+      <div class="speaking-indicator">🗣️ Говорит: <span id="current-speaker-display" class="speaker-name">Никто не говорит</span></div>
+      <div id="live-transcript-display" class="live-transcript-box placeholder">Здесь появится распознанный текст вашего рассказа...</div>
+    </section>
+    <section class="results-section card">
+      <h2>📋 Пересказы студентов · Racconti degli studenti</h2>
+      <div id="responses-list"><p style="color:var(--text-muted);font-size:.9rem;">Пока никто не отправил рассказ...</p></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const urlParams = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const groupName = urlParams.get("gruppo") || session.group || "";
+    const registeredName = urlParams.get("nome") || (!session.isTeacher ? session.name : "") || "";
+    const isTeacherView = Boolean(session.isTeacher || (groupName && (!registeredName || registeredName === "Insegnante")));
+    const safeGroup = (groupName || "sconosciuto").replace(/[.#$\/\[\]]/g, "_");
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const placeholderTranscript = "Здесь появится распознанный текст вашего рассказа...";
+    let answersRef = null;
+    let isTeacher = isTeacherView;
+    let currentWriter = null;
+    let currentWriterName = "";
+    let allResponses = {};
+    let recognition = null;
+    let isRecording = false;
+    const feedbackSaveTimers = new Map();
+
+    const topControls = document.getElementById("top-controls");
+    const resetButton = document.getElementById("reset");
+    const releaseTokenButton = document.getElementById("release-token");
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const tokenStatusText = document.getElementById("token-status-text");
+    const recordingArea = document.getElementById("recording-area");
+    const btnToggleMic = document.getElementById("btn-toggle-mic");
+    const currentSpeakerDisplay = document.getElementById("current-speaker-display");
+    const liveTranscriptDisplay = document.getElementById("live-transcript-display");
+    const responsesList = document.getElementById("responses-list");
+    const badge = document.getElementById("user-badge");
+
+    document.body.classList.toggle("teacher-mode", isTeacherView);
+    topControls.hidden = !isTeacherView;
+    resetButton.hidden = !isTeacherView;
+    if (groupName !== "sconosciuto" && isTeacherView) badge.textContent = `👩‍🏫 Insegnante · ${groupName}`;
+    else if (groupName !== "sconosciuto" && registeredName) badge.textContent = `👤 ${groupName} · ${registeredName}`;
+    else badge.hidden = true;
+
+    document.getElementById("exercise-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      if (groupName) target.searchParams.set("gruppo", groupName);
+      if (registeredName && !isTeacherView) target.searchParams.set("nome", registeredName);
+      window.location.href = target.href;
+    });
+
+    function updateTeacherControls() {
+      resetButton.hidden = !isTeacherView;
+      releaseTokenButton.hidden = !(isTeacherView && currentWriter);
+    }
+    updateTeacherControls();
+
+    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "it-IT";
+      recognition.onresult = event => {
+        let transcript = "";
+        for (let i = 0; i < event.results.length; i++) transcript += event.results[i][0].transcript;
+        if (currentWriter === myClientId && answersRef) {
+          answersRef.child("tokenData").child("liveTranscript").set(transcript);
+        }
+      };
+      recognition.onerror = event => {
+        console.error("Errore riconoscimento vocale:", event.error);
+        if (isRecording) stopRecording();
+      };
+      recognition.onend = () => {
+        if (isRecording) {
+          try { recognition.start(); } catch (_) {}
+        }
+      };
+    }
+
+    function startRecording() {
+      if (!recognition) {
+        alert("Il browser non supporta il riconoscimento vocale. Usa Google Chrome o Safari.");
+        return;
+      }
+      try {
+        recognition.start();
+        isRecording = true;
+        btnToggleMic.textContent = "⏹️ Закончить и сохранить · Ferma e salva";
+        btnToggleMic.classList.add("recording");
+      } catch (error) { console.error("Errore avvio registrazione:", error); }
+    }
+
+    function stopRecording() {
+      if (!isRecording) return;
+      isRecording = false;
+      try { recognition?.stop(); } catch (_) {}
+      btnToggleMic.textContent = "🎤 Inizia a parlare · Начать говорить";
+      btnToggleMic.classList.remove("recording");
+      saveTranscript();
+    }
+
+    function saveTranscript() {
+      const transcript = liveTranscriptDisplay.textContent.trim();
+      const name = registeredName || currentWriterName || "Anonimo";
+      if (!transcript || transcript === placeholderTranscript || !answersRef) return;
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      answersRef.child("allStudentsData").child("students").child(studentId).update({
+        name,
+        transcription: transcript,
+        timestamp: Date.now()
+      });
+    }
+
+    btnToggleMic.addEventListener("click", () => isRecording ? stopRecording() : startRecording());
+    btnTakeToken.addEventListener("click", () => {
+      if (!answersRef) return;
+      if (currentWriter === myClientId) {
+        if (isRecording) stopRecording();
+        answersRef.child("tokenData").update({ currentWriter: null, writerName: "" });
+      } else if (!currentWriter) {
+        if (!registeredName) {
+          alert("Non trovo il nome della sessione. Accedi nuovamente dalla pagina iniziale.");
+          return;
+        }
+        answersRef.child("tokenData").update({ currentWriter: myClientId, writerName: registeredName, liveTranscript: "" });
+      }
+    });
+    releaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWriter && answersRef && confirm(`Liberare il turno di ${currentWriterName || "questo studente"}?`)) {
+        if (isRecording) stopRecording();
+        answersRef.child("tokenData").update({ currentWriter: null, writerName: "" });
+      }
+    });
+
+    function saveTeacherFeedback(studentId, field, value) {
+      if (!answersRef) return;
+      const key = `${studentId}:${field}`;
+      clearTimeout(feedbackSaveTimers.get(key));
+      feedbackSaveTimers.delete(key);
+      answersRef.child("allStudentsData").child("students").child(studentId).child(field).set(value.trim() || null);
+    }
+
+    function scheduleTeacherFeedbackSave(studentId, field, value) {
+      const key = `${studentId}:${field}`;
+      clearTimeout(feedbackSaveTimers.get(key));
+      feedbackSaveTimers.set(key, setTimeout(() => {
+        feedbackSaveTimers.delete(key);
+        if (answersRef) {
+          answersRef.child("allStudentsData").child("students").child(studentId).child(field).set(value.trim() || null);
+        }
+      }, 500));
+    }
+
+    function renderResponses() {
+      if (document.activeElement?.classList.contains("teacher-feedback-input")) return;
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.style.fontSize = ".9rem";
+        empty.textContent = "Пока никто не отправил рассказ...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const list = document.createElement("div");
+      list.className = "answer-list";
+      entries.forEach(([studentId, student]) => {
+        const transcript = String(student.transcription || "").trim();
+        if (!transcript) return;
+        const row = document.createElement("div");
+        row.className = "answer-row";
+        const author = document.createElement("span");
+        author.className = "answer-author";
+        author.textContent = student.name || "Studente";
+        const answerCell = document.createElement("div");
+        answerCell.className = "answer-cell";
+        const answer = document.createElement("span");
+        answer.className = "answer-text";
+        answer.textContent = transcript;
+        const review = student.reviewStatus;
+        if (review === "approved") answer.classList.add("review-approved");
+        if (review === "rejected") answer.classList.add("review-rejected");
+        answerCell.appendChild(answer);
+        if (isTeacher) {
+          const controls = document.createElement("div");
+          controls.className = "answer-review-controls";
+          [
+            { value: "approved", text: "✓", style: "approve", label: "Approva" },
+            { value: "rejected", text: "✕", style: "reject", label: "Non approvare" }
+          ].forEach(action => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = `answer-review-btn ${action.style}`;
+            button.textContent = action.text;
+            button.setAttribute("aria-label", `${action.label} il racconto di ${student.name || "Studente"}`);
+            button.setAttribute("aria-pressed", String(review === action.value));
+            button.addEventListener("click", () => {
+              const value = review === action.value ? null : action.value;
+              answersRef.child("allStudentsData").child("students").child(studentId).child("reviewStatus").set(value);
+            });
+            controls.appendChild(button);
+          });
+          answerCell.appendChild(controls);
+        }
+        row.append(author, answerCell);
+
+        const correction = String(student.teacherCorrection || "");
+        const comment = String(student.teacherComment || "");
+        if (isTeacher || correction || comment) {
+          const feedback = document.createElement("div");
+          feedback.className = "teacher-feedback";
+          if (isTeacher) {
+            [
+              { field: "teacherCorrection", label: "Correzione del racconto", value: correction, placeholder: "Scrivi qui la versione corretta o le correzioni..." },
+              { field: "teacherComment", label: "Osservazioni per lo studente", value: comment, placeholder: "Aggiungi un commento o un’osservazione..." }
+            ].forEach(item => {
+              const label = document.createElement("label");
+              label.textContent = item.label;
+              const input = document.createElement("textarea");
+              input.className = "teacher-feedback-input";
+              input.rows = 2;
+              input.value = item.value;
+              input.placeholder = item.placeholder;
+              input.setAttribute("aria-label", `${item.label} per ${student.name || "Studente"}`);
+              input.addEventListener("input", () => scheduleTeacherFeedbackSave(studentId, item.field, input.value));
+              input.addEventListener("blur", () => saveTeacherFeedback(studentId, item.field, input.value));
+              feedback.append(label, input);
+            });
+          } else {
+            if (correction) {
+              const correctedText = document.createElement("div");
+              correctedText.className = "teacher-feedback-display";
+              correctedText.textContent = `Correzione dell’insegnante: ${correction}`;
+              feedback.appendChild(correctedText);
+            }
+            if (comment) {
+              const commentText = document.createElement("div");
+              commentText.className = "teacher-feedback-display";
+              commentText.textContent = `Osservazioni dell’insegnante: ${comment}`;
+              feedback.appendChild(commentText);
+            }
+          }
+          row.appendChild(feedback);
+        }
+        list.appendChild(row);
+      });
+      if (!list.children.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил рассказ...";
+        responsesList.appendChild(empty);
+      } else responsesList.appendChild(list);
+    }
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref(`esercizi/gruppi/${safeGroup}/unita1-produzione-orale-c`);
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          const tokenData = data.tokenData || {};
+          currentWriter = tokenData.currentWriter || null;
+          currentWriterName = tokenData.writerName || "";
+          releaseTokenButton.hidden = !(isTeacher && currentWriter);
+          if (isRecording && currentWriter !== myClientId) stopRecording();
+
+          if (!currentWriter) {
+            tokenStatusText.textContent = "";
+            btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+            btnTakeToken.className = "btn-token";
+            btnTakeToken.disabled = false;
+            recordingArea.hidden = true;
+            currentSpeakerDisplay.textContent = "Никто не говорит";
+          } else if (currentWriter === myClientId) {
+            tokenStatusText.textContent = "Вы говорите · Stai parlando";
+            btnTakeToken.textContent = "✔ Завершить · Lascia la parola";
+            btnTakeToken.className = "btn-token release";
+            btnTakeToken.disabled = false;
+            recordingArea.hidden = false;
+            currentSpeakerDisplay.textContent = `${currentWriterName} (Вы)`;
+          } else {
+            tokenStatusText.textContent = `🔒 Говорит ${currentWriterName}`;
+            btnTakeToken.textContent = `🔒 Говорит ${currentWriterName}`;
+            btnTakeToken.className = "btn-token busy";
+            btnTakeToken.disabled = true;
+            recordingArea.hidden = true;
+            currentSpeakerDisplay.textContent = currentWriterName;
+          }
+
+          const liveText = tokenData.liveTranscript || "";
+          liveTranscriptDisplay.textContent = liveText.trim() ? liveText : placeholderTranscript;
+          liveTranscriptDisplay.classList.toggle("placeholder", !liveText.trim());
+          allResponses = data.allStudentsData || {};
+          renderResponses();
+        });
+      } catch (error) { console.error("Errore Firebase:", error); }
+    }
+
+    resetButton.addEventListener("click", () => {
+      if (!answersRef || !confirm("Сбросить все ответы? · Azzera tutti i racconti?")) return;
+      if (isRecording) stopRecording();
+      answersRef.set({ tokenData: { currentWriter: null, writerName: "", liveTranscript: "" }, allStudentsData: {} });
+    });
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+  <script>
+    document.getElementById("grammar-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = new URLSearchParams(location.search);
+      let session = {};
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+      const group = params.get("gruppo") || session.group || "";
+      const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+      if (group) target.searchParams.set("gruppo", group);
+      if (name && name !== "Insegnante") target.searchParams.set("nome", name);
+      location.href = target.href;
+    });
+  </script>
+</body>
+</html>

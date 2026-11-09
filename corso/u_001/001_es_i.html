@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Abbina i personaggi dell’Unità 1 alle immagini." />
+  <title>Unità 1 — Chi sono? (Esercizio I)</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --primary:#477755; --primary-light:#edf4ed; --primary-dark:#2f5739; --accent:#bd694d; --bg-main:#f5f1e7; --card-bg:#fffefa; --text:#292d28; --text-muted:#6b7069; --success:#278253; --success-bg:#e1f1e5; --error:#c43d3d; --error-bg:#fae7e5; --border:#e7e5dc; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:32px 16px; color:var(--text); background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpeg") center/cover fixed,radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%),var(--bg-main); }
+    .container { width:min(100%,880px); margin:0 auto; }
+    .home-navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 12px; }
+    .home-navigation select { min-height:42px; max-width:100%; padding:8px 14px; border:1px solid #d8e5d8; border-radius:10px; background:rgba(255,254,250,.94); color:var(--primary-dark); font:inherit; font-weight:700; cursor:pointer; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hero { margin:8px 0 22px; padding:28px 20px 26px; text-align:center; border:1px solid rgba(71,119,85,.13); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow:0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:#eaf1e8; color:var(--primary-dark); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+    h1 { margin:4px 0; color:var(--primary-dark); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
+    .hero-subtitle { margin:8px 0 0; color:var(--text-muted); font-size:.98rem; }
+    .user-badge { color:var(--accent); font-size:.85rem; font-weight:700; }
+    .instruction-box,.top-controls { margin-bottom:20px; padding:16px 20px; border:1px solid #d8e5d8; border-radius:16px; background:rgba(255,254,250,.96); box-shadow:0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { border-left:5px solid var(--accent); background:#fff; }
+    .instruction-title { margin-bottom:6px; color:var(--accent); font-size:.85rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+    .instruction-text { font-size:.98rem; line-height:1.5; }
+    .teacher-controls { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; }
+    .mode-select-box { display:flex; align-items:center; gap:8px; color:var(--primary-dark); font-size:.9rem; font-weight:700; }
+    .mode-select-box select { padding:7px 10px; border:1.5px solid #d4e1d5; border-radius:8px; color:var(--primary-dark); background:#fff; font:inherit; }
+    .reset-btn,.release-btn,.btn-token,.submit-btn { min-height:42px; padding:8px 14px; border-radius:9px; font:inherit; font-weight:700; cursor:pointer; }
+    .reset-btn { border:1px solid #fca5a5; background:#fff; color:#dc2626; }
+    .release-btn { border:0; background:var(--accent); color:#fff; }
+    .card { margin-bottom:28px; padding:clamp(18px,4vw,30px); border:1px solid var(--border); border-radius:24px; background:var(--card-bg); box-shadow:0 18px 48px rgba(43,69,46,.1); }
+    #token-mode-section,#all-students-mode-section { display:none; }
+    #token-mode-section.active-mode,#all-students-mode-section.active-mode { display:block; }
+    .token-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; padding:12px 16px; border-radius:13px; background:var(--primary-light); color:var(--primary-dark); font-weight:700; }
+    .btn-token { border:0; background:var(--primary-dark); color:#fff; }
+    .btn-token.release { background:var(--accent); }
+    .btn-token.busy { background:#e8ebea; color:#5f6863; cursor:not-allowed; }
+    .exercise-card { padding:clamp(14px,3vw,22px); border:1px solid var(--border); border-radius:18px; background:#fff; }
+    .exercise-card h2 { margin:0 0 14px; color:var(--primary-dark); font-size:1.15rem; }
+    .picture-frame { overflow:hidden; margin:0 0 20px; border:1px solid var(--border); border-radius:14px; background:#f8f7f2; }
+    .picture-frame img { display:block; width:min(100%,512px); height:auto; margin:0 auto; }
+    .matching-list { display:grid; gap:10px; }
+    .match-row { display:grid; grid-template-columns:minmax(0,1fr) 130px; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--border); border-radius:11px; background:#fffefa; }
+    .match-name { color:var(--primary-dark); font-weight:750; }
+    .match-row select { width:100%; min-height:42px; padding:8px 10px; border:1.5px solid #d4e1d5; border-radius:9px; background:#fff; color:var(--text); font:inherit; }
+    .match-row select:disabled { background:#f1f5f1; color:#4b554b; cursor:not-allowed; }
+    .submit-btn { width:100%; margin-top:14px; border:0; background:var(--primary); color:#fff; }
+    .submit-btn:hover { background:var(--primary-dark); }
+    .submit-btn:disabled { opacity:.6; cursor:wait; }
+    .save-status { margin:0 0 12px; padding:10px 13px; border:1px solid #b7dfc1; border-radius:11px; background:var(--success-bg); color:#17623c; font-size:.9rem; font-weight:700; }
+    .results-section { margin-top:22px; padding-top:16px; border-top:1px solid var(--border); }
+    .results-section h2 { margin:0 0 12px; color:var(--primary-dark); font-size:1.15rem; }
+    .student-result-card { margin-bottom:12px; padding:14px; border:1px solid var(--border); border-radius:13px; background:#fff; }
+    .student-result-card.approved { border-color:#a7f3d0; background:#f0fdf4; }
+    .student-result-card.rejected { border-color:#fecaca; background:#fff7f7; }
+    .student-header { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; margin-bottom:10px; color:var(--primary-dark); font-weight:800; }
+    .match-result { display:flex; justify-content:space-between; gap:12px; padding:7px 9px; border-radius:8px; background:#faf9f5; }
+    .match-result + .match-result { margin-top:5px; }
+    .match-result.correct { color:var(--success); background:var(--success-bg); }
+    .match-result.incorrect { color:#9b2c2c; background:var(--error-bg); }
+    .match-result strong { text-align:right; }
+    .score-line { margin:10px 0 0; color:var(--primary-dark); font-weight:800; }
+    .review-status.approved { color:var(--success); }
+    .review-status.rejected { color:#dc2626; }
+    .review-status.pending { color:var(--text-muted); }
+    .feedback-display { margin-top:9px; padding:9px 11px; border-left:3px solid var(--accent); border-radius:8px; background:#f5f1e7; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .teacher-review-box { margin-top:10px; padding-top:10px; border-top:1px dashed #d5e2d5; }
+    .teacher-review-box label { display:block; margin:0 0 6px; color:var(--primary-dark); font-size:.84rem; font-weight:800; }
+    .feedback-input { width:100%; min-height:58px; padding:9px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; resize:vertical; }
+    .review-btns { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .review-btns button { min-height:38px; padding:7px 12px; border:0; border-radius:8px; color:#fff; font:inherit; font-size:.86rem; font-weight:700; cursor:pointer; }
+    .btn-review-ok { background:var(--success); }
+    .btn-review-no { background:#dc2626; }
+    .review-btns button[aria-pressed="true"] { outline:3px solid rgba(41,45,40,.2); outline-offset:2px; }
+    .empty-message { color:var(--text-muted); font-size:.92rem; }
+    @media(max-width:600px) { body { padding:16px 8px; } .teacher-controls,.token-bar { align-items:stretch; flex-direction:column; } .mode-select-box { align-items:flex-start; flex-direction:column; } .match-row { grid-template-columns:minmax(0,1fr) 82px; gap:8px; padding:9px; } .match-row select { padding:7px; } .match-result { flex-direction:column; gap:3px; } .match-result strong { text-align:left; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Menu dell’unità 001">
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 001</label>
+      <select id="exercise-menu">
+        <option value="001_lettura.html">Lettura</option><option value="001_es_a.html">Esercizio A</option>
+        <option value="001_es_b.html">Esercizio B</option><option value="001_es_c.html">Esercizio C</option>
+        <option value="001_es_d.html">Esercizio D</option><option value="001_es_e.html">Esercizio E</option>
+        <option value="001_es_f.html">Esercizio F</option><option value="001_es_g.html">Esercizio G</option>
+        <option value="001_es_h.html">Esercizio H</option><option value="001_es_i.html" selected>Esercizio I</option>
+        <option value="001_es_j.html">Esercizio J</option><option value="001_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Vai a una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="001_verbo_essere.html">Il verbo essere</option>
+        <option value="001_genere.html">Il genere del sostantivo</option>
+        <option value="001_indeterminativi.html">Articoli indeterminativi</option>
+        <option value="001_plurale.html">Il numero del sostantivo · Il plurale</option>
+        <option value="001_determinativi.html">Articoli determinativi</option>
+      </select>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 1 · Lettura e comprensione</span>
+      <h1>Chi sono?</h1>
+      <p class="hero-subtitle">Abbina i personaggi alle lettere nell’immagine.</p>
+      <p id="user-badge" class="hero-subtitle user-badge" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text" lang="ru">👉 Посмотрите на изображения. Кто эти люди? Почему вы так думаете?</div>
+    </div>
+    <div id="top-controls" class="top-controls" hidden>
+      <div class="teacher-controls">
+        <label class="mode-select-box" for="work-mode">Modalità di lavoro · Режим:
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </label>
+        <button id="teacher-release-token" class="release-btn" type="button" hidden>🔓 Libera il turno</button>
+        <button id="reset" class="reset-btn" type="button">⚠️ Azzera le risposte</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode" aria-label="Modalità uno alla volta">
+      <div class="token-bar" id="token-bar">
+        <span id="token-status-text" aria-live="polite"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Prendi la parola</button>
+      </div>
+      <div id="token-exercise" class="exercise-card"></div>
+    </section>
+
+    <section id="all-students-mode-section" class="card" aria-label="Modalità tutti insieme">
+      <div id="all-exercise" class="exercise-card"></div>
+      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+      <section class="results-section" aria-label="Risposte degli studenti">
+        <h2>📋 Risposte degli studenti</h2>
+        <div id="all-responses-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+    const people = [
+      { id:"victor", name:"Victor", correct:"C" },
+      { id:"karl_klaus", name:"Karl e Klaus", correct:"D" },
+      { id:"mary", name:"Mary", correct:"E" },
+      { id:"yoko", name:"Yoko", correct:"F" },
+      { id:"olga", name:"Olga", correct:"A" },
+      { id:"paolo_rossi", name:"Paolo Rossi", correct:"B" }
+    ];
+    const letters = ["A", "B", "C", "D", "E", "F"];
+    const emptyAnswers = () => Object.fromEntries(people.map(person => [person.id, ""]));
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const groupName = params.get("gruppo") || session.group || "";
+    const studentName = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+    const isTeacher = Boolean(session.isTeacher || (groupName && (!studentName || studentName === "Insegnante")));
+    const safeGroup = (groupName || "sconosciuto").replace(/[.#$\/\[\]]/g, "_");
+    const studentId = studentName.replace(/[.#$\/\[\]]/g, "_");
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+
+    const badge = document.getElementById("user-badge");
+    if (groupName && isTeacher) badge.textContent = `👩‍🏫 Insegnante · ${groupName}`;
+    else if (groupName && studentName) badge.textContent = `👤 ${groupName} · ${studentName}`;
+    else if (studentName) badge.textContent = `👤 ${studentName}`;
+    else badge.hidden = true;
+
+    function navigateWithSession(value) {
+      if (!value) return;
+      const target = new URL(value, location.href);
+      if (groupName) target.searchParams.set("gruppo", groupName);
+      if (studentName && !isTeacher) target.searchParams.set("nome", studentName);
+      location.href = target.href;
+    }
+    document.getElementById("exercise-menu").addEventListener("change", event => navigateWithSession(event.target.value));
+    document.getElementById("grammar-menu").addEventListener("change", event => navigateWithSession(event.target.value));
+
+    const topControls = document.getElementById("top-controls");
+    const workModeSelect = document.getElementById("work-mode");
+    const resetButton = document.getElementById("reset");
+    const releaseButton = document.getElementById("teacher-release-token");
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const tokenBar = document.getElementById("token-bar");
+    const takeTokenButton = document.getElementById("btn-take-token");
+    const allResponsesList = document.getElementById("all-responses-list");
+    const saveStatus = document.getElementById("save-status");
+    if (isTeacher) topControls.hidden = false;
+
+    let answersRef = null;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let tokenAnswers = emptyAnswers();
+    let allResponses = {};
+    let studentAnswers = emptyAnswers();
+    let lastResetId = null;
+    const feedbackTimers = new Map();
+    const assignmentInputs = { token: {}, all: {} };
+
+    function createExercise(targetId, mode) {
+      const target = document.getElementById(targetId);
+      const title = document.createElement("h2");
+      title.textContent = "Abbina ogni personaggio alla lettera corretta";
+      const frame = document.createElement("figure");
+      frame.className = "picture-frame";
+      const image = document.createElement("img");
+      image.src = "img/clienti.jpeg";
+      image.alt = "Immagine dei clienti dell’albergo, identificati dalle lettere A–F";
+      image.width = 1024;
+      image.height = 572;
+      frame.appendChild(image);
+      const list = document.createElement("div");
+      list.className = "matching-list";
+      people.forEach(person => {
+        const row = document.createElement("label");
+        row.className = "match-row";
+        const name = document.createElement("span");
+        name.className = "match-name";
+        name.textContent = person.name;
+        const select = document.createElement("select");
+        select.setAttribute("aria-label", `Lettera abbinata a ${person.name}`);
+        select.appendChild(new Option("—", ""));
+        letters.forEach(letter => select.appendChild(new Option(letter, letter)));
+        select.disabled = mode === "token" ? currentWriter !== myClientId : isTeacher;
+        select.addEventListener("change", () => {
+          const answers = mode === "token" ? tokenAnswers : studentAnswers;
+          answers[person.id] = select.value;
+          if (mode === "token" && answersRef && currentWriter === myClientId) {
+            answersRef.child("tokenData").child("answers").child(person.id).set(select.value || null);
+          }
+        });
+        assignmentInputs[mode][person.id] = select;
+        row.append(name, select);
+        list.appendChild(row);
+      });
+      target.replaceChildren(title, frame, list);
+      if (mode === "all" && !isTeacher) {
+        const submit = document.createElement("button");
+        submit.type = "button";
+        submit.className = "submit-btn";
+        submit.textContent = "📤 Invia gli abbinamenti";
+        submit.addEventListener("click", () => submitAnswers(submit));
+        target.appendChild(submit);
+      }
+    }
+
+    function syncInputs(mode, answers) {
+      people.forEach(person => {
+        const input = assignmentInputs[mode][person.id];
+        if (!input) return;
+        input.disabled = mode === "token" ? currentWriter !== myClientId : isTeacher;
+        if (document.activeElement !== input) input.value = answers?.[person.id] || "";
+      });
+    }
+
+    function gradeAnswers(answers) {
+      return people.reduce((total, person) => total + (answers?.[person.id] === person.correct ? 1 : 0), 0);
+    }
+
+    function addGradedAnswers(container, answers) {
+      people.forEach(person => {
+        const selected = answers?.[person.id] || "—";
+        const correct = selected === person.correct;
+        const row = document.createElement("div");
+        row.className = `match-result ${correct ? "correct" : "incorrect"}`;
+        const name = document.createElement("span");
+        name.textContent = person.name;
+        const result = document.createElement("strong");
+        result.textContent = correct ? `✓ ${selected}` : `${selected} → ${person.correct}`;
+        row.append(name, result);
+        container.appendChild(row);
+      });
+      const score = document.createElement("p");
+      score.className = "score-line";
+      score.textContent = `Punteggio: ${gradeAnswers(answers)} / ${people.length}`;
+      container.appendChild(score);
+    }
+
+    function makeReviewControls(parent, review, saveReview) {
+      const box = document.createElement("div");
+      box.className = "teacher-review-box";
+      const label = document.createElement("label");
+      label.textContent = "Correzione / osservazioni";
+      const textarea = document.createElement("textarea");
+      textarea.className = "feedback-input teacher-feedback-input";
+      textarea.value = review.comment || "";
+      textarea.placeholder = "Aggiungi una correzione o un commento...";
+      textarea.setAttribute("aria-label", "Correzione o osservazioni dell’insegnante");
+      textarea.addEventListener("input", () => scheduleReviewSave(textarea, saveReview));
+      textarea.addEventListener("blur", () => flushReviewSave(textarea, saveReview));
+      box.append(label, textarea);
+      const actions = document.createElement("div");
+      actions.className = "review-btns";
+      [["approved", "✓ Approva", "btn-review-ok"], ["rejected", "✕ Non approvare", "btn-review-no"]].forEach(([value, text, className]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = className;
+        button.textContent = text;
+        button.setAttribute("aria-pressed", String(review.status === value));
+        button.addEventListener("click", () => saveReview({ status: review.status === value ? null : value }));
+        actions.appendChild(button);
+      });
+      box.appendChild(actions);
+      parent.appendChild(box);
+    }
+
+    function scheduleReviewSave(textarea, saveReview) {
+      const key = textarea;
+      clearTimeout(feedbackTimers.get(key));
+      feedbackTimers.set(key, setTimeout(() => {
+        feedbackTimers.delete(key);
+        saveReview({ comment: textarea.value.trim() || null });
+      }, 450));
+    }
+
+    function flushReviewSave(textarea, saveReview) {
+      clearTimeout(feedbackTimers.get(textarea));
+      feedbackTimers.delete(textarea);
+      saveReview({ comment: textarea.value.trim() || null });
+    }
+
+    function renderAllResponses() {
+      if (document.activeElement?.classList.contains("teacher-feedback-input")) return;
+      allResponsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {}).filter(([, student]) => student.answers);
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "Nessuna risposta inviata.";
+        allResponsesList.appendChild(empty);
+        return;
+      }
+      entries.forEach(([key, student]) => {
+        const answers = student.answers || {};
+        const review = student.reviews?.exerciseI || {};
+        const card = document.createElement("article");
+        card.className = `student-result-card ${review.status === "approved" ? "approved" : review.status === "rejected" ? "rejected" : ""}`.trim();
+        const header = document.createElement("div");
+        header.className = "student-header";
+        const name = document.createElement("span");
+        name.textContent = `👤 ${student.name || "Studente"}`;
+        const status = document.createElement("span");
+        status.className = `review-status ${review.status || "pending"}`;
+        status.textContent = review.status === "approved" ? "✓ Approvata" : review.status === "rejected" ? "✕ Da correggere" : "In attesa di revisione";
+        header.append(name, status);
+        card.appendChild(header);
+        addGradedAnswers(card, answers);
+        if (isTeacher) {
+          makeReviewControls(card, review, changes => answersRef?.child("allStudentsData").child("students").child(key).child("reviews").child("exerciseI").update(changes));
+        } else if (review.comment) {
+          const note = document.createElement("div");
+          note.className = "feedback-display";
+          note.textContent = `Osservazioni dell’insegnante: ${review.comment}`;
+          card.appendChild(note);
+        }
+        allResponsesList.appendChild(card);
+      });
+    }
+
+    async function submitAnswers(button) {
+      if (!studentName || !studentId) {
+        alert("Non trovo il nome della sessione. Accedi nuovamente dalla pagina iniziale.");
+        return;
+      }
+      if (!answersRef) {
+        alert("Connessione al database non disponibile.");
+        return;
+      }
+      if (!Object.values(studentAnswers).some(Boolean)) {
+        alert("Seleziona almeno una lettera prima di inviare.");
+        return;
+      }
+      button.disabled = true;
+      try {
+        await answersRef.child("allStudentsData").child("students").child(studentId).update({
+          name: studentName,
+          timestamp: Date.now(),
+          "answers/exerciseI": studentAnswers,
+          "reviews/exerciseI": null
+        });
+        saveStatus.textContent = "✅ Abbinamenti inviati all’insegnante.";
+        saveStatus.hidden = false;
+      } catch (error) {
+        alert("Errore durante l’invio degli abbinamenti.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function updateMode() {
+      const showAll = currentWorkMode === "all";
+      tokenSection.classList.toggle("active-mode", !showAll);
+      allSection.classList.toggle("active-mode", showAll);
+      tokenBar.hidden = showAll;
+      releaseButton.hidden = !(isTeacher && !showAll && currentWriter);
+      if (!showAll) {
+        if (!currentWriter) {
+          document.getElementById("token-status-text").textContent = "La parola è libera: prendila per modificare gli abbinamenti.";
+          takeTokenButton.textContent = "✋ Prendi la parola";
+          takeTokenButton.className = "btn-token";
+          takeTokenButton.disabled = false;
+        } else if (currentWriter === myClientId) {
+          document.getElementById("token-status-text").textContent = "Stai modificando gli abbinamenti.";
+          takeTokenButton.textContent = "✔ Restituisci la parola";
+          takeTokenButton.className = "btn-token release";
+          takeTokenButton.disabled = false;
+        } else {
+          document.getElementById("token-status-text").textContent = "🔒 Un partecipante sta modificando gli abbinamenti.";
+          takeTokenButton.textContent = "🔒 Parola occupata";
+          takeTokenButton.className = "btn-token busy";
+          takeTokenButton.disabled = true;
+        }
+      }
+      syncInputs("token", tokenAnswers);
+      syncInputs("all", studentAnswers);
+      renderAllResponses();
+    }
+
+    takeTokenButton.addEventListener("click", () => {
+      if (!answersRef || currentWorkMode !== "token") return;
+      if (currentWriter === myClientId) {
+        answersRef.child("tokenData").update({ currentWriter:null, writerName:"" });
+      } else if (!currentWriter) {
+        if (!isTeacher && !studentName) { alert("Non trovo il nome della sessione. Accedi nuovamente dalla pagina iniziale."); return; }
+        answersRef.child("tokenData").update({ currentWriter:myClientId, writerName:isTeacher ? "Insegnante" : studentName });
+      }
+    });
+    releaseButton.addEventListener("click", () => {
+      if (isTeacher && currentWriter && answersRef) answersRef.child("tokenData").update({ currentWriter:null, writerName:"" });
+    });
+    workModeSelect.addEventListener("change", event => {
+      if (isTeacher && answersRef) answersRef.child("workMode").set(event.target.value);
+    });
+    resetButton.addEventListener("click", () => {
+      if (!isTeacher || !answersRef || !confirm(`Vuoi azzerare tutte le risposte del gruppo ${groupName || safeGroup}?`)) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        tokenData: { currentWriter:null, writerName:"", answers:emptyAnswers(), review:{} },
+        allStudentsData: {}
+      });
+      studentAnswers = emptyAnswers();
+      saveStatus.hidden = true;
+      syncInputs("all", studentAnswers);
+    });
+
+    createExercise("token-exercise", "token");
+    createExercise("all-exercise", "all");
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref(`esercizi/gruppi/${safeGroup}/unita1-abbinamento-clienti-i`);
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentAnswers = emptyAnswers();
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode === "all" ? "all" : "token";
+          if (isTeacher) workModeSelect.value = currentWorkMode;
+          const tokenData = data.tokenData || {};
+          currentWriter = tokenData.currentWriter || null;
+          tokenAnswers = { ...emptyAnswers(), ...(tokenData.answers || {}) };
+          allResponses = data.allStudentsData || {};
+          const ownAnswers = allResponses.students?.[studentId]?.answers?.exerciseI;
+          if (ownAnswers && !isTeacher) studentAnswers = { ...emptyAnswers(), ...ownAnswers };
+          updateMode();
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+      }
+    }
+    updateMode();
+  </script>
+</body>
+</html>

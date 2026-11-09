@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri in russo, in modo induttivo e interattivo, come si forma il plurale dei sostantivi italiani." />
+  <title>Unità 1 — Il numero del sostantivo</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --primary:#477755; --light:#edf4ed; --dark:#2f5739; --accent:#bd694d; --paper:#fffefa; --text:#292d28; --muted:#6b7069; --border:#e7e5dc; --success:#278253; --error:#b93832; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:32px 16px; color:var(--text); background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpeg") center/cover fixed,#f5f1e7; }
+    main { width:min(100%,880px); margin:0 auto; }
+    .navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 14px; }
+    select { min-height:42px; max-width:100%; padding:8px 12px; border:1px solid #d8e5d8; border-radius:10px; background:rgba(255,254,250,.95); color:var(--dark); font:inherit; font-weight:700; cursor:pointer; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hero,.card { border:1px solid var(--border); border-radius:22px; background:var(--paper); box-shadow:0 14px 36px rgba(43,69,46,.08); }
+    .hero { margin:8px 0 20px; padding:28px 20px; text-align:center; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); }
+    .eyebrow { display:inline-block; margin-bottom:8px; padding:7px 13px; border-radius:20px; background:var(--light); color:var(--dark); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1,h2,h3 { color:var(--dark); }
+    h1 { margin:4px 0; font-size:clamp(1.9rem,5vw,2.6rem); }
+    .subtitle { margin:8px 0 0; color:var(--muted); line-height:1.55; }
+    .card { margin-bottom:20px; padding:clamp(18px,4vw,30px); }
+    .section-intro { margin-top:-4px; color:var(--muted); line-height:1.65; }
+    .example-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; margin-top:16px; }
+    .example { padding:14px 16px; border:1px solid #d8e5d8; border-radius:13px; background:var(--light); line-height:1.55; }
+    .italian { display:block; color:var(--dark); font-size:1.08rem; font-weight:800; }
+    .russian { display:block; margin-top:4px; color:#555c54; }
+    .prompt { margin:18px 0 10px; font-weight:700; line-height:1.6; }
+    .question { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:10px 0; padding:13px 15px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .question label { flex:1 1 270px; line-height:1.5; }
+    .question select { min-width:150px; }
+    .practice-list { display:grid; gap:10px; margin-top:16px; }
+    .practice-item { display:grid; grid-template-columns:minmax(170px,.8fr) 1fr; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .practice-item label { color:var(--dark); font-weight:800; }
+    .practice-item select { width:100%; }
+    .action-button { min-height:42px; margin-top:14px; padding:9px 16px; border:0; border-radius:10px; background:var(--dark); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .action-button:hover { background:var(--primary); }
+    .feedback { min-height:1.5em; margin:12px 0 0; font-weight:700; line-height:1.5; }
+    .feedback.success { color:var(--success); }
+    .feedback.error { color:var(--error); }
+    .rule { margin-top:15px; overflow:hidden; border:1px solid #d8e5d8; border-radius:14px; background:#fff; }
+    .rule summary { padding:14px 16px; background:var(--light); color:var(--dark); font-weight:800; cursor:pointer; }
+    .rule-content { padding:15px 17px; line-height:1.7; }
+    .rule-content p:last-child { margin-bottom:0; }
+    .tip { margin-top:14px; padding:14px 16px; border-left:5px solid var(--accent); border-radius:10px; background:#f8f6ef; line-height:1.65; }
+    @media(max-width:600px) { body { padding:16px 8px; } .question { align-items:stretch; flex-direction:column; } .question select,.practice-item select { width:100%; } .practice-item { grid-template-columns:1fr; gap:5px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="navigation" aria-label="Menu dell’Unità 1">
+      <label class="visually-hidden" for="exercise-menu">Vai a un esercizio</label>
+      <select id="exercise-menu" aria-label="Naviga tra gli esercizi">
+        <option value="">Esercizi</option>
+        <option value="001_lettura.html">Lettura</option>
+        <option value="001_es_a.html">Esercizio A</option><option value="001_es_b.html">Esercizio B</option>
+        <option value="001_es_c.html">Esercizio C</option><option value="001_es_d.html">Esercizio D</option>
+        <option value="001_es_e.html">Esercizio E</option><option value="001_es_f.html">Esercizio F</option>
+        <option value="001_es_g.html">Esercizio G</option><option value="001_es_h.html">Esercizio H</option>
+        <option value="001_es_i.html">Esercizio I</option><option value="001_es_j.html">Esercizio J</option>
+        <option value="001_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Vai a una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="001_verbo_essere.html">Il verbo essere</option>
+        <option value="001_genere.html">Il genere del sostantivo</option>
+        <option value="001_indeterminativi.html">Articoli indeterminativi</option>
+        <option value="001_plurale.html" selected>Il numero del sostantivo · Il plurale</option>
+        <option value="001_determinativi.html">Articoli determinativi</option>
+      </select>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 1 · Grammatica</span>
+      <h1>Il numero del sostantivo · Множественное число</h1>
+      <p class="subtitle">Посмотри на пары слов и попробуй найти закономерность.<br>Osserva le coppie e prova a scoprire la regola.</p>
+    </header>
+
+    <section class="card" aria-labelledby="observe-title">
+      <h2 id="observe-title">1. Наблюдай и сравнивай · Osserva e confronta</h2>
+      <p class="section-intro" lang="ru">Прочитай пары. В каждой первой форме речь идёт об одном предмете, во второй — о нескольких. Посмотри, как меняется окончание.</p>
+      <div class="example-grid">
+        <div class="example"><span class="italian">un libr<strong>o</strong> → due libr<strong>i</strong></span><span class="russian">одна книга → две книги</span></div>
+        <div class="example"><span class="italian">una cas<strong>a</strong> → due cas<strong>e</strong></span><span class="russian">один дом → два дома</span></div>
+        <div class="example"><span class="italian">uno student<strong>e</strong> → due student<strong>i</strong></span><span class="russian">один студент → два студента</span></div>
+        <div class="example"><span class="italian">una nott<strong>e</strong> → due nott<strong>i</strong></span><span class="russian">одна ночь → две ночи</span></div>
+      </div>
+      <p class="prompt" lang="ru">Выбери окончание множественного числа. Сравни его с окончанием в единственном числе.</p>
+      <div id="discovery-quiz">
+        <div class="question"><label for="discover-o">Если слово заканчивается на <strong>-o</strong>, во множественном числе обычно…</label><select id="discover-o"><option value="">Выбери окончание</option><option value="i">-i</option><option value="e">-e</option></select></div>
+        <div class="question"><label for="discover-a">Если слово заканчивается на <strong>-a</strong>, во множественном числе обычно…</label><select id="discover-a"><option value="">Выбери окончание</option><option value="i">-i</option><option value="e">-e</option></select></div>
+        <div class="question"><label for="discover-e">Если слово заканчивается на <strong>-e</strong>, во множественном числе обычно…</label><select id="discover-e"><option value="">Выбери окончание</option><option value="i">-i</option><option value="a">-a</option></select></div>
+        <button class="action-button" id="check-discovery" type="button">Проверь закономерность · Controlla</button>
+        <p class="feedback" id="discovery-feedback" role="status" aria-live="polite"></p>
+      </div>
+      <details class="rule">
+        <summary>Правило · La regola</summary>
+        <div class="rule-content" lang="ru">
+          <p>В итальянском языке существительное меняется в зависимости от числа: <strong>единственное число</strong> — один предмет, <strong>множественное число</strong> — два или больше.</p>
+          <p>У большинства существительных меняется последняя гласная: слова на <strong>-o</strong> обычно получают окончание <strong>-i</strong>: <em>libro → libri</em>; слова на <strong>-a</strong> обычно получают <strong>-e</strong>: <em>casa → case</em>; слова на <strong>-e</strong> обычно получают <strong>-i</strong>: <em>studente → studenti</em>, <em>notte → notti</em>.</p>
+          <p>Это общая закономерность для начала обучения. Запоминай новое слово вместе с его формой множественного числа. In italiano il plurale si forma spesso cambiando la vocale finale.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="practice-title">
+      <h2 id="practice-title">2. Выбери форму · Scegli la forma</h2>
+      <p class="section-intro" lang="ru">Выбери правильную форму множественного числа. Подсказка: сначала посмотри на последнюю букву слова.</p>
+      <div class="practice-list" id="practice-quiz">
+        <div class="practice-item" data-answer="libri"><label for="plural-1"><em>libro</em> (книга) → due…</label><select id="plural-1"><option value="">Выбери форму</option><option value="libri">libri</option><option value="libre">libre</option></select></div>
+        <div class="practice-item" data-answer="case"><label for="plural-2"><em>casa</em> (дом) → due…</label><select id="plural-2"><option value="">Выбери форму</option><option value="casi">casi</option><option value="case">case</option></select></div>
+        <div class="practice-item" data-answer="studenti"><label for="plural-3"><em>studente</em> (студент) → due…</label><select id="plural-3"><option value="">Выбери форму</option><option value="studente">studente</option><option value="studenti">studenti</option></select></div>
+        <div class="practice-item" data-answer="ragazzi"><label for="plural-4"><em>ragazzo</em> (мальчик) → due…</label><select id="plural-4"><option value="">Выбери форму</option><option value="ragazzi">ragazzi</option><option value="ragazze">ragazze</option></select></div>
+        <div class="practice-item" data-answer="penne"><label for="plural-5"><em>penna</em> (ручка) → due…</label><select id="plural-5"><option value="">Выбери форму</option><option value="penni">penni</option><option value="penne">penne</option></select></div>
+        <div class="practice-item" data-answer="notti"><label for="plural-6"><em>notte</em> (ночь) → due…</label><select id="plural-6"><option value="">Выбери форму</option><option value="notte">notte</option><option value="notti">notti</option></select></div>
+      </div>
+      <button class="action-button" id="check-practice" type="button">Проверь ответы · Controlla le risposte</button>
+      <p class="feedback" id="practice-feedback" role="status" aria-live="polite"></p>
+      <div class="tip" lang="ru"><strong>Подсказка:</strong> единственное число — <em>uno studente</em>, множественное — <em>due studenti</em>. Артикль <em>due</em> помогает понять, что предметов несколько.</div>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const group = params.get("gruppo") || session.group || "";
+    const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+
+    function navigate(value) {
+      if (!value) return;
+      const target = new URL(value, location.href);
+      if (group) target.searchParams.set("gruppo", group);
+      if (name && name !== "Insegnante" && !session.isTeacher) target.searchParams.set("nome", name);
+      location.href = target.href;
+    }
+    document.getElementById("exercise-menu").addEventListener("change", event => navigate(event.target.value));
+    document.getElementById("grammar-menu").addEventListener("change", event => navigate(event.target.value));
+
+    function checkAnswers(feedbackId, answers, successText, retryText) {
+      let correct = 0;
+      answers.forEach(([id, answer]) => {
+        const select = document.getElementById(id);
+        const isCorrect = select.value === answer;
+        select.style.borderColor = isCorrect ? "var(--success)" : select.value ? "var(--error)" : "";
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById(feedbackId);
+      feedback.className = `feedback ${correct === answers.length ? "success" : "error"}`;
+      feedback.textContent = correct === answers.length ? successText : `${correct} из ${answers.length} правильных ответов. ${retryText}`;
+    }
+
+    document.getElementById("check-discovery").addEventListener("click", () => {
+      checkAnswers("discovery-feedback", [["discover-o", "i"], ["discover-a", "e"], ["discover-e", "i"]], "Отлично! Ты заметил закономерности. · Hai individuato le regole!", "Сравни окончания в примерах и попробуй ещё раз.");
+    });
+    document.getElementById("check-practice").addEventListener("click", () => {
+      checkAnswers("practice-feedback", [["plural-1", "libri"], ["plural-2", "case"], ["plural-3", "studenti"], ["plural-4", "ragazzi"], ["plural-5", "penne"], ["plural-6", "notti"]], "Прекрасно! Все формы правильные. · Perfetto! Tutte le forme sono corrette.", "Посмотри на окончание слова и попробуй ещё раз.");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri in modo interattivo il presente del verbo essere, con spiegazioni in italiano e russo." />
+  <title>Unità 1 — Il verbo essere</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --primary:#477755; --light:#edf4ed; --dark:#2f5739; --accent:#bd694d; --paper:#fffefa; --text:#292d28; --muted:#6b7069; --border:#e7e5dc; --success:#278253; --success-bg:#e1f1e5; --error:#b93832; --error-bg:#fae7e5; }
+    * { box-sizing:border-box; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:32px 16px; color:var(--text); background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpeg") center/cover fixed,#f5f1e7; }
+    main { width:min(100%,880px); margin:0 auto; }
+    .navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 14px; }
+    select { min-height:42px; max-width:100%; padding:8px 12px; border:1px solid #d8e5d8; border-radius:10px; background:rgba(255,254,250,.95); color:var(--dark); font:inherit; font-weight:700; cursor:pointer; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hero,.card { border:1px solid var(--border); border-radius:22px; background:var(--paper); box-shadow:0 14px 36px rgba(43,69,46,.08); }
+    .hero { margin:8px 0 20px; padding:28px 20px; text-align:center; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); }
+    .eyebrow { display:inline-block; margin-bottom:8px; padding:7px 13px; border-radius:20px; background:var(--light); color:var(--dark); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1,h2,h3 { color:var(--dark); }
+    h1 { margin:4px 0; font-size:clamp(1.9rem,5vw,2.6rem); }
+    .subtitle { margin:8px 0 0; color:var(--muted); line-height:1.55; }
+    .card { margin-bottom:20px; padding:clamp(18px,4vw,30px); }
+    .section-intro { margin-top:-4px; color:var(--muted); line-height:1.6; }
+    .example-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:10px; margin-top:16px; }
+    .example { padding:14px 16px; border:1px solid #d8e5d8; border-radius:13px; background:var(--light); line-height:1.55; }
+    .italian { display:block; color:var(--dark); font-size:1.05rem; font-weight:800; }
+    .russian { display:block; margin-top:4px; color:#555c54; }
+    .prompt { margin:18px 0 10px; font-weight:700; line-height:1.55; }
+    .discovery { display:grid; gap:12px; }
+    .question { display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:13px 15px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .question label { flex:1 1 290px; line-height:1.5; }
+    .question select { min-width:130px; }
+    .feedback { min-height:1.5em; margin:12px 0 0; font-weight:700; }
+    .feedback.success { color:var(--success); }
+    .feedback.error { color:var(--error); }
+    .action-button { min-height:42px; margin-top:14px; padding:9px 16px; border:0; border-radius:10px; background:var(--dark); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .action-button:hover { background:var(--primary); }
+    .rule { margin-top:15px; overflow:hidden; border:1px solid #d8e5d8; border-radius:14px; background:#fff; }
+    .rule summary { padding:14px 16px; background:var(--light); color:var(--dark); font-weight:800; cursor:pointer; }
+    .rule-content { padding:15px 17px; line-height:1.65; }
+    .rule-content p:last-child { margin-bottom:0; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:12px; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th,td { padding:12px 14px; border-bottom:1px solid var(--border); text-align:left; }
+    th { background:var(--light); color:var(--dark); }
+    tr:last-child td { border-bottom:0; }
+    td:first-child { font-weight:800; color:var(--dark); }
+    .practice-list { display:grid; gap:12px; margin-top:16px; }
+    .practice-item { padding:14px 16px; border:1px solid var(--border); border-radius:13px; background:#fff; line-height:1.65; }
+    .practice-item select { margin:4px 3px; }
+    .practice-item .russian { font-size:.95rem; }
+    .tip { margin-top:14px; padding:14px 16px; border-left:5px solid var(--accent); border-radius:10px; background:#f8f6ef; line-height:1.65; }
+    @media(max-width:600px) { body { padding:16px 8px; } th,td { padding:10px; } .question { align-items:stretch; flex-direction:column; } .question select { width:100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="navigation" aria-label="Menu dell’Unità 1">
+      <label class="visually-hidden" for="exercise-menu">Vai a un esercizio</label>
+      <select id="exercise-menu" aria-label="Naviga tra gli esercizi">
+        <option value="">Esercizi</option>
+        <option value="001_lettura.html">Lettura</option>
+        <option value="001_es_a.html">Esercizio A</option><option value="001_es_b.html">Esercizio B</option>
+        <option value="001_es_c.html">Esercizio C</option><option value="001_es_d.html">Esercizio D</option>
+        <option value="001_es_e.html">Esercizio E</option><option value="001_es_f.html">Esercizio F</option>
+        <option value="001_es_g.html">Esercizio G</option><option value="001_es_h.html">Esercizio H</option>
+        <option value="001_es_i.html">Esercizio I</option><option value="001_es_j.html">Esercizio J</option>
+        <option value="001_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Vai a una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option><option value="001_verbo_essere.html" selected>Il verbo essere</option>
+        <option value="001_genere.html">Il genere del sostantivo</option>
+        <option value="001_indeterminativi.html">Articoli indeterminativi</option>
+        <option value="001_plurale.html">Il numero del sostantivo · Il plurale</option>
+        <option value="001_determinativi.html">Articoli determinativi</option>
+      </select>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 1 · Grammatica</span>
+      <h1>Il verbo essere · Essere</h1>
+      <p class="subtitle">Osserva gli esempi, trova la regola e prova da solo.<br>Сначала посмотри на примеры, найди правило и попробуй сам.</p>
+    </header>
+
+    <section class="card" aria-labelledby="observe-title">
+      <h2 id="observe-title">1. Osserva e scopri · Посмотри и найди закономерность</h2>
+      <p class="section-intro">Leggi le frasi: il verbo è evidenziato. Che cosa cambia? Прочитай предложения: глагол выделен. Что меняется?</p>
+      <div class="example-grid">
+        <div class="example"><span class="italian">Io <strong>sono</strong> Victor.</span><span class="russian">Я Виктор.</span></div>
+        <div class="example"><span class="italian">Tu <strong>sei</strong> italiana?</span><span class="russian">Ты итальянка?</span></div>
+        <div class="example"><span class="italian">Lei <strong>è</strong> studentessa.</span><span class="russian">Она студентка.</span></div>
+        <div class="example"><span class="italian">Noi <strong>siamo</strong> studenti.</span><span class="russian">Мы студенты.</span></div>
+        <div class="example"><span class="italian">Voi <strong>siete</strong> in Italia.</span><span class="russian">Вы в Италии.</span></div>
+        <div class="example"><span class="italian">Loro <strong>sono</strong> tedeschi.</span><span class="russian">Они немцы.</span></div>
+      </div>
+      <p class="prompt">Ora prova a ricordare: quale forma accompagna ogni pronome?<br>А теперь попробуй вспомнить: какая форма употребляется с каждым местоимением?</p>
+      <div class="discovery" id="discovery-quiz">
+        <div class="question"><label for="discover-io"><strong>io</strong> — quale forma?</label><select id="discover-io"><option value="">Scegli / Выбери</option><option>sono</option><option>sei</option><option>è</option></select></div>
+        <div class="question"><label for="discover-tu"><strong>tu</strong> — quale forma?</label><select id="discover-tu"><option value="">Scegli / Выбери</option><option>sono</option><option>sei</option><option>è</option></select></div>
+        <div class="question"><label for="discover-lui"><strong>lui / lei</strong> — quale forma?</label><select id="discover-lui"><option value="">Scegli / Выбери</option><option>sono</option><option>sei</option><option>è</option></select></div>
+        <button class="action-button" id="check-discovery" type="button">Controlla · Проверь</button>
+        <p class="feedback" id="discovery-feedback" role="status" aria-live="polite"></p>
+      </div>
+      <details class="rule">
+        <summary>Hai osservato? Formula la regola · Ты заметил? Сформулируй правило</summary>
+        <div class="rule-content">
+          <p>In italiano il verbo cambia in base alla persona: <strong>io sono, tu sei, lui/lei è</strong>. Anche in russo il pronome ci aiuta a capire chi parla; però al presente il verbo «быть» spesso non si dice: <em>Я Виктор</em>. In italiano, invece, il verbo <strong>essere</strong> è necessario: <em>Io sono Victor</em>.</p>
+          <p>По-итальянски форма глагола меняется в зависимости от лица. В русском языке в настоящем времени глагол «быть» обычно опускается, а в итальянском <strong>essere</strong> нужно употреблять.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="practice-title">
+      <h2 id="practice-title">2. Completa le frasi · Дополнить предложения</h2>
+      <p class="section-intro">Scegli la forma corretta di <strong>essere</strong>. Выбери правильную форму глагола <strong>essere</strong>.</p>
+      <div class="practice-list" id="practice-quiz">
+        <div class="practice-item" data-answer="sono"><span class="italian">Io <select aria-label="Completa: Io ... di Mosca"><option value="">…</option><option value="sono">sono</option><option value="sei">sei</option><option value="è">è</option></select> di Mosca.</span><span class="russian">Я из Москвы.</span></div>
+        <div class="practice-item" data-answer="sei"><span class="italian">Tu <select aria-label="Completa: Tu ... studente"><option value="">…</option><option value="sono">sono</option><option value="sei">sei</option><option value="è">è</option></select> studente.</span><span class="russian">Ты студент.</span></div>
+        <div class="practice-item" data-answer="è"><span class="italian">Anna <select aria-label="Completa: Anna ... italiana"><option value="">…</option><option value="sono">sono</option><option value="sei">sei</option><option value="è">è</option></select> italiana.</span><span class="russian">Анна итальянка.</span></div>
+        <div class="practice-item" data-answer="siamo"><span class="italian">Noi <select aria-label="Completa: Noi ... a Roma"><option value="">…</option><option value="siamo">siamo</option><option value="siete">siete</option><option value="sono">sono</option></select> a Roma.</span><span class="russian">Мы в Риме.</span></div>
+        <div class="practice-item" data-answer="siete"><span class="italian">Voi <select aria-label="Completa: Voi ... amici"><option value="">…</option><option value="siamo">siamo</option><option value="siete">siete</option><option value="sono">sono</option></select> amici.</span><span class="russian">Вы друзья.</span></div>
+        <div class="practice-item" data-answer="sono"><span class="italian">Loro <select aria-label="Completa: Loro ... studenti"><option value="">…</option><option value="siamo">siamo</option><option value="siete">siete</option><option value="sono">sono</option></select> studenti.</span><span class="russian">Они студенты.</span></div>
+      </div>
+      <button class="action-button" id="check-practice" type="button">Controlla le risposte · Проверь ответы</button>
+      <p class="feedback" id="practice-feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" aria-labelledby="reference-title">
+      <h2 id="reference-title">3. La coniugazione · Спряжение</h2>
+      <p class="section-intro">Usa questa tabella per ripassare. Используй таблицу для повторения.</p>
+      <div class="table-wrap" role="region" aria-label="Coniugazione del verbo essere, scorrevole orizzontalmente" tabindex="0">
+        <table>
+          <thead><tr><th>Persona · Лицо</th><th>Essere</th><th>Esempio · Пример</th></tr></thead>
+          <tbody>
+            <tr><td>io · я</td><td><strong>sono</strong></td><td><span class="italian">Io sono Victor.</span> — Я Виктор.</td></tr>
+            <tr><td>tu · ты</td><td><strong>sei</strong></td><td><span class="italian">Tu sei italiana?</span> — Ты итальянка?</td></tr>
+            <tr><td>lui / lei · он / она</td><td><strong>è</strong></td><td><span class="italian">Lei è studentessa.</span> — Она студентка.</td></tr>
+            <tr><td>noi · мы</td><td><strong>siamo</strong></td><td><span class="italian">Noi siamo studenti.</span> — Мы студенты.</td></tr>
+            <tr><td>voi · вы</td><td><strong>siete</strong></td><td><span class="italian">Voi siete in Italia.</span> — Вы в Италии.</td></tr>
+            <tr><td>loro · они</td><td><strong>sono</strong></td><td><span class="italian">Loro sono tedeschi.</span> — Они немцы.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip"><strong>Attenzione · Обрати внимание:</strong> <em>essere</em> si usa anche per identità, professione, nazionalità e luogo. Глагол <em>essere</em> употребляется, чтобы говорить о личности, профессии, национальности и местонахождении.<br><span class="italian">Sono Paolo. Yoko è giapponese. Siamo in Italia.</span><span class="russian">Я Паоло. Ёко японка. Мы в Италии.</span></div>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const group = params.get("gruppo") || session.group || "";
+    const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+    function navigate(value) {
+      if (!value) return;
+      const target = new URL(value, location.href);
+      if (group) target.searchParams.set("gruppo", group);
+      if (name && !session.isTeacher) target.searchParams.set("nome", name);
+      location.href = target.href;
+    }
+    document.getElementById("exercise-menu").addEventListener("change", event => navigate(event.target.value));
+    document.getElementById("grammar-menu").addEventListener("change", event => navigate(event.target.value));
+
+    document.getElementById("check-discovery").addEventListener("click", () => {
+      const answers = [["discover-io", "sono"], ["discover-tu", "sei"], ["discover-lui", "è"]];
+      const correct = answers.filter(([id, answer]) => document.getElementById(id).value === answer).length;
+      const feedback = document.getElementById("discovery-feedback");
+      feedback.className = `feedback ${correct === answers.length ? "success" : "error"}`;
+      feedback.textContent = correct === answers.length
+        ? "Perfetto! Hai scoperto le prime forme. · Отлично! Ты нашёл первые формы."
+        : `Hai trovato ${correct} forme corrette su ${answers.length}. Riguarda gli esempi e riprova. · Правильных форм: ${correct} из ${answers.length}. Посмотри на примеры и попробуй ещё раз.`;
+    });
+    document.getElementById("check-practice").addEventListener("click", () => {
+      const items = [...document.querySelectorAll("#practice-quiz .practice-item")];
+      let correct = 0;
+      items.forEach(item => {
+        const select = item.querySelector("select");
+        const isCorrect = select.value === item.dataset.answer;
+        select.style.borderColor = isCorrect ? "var(--success)" : select.value ? "var(--error)" : "";
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById("practice-feedback");
+      feedback.className = `feedback ${correct === items.length ? "success" : "error"}`;
+      feedback.textContent = correct === items.length
+        ? "Ottimo lavoro! Tutte le risposte sono corrette. · Прекрасно! Все ответы правильные."
+        : `Risposte corrette: ${correct} su ${items.length}. Puoi correggere le forme e controllare di nuovo. · Правильных ответов: ${correct} из ${items.length}. Исправь формы и проверь ещё раз.`;
+    });
+  </script>
+</body>
+</html>

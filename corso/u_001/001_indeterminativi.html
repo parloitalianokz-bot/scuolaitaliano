@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri in modo induttivo e interattivo gli articoli indeterminativi italiani, con spiegazioni principalmente in russo." />
+  <title>Unità 1 — Gli articoli indeterminativi</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --primary:#477755; --light:#edf4ed; --dark:#2f5739; --accent:#bd694d; --paper:#fffefa; --text:#292d28; --muted:#6b7069; --border:#e7e5dc; --success:#278253; --error:#b93832; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:32px 16px; color:var(--text); background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpeg") center/cover fixed,#f5f1e7; }
+    main { width:min(100%,880px); margin:0 auto; }
+    .navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 14px; }
+    select { min-height:42px; max-width:100%; padding:8px 12px; border:1px solid #d8e5d8; border-radius:10px; background:rgba(255,254,250,.95); color:var(--dark); font:inherit; font-weight:700; cursor:pointer; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hero,.card { border:1px solid var(--border); border-radius:22px; background:var(--paper); box-shadow:0 14px 36px rgba(43,69,46,.08); }
+    .hero { margin:8px 0 20px; padding:28px 20px; text-align:center; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); }
+    .eyebrow { display:inline-block; margin-bottom:8px; padding:7px 13px; border-radius:20px; background:var(--light); color:var(--dark); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1,h2,h3 { color:var(--dark); }
+    h1 { margin:4px 0; font-size:clamp(1.9rem,5vw,2.6rem); }
+    .subtitle { margin:8px 0 0; color:var(--muted); line-height:1.55; }
+    .card { margin-bottom:20px; padding:clamp(18px,4vw,30px); }
+    .section-intro { margin-top:-4px; color:var(--muted); line-height:1.65; }
+    .example-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; margin-top:16px; }
+    .example { padding:14px 16px; border:1px solid #d8e5d8; border-radius:13px; background:var(--light); line-height:1.55; }
+    .italian { display:block; color:var(--dark); font-size:1.08rem; font-weight:800; }
+    .russian { display:block; margin-top:4px; color:#555c54; }
+    .prompt { margin:18px 0 10px; font-weight:700; line-height:1.6; }
+    .question { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:10px 0; padding:13px 15px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .question label { flex:1 1 270px; line-height:1.5; }
+    .question select { min-width:150px; }
+    .practice-list { display:grid; gap:10px; margin-top:16px; }
+    .practice-item { display:grid; grid-template-columns:minmax(170px,.8fr) 1fr; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .practice-item label { color:var(--dark); font-weight:800; }
+    .practice-item select { width:100%; }
+    .action-button { min-height:42px; margin-top:14px; padding:9px 16px; border:0; border-radius:10px; background:var(--dark); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .action-button:hover { background:var(--primary); }
+    .feedback { min-height:1.5em; margin:12px 0 0; font-weight:700; line-height:1.5; }
+    .feedback.success { color:var(--success); }
+    .feedback.error { color:var(--error); }
+    .rule { margin-top:15px; overflow:hidden; border:1px solid #d8e5d8; border-radius:14px; background:#fff; }
+    .rule summary { padding:14px 16px; background:var(--light); color:var(--dark); font-weight:800; cursor:pointer; }
+    .rule-content { padding:15px 17px; line-height:1.7; }
+    .rule-content p:last-child { margin-bottom:0; }
+    .tip { margin-top:14px; padding:14px 16px; border-left:5px solid var(--accent); border-radius:10px; background:#f8f6ef; line-height:1.65; }
+    @media(max-width:600px) { body { padding:16px 8px; } .question { align-items:stretch; flex-direction:column; } .question select,.practice-item select { width:100%; } .practice-item { grid-template-columns:1fr; gap:5px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="navigation" aria-label="Menu dell’Unità 1">
+      <label class="visually-hidden" for="exercise-menu">Vai a un esercizio</label>
+      <select id="exercise-menu" aria-label="Naviga tra gli esercizi">
+        <option value="">Esercizi</option>
+        <option value="001_lettura.html">Lettura</option>
+        <option value="001_es_a.html">Esercizio A</option><option value="001_es_b.html">Esercizio B</option>
+        <option value="001_es_c.html">Esercizio C</option><option value="001_es_d.html">Esercizio D</option>
+        <option value="001_es_e.html">Esercizio E</option><option value="001_es_f.html">Esercizio F</option>
+        <option value="001_es_g.html">Esercizio G</option><option value="001_es_h.html">Esercizio H</option>
+        <option value="001_es_i.html">Esercizio I</option><option value="001_es_j.html">Esercizio J</option>
+        <option value="001_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Vai a una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="001_verbo_essere.html">Il verbo essere</option>
+        <option value="001_genere.html">Il genere del sostantivo</option>
+        <option value="001_indeterminativi.html" selected>Articoli indeterminativi</option>
+        <option value="001_plurale.html">Il numero del sostantivo · Il plurale</option>
+        <option value="001_determinativi.html">Articoli determinativi</option>
+      </select>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 1 · Grammatica</span>
+      <h1>Gli articoli indeterminativi</h1>
+      <p class="subtitle">Посмотри на примеры, найди закономерность и попробуй выбрать артикль.<br>Osserva gli esempi, scopri la regola e prova.</p>
+    </header>
+
+    <section class="card" aria-labelledby="observe-title">
+      <h2 id="observe-title">1. Osserva e confronta · Посмотри и сравни</h2>
+      <p class="section-intro" lang="ru">Прочитай существительные вместе с артиклем. Обрати внимание на род слова и на его первую букву или звук. Что меняется?</p>
+      <div class="example-grid">
+        <div class="example"><span class="italian">un libr<strong>o</strong></span><span class="russian">книга · мужской род, согласная</span></div>
+        <div class="example"><span class="italian">uno student<strong>e</strong></span><span class="russian">студент · мужской род, s + согласная</span></div>
+        <div class="example"><span class="italian">un amic<strong>o</strong></span><span class="russian">друг · мужской род, гласная</span></div>
+        <div class="example"><span class="italian">una cas<strong>a</strong></span><span class="russian">дом · женский род, согласная</span></div>
+        <div class="example"><span class="italian">un’amic<strong>a</strong></span><span class="russian">подруга · женский род, гласная</span></div>
+      </div>
+      <p class="prompt" lang="ru">Попробуй вывести правило: выбери артикль, который подходит к каждому слову.</p>
+      <div id="discovery-quiz">
+        <div class="question"><label for="discover-libro"><em>libro</em> — мужской род, согласная</label><select id="discover-libro"><option value="">Выбери артикль</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="question"><label for="discover-studente"><em>studente</em> — мужской род, s + согласная</label><select id="discover-studente"><option value="">Выбери артикль</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="question"><label for="discover-amico"><em>amico</em> — мужской род, гласная</label><select id="discover-amico"><option value="">Выбери артикль</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="question"><label for="discover-casa"><em>casa</em> — женский род, согласная</label><select id="discover-casa"><option value="">Выбери артикль</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="question"><label for="discover-amica"><em>amica</em> — женский род, гласная</label><select id="discover-amica"><option value="">Выбери артикль</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <button class="action-button" id="check-discovery" type="button">Проверь закономерность · Controlla</button>
+        <p class="feedback" id="discovery-feedback" role="status" aria-live="polite"></p>
+      </div>
+      <details class="rule">
+        <summary>Правило · La regola</summary>
+        <div class="rule-content" lang="ru">
+          <p>В итальянском языке неопределённый артикль ставится перед существительным. Его форма зависит от <strong>рода</strong> слова и от того, с какого звука оно начинается.</p>
+          <p>Перед существительным мужского рода обычно употребляется <strong>un</strong>: <em>un libro</em>, <em>un amico</em>. Перед словами мужского рода, начинающимися на <strong>s + согласная</strong> или <strong>z</strong>, употребляется <strong>uno</strong>: <em>uno studente</em>, <em>uno zaino</em>. Перед существительным женского рода употребляется <strong>una</strong>: <em>una casa</em>. Перед женским словом на гласную форма <strong>una</strong> сокращается до <strong>un’</strong>: <em>un’amica</em>.</p>
+          <p>Обрати внимание: с мужским словом на гласную пишется <strong>un</strong> без апострофа — <em>un amico</em>; с женским словом на гласную — <strong>un’</strong> с апострофом — <em>un’amica</em>.</p>
+          <p>In breve: <strong>un</strong> e <strong>uno</strong> per il maschile; <strong>una</strong> e <strong>un’</strong> per il femminile.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="practice-title">
+      <h2 id="practice-title">2. Scegli l’articolo · Выбери артикль</h2>
+      <p class="section-intro" lang="ru">Выбери неопределённый артикль для каждого существительного. Сначала определи род, затем посмотри на первую букву или звук.</p>
+      <div class="practice-list" id="practice-quiz">
+        <div class="practice-item" data-answer="un"><label for="article-1">___ cane · собака (м.р.)</label><select id="article-1"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="practice-item" data-answer="una"><label for="article-2">___ donna · женщина (ж.р.)</label><select id="article-2"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="practice-item" data-answer="uno"><label for="article-3">___ zaino · рюкзак (м.р.)</label><select id="article-3"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="practice-item" data-answer="un"><label for="article-4">___ amico · друг (м.р.)</label><select id="article-4"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="practice-item" data-answer="una"><label for="article-5">___ studentessa · студентка (ж.р.)</label><select id="article-5"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+        <div class="practice-item" data-answer="un'"><label for="article-6">___ amica · подруга (ж.р.)</label><select id="article-6"><option value="">Выбери · Scegli</option><option value="un">un</option><option value="uno">uno</option><option value="una">una</option><option value="un'">un’</option></select></div>
+      </div>
+      <button class="action-button" id="check-practice" type="button">Проверь ответы · Controlla le risposte</button>
+      <p class="feedback" id="practice-feedback" role="status" aria-live="polite"></p>
+      <div class="tip"><strong>Подсказка:</strong> <em>un / uno</em> — мужской род; <em>una / un’</em> — женский род. Апостроф в <em>un’amica</em> показывает, что в слове <em>una</em> исчезла конечная <em>a</em>. В <em>un amico</em> апострофа нет.<br><span lang="it">L’articolo aiuta a riconoscere il genere e si accorda con il nome.</span></div>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const group = params.get("gruppo") || session.group || "";
+    const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+
+    function navigate(value) {
+      if (!value) return;
+      const target = new URL(value, location.href);
+      if (group) target.searchParams.set("gruppo", group);
+      if (name && name !== "Insegnante" && !session.isTeacher) target.searchParams.set("nome", name);
+      location.href = target.href;
+    }
+    document.getElementById("exercise-menu").addEventListener("change", event => navigate(event.target.value));
+    document.getElementById("grammar-menu").addEventListener("change", event => navigate(event.target.value));
+
+    function checkAnswers(containerId, feedbackId, successText, answers) {
+      let correct = 0;
+      answers.forEach(([id, answer]) => {
+        const select = document.getElementById(id);
+        const isCorrect = select.value === answer;
+        select.style.borderColor = isCorrect ? "var(--success)" : select.value ? "var(--error)" : "";
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById(feedbackId);
+      feedback.className = `feedback ${correct === answers.length ? "success" : "error"}`;
+      feedback.textContent = correct === answers.length
+        ? successText
+        : `Правильных ответов: ${correct} из ${answers.length}. Посмотри на род и начальный звук, затем попробуй ещё раз.`;
+    }
+
+    document.getElementById("check-discovery").addEventListener("click", () => {
+      checkAnswers("discovery-quiz", "discovery-feedback", "Отлично! Ты заметил закономерность: важны род и начальный звук. · Ottimo! Hai individuato la regola.", [
+        ["discover-libro", "un"], ["discover-studente", "uno"], ["discover-amico", "un"],
+        ["discover-casa", "una"], ["discover-amica", "un'"]
+      ]);
+    });
+    document.getElementById("check-practice").addEventListener("click", () => {
+      checkAnswers("practice-quiz", "practice-feedback", "Прекрасно! Все артикли выбраны правильно. · Perfetto! Tutti gli articoli sono corretti.", [
+        ["article-1", "un"], ["article-2", "una"], ["article-3", "uno"],
+        ["article-4", "un"], ["article-5", "una"], ["article-6", "un'"]
+      ]);
+    });
+  </script>
+</body>
+</html>
