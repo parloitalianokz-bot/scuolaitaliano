@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Accesso alle unità di italiano" />
+  <title>Italiano — Accesso</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .72), transparent 55%),
+        #e9e3d6;
+    }
+
+    main { width: min(100%, 880px); margin: 0 auto; }
+
+    header { margin: 44px 0 32px; text-align: center; }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: rgba(255, 254, 250, .9);
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      letter-spacing: -.045em;
+      line-height: 1.1;
+    }
+
+    header p { margin: 14px 0 0; color: var(--muted); font-size: 1.08rem; }
+
+    .access-card {
+      padding: 28px;
+      border: 1px solid #d8e5d8;
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+      margin-bottom: 20px;
+    }
+
+    .access-card h2 {
+      margin: 0 0 16px;
+      color: var(--green);
+      font-size: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--green);
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .form-group select, .form-group input {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 12px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 9px;
+      font: inherit;
+      font-size: .95rem;
+      background: #fff;
+    }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover { background: #1e3d27; }
+    .btn-primary:disabled { opacity: .55; cursor: wait; }
+
+    .btn-secondary {
+      min-height: 38px;
+      padding: 8px 16px;
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: var(--green-light); }
+    .btn-secondary:disabled { cursor: not-allowed; opacity: .5; }
+
+    .mode-switch {
+      text-align: center;
+      margin: 12px 0 0;
+    }
+
+    .mode-switch button {
+      border: 0;
+      background: none;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .message {
+      margin: 12px 0 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .message.error { background: #fde8e7; color: #dc2626; }
+    .message.success { background: #e1f1e5; color: #17623c; }
+    .message[hidden] { display: none; }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 14px;
+      background: var(--green-light);
+      margin-bottom: 20px;
+    }
+
+    .user-info span {
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .user-info button {
+      min-height: 38px;
+      padding: 6px 12px;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .user-info button:hover { background: var(--green-light); }
+
+    .teacher-group-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .teacher-group-switch[hidden] { display: none; }
+    .teacher-group-switch select {
+      min-height: 38px;
+      padding: 6px 10px;
+      border: 1px solid #d4e1d5;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-size: .9rem;
+    }
+
+    /* --- Evidenza ultima unità --- */
+    .featured-unit {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 28px;
+      border: 2px solid var(--green);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--green-light) 0%, #fff 70%);
+      box-shadow: 0 8px 28px rgba(43, 69, 46, .13);
+      margin-bottom: 28px;
+    }
+
+    .featured-unit .fu-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .featured-unit .fu-label {
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .featured-unit .fu-title {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1.2;
+    }
+
+    .featured-unit .fu-num {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .featured-unit a {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+
+    .featured-unit a:hover { background: #1e3d27; }
+
+    .precourse-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding: 18px 22px;
+      border: 2px solid #bd694d;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fff8f2, #fffefa 75%);
+      box-shadow: 0 8px 24px rgba(93, 63, 46, .09);
+    }
+    .precourse-card strong { display:block; color:var(--green); font-size:1.1rem; }
+    .precourse-card span { display:block; margin-top:4px; color:var(--muted); font-size:.9rem; }
+    .precourse-card a {
+      display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:9px 18px;
+      border-radius:10px; background:var(--green); color:#fff; font-weight:700; text-decoration:none;
+    }
+    .precourse-card a:hover { background:#1e3d27; }
+
+    /* --- Livelli --- */
+    .level-section {
+      margin-bottom: 10px;
+      border: 1px solid #d8e5d8;
+      border-radius: 14px;
+      background: rgba(255, 254, 250, .92);
+      overflow: hidden;
+    }
+
+    .level-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      padding: 14px 18px;
+      color: var(--green);
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .level-title::-webkit-details-marker { display: none; }
+    .level-title::after { content: "+"; margin-left: auto; font-size: 1.2rem; }
+    .level-section[open] .level-title::after { content: "−"; }
+    .level-title small { color: var(--muted); font-weight: 600; font-size: .85rem; }
+    .level-section .units-grid { padding: 0 14px 14px; }
+
+    .all-units-heading {
+      margin: 28px 0 14px;
+      color: var(--green);
+      font-size: 1.2rem;
+    }
+
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .unit-link, .unit-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+      padding: 12px 8px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+      transition: transform .15s, border-color .15s, background .15s;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .unit-link {
+      border: 1.5px solid #d4e1d5;
+      background: var(--paper);
+      color: var(--green);
+      box-shadow: 0 4px 12px rgba(43, 69, 46, .05);
+    }
+
+    .unit-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .unit-link .unit-num {
+      font-size: .72rem;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .unit-link .unit-tit {
+      margin-top: 4px;
+    }
+
+    .unit-placeholder {
+      border: 1.5px dashed #d8d8d0;
+      background: rgba(255, 254, 250, .6);
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .hidden { display: none !important; }
+
+    /* --- Pannello insegnante --- */
+    .group-editor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      flex-wrap: wrap;
+    }
+    .group-editor label {
+      font-weight: 700;
+      min-width: 120px;
+      color: var(--green);
+      white-space: nowrap;
+    }
+    .group-editor select, .group-editor input {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #d4e1d5;
+      border-radius: 8px;
+      font: inherit;
+      font-size: .9rem;
+      min-width: 120px;
+    }
+    .group-editor strong { color: var(--green); min-width: 120px; }
+    .teacher-editor-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    .teacher-editor-actions .btn-primary {
+      width: auto;
+      min-width: 150px;
+    }
+    .group-editor .current-unit {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .group-editor .btn-primary {
+      width: auto;
+      min-width: 0;
+      min-height: 38px;
+      padding: 8px 18px;
+      white-space: nowrap;
+    }
+    .student-actions-grid {
+      display: grid;
+      gap: 12px;
+      margin: 12px 0 18px;
+    }
+    .student-action-card {
+      display: grid;
+      grid-template-columns: minmax(150px, .8fr) minmax(180px, 1.2fr) auto;
+      align-items: end;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 14px;
+      background: #f8fbf7;
+    }
+    .student-action-card h4 {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--green);
+      font-size: 1rem;
+    }
+    .student-action-card .form-group { margin: 0; }
+    .student-action-card select, .student-action-card input { width: 100%; }
+    .student-action-card button { white-space: nowrap; }
+    #teacher-editor > .student-action-card + .student-action-card { margin-top: 12px; }
+    .group-editor > span { flex: 1; min-width: 240px; }
+    #inactive-students-list .group-editor { padding: 10px 0; border-bottom: 1px solid #e5ebdf; }
+    #inactive-students-list .group-editor:last-child { border-bottom: 0; }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      header { margin: 34px 0 24px; }
+      .access-card { padding: 20px; }
+      .featured-unit { padding: 18px 20px; }
+      .featured-unit a { width: 100%; justify-content: center; }
+      .units-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+      .unit-link, .unit-placeholder { min-height: 68px; font-size: .8rem; padding: 10px 6px; }
+      .group-editor { gap: 8px; }
+      .group-editor label { min-width: auto; }
+      .group-editor select, .group-editor input { min-width: 0; }
+      .group-editor strong { min-width: 0; }
+      .group-editor .btn-primary { padding: 8px 12px; }
+      .student-action-card { grid-template-columns: 1fr; align-items: stretch; }
+      .student-action-card h4 { grid-column: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="eyebrow">Italiano · Letture ed esercizi</span>
+      <h1>Benvenuti</h1>
+      <p>Accedete per aprire le unità.</p>
+    </header>
+
+    <!-- Pannello di accesso partecipante -->
+    <section id="login-panel" class="access-card">
+      <h2>🎓 Accedi</h2>
+
+      <div class="form-group">
+        <label for="group-select">Gruppo</label>
+        <select id="group-select">
+          <option value="">— Seleziona un gruppo —</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="name-select">Nome</label>
+        <select id="name-select" disabled>
+          <option value="">— Prima scegli il gruppo —</option>
+        </select>
+      </div>
+
+      <button type="button" id="btn-login" class="btn-primary" disabled>Entra</button>
+
+      <p id="login-message" class="message" hidden></p>
+
+      <div class="mode-switch">
+        <button type="button" id="switch-to-teacher">Insegnante? Accedi qui</button>
+      </div>
+    </section>
+
+    <!-- Pannello insegnante -->
+    <section id="teacher-panel" class="access-card hidden">
+      <h2>👩‍🏫 Insegnante</h2>
+      <div class="form-group">
+        <label for="teacher-name-select">Insegnante</label>
+        <select id="teacher-name-select">
+          <option value="">— Seleziona insegnante —</option>
+          <option value="Antonio">Antonio</option>
+          <option value="Assel">Assel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="teacher-group-select">Gruppo</label>
+        <select id="teacher-group-select">
+          <option value="">— Seleziona un gruppo —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="teacher-pin">PIN</label>
+        <input type="password" id="teacher-pin" inputmode="numeric" autocomplete="off" maxlength="6">
+      </div>
+      <button type="button" id="btn-teacher-login" class="btn-primary" disabled>Accedi</button>
+      <p id="teacher-message" class="message" hidden></p>
+      <div class="mode-switch">
+        <button type="button" id="switch-to-student">Partecipante? Torna al login</button>
+      </div>
+    </section>
+
+    <!-- Info utente loggato -->
+    <div id="user-info" class="user-info hidden">
+      <span id="user-info-text"></span>
+      <label id="teacher-group-switch-wrap" class="teacher-group-switch" hidden>
+        Gruppo
+        <select id="teacher-group-switch" aria-label="Cambia gruppo insegnante"></select>
+      </label>
+      <button type="button" id="btn-logout">Esci</button>
+    </div>
+
+    <div id="featured-unit-container" class="hidden"></div>
+
+    <!-- Editor insegnante (visibile solo all'insegnante) -->
+    <section id="teacher-editor" class="access-card hidden">
+      <h2 id="teacher-editor-title">✏️ Aggiorna l’ultima unità del gruppo</h2>
+      <p style="margin: -6px 0 14px; font-size: .88rem; color: var(--muted);">
+        Imposta fino a che unità il gruppo può vedere.
+      </p>
+      <div id="group-editor-list"></div>
+      <h3 style="color: var(--green); margin: 24px 0 10px;">Studenti del gruppo</h3>
+      <form id="add-student-form" class="group-editor">
+        <label for="new-student-name">Aggiungi studente</label>
+        <input id="new-student-name" type="text" maxlength="80" placeholder="Nome e cognome" required>
+        <button type="submit" class="btn-secondary">Aggiungi</button>
+      </form>
+      <div class="student-actions-grid">
+        <form id="deactivate-student-form" class="student-action-card">
+          <h4>Disattiva studente</h4>
+          <div class="form-group">
+            <label for="deactivate-student-select">Studente</label>
+            <select id="deactivate-student-select" required></select>
+          </div>
+          <div class="form-group">
+            <label for="student-access-limit">Ultima unità accessibile</label>
+            <select id="student-access-limit" required></select>
+          </div>
+          <button type="submit" class="btn-secondary">Disattiva</button>
+        </form>
+        <form id="move-student-form" class="student-action-card">
+          <h4>Sposta studente</h4>
+          <div class="form-group">
+            <label for="move-student-select">Studente</label>
+            <select id="move-student-select" required></select>
+          </div>
+          <div class="form-group">
+            <label for="move-student-group">Gruppo di destinazione</label>
+            <select id="move-student-group" required></select>
+          </div>
+          <button type="submit" class="btn-secondary">Sposta</button>
+        </form>
+      </div>
+      <h3 style="color: var(--green); margin: 24px 0 10px;">Gestione gruppi</h3>
+      <form id="add-group-form" class="student-action-card">
+        <h4>Nuovo gruppo</h4>
+        <div class="form-group">
+          <label for="new-group-name">Nome del gruppo</label>
+          <input id="new-group-name" type="text" maxlength="60" placeholder="Nome del gruppo" required>
+        </div>
+        <button type="submit" class="btn-secondary">Crea gruppo</button>
+      </form>
+      <form id="deactivate-group-form" class="student-action-card">
+        <h4>Disattiva gruppo vuoto</h4>
+        <div class="form-group">
+          <label for="deactivate-group-select">Gruppo attivo senza studenti</label>
+          <select id="deactivate-group-select" required></select>
+        </div>
+        <button type="submit" class="btn-secondary">Disattiva gruppo</button>
+      </form>
+      <button type="button" id="btn-save-groups" class="btn-primary hidden">Salva</button>
+      <details class="level-section" style="margin-top: 24px;">
+        <summary class="level-title">Studenti inattivi di tutti i gruppi</summary>
+        <div id="inactive-students-list" style="padding: 0 14px 14px; max-height: 320px; overflow-y: auto;"></div>
+      </details>
+      <p id="editor-message" class="message" role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <!-- Unità -->
+    <section id="units-section" class="hidden">
+      <div id="units-container"></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    // ─────── CONFIGURAZIONE ───────
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const TEACHER_PINS = { Antonio: "2202", Assel: "2109" };
+
+    const LEVELS = [
+      { id: "precorso", label: "Percorso preliminare", range: [0, 0], note: "unità 0" },
+      { id: "A1.1", label: "A1.1", range: [1, 11], note: "unità 1 – 11" },
+      { id: "A1.2", label: "A1.2", range: [12, 23], note: "unità 12 – 23" },
+      { id: "A2.1", label: "A2.1", range: [24, 36], note: "unità 24 – 36" },
+      { id: "A2.2", label: "A2.2", range: [37, 48], note: "unità 37 – 48" },
+      { id: "B1.1", label: "B1.1", range: [49, 61], note: "unità 49 – 61" },
+      { id: "B1.2", label: "B1.2", range: [62, 70], note: "unità 62 – 70" },
+      { id: "B1.3", label: "B1.3", range: [71, 75], note: "unità 71 – 75" },
+      { id: "B1.4", label: "B1.4", range: [76, 77], note: "unità 76 – 77" }
+    ];
+
+    // Unità esistenti: numero → { title, path }
+    const EXISTING = {
+      0:  { title: "Percorso preliminare · L'alfabeto italiano", path: "u_000", file: "alfabeto.html" },
+      1:  { title: "Un albergo in centro",  path: "u_001" },
+      2:  { title: "Un bravo ragazzo",       path: "u_002" },
+      10: { title: "La borsa rossa",        path: "u_010" },
+      13: { title: "Il grande scrittore",   path: "u_013" },
+      46: { title: "Il funerale dello zio Augusto", path: "u_046" },
+      53: { title: "Il viale del tramonto", path: "u_053" }
+    };
+
+    // Gruppi iniziali: usati solo per creare il primo archivio condiviso.
+    const DEFAULT_GROUPS = {
+      Cremona: { unitNumber: 53, insegnante: "Antonio", studenti: [
+        { nome: "Aendin", descrizione: "ragazzo giovane, studente, vive ad Almaty" },
+        { nome: "Almira", descrizione: "signora, pensionata, vive ad Almaty" },
+        { nome: "Laila", descrizione: "signora, pensionata, vive ad Aktau" }
+      ]},
+      Roma: { unitNumber: 46, insegnante: "Antonio", studenti: [
+        { nome: "Arsen", descrizione: "ragazzo, studente universitario, vive in Italia" },
+        { nome: "Assel", descrizione: "giovane donna, vive ad Astana, insegna pianoforte, ama viaggiare" },
+        { nome: "Katya", descrizione: "nuova studentessa" },
+        { nome: "Nazym", descrizione: "ragazza giovane, studentessa e lavoratrice, vive in Italia" },
+        { nome: "Yulia", descrizione: "signora giovane, sposata, vive ad Almaty" }
+      ]},
+      Milano: { unitNumber: 13, insegnante: "Antonio", studenti: [
+        { nome: "Dinmuhamet (Dimash)", descrizione: "uomo, dirigente d'azienda" },
+        { nome: "Kaussar", descrizione: "giovane, studia a scuola, vive ad Almaty" },
+        { nome: "Milla", descrizione: "giovane, studia a scuola, vive ad Almaty" },
+        { nome: "Sana", descrizione: "ragazza, studia in Italia" },
+        { nome: "Zhanar", descrizione: "donna" }
+      ]},
+      Venezia: { unitNumber: 10, insegnante: "Assel", studenti: [
+        { nome: "Arlan" },
+        { nome: "Aruzhan" },
+        { nome: "Ayaru", descrizione: "giovane, studia a scuola" },
+        { nome: "Dinara", descrizione: "giovane donna, impiegata, vuole trasferirsi in Italia, vive ad Almaty" },
+        { nome: "Eva" },
+        { nome: "Maria" },
+        { nome: "Sofia", descrizione: "giovane, studia al college KAZNISSA, vive ad Almaty" }
+      ]}
+    };
+
+    // Mantiene eventuali avanzamenti locali esistenti durante la prima migrazione.
+    function loadGroups() {
+      const stored = localStorage.getItem("parlo_groups_override");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          // Merge: usa DEFAULT_GROUPS come base, sovrascrivi unitNumber
+          const merged = {};
+          for (const key of Object.keys(DEFAULT_GROUPS)) {
+            merged[key] = {
+              ...DEFAULT_GROUPS[key],
+              unitNumber: (parsed[key] && parsed[key].unitNumber != null)
+                ? parsed[key].unitNumber
+                : DEFAULT_GROUPS[key].unitNumber
+            };
+          }
+          return merged;
+        } catch (_) { /* fallback */ }
+      }
+      return { ...DEFAULT_GROUPS };
+    }
+
+    const LEGACY_GROUP_IDS = { Cremona: "Cr01", Roma: "Ro01", Milano: "Mi01", Venezia: "Ve01" };
+
+    function makeInitialGroups() {
+      const initial = {};
+      Object.entries(loadGroups()).forEach(([name, group]) => {
+        const id = LEGACY_GROUP_IDS[name];
+        initial[id] = { ...group, id, nome: name, attivo: true };
+      });
+      return initial;
+    }
+
+    let GROUPS = makeInitialGroups();
+
+    // ─────── DOM REFS ───────
+    const loginPanel = document.getElementById("login-panel");
+    const teacherPanel = document.getElementById("teacher-panel");
+    const userInfoDiv = document.getElementById("user-info");
+    const userInfoText = document.getElementById("user-info-text");
+    const unitsSection = document.getElementById("units-section");
+    const unitsContainer = document.getElementById("units-container");
+    const featuredContainer = document.getElementById("featured-unit-container");
+
+    const groupSelect = document.getElementById("group-select");
+    const nameSelect = document.getElementById("name-select");
+    const btnLogin = document.getElementById("btn-login");
+    const loginMessage = document.getElementById("login-message");
+
+    const teacherNameSelect = document.getElementById("teacher-name-select");
+    const teacherGroupSelect = document.getElementById("teacher-group-select");
+    const teacherGroupSwitchWrap = document.getElementById("teacher-group-switch-wrap");
+    const teacherGroupSwitch = document.getElementById("teacher-group-switch");
+    const teacherPinInput = document.getElementById("teacher-pin");
+    const btnTeacherLogin = document.getElementById("btn-teacher-login");
+    const teacherMessage = document.getElementById("teacher-message");
+    const btnLogout = document.getElementById("btn-logout");
+
+    const switchToTeacher = document.getElementById("switch-to-teacher");
+    const switchToStudent = document.getElementById("switch-to-student");
+
+    const teacherEditor = document.getElementById("teacher-editor");
+    const groupEditorList = document.getElementById("group-editor-list");
+    const addStudentForm = document.getElementById("add-student-form");
+    const newStudentName = document.getElementById("new-student-name");
+    const deactivateStudentForm = document.getElementById("deactivate-student-form");
+    const deactivateStudentSelect = document.getElementById("deactivate-student-select");
+    const studentAccessLimit = document.getElementById("student-access-limit");
+    const moveStudentForm = document.getElementById("move-student-form");
+    const moveStudentSelect = document.getElementById("move-student-select");
+    const moveStudentGroup = document.getElementById("move-student-group");
+    const inactiveStudentsList = document.getElementById("inactive-students-list");
+    const addGroupForm = document.getElementById("add-group-form");
+    const newGroupName = document.getElementById("new-group-name");
+    const deactivateGroupForm = document.getElementById("deactivate-group-form");
+    const deactivateGroupSelect = document.getElementById("deactivate-group-select");
+    const btnSaveGroups = document.getElementById("btn-save-groups");
+    const editorMessage = document.getElementById("editor-message");
+
+    // ─────── STATO ───────
+    let isTeacher = false;
+    let currentTeacher = null;
+    let currentGroup = null;
+    let currentName = null;
+    let groupsRef = null;
+    let groupsReady = false;
+    let sessionInitialized = false;
+    let groupMigrationStarted = false;
+
+    // ─────── FUNZIONI ───────
+    function showMessage(el, text, type) {
+      el.textContent = text;
+      el.className = `message ${type}`;
+      el.hidden = false;
+    }
+
+    function hideMessage(el) {
+      el.hidden = true;
+    }
+
+    // Determina il livello per un numero di unità
+    function getLevelForUnit(num) {
+      for (const level of LEVELS) {
+        if (num >= level.range[0] && num <= level.range[1]) return level;
+      }
+      return null;
+    }
+
+    // Ottiene l'ultimo livello (quello più alto) tra quelli visibili
+    function getHighestVisibleLevel(maxUnit) {
+      let highest = null;
+      for (const level of LEVELS) {
+        if (level.range[0] <= maxUnit) highest = level;
+      }
+      return highest;
+    }
+
+    function groupLabel(id) {
+      const group = GROUPS[id];
+      return group ? `${group.nome || id} · ${id}${group.attivo === false ? " (disattivato)" : ""}` : id;
+    }
+
+    function groupOptionLabel(id) {
+      const group = GROUPS[id];
+      return group ? `${group.nome || id}${group.attivo === false ? " (disattivato)" : ""}` : id;
+    }
+
+    function populateGroups() {
+      const selectedGroup = groupSelect.value;
+      const selectedName = nameSelect.value;
+      const selectedTeacherGroup = teacherGroupSelect.value;
+      const selectedTeacherSwitch = teacherGroupSwitch.value;
+      const groupKeys = Object.keys(GROUPS).sort((a, b) => groupLabel(a).localeCompare(groupLabel(b), "it"));
+      const studentGroups = groupKeys.filter(id => GROUPS[id].attivo !== false || (GROUPS[id].studentiInattivi || []).length);
+      const activeGroups = groupKeys.filter(id => GROUPS[id].attivo !== false);
+
+      groupSelect.replaceChildren(new Option("— Seleziona un gruppo —", ""));
+      teacherGroupSelect.replaceChildren(new Option("— Seleziona un gruppo —", ""));
+      teacherGroupSwitch.replaceChildren();
+      studentGroups.forEach(id => groupSelect.add(new Option(groupOptionLabel(id), id)));
+      activeGroups.forEach(id => teacherGroupSelect.add(new Option(groupOptionLabel(id), id)));
+      activeGroups.forEach(id => teacherGroupSwitch.add(new Option(groupOptionLabel(id), id)));
+
+      groupSelect.value = GROUPS[selectedGroup] ? selectedGroup : "";
+      teacherGroupSelect.value = GROUPS[selectedTeacherGroup] ? selectedTeacherGroup : "";
+      teacherGroupSwitch.value = GROUPS[selectedTeacherSwitch] ? selectedTeacherSwitch : "";
+      updateNames();
+      if ([...nameSelect.options].some(option => option.value === selectedName)) nameSelect.value = selectedName;
+      updateLoginButton();
+      updateTeacherLoginButton();
+    }
+
+    function getStudentRecord(groupName, studentName) {
+      const group = GROUPS[groupName];
+      if (!group) return null;
+      const active = (group.studenti || []).find(student => student.nome === studentName);
+      if (active) return { ...active, inactive: false };
+      const inactive = (group.studentiInattivi || []).find(student => student.nome === studentName);
+      return inactive ? { ...inactive, inactive: true } : null;
+    }
+
+    function getStudentMaxUnit(groupName, studentName) {
+      const student = getStudentRecord(groupName, studentName);
+      if (student?.inactive && student.unitNumber != null && Number.isInteger(Number(student.unitNumber))) return Number(student.unitNumber);
+      const groupUnit = Number(GROUPS[groupName]?.unitNumber);
+      return Number.isInteger(groupUnit) ? groupUnit : 1;
+    }
+
+    function updateNames() {
+      const group = groupSelect.value;
+      const nameSel = nameSelect;
+      nameSel.innerHTML = "";
+
+      if (!group || !GROUPS[group]) {
+        nameSel.disabled = true;
+        nameSel.innerHTML = "<option value=\"\">— Prima scegli il gruppo —</option>";
+        btnLogin.disabled = true;
+        return;
+      }
+
+      nameSel.disabled = false;
+      const students = [
+        ...(GROUPS[group].studenti || []).map(student => ({ ...student, inactive: false })),
+        ...(GROUPS[group].studentiInattivi || []).map(student => ({ ...student, inactive: true }))
+      ].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+
+      const defaultOpt = document.createElement("option");
+      defaultOpt.value = "";
+      defaultOpt.textContent = "— Scegli il tuo nome —";
+      nameSel.appendChild(defaultOpt);
+
+      students.forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s.nome;
+        opt.textContent = s.inactive
+          ? `${s.nome} (inattivo · accesso fino all’unità ${s.unitNumber ?? GROUPS[group].unitNumber})`
+          : s.nome;
+        nameSel.appendChild(opt);
+      });
+
+      btnLogin.disabled = true;
+      hideMessage(loginMessage);
+    }
+
+    function updateLoginButton() {
+      btnLogin.disabled = !(groupsReady && groupSelect.value && nameSelect.value);
+    }
+
+    function saveSession() {
+      try {
+        localStorage.setItem("parlo_session", JSON.stringify({
+          isTeacher,
+          teacher: currentTeacher,
+          group: currentGroup,
+          name: currentName
+        }));
+      } catch (e) { /* ignore */ }
+    }
+
+    function updateTeacherLoginButton() {
+      btnTeacherLogin.disabled = !(groupsReady && teacherNameSelect.value && teacherGroupSelect.value && teacherPinInput.value.trim());
+    }
+
+    function clearSession() {
+      try { localStorage.removeItem("parlo_session"); } catch (e) { /* ignore */ }
+    }
+
+    function loadSession() {
+      try {
+        const raw = localStorage.getItem("parlo_session");
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data) return false;
+        const storedGroup = GROUPS[data.group] ? data.group : LEGACY_GROUP_IDS[data.group];
+
+        if (data.isTeacher && TEACHER_PINS[data.teacher] && GROUPS[storedGroup]) {
+          isTeacher = true;
+          currentTeacher = data.teacher;
+          currentGroup = storedGroup;
+          currentName = currentTeacher;
+          showTeacherUI();
+          renderUnits(null);
+          buildTeacherEditor();
+          return true;
+        }
+
+        if (!data.isTeacher && storedGroup && data.name && getStudentRecord(storedGroup, data.name)) {
+          isTeacher = false;
+          currentGroup = storedGroup;
+          currentName = data.name;
+          showStudentUI();
+          renderUnits(getStudentMaxUnit(storedGroup, data.name));
+          return true;
+        }
+        return false;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function showStudentUI() {
+      loginPanel.classList.add("hidden");
+      teacherPanel.classList.add("hidden");
+      teacherGroupSwitchWrap.hidden = true;
+      teacherEditor.classList.add("hidden");
+      userInfoDiv.classList.remove("hidden");
+      const maxUnit = getStudentMaxUnit(currentGroup, currentName);
+      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} (Unità ${maxUnit})`;
+    }
+
+    function showTeacherUI() {
+      loginPanel.classList.add("hidden");
+      teacherPanel.classList.add("hidden");
+      userInfoDiv.classList.remove("hidden");
+      teacherGroupSwitchWrap.hidden = false;
+      teacherGroupSwitch.value = currentGroup || "";
+      teacherEditor.classList.remove("hidden");
+      userInfoText.textContent = `👩‍🏫 ${currentTeacher} · Gruppo ${groupLabel(currentGroup)}`;
+    }
+
+    function resetToLogin() {
+      unitsSection.classList.add("hidden");
+      featuredContainer.replaceChildren();
+      featuredContainer.classList.add("hidden");
+      userInfoDiv.classList.add("hidden");
+      teacherEditor.classList.add("hidden");
+      teacherPanel.classList.add("hidden");
+      loginPanel.classList.remove("hidden");
+      hideMessage(loginMessage);
+      hideMessage(teacherMessage);
+      groupSelect.value = "";
+      nameSelect.innerHTML = "<option value=\"\">— Prima scegli il gruppo —</option>";
+      nameSelect.disabled = true;
+      btnLogin.disabled = true;
+      teacherGroupSelect.value = "";
+      teacherNameSelect.value = "";
+      teacherPinInput.value = "";
+      btnTeacherLogin.disabled = true;
+      isTeacher = false;
+      currentTeacher = null;
+      currentGroup = null;
+      currentName = null;
+    }
+
+    // Ricava la radice del progetto prima della prima cartella u_XXX nel percorso.
+    function getProjectBasePath() {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      if (parts.length && /\.html?$/i.test(parts[parts.length - 1])) parts.pop();
+      const unitFolderIndex = parts.findIndex(part => /^u_\d{3}$/i.test(part));
+      const baseParts = unitFolderIndex === -1 ? parts : parts.slice(0, unitFolderIndex);
+      return `/${baseParts.length ? `${baseParts.join("/")}/` : ""}`;
+    }
+
+    // Render unità raggruppate per livello in menu a tendina.
+    function renderUnits(maxUnit) {
+      unitsContainer.replaceChildren();
+      featuredContainer.replaceChildren();
+      featuredContainer.classList.add("hidden");
+      unitsSection.classList.remove("hidden");
+
+      const isTeacherView = maxUnit === null;
+      const effectiveMax = isTeacherView ? 77 : maxUnit;
+
+      // La scheda evidenzia il limite unità assegnato al gruppo o allo studente.
+      const featuredUnit = isTeacherView
+        ? GROUPS[currentGroup]?.unitNumber
+        : effectiveMax;
+
+      if (featuredUnit != null) {
+        featuredContainer.classList.remove("hidden");
+        const feat = document.createElement("div");
+        feat.className = "featured-unit";
+        const info = document.createElement("div");
+        info.className = "fu-info";
+        const label = document.createElement("div");
+        label.className = "fu-label";
+        label.textContent = isTeacherView ? "⭐ Ultima unità del gruppo" : "⭐ Ultima unità disponibile";
+        const title = document.createElement("div");
+        title.className = "fu-title";
+        title.textContent = EXISTING[featuredUnit]?.title || `Unità ${featuredUnit}`;
+        const num = document.createElement("div");
+        num.className = "fu-num";
+        num.textContent = `Unità ${featuredUnit}`;
+        info.append(label, title, num);
+        feat.append(info);
+        const link = document.createElement("a");
+        const unitId = String(featuredUnit).padStart(3, "0");
+        link.href = `${getProjectBasePath()}${EXISTING[featuredUnit]?.path || `u_${unitId}`}/${EXISTING[featuredUnit]?.file || `${unitId}_lettura.html`}`;
+        link.textContent = "Vai all'unità →";
+        feat.appendChild(link);
+        featuredContainer.appendChild(feat);
+      }
+
+      const heading = document.createElement("h2");
+      heading.className = "all-units-heading";
+      heading.textContent = "Archivio delle unità";
+      unitsContainer.appendChild(heading);
+
+      const visibleLevels = LEVELS.filter(level => level.range[0] <= effectiveMax);
+      visibleLevels.forEach((level, levelIndex) => {
+        const section = document.createElement("details");
+        section.className = "level-section";
+        section.open = levelIndex === 0;
+
+        const title = document.createElement("summary");
+        title.className = "level-title";
+        title.innerHTML = `${level.label} <small>${level.note}</small>`;
+        section.appendChild(title);
+
+        const grid = document.createElement("div");
+        grid.className = "units-grid";
+        const [start, end] = level.range;
+        for (let num = start; num <= end; num++) {
+          if (num > effectiveMax) continue;
+          if (EXISTING[num]) {
+            const link = document.createElement("a");
+            link.className = "unit-link";
+            const unitId = String(num).padStart(3, "0");
+            link.href = `${getProjectBasePath()}${EXISTING[num].path}/${EXISTING[num].file || `${unitId}_lettura.html`}`;
+            const numSpan = document.createElement("span");
+            numSpan.className = "unit-num";
+            numSpan.textContent = `U. ${num}`;
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "unit-tit";
+            titleSpan.textContent = EXISTING[num].title;
+            link.append(numSpan, titleSpan);
+            grid.appendChild(link);
+          } else {
+            const placeholder = document.createElement("div");
+            placeholder.className = "unit-placeholder";
+            placeholder.textContent = `U. ${num}`;
+            grid.appendChild(placeholder);
+          }
+        }
+        section.appendChild(grid);
+        unitsContainer.appendChild(section);
+      });
+    }
+
+    // ─────── EDITOR INSEGNANTE ───────
+    function formatDate(date = new Date()) {
+      return new Intl.DateTimeFormat("it-IT", { day: "2-digit", month: "2-digit", year: "2-digit" }).format(date);
+    }
+
+    function makeGroupId(name, groups = GROUPS) {
+      const cleaned = name.normalize("NFD").replace(/[^a-z0-9]/gi, "");
+      const prefix = (cleaned.slice(0, 1) || "G").toUpperCase() + (cleaned.slice(1, 2) || "r").toLowerCase();
+      let number = 1;
+      while (groups[`${prefix}${String(number).padStart(2, "0")}`]) number++;
+      return `${prefix}${String(number).padStart(2, "0")}`;
+    }
+
+    async function saveCurrentGroup() {
+      if (!groupsReady || !groupsRef || !GROUPS[currentGroup]) throw new Error("Database non disponibile");
+      await groupsRef.child(currentGroup).set(GROUPS[currentGroup]);
+    }
+
+    function buildTeacherEditor() {
+      groupEditorList.replaceChildren();
+      inactiveStudentsList.replaceChildren();
+      btnSaveGroups.classList.remove("hidden");
+      document.getElementById("teacher-editor-title").textContent =
+        `✏️ Gestione del gruppo ${groupLabel(currentGroup)}`;
+
+      const group = GROUPS[currentGroup];
+      if (!group) return;
+      if (!Array.isArray(group.studentiInattivi)) group.studentiInattivi = [];
+
+      const sortedGroupIds = Object.keys(GROUPS).sort((a, b) => groupOptionLabel(a).localeCompare(groupOptionLabel(b), "it"));
+      const emptyActiveGroups = sortedGroupIds.filter(id =>
+        GROUPS[id].attivo !== false && (GROUPS[id].studenti || []).length === 0
+      );
+
+      deactivateGroupSelect.replaceChildren(new Option(
+        emptyActiveGroups.length ? "— Seleziona un gruppo vuoto —" : "Nessun gruppo vuoto disponibile",
+        ""
+      ));
+      emptyActiveGroups.forEach(id => deactivateGroupSelect.add(new Option(groupOptionLabel(id), id)));
+      deactivateGroupSelect.disabled = emptyActiveGroups.length === 0;
+      deactivateGroupForm.querySelector('button[type="submit"]').disabled = emptyActiveGroups.length === 0;
+
+      deactivateGroupForm.onsubmit = async event => {
+        event.preventDefault();
+        const id = deactivateGroupSelect.value;
+        const selectedGroup = GROUPS[id];
+        if (!selectedGroup || selectedGroup.attivo === false || (selectedGroup.studenti || []).length) return;
+        selectedGroup.attivo = false;
+        try {
+          await groupsRef.child(id).set(selectedGroup);
+          showMessage(editorMessage, `Gruppo ${groupOptionLabel(id)} disattivato.`, "success");
+          populateGroups();
+          buildTeacherEditor();
+        } catch (_) {
+          selectedGroup.attivo = true;
+          showMessage(editorMessage, "Errore: impossibile disattivare il gruppo.", "error");
+          buildTeacherEditor();
+        }
+      };
+
+      addGroupForm.onsubmit = async event => {
+        event.preventDefault();
+        const name = newGroupName.value.trim();
+        if (!name) return;
+        let id = "";
+        try {
+          const result = await groupsRef.transaction(current => {
+            const latestGroups = normalizeCloudGroups(current || {});
+            id = makeGroupId(name, latestGroups);
+            latestGroups[id] = {
+              id,
+              nome: name,
+              insegnante: currentTeacher,
+              unitNumber: 1,
+              studenti: [],
+              studentiInattivi: [],
+              attivo: true
+            };
+            return latestGroups;
+          });
+          if (!result.committed || !id) throw new Error("Creazione non completata");
+          newGroupName.value = "";
+          currentGroup = id;
+          saveSession();
+          showMessage(editorMessage, `Gruppo ${name} creato con ID ${id}.`, "success");
+          populateGroups();
+          showTeacherUI();
+          renderUnits(null);
+          buildTeacherEditor();
+        } catch (_) {
+          showMessage(editorMessage, "Errore: impossibile creare il gruppo.", "error");
+        }
+      };
+
+      const row = document.createElement("div");
+      row.className = "group-editor";
+      const label = document.createElement("label");
+      label.textContent = "Ultima unità del gruppo";
+      label.htmlFor = "group-unit-limit";
+      const limitSelect = document.createElement("select");
+      limitSelect.id = "group-unit-limit";
+      for (let n = 0; n <= 77; n++) {
+        const option = document.createElement("option");
+        option.value = n;
+        option.textContent = EXISTING[n]?.title ? `Unità ${n} — ${EXISTING[n].title}` : `Unità ${n}`;
+        option.selected = n === Number(group.unitNumber);
+        limitSelect.appendChild(option);
+      }
+      row.append(label, limitSelect, btnSaveGroups);
+      groupEditorList.appendChild(row);
+
+      const activeStudents = [...group.studenti].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+      [deactivateStudentSelect, moveStudentSelect].forEach(select => {
+        select.replaceChildren(new Option("— Scegli uno studente —", ""));
+        activeStudents.forEach(student => select.add(new Option(student.nome, student.nome)));
+        select.disabled = activeStudents.length === 0;
+      });
+
+      studentAccessLimit.replaceChildren();
+      for (let n = 0; n <= 77; n++) {
+        const option = new Option(EXISTING[n]?.title ? `Unità ${n} — ${EXISTING[n].title}` : `Unità ${n}`, n);
+        option.selected = n === Number(group.unitNumber);
+        studentAccessLimit.add(option);
+      }
+      studentAccessLimit.disabled = activeStudents.length === 0;
+      deactivateStudentForm.querySelector('button[type="submit"]').disabled = activeStudents.length === 0;
+
+      moveStudentGroup.replaceChildren(new Option("— Scegli un gruppo —", ""));
+      Object.keys(GROUPS).filter(id => id !== currentGroup && GROUPS[id].attivo !== false)
+        .sort((a, b) => groupOptionLabel(a).localeCompare(groupOptionLabel(b), "it"))
+        .forEach(id => moveStudentGroup.add(new Option(groupOptionLabel(id), id)));
+      moveStudentGroup.disabled = moveStudentGroup.options.length <= 1;
+      moveStudentForm.querySelector('button[type="submit"]').disabled =
+        activeStudents.length === 0 || moveStudentGroup.disabled;
+
+      deactivateStudentForm.onsubmit = async event => {
+        event.preventDefault();
+        const student = group.studenti.find(item => item.nome === deactivateStudentSelect.value);
+        if (!student) return;
+        const maxUnit = Number(studentAccessLimit.value);
+        if (!Number.isInteger(maxUnit) || maxUnit < 0 || maxUnit > 77) return;
+        group.studenti = group.studenti.filter(item => item.nome !== student.nome);
+        group.studentiInattivi.push({
+          nome: student.nome,
+          descrizione: student.descrizione || "",
+          unitNumber: maxUnit,
+          dataEsclusione: formatDate()
+        });
+        try {
+          await saveCurrentGroup();
+          showMessage(editorMessage, `${student.nome} disattivato: accesso fino all’unità ${maxUnit}.`, "success");
+          buildTeacherEditor();
+          populateGroups();
+        } catch (_) {
+          group.studentiInattivi = group.studentiInattivi.filter(item => item.nome !== student.nome);
+          group.studenti.push(student);
+          showMessage(editorMessage, "Errore: impossibile salvare la disattivazione.", "error");
+          buildTeacherEditor();
+        }
+      };
+
+      moveStudentForm.onsubmit = async event => {
+        event.preventDefault();
+        const student = group.studenti.find(item => item.nome === moveStudentSelect.value);
+        const destination = moveStudentGroup.value;
+        const target = GROUPS[destination];
+        if (!student || !target || target.attivo === false || destination === currentGroup) return;
+        const duplicate = [...(target.studenti || []), ...(target.studentiInattivi || [])]
+          .some(item => item.nome.toLocaleLowerCase("it") === student.nome.toLocaleLowerCase("it"));
+        if (duplicate) {
+          showMessage(editorMessage, `Nel gruppo ${groupOptionLabel(destination)} esiste già uno studente con questo nome.`, "error");
+          return;
+        }
+        const remainingStudents = group.studenti.filter(item => item.nome !== student.nome);
+        const destinationStudents = [...(target.studenti || []), { ...student }];
+        try {
+          await groupsRef.update({
+            [`${currentGroup}/studenti`]: remainingStudents,
+            [`${destination}/studenti`]: destinationStudents
+          });
+          group.studenti = remainingStudents;
+          target.studenti = destinationStudents;
+          showMessage(editorMessage, `${student.nome} spostato in ${groupOptionLabel(destination)}.`, "success");
+          buildTeacherEditor();
+          populateGroups();
+        } catch (_) {
+          showMessage(editorMessage, "Errore: impossibile spostare lo studente.", "error");
+        }
+      };
+
+      if (!group.studenti.length) {
+        deactivateStudentSelect.options[0].textContent = "Nessuno studente attivo";
+        moveStudentSelect.options[0].textContent = "Nessuno studente attivo";
+      }
+
+      Object.entries(GROUPS).flatMap(([sourceId, sourceGroup]) =>
+        (sourceGroup.studentiInattivi || []).map(student => ({ sourceId, sourceGroup, student }))
+      ).sort((a, b) => a.student.nome.localeCompare(b.student.nome, "it") ||
+        groupOptionLabel(a.sourceId).localeCompare(groupOptionLabel(b.sourceId), "it")
+      ).forEach(({ sourceId, sourceGroup, student }) => {
+        const archivedRow = document.createElement("div");
+        archivedRow.className = "group-editor";
+        const info = document.createElement("span");
+        info.textContent = `${student.nome} · ${groupOptionLabel(sourceId)} (${sourceId}) · accesso fino all’unità ${student.unitNumber ?? sourceGroup.unitNumber} · disattivato il ${student.dataEsclusione || "data non disponibile"}`;
+        const restoreGroup = document.createElement("select");
+        restoreGroup.setAttribute("aria-label", `Gruppo in cui ripristinare ${student.nome}`);
+        restoreGroup.add(new Option("— Scegli un gruppo attivo —", ""));
+        Object.keys(GROUPS).filter(id => GROUPS[id].attivo !== false)
+          .sort((a, b) => groupOptionLabel(a).localeCompare(groupOptionLabel(b), "it"))
+          .forEach(id => restoreGroup.add(new Option(groupOptionLabel(id), id)));
+        if (GROUPS[sourceId]?.attivo !== false) restoreGroup.value = sourceId;
+        const restore = document.createElement("button");
+        restore.type = "button";
+        restore.className = "btn-secondary";
+        restore.textContent = "Ripristina";
+        restore.disabled = !Object.keys(GROUPS).some(id => GROUPS[id].attivo !== false);
+        restore.addEventListener("click", async () => {
+          const destination = restoreGroup.value;
+          const target = GROUPS[destination];
+          if (!target || target.attivo === false) return;
+          if ([...(target.studenti || []), ...(target.studentiInattivi || [])]
+            .some(item => item !== student && item.nome.toLocaleLowerCase("it") === student.nome.toLocaleLowerCase("it"))) {
+            showMessage(editorMessage, `Nel gruppo ${groupOptionLabel(destination)} esiste già uno studente con questo nome.`, "error");
+            return;
+          }
+          const restoredStudent = { nome: student.nome, descrizione: student.descrizione || "" };
+          const remainingInactive = sourceGroup.studentiInattivi.filter(item => item !== student);
+          try {
+            if (destination === sourceId) {
+              const updatedSourceGroup = {
+                ...sourceGroup,
+                studenti: [...(sourceGroup.studenti || []), restoredStudent],
+                studentiInattivi: remainingInactive
+              };
+              await groupsRef.child(sourceId).set(updatedSourceGroup);
+              Object.assign(sourceGroup, updatedSourceGroup);
+            } else {
+              const destinationStudents = [...(target.studenti || []), restoredStudent];
+              await groupsRef.update({
+                [`${sourceId}/studentiInattivi`]: remainingInactive,
+                [`${destination}/studenti`]: destinationStudents
+              });
+              sourceGroup.studentiInattivi = remainingInactive;
+              target.studenti = destinationStudents;
+            }
+            showMessage(editorMessage, `${student.nome} ripristinato nel gruppo ${groupOptionLabel(destination)}.`, "success");
+            buildTeacherEditor();
+            populateGroups();
+          } catch (_) {
+            showMessage(editorMessage, "Errore: impossibile salvare il ripristino.", "error");
+          }
+        });
+        const erase = document.createElement("button");
+        erase.type = "button";
+        erase.textContent = "×";
+        erase.setAttribute("aria-label", `Elimina definitivamente ${student.nome}`);
+        erase.style.cssText = "color:#dc2626;font-size:1.4rem;font-weight:800;border:0;background:none;cursor:pointer";
+        erase.addEventListener("click", async () => {
+          if (!window.confirm(`Eliminare definitivamente ${student.nome}?`)) return;
+          const remainingInactive = sourceGroup.studentiInattivi.filter(item => item !== student);
+          try {
+            await groupsRef.child(sourceId).child("studentiInattivi").set(remainingInactive);
+            sourceGroup.studentiInattivi = remainingInactive;
+            showMessage(editorMessage, `${student.nome} eliminato definitivamente.`, "success");
+            buildTeacherEditor();
+            populateGroups();
+          } catch (_) {
+            showMessage(editorMessage, "Errore: impossibile eliminare lo studente.", "error");
+          }
+        });
+        archivedRow.append(info, restoreGroup, restore, erase);
+        inactiveStudentsList.appendChild(archivedRow);
+      });
+      if (!Object.values(GROUPS).some(item => (item.studentiInattivi || []).length)) {
+        inactiveStudentsList.textContent = "Nessuno studente inattivo.";
+      }
+
+      addStudentForm.onsubmit = async event => {
+        event.preventDefault();
+        const name = newStudentName.value.trim();
+        if (!name) return;
+        if (group.attivo === false) {
+          showMessage(editorMessage, "Riattiva il gruppo prima di aggiungere studenti.", "error");
+          return;
+        }
+        const exists = [...(group.studenti || []), ...(group.studentiInattivi || [])]
+          .some(student => student.nome.toLocaleLowerCase("it") === name.toLocaleLowerCase("it"));
+        if (exists) {
+          showMessage(editorMessage, "Esiste già uno studente con questo nome: ripristinalo dall’archivio se necessario.", "error");
+          return;
+        }
+        group.studenti.push({ nome: name });
+        try {
+          await saveCurrentGroup();
+          newStudentName.value = "";
+          showMessage(editorMessage, `${name} aggiunto al gruppo.`, "success");
+          buildTeacherEditor();
+          populateGroups();
+        } catch (_) {
+          showMessage(editorMessage, "Errore: impossibile aggiungere lo studente.", "error");
+        }
+      };
+
+      btnSaveGroups.onclick = async () => {
+        hideMessage(editorMessage);
+        const newVal = Number(limitSelect.value);
+        if (!Number.isInteger(newVal) || newVal < 0 || newVal > 77) {
+          showMessage(editorMessage, "Seleziona un’unità valida.", "error");
+          return;
+        }
+        btnSaveGroups.disabled = true;
+        try {
+          group.unitNumber = newVal;
+          await saveCurrentGroup();
+          showMessage(editorMessage, "Modifica salvata e condivisa con tutti i dispositivi.", "success");
+          renderUnits(null);
+          populateGroups();
+        } catch (_) {
+          showMessage(editorMessage, "Errore: impossibile salvare i dati condivisi.", "error");
+        } finally {
+          btnSaveGroups.disabled = false;
+        }
+      };
+    }
+
+    // ─────── EVENTI ───────
+    groupSelect.addEventListener("change", () => {
+      updateNames();
+      updateLoginButton();
+    });
+
+    nameSelect.addEventListener("change", updateLoginButton);
+
+    btnLogin.addEventListener("click", () => {
+      hideMessage(loginMessage);
+      const group = groupSelect.value;
+      const name = nameSelect.value;
+
+      if (!group || !GROUPS[group]) {
+        showMessage(loginMessage, "Seleziona un gruppo valido.", "error");
+        return;
+      }
+      if (!name) {
+        showMessage(loginMessage, "Seleziona il tuo nome.", "error");
+        return;
+      }
+
+      if (!getStudentRecord(group, name)) {
+        showMessage(loginMessage, "Nome non trovato in questo gruppo.", "error");
+        return;
+      }
+
+      isTeacher = false;
+      currentTeacher = null;
+      currentGroup = group;
+      currentName = name;
+      saveSession();
+
+      showStudentUI();
+      renderUnits(getStudentMaxUnit(group, name));
+    });
+
+    btnTeacherLogin.addEventListener("click", () => {
+      hideMessage(teacherMessage);
+      const group = teacherGroupSelect.value;
+      const teacher = teacherNameSelect.value;
+      const pin = teacherPinInput.value.trim();
+
+      if (!teacher) {
+        showMessage(teacherMessage, "Seleziona l’insegnante.", "error");
+        return;
+      }
+      if (!group) {
+        showMessage(teacherMessage, "Seleziona un gruppo.", "error");
+        return;
+      }
+      if (!pin) {
+        showMessage(teacherMessage, "Inserisci il PIN.", "error");
+        return;
+      }
+
+      if (pin !== TEACHER_PINS[teacher]) {
+        showMessage(teacherMessage, "PIN errato per l’insegnante selezionato. Riprova.", "error");
+        return;
+      }
+
+      isTeacher = true;
+      currentTeacher = teacher;
+      currentGroup = group;
+      currentName = teacher;
+      saveSession();
+
+      showTeacherUI();
+      renderUnits(null);
+      buildTeacherEditor();
+    });
+
+    teacherNameSelect.addEventListener("change", updateTeacherLoginButton);
+    teacherGroupSelect.addEventListener("change", updateTeacherLoginButton);
+    teacherGroupSwitch.addEventListener("change", () => {
+      if (!isTeacher || !GROUPS[teacherGroupSwitch.value]) return;
+      currentGroup = teacherGroupSwitch.value;
+      currentName = currentTeacher;
+      saveSession();
+      showTeacherUI();
+      renderUnits(null);
+      buildTeacherEditor();
+    });
+    teacherPinInput.addEventListener("input", updateTeacherLoginButton);
+    teacherPinInput.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !btnTeacherLogin.disabled) btnTeacherLogin.click();
+    });
+
+    btnLogout.addEventListener("click", () => {
+      clearSession();
+      resetToLogin();
+    });
+
+    switchToTeacher.addEventListener("click", () => {
+      loginPanel.classList.add("hidden");
+      teacherPanel.classList.remove("hidden");
+      hideMessage(loginMessage);
+    });
+
+    switchToStudent.addEventListener("click", () => {
+      teacherPanel.classList.add("hidden");
+      loginPanel.classList.remove("hidden");
+      hideMessage(teacherMessage);
+    });
+
+    function normalizeCloudGroups(remoteGroups) {
+      const normalized = {};
+      for (const [key, value] of Object.entries(remoteGroups || {})) {
+        if (!value || typeof value !== "object") continue;
+        const id = value.id || LEGACY_GROUP_IDS[key] || key;
+        const name = value.nome || key;
+        const unit = Number(value.unitNumber);
+        normalized[id] = {
+          ...value,
+          id,
+          nome: name,
+          insegnante: value.insegnante || "",
+          unitNumber: Number.isInteger(unit) && unit >= 0 && unit <= 77 ? unit : 1,
+          studenti: Array.isArray(value.studenti) ? value.studenti : [],
+          studentiInattivi: Array.isArray(value.studentiInattivi) ? value.studentiInattivi : [],
+          attivo: value.attivo !== false
+        };
+      }
+      return normalized;
+    }
+
+    function requiresGroupMigration(remoteGroups, normalized) {
+      return Object.entries(remoteGroups || {}).some(([key, value]) =>
+        !value || key !== value.id || !value.nome || typeof value.attivo !== "boolean"
+      ) || Object.keys(remoteGroups || {}).length !== Object.keys(normalized).length;
+    }
+
+    function initializeSharedGroups() {
+      if (!window.firebase) {
+        GROUPS = makeInitialGroups();
+        populateGroups();
+        showMessage(loginMessage, "Servizio dati condivisi non disponibile. Controlla la connessione.", "error");
+        return;
+      }
+
+      try {
+        firebase.initializeApp(firebaseConfig);
+        groupsRef = firebase.database().ref("configurazioneScuola/gruppi");
+        groupsRef.transaction(current => current || GROUPS)
+          .then(() => {
+            groupsReady = true;
+            groupsRef.on("value", snapshot => {
+              const cloudGroups = snapshot.val();
+              if (!cloudGroups) return;
+              const normalizedGroups = normalizeCloudGroups(cloudGroups);
+              GROUPS = normalizedGroups;
+              if (!groupMigrationStarted && requiresGroupMigration(cloudGroups, normalizedGroups)) {
+                groupMigrationStarted = true;
+                groupsRef.set(normalizedGroups).catch(() => {
+                  showMessage(loginMessage, "Migrazione dei gruppi non riuscita. Controlla le regole Firebase.", "error");
+                });
+              }
+              populateGroups();
+
+              if (!sessionInitialized) {
+                sessionInitialized = true;
+                if (!loadSession()) resetToLogin();
+              } else if (currentGroup && GROUPS[currentGroup]) {
+                if (isTeacher) {
+                  showTeacherUI();
+                  renderUnits(null);
+                  buildTeacherEditor();
+                } else if (getStudentRecord(currentGroup, currentName)) {
+                  showStudentUI();
+                  renderUnits(getStudentMaxUnit(currentGroup, currentName));
+                } else {
+                  clearSession();
+                  resetToLogin();
+                }
+              }
+            }, () => {
+              showMessage(loginMessage, "Errore nel recupero dei dati condivisi. Ricarica la pagina.", "error");
+            });
+          })
+          .catch(() => {
+            GROUPS = makeInitialGroups();
+            populateGroups();
+            showMessage(loginMessage, "Impossibile raggiungere il database condiviso. Controlla la connessione e ricarica.", "error");
+          });
+      } catch (_) {
+        showMessage(loginMessage, "Impossibile inizializzare il database condiviso.", "error");
+      }
+    }
+
+    // ─────── INIT ───────
+    initializeSharedGroups();
+  </script>
+</body>
+</html>
