@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lezione interattiva sull'alfabeto e la pronuncia italiana." />
+  <title>L'alfabeto italiano</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --border: #d8e5d8;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100dvh; overflow-x: hidden; margin: 0; padding: 24px 14px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("../u_002/img/sfondo.jpg") center calc(50% - var(--background-offset,0px)) / cover fixed,
+        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
+    }
+    main { display:flex; flex-direction:column; width: min(100%, 960px); margin:0 auto; }
+    .top-nav { display:flex; flex:0 0 auto; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+    .home-link { display:inline-flex; align-items:center; min-height:40px; padding:8px 14px; border:1px solid var(--border); border-radius:10px; background:var(--paper); color:var(--green); font-weight:700; text-decoration:none; }
+    .hero,.lesson-card { border:1px solid var(--border); border-radius:22px; background:rgba(255,254,250,.97); box-shadow:0 14px 36px rgba(43,69,46,.09); }
+    .hero { flex:0 0 auto; margin:8px 0 16px; padding:22px 18px; text-align:center; }
+    .eyebrow { display:inline-block; margin-bottom:8px; padding:7px 14px; border-radius:20px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1 { margin:4px 0; color:var(--green); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
+    .hero-subtitle { margin:8px 0 0; color:var(--muted); line-height:1.5; }
+    #user-badge { color:var(--accent); font-size:.9rem; font-weight:700; }
+    .progress-wrap { display:flex; flex:0 0 auto; align-items:center; gap:10px; margin:0 0 12px; padding:10px 12px; border:1px solid var(--border); border-radius:14px; background:rgba(255,254,250,.95); }
+    .progress-label { flex:0 0 auto; color:var(--green); font-size:.85rem; font-weight:800; white-space:nowrap; }
+    .progress-steps { display:flex; flex:1; gap:5px; overflow-x:auto; padding:2px 2px 5px; scrollbar-width:thin; }
+    .progress-step { flex:0 0 30px; width:30px; height:30px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--green); font:inherit; font-size:.78rem; font-weight:800; cursor:pointer; }
+    .progress-step[aria-current="step"] { border-color:var(--green); background:var(--green); color:white; }
+    .slides { display:flex; flex:0 0 auto; align-items:flex-start; min-height:0; overflow-x:auto; overflow-y:hidden; border-radius:22px; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+    .slides::-webkit-scrollbar { display:none; }
+    .lesson-card { flex:0 0 100%; width:100%; height:auto; min-width:0; min-height:0; overflow:visible; padding:clamp(18px,4vw,30px); scroll-snap-align:start; scroll-snap-stop:always; }
+    .lesson-card h2 { margin:0 0 16px; color:var(--green); font-size:clamp(1.3rem,3.5vw,1.8rem); }
+    .lesson-card h3 { margin:18px 0 8px; color:var(--green); }
+    .lesson-card p { line-height:1.7; }
+    .lesson-card ul { padding-left:24px; line-height:1.7; }
+    .lesson-card li { margin:3px 0; }
+    .table-wrap { overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    table { width:100%; border-collapse:collapse; line-height:1.5; }
+    th,td { padding:10px 12px; border-bottom:1px solid #e9eee7; text-align:left; vertical-align:top; }
+    th { background:var(--green-light); color:var(--green); font-weight:800; }
+    tr:last-child td { border-bottom:0; }
+    .alphabet-table { min-width:0; table-layout:fixed; }
+    .alphabet-table th:nth-child(odd), .alphabet-table td:nth-child(odd) { width:12%; }
+    .alphabet-table th:nth-child(even), .alphabet-table td:nth-child(even) { width:38%; }
+    .alphabet-table td:nth-child(4) { color:var(--green); font-size:1.1rem; font-weight:800; }
+    .alphabet-table td:nth-child(2) { color:var(--green); font-size:1.1rem; font-weight:800; }
+    .alphabet-table th { padding:8px 6px; font-size:.85rem; }
+    .alphabet-table td { padding:6px; }
+    .vowels-table { min-width:650px; }
+    .word-columns { columns:2; column-gap:28px; }
+    .word-columns li { break-inside:avoid; }
+    .audio-box,.note-box { margin:14px 0; padding:14px 16px; border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px; background:var(--green-light); }
+    .audio-box strong { display:block; margin-bottom:8px; color:var(--green); }
+    audio { width:min(100%,520px); }
+    .pronunciation { color:var(--green); font-weight:800; }
+    .wordwall { margin:20px auto 0; text-align:center; }
+    .wordwall iframe { display:block; width:100%; max-width:500px; aspect-ratio:500 / 380; margin:12px auto 0; border:0; border-radius:12px; background:#fff; }
+    .slide-controls { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; padding:12px 0 2px; }
+    .slide-controls button { min-height:40px; padding:8px 16px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--green); font:inherit; font-weight:700; cursor:pointer; }
+    .slide-controls button:hover:not(:disabled) { background:var(--green-light); border-color:var(--green); }
+    .slide-controls button:disabled { opacity:.45; cursor:not-allowed; }
+    .slide-count { color:var(--green); font-size:.9rem; font-weight:800; text-align:center; }
+    .unit-one-gate { margin:18px 0 0; padding:16px; border:1px solid var(--border); border-radius:12px; background:var(--green-light); text-align:center; }
+    .unit-one-gate p { margin:0 0 10px; }
+    .unit-one-gate a,.unit-one-gate button { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:9px 18px; border:0; border-radius:10px; background:var(--green); color:#fff; font:inherit; font-weight:700; text-decoration:none; cursor:pointer; }
+    .unit-one-gate a[aria-disabled="true"] { background:#879187; cursor:not-allowed; pointer-events:none; }
+    .unit-one-gate button:hover:not(:disabled),.unit-one-gate a:not([aria-disabled="true"]):hover { background:#1e3d27; }
+    .unit-one-gate button:disabled { opacity:.6; cursor:wait; }
+    #unit-one-status { margin-top:10px; color:var(--muted); font-size:.9rem; }
+    @media(max-width:600px) {
+      body { padding:14px 8px; }
+      .top-nav { align-items:stretch; }
+      .home-link { justify-content:center; }
+      .progress-wrap { align-items:flex-start; flex-direction:column; gap:6px; }
+      .progress-steps { width:100%; }
+      .slide-controls button { flex:1; padding:8px 10px; }
+      .word-columns { columns:1; }
+      th,td { padding:8px 9px; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-nav" aria-label="Navigazione">
+      <a class="home-link" href="../index.html">← Torna all'inizio</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Percorso preliminare · Pronuncia</span>
+      <h1>L'alfabeto italiano</h1>
+      <p class="hero-subtitle">Ascolta, ripeti e scopri le regole principali della pronuncia.</p>
+      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
+    </header>
+
+    <nav class="progress-wrap" aria-label="Navigazione delle schede">
+      <span class="progress-label">Schede</span>
+      <div id="progress-steps" class="progress-steps"></div>
+    </nav>
+
+    <div id="slides" class="slides" aria-label="Lezione a schede">
+      <section class="lesson-card" aria-labelledby="slide-1-title">
+        <h2 id="slide-1-title">Scheda 1 · L'alfabeto e i suoi nomi</h2>
+        <div class="table-wrap">
+          <table class="alphabet-table">
+            <thead>
+              <tr><th>Lettera</th><th>Nome della lettera (по-русски)</th><th>Lettera</th><th>Nome della lettera (по-русски)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A a</td><td>а</td><td>N n</td><td>энне</td></tr>
+              <tr><td>B b</td><td>би</td><td>O o</td><td>о</td></tr>
+              <tr><td>C c</td><td>чи</td><td>P p</td><td>пи</td></tr>
+              <tr><td>D d</td><td>ди</td><td>Q q</td><td>ку</td></tr>
+              <tr><td>E e</td><td>э</td><td>R r</td><td>эрре</td></tr>
+              <tr><td>F f</td><td>эффе</td><td>S s</td><td>эссе</td></tr>
+              <tr><td>G g</td><td>джи</td><td>T t</td><td>ти</td></tr>
+              <tr><td>H h</td><td>акка</td><td>U u</td><td>у</td></tr>
+              <tr><td>I i</td><td>и</td><td>V v</td><td>ву</td></tr>
+              <tr><td>L l</td><td>элле</td><td>Z z</td><td>дзета</td></tr>
+              <tr><td>M m</td><td>эмме</td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hero-subtitle">В итальянском алфавите 21 буква. Буквы J, K, W, X, Y встречаются главным образом в заимствованных словах.</p>
+        <div class="audio-box">
+          <strong>🔊 Слушаем и повторяем!</strong>
+          <audio controls preload="none" src="audio/alfabeto.mp3">Il browser non supporta l'audio.</audio>
+        </div>
+        <h3>Parole da ascoltare e ripetere</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lettera</th><th>Parola</th><th>Lettera</th><th>Parola</th></tr></thead>
+            <tbody>
+              <tr><td>A</td><td>Amore</td><td>B</td><td>Bravo</td></tr>
+              <tr><td>C</td><td>Ciao</td><td>D</td><td>Dolce</td></tr>
+              <tr><td>E</td><td>Emozione</td><td>F</td><td>Felicità</td></tr>
+              <tr><td>G</td><td>Gelato</td><td>H</td><td>Hotel</td></tr>
+              <tr><td>I</td><td>Italia</td><td>L</td><td>Luna</td></tr>
+              <tr><td>M</td><td>Mamma</td><td>N</td><td>Nuovo</td></tr>
+              <tr><td>O</td><td>Opera</td><td>P</td><td>Pane</td></tr>
+              <tr><td>Q</td><td>Quattro</td><td>R</td><td>Roma</td></tr>
+              <tr><td>S</td><td>Sole</td><td>T</td><td>Tavolo</td></tr>
+              <tr><td>U</td><td>Uva</td><td>V</td><td>Vino</td></tr>
+              <tr><td>Z</td><td>Zero</td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-2-title">
+        <h2 id="slide-2-title">Scheda 2 · Le vocali (Гласные)</h2>
+        <p>В итальянском языке всего 5 гласных букв: A, E, I, O, U. Главное правило итальянского произношения — гласные звуки всегда произносятся чётко, чисто и отчётливо, независимо от того, падает на них ударение или нет!</p>
+        <p>В отличие от русского языка, где безударная буква «О» превращается в «А» (мы пишем «молоко», а говорим «малако»), в итальянском языке редукции нет. Каждая гласная звучит именно так, как пишется.</p>
+        <div class="table-wrap">
+          <table class="vowels-table">
+            <thead><tr><th>Буква</th><th>Звук</th><th>Правило произношения</th><th>Примеры и транскрипция</th></tr></thead>
+            <tbody>
+              <tr><td><strong>A a</strong></td><td>[а]</td><td>Открытый, чистый звук [а]. Звучит твёрдо и широко, с открытым ртом.</td><td>Amore [амо́ре]<br>Pasta [па́ста]</td></tr>
+              <tr><td><strong>E e</strong></td><td>[э]</td><td>Всегда читается как твёрдый [э], не смягчается в «е/йэ».</td><td>Espresso [эспре́ссо]<br>Gelato [джела́то]</td></tr>
+              <tr><td><strong>I i</strong></td><td>[и]</td><td>Чёткий и звонкий звук [и], похожий на русский [и].</td><td>Italia [ита́лия]<br>Pizza [пи́цца]</td></tr>
+              <tr><td><strong>O o</strong></td><td>[о]</td><td>Всегда остаётся чистым [о], даже без ударения; не превращается в [а].</td><td>Cappuccino [каппучи́но]<br>Bravo [бра́во]</td></tr>
+              <tr><td><strong>U u</strong></td><td>[у]</td><td>Чистый звук [у], не произносится как английское «ю».</td><td>Tiramisù [тирамису́]<br>Gusto [гу́сто]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-3-title">
+        <h2 id="slide-3-title">Scheda 3 · Le consonanti (Согласные)</h2>
+        <p>Итальянская фонетика невероятно близка к нашей родной речи. Вообразите, что перед глазами привычные русские выражения, оформленные с помощью латинского алфавита. Вы будто проговариваете знакомый текст, записанный графически иными символами!</p>
+        <p>К примеру, озвучьте эти примеры:</p>
+        <ul><li>Italia (Италия)</li><li>limone (лимо́не)</li><li>opera (опера)</li><li>America (Америка)</li></ul>
+        <p>Поэтому мы ограничимся только теми буквами, чьё произношение может быть не всегда интуитивно понятным.</p>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-4-title">
+        <h2 id="slide-4-title">Scheda 4 · C</h2>
+        <p>Букву C часто путают с английским произношением, но она никогда не произносится как русская «с». В итальянском языке у буквы C есть два основных варианта произношения: мягкое [ч] и твёрдое [к], в зависимости от следующей за ней буквы.</p>
+        <p>Попробуйте произнести вслух: <strong>Ciao · Celentano · Casanova · Cosa Nostra · Cutugno · Crema</strong>.</p>
+        <p>Заметили ли вы, перед какими гласными или согласными произносится мягкий звук [ч], а перед какими — твёрдый звук [к]?</p>
+        <ul><li><strong>Мягкий звук [ч]:</strong> перед E или I (например, Celentano; в Ciao звук [ч] передаётся сочетанием CIA).</li><li><strong>Твёрдый звук [к]:</strong> перед A, O, U или согласной: Casanova, Cosa, Cutugno, Crema.</li></ul>
+        <div class="wordwall"><strong>А теперь ваша очередь!</strong><iframe src="https://wordwall.net/it/embed/94377eb999af4df783f0334c2720b0d6?themeId=4&amp;templateId=70&amp;fontStackId=0" title="Wordwall: pronuncia della lettera C" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-5-title">
+        <h2 id="slide-5-title">Scheda 5 · G</h2>
+        <p>Буква G также не всегда имеет интуитивно понятное произношение. Иногда она произносится мягко, как русский звук «дж», а иногда — твёрдо, как обычный звук «г».</p>
+        <p>Попробуйте произнести вслух: <strong>Giornale · Gelato · Gabbana · Gondola · Gucci · Grande</strong>.</p>
+        <p>Заметили ли вы, перед какими гласными или согласными произносится мягкий звук [дж], а перед какими — твёрдый звук [г]?</p>
+        <p>Правило такое же, как для буквы C:</p>
+        <ul><li><strong>Мягкий звук [дж]:</strong> перед E или I: Giornale, Gelato.</li><li><strong>Твёрдый звук [г]:</strong> перед A, O, U или согласной: Gabbana, Gondola, Grande.</li></ul>
+        <div class="wordwall"><strong>А теперь ваша очередь!</strong><iframe src="https://wordwall.net/it/embed/d5a16aaedcfa40118b68e885dd91bc6e?themeId=4&amp;templateId=70&amp;fontStackId=0" title="Wordwall: pronuncia della lettera G" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-6-title">
+        <h2 id="slide-6-title">Scheda 6 · GN – GLI</h2>
+        <p>В русском языке есть все звуки, которые нужны для правильного итальянского произношения. Поэтому вы без проблем сможете заказать эти блюда в итальянском ресторане:</p>
+        <p class="pronunciation">Lasagne · Tagliatelle</p>
+        <p>Заметили ли вы, как произносятся сочетания букв <strong>GN</strong> и <strong>GLI</strong>?</p>
+        <p>В сочетаниях GN и GLI буква G не имеет отдельного звука, а сочетание произносится мягко и слитно:</p>
+        <ul><li><strong>GN → [нь]</strong>, как в русском «конь» или «нюанс».</li><li><strong>GLI → [ль]</strong>, как в русском «Илья» или «семья».</li></ul>
+        <div class="wordwall"><iframe src="https://wordwall.net/it/embed/3eedff9b63b440c0bb24a6be5176641b?themeId=4&amp;templateId=70&amp;fontStackId=0" title="Wordwall: pronuncia GN e GLI" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-7-title">
+        <h2 id="slide-7-title">Scheda 7 · H</h2>
+        <p>В итальянском языке буква H (акка) абсолютно немая — она не имеет собственного звука и никогда не произносится! Например, знакомое слово <em>hotel</em> произносится [оте́ль].</p>
+        <p>Тем не менее, эта буква играет важную роль: помогает графически различать слова, которые звучат одинаково.</p>
+        <div class="table-wrap"><table><thead><tr><th>Parola</th><th>Pronuncia</th><th>Significato</th></tr></thead><tbody>
+          <tr><td><strong>hanno</strong></td><td>[а́нно]</td><td>они имеют</td></tr><tr><td><strong>anno</strong></td><td>[а́нно]</td><td>год</td></tr>
+          <tr><td><strong>ho</strong></td><td>[о]</td><td>я имею</td></tr><tr><td><strong>o</strong></td><td>[о]</td><td>или</td></tr><tr><td><strong>oh</strong></td><td>[о]</td><td>ах!</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-8-title">
+        <h2 id="slide-8-title">Scheda 8 · CH – GH</h2>
+        <p>Как безошибочно заказать спагетти и бокал прекрасного вина Кьянти? Помните главное правило? Если за буквами C и G идут E или I, они дают мягкие звуки [ч] и [дж]. В остальных случаях слышим твёрдые [к] и [г].</p>
+        <p>Чтобы сохранить твёрдое звучание [к] и [г] перед E и I, помогает немая буква H: сама она не произносится, но делает звук твёрдым.</p>
+        <div class="note-box"><strong>Spaghetti</strong> [спаге́тти] — твёрдый [г]<br><strong>Chianti</strong> [кья́нти] — твёрдый [к]</div>
+        <div class="wordwall"><iframe src="https://wordwall.net/it/embed/a04b6b285f20454397f0cce29f923d01?themeId=1&amp;templateId=5&amp;fontStackId=0" title="Wordwall: CH e GH" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-9-title">
+        <h2 id="slide-9-title">Scheda 9 · S</h2>
+        <p>Попробуйте прочитать вслух: <strong>Casanova · Rosa · Cassa · Corso</strong>. Обратили внимание на разницу? В одних случаях слышим [з], а в других — [с].</p>
+        <h3>Глухой звук [с]</h3>
+        <ul>
+          <li>в начале слова перед гласной: <em>soldato</em>;</li><li>при удвоенной SS: <em>cassa</em>;</li>
+          <li>перед глухими согласными C, F, P, Q, T: <em>scuola, studente</em>;</li><li>после другой согласной: <em>corso</em>;</li>
+          <li>в конце слова: <em>autobus</em>;</li><li>в сложных словах, сохраняющих исходный звук: <em>girasole</em>.</li>
+        </ul>
+        <h3>Звонкий звук [з]</h3>
+        <ul><li>между двумя гласными: <em>rosa, cosa</em>;</li><li>перед звонкими согласными B, D, G, L, M, N, R, V: <em>svizzero, sregolato</em>.</li></ul>
+        <div class="wordwall"><iframe src="https://wordwall.net/it/embed/6f85af8011b94f3195968ee38c26fed7?themeId=23&amp;templateId=70&amp;fontStackId=0" title="Wordwall: pronuncia della S" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-10-title">
+        <h2 id="slide-10-title">Scheda 10 · SCI – SCE</h2>
+        <p>Посмотрите на слово <strong>scimpanzè</strong>. Если вы произнесли его с мягким звуком [ш] — отлично!</p>
+        <p>Когда за буквой S идут сочетания CI или CE, сочетания SCI и SCE дают шипящие звуки:</p>
+        <div class="note-box"><strong>SCI → [ши]</strong><br><strong>SCE → [ше]</strong></div>
+        <p>Это напоминает звук в русском слоге «сч», например в слове «считать». Именно поэтому <em>pesce</em> (рыба) произносится [пе́ше], а <em>pesche</em> — это персики.</p>
+        <p>Будьте внимательны: не перепутайте десерт с морепродуктами!</p>
+        <div class="wordwall"><iframe src="https://wordwall.net/it/embed/b417ae2052ff4b9883b659e28902de09?themeId=4&amp;templateId=70&amp;fontStackId=0" title="Wordwall: SCI e SCE" loading="lazy" allowfullscreen></iframe></div>
+      </section>
+
+      <section class="lesson-card" aria-labelledby="slide-11-title">
+        <h2 id="slide-11-title">Scheda 11 · Z</h2>
+        <p>Буква Z произносится двумя способами: звонким [дз] и глухим [ц].</p>
+        <h3>1. Глухой звук [ц]</h3>
+        <p>Например: <em>zucchero, pazzo</em>. Обычно произносится:</p>
+        <ul><li>перед <em>ia, ie, io</em>: <em>grazia, azione, zio, negozio, pazienza</em>;</li><li>в окончаниях <em>-anza, -enza, -ezza/o, -ozza/o, -uzza/o</em>: <em>bellezza, spruzzo</em>;</li><li>после L: <em>alza, calza</em> (исключение: <em>elzeviro</em>);</li><li>в глаголах на <em>-izzare</em> от основ с глухим звуком: <em>politicizzare</em>.</li></ul>
+        <h3>2. Звонкий звук [дз]</h3>
+        <p>Например: <em>zanzara, mezzo</em>. Обычно произносится:</p>
+        <ul><li>в начале слова перед звонким согласным B, D, G, L, M, N, R, V: <em>zebra, zodiaco</em>;</li><li>между гласными: <em>gorgonzola, gazzella</em>;</li><li>в окончаниях <em>-ezzato, -izzarsi</em>: <em>organizzarsi</em>;</li><li>в заимствованиях: <em>bazar, gazebo</em>.</li></ul>
+        <div class="note-box"><strong>🎯 Региональные особенности</strong><br>Произношение начальной Z зависит от региона. В словах <em>zio, zampa, zoccolo, zucchero, zitto</em> нормой считается [ц], но на севере часто слышится [дз], а на юге [ц] произносится особенно отчётливо.</div>
+        <div class="unit-one-gate" aria-labelledby="unit-one-heading">
+          <p id="unit-one-heading"><strong>Prosegui con l’unità 1</strong></p>
+          <button id="unlock-unit-one" type="button" hidden>Sblocca unità 1</button>
+          <a id="unit-one-link" href="../u_001/001_lettura.html" aria-disabled="true" tabindex="-1">Vai all’unità 1 →</a>
+          <p id="unit-one-status" role="status" aria-live="polite">Unità 1 bloccata: attendi l’autorizzazione dell’insegnante.</p>
+        </div>
+      </section>
+    </div>
+
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const group = params.get("gruppo") || session.group || "";
+    const studentName = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+    const badge = document.getElementById("user-badge");
+    if (group && session.isTeacher) badge.textContent = `👩‍🏫 Insegnante · ${group}`;
+    else if (group && studentName) badge.textContent = `👤 ${group} · ${studentName}`;
+    else badge.textContent = "Accedi dalla pagina iniziale per visualizzare il badge del gruppo.";
+
+    const unlockButton = document.getElementById("unlock-unit-one");
+    const unitOneLink = document.getElementById("unit-one-link");
+    const unitOneStatus = document.getElementById("unit-one-status");
+    const teacherCanUnlock = Boolean(session.isTeacher && session.teacher && group);
+    unlockButton.hidden = !teacherCanUnlock;
+
+    if (group && window.firebase) {
+      const firebaseConfig = {
+        databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "esercizi-parlo-italiano"
+      };
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const groupRef = firebase.database().ref(`configurazioneScuola/gruppi/${group}`);
+        groupRef.child("unitNumber").on("value", snapshot => {
+          const unlocked = Number(snapshot.val()) >= 1;
+          unitOneLink.setAttribute("aria-disabled", String(!unlocked));
+          unitOneLink.tabIndex = unlocked ? 0 : -1;
+          unlockButton.hidden = !teacherCanUnlock || unlocked;
+          unitOneStatus.textContent = unlocked
+            ? "Unità 1 sbloccata per il gruppo."
+            : teacherCanUnlock
+              ? "L’unità 1 è bloccata per il gruppo."
+              : "Unità 1 bloccata: attendi l’autorizzazione dell’insegnante.";
+        }, () => {
+          unitOneStatus.textContent = "Impossibile verificare lo sblocco dell’unità 1.";
+        });
+
+        unlockButton.addEventListener("click", async () => {
+          if (!teacherCanUnlock) return;
+          unlockButton.disabled = true;
+          unitOneStatus.textContent = "Salvataggio dello sblocco…";
+          try {
+            await groupRef.child("unitNumber").set(1);
+            unitOneStatus.textContent = "Unità 1 sbloccata per il gruppo.";
+          } catch (_) {
+            unitOneStatus.textContent = "Errore: impossibile sbloccare l’unità 1.";
+          } finally {
+            unlockButton.disabled = false;
+          }
+        });
+      } catch (_) {
+        unitOneStatus.textContent = "Impossibile collegarsi ai dati del gruppo.";
+      }
+    } else if (teacherCanUnlock) {
+      unitOneStatus.textContent = "Servizio dati non disponibile: impossibile sbloccare l’unità 1.";
+    }
+
+    const slides = document.getElementById("slides");
+    const cards = [...document.querySelectorAll(".lesson-card")];
+    const progress = document.getElementById("progress-steps");
+    let activeSlide = 0;
+
+    cards.forEach((card, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "progress-step";
+      button.textContent = String(index + 1);
+      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}`);
+      button.addEventListener("click", () => goToSlide(index));
+      progress.appendChild(button);
+
+      const controls = document.createElement("nav");
+      controls.className = "slide-controls";
+      controls.setAttribute("aria-label", `Controlli della scheda ${index + 1}`);
+      controls.innerHTML = `
+        <button type="button" class="previous-slide" aria-label="Scheda precedente">← Precedente</button>
+        <span class="slide-count" aria-live="polite"></span>
+        <button type="button" class="next-slide" aria-label="Scheda successiva">Successiva →</button>
+      `;
+      controls.querySelector(".previous-slide").addEventListener("click", () => goToSlide(activeSlide - 1));
+      controls.querySelector(".next-slide").addEventListener("click", () => goToSlide(activeSlide + 1));
+      card.appendChild(controls);
+    });
+
+    function updateNavigation(index) {
+      activeSlide = Math.max(0, Math.min(cards.length - 1, index));
+      slides.style.height = `${cards[activeSlide].offsetHeight}px`;
+      [...progress.children].forEach((button, step) => button.setAttribute("aria-current", step === activeSlide ? "step" : "false"));
+      cards.forEach(card => {
+        card.querySelector(".slide-count").textContent = `Scheda ${activeSlide + 1} di ${cards.length}`;
+        card.querySelector(".previous-slide").disabled = activeSlide === 0;
+        card.querySelector(".next-slide").disabled = activeSlide === cards.length - 1;
+      });
+    }
+    function goToSlide(index) {
+      const destination = Math.max(0, Math.min(cards.length - 1, index));
+      slides.scrollTo({ left: cards[destination].offsetLeft - cards[0].offsetLeft, behavior: "smooth" });
+      updateNavigation(destination);
+    }
+    let scrollFrame = false;
+    slides.addEventListener("scroll", () => {
+      if (scrollFrame) return;
+      scrollFrame = true;
+      requestAnimationFrame(() => {
+        updateNavigation(Math.round(slides.scrollLeft / slides.clientWidth));
+        scrollFrame = false;
+      });
+    }, { passive: true });
+
+    let backgroundFramePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundFramePending) return;
+      backgroundFramePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .025, 120);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundFramePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    window.addEventListener("resize", () => updateNavigation(activeSlide));
+    updateNavigation(0);
+    updateBackgroundParallax();
+  </script>
+</body>
+</html>
