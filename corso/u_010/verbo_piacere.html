@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — Il Verbo Piacere</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    .hero {
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #eaf1e8;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 4px 0;
+      color: var(--primary-dark);
+      font-size: clamp(1.9rem, 5vw, 2.65rem);
+      letter-spacing: -.04em;
+      line-height: 1.12;
+    }
+    .hero-subtitle { margin: 6px 0 0; color: var(--text-muted); font-size: .95rem; }
+
+    .card {
+      margin-bottom: 32px;
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+    }
+
+    /* Sezione Induttiva Krashen */
+    .inductive-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .story-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .story-card {
+      background: #faf9f5;
+      border: 1px solid #e2ded2;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,.02);
+    }
+
+    .story-card .emoji { font-size: 3rem; margin-bottom: 8px; display: block; }
+    .story-card .sentence { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px; }
+    .story-card .translation { font-size: .92rem; color: var(--text-muted); }
+
+    /* Box Spiegazione / Grammatica del fare */
+    .rule-box {
+      background: #fff;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .rule-title {
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .rule-text {
+      font-size: .98rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .rule-highlight {
+      background: var(--primary-light);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    /* Tabelle Grammaticali */
+    .grammar-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: .95rem;
+    }
+    .grammar-table th, .grammar-table td {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .grammar-table th {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+    .grammar-table td:first-child {
+      width: 28%;
+      background: #f7faf6;
+    }
+    .pronoun {
+      display: inline-block;
+      min-width: 42px;
+      margin-right: 5px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-align: center;
+    }
+    .pronoun-meaning { color: var(--text-muted); font-size: .9rem; }
+    .a-construction {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border: 1px solid #cce2d2;
+      border-left: 5px solid var(--primary);
+      border-radius: 14px;
+      background: #eef5f0;
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+    .a-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    /* Wrapper Iframe Wordwall */
+    .wordwall-wrapper {
+      width: 100%;
+      max-width: 780px;
+      aspect-ratio: 4 / 3;
+      min-height: 380px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      margin: 0 auto;
+    }
+    .wordwall-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .wordwall-wrapper { min-height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html" class="home-link" aria-label="Torna alla pagina iniziale" title="Home" style="width:42px;justify-content:center;padding:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+      <a href="es_j.html">← Torna all’Esercizio J</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Grammatica ed Esercizi</span>
+      <h1>Il Verbo Piacere</h1>
+      <p class="hero-subtitle">Как выразить свои вкусы и предпочтения на итальянском языке</p>
+    </header>
+
+    <!-- FASE 1: INPUT COMPRENSIBILE (KRASHEN) -->
+    <section class="card">
+      <h2 style="margin-top:0; color: var(--primary-dark);">💡 Osserva e scopri (Наблюдай и открывай)</h2>
+      
+      <div class="inductive-section">
+        <div class="story-box">
+          <div class="story-card">
+            <span class="emoji">🍕</span>
+            <div class="sentence">Mi piace la pizza.</div>
+            <div class="translation">Мне нравится пицца.<br><small>(Singolare / Единственное число)</small></div>
+          </div>
+          <div class="story-card">
+            <span class="emoji">🍝</span>
+            <div class="sentence">Mi piacciono gli spaghetti.</div>
+            <div class="translation">Мне нравятся спагетти.<br><small>(Plurale / Множественное число)</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 2: ANALISI GUIDATA -->
+      <div class="rule-box">
+        <div class="rule-title">📌 Как работает глагол PIACERE?</div>
+        <div class="rule-text">
+          Как и глагол <strong>«нравиться»</strong> в русском языке, итальянский глагол <span class="rule-highlight">piacere</span> ориентируется на предмет или действие, которое вам нравится![cite: 1]
+          <br><br>
+          • Если вам нравится <strong>один предмет</strong> или <strong>действие (глагол)</strong> ➔ <span class="rule-highlight">PIACE</span>[cite: 1]<br>
+          <em>Esempio:</em> Mi <strong>piace</strong> il caffè. / Mi <strong>piace</strong> dormire.[cite: 1]
+          <br><br>
+          • Если вам нравятся <strong>несколько предметов</strong> ➔ <span class="rule-highlight">PIACCIONO</span>[cite: 1]<br>
+          <em>Esempio:</em> Mi <strong>piacciono</strong> le scarpe rosse.[cite: 1]
+        </div>
+      </div>
+
+      <!-- TABELLA PRONOMI INDIRETTI + PIACERE -->
+      <h3 style="color: var(--primary-dark); margin-top: 24px;">Таблица косвенных местоимений (Кому?)</h3>
+      <table class="grammar-table">
+        <thead>
+          <tr>
+            <th>Косвенное местоимение</th>
+            <th>Единственное число (Singolare)</th>
+            <th>Множественное число (Plurale)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pronoun">Mi</span><span class="pronoun-meaning">мне</span>[cite: 1]</td>
+            <td>mi <strong>piace</strong> la pizza[cite: 1]</td>
+            <td>mi <strong>piacciono</strong> gli spaghetti[cite: 1]</td>
+          </tr>
+          <tr>
+            <td><span class="pronoun">Ti</span><span class="pronoun-meaning">тебе</span>[cite: 1]</td>
+            <td>ti <strong>piace</strong> il gelato[cite: 1]</td>
+            <td>ti <strong>piacciono</strong> i dolci[cite: 1]</td>
+          </tr>
+          <tr>
+            <td><span class="pronoun">Gli</span><span class="pronoun-meaning">ему</span> / <span class="pronoun">Le</span><span class="pronoun-meaning">ей</span>[cite: 1]</td>
+            <td>gli / le <strong>piace</strong> la musica[cite: 1]</td>
+            <td>gli / le <strong>piacciono</strong> i vestiti[cite: 1]</td>
+          </tr>
+          <tr>
+            <td><span class="pronoun">Ci</span><span class="pronoun-meaning">нам</span>[cite: 1]</td>
+            <td>ci <strong>piace</strong> viaggiare[cite: 1]</td>
+            <td>ci <strong>piacciono</strong> le vacanze[cite: 1]</td>
+          </tr>
+          <tr>
+            <td><span class="pronoun">Vi</span><span class="pronoun-meaning">вам</span>[cite: 1]</td>
+            <td>vi <strong>piace</strong> l'italiano[cite: 1]</td>
+            <td>vi <strong>piacciono</strong> le lingue[cite: 1]</td>
+          </tr>
+          <tr>
+            <td><span class="pronoun">Gli</span><span class="pronoun-meaning">им</span>[cite: 1]</td>
+            <td>gli <strong>piace</strong> il mare[cite: 1]</td>
+            <td>gli <strong>piacciono</strong> i gatti[cite: 1]</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- COSTRUZIONE CON PREPOSIZIONE "A" -->
+      <div class="a-construction">
+        <strong>💡 Важно:</strong> Чтобы передать дательный падеж с именами собственными («Кому?»), используем предлог <span class="a-highlight">A</span>:[cite: 1]<br>
+        • <strong><span class="a-highlight">A</span> Marco</strong> piace la pizza. (Марку нравится пицца)[cite: 1]<br>
+        • <strong><span class="a-highlight">A</span> Lucia</strong> non piacciono le scarpe alte. (Лючии не нравятся туфли на высоком каблуке)[cite: 1]
+      </div>
+    </section>
+
+    <!-- FASE 3: ESERCIZIO PRATICO WORDWALL -->
+    <section class="card">
+      <h2 style="margin-top:0; color: var(--primary-dark);">✍️ Esercizio Interattivo</h2>
+      <div class="rule-box" style="margin-bottom: 16px;">
+        <div class="rule-title">💡 Задание:</div>
+        <div class="rule-text">👉 Выберите правильную форму глагола (<strong>piace</strong> или <strong>piacciono</strong>) или косвенное местоимение для завершения предложений.</div>
+      </div>
+
+      <div class="wordwall-wrapper">
+        <iframe src="https://wordwall.net/it/embed/17d40b1d6f3a437f9da1da040b4f2fbc?themeId=45&templateId=5&fontStackId=0" allowfullscreen></iframe>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

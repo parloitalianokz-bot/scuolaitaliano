@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — Il Verbo Dare</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #6556bd;
+      --primary-light: #f0edff;
+      --primary-dark: #4c3e99;
+      --accent: #ffb703;
+      --bg-main: #f7f6fb;
+      --card-bg: #ffffff;
+      --text: #24213a;
+      --text-muted: #68667a;
+      --success: #20a16b;
+      --success-bg: #d9f4e8;
+      --border: #ebe9f2;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(101, 86, 189, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        radial-gradient(ellipse at 50% -12%, rgba(155, 142, 240, .24), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 800px); margin: 0 auto; }
+
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+    .home-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(50, 38, 94, .03);
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    .hero { margin: 8px 0 24px; text-align: center; }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary);
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--primary-light);
+      padding: 7px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(2rem, 5vw, 2.6rem);
+      letter-spacing: -.03em;
+      color: var(--primary-dark);
+    }
+    .hero-subtitle {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: .98rem;
+    }
+
+    .card {
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 20px 55px rgba(50, 38, 94, .08);
+      margin-bottom: 24px;
+    }
+
+    /* Input comprensibile / Story box */
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 16px 0 24px;
+    }
+    .story-item {
+      background: #fbfaff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+    .story-item .emoji { font-size: 2.5rem; display: block; margin-bottom: 6px; }
+    .story-item .phrase { font-weight: 800; color: var(--primary-dark); font-size: 1.05rem; margin-bottom: 4px; }
+    .story-item .trans { font-size: .9rem; color: var(--text-muted); }
+
+    /* Box Regola Grammaticale */
+    .rule-box {
+      background: #ffffff;
+      border: 1px solid #dcd6f7;
+      border-left: 5px solid var(--primary);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      font-size: .95rem;
+      line-height: 1.6;
+    }
+    .rule-title {
+      color: var(--primary-dark);
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .it-highlight { font-weight: 700; color: var(--primary-dark); }
+    .grammar-highlight {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+
+    /* Tabelle */
+    .conjugation-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: .95rem;
+    }
+    .conjugation-table th, .conjugation-table td {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .conjugation-table th {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+    .conjugation-table td:nth-child(2) .it-highlight {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+    .conjugation-table td strong { color: var(--primary-dark); font-weight: 900; }
+
+    /* Wordwall wrapper */
+    .wordwall-wrapper {
+      width: 100%;
+      max-width: 780px;
+      aspect-ratio: 4 / 3;
+      min-height: 380px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      margin: 0 auto;
+    }
+    .wordwall-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html" class="home-link" aria-label="Torna alla pagina iniziale" title="Home" style="width:42px;justify-content:center;padding:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+      <a href="es_o.html">← Torna all’esercizio O</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Verbi irregolari</span>
+      <h1>Il Verbo Dare</h1>
+      <p class="hero-subtitle">Как дарить, отдавать и передавать предметы по-итальянски</p>
+    </header>
+
+    <!-- FASE 1: INPUT COMPRENSIBILE (KRASHEN) -->
+    <section class="card">
+      <h2 style="margin-top:0; color: var(--primary-dark);">💡 Osserva e capisci (Наблюдай в контексте)</h2>
+      <p style="color: var(--text-muted); font-size: .95rem;">В повседневной жизни мы постоянно что-то кому-то даем:</p>
+
+      <div class="story-grid">
+        <div class="story-item">
+          <span class="emoji">🎁</span>
+          <div class="phrase">Marco <strong>dà</strong> un regalo a Anna.</div>
+          <div class="trans">Марко дарит подарок Анне.</div>
+        </div>
+        <div class="story-item">
+          <span class="emoji">✋</span>
+          <div class="phrase">Mi <strong>dai</strong> una mano?</div>
+          <div class="trans">Ты поможешь мне? (дашь руку)</div>
+        </div>
+        <div class="story-item">
+          <span class="emoji">📝</span>
+          <div class="phrase">A chi <strong>dai</strong> questo quaderno?</div>
+          <div class="trans">Кому ты даешь эту тетрадь?</div>
+        </div>
+      </div>
+
+      <!-- CONIUGAZIONE DEL VERBO DARE -->
+      <h3 style="color: var(--primary-dark); margin-top: 24px;">Спряжение глагола DARE (давать)</h3>
+      <table class="conjugation-table">
+        <thead>
+          <tr>
+            <th>Местоимение</th>
+            <th>Форма глагола Dare</th>
+            <th>Пример / Перевод</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Io</strong></td>
+            <td><span class="it-highlight">do</span></td>
+            <td>Io <strong>do</strong> una penna. (Я даю ручку)</td>
+          </tr>
+          <tr>
+            <td><strong>Tu</strong></td>
+            <td><span class="it-highlight">dai</span></td>
+            <td>Tu <strong>dai</strong> il libro a Mario. (Ты даешь книгу Марио)</td>
+          </tr>
+          <tr>
+            <td><strong>Lui / Lei / Lei</strong></td>
+            <td><span class="it-highlight">dà</span></td>
+            <td>Il professore <strong>dà</strong> i compiti. (Преподаватель задает уроки)</td>
+          </tr>
+          <tr>
+            <td><strong>Noi</strong></td>
+            <td><span class="it-highlight">diamo</span></td>
+            <td>Noi <strong>diamo</strong> un aiuto. (Мы оказываем помощь)</td>
+          </tr>
+          <tr>
+            <td><strong>Voi</strong></td>
+            <td><span class="it-highlight">date</span></td>
+            <td>Voi <strong>date</strong> la risposta giusta. (Вы даете правильный ответ)</td>
+          </tr>
+          <tr>
+            <td><strong>Loro</strong></td>
+            <td><span class="it-highlight">danno</span></td>
+            <td>Loro <strong>danno</strong> informazioni. (Они дают информацию)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- REGOLA FONDAMENTALE: IL PREPOSIZIONE "A" E I PRONI -->
+      <div class="rule-box" style="margin-top: 20px;">
+        <div class="rule-title">📌 Важное правило: Кому? (Дательный падеж)</div>
+        <div class="rule-text">
+          1. В итальянском языке эквивалентом русского дательного падежа (кому?) выступает предлог <span class="grammar-highlight">«a»</span>. Не забывайте ставить его перед лицом или предметом, который что-то получает:<br>
+          • <em>Marco dà una penna <span class="grammar-highlight">a Lucia</span>.</em><br>
+          • <em><span class="grammar-highlight">A chi</span> <span class="it-highlight">dai</span> questo quaderno?</em>
+          <br><br>
+          2. Если мы хотим заменить существительное местоимением, мы используем косвенные местоимения (<span class="grammar-highlight">mi, ti, gli, le, ci, vi, gli</span>):<br>
+          • <em>Chi scrive alla nonna? <span class="grammar-highlight">Le</span> scrive il nonno.</em> (Кто пишет бабушке? Ей пишет дедушка).
+        </div>
+      </div>
+    </section>
+
+    <!-- FASE 2: ESERCIZIO WORDWALL -->
+    <section class="card">
+      <h2 style="margin-top:0; color: var(--primary-dark);">✍️ Esercizio Interattivo</h2>
+      <p style="color: var(--text-muted); font-size: .95rem; margin-bottom: 16px;">Закрепите спряжение и употребление глагола <em>dare</em> с помощью интерактивного задания:</p>
+
+      <div class="wordwall-wrapper">
+        <iframe src="https://wordwall.net/it/embed/03569a3ca87e4a458286f852f9faa71a?themeId=43&templateId=5&fontStackId=0" allowfullscreen></iframe>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

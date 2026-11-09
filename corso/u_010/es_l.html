@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — Plurale: Vi piace? / Vi piacciono?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07); }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary);
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--primary-light);
+      padding: 7px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .08);
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      letter-spacing: -.03em;
+      color: var(--primary-dark);
+      line-height: 1.15;
+    }
+    .hero-subtitle {
+      margin: 6px 0 0;
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+
+    /* Box Spiegazione Grammaticale in Russo */
+    .grammar-box {
+      background: #ffffff;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--primary);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      font-size: .92rem;
+      line-height: 1.55;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .grammar-box h3 {
+      margin: 0 0 8px 0;
+      color: var(--primary-dark);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .grammar-box p { margin: 0 0 8px 0; }
+    .grammar-box p:last-child { margin-bottom: 0; }
+    .grammar-box ul {
+      margin: 6px 0 8px 18px;
+      padding: 0;
+    }
+    .grammar-box li { margin-bottom: 4px; }
+    .it-highlight {
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    /* Barra controlli superiore */
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px 20px;
+      border: 1px solid #d8e5d8;
+      border-radius: 16px;
+      background: rgba(255, 254, 250, .96);
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .teacher-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+    }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 6px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .85rem; }
+    .teacher-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+    .teacher-toggle input { accent-color: var(--primary); }
+    
+    button.reset-btn {
+      min-height: 42px;
+      padding: 6px 14px;
+      border: 1px solid #fca5a5;
+      border-radius: 10px;
+      background: #fff;
+      color: #dc2626;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.reset-btn[hidden] { display: none; }
+    button.reset-btn:hover { background: #fef2f2; }
+
+    .student-entry { margin: 0 0 20px; padding: 16px; border-radius: 14px; background: var(--primary-light); }
+    .student-entry[hidden], .results-section[hidden] { display: none; }
+    .student-entry label { display: block; margin-bottom: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .student-entry input { width: 100%; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .save-status { margin: 0 0 18px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: #e1f1e5; color: #17623c; font-size: .9rem; font-weight: 700; }
+    .save-status[hidden] { display: none; }
+    .btn-submit { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71, 119, 85, .3); }
+    .btn-submit[hidden] { display: none; }
+    .results-section { margin-top: 28px; }
+    .results-section h2 { color: var(--primary-dark); font-size: 1.3rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(120px, .35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { padding: 8px 10px; border-radius: 8px; background: #faf9f5; overflow-wrap: anywhere; font-weight: 600; }
+
+    /* Paginatore a Schede in alto (1-7) */
+    .tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+    .tab-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: .88rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: all .15s ease;
+    }
+    .tab-btn:hover { border-color: #b7d0bb; color: var(--primary); }
+    .tab-btn.active-tab {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(71, 119, 85, .25);
+    }
+
+    /* Card della Scheda Corrente */
+    .card {
+      padding: clamp(20px, 4vw, 28px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+    }
+
+    .item-box {
+      display: none;
+    }
+    .item-box.current-view {
+      display: block;
+      animation: fadeIn .25s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .item-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      text-transform: capitalize;
+    }
+
+    /* Cornice Immagine (16:9) */
+    .image-frame {
+      width: 100%;
+      max-height: 240px;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f4f5f1;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+    .image-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    .image-fallback span.icon { font-size: 1.8rem; }
+
+    /* Sezione con due Box (Domanda Plurale e Risposta) */
+    .dialogue-pair {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    textarea.answer-input {
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 12px;
+      font: inherit;
+      font-size: .98rem;
+      line-height: 1.45;
+      resize: vertical;
+      outline: none;
+      background: #fff;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    textarea.answer-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(71, 119, 85, .15);
+    }
+    textarea.answer-input:disabled {
+      background: #f1f5f1;
+      border-color: #d4e1d5;
+      color: #334155;
+      cursor: not-allowed;
+    }
+
+    /* Controlli Token */
+    .token-row {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 4px;
+    }
+    .btn-token {
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--primary-dark);
+      color: #fff;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-token:hover:not(:disabled) { background: var(--primary); }
+    .btn-token.release { background: var(--accent); color: #fff; }
+    .btn-token.release:hover:not(:disabled) { background: #a9553c; }
+    .btn-token:disabled { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .token-row[hidden] { display: none; }
+
+    /* Navigazione Frecce */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-arrow {
+      min-height: 42px;
+      padding: 8px 18px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-arrow:hover:not(:disabled), .btn-arrow-link:hover { border-color: var(--primary); background: var(--primary-light); }
+    .btn-arrow:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-arrow-link { display: inline-flex; align-items: center; text-decoration: none; }
+    .btn-arrow-link[hidden] { display: none; }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .card { padding: 18px 14px; border-radius: 20px; }
+      .image-frame { max-height: 180px; }
+      .teacher-controls { align-items: stretch; flex-direction: column; }
+      .card-footer { flex-direction: column; gap: 8px; }
+      .btn-arrow { width: 100%; justify-content: center; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione esercizi">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_k.html">← Esercizio K</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Обращение к группе</span>
+      <h1>Вопрос к группе: Vi piace...?</h1>
+      <p class="hero-subtitle">Crea i dialoghi rivolgendoti a un gruppo (A chiede con Voi, B risponde con Noi)</p>
+    </header>
+
+    <!-- Box Spiegazione Grammaticale in Russo -->
+    <div class="grammar-box">
+      <h3>💡 Обращение к группе людей (Вопрос к «Вам» — Voi)</h3>
+      <p>В этом упражнении мы задаем вопрос <strong>группе людей</strong> (во 2-м лице множественного числа): <span class="it-highlight">Vi piace...?</span> (Вам нравится...?).</p>
+      <p>Обратите внимание: ответ дается от имени группы (1-е лицо множественного числа — «Нам»): <span class="it-highlight">Ci piace... / Ci piacciono...</span> (Нам нравится... / Нам нравятся...).</p>
+      <ul>
+        <li>Вопрос к группе: <span class="it-highlight">Vi piace</span> (ед. ч.) / <span class="it-highlight">Vi piacciono</span> (мн. ч.)</li>
+        <li>Ответ группы: <span class="it-highlight">Sì, ci piace / ci piacciono</span> (No, non <span class="it-highlight">ci piace / ci piacciono</span>)</li>
+      </ul>
+      <p style="margin-top: 6px;"><strong>Образец / Esempio:</strong><br>
+      • <em>acqua</em> ➔ <span class="it-highlight">Vi piace</span> l’acqua? Sì, <span class="it-highlight">ci piace</span>. (No, non <span class="it-highlight">ci piace</span>)<br>
+      • <em>banane</em> ➔ <span class="it-highlight">Vi piacciono</span> le banane? Sì, <span class="it-highlight">ci piacciono</span>. (No, non <span class="it-highlight">ci piacciono</span>)</p>
+    </div>
+
+    <!-- Barra Controlli Superiore -->
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle">
+          <input type="checkbox" id="teacher-mode">
+          Режим учителя · Modalità insegnante
+        </label>
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera i turni · Libera i token</button>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+
+    <div class="student-entry" id="student-entry" hidden>
+      <label for="student-name-input">Ваше имя (Имя Фамилия) · Nome e cognome:</label>
+      <input type="text" id="student-name-input" placeholder="Inserisci il tuo nome e cognome">
+    </div>
+    <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+
+    <!-- Paginatore a Schede in alto (1-7) -->
+    <div id="tabs-bar" class="tabs-bar"></div>
+
+    <!-- Card dell'Alimento Corrente -->
+    <section class="card">
+      <div id="items-container"></div>
+      <button type="button" id="btn-submit-all" class="btn-submit" hidden>📤 Отправить решение · Invia le risposte</button>
+    </section>
+    <section class="results-section" id="results-section" hidden>
+      <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+      <div id="responses-list"></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const foodItems = [
+      "il cioccolato",
+      "gli hamburger",
+      "la cucina cinese",
+      "il besparmak",
+      "la carne",
+      "le banane",
+      "il pesce"
+    ];
+
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+
+    const container = document.getElementById("items-container");
+    const tabsBar = document.getElementById("tabs-bar");
+    const teacherToggle = document.getElementById("teacher-mode");
+    const resetButton = document.getElementById("reset");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const studentEntry = document.getElementById("student-entry");
+    const studentNameInput = document.getElementById("student-name-input");
+    const saveStatus = document.getElementById("save-status");
+    const resultsSection = document.getElementById("results-section");
+    const responsesList = document.getElementById("responses-list");
+
+    let answersRef = null;
+    let currentlyViewedTab = 0;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let responsesData = {};
+    let writersData = {};
+    let studentResponses = Object.fromEntries(foodItems.map((_, index) => [index, { q: "", a: "" }]));
+    let allStudentResponses = {};
+    let lastResetId = null;
+
+    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+
+    const itemBoxes = [];
+    const tabButtons = [];
+
+    foodItems.forEach((foodName, idx) => {
+      // 1. Tab in alto
+      const tabBtn = document.createElement("button");
+      tabBtn.className = "tab-btn";
+      tabBtn.textContent = idx + 1;
+      tabBtn.type = "button";
+      tabBtn.onclick = () => {
+        currentlyViewedTab = idx;
+        updateUIState();
+      };
+      tabsBar.appendChild(tabBtn);
+      tabButtons.push(tabBtn);
+
+      // 2. Box dell'alimento
+      const box = document.createElement("div");
+      box.className = "item-box";
+      if (idx === 0) box.classList.add("current-view");
+
+      const header = document.createElement("div");
+      header.className = "item-header";
+
+      const title = document.createElement("div");
+      title.className = "item-title";
+      title.textContent = `${idx + 1}. ${foodName}`;
+
+      header.appendChild(title);
+
+      // Immagine 16:9 (da l1.jpeg a l7.jpeg)
+      const imgFrame = document.createElement("div");
+      imgFrame.className = "image-frame";
+
+      const fileName = `l${idx + 1}.jpeg`;
+      const fallback = document.createElement("div");
+      fallback.className = "image-fallback";
+      fallback.innerHTML = `<span class="icon">🍫</span><span>img/${fileName}</span>`;
+
+      const img = document.createElement("img");
+      img.src = `img/${fileName}`;
+      img.alt = foodName;
+      img.onerror = () => { img.style.display = "none"; };
+
+      imgFrame.append(fallback, img);
+
+      // Sezione due Box separati: Domanda alla gruppo (Студент A) e Risposta del gruppo (Студент B)
+      const pairDiv = document.createElement("div");
+      pairDiv.className = "dialogue-pair";
+
+      // --- CAMPO DOMANDA A VOI (Q) ---
+      const groupQ = document.createElement("div");
+      groupQ.className = "field-group";
+
+      const labelQ = document.createElement("div");
+      labelQ.className = "field-label";
+      labelQ.innerHTML = `<span>🗣️ Вопрос к группе / Domanda (Студент A)</span>`;
+
+      const inputQ = document.createElement("textarea");
+      inputQ.className = "answer-input input-q";
+      inputQ.rows = 2;
+      inputQ.placeholder = "Vi piace / Vi piacciono... ?";
+
+      inputQ.addEventListener("input", () => {
+        if (currentWorkMode === "all") {
+          studentResponses[idx].q = inputQ.value;
+          saveStatus.hidden = true;
+        } else if (answersRef && (isTeacher || writersData[idx]?.q === myClientId)) {
+          answersRef.child("responses").child(String(idx)).child("q").set(inputQ.value);
+        }
+      });
+
+      const tokenRowQ = document.createElement("div");
+      tokenRowQ.className = "token-row";
+
+      const tokenBtnQ = document.createElement("button");
+      tokenBtnQ.className = "btn-token btn-token-q";
+      tokenBtnQ.type = "button";
+      tokenBtnQ.textContent = "✋ Взять слово (Вопрос)";
+      tokenBtnQ.onclick = () => {
+        if (answersRef && currentlyViewedTab === idx) {
+          const currentQWriter = writersData[idx]?.q || null;
+          if (currentQWriter === myClientId) {
+            answersRef.child("writers").child(String(idx)).child("q").set(null);
+          } else if (!currentQWriter) {
+            answersRef.child("writers").child(String(idx)).child("q").set(myClientId);
+          }
+        }
+      };
+
+      tokenRowQ.appendChild(tokenBtnQ);
+      groupQ.append(labelQ, inputQ, tokenRowQ);
+
+      // --- CAMPO RISPOSTA DI NOI (A) ---
+      const groupA = document.createElement("div");
+      groupA.className = "field-group";
+
+      const labelA = document.createElement("div");
+      labelA.className = "field-label";
+      labelA.innerHTML = `<span>💬 Ответ от группы / Risposta (Студент B)</span>`;
+
+      const inputA = document.createElement("textarea");
+      inputA.className = "answer-input input-a";
+      inputA.rows = 2;
+      inputA.placeholder = "Sì, ci piace... / No, non ci piace...";
+
+      inputA.addEventListener("input", () => {
+        if (currentWorkMode === "all") {
+          studentResponses[idx].a = inputA.value;
+          saveStatus.hidden = true;
+        } else if (answersRef && (isTeacher || writersData[idx]?.a === myClientId)) {
+          answersRef.child("responses").child(String(idx)).child("a").set(inputA.value);
+        }
+      });
+
+      const tokenRowA = document.createElement("div");
+      tokenRowA.className = "token-row";
+
+      const tokenBtnA = document.createElement("button");
+      tokenBtnA.className = "btn-token btn-token-a";
+      tokenBtnA.type = "button";
+      tokenBtnA.textContent = "✋ Взять слово (Ответ)";
+      tokenBtnA.onclick = () => {
+        if (answersRef && currentlyViewedTab === idx) {
+          const currentAWriter = writersData[idx]?.a || null;
+          if (currentAWriter === myClientId) {
+            answersRef.child("writers").child(String(idx)).child("a").set(null);
+          } else if (!currentAWriter) {
+            answersRef.child("writers").child(String(idx)).child("a").set(myClientId);
+          }
+        }
+      };
+
+      tokenRowA.appendChild(tokenBtnA);
+      groupA.append(labelA, inputA, tokenRowA);
+
+      pairDiv.append(groupQ, groupA);
+
+      // Footer con frecce
+      const footer = document.createElement("div");
+      footer.className = "card-footer";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.className = "btn-arrow";
+      prevBtn.type = "button";
+      prevBtn.textContent = "← Precedente";
+      prevBtn.onclick = () => {
+        if (currentlyViewedTab > 0) {
+          currentlyViewedTab--;
+          updateUIState();
+        }
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "btn-arrow";
+      nextBtn.type = "button";
+      nextBtn.textContent = "Successiva →";
+      nextBtn.onclick = () => {
+        if (currentlyViewedTab < foodItems.length - 1) {
+          currentlyViewedTab++;
+          updateUIState();
+        }
+      };
+
+      const nextExerciseLink = document.createElement("a");
+      nextExerciseLink.className = "btn-arrow btn-arrow-link";
+      nextExerciseLink.href = "es_m.html";
+      nextExerciseLink.textContent = "Esercizio M →";
+      nextExerciseLink.hidden = true;
+
+      footer.append(prevBtn, nextBtn, nextExerciseLink);
+      box.append(header, imgFrame, pairDiv, footer);
+      container.appendChild(box);
+
+      itemBoxes.push(box);
+    });
+
+    teacherToggle.addEventListener("change", (e) => {
+      isTeacher = e.target.checked;
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.hidden = !isTeacher;
+      updateUIState();
+    });
+    workModeSelect.addEventListener("change", (event) => {
+      if (answersRef && isTeacher) answersRef.child("workMode").set(event.target.value);
+    });
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) answersRef.child("writers").set({});
+    });
+
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const students = Object.values(allStudentResponses);
+      if (!students.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      foodItems.forEach((food, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `${index + 1}. ${food}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+        students.forEach(student => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const response = student.answers?.[index] || {};
+          const text = document.createElement("span");
+          text.className = "answer-text";
+          text.textContent = `Domanda: ${response.q || "—"} · Risposta: ${response.a || "—"}`;
+          row.append(author, text);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    function updateUIState() {
+      teacherReleaseTokenButton.hidden = !(isTeacher && currentWorkMode === "token");
+      studentEntry.hidden = isTeacher || currentWorkMode !== "all";
+      document.getElementById("btn-submit-all").hidden = isTeacher || currentWorkMode !== "all";
+      resultsSection.hidden = !isTeacher || currentWorkMode !== "all";
+
+      itemBoxes.forEach((box, i) => {
+        const tabBtn = tabButtons[i];
+        const inputQ = box.querySelector("textarea.input-q");
+        const inputA = box.querySelector("textarea.input-a");
+        const tokenRowQ = box.querySelector(".btn-token-q").parentElement;
+        const tokenRowA = box.querySelector(".btn-token-a").parentElement;
+        const tokenBtnQ = box.querySelector(".btn-token-q");
+        const tokenBtnA = box.querySelector(".btn-token-a");
+        const arrowButtons = box.querySelectorAll(".card-footer button.btn-arrow");
+        const prevBtn = arrowButtons[0];
+        const nextBtn = arrowButtons[1];
+        const nextExerciseLink = box.querySelector(".btn-arrow-link");
+
+        box.classList.toggle("current-view", i === currentlyViewedTab);
+        tabBtn.classList.toggle("active-tab", i === currentlyViewedTab);
+        prevBtn.disabled = i === 0;
+        nextBtn.hidden = i === foodItems.length - 1;
+        nextExerciseLink.hidden = i !== foodItems.length - 1;
+
+        const cardWriters = writersData[i] || {};
+        const qWriter = cardWriters.q || null;
+        const aWriter = cardWriters.a || null;
+
+        if (currentWorkMode === "all") {
+          tokenRowQ.hidden = true;
+          tokenRowA.hidden = true;
+          inputQ.disabled = isTeacher;
+          inputA.disabled = isTeacher;
+          if (document.activeElement !== inputQ) inputQ.value = studentResponses[i]?.q || "";
+          if (document.activeElement !== inputA) inputA.value = studentResponses[i]?.a || "";
+        } else {
+          tokenRowQ.hidden = false;
+          tokenRowA.hidden = false;
+          if (isTeacher) {
+            inputQ.disabled = false;
+            inputA.disabled = false;
+            tokenRowQ.hidden = true;
+            tokenRowA.hidden = true;
+          } else {
+            inputQ.disabled = qWriter !== myClientId;
+            inputA.disabled = aWriter !== myClientId;
+            tokenBtnQ.disabled = !!qWriter && qWriter !== myClientId;
+            tokenBtnA.disabled = !!aWriter && aWriter !== myClientId;
+            tokenBtnQ.textContent = qWriter === myClientId ? "✔ Передать слово · Lascia la parola" : qWriter ? "🔒 Пишет одноклассник · Compagno scrive" : "✋ Взять слово · Prendi la parola (domanda)";
+            tokenBtnA.textContent = aWriter === myClientId ? "✔ Передать слово · Lascia la parola" : aWriter ? "🔒 Пишет одноклассник · Compagno scrive" : "✋ Взять слово · Prendi la parola (risposta)";
+            tokenBtnQ.className = `btn-token btn-token-q${qWriter ? " release" : ""}`;
+            tokenBtnA.className = `btn-token btn-token-a${aWriter ? " release" : ""}`;
+          }
+          const cardResponses = responsesData[i] || {};
+          if (qWriter !== myClientId) inputQ.value = cardResponses.q || "";
+          if (aWriter !== myClientId) inputA.value = cardResponses.a || "";
+        }
+      });
+      renderResponses();
+    }
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita10-gusti-piace-plurale-l");
+
+        answersRef.on("value", (snapshot) => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentResponses = Object.fromEntries(foodItems.map((_, index) => [index, { q: "", a: "" }]));
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+          responsesData = data.responses || {};
+          writersData = data.writers || {};
+          allStudentResponses = data.allStudentsData?.students || {};
+          updateUIState();
+        });
+      } catch (e) {
+        console.error("Errore Firebase:", e);
+      }
+    }
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      localStorage.setItem("parlo_student_name", name);
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      try {
+        await answersRef.child("allStudentsData/students").child(studentId).update({
+          name, answers: studentResponses, timestamp: Date.now()
+        });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (error) {
+        alert("Errore durante l'invio delle risposte.");
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!answersRef || !confirm("Сбросить все ответы? · Vuoi azzerare tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        responses: {},
+        writers: {},
+        allStudentsData: {}
+      });
+    });
+
+    updateUIState();
+  </script>
+</body>
+</html>

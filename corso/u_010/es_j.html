@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — Ti piace? / Ti piacciono? (Esercizio J)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow {
+      display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px;
+      background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box, .top-controls {
+      margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8;
+      border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04);
+    }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .example-box { margin-top: 10px; padding: 12px 16px; border: 1px solid #d4e1d5; border-radius: 12px; background: var(--primary-light); color: var(--primary-dark); font-size: .92rem; line-height: 1.55; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .teacher-toggle { display: flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; }
+    .teacher-toggle input { accent-color: var(--primary); }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 6px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .85rem; }
+    button.reset-btn { min-height: 42px; padding: 6px 14px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    button.reset-btn:hover { background: #fef2f2; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    #token-mode-section, #all-students-mode-section { display: none; }
+    #token-mode-section.active-mode, #all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode #student-form-card { display: none; }
+    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .slide-item { display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.03); }
+    .slide-item[hidden] { display: none; }
+    .item-heading { color: var(--primary-dark); font-size: 1.15rem; font-weight: 800; }
+    .image-frame { position: relative; width: 100%; max-height: 240px; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: #f4f5f1; }
+    .image-frame img { position: relative; z-index: 2; display: block; width: 100%; height: 100%; object-fit: cover; }
+    .image-fallback { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-size: .85rem; font-weight: 600; }
+    .image-fallback .icon { font-size: 1.8rem; }
+    .dialogue-pair { display: flex; flex-direction: column; gap: 14px; }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    textarea.answer-input { width: 100%; min-height: 60px; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; font: inherit; font-size: .96rem; line-height: 1.45; resize: vertical; }
+    textarea.answer-input:disabled { background: #f1f5f1; color: #4b554b; cursor: not-allowed; }
+    .login-box { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px; border-radius: 14px; background: var(--primary-light); }
+    .login-box label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; white-space: nowrap; }
+    .login-box input { flex: 1; min-width: 0; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .save-status { margin: 0 0 18px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+    .save-status[hidden] { display: none; }
+    .btn-submit { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button { min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; }
+    .slide-navigation button:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .results-section h2 { margin-bottom: 16px; color: var(--primary-dark); font-size: 1.3rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(120px,.35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { display: block; padding: 8px 10px; border-radius: 8px; background: #faf9f5; overflow-wrap: anywhere; font-weight: 600; }
+    .answer-text strong { color: var(--primary-dark); }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .slide-item { padding: 14px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button { width: 100%; }
+      .login-box { align-items: stretch; flex-direction: column; }
+      .login-box label { white-space: normal; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+      .token-bar { align-items: stretch; flex-direction: column; }
+      .image-frame { max-height: 180px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione esercizi">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_i.html">← Esercizio I</a>
+      <a href="verbo_piacere.html">📘 Spiegazione del verbo piacere</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Gusti e Cibo</span>
+      <h1>Составьте диалоги по образцу</h1>
+      <p class="hero-subtitle">Esercizio J · Crea i dialoghi a coppie: A chiede, B risponde.</p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Грамматическая заметка · Esercizio J</div>
+      <div class="instruction-text">
+        <p>В итальянском языке глагол <strong>piacere</strong> используется подобно русскому глаголу «нравиться». Субъектом является предмет, который нравится.</p>
+        <p>Используйте <strong>piace</strong> для единственного числа и <strong>piacciono</strong> для множественного числа.</p>
+        <div class="example-box"><strong>Образец / Esempio:</strong><br>
+          <em>acqua</em> → <strong>Ti piace</strong> l’acqua? Sì, <strong>mi piace</strong>. / No, non <strong>mi piace</strong>.<br>
+          <em>lasagne</em> → <strong>Ti piacciono</strong> le lasagne? Sì, <strong>mi piacciono</strong>. / No, non <strong>mi piacciono</strong>.
+        </div>
+        <p style="margin:10px 0 0;">👉 <strong>Составьте диалог для каждого продукта:</strong> студент A задаёт вопрос, студент B отвечает.</p>
+      </div>
+    </div>
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle"><input type="checkbox" id="teacher-mode"> Режим учителя · Modalità insegnante</label>
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera il token</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700;color:var(--primary-dark);"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+      <div id="token-slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione alimenti">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress" aria-live="polite"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+      </nav>
+    </section>
+
+    <section id="all-students-mode-section">
+      <div class="card" id="student-form-card">
+        <div class="login-box"><label for="student-name-input">Ваше имя (Имя Фамилия) · Nome e cognome:</label><input type="text" id="student-name-input" placeholder="Inserisci il tuo nome e cognome"></div>
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+        <div id="student-slides-container"></div>
+        <nav class="slide-navigation" aria-label="Navigazione alimenti">
+          <button id="prev-student-slide" type="button">← Precedente</button>
+          <span id="progress-student-slide" class="slide-progress" aria-live="polite"></span>
+          <button id="next-student-slide" type="button">Successiva →</button>
+        </nav>
+        <button type="button" id="btn-submit-all" class="btn-submit">📤 Отправить решение · Invia le risposte</button>
+      </div>
+      <div class="results-section"><h2>📋 Ответы студентов · Risposte degli studenti</h2><div id="responses-list"></div></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const foodItems = [
+      "il gelato",
+      "la pizza",
+      "gli spaghetti",
+      "il caffè",
+      "la mozzarella",
+      "i biscotti al cioccolato",
+      "le fragole"
+    ].map((name, index) => ({ id: `food${index + 1}`, name, image: `j${index + 1}.jpeg` }));
+
+    const createEmptyState = () => Object.fromEntries(foodItems.map(item => [item.id, { q: "", a: "" }]));
+    let studentState = createEmptyState();
+    let tokenState = createEmptyState();
+    let activeTokenSlide = 0;
+    let activeStudentSlide = 0;
+    let answersRef = null;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let allResponses = {};
+    let lastResetId = null;
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+
+    const teacherToggle = document.getElementById("teacher-mode");
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const studentNameInput = document.getElementById("student-name-input");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const tokenStatusText = document.getElementById("token-status-text");
+
+    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+
+    function buildSlide(item, tokenMode, state, canEdit) {
+      const box = document.createElement("div");
+      box.className = "slide-item";
+
+      const heading = document.createElement("div");
+      heading.className = "item-heading";
+      heading.textContent = `${foodItems.indexOf(item) + 1}. ${item.name}`;
+
+      const imageFrame = document.createElement("div");
+      imageFrame.className = "image-frame";
+      const fallback = document.createElement("div");
+      fallback.className = "image-fallback";
+      const icon = document.createElement("span");
+      icon.className = "icon";
+      icon.textContent = "🍽️";
+      const fileLabel = document.createElement("span");
+      fileLabel.textContent = `img/${item.image}`;
+      fallback.append(icon, fileLabel);
+      const image = document.createElement("img");
+      image.src = `img/${item.image}`;
+      image.alt = item.name;
+      image.onerror = () => { image.style.display = "none"; };
+      imageFrame.append(fallback, image);
+
+      const pair = document.createElement("div");
+      pair.className = "dialogue-pair";
+      const values = state[item.id] || { q: "", a: "" };
+      [["q", "🗣️ Вопрос / Domanda (Studente A)", "Ti piace / Ti piacciono... ?"],
+       ["a", "💬 Ответ / Risposta (Studente B)", "Sì, mi piace... / No, non mi piace..."]].forEach(([field, labelText, placeholder]) => {
+        const group = document.createElement("div");
+        group.className = "field-group";
+        const label = document.createElement("label");
+        label.className = "field-label";
+        label.htmlFor = `${tokenMode ? "token-" : "student-"}${item.id}-${field}`;
+        label.textContent = labelText;
+        const input = document.createElement("textarea");
+        input.id = label.htmlFor;
+        input.className = "answer-input";
+        input.rows = 2;
+        input.placeholder = placeholder;
+        input.value = values[field] || "";
+        input.disabled = !canEdit;
+        input.addEventListener("input", () => {
+          const stateToUpdate = tokenMode ? tokenState : studentState;
+          stateToUpdate[item.id][field] = input.value;
+          if (tokenMode && answersRef && currentWriter === myClientId) {
+            answersRef.child("tokenData").child("answers").child(item.id).child(field).set(input.value);
+          } else if (!tokenMode) {
+            saveStatus.hidden = true;
+          }
+        });
+        group.append(label, input);
+        pair.appendChild(group);
+      });
+
+      box.append(heading, imageFrame, pair);
+      return box;
+    }
+
+    function renderSlides(mode) {
+      const isTokenMode = mode === "token";
+      const container = document.getElementById(`${mode}-slides-container`);
+      const index = isTokenMode ? activeTokenSlide : activeStudentSlide;
+      const state = isTokenMode ? tokenState : studentState;
+      container.replaceChildren();
+      foodItems.forEach((item, slideIndex) => {
+        const slide = buildSlide(item, isTokenMode, state, isTokenMode ? currentWriter === myClientId : !isTeacher);
+        slide.hidden = slideIndex !== index;
+        container.appendChild(slide);
+      });
+      updateNavigation(mode);
+    }
+
+    function updateNavigation(mode) {
+      const index = mode === "token" ? activeTokenSlide : activeStudentSlide;
+      const prefix = mode === "token" ? "token" : "student";
+      document.getElementById(`prev-${prefix}-slide`).disabled = index === 0;
+      const nextButton = document.getElementById(`next-${prefix}-slide`);
+      const isLastSlide = index === foodItems.length - 1;
+      nextButton.disabled = false;
+      nextButton.textContent = isLastSlide ? "Vai all’esercizio K →" : "Successiva →";
+      document.getElementById(`progress-${prefix}-slide`).textContent = `Alimento ${index + 1} di ${foodItems.length}`;
+    }
+
+    function navigate(mode, direction) {
+      if (mode === "token") {
+        activeTokenSlide = Math.max(0, Math.min(foodItems.length - 1, activeTokenSlide + direction));
+        renderSlides("token");
+      } else {
+        activeStudentSlide = Math.max(0, Math.min(foodItems.length - 1, activeStudentSlide + direction));
+        renderSlides("student");
+      }
+    }
+    document.getElementById("prev-token-slide").onclick = () => navigate("token", -1);
+    document.getElementById("next-token-slide").onclick = () => {
+      if (activeTokenSlide === foodItems.length - 1) window.location.href = "es_k.html";
+      else navigate("token", 1);
+    };
+    document.getElementById("prev-student-slide").onclick = () => navigate("student", -1);
+    document.getElementById("next-student-slide").onclick = () => {
+      if (activeStudentSlide === foodItems.length - 1) window.location.href = "es_k.html";
+      else navigate("student", 1);
+    };
+
+    document.addEventListener("keydown", event => {
+      if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
+      const direction = ["ArrowRight", "ArrowDown"].includes(event.key) ? 1 : ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 0;
+      if (!direction) return;
+      event.preventDefault();
+      navigate(currentWorkMode, direction);
+    });
+
+    teacherToggle.addEventListener("change", event => {
+      isTeacher = event.target.checked;
+      document.body.classList.toggle("teacher-mode", isTeacher);
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.hidden = !isTeacher;
+      updateUIState();
+    });
+    workModeSelect.addEventListener("change", event => {
+      if (answersRef && isTeacher) answersRef.child("workMode").set(event.target.value);
+    });
+    btnTakeToken.addEventListener("click", () => {
+      if (!answersRef) return;
+      if (currentWriter === myClientId) answersRef.child("tokenData").child("currentWriter").set(null);
+      else if (!currentWriter) answersRef.child("tokenData").child("currentWriter").set(myClientId);
+    });
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) answersRef.child("tokenData").child("currentWriter").set(null);
+    });
+
+    function renderResponsesAllMode() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      foodItems.forEach((item, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `${index + 1}. ${item.name}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+        entries.forEach(([, student]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const response = student.answers?.[item.id] || {};
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          const questionText = document.createElement("span");
+          const answerText = document.createElement("span");
+          const questionLabel = document.createElement("strong");
+          questionLabel.textContent = "Domanda: ";
+          const answerLabel = document.createElement("strong");
+          answerLabel.textContent = "Risposta: ";
+          questionText.append(questionLabel, document.createTextNode(response.q || "—"));
+          answerText.append(answerLabel, document.createTextNode(response.a || "—"));
+          answer.append(questionText, document.createElement("br"), answerText);
+          row.append(author, answer);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    function updateUIState() {
+      teacherReleaseTokenButton.hidden = !(isTeacher && currentWorkMode === "token");
+      tokenSection.classList.toggle("active-mode", currentWorkMode === "token");
+      allSection.classList.toggle("active-mode", currentWorkMode === "all");
+      if (currentWorkMode === "token") {
+        if (!currentWriter) {
+          tokenStatusText.textContent = "";
+          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+          btnTakeToken.className = "btn-token";
+          btnTakeToken.disabled = false;
+        } else if (currentWriter === myClientId) {
+          tokenStatusText.textContent = "Вы редактируете · Stai lavorando";
+          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
+          btnTakeToken.className = "btn-token release";
+          btnTakeToken.disabled = false;
+        } else {
+          tokenStatusText.textContent = "🔒 Пишет одноклассник · Un compagno sta lavorando";
+          btnTakeToken.textContent = "🔒 Пишет одноклассник · Un compagno al lavoro";
+          btnTakeToken.className = "btn-token busy";
+          btnTakeToken.disabled = true;
+        }
+        const container = document.getElementById("token-slides-container");
+        if (!container.contains(document.activeElement)) renderSlides("token");
+      } else {
+        const container = document.getElementById("student-slides-container");
+        if (!container.contains(document.activeElement)) renderSlides("student");
+        renderResponsesAllMode();
+      }
+    }
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita10-gusti-piace-coppie");
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentState = createEmptyState();
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+          const token = data.tokenData || {};
+          currentWriter = token.currentWriter || null;
+          tokenState = { ...createEmptyState(), ...(token.answers || {}) };
+          allResponses = data.allStudentsData || {};
+          updateUIState();
+        });
+      } catch (error) { console.error("Errore Firebase:", error); }
+    }
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      localStorage.setItem("parlo_student_name", name);
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      try {
+        await answersRef.child("allStudentsData").child("students").child(studentId).update({
+          name, answers: studentState, timestamp: Date.now()
+        });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (error) { alert("Errore durante l'invio delle risposte."); }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!answersRef || !confirm("Сбросить все ответы? · Azzera tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        tokenData: { currentWriter: null, answers: createEmptyState() },
+        allStudentsData: {}
+      });
+    });
+
+    renderSlides("student", false);
+    renderSlides("token", true);
+    updateUIState();
+  </script>
+</body>
+</html>

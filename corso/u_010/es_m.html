@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — Rispondi alle domande (Esercizio M)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block; color: var(--primary); font-size: .8rem; font-weight: 800;
+      letter-spacing: .08em; text-transform: uppercase; background: var(--primary-light);
+      padding: 7px 14px; border-radius: 20px; margin-bottom: 8px;
+      box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .08);
+    }
+    h1 { margin: 4px 0; font-size: clamp(1.8rem, 4vw, 2.4rem); letter-spacing: -.03em; color: var(--primary-dark); line-height: 1.15; }
+    .hero-subtitle { margin: 6px 0 0; color: var(--text-muted); font-size: .95rem; }
+
+    .grammar-box {
+      background: #fff; border: 1px solid #d8e5d8; border-left: 5px solid var(--primary);
+      border-radius: 16px; padding: 16px 18px; margin-bottom: 20px; font-size: .92rem;
+      line-height: 1.55; box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .grammar-box h3 { margin: 0 0 8px; color: var(--primary-dark); font-size: 1rem; display: flex; align-items: center; gap: 6px; }
+    .grammar-box p { margin: 0 0 8px; }
+    .grammar-box p:last-child { margin-bottom: 0; }
+    .grammar-box ul { margin: 6px 0 8px 18px; padding: 0; }
+    .grammar-box li { margin-bottom: 4px; }
+    .it-highlight { font-weight: 700; color: var(--primary-dark); }
+
+    .top-controls {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 20px;
+      padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px;
+      background: rgba(255, 254, 250, .96); box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .teacher-controls {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 16px; width: 100%;
+    }
+    .teacher-toggle { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--text); cursor: pointer; font-weight: 600; user-select: none; }
+    .teacher-toggle input { accent-color: var(--primary); }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 6px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .85rem; }
+    .reset-btn {
+      min-height: 42px; padding: 6px 14px; border: 1px solid #fca5a5; border-radius: 10px;
+      background: #fff; color: #dc2626; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer;
+    }
+    .reset-btn:hover { background: #fef2f2; }
+    .reset-btn[hidden], .student-entry[hidden], .results-section[hidden], .save-status[hidden], .btn-submit[hidden] { display: none; }
+
+    .student-entry { margin: 0 0 18px; padding: 16px; border-radius: 14px; background: var(--primary-light); }
+    .student-entry label { display: block; margin-bottom: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .student-entry input { width: 100%; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .save-status { margin: 0 0 18px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+
+    .tabs-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; scrollbar-width: thin; }
+    .tab-btn {
+      min-width: 40px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--card-bg); color: var(--text-muted); font-weight: 700; font-size: .88rem;
+      cursor: pointer; display: grid; place-items: center; flex-shrink: 0; transition: all .15s ease;
+    }
+    .tab-btn:hover { border-color: #b7d0bb; color: var(--primary); }
+    .tab-btn.active-tab { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(71, 119, 85, .25); }
+
+    .card { padding: clamp(20px, 4vw, 28px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); }
+    .item-box { display: none; }
+    .item-box.current-view { display: block; animation: fadeIn .25s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .item-title { font-weight: 800; font-size: 1.2rem; color: var(--primary-dark); }
+
+    .image-frame {
+      width: min(100%, 320px); aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden;
+      background: #f4f5f1; border: 1px solid var(--border); margin: 0 auto 20px; position: relative;
+    }
+    .image-frame img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+    .image-fallback { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-size: .85rem; font-weight: 600; }
+    .image-fallback .icon { font-size: 1.8rem; }
+
+    .question-prompt { margin: 0 0 14px; color: var(--primary-dark); font-size: 1.08rem; font-weight: 700; line-height: 1.5; }
+    .word-dict { color: var(--primary); border-bottom: 2px dashed var(--primary); cursor: pointer; font-weight: 700; padding: 0 2px; border-radius: 4px; }
+    .word-dict:hover { background: var(--primary-light); }
+    .field-label { display: block; margin-bottom: 6px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    textarea.answer-input {
+      width: 100%; min-height: 64px; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 12px;
+      font: inherit; font-size: .98rem; line-height: 1.45; resize: vertical; outline: none; background: #fff;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    textarea.answer-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71, 119, 85, .15); }
+    textarea.answer-input:disabled { background: #f1f5f1; border-color: #d4e1d5; color: #334155; cursor: not-allowed; }
+
+    .token-row { display: flex; justify-content: flex-start; margin-top: 8px; }
+    .token-row[hidden] { display: none; }
+    .btn-token {
+      min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark);
+      color: #fff; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; transition: background .2s;
+    }
+    .btn-token:hover:not(:disabled) { background: var(--primary); }
+    .btn-token.release { background: var(--accent); color: #fff; }
+    .btn-token.release:hover:not(:disabled) { background: #a9553c; }
+    .btn-token:disabled { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .btn-submit { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71, 119, 85, .3); }
+    .btn-submit:hover { background: var(--primary-dark); }
+
+    .results-section { margin-top: 28px; }
+    .results-section h2 { color: var(--primary-dark); font-size: 1.3rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(120px, .35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { padding: 8px 10px; border-radius: 8px; background: #faf9f5; overflow-wrap: anywhere; font-weight: 600; }
+
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .btn-arrow {
+      min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .btn-arrow:hover:not(:disabled), .btn-arrow-link:hover { border-color: var(--primary); background: var(--primary-light); }
+    .btn-arrow:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-arrow-link { display: inline-flex; align-items: center; text-decoration: none; }
+    .btn-arrow-link[hidden] { display: none; }
+
+    .modal-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(41, 45, 40, .45); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-card { width: min(100%, 400px); padding: 24px; border-radius: 20px; background: #fffefa; box-shadow: 0 20px 40px rgba(0, 0, 0, .2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .modal-title-it { color: var(--primary-dark); font-size: 1.2rem; font-weight: 800; }
+    .modal-close { width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .modal-body-ru { padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-main); font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .card { padding: 18px 14px; border-radius: 20px; }
+      .teacher-controls { align-items: stretch; flex-direction: column; }
+      .card-footer { flex-direction: column; gap: 8px; }
+      .btn-arrow { width: 100%; justify-content: center; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione esercizi">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_l.html">← Esercizio L</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Вопросы и ответы</span>
+      <h1>Ответьте на вопросы</h1>
+      <p class="hero-subtitle">Rispondi alle domande dell’esercizio M (clicca sulle parole evidenziate per la traduzione)</p>
+    </header>
+
+    <div class="grammar-box">
+      <h3>💡 Грамматическая заметка: ответы на вопросы с глаголом <em>piacere</em></h3>
+      <p>При ответе на вопросы обратите внимание на то, <strong>кому</strong> адресован вопрос:</p>
+      <ul>
+        <li><span class="it-highlight">Ti piace...?</span> ➔ Ответ от себя (я): <span class="it-highlight">Sì, mi piace... / No, non mi piace...</span></li>
+        <li><span class="it-highlight">Vi piace...?</span> ➔ Ответ от имени группы (мы): <span class="it-highlight">Sì, ci piace... / No, non ci piace...</span></li>
+        <li><span class="it-highlight">A Marina / A Paolo piace...?</span> ➔ Ответ в 3-м лице: <span class="it-highlight">Sì, le/gli piace... / No, non le/gli piace...</span></li>
+        <li><span class="it-highlight">Ai bambini piace...?</span> ➔ Ответ в 3-м лице мн. ч.: <span class="it-highlight">Sì, gli piace... / No, non gli piace...</span></li>
+      </ul>
+      <p>Согласуйте глагол с предметом: <span class="it-highlight">piace</span> — для единственного числа и глаголов, <span class="it-highlight">piacciono</span> — для множественного числа.</p>
+    </div>
+
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle"><input type="checkbox" id="teacher-mode"> Режим учителя · Modalità insegnante</label>
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera i turni · Libera i token</button>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+
+    <div class="student-entry" id="student-entry" hidden>
+      <label for="student-name-input">Ваше имя (Имя Фамилия) · Nome e cognome:</label>
+      <input type="text" id="student-name-input" placeholder="Inserisci il tuo nome e cognome">
+    </div>
+    <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+    <div id="tabs-bar" class="tabs-bar" aria-label="Schede delle domande"></div>
+    <section class="card">
+      <div id="items-container"></div>
+      <button type="button" id="btn-submit-all" class="btn-submit" hidden>📤 Отправить решение · Invia le risposte</button>
+    </section>
+    <section class="results-section" id="results-section" hidden>
+      <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+      <div id="responses-list"></div>
+    </section>
+  </main>
+
+  <div id="dict-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-it">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span id="modal-it" class="modal-title-it"></span>
+        <button type="button" class="modal-close" id="modal-close-btn" aria-label="Chiudi traduzione">✕</button>
+      </div>
+      <div id="modal-ru" class="modal-body-ru"></div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const questions = [
+      { html: "Ti piace <span class='word-dict' data-ru='Граппа (итальянская виноградная водка)'>la grappa</span>?" },
+      { html: "Ai bambini piace il gelato?" },
+      { html: "Ti piacciono <span class='word-dict' data-ru='Фильмы ужасов'>i film dell’orrore</span>?" },
+      { html: "A Marina piace l’insalata?" },
+      { html: "Ti piace il mio vestito nuovo?" },
+      { html: "Vi piacciono <span class='word-dict' data-ru='Морепродукты'>i frutti di mare</span>?" },
+      { html: "Ti piacciono <span class='word-dict' data-ru='Мебель'>i mobili</span> del mio appartamento?" },
+      { html: "Vi piace <span class='word-dict' data-ru='Танцевать'>ballare</span>?" },
+      { html: "A Paolo piacciono <span class='word-dict' data-ru='Галстуки'>le cravatte</span>?" },
+      { html: "Ti piacciono <span class='word-dict' data-ru='Грибы'>i funghi</span>?" }
+    ];
+
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const container = document.getElementById("items-container");
+    const tabsBar = document.getElementById("tabs-bar");
+    const teacherToggle = document.getElementById("teacher-mode");
+    const resetButton = document.getElementById("reset");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const studentEntry = document.getElementById("student-entry");
+    const studentNameInput = document.getElementById("student-name-input");
+    const saveStatus = document.getElementById("save-status");
+    const resultsSection = document.getElementById("results-section");
+    const responsesList = document.getElementById("responses-list");
+    const submitButton = document.getElementById("btn-submit-all");
+    const modal = document.getElementById("dict-modal");
+    const modalIt = document.getElementById("modal-it");
+    const modalRu = document.getElementById("modal-ru");
+
+    let answersRef = null;
+    let currentlyViewedTab = 0;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let responsesData = {};
+    let writersData = {};
+    let studentResponses = Object.fromEntries(questions.map((_, index) => [index, ""]));
+    let allStudentResponses = {};
+    let lastResetId = null;
+    const itemBoxes = [];
+    const tabButtons = [];
+
+    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+
+    function openModal(word, translation) {
+      modalIt.textContent = word;
+      modalRu.textContent = translation || "";
+      modal.classList.add("open");
+      document.getElementById("modal-close-btn").focus();
+    }
+    function closeModal() {
+      modal.classList.remove("open");
+    }
+    document.getElementById("modal-close-btn").addEventListener("click", closeModal);
+    modal.addEventListener("click", event => { if (event.target === modal) closeModal(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape") closeModal(); });
+
+    questions.forEach((question, index) => {
+      const tab = document.createElement("button");
+      tab.className = "tab-btn";
+      tab.type = "button";
+      tab.textContent = index + 1;
+      tab.setAttribute("aria-label", `Domanda ${index + 1}`);
+      tab.addEventListener("click", () => { currentlyViewedTab = index; updateUIState(); });
+      tabsBar.appendChild(tab);
+      tabButtons.push(tab);
+
+      const box = document.createElement("div");
+      box.className = `item-box${index === 0 ? " current-view" : ""}`;
+
+      const header = document.createElement("div");
+      header.className = "item-header";
+      const heading = document.createElement("div");
+      heading.className = "item-title";
+      heading.textContent = `Domanda ${index + 1}`;
+      header.appendChild(heading);
+
+      const frame = document.createElement("div");
+      frame.className = "image-frame";
+      const imageName = `m${index + 1}.jpeg`;
+      const fallback = document.createElement("div");
+      fallback.className = "image-fallback";
+      fallback.innerHTML = `<span class="icon">📝</span><span>img/${imageName}</span>`;
+      const image = document.createElement("img");
+      image.src = `img/${imageName}`;
+      image.alt = `Immagine per la domanda ${index + 1}`;
+      image.onerror = () => { image.style.display = "none"; };
+      frame.append(fallback, image);
+
+      const prompt = document.createElement("p");
+      prompt.className = "question-prompt";
+      prompt.innerHTML = question.html;
+      prompt.querySelectorAll(".word-dict").forEach(word => {
+        word.addEventListener("click", () => openModal(word.textContent, word.dataset.ru));
+      });
+
+      const label = document.createElement("label");
+      label.className = "field-label";
+      label.htmlFor = `answer-${index}`;
+      label.textContent = "💬 Ответ / La tua risposta";
+
+      const input = document.createElement("textarea");
+      input.id = `answer-${index}`;
+      input.className = "answer-input";
+      input.rows = 2;
+      input.placeholder = "Sì, mi piace... / No, non mi piace...";
+      input.addEventListener("input", () => {
+        if (currentWorkMode === "all") {
+          studentResponses[index] = input.value;
+          saveStatus.hidden = true;
+        } else if (answersRef && (isTeacher || writersData[index] === myClientId)) {
+          answersRef.child("responses").child(String(index)).set(input.value);
+        }
+      });
+
+      const tokenRow = document.createElement("div");
+      tokenRow.className = "token-row";
+      const tokenButton = document.createElement("button");
+      tokenButton.className = "btn-token";
+      tokenButton.type = "button";
+      tokenButton.textContent = "✋ Взять слово · Prendi la parola";
+      tokenButton.addEventListener("click", () => {
+        if (!answersRef || currentlyViewedTab !== index) return;
+        const writer = writersData[index] || null;
+        if (writer === myClientId) answersRef.child("writers").child(String(index)).set(null);
+        else if (!writer) answersRef.child("writers").child(String(index)).set(myClientId);
+      });
+      tokenRow.appendChild(tokenButton);
+
+      const footer = document.createElement("div");
+      footer.className = "card-footer";
+      const previous = document.createElement("button");
+      previous.className = "btn-arrow";
+      previous.type = "button";
+      previous.textContent = "← Precedente";
+      previous.addEventListener("click", () => { if (currentlyViewedTab > 0) { currentlyViewedTab--; updateUIState(); } });
+      const next = document.createElement("button");
+      next.className = "btn-arrow";
+      next.type = "button";
+      next.textContent = "Successiva →";
+      next.addEventListener("click", () => { if (currentlyViewedTab < questions.length - 1) { currentlyViewedTab++; updateUIState(); } });
+      const nextLink = document.createElement("a");
+      nextLink.className = "btn-arrow btn-arrow-link";
+      nextLink.href = "es_n.html";
+      nextLink.textContent = "Esercizio N →";
+      nextLink.hidden = true;
+      footer.append(previous, next, nextLink);
+
+      box.append(header, frame, prompt, label, input, tokenRow, footer);
+      container.appendChild(box);
+      itemBoxes.push(box);
+    });
+
+    teacherToggle.addEventListener("change", event => {
+      isTeacher = event.target.checked;
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.hidden = !isTeacher;
+      updateUIState();
+    });
+    workModeSelect.addEventListener("change", event => {
+      if (answersRef && isTeacher) answersRef.child("workMode").set(event.target.value);
+    });
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) answersRef.child("writers").set({});
+    });
+
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const students = Object.values(allStudentResponses);
+      if (!students.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      questions.forEach((question, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `Domanda ${index + 1}: ${question.html.replace(/<[^>]*>/g, "")}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+        students.forEach(student => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          answer.textContent = student.answers?.[index] || "—";
+          row.append(author, answer);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    function updateUIState() {
+      teacherReleaseTokenButton.hidden = !(isTeacher && currentWorkMode === "token");
+      studentEntry.hidden = isTeacher || currentWorkMode !== "all";
+      submitButton.hidden = isTeacher || currentWorkMode !== "all";
+      resultsSection.hidden = !isTeacher || currentWorkMode !== "all";
+
+      itemBoxes.forEach((box, index) => {
+        const input = box.querySelector("textarea.answer-input");
+        const tokenRow = box.querySelector(".token-row");
+        const tokenButton = box.querySelector(".btn-token");
+        const arrows = box.querySelectorAll(".card-footer button.btn-arrow");
+        const nextLink = box.querySelector(".btn-arrow-link");
+        const writer = writersData[index] || null;
+
+        box.classList.toggle("current-view", index === currentlyViewedTab);
+        tabButtons[index].classList.toggle("active-tab", index === currentlyViewedTab);
+        arrows[0].disabled = index === 0;
+        arrows[1].hidden = index === questions.length - 1;
+        nextLink.hidden = index !== questions.length - 1;
+
+        if (currentWorkMode === "all") {
+          tokenRow.hidden = true;
+          input.disabled = isTeacher;
+          if (document.activeElement !== input) input.value = studentResponses[index] || "";
+        } else if (isTeacher) {
+          tokenRow.hidden = true;
+          input.disabled = false;
+          if (document.activeElement !== input) input.value = responsesData[index] || "";
+        } else {
+          tokenRow.hidden = false;
+          input.disabled = writer !== myClientId;
+          tokenButton.disabled = !!writer && writer !== myClientId;
+          tokenButton.textContent = writer === myClientId
+            ? "✔ Передать слово · Lascia la parola"
+            : writer
+              ? "🔒 Пишет одноклассник · Compagno scrive"
+              : "✋ Взять слово · Prendi la parola";
+          tokenButton.classList.toggle("release", !!writer);
+          if (writer !== myClientId) input.value = responsesData[index] || "";
+        }
+      });
+      renderResponses();
+    }
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita10-domande-m");
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentResponses = Object.fromEntries(questions.map((_, index) => [index, ""]));
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+          responsesData = data.responses || {};
+          writersData = data.writers || {};
+          allStudentResponses = data.allStudentsData?.students || {};
+          updateUIState();
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+      }
+    }
+
+    submitButton.addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      localStorage.setItem("parlo_student_name", name);
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      try {
+        await answersRef.child("allStudentsData/students").child(studentId).update({
+          name, answers: studentResponses, timestamp: Date.now()
+        });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (error) {
+        alert("Errore durante l'invio delle risposte.");
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!answersRef || !confirm("Сбросить все ответы? · Vuoi azzerare tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        responses: {},
+        writers: {},
+        allStudentsData: {}
+      });
+    });
+
+    updateUIState();
+  </script>
+</body>
+</html>

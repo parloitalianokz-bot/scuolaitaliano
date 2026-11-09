@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 10 — La borsa rossa (Esercizio D)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    :focus-visible {
+      outline: 3px solid rgba(189, 105, 77, .55);
+      outline-offset: 3px;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .home-navigation {
+      display: flex;
+      justify-content: flex-start;
+      margin: 0 0 12px;
+    }
+    .home-navigation a,
+    .exercise-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .home-navigation a:hover,
+    .exercise-navigation a:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .exercise-navigation { display: flex; justify-content: flex-end; margin: 0 0 24px; }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      background: #eaf1e8;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(1.9rem, 5vw, 2.65rem);
+      letter-spacing: -.04em;
+      color: var(--primary-dark);
+      line-height: 1.12;
+    }
+    .hero-subtitle {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: .98rem;
+    }
+
+    /* Box Istruzioni */
+    .instruction-box {
+      background: #fff;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title {
+      font-size: .85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .instruction-text {
+      font-size: .98rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Top Controls */
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 14px 20px;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 16px;
+      background: rgba(255, 254, 250, .96);
+      box-shadow: 0 8px 22px rgba(43, 69, 46, .055);
+    }
+    .teacher-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .teacher-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+    .teacher-toggle input { accent-color: var(--primary); }
+
+    button.reset-btn {
+      padding: 6px 14px;
+      border: 1px solid #fca5a5;
+      border-radius: 10px;
+      background: #fff;
+      color: #dc2626;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    button.reset-btn:hover { background: #fef2f2; }
+
+    button.release-token-btn {
+      padding: 6px 14px;
+      border: 1px solid #e8c58a;
+      border-radius: 10px;
+      background: #fffaf0;
+      color: #8a5a12;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    button.release-token-btn:hover { background: #fff1d6; }
+
+    .card {
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+      margin-bottom: 32px;
+    }
+
+    body.teacher-mode #student-form-card { display: none; }
+
+    .token-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      background: var(--primary-light);
+      border-radius: 14px;
+    }
+    .btn-token {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    .btn-token.release { background: #bd694d; }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+
+    .login-box {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .login-box label {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--primary-dark);
+      white-space: nowrap;
+    }
+    .login-box input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 10px;
+      font: inherit;
+      font-size: .95rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .speech-prompts {
+      position: relative;
+      margin: 0 0 24px;
+      padding: clamp(20px, 4vw, 28px);
+      overflow: hidden;
+      border: 1px solid #d8e5d8;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #fffefa, #f2f7ef);
+      box-shadow: 0 10px 28px rgba(43, 69, 46, .07);
+    }
+    .speech-prompts::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), #a8c49f, var(--accent));
+      content: "";
+    }
+    .speech-prompts h2 {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: clamp(1.2rem, 3vw, 1.45rem);
+      letter-spacing: -.02em;
+    }
+    .speech-prompts-intro {
+      margin: 6px 0 18px;
+      color: var(--text-muted);
+      font-size: .94rem;
+      line-height: 1.5;
+    }
+    .speech-prompts-viewport {
+      height: 190px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 2px 8px 2px 2px;
+      scrollbar-color: #a8c49f #edf4ed;
+      scrollbar-width: thin;
+      overscroll-behavior: contain;
+    }
+    .speech-prompts-track {
+      display: flex;
+      flex-direction: column;
+    }
+    .speech-prompts-track ol {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: conversation-question;
+    }
+    .speech-prompts li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 54px;
+      padding: 10px 12px;
+      border: 1px solid rgba(71, 119, 85, .14);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .88);
+      color: var(--text);
+      font-size: .95rem;
+      font-weight: 600;
+      line-height: 1.3;
+      box-shadow: 0 3px 10px rgba(43, 69, 46, .035);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      counter-increment: conversation-question;
+    }
+    .speech-prompts li::before {
+      display: grid;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: .82rem;
+      font-weight: 800;
+      content: counter(conversation-question, decimal-leading-zero);
+    }
+    .speech-prompts li:hover {
+      transform: translateY(-2px);
+      border-color: rgba(71, 119, 85, .42);
+      box-shadow: 0 8px 18px rgba(43, 69, 46, .08);
+    }
+
+    /* Area Registrazione e Trascrizione Live */
+    .recording-controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .btn-mic {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(71, 119, 85, .3);
+      transition: all .2s ease;
+    }
+    .btn-mic:hover { background: var(--primary-dark); }
+    .btn-mic.recording {
+      background: #dc2626;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, .4);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .live-transcript-box {
+      min-height: 160px;
+      padding: 20px;
+      border: 2px dashed #b7dfc1;
+      border-radius: 18px;
+      background: #faf9f5;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+    .live-transcript-box.placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .speaking-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+    .speaker-name {
+      color: var(--accent);
+    }
+
+    /* Sezione Risultati Insegnante */
+    .results-section h2 {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+    .answer-list { display: flex; flex-direction: column; gap: 12px; }
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(130px, .3fr) 1fr;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      font-size: .95rem;
+    }
+    .answer-author { font-weight: 800; color: var(--primary-dark); }
+    .answer-text {
+      display: block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+      font-weight: 500;
+      background: #faf9f5;
+      border: 1px solid #e8e6dc;
+      line-height: 1.6;
+    }
+    .answer-text.review-approved { background: var(--success-bg); border-color: #b7dfc1; color: var(--success); }
+    .answer-text.review-rejected { background: #fde8e7; border-color: #fca5a5; color: #dc2626; }
+
+    .answer-cell { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+    .answer-cell .answer-text { flex: 1; min-width: 0; }
+    .answer-review-controls { display: flex; flex-shrink: 0; gap: 4px; margin-top: 4px; }
+    .answer-review-btn {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .answer-review-btn.approve { color: var(--success); }
+    .answer-review-btn.reject { color: #dc2626; }
+    .answer-review-btn:hover { background: #f1f3ef; }
+    .answer-review-btn[aria-pressed="true"] { background: #f1f3ef; }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .answer-row { grid-template-columns: 1fr; }
+      .login-box { flex-direction: column; align-items: stretch; }
+      .speech-prompts-viewport { height: 190px; }
+      .speech-prompts li { min-height: 54px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .speech-prompts-viewport { height: 190px; max-height: 190px; overflow-y: auto; }
+      .speech-prompts-track ol[aria-hidden="true"] { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="index.html">← Torna all’inizio</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 10 · Produzione Orale</span>
+      <h1>La borsa rossa</h1>
+      <p class="hero-subtitle">Rispondi alle domande sul racconto in italiano.</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio D</div>
+      <div class="instruction-text">
+        👉 <strong>Введите ваше имя, возьмите слово и ответьте устно на вопросы по рассказу.</strong><br>
+        <small style="color: var(--text-muted);">Нажмите кнопку микрофона, чтобы начать запись. Распознанный текст будет виден всей группе.</small>
+      </div>
+    </div>
+
+    <!-- Barra Controlli Superiore -->
+    <div id="status" class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle">
+          <input type="checkbox" id="teacher-mode">
+          Режим учителя · Modalità insegnante
+        </label>
+
+        <button id="release-token" class="release-token-btn" type="button" style="display:none;">🔓 Liberare il turno</button>
+        <button id="reset" class="reset-btn" type="button" style="display:none;">⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+
+    <!-- MODALITÀ STUDENTE / REGISTRAZIONE -->
+    <section id="student-form-card" class="card">
+      <div class="login-box">
+        <label for="student-name-input">Ваше имя (Имя Фамилия):</label>
+        <input type="text" id="student-name-input" placeholder="Введите ваше имя...">
+      </div>
+
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700; color:var(--primary-dark);"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+
+      <section class="speech-prompts" aria-labelledby="speech-prompts-title">
+        <h2 id="speech-prompts-title">💬 Domande per la conversazione</h2>
+        <p class="speech-prompts-intro">Segui queste domande per organizzare il tuo racconto e parlare in italiano.</p>
+        <div class="speech-prompts-viewport" tabindex="0" aria-label="Domande scorrevoli: usa la rotellina, il touch o i tasti freccia per scorrere">
+          <div class="speech-prompts-track">
+            <ol>
+              <li>Chi sono i due personaggi di questa storia?</li>
+              <li>Com’è la signora?</li>
+              <li>Com’è il commesso?</li>
+              <li>Dove è il commesso?</li>
+              <li>Che cosa cerca la signora?</li>
+              <li>Perché nel primo negozio non ci sono borse?</li>
+              <li>Che cosa compra il primo giorno la signora?</li>
+              <li>Dove va il secondo giorno la signora?</li>
+              <li>Chi è il commesso?</li>
+              <li>Che cosa compra alla fine la signora?</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Area Microfono (visibile solo a chi possiede il Token) -->
+      <div id="recording-area" style="display: none;" class="recording-controls">
+        <button id="btn-toggle-mic" class="btn-mic" type="button">
+          🎤 Inizia a parlare · Начать говорить
+        </button>
+      </div>
+
+      <!-- Indicatore e Box Trascrizione Live per TUTTI -->
+      <div class="speaking-indicator">
+        🗣️ Говорит: <span id="current-speaker-display" class="speaker-name">Никто не говорит</span>
+      </div>
+
+      <div id="live-transcript-display" class="live-transcript-box placeholder">
+        Здесь появится распознанный текст вашего пересказа...
+      </div>
+    </section>
+
+    <!-- SEZIONE RISULTATI (PER INSEGNANTE) -->
+    <section class="results-section card">
+      <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+      <div id="responses-list">
+        <p style="color: var(--text-muted); font-size: .9rem;">Пока никто не отправил пересказ...</p>
+      </div>
+    </section>
+
+    <nav class="exercise-navigation" aria-label="Prossimo esercizio">
+      <a href="es_e.html">Vai all’esercizio E →</a>
+    </nav>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    let answersRef = null;
+    let isTeacher = false;
+    let currentWriter = null;
+    let currentWriterName = "";
+    let allResponses = {};
+
+    let recognition = null;
+    let isRecording = false;
+
+    const teacherToggle = document.getElementById("teacher-mode");
+    const resetButton = document.getElementById("reset");
+    const releaseTokenButton = document.getElementById("release-token");
+    const studentNameInput = document.getElementById("student-name-input");
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const tokenStatusText = document.getElementById("token-status-text");
+    const recordingArea = document.getElementById("recording-area");
+    const btnToggleMic = document.getElementById("btn-toggle-mic");
+    const currentSpeakerDisplay = document.getElementById("current-speaker-display");
+    const liveTranscriptDisplay = document.getElementById("live-transcript-display");
+    const responsesList = document.getElementById("responses-list");
+
+    if (localStorage.getItem("parlo_student_name")) {
+      studentNameInput.value = localStorage.getItem("parlo_student_name");
+    }
+
+    // Inizializzazione Speech Recognition API
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'it-IT';
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          interimTranscript += event.results[i][0].transcript;
+        }
+
+        if (currentWriter === myClientId && answersRef) {
+          answersRef.child("tokenData").child("liveTranscript").set(interimTranscript);
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Errore Riconoscimento Vocale:", event.error);
+        if (isRecording) stopRecording();
+      };
+
+      recognition.onend = () => {
+        if (isRecording) {
+          try { recognition.start(); } catch(e) {}
+        }
+      };
+    } else {
+      alert("Il browser non supporta il riconoscimento vocale. Usa Google Chrome o Safari.");
+    }
+
+    function startRecording() {
+      if (!recognition) return;
+      try {
+        recognition.start();
+        isRecording = true;
+        btnToggleMic.textContent = "⏹️ Закончить и сохранить · Ferma e salva";
+        btnToggleMic.classList.add("recording");
+      } catch (e) {
+        console.error("Errore avvio registrazione:", e);
+      }
+    }
+
+    function stopRecording() {
+      if (!recognition) return;
+      isRecording = false;
+      try { recognition.stop(); } catch(e) {}
+      btnToggleMic.textContent = "🎤 Inizia a parlare · Начать говорить";
+      btnToggleMic.classList.remove("recording");
+
+      // Salva la trascrizione finale nel profilo dello studente
+      const textToSave = liveTranscriptDisplay.textContent.trim();
+      const studentName = studentNameInput.value.trim() || currentWriterName || "Anonimo";
+      if (textToSave && answersRef) {
+        const studentId = studentName.replace(/[.#$\/\[\]]/g, "_");
+        answersRef.child("allStudentsData").child("students").child(studentId).update({
+          name: studentName,
+          transcription: textToSave,
+          timestamp: Date.now()
+        });
+      }
+    }
+
+    btnToggleMic.onclick = () => {
+      if (!isRecording) {
+        startRecording();
+      } else {
+        stopRecording();
+      }
+    };
+
+    btnTakeToken.onclick = () => {
+      const name = studentNameInput.value.trim();
+      if (!currentWriter && !name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome!");
+        studentNameInput.focus();
+        return;
+      }
+
+      localStorage.setItem("parlo_student_name", name);
+
+      if (answersRef) {
+        if (currentWriter === myClientId) {
+          if (isRecording) stopRecording();
+          answersRef.child("tokenData").update({
+            currentWriter: null,
+            writerName: ""
+          });
+        } else if (!currentWriter) {
+          answersRef.child("tokenData").update({
+            currentWriter: myClientId,
+            writerName: name,
+            liveTranscript: ""
+          });
+        }
+      }
+    };
+
+    teacherToggle.addEventListener("change", (e) => {
+      isTeacher = e.target.checked;
+      document.body.classList.toggle("teacher-mode", isTeacher);
+      resetButton.style.display = isTeacher ? "inline-block" : "none";
+      releaseTokenButton.style.display = isTeacher && currentWriter ? "inline-block" : "none";
+      renderResponsesAllMode();
+    });
+
+    releaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWriter && answersRef && confirm(`Liberare il turno di ${currentWriterName || "questo studente"}?`)) {
+        answersRef.child("tokenData").update({
+          currentWriter: null,
+          writerName: ""
+        });
+      }
+    });
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita10-borsa-rossa-d");
+
+        answersRef.on("value", (snapshot) => {
+          const data = snapshot.val() || {};
+          const tData = data.tokenData || {};
+
+          currentWriter = tData.currentWriter || null;
+          currentWriterName = tData.writerName || "";
+          releaseTokenButton.style.display = isTeacher && currentWriter ? "inline-block" : "none";
+          if (isRecording && currentWriter !== myClientId) stopRecording();
+
+          // Gestione UI Token
+          if (!currentWriter) {
+            tokenStatusText.textContent = "";
+            btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+            btnTakeToken.className = "btn-token";
+            btnTakeToken.disabled = false;
+            recordingArea.style.display = "none";
+            currentSpeakerDisplay.textContent = "Никто не говорит";
+          } else if (currentWriter === myClientId) {
+            tokenStatusText.textContent = "Вы говорите · Stai parlando";
+            btnTakeToken.textContent = "✔ Завершить · Lascia la parola";
+            btnTakeToken.className = "btn-token release";
+            btnTakeToken.disabled = false;
+            recordingArea.style.display = "flex";
+            currentSpeakerDisplay.textContent = `${currentWriterName} (Вы)`;
+          } else {
+            tokenStatusText.textContent = `🔒 Говорит ${currentWriterName}`;
+            btnTakeToken.textContent = `🔒 Говорит ${currentWriterName}`;
+            btnTakeToken.className = "btn-token busy";
+            btnTakeToken.disabled = true;
+            recordingArea.style.display = "none";
+            currentSpeakerDisplay.textContent = currentWriterName;
+          }
+
+          // Trascrizione Live
+          const liveText = tData.liveTranscript || "";
+          if (liveText.trim()) {
+            liveTranscriptDisplay.textContent = liveText;
+            liveTranscriptDisplay.classList.remove("placeholder");
+          } else {
+            liveTranscriptDisplay.textContent = "Здесь появится распознанный текст вашего пересказа...";
+            liveTranscriptDisplay.classList.add("placeholder");
+          }
+
+          allResponses = data.allStudentsData || {};
+          renderResponsesAllMode();
+        });
+      } catch (e) {
+        console.error("Errore Firebase:", e);
+      }
+    }
+
+    function renderResponsesAllMode() {
+      responsesList.replaceChildren();
+      const studentsData = allResponses.students || {};
+      const studentEntries = Object.entries(studentsData);
+
+      if (studentEntries.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.style.color = "var(--text-muted)";
+        emptyMessage.style.fontSize = ".9rem";
+        emptyMessage.textContent = "Пока никто не отправил пересказ...";
+        responsesList.appendChild(emptyMessage);
+        return;
+      }
+
+      const answerListContainer = document.createElement("div");
+      answerListContainer.className = "answer-list";
+
+      studentEntries.forEach(([studentId, sData]) => {
+        const row = document.createElement("div");
+        row.className = "answer-row";
+
+        const author = document.createElement("span");
+        author.className = "answer-author";
+        author.textContent = sData.name || "Studente";
+
+        const transcriptText = sData.transcription ? sData.transcription.trim() : "—";
+
+        const answer = document.createElement("span");
+        answer.className = "answer-text";
+        answer.textContent = transcriptText;
+
+        const reviewStatus = sData.reviewStatus;
+        if (reviewStatus === "approved") {
+          answer.classList.add("review-approved");
+        } else if (reviewStatus === "rejected") {
+          answer.classList.add("review-rejected");
+        }
+
+        const answerCell = document.createElement("div");
+        answerCell.className = "answer-cell";
+        answerCell.appendChild(answer);
+
+        if (isTeacher && transcriptText && transcriptText !== "—") {
+          const controls = document.createElement("div");
+          controls.className = "answer-review-controls";
+
+          const approveButton = document.createElement("button");
+          approveButton.type = "button";
+          approveButton.className = "answer-review-btn approve";
+          approveButton.textContent = "✓";
+          approveButton.setAttribute("aria-label", `Approva il пересказ di ${sData.name || "Studente"}`);
+          approveButton.setAttribute("aria-pressed", String(reviewStatus === "approved"));
+          approveButton.onclick = () => {
+            const nextValue = reviewStatus === "approved" ? null : "approved";
+            answersRef.child("allStudentsData").child("students").child(studentId).child("reviewStatus").set(nextValue);
+          };
+
+          const rejectButton = document.createElement("button");
+          rejectButton.type = "button";
+          rejectButton.className = "answer-review-btn reject";
+          rejectButton.textContent = "✕";
+          rejectButton.setAttribute("aria-label", `Non approvare il пересказ di ${sData.name || "Studente"}`);
+          rejectButton.setAttribute("aria-pressed", String(reviewStatus === "rejected"));
+          rejectButton.onclick = () => {
+            const nextValue = reviewStatus === "rejected" ? null : "rejected";
+            answersRef.child("allStudentsData").child("students").child(studentId).child("reviewStatus").set(nextValue);
+          };
+
+          controls.append(approveButton, rejectButton);
+          answerCell.appendChild(controls);
+        }
+
+        row.append(author, answerCell);
+        answerListContainer.appendChild(row);
+      });
+
+      responsesList.appendChild(answerListContainer);
+    }
+
+    resetButton.addEventListener("click", () => {
+      if (confirm("Сбросить все ответы? · Azzera tutte le risposte?")) {
+        answersRef.set({
+          tokenData: { currentWriter: null, writerName: "", liveTranscript: "" },
+          allStudentsData: {}
+        });
+      }
+    });
+
+    const speechPromptsViewport = document.querySelector(".speech-prompts-viewport");
+    const speechPromptsTrack = document.querySelector(".speech-prompts-track");
+    const originalPrompts = speechPromptsTrack?.querySelector("ol");
+    if (originalPrompts && speechPromptsViewport) {
+      const repeatedPrompts = originalPrompts.cloneNode(true);
+      repeatedPrompts.setAttribute("aria-hidden", "true");
+      speechPromptsTrack.appendChild(repeatedPrompts);
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let manualPauseUntil = 0;
+      let previousFrameTime = 0;
+      const pauseForManualScroll = () => {
+        manualPauseUntil = Date.now() + 5000;
+      };
+
+      ["wheel", "touchstart", "pointerdown", "keydown"].forEach((eventName) => {
+        speechPromptsViewport.addEventListener(eventName, pauseForManualScroll, { passive: true });
+      });
+
+      function autoScrollPrompts(time) {
+        if (previousFrameTime) {
+          const isInteracting = speechPromptsViewport.matches(":hover, :focus");
+          const isPaused = reducedMotion.matches || isInteracting || Date.now() < manualPauseUntil;
+          if (!isPaused) {
+            const loopHeight = originalPrompts.offsetHeight;
+            if (loopHeight > 0) {
+              speechPromptsViewport.scrollTop += (time - previousFrameTime) * 0.012;
+              if (speechPromptsViewport.scrollTop >= loopHeight) {
+                speechPromptsViewport.scrollTop -= loopHeight;
+              }
+            }
+          }
+        }
+        previousFrameTime = time;
+        requestAnimationFrame(autoScrollPrompts);
+      }
+
+      requestAnimationFrame(autoScrollPrompts);
+    }
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : Math.min(window.scrollY * 0.12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+</body>
+</html>
