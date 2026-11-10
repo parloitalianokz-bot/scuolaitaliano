@@ -130,6 +130,21 @@
       color: var(--text);
       line-height: 1.5;
     }
+    .recording-tips {
+      margin: -10px 0 24px;
+      padding: 12px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 12px;
+      background: rgba(255, 254, 250, .96);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .recording-tips summary {
+      color: var(--primary-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .recording-tips ul { margin: 10px 0 0; padding-left: 22px; }
 
     /* Top Controls */
     .top-controls {
@@ -164,6 +179,26 @@
       user-select: none;
     }
     .teacher-toggle input { accent-color: var(--primary); }
+    .writer-select-box[hidden] { display: none; }
+    .writer-select-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-dark);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .writer-select-box select {
+      max-width: 100%;
+      padding: 6px 10px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+    }
 
     button.reset-btn {
       padding: 6px 14px;
@@ -299,6 +334,7 @@
       line-height: 1.7;
       color: var(--text);
       overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
     .live-transcript-box.placeholder {
       color: var(--text-muted);
@@ -345,6 +381,7 @@
       background: #faf9f5;
       border: 1px solid #e8e6dc;
       line-height: 1.6;
+      white-space: pre-wrap;
     }
     .answer-text.review-approved { background: var(--success-bg); border-color: #b7dfc1; color: var(--success); }
     .answer-text.review-rejected { background: #fde8e7; border-color: #fca5a5; color: #dc2626; }
@@ -392,15 +429,29 @@
     <div class="instruction-box">
       <div class="instruction-title">💡 Задание · Esercizio D:</div>
       <div class="instruction-text">
-        👉 <strong>Возьмите слово и перескажите текст.</strong><br>
-        <small style="color: var(--text-muted);">Нажмите кнопку микрофона, чтобы начать запись. Ваш текст будет распознаваться в реальном времени и будет виден всей группе.</small>
+        👉 <strong>Перескажите текст, когда учитель предоставит вам слово.</strong><br>
+        <small style="color: var(--text-muted);">Только выбранный учителем студент сможет включить микрофон. Распознанный текст будет виден всей группе.</small>
       </div>
     </div>
+
+    <details class="recording-tips">
+      <summary>Советы для стабильной записи микрофона</summary>
+      <ul>
+        <li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li>
+        <li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li>
+        <li>Подключите устройство к зарядке и отключите режим энергосбережения.</li>
+        <li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li>
+        <li>По возможности используйте стабильное подключение к интернету.</li>
+      </ul>
+    </details>
 
     <!-- Barra Controlli Superiore -->
     <div id="status" class="top-controls">
       <div class="teacher-controls">
-        <button id="release-token" class="release-token-btn" type="button" style="display:none;">🔓 Liberare il turno</button>
+        <div id="writer-selector-container" class="writer-select-box" hidden>
+          <label for="writer-select">Dà la parola a:</label>
+          <select id="writer-select" aria-label="Scegli lo studente che può registrare"></select>
+        </div>
         <button id="reset" class="reset-btn" type="button" style="display:none;">⚠️ Сбросить · Azzera</button>
       </div>
     </div>
@@ -408,8 +459,7 @@
     <!-- MODALITÀ STUDENTE / REGISTRAZIONE -->
     <section id="student-form-card" class="card">
       <div class="token-bar">
-        <span id="token-status-text" style="font-weight:700; color:var(--primary-dark);"></span>
-        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+        <span id="token-status-text" role="status" aria-live="polite" style="font-weight:700; color:var(--primary-dark);"></span>
       </div>
 
       <!-- Area Microfono (visibile solo a chi possiede il Token) -->
@@ -448,19 +498,27 @@
       projectId: "esercizi-parlo-italiano"
     };
 
-    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const session = window.parloUnit46Session || {};
+    const isTeacher = !!session.isTeacher;
+    const sessionName = session.name || "";
+    const sessionIdentity = sessionName
+      ? `${isTeacher ? "teacher" : "student"}_${encodeURIComponent(sessionName).replace(/[.]/g, "%2E")}`
+      : "";
     let answersRef = null;
-    let isTeacher = !!window.parloUnit46Session?.isTeacher;
+    let presenceRef = null;
+    let connectedParticipants = {};
     let currentWriter = null;
     let currentWriterName = "";
     let allResponses = {};
 
     let recognition = null;
     let isRecording = false;
+    let committedTranscript = "";
+    let currentRecognitionTranscript = "";
 
     const resetButton = document.getElementById("reset");
-    const releaseTokenButton = document.getElementById("release-token");
-    const btnTakeToken = document.getElementById("btn-take-token");
+    const writerSelectorContainer = document.getElementById("writer-selector-container");
+    const writerSelect = document.getElementById("writer-select");
     const tokenStatusText = document.getElementById("token-status-text");
     const recordingArea = document.getElementById("recording-area");
     const btnToggleMic = document.getElementById("btn-toggle-mic");
@@ -468,6 +526,16 @@
     const liveTranscriptDisplay = document.getElementById("live-transcript-display");
     const responsesList = document.getElementById("responses-list");
 
+    function appendTranscript(base, addition) {
+      const first = (base || "").trim();
+      const next = (addition || "").trim();
+      if (!next) return first;
+      return first ? `${first}\n${next}` : next;
+    }
+
+    function getCurrentTranscript() {
+      return appendTranscript(committedTranscript, currentRecognitionTranscript);
+    }
 
     // Inizializzazione Speech Recognition API
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -478,24 +546,41 @@
       recognition.lang = 'it-IT';
 
       recognition.onresult = (event) => {
-        let interimTranscript = '';
+        let sessionTranscript = '';
         for (let i = 0; i < event.results.length; i++) {
-          interimTranscript += event.results[i][0].transcript;
+          sessionTranscript += event.results[i][0].transcript;
         }
+        currentRecognitionTranscript = sessionTranscript.trim();
+        const fullTranscript = getCurrentTranscript();
 
-        if (currentWriter === myClientId && answersRef) {
-          answersRef.child("tokenData").child("liveTranscript").set(interimTranscript);
+        if (!isTeacher && sessionIdentity && currentWriter === sessionIdentity && answersRef) {
+          liveTranscriptDisplay.textContent = fullTranscript || "Здесь появится распознанный текст вашего пересказа...";
+          liveTranscriptDisplay.classList.toggle("placeholder", !fullTranscript);
+          answersRef.child("tokenData").child("liveTranscript").set(fullTranscript);
         }
       };
 
       recognition.onerror = (event) => {
         console.error("Errore Riconoscimento Vocale:", event.error);
-        if (isRecording) stopRecording();
+        if (isRecording && ["not-allowed", "service-not-allowed", "audio-capture"].includes(event.error)) {
+          stopRecording();
+        }
       };
 
       recognition.onend = () => {
+        if (currentRecognitionTranscript) {
+          committedTranscript = appendTranscript(committedTranscript, currentRecognitionTranscript);
+          currentRecognitionTranscript = "";
+          if (!isTeacher && sessionIdentity && currentWriter === sessionIdentity && answersRef) {
+            answersRef.child("tokenData").child("liveTranscript").set(committedTranscript);
+          }
+        }
         if (isRecording) {
-          try { recognition.start(); } catch(e) {}
+          setTimeout(() => {
+            if (isRecording && currentWriter === sessionIdentity) {
+              try { recognition.start(); } catch(e) {}
+            }
+          }, 250);
         }
       };
     } else {
@@ -503,8 +588,9 @@
     }
 
     function startRecording() {
-      if (!recognition) return;
+      if (!recognition || isTeacher || !sessionIdentity || currentWriter !== sessionIdentity) return;
       try {
+        currentRecognitionTranscript = "";
         recognition.start();
         isRecording = true;
         btnToggleMic.textContent = "⏹️ Закончить и сохранить · Ferma e salva";
@@ -522,8 +608,8 @@
       btnToggleMic.classList.remove("recording");
 
       // Salva la trascrizione finale nel profilo dello studente
-      const textToSave = liveTranscriptDisplay.textContent.trim();
-      const studentName = window.parloUnit46Session?.isTeacher ? "" : window.parloUnit46Session?.name;
+      const textToSave = getCurrentTranscript();
+      const studentName = sessionName;
       if (textToSave && studentName && answersRef) {
         const studentId = studentName.replace(/[.#$\/\[\]]/g, "_");
         answersRef.child("allStudentsData").child("students").child(studentId).update({
@@ -542,82 +628,100 @@
       }
     };
 
-    btnTakeToken.onclick = () => {
-      const name = window.parloUnit46Session?.name;
-      if (!currentWriter && !name) return;
-
-      if (answersRef) {
-        if (currentWriter === myClientId) {
-          if (isRecording) stopRecording();
-          answersRef.child("tokenData").update({
-            currentWriter: null,
-            writerName: ""
-          });
-        } else if (!currentWriter) {
-          answersRef.child("tokenData").update({
-            currentWriter: myClientId,
-            writerName: name,
-            liveTranscript: ""
-          });
+    function renderWriterOptions() {
+      if (!isTeacher) return;
+      const participants = new Map();
+      Object.values(connectedParticipants).forEach(participant => {
+        if (participant?.identity && participant.name && participant.role === "student") {
+          participants.set(participant.identity, participant);
         }
+      });
+      if (currentWriter && !participants.has(currentWriter)) {
+        participants.set(currentWriter, {
+          identity: currentWriter,
+          name: currentWriterName || "Studente",
+          role: "student",
+          disconnected: true
+        });
       }
-    };
+
+      const options = [new Option("— Nessuno abilitato —", "")];
+      [...participants.values()]
+        .sort((a, b) => a.name.localeCompare(b.name, "it"))
+        .forEach(participant => {
+          const label = participant.disconnected ? `${participant.name} (non connesso)` : participant.name;
+          options.push(new Option(label, participant.identity));
+        });
+      writerSelect.replaceChildren(...options);
+      writerSelect.value = currentWriter || "";
+    }
+
+    writerSelect.addEventListener("change", () => {
+      if (!isTeacher || !answersRef) return;
+      const selectedIdentity = writerSelect.value || null;
+      const participant = Object.values(connectedParticipants)
+        .find(item => item?.identity === selectedIdentity && item.role === "student");
+      if (selectedIdentity && !participant) {
+        writerSelect.value = currentWriter || "";
+        return;
+      }
+      answersRef.child("tokenData").update({
+        currentWriter: selectedIdentity,
+        writerName: participant?.name || "",
+        liveTranscript: ""
+      });
+    });
 
     if (isTeacher) {
       document.body.classList.add("teacher-mode");
       resetButton.style.display = "inline-block";
-      releaseTokenButton.style.display = currentWriter ? "inline-block" : "none";
+      writerSelectorContainer.hidden = false;
+      renderWriterOptions();
     }
-
-    releaseTokenButton.addEventListener("click", () => {
-      if (isTeacher && currentWriter && answersRef && confirm(`Liberare il turno di ${currentWriterName || "questo studente"}?`)) {
-        answersRef.child("tokenData").update({
-          currentWriter: null,
-          writerName: ""
-        });
-      }
-    });
 
     if (window.firebase) {
       try {
         firebase.initializeApp(firebaseConfig);
         answersRef = firebase.database().ref("esercizi/unita46-funerale-augusto-d");
+        presenceRef = firebase.database().ref("esercizi/unita46-presence");
+
+        presenceRef.on("value", snapshot => {
+          connectedParticipants = snapshot.val() || {};
+          renderWriterOptions();
+        });
 
         answersRef.on("value", (snapshot) => {
           const data = snapshot.val() || {};
           const tData = data.tokenData || {};
+          const nextWriter = tData.currentWriter || null;
 
-          currentWriter = tData.currentWriter || null;
+          if (isRecording && nextWriter !== sessionIdentity) stopRecording();
+          const writerChanged = currentWriter !== nextWriter;
+          currentWriter = nextWriter;
           currentWriterName = tData.writerName || "";
-          releaseTokenButton.style.display = isTeacher && currentWriter ? "inline-block" : "none";
-          if (isRecording && currentWriter !== myClientId) stopRecording();
+          renderWriterOptions();
 
-          // Gestione UI Token
+          const liveText = tData.liveTranscript || "";
+          if (writerChanged || !isRecording) {
+            committedTranscript = liveText.trim();
+            currentRecognitionTranscript = "";
+          }
+
           if (!currentWriter) {
-            tokenStatusText.textContent = "";
-            btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
-            btnTakeToken.className = "btn-token";
-            btnTakeToken.disabled = false;
+            tokenStatusText.textContent = "Nessuno studente abilitato alla registrazione.";
             recordingArea.style.display = "none";
             currentSpeakerDisplay.textContent = "Никто не говорит";
-          } else if (currentWriter === myClientId) {
-            tokenStatusText.textContent = "Вы говорите · Stai parlando";
-            btnTakeToken.textContent = "✔ Завершить · Lascia la parola";
-            btnTakeToken.className = "btn-token release";
-            btnTakeToken.disabled = false;
+          } else if (!isTeacher && currentWriter === sessionIdentity) {
+            tokenStatusText.textContent = "Hai il turno · Puoi registrare il tuo racconto";
             recordingArea.style.display = "flex";
             currentSpeakerDisplay.textContent = `${currentWriterName} (Вы)`;
           } else {
-            tokenStatusText.textContent = `🔒 Говорит ${currentWriterName}`;
-            btnTakeToken.textContent = `🔒 Говорит ${currentWriterName}`;
-            btnTakeToken.className = "btn-token busy";
-            btnTakeToken.disabled = true;
+            tokenStatusText.textContent = `🔒 Turno assegnato a ${currentWriterName}`;
             recordingArea.style.display = "none";
             currentSpeakerDisplay.textContent = currentWriterName;
           }
 
           // Trascrizione Live
-          const liveText = tData.liveTranscript || "";
           if (liveText.trim()) {
             liveTranscriptDisplay.textContent = liveText;
             liveTranscriptDisplay.classList.remove("placeholder");

@@ -47,6 +47,32 @@
     };
   }
 
+  // Tiene aggiornato l'elenco degli utenti connessi all'Unità 46 nel gruppo corrente.
+  if (name) {
+    const role = isTeacher ? "teacher" : "student";
+    const identity = `${role}_${encodeURIComponent(name).replace(/[.]/g, "%2E")}`;
+    const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+    let attempts = 0;
+    const presenceTimer = window.setInterval(() => {
+      attempts++;
+      if (attempts > 100) {
+        window.clearInterval(presenceTimer);
+        return;
+      }
+      if (!window.firebase?.apps?.length) return;
+      window.clearInterval(presenceTimer);
+
+      const database = firebase.database();
+      const presenceRef = database.ref("esercizi/unita46-presence").child(presenceId);
+      database.ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() === true) {
+          presenceRef.onDisconnect().remove();
+          presenceRef.set({ identity, name, role });
+        }
+      });
+    }, 100);
+  }
+
   // Nelle unità l'identità proviene dal login principale, non da un secondo form.
   document.querySelectorAll(".login-box, .student-entry").forEach(box => { box.hidden = true; });
 
@@ -133,4 +159,8 @@
   });
 
   navigation.append(badge, label, menu);
+
+  const notesScript = document.createElement("script");
+  notesScript.src = "../classroom-notes.js";
+  document.body.appendChild(notesScript);
 })();

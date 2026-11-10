@@ -389,10 +389,12 @@
     </nav>
 
     <nav class="exercise-links" aria-label="Esercizi dell’Unità 46" hidden>
-      <a href="046_es_a.html">Esercizio A <span aria-hidden="true">→</span></a>
+      <a href="es_a.html">Esercizio A <span aria-hidden="true">→</span></a>
     </nav>
   </main>
-      <script src="firebase-group-scope.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
   <script>
     const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
     const previousParagraphButton = document.getElementById("previous-paragraph");

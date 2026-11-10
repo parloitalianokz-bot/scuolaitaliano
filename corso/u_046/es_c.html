@@ -170,7 +170,8 @@
       color: var(--primary-dark);
     }
     .mode-select-box.visible { display: flex; }
-    .mode-select-box select {
+    .mode-select-box select,
+    .writer-select-box select {
       padding: 6px 10px;
       border: 1.5px solid #d4e1d5;
       border-radius: 8px;
@@ -180,6 +181,16 @@
       color: var(--primary-dark);
       background: #fff;
     }
+    .writer-select-box {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-dark);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .writer-select-box.visible { display: flex; }
+    .writer-select-box select { max-width: 100%; }
 
     button.reset-btn {
       padding: 6px 14px;
@@ -485,8 +496,11 @@
     <!-- MODALITÀ 1: UNO ALLA VOLTA -->
     <section id="token-mode-section" class="card active-mode">
       <div class="token-bar">
-        <span id="token-status-text" style="font-weight:700; color:var(--primary-dark);"></span>
-        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+        <span id="token-status-text" role="status" aria-live="polite" style="font-weight:700; color:var(--primary-dark);"></span>
+        <div class="writer-select-box" id="writer-selector-container">
+          <label for="writer-select">Dà la parola a:</label>
+          <select id="writer-select" aria-label="Scegli chi può scrivere"></select>
+        </div>
       </div>
 
       <div id="token-slides-container"></div>
@@ -535,6 +549,14 @@
       projectId: "esercizi-parlo-italiano"
     };
 
+    const session = window.parloUnit46Session || {};
+    const isTeacher = !!session.isTeacher;
+    const sessionName = session.name || "";
+    const sessionRole = isTeacher ? "teacher" : "student";
+    const sessionIdentity = sessionName
+      ? `${sessionRole}_${encodeURIComponent(sessionName).replace(/[.]/g, "%2E")}`
+      : "";
+
     // 14 Domande dell'Esercizio C (numerate 1..14)
     const questionsData = [
       { id: "c1", num: "1.", text: "Come si chiamano le zie di Marco?" },
@@ -568,7 +590,6 @@
     let activeTokenSlide = 0;
     let activeStudentSlide = 0;
 
-    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
     const workModeSelect = document.getElementById("work-mode");
     const modeSelectorContainer = document.getElementById("mode-selector-container");
     const resetButton = document.getElementById("reset");
@@ -578,8 +599,11 @@
     const saveStatus = document.getElementById("save-status");
     const responsesList = document.getElementById("responses-list");
 
-    const btnTakeToken = document.getElementById("btn-take-token");
+    const writerSelectorContainer = document.getElementById("writer-selector-container");
+    const writerSelect = document.getElementById("writer-select");
     const tokenStatusText = document.getElementById("token-status-text");
+    let connectedParticipants = {};
+    let presenceRef = null;
 
 
     function buildSlideItem(item, isTokenMode, canEdit, currentState, onInputChange) {
@@ -687,9 +711,9 @@
 
     function renderTokenSlides() {
       const container = document.getElementById("token-slides-container");
-      const canEdit = currentWriter === myClientId;
+      const canEdit = !!sessionIdentity && currentWriter === sessionIdentity;
 
-      const editingTokenText = document.activeElement?.classList.contains("open-answer") && currentWriter === myClientId;
+      const editingTokenText = document.activeElement?.classList.contains("open-answer") && canEdit;
       if (editingTokenText) return;
 
       container.replaceChildren();
@@ -702,13 +726,13 @@
     }
 
     let answersRef = null;
-    let isTeacher = !!window.parloUnit46Session?.isTeacher;
     let currentWorkMode = "token";
     let currentWriter = null;
+    let currentWriterName = "";
     let allResponses = {};
 
     function saveTokenAnswer(questionId) {
-      if (answersRef && currentWriter === myClientId) {
+      if (answersRef && sessionIdentity && currentWriter === sessionIdentity) {
         answersRef.child("tokenData").child("answers").child(questionId).set(tokenState[questionId]);
       }
     }
@@ -746,21 +770,59 @@
       }
     });
 
-    btnTakeToken.onclick = () => {
-      if (answersRef) {
-        if (currentWriter === myClientId) {
-          flushTokenSaves();
-          answersRef.child("tokenData").child("currentWriter").set(null);
-        } else if (!currentWriter) {
-          answersRef.child("tokenData").child("currentWriter").set(myClientId);
-        }
+    function participantLabel(participant) {
+      if (participant.role === "teacher") {
+        return participant.name === "Assel" ? "maestra Assel" : `maestro ${participant.name || "Antonio"}`;
       }
-    };
+      return participant.name || "Studente";
+    }
+
+    function renderWriterOptions() {
+      if (!isTeacher) return;
+      const participants = new Map();
+      Object.values(connectedParticipants).forEach(participant => {
+        if (participant?.identity && participant.name) participants.set(participant.identity, participant);
+      });
+      if (isTeacher && sessionIdentity) {
+        participants.set(sessionIdentity, { identity: sessionIdentity, name: sessionName, role: "teacher" });
+      }
+
+      const options = [new Option("— Nessuno abilitato —", "")];
+      [...participants.values()]
+        .sort((a, b) => participantLabel(a).localeCompare(participantLabel(b), "it"))
+        .forEach(participant => options.push(new Option(participantLabel(participant), participant.identity)));
+
+      if (currentWriter && !participants.has(currentWriter)) {
+        options.push(new Option(`${currentWriterName || "Partecipante"} (non connesso)`, currentWriter));
+      }
+      writerSelect.replaceChildren(...options);
+      writerSelect.value = currentWriter || "";
+    }
+
+    writerSelect.addEventListener("change", () => {
+      if (!isTeacher || !answersRef) return;
+      const selectedIdentity = writerSelect.value || null;
+      const selectedParticipant = Object.values(connectedParticipants)
+        .find(participant => participant?.identity === selectedIdentity);
+      const isSelf = selectedIdentity === sessionIdentity && isTeacher;
+      const name = selectedParticipant?.name || (isSelf ? sessionName : currentWriterName);
+      const role = selectedParticipant?.role || (isSelf ? "teacher" : "student");
+      answersRef.child("tokenData").update({
+        currentWriter: selectedIdentity,
+        writerName: selectedIdentity ? participantLabel({ name, role }) : ""
+      });
+    });
 
     if (window.firebase) {
       try {
         firebase.initializeApp(firebaseConfig);
         answersRef = firebase.database().ref("esercizi/unita46-funerale-augusto-c");
+        presenceRef = firebase.database().ref("esercizi/unita46-presence");
+
+        presenceRef.on("value", snapshot => {
+          connectedParticipants = snapshot.val() || {};
+          renderWriterOptions();
+        });
 
         answersRef.on("value", (snapshot) => {
           const data = snapshot.val() || {};
@@ -769,6 +831,7 @@
 
           const tData = data.tokenData || {};
           currentWriter = tData.currentWriter || null;
+          currentWriterName = tData.writerName || "";
           if (tData.answers) {
             tokenState = tData.answers;
           }
@@ -813,26 +876,20 @@
       if (currentWorkMode === "token") {
         tokenSection.classList.add("active-mode");
         allSection.classList.remove("active-mode");
+        writerSelectorContainer.classList.toggle("visible", isTeacher);
+        renderWriterOptions();
 
         if (!currentWriter) {
-          tokenStatusText.textContent = "";
-          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
-          btnTakeToken.className = "btn-token";
-          btnTakeToken.disabled = false;
-        } else if (currentWriter === myClientId) {
-          tokenStatusText.textContent = "Вы редактируете · Stai modificando";
-          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
-          btnTakeToken.className = "btn-token release";
-          btnTakeToken.disabled = false;
+          tokenStatusText.textContent = "Nessun partecipante abilitato alla scrittura.";
+        } else if (currentWriter === sessionIdentity) {
+          tokenStatusText.textContent = "Hai il permesso di scrivere · Puoi scrivere";
         } else {
-          tokenStatusText.textContent = "🔒 Пишет одноклассник · Compagno scrive";
-          btnTakeToken.textContent = "🔒 Пишет одноклассник · Compagno scrive";
-          btnTakeToken.className = "btn-token busy";
-          btnTakeToken.disabled = true;
+          tokenStatusText.textContent = `${currentWriterName || "Un partecipante"} può scrivere.`;
         }
 
         renderTokenSlides();
       } else {
+        writerSelectorContainer.classList.remove("visible");
         tokenSection.classList.remove("active-mode");
         allSection.classList.add("active-mode");
         renderStudentSlides();
