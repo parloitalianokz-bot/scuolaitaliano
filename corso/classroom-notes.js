@@ -18,13 +18,14 @@
 
   const styles = document.createElement("style");
   styles.textContent = `
-    #parlo-notes-launcher{position:fixed;z-index:9998;right:20px;bottom:20px;padding:12px 17px;border:0;border-radius:999px;background:#2f5739;color:#fff;font:700 15px/1.2 system-ui,sans-serif;box-shadow:0 5px 20px #0003;cursor:pointer}
+    #parlo-notes-launcher{position:fixed;z-index:9998;right:20px;bottom:20px;padding:12px 17px;border:0;border-radius:999px;background:#2f5739;color:#fff;font:700 15px/1.2 system-ui,sans-serif;box-shadow:0 5px 20px #0003;cursor:move;touch-action:none;user-select:none}
     #parlo-notes-launcher:hover{background:#24452d}
-    #parlo-notes-dialog{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;padding:16px;background:#18201999;font-family:system-ui,sans-serif}
+    #parlo-notes-dialog{position:fixed;z-index:9999;inset:auto;display:block;padding:0;background:transparent;pointer-events:none;font-family:system-ui,sans-serif}
     #parlo-notes-dialog[hidden]{display:none}
-    #parlo-notes-panel{display:flex;flex-direction:column;gap:12px;width:min(760px,100%);max-height:min(86vh,900px);padding:20px;border:1px solid #d8e5d8;border-radius:18px;background:#fffefa;color:#292d28;box-shadow:0 18px 55px #0004}
+    #parlo-notes-panel{position:fixed;top:16px;right:20px;display:flex;flex-direction:column;gap:12px;width:min(760px,calc(100vw - 32px));max-height:min(86vh,900px);padding:20px;border:1px solid #d8e5d8;border-radius:18px;background:#fffefa;color:#292d28;box-shadow:0 18px 55px #0004;pointer-events:auto}
     #parlo-notes-panel h2{margin:0;color:#2f5739;font-size:1.25rem}
-    #parlo-notes-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    #parlo-notes-header{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:move;touch-action:none;user-select:none}
+    #parlo-notes-close{cursor:pointer}
     #parlo-notes-close{border:0;background:transparent;color:#39463a;font-size:1.7rem;cursor:pointer}
     #parlo-notes-tools{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
     #parlo-notes-tools button,#parlo-notes-tools select{min-height:36px;padding:6px 10px;border:1px solid #d8e5d8;border-radius:8px;background:#fff;color:#2f5739;font:600 14px system-ui,sans-serif;cursor:pointer}
@@ -35,7 +36,7 @@
     #parlo-notes-content[contenteditable="false"]{background:#f5f4ef}
     #parlo-notes-status{min-height:1.35em;margin:0;color:#59645a;font-size:.87rem}
     #parlo-notes-panel .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media(max-width:600px){#parlo-notes-launcher{right:12px;bottom:12px}#parlo-notes-panel{padding:14px}#parlo-notes-content{min-height:190px}}
+    @media(max-width:600px){#parlo-notes-launcher{right:12px;bottom:12px}#parlo-notes-panel{top:12px;right:12px;width:calc(100vw - 24px);max-height:78vh;padding:14px}#parlo-notes-content{min-height:190px}}
   `;
   document.head.appendChild(styles);
 
@@ -50,7 +51,7 @@
   dialog.id = "parlo-notes-dialog";
   dialog.hidden = true;
   dialog.innerHTML = `
-    <section id="parlo-notes-panel" role="dialog" aria-modal="true" aria-labelledby="parlo-notes-title">
+    <section id="parlo-notes-panel" role="dialog" aria-modal="false" aria-labelledby="parlo-notes-title">
       <header id="parlo-notes-header"><h2 id="parlo-notes-title">📝 Appunti di classe</h2><button id="parlo-notes-close" type="button" aria-label="Chiudi">×</button></header>
       <div id="parlo-notes-writer" hidden><label for="parlo-notes-student">Studente autorizzato a scrivere:</label><select id="parlo-notes-student"><option value="">Nessuno · solo insegnante</option></select></div>
       <div id="parlo-notes-tools" hidden aria-label="Formattazione del testo">
@@ -80,6 +81,116 @@
   let sharedTeacherName = teacherName;
   let saveTimer = null;
   let currentHtml = "";
+  const notesPanel = dialog.querySelector("#parlo-notes-panel");
+  const notesHeader = dialog.querySelector("#parlo-notes-header");
+  const panelPositionKey = `parlo_notes_position_${safeGroup}_${safe(unit)}`;
+  const launcherPositionKey = `parlo_notes_launcher_position_${safeGroup}_${safe(unit)}`;
+
+  function clampLauncherPosition() {
+    if (launcher.style.left === "") return;
+    const rect = launcher.getBoundingClientRect();
+    const left = Math.max(8, Math.min(rect.left, window.innerWidth - rect.width - 8));
+    const top = Math.max(8, Math.min(rect.top, window.innerHeight - rect.height - 8));
+    launcher.style.left = `${left}px`;
+    launcher.style.top = `${top}px`;
+  }
+
+  try {
+    const savedPosition = JSON.parse(localStorage.getItem(launcherPositionKey) || "null");
+    if (Number.isFinite(savedPosition?.left) && Number.isFinite(savedPosition?.top)) {
+      launcher.style.left = `${savedPosition.left}px`;
+      launcher.style.top = `${savedPosition.top}px`;
+      launcher.style.right = "auto";
+      launcher.style.bottom = "auto";
+      clampLauncherPosition();
+    }
+  } catch (_) {}
+
+  let suppressLauncherClick = false;
+  launcher.addEventListener("pointerdown", event => {
+    if (event.button !== 0) return;
+    const rect = launcher.getBoundingClientRect();
+    const startX = event.clientX;
+    const startY = event.clientY;
+    let dragged = false;
+    launcher.setPointerCapture(event.pointerId);
+
+    const moveLauncher = moveEvent => {
+      const deltaX = moveEvent.clientX - startX;
+      const deltaY = moveEvent.clientY - startY;
+      if (!dragged && Math.hypot(deltaX, deltaY) < 5) return;
+      dragged = true;
+      launcher.style.left = `${Math.max(8, Math.min(rect.left + deltaX, window.innerWidth - launcher.offsetWidth - 8))}px`;
+      launcher.style.top = `${Math.max(8, Math.min(rect.top + deltaY, window.innerHeight - launcher.offsetHeight - 8))}px`;
+      launcher.style.right = "auto";
+      launcher.style.bottom = "auto";
+    };
+    const stopMoving = () => {
+      launcher.removeEventListener("pointermove", moveLauncher);
+      launcher.removeEventListener("pointerup", stopMoving);
+      launcher.removeEventListener("pointercancel", stopMoving);
+      if (!dragged) return;
+      suppressLauncherClick = true;
+      setTimeout(() => { suppressLauncherClick = false; }, 0);
+      try {
+        const position = launcher.getBoundingClientRect();
+        localStorage.setItem(launcherPositionKey, JSON.stringify({ left: position.left, top: position.top }));
+      } catch (_) {}
+    };
+    launcher.addEventListener("pointermove", moveLauncher);
+    launcher.addEventListener("pointerup", stopMoving, { once: true });
+    launcher.addEventListener("pointercancel", stopMoving, { once: true });
+  });
+  window.addEventListener("resize", clampLauncherPosition);
+
+  function clampPanelPosition() {
+    if (notesPanel.style.left === "") return;
+    const rect = notesPanel.getBoundingClientRect();
+    const left = Math.max(8, Math.min(rect.left, window.innerWidth - rect.width - 8));
+    const top = Math.max(8, Math.min(rect.top, window.innerHeight - rect.height - 8));
+    notesPanel.style.left = `${left}px`;
+    notesPanel.style.top = `${top}px`;
+  }
+
+  try {
+    const savedPosition = JSON.parse(localStorage.getItem(panelPositionKey) || "null");
+    if (Number.isFinite(savedPosition?.left) && Number.isFinite(savedPosition?.top)) {
+      notesPanel.style.left = `${savedPosition.left}px`;
+      notesPanel.style.top = `${savedPosition.top}px`;
+      notesPanel.style.right = "auto";
+    }
+  } catch (_) {}
+
+  notesHeader.addEventListener("pointerdown", event => {
+    if (event.target.closest("button")) return;
+    const rect = notesPanel.getBoundingClientRect();
+    const offsetX = event.clientX - rect.left;
+    const offsetY = event.clientY - rect.top;
+    notesHeader.setPointerCapture(event.pointerId);
+    notesPanel.style.left = `${rect.left}px`;
+    notesPanel.style.top = `${rect.top}px`;
+    notesPanel.style.right = "auto";
+
+    const movePanel = moveEvent => {
+      const left = Math.max(8, Math.min(moveEvent.clientX - offsetX, window.innerWidth - notesPanel.offsetWidth - 8));
+      const top = Math.max(8, Math.min(moveEvent.clientY - offsetY, window.innerHeight - notesPanel.offsetHeight - 8));
+      notesPanel.style.left = `${left}px`;
+      notesPanel.style.top = `${top}px`;
+    };
+    const stopMoving = () => {
+      notesHeader.removeEventListener("pointermove", movePanel);
+      notesHeader.removeEventListener("pointerup", stopMoving);
+      notesHeader.removeEventListener("pointercancel", stopMoving);
+      try {
+        const rect = notesPanel.getBoundingClientRect();
+        localStorage.setItem(panelPositionKey, JSON.stringify({ left: rect.left, top: rect.top }));
+      } catch (_) {}
+    };
+    notesHeader.addEventListener("pointermove", movePanel);
+    notesHeader.addEventListener("pointerup", stopMoving, { once: true });
+    notesHeader.addEventListener("pointercancel", stopMoving, { once: true });
+  });
+  window.addEventListener("resize", clampPanelPosition);
 
   function amCurrentWriter() {
     return isTeacher ? !selectedWriter : Boolean(name && selectedWriter === myId);
@@ -182,7 +293,10 @@
       }
       notesRef.child("popup-aperto").on("value", snapshot => {
         dialog.hidden = snapshot.val() !== true;
-        if (!dialog.hidden) setEditorAccess();
+        if (!dialog.hidden) {
+          clampPanelPosition();
+          setEditorAccess();
+        }
       }, () => { status.textContent = "Impossibile sincronizzare l'apertura degli appunti."; });
       notesRef.child("insegnante").on("value", snapshot => {
         sharedTeacherName = snapshot.val() || teacherName;
@@ -216,6 +330,10 @@
   }
 
   launcher.addEventListener("click", () => {
+    if (suppressLauncherClick) {
+      suppressLauncherClick = false;
+      return;
+    }
     if (isTeacher && notesRef) notesRef.child("popup-aperto").set(true).catch(() => {
       status.textContent = "Impossibile aprire gli appunti condivisi.";
     });
