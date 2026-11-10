@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Archivio delle videolezioni di italiano per gruppo e unità">
+  <title>Videolezioni — Italiano</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --line: #d8e5d8;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 30px 16px;
+      color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)), #e9e3d6;
+    }
+    main { width: min(100%, 920px); margin: 0 auto; }
+    header { margin: 26px 0 24px; text-align: center; }
+    header a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .eyebrow { color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 8px 0; color: var(--green); font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: -.04em; }
+    header p { color: var(--muted); }
+    .card, .lesson-group {
+      margin-bottom: 18px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 8px 26px rgba(43,69,46,.07);
+    }
+    .card h2, .lesson-group h2 { margin: 0 0 16px; color: var(--green); font-size: 1.2rem; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+    .field { flex: 1; min-width: 180px; }
+    label { display: block; margin-bottom: 5px; color: var(--green); font-size: .9rem; font-weight: 700; }
+    select, input {
+      width: 100%; min-height: 42px; padding: 9px 11px;
+      border: 1.5px solid #d4e1d5; border-radius: 9px; background: #fff;
+      color: var(--text); font: inherit;
+    }
+    button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 9px 16px; border: 0; border-radius: 10px;
+      background: var(--green); color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+    }
+    button:hover { background: #1e3d27; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .secondary { border: 1px solid var(--green); background: #fff; color: var(--green); }
+    .secondary:hover { background: var(--green-light); }
+    .message { margin: 0 0 16px; padding: 11px 14px; border-radius: 10px; font-weight: 700; }
+    .message[hidden], [hidden] { display: none !important; }
+    .message.error { background: #fde8e7; color: #a51d1d; }
+    .message.success { background: #e1f1e5; color: #17623c; }
+    .lesson-group h2 { margin-bottom: 18px; }
+    .lesson { margin-top: 16px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcf8; }
+    .lesson h3 { margin: 0 0 12px; color: var(--green); }
+    .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #111; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .pdf-preview { width: 100%; height: min(75vh, 800px); margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .pdf-link { display: inline-block; margin-top: 10px; color: var(--green); font-weight: 700; }
+    .lesson-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+    .empty { margin: 0; color: var(--muted); }
+    .note { margin: 10px 0 0; color: var(--muted); font-size: .88rem; }
+    @media (max-width: 600px) {
+      body { padding: 18px 12px; }
+      .card, .lesson-group { padding: 18px; }
+      .toolbar { align-items: stretch; }
+      .toolbar > button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="index.html">← Torna alla pagina principale</a>
+      <div class="eyebrow" style="margin-top:18px">Italiano · ascolto e visione</div>
+      <h1>Videolezioni</h1>
+      <p id="identity">Caricamento della sessione…</p>
+    </header>
+
+    <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
+
+    <section id="teacher-controls" class="card" hidden>
+      <h2>Aggiungi o aggiorna una videolezione</h2>
+      <form id="video-form">
+        <div class="toolbar">
+          <div class="field">
+            <label for="group-select">Gruppo</label>
+            <select id="group-select" required></select>
+          </div>
+          <div class="field">
+            <label for="unit-select">Unità</label>
+            <select id="unit-select" required></select>
+          </div>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label for="youtube-url">Link YouTube</label>
+          <input id="youtube-url" type="url" placeholder="https://www.youtube.com/watch?v=…" required>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label for="pdf-url">Link condivisibile del PDF su Google Drive (facoltativo)</label>
+          <input id="pdf-url" type="url" placeholder="https://drive.google.com/file/d/…/view?usp=sharing">
+        </div>
+        <button type="submit" style="margin-top:12px">Aggiungi videolezione e link PDF</button>
+        <p class="note">Ogni salvataggio aggiunge una nuova voce all’archivio, senza sovrascrivere quelle già presenti. Su Google Drive imposta l’accesso su “Chiunque abbia il link” come visualizzatore.</p>
+      </form>
+    </section>
+
+    <section id="archive" aria-live="polite"></section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      storageBucket: "esercizi-parlo-italiano.appspot.com"
+    };
+    const TEACHER_PINS = { Antonio: "2202", Assel: "2109" };
+    const identity = document.getElementById("identity");
+    const pageMessage = document.getElementById("page-message");
+    const teacherControls = document.getElementById("teacher-controls");
+    const groupSelect = document.getElementById("group-select");
+    const unitSelect = document.getElementById("unit-select");
+    const videoForm = document.getElementById("video-form");
+    const youtubeUrl = document.getElementById("youtube-url");
+    const pdfUrlInput = document.getElementById("pdf-url");
+    const archive = document.getElementById("archive");
+
+    let session = null;
+    let groups = {};
+    let selectedGroup = "";
+    let studentUnitLimit = 77;
+    let videosRef = null;
+    let videosListener = null;
+    let currentVideos = {};
+
+    function showMessage(text, type = "error") {
+      pageMessage.textContent = text;
+      pageMessage.className = `message ${type}`;
+      pageMessage.hidden = false;
+    }
+    function hideMessage() { pageMessage.hidden = true; }
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text != null) element.textContent = text;
+      return element;
+    }
+    function groupName(id) { return groups[id]?.nome || id; }
+    function getStudentLimit(group) {
+      const active = (group.studenti || []).some(student => student.nome === session.name);
+      const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+      if (!active && !inactive) return -1;
+      const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+      return Number.isInteger(limit) ? limit : 1;
+    }
+    function parseYoutubeLink(value) {
+      let url;
+      try { url = new URL(value.trim()); } catch (_) { return null; }
+      const host = url.hostname.toLowerCase().replace(/^www\./, "");
+      let id = "";
+      if (host === "youtu.be") id = url.pathname.split("/").filter(Boolean)[0] || "";
+      else if (["youtube.com", "m.youtube.com", "youtube-nocookie.com"].includes(host)) {
+        const parts = url.pathname.split("/").filter(Boolean);
+        if (url.pathname === "/watch") id = url.searchParams.get("v") || "";
+        else if (["embed", "shorts", "live"].includes(parts[0])) id = parts[1] || "";
+      }
+      if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
+      return { id, si: url.searchParams.get("si") || "" };
+    }
+    function embedUrl(video) {
+      const url = new URL(`https://www.youtube.com/embed/${video.id}`);
+      if (video.si) url.searchParams.set("si", video.si);
+      return url.href;
+    }
+    function googleDrivePreviewUrl(value) {
+      try {
+        const url = new URL(value);
+        if (!["drive.google.com", "www.drive.google.com"].includes(url.hostname.toLowerCase())) return null;
+        const fileId = url.pathname.match(/\/file\/d\/([A-Za-z0-9_-]+)/)?.[1] || url.searchParams.get("id");
+        return fileId ? `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview` : null;
+      } catch (_) {
+        return null;
+      }
+    }
+    function setupUnitOptions(groupId) {
+      unitSelect.replaceChildren();
+      for (let unit = 0; unit <= 77; unit++) {
+        unitSelect.add(new Option(`Unità ${unit}`, String(unit)));
+      }
+      const latest = Number(groups[groupId]?.unitNumber);
+      unitSelect.value = String(Number.isInteger(latest) && latest >= 0 && latest <= 77 ? latest : 1);
+    }
+    function listenToGroup(groupId) {
+      if (videosListener && videosRef) videosRef.off("value", videosListener);
+      selectedGroup = groupId;
+      currentVideos = {};
+      archive.replaceChildren();
+      if (!groupId || !groups[groupId]) return;
+      videosRef = firebase.database().ref(`videolezioni/gruppi/${groupId}/lezioni`);
+      videosListener = snapshot => {
+        currentVideos = snapshot.val() || {};
+        renderArchive();
+      };
+      videosRef.on("value", videosListener, () => showMessage("Errore nel caricamento delle videolezioni. Verifica la connessione e le regole Firebase."));
+    }
+    function renderArchive() {
+      archive.replaceChildren();
+      const group = groups[selectedGroup];
+      if (!group) return;
+      const section = makeElement("section", "lesson-group");
+      section.appendChild(makeElement("h2", "", `Gruppo ${groupName(selectedGroup)}`));
+      const lessons = Object.entries(currentVideos)
+        .map(([key, video]) => ({ key, video, unit: Number(video?.unitNumber ?? key) }))
+        .filter(({ video, unit }) => video && Number.isInteger(unit) && unit >= 0 &&
+          unit <= 77 && unit <= studentUnitLimit)
+        .sort((a, b) => b.unit - a.unit || Number(b.video.updatedAt || 0) - Number(a.video.updatedAt || 0));
+      if (!lessons.length) {
+        section.appendChild(makeElement("p", "empty", "Non ci sono ancora videolezioni disponibili per questo gruppo."));
+      }
+      lessons.forEach(({ key, video, unit }) => {
+        const lesson = makeElement("article", "lesson");
+        lesson.appendChild(makeElement("h3", "", `Unità ${unit}${video.title ? ` · ${video.title}` : ""}`));
+        const frame = makeElement("div", "video-frame");
+        const iframe = document.createElement("iframe");
+        iframe.src = embedUrl(video);
+        iframe.title = `Videolezione del gruppo ${groupName(selectedGroup)}, unità ${unit}`;
+        iframe.loading = "lazy";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.allowFullscreen = true;
+        frame.appendChild(iframe);
+        lesson.appendChild(frame);
+        if (video.pdfUrl) {
+          const pdfHeading = makeElement("h3", "", "Materiale PDF");
+          pdfHeading.style.marginTop = "20px";
+          lesson.appendChild(pdfHeading);
+          const pdfFrame = document.createElement("iframe");
+          pdfFrame.className = "pdf-preview";
+          pdfFrame.src = video.pdfPreviewUrl || googleDrivePreviewUrl(video.pdfUrl) || video.pdfUrl;
+          pdfFrame.title = `PDF associato alla videolezione dell’unità ${unit}`;
+          pdfFrame.loading = "lazy";
+          lesson.appendChild(pdfFrame);
+          const pdfLink = makeElement("a", "pdf-link", "Apri il PDF in una nuova scheda");
+          pdfLink.href = video.pdfUrl;
+          pdfLink.target = "_blank";
+          pdfLink.rel = "noopener noreferrer";
+          lesson.appendChild(pdfLink);
+        }
+        if (session.isTeacher) {
+          const actions = makeElement("div", "lesson-actions");
+          const remove = makeElement("button", "secondary", "Elimina videolezione");
+          remove.type = "button";
+          remove.addEventListener("click", async () => {
+            if (!window.confirm(`Eliminare la videolezione dell’unità ${unit} per il gruppo ${groupName(selectedGroup)}?`)) return;
+            remove.disabled = true;
+            try {
+              if (video.pdfPath) await firebase.storage().ref(video.pdfPath).delete();
+              await videosRef.child(key).remove();
+              showMessage(`Videolezione dell’unità ${unit} eliminata.`, "success");
+            } catch (_) {
+              showMessage("Impossibile eliminare la videolezione o il PDF. Verifica le regole Firebase.");
+              remove.disabled = false;
+            }
+          });
+          actions.appendChild(remove);
+          lesson.appendChild(actions);
+        }
+        section.appendChild(lesson);
+      });
+      archive.appendChild(section);
+    }
+
+    async function initializePage() {
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); }
+      catch (_) { session = null; }
+      const isTeacher = Boolean(session?.isTeacher && TEACHER_PINS[session.teacher]);
+      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
+      if (!isTeacher && !isStudent) {
+        identity.textContent = "Accedi dalla pagina principale per visualizzare le videolezioni.";
+        showMessage("Sessione non valida o scaduta. Torna alla pagina principale ed effettua l’accesso.");
+        return;
+      }
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const snapshot = await firebase.database().ref("configurazioneScuola/gruppi").once("value");
+        groups = snapshot.val() || {};
+        const activeGroups = Object.entries(groups)
+          .filter(([, group]) => group && group.attivo !== false)
+          .sort((a, b) => String(a[1].nome || a[0]).localeCompare(String(b[1].nome || b[0]), "it"));
+        if (isTeacher) {
+          if (!activeGroups.length) throw new Error("Non ci sono gruppi attivi.");
+          identity.textContent = `Insegnante: ${session.teacher}`;
+          teacherControls.hidden = false;
+          activeGroups.forEach(([id, group]) => groupSelect.add(new Option(`${group.nome || id} · ${id}`, id)));
+          for (let unit = 0; unit <= 77; unit++) unitSelect.add(new Option(`Unità ${unit}`, String(unit)));
+          const initialGroup = groups[session.group] && groups[session.group].attivo !== false ? session.group : activeGroups[0][0];
+          groupSelect.value = initialGroup;
+          setupUnitOptions(initialGroup);
+          groupSelect.addEventListener("change", () => {
+            setupUnitOptions(groupSelect.value);
+            listenToGroup(groupSelect.value);
+          });
+          videoForm.addEventListener("submit", saveVideo);
+          listenToGroup(initialGroup);
+        } else {
+          const group = groups[session.group];
+          if (!group) throw new Error("Il tuo gruppo non è disponibile. Torna alla pagina principale.");
+          studentUnitLimit = getStudentLimit(group);
+          if (studentUnitLimit < 0) throw new Error("Non risulti attivo in questo gruppo. Torna alla pagina principale.");
+          identity.textContent = `${session.name} · ${group.nome || session.group} · videolezioni fino all’unità ${studentUnitLimit}`;
+          listenToGroup(session.group);
+        }
+      } catch (error) {
+        showMessage(error.message || "Impossibile caricare i dati condivisi. Controlla la connessione e le regole Firebase.");
+      }
+    }
+
+    async function saveVideo(event) {
+      event.preventDefault();
+      hideMessage();
+      const groupId = groupSelect.value;
+      const unit = Number(unitSelect.value);
+      const video = parseYoutubeLink(youtubeUrl.value);
+      if (!groups[groupId] || !Number.isInteger(unit) || unit < 0 || unit > 77) {
+        showMessage("Seleziona un gruppo e un’unità validi.");
+        return;
+      }
+      if (!video) {
+        showMessage("Inserisci un link YouTube valido (video, youtu.be o Shorts).");
+        return;
+      }
+      const enteredPdfUrl = pdfUrlInput.value.trim();
+      const pdfPreviewUrl = enteredPdfUrl ? googleDrivePreviewUrl(enteredPdfUrl) : "";
+      if (enteredPdfUrl && !pdfPreviewUrl) {
+        showMessage("Inserisci un link Google Drive valido al file PDF.");
+        return;
+      }
+      const button = videoForm.querySelector('button[type="submit"]');
+      button.disabled = true;
+      try {
+        const lessonRef = firebase.database().ref(`videolezioni/gruppi/${groupId}/lezioni`).push();
+        const lessonData = {
+          id: video.id,
+          si: video.si,
+          url: youtubeUrl.value.trim(),
+          pdfUrl: enteredPdfUrl,
+          pdfPreviewUrl,
+          unitNumber: unit,
+          updatedAt: Date.now(),
+          updatedBy: session.teacher
+        };
+
+        await lessonRef.set(lessonData);
+        youtubeUrl.value = "";
+        if (enteredPdfUrl) pdfUrlInput.value = "";
+        showMessage(`Videolezione salvata per ${groupName(groupId)}, unità ${unit}.`, "success");
+      } catch (error) {
+        const reason = error.code || error.message || "errore non specificato";
+        showMessage(`Impossibile salvare la videolezione (${reason}). Verifica le regole di Firebase Realtime Database.`);
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    initializePage();
+  </script>
+</body>
+</html>

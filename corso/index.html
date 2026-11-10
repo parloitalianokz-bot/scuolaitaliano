@@ -576,6 +576,10 @@
       <p><strong>Compiti a casa</strong>Consulta i compiti assegnati e il loro stato.</p>
       <a href="compiti.html">Apri i compiti →</a>
     </section>
+    <section id="video-entry" class="homework-entry hidden" aria-label="Videolezioni">
+      <p><strong>Videolezioni</strong>Guarda le videolezioni associate alle unità del tuo gruppo.</p>
+      <a href="videolezioni.html">Apri le videolezioni →</a>
+    </section>
 
     <!-- Editor insegnante (visibile solo all'insegnante) -->
     <section id="teacher-editor" class="access-card hidden">
@@ -756,6 +760,7 @@
     const unitsContainer = document.getElementById("units-container");
     const featuredContainer = document.getElementById("featured-unit-container");
     const homeworkEntry = document.getElementById("homework-entry");
+    const videoEntry = document.getElementById("video-entry");
 
     const groupSelect = document.getElementById("group-select");
     const nameSelect = document.getElementById("name-select");
@@ -975,6 +980,7 @@
 
     function showStudentUI() {
       homeworkEntry.classList.remove("hidden");
+      videoEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       teacherGroupSwitchWrap.hidden = true;
@@ -986,6 +992,7 @@
 
     function showTeacherUI() {
       homeworkEntry.classList.remove("hidden");
+      videoEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       userInfoDiv.classList.remove("hidden");
@@ -997,6 +1004,7 @@
 
     function resetToLogin() {
       homeworkEntry.classList.add("hidden");
+      videoEntry.classList.add("hidden");
       unitsSection.classList.add("hidden");
       featuredContainer.replaceChildren();
       featuredContainer.classList.add("hidden");
