@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compiti a casa di italiano: assegnazioni, consegne e correzioni">
+  <title>Compiti a casa — Italiano</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --line: #d8e5d8;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 30px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)),
+        url("u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed,
+        #e9e3d6;
+    }
+    main { width: min(100%, 900px); margin: 0 auto; }
+    header { margin: 26px 0 24px; text-align: center; }
+    header a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .eyebrow { color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 8px 0; color: var(--green); font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: -.04em; }
+    header p { margin: 0; color: var(--muted); }
+    .card {
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 8px 26px rgba(43,69,46,.07);
+    }
+    .card h2 { margin: 0 0 16px; color: var(--green); font-size: 1.2rem; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+    .field { flex: 1; min-width: 180px; }
+    label { display: block; margin-bottom: 5px; color: var(--green); font-size: .9rem; font-weight: 700; }
+    select, input, textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }
+    textarea { min-height: 105px; resize: vertical; }
+    button, .button-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button:hover, .button-link:hover { background: #1e3d27; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .secondary { border: 1px solid var(--green); background: white; color: var(--green); }
+    .secondary:hover { background: var(--green-light); }
+    .message { margin: 0 0 16px; padding: 11px 14px; border-radius: 10px; font-weight: 700; }
+    .message[hidden] { display: none; }
+    .message.error { background: #fde8e7; color: #a51d1d; }
+    .message.success { background: #e1f1e5; color: #17623c; }
+    .task-list { display: grid; gap: 12px; }
+    .task {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfcf8;
+    }
+    .task h3 { margin: 0 0 5px; color: var(--green); font-size: 1.05rem; }
+    .task-meta { margin-bottom: 10px; color: var(--muted); font-size: .85rem; }
+    .task-description { margin: 0 0 12px; white-space: pre-wrap; }
+    .task-form { display: grid; gap: 9px; }
+    .task-answer { margin: 8px 0; padding: 12px; border-radius: 9px; background: #fff; white-space: pre-wrap; }
+    .task-answer.approved, .task-answer.rejected { padding: 16px; border: 2px solid; font-size: 1.08rem; font-weight: 800; line-height: 1.5; }
+    .task-answer.approved { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    .task-answer.rejected { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
+    .task-feedback { margin-top: 10px; padding: 12px; border-left: 3px solid var(--accent); background: #fff8f2; white-space: pre-wrap; }
+    .question-strip { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; }
+    .question-card { flex: 0 0 min(320px, 85vw); padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; scroll-snap-align: start; }
+    .question-card p { margin: 0 0 12px; }
+    .question-number { color: var(--accent); font-size: .82rem; font-weight: 800; }
+    .question-card textarea { min-height: 82px; }
+    .question-options { display: grid; gap: 8px; }
+    .question-options label { display: flex; align-items: flex-start; gap: 8px; color: var(--text); font-weight: 500; }
+    .question-options input { width: auto; min-height: auto; margin-top: 4px; }
+    .grading-controls { display: grid; gap: 9px; margin-top: 12px; }
+    .grade-buttons { display: flex; gap: 8px; }
+    .grade-buttons button { flex: 1; }
+    .grade-buttons .reject { background: #a51d1d; }
+    .grade-buttons .selected { box-shadow: 0 0 0 3px rgba(189,105,77,.35); }
+    .empty { margin: 0; color: var(--muted); }
+    .hidden { display: none !important; }
+    .status { display: inline-block; margin-top: 3px; padding: 3px 8px; border-radius: 20px; background: #fff0e8; color: #87452f; font-size: .78rem; font-weight: 800; }
+    @media (max-width: 600px) {
+      body { padding: 18px 12px; }
+      .card { padding: 18px; }
+      .toolbar { align-items: stretch; }
+      .toolbar > button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="index.html">← Torna alle unità</a>
+      <div class="eyebrow" style="margin-top:18px">Italiano · attività</div>
+      <h1>Compiti a casa</h1>
+      <p id="identity">Caricamento della sessione…</p>
+    </header>
+
+    <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
+    <section id="student-view" class="hidden">
+      <div class="card">
+        <h2>I miei compiti</h2>
+        <div class="field">
+          <label for="student-status">Mostra</label>
+          <select id="student-status">
+            <option value="assigned">Da svolgere</option>
+            <option value="pending">In attesa di correzione</option>
+            <option value="reviewed">Archivio — revisionati</option>
+          </select>
+        </div>
+      </div>
+      <div id="student-tasks" class="task-list" aria-live="polite"></div>
+    </section>
+
+    <section id="teacher-view" class="hidden">
+      <div class="card">
+        <h2>Assegna un compito</h2>
+        <form id="assignment-form">
+          <div class="toolbar">
+            <div class="field">
+              <label for="assignment-group">Gruppo</label>
+              <select id="assignment-group" required></select>
+            </div>
+            <div class="field">
+              <label for="assignment-unit">Unità</label>
+              <select id="assignment-unit" required></select>
+            </div>
+            <div class="field">
+              <label for="assignment-task">Compito</label>
+              <select id="assignment-task" required></select>
+            </div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label for="assignment-title">Titolo (facoltativo)</label>
+            <input id="assignment-title" type="text" maxlength="120" placeholder="Es. Completa gli esercizi">
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label for="assignment-description">Indicazioni per gli studenti / Инструкция для учеников (facoltative / необязательно)</label>
+            <textarea id="assignment-description" maxlength="2000" placeholder="Scrivi qui cosa devono fare… / Напишите здесь, что нужно сделать…"></textarea>
+          </div>
+          <button type="submit" style="margin-top:12px">Assegna al gruppo</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Correzione e archivio</h2>
+        <div class="toolbar">
+          <div class="field">
+            <label for="review-group">Gruppo</label>
+            <select id="review-group"></select>
+          </div>
+          <div class="field">
+            <label for="review-status">Mostra</label>
+            <select id="review-status">
+              <option value="pending">In attesa di correzione</option>
+              <option value="reviewed">Archivio — corretti</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="teacher-tasks" class="task-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const TEACHER_PINS = { Antonio: "2202", Assel: "2109" };
+    const UNIT_TITLES = {
+      0: "Percorso preliminare · L'alfabeto italiano",
+      1: "Un albergo in centro",
+      2: "Un bravo ragazzo",
+      10: "La borsa rossa",
+      13: "Il grande scrittore",
+      43: "Unità 43",
+      46: "Il funerale dello zio Augusto",
+      53: "Il viale del tramonto"
+    };
+    // Elenco dei compiti pubblicati: aggiornarlo quando si aggiungono file in compiti/u_XXX.
+    const TASK_CATALOG = {
+      "46": [{ label: "Compito 2", path: "compiti/u_046/compito2.html" }]
+    };
+    function unitOptionLabel(unit) {
+      const title = UNIT_TITLES[unit];
+      return title && title !== `Unità ${unit}` ? `Unità ${unit} — ${title}` : `Unità ${unit}`;
+    }
+    const pageMessage = document.getElementById("page-message");
+    const identity = document.getElementById("identity");
+    const studentView = document.getElementById("student-view");
+    const teacherView = document.getElementById("teacher-view");
+    const studentStatus = document.getElementById("student-status");
+    const studentTasks = document.getElementById("student-tasks");
+    const assignmentForm = document.getElementById("assignment-form");
+    const assignmentGroup = document.getElementById("assignment-group");
+    const assignmentUnit = document.getElementById("assignment-unit");
+    const assignmentTask = document.getElementById("assignment-task");
+    const assignmentTitle = document.getElementById("assignment-title");
+    const assignmentDescription = document.getElementById("assignment-description");
+    const reviewGroup = document.getElementById("review-group");
+    const reviewStatus = document.getElementById("review-status");
+    const teacherTasks = document.getElementById("teacher-tasks");
+
+    let session = null;
+    let groupData = {};
+    let homeworkRef = null;
+    let listeningRef = null;
+    let currentAssignments = {};
+
+    function showMessage(text, type = "error") {
+      pageMessage.textContent = text;
+      pageMessage.className = `message ${type}`;
+      pageMessage.hidden = false;
+    }
+    function hideMessage() { pageMessage.hidden = true; }
+    function safeNameKey(name) {
+      return Array.from(name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+    }
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "" : new Intl.DateTimeFormat("it-IT", { dateStyle: "short", timeStyle: "short" }).format(date);
+    }
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text != null) element.textContent = text;
+      return element;
+    }
+    function groupLabel(id) { return `${groupData[id]?.nome || id} · ${id}`; }
+    function refreshTaskChoices() {
+      const tasks = (TASK_CATALOG[String(assignmentUnit.value)] || [])
+        .slice()
+        .sort((a, b) => {
+          const numberA = Number(a.label.match(/\d+/)?.[0] || 0);
+          const numberB = Number(b.label.match(/\d+/)?.[0] || 0);
+          return numberA - numberB || a.label.localeCompare(b.label, "it");
+        });
+      assignmentTask.replaceChildren();
+      if (!tasks.length) {
+        assignmentTask.add(new Option("Nessun compito disponibile", ""));
+        assignmentTask.disabled = true;
+      } else {
+        tasks.forEach(task => assignmentTask.add(new Option(task.label, task.path)));
+        assignmentTask.disabled = false;
+        assignmentTask.selectedIndex = tasks.length - 1;
+      }
+      assignmentTitle.value = "";
+      assignmentDescription.value = "";
+      if (assignmentTask.value) assignmentTask.dispatchEvent(new Event("change"));
+    }
+
+    function selectLatestGroupUnit() {
+      const group = groupData[assignmentGroup.value];
+      if (!group) return;
+      const unit = Number(group.unitNumber);
+      if (Number.isInteger(unit) && unit >= 0 && unit <= 77) assignmentUnit.value = String(unit);
+      refreshTaskChoices();
+    }
+    function studentLimit(groupId, studentName) {
+      const group = groupData[groupId];
+      if (!group) return -1;
+      const active = (group.studenti || []).some(student => student.nome === studentName);
+      const inactive = (group.studentiInattivi || []).find(student => student.nome === studentName);
+      if (!active && !inactive) return -1;
+      const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+      return Number.isInteger(limit) ? limit : 1;
+    }
+    function sortedAssignments(data = currentAssignments) {
+      return Object.entries(data || {}).filter(([, item]) => item && typeof item === "object")
+        .sort((a, b) => Number(b[1].createdAt || 0) - Number(a[1].createdAt || 0));
+    }
+    function noTasks(container, text) {
+      container.replaceChildren(makeElement("p", "empty", text));
+    }
+    const taskCache = new Map();
+    function loadTaskDefinition(path) {
+      if (!taskCache.has(path)) {
+        taskCache.set(path, fetch(path).then(response => {
+          if (!response.ok) throw new Error("Compito non disponibile");
+          return response.text();
+        }).then(html => {
+          const document = new DOMParser().parseFromString(html, "text/html");
+          const data = document.getElementById("homework-task-data");
+          if (!data) throw new Error("Dati del compito mancanti");
+          return JSON.parse(data.textContent);
+        }));
+      }
+      return taskCache.get(path);
+    }
+    function taskQuestions(task) {
+      return (task.sections || []).flatMap(section => (section.questions || []).map(question => ({
+        ...question, sectionTitle: section.title, sectionInstructions: section.instructions
+      })));
+    }
+    function addQuestionPrompt(card, question, index) {
+      if (question.sectionTitle) card.appendChild(makeElement("h4", "", question.sectionTitle));
+      if (question.sectionInstructions) card.appendChild(makeElement("p", "", question.sectionInstructions));
+      card.appendChild(makeElement("div", "question-number", `Domanda ${index + 1}`));
+      card.appendChild(makeElement("p", "", question.prompt));
+    }
+
+    async function renderStructuredTeacherTask(card, assignmentId, studentKey, assignment, submission, wanted, studentName) {
+      try {
+        const task = await loadTaskDefinition(assignment.taskPath);
+        const questions = taskQuestions(task);
+        const strip = makeElement("div", "question-strip");
+        questions.forEach((question, index) => {
+          const questionCard = makeElement("div", "question-card");
+          addQuestionPrompt(questionCard, question, index);
+          const response = submission.answers?.[question.id] || {};
+          let answerText = response.answer || "Nessuna risposta registrata.";
+          if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
+          questionCard.appendChild(makeElement("div", "task-answer", answerText));
+          if (question.modelAnswer) {
+            const details = document.createElement("details");
+            details.append(makeElement("summary", "", "Risposta attesa"), makeElement("p", "", question.modelAnswer));
+            questionCard.appendChild(details);
+          }
+          if (wanted === "pending") {
+            const controls = makeElement("div", "grading-controls");
+            const comment = makeElement("textarea");
+            comment.maxLength = 1000;
+            comment.placeholder = "Commento per questa risposta (facoltativo)";
+            comment.value = response.comment || "";
+            comment.setAttribute("aria-label", `Commento per la domanda ${index + 1}`);
+            const buttons = makeElement("div", "grade-buttons");
+            [["approved", "Approva", ""], ["rejected", "Non approva", "reject"]].forEach(([grade, label, className]) => {
+              const button = makeElement("button", className, label);
+              button.type = "button";
+              if (response.grade === grade) button.classList.add("selected");
+              button.addEventListener("click", async () => {
+                button.disabled = true;
+                const updatedAnswers = { ...(submission.answers || {}), [question.id]: { ...response, grade, comment: comment.value.trim() } };
+                const complete = questions.every(item => updatedAnswers[item.id]?.grade === "approved" || updatedAnswers[item.id]?.grade === "rejected");
+                const update = { answers: updatedAnswers };
+                if (complete) Object.assign(update, { status: "reviewed", reviewedAt: Date.now(), reviewedBy: session.teacher });
+                try {
+                  await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update(update);
+                  showMessage(complete ? `Tutte le risposte di ${studentName} sono state corrette e archiviate.` : `Esito salvato per la risposta di ${studentName}.`, "success");
+                } catch (_) {
+                  showMessage("Impossibile salvare la correzione. Controlla la connessione.");
+                  button.disabled = false;
+                }
+              });
+              buttons.appendChild(button);
+            });
+            controls.append(comment, buttons);
+            questionCard.appendChild(controls);
+          } else {
+            questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
+            if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
+          }
+          strip.appendChild(questionCard);
+        });
+        card.appendChild(strip);
+      } catch (_) {
+        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
+      }
+    }
+
+    async function renderStructuredStudentTask(card, assignmentId, assignment, submission, wanted) {
+      const strip = makeElement("div", "question-strip");
+      const form = makeElement("form", "task-form");
+      try {
+        const task = await loadTaskDefinition(assignment.taskPath);
+        const questions = taskQuestions(task);
+        if (wanted === "assigned") {
+          const controls = {};
+          questions.forEach((question, index) => {
+            const questionCard = makeElement("div", "question-card");
+            addQuestionPrompt(questionCard, question, index);
+            if (question.options) {
+              const options = makeElement("div", "question-options");
+              question.options.forEach((option, optionIndex) => {
+                const label = makeElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `answer-${assignmentId}-${question.id}`;
+                input.value = String(optionIndex);
+                input.required = true;
+                label.append(input, document.createTextNode(option));
+                options.appendChild(label);
+              });
+              questionCard.appendChild(options);
+              controls[question.id] = () => form.querySelector(`input[name="answer-${assignmentId}-${question.id}"]:checked`)?.value || "";
+            } else {
+              const input = makeElement("textarea");
+              input.required = true;
+              input.maxLength = 2000;
+              input.setAttribute("aria-label", `Risposta ${index + 1}`);
+              questionCard.appendChild(input);
+              controls[question.id] = () => input.value.trim();
+            }
+            strip.appendChild(questionCard);
+          });
+          const submit = makeElement("button", "", "Invia tutte le risposte");
+          form.append(strip, submit);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            submit.disabled = true;
+            const answers = Object.fromEntries(Object.entries(controls).map(([key, getValue]) => [key, { answer: getValue() }]));
+            try {
+              await homeworkRef.child(`${assignmentId}/consegne/${safeNameKey(session.name)}`).set({
+                studentName: session.name, status: "pending", answers, submittedAt: Date.now()
+              });
+              showMessage("Risposte inviate: l’insegnante le vedrà in attesa di correzione.", "success");
+            } catch (_) {
+              showMessage("Impossibile inviare le risposte. Controlla la connessione e riprova.");
+              submit.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else {
+          questions.forEach((question, index) => {
+            const questionCard = makeElement("div", "question-card");
+            addQuestionPrompt(questionCard, question, index);
+            const response = submission?.answers?.[question.id] || {};
+            let answerText = response.answer || "Nessuna risposta registrata.";
+            if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
+            questionCard.appendChild(makeElement("div", `task-answer${response.grade ? ` ${response.grade}` : ""}`, answerText));
+            if (wanted === "reviewed") {
+              questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
+              if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
+            }
+            strip.appendChild(questionCard);
+          });
+          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+          card.appendChild(strip);
+        }
+      } catch (_) {
+        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
+      }
+    }
+
+    function renderStudentTasks() {
+      const wanted = studentStatus.value;
+      const visible = sortedAssignments().filter(([, assignment]) => {
+        if (Number(assignment.unitNumber) > studentLimit(session.group, session.name)) return false;
+        const submission = assignment.consegne?.[safeNameKey(session.name)];
+        if (wanted === "assigned") return !submission || submission.status === "in-progress";
+        if (wanted === "pending") return submission?.status === "pending";
+        return submission?.status === "reviewed";
+      });
+      studentTasks.replaceChildren();
+      if (!visible.length) {
+        const labels = { assigned: "Non hai compiti da svolgere.", pending: "Non ci sono compiti in attesa di correzione.", reviewed: "Non hai ancora compiti revisionati." };
+        noTasks(studentTasks, labels[wanted]);
+        return;
+      }
+      visible.forEach(([id, assignment]) => {
+        const submission = assignment.consegne?.[safeNameKey(session.name)];
+        const card = makeElement("article", "task");
+        card.appendChild(makeElement("h3", "", assignment.title || `Unità ${assignment.unitNumber}`));
+        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+        if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+        if (assignment.taskPath) {
+          const taskLink = makeElement("a", "button-link", wanted === "assigned" ? "Svolgi il compito ↗" : "Riapri il compito ↗");
+          const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
+          taskUrl.searchParams.set("assignment", id);
+          taskLink.href = taskUrl.href;
+          card.appendChild(taskLink);
+          if (wanted === "assigned" && submission?.status === "in-progress") {
+            card.appendChild(makeElement("span", "status", "In corso · risposte salvate"));
+          }
+          if (wanted !== "assigned") {
+            card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+            if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
+            if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
+          }
+        } else if (wanted === "assigned") {
+          const form = makeElement("form", "task-form");
+          const label = makeElement("label", "", "La tua risposta");
+          const answer = makeElement("textarea");
+          answer.required = true;
+          answer.maxLength = 10000;
+          answer.setAttribute("aria-label", `Risposta per ${assignment.title || `Unità ${assignment.unitNumber}`}`);
+          const submit = makeElement("button", "", "Invia per la correzione");
+          form.append(label, answer, submit);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            submit.disabled = true;
+            try {
+              await homeworkRef.child(`${id}/consegne/${safeNameKey(session.name)}`).set({
+                studentName: session.name,
+                status: "pending",
+                answer: answer.value.trim(),
+                submittedAt: Date.now()
+              });
+              showMessage("Compito inviato: l’insegnante lo vedrà in attesa di correzione.", "success");
+            } catch (_) {
+              showMessage("Impossibile inviare il compito. Controlla la connessione e riprova.");
+              submit.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else {
+          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+          card.appendChild(makeElement("div", "task-answer", submission?.answer || "Nessuna risposta registrata."));
+          if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
+          if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
+        }
+        studentTasks.appendChild(card);
+      });
+    }
+
+    function renderTeacherTasks() {
+      const wanted = reviewStatus.value;
+      const rows = [];
+      sortedAssignments().forEach(([assignmentId, assignment]) => {
+        Object.entries(assignment.consegne || {}).forEach(([studentKey, submission]) => {
+          if (submission?.status === wanted) rows.push({ assignmentId, assignment, studentKey, submission });
+        });
+      });
+      rows.sort((a, b) => Number(b.submission.submittedAt || 0) - Number(a.submission.submittedAt || 0));
+      teacherTasks.replaceChildren();
+      if (!rows.length) {
+        noTasks(teacherTasks, wanted === "pending" ? "Nessun compito in attesa di correzione per questo gruppo." : "Nessun compito corretto nell’archivio di questo gruppo.");
+        return;
+      }
+      rows.forEach(({ assignmentId, assignment, studentKey, submission }) => {
+        const card = makeElement("article", "task");
+        const studentName = submission.studentName || studentKey;
+        card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
+        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · inviato il ${formatDate(submission.submittedAt) || "data non disponibile"}`));
+        if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+        if (assignment.taskPath) {
+          const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
+          taskUrl.searchParams.set("assignment", assignmentId);
+          taskUrl.searchParams.set("teacherReview", "1");
+          taskUrl.searchParams.set("group", reviewGroup.value);
+          taskUrl.searchParams.set("student", studentKey);
+          const taskLink = makeElement("a", "button-link", wanted === "pending" ? "Apri il compito da correggere →" : "Apri il compito →");
+          taskLink.href = taskUrl.href;
+          card.appendChild(taskLink);
+        } else {
+          card.appendChild(makeElement("div", "task-answer", submission.answer || "Nessuna risposta registrata."));
+        }
+        if (!assignment.taskPath && wanted === "pending") {
+          const form = makeElement("form", "task-form");
+          const label = makeElement("label", "", "Feedback per lo studente (facoltativo)");
+          const feedback = makeElement("textarea");
+          feedback.maxLength = 3000;
+          feedback.value = submission.feedback || "";
+          const button = makeElement("button", "", "Segna come corretto");
+          form.append(label, feedback, button);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            button.disabled = true;
+            try {
+              await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update({
+                status: "reviewed",
+                feedback: feedback.value.trim(),
+                reviewedAt: Date.now(),
+                reviewedBy: session.teacher
+              });
+              showMessage(`Compito di ${studentName} corretto e archiviato.`, "success");
+            } catch (_) {
+              showMessage("Impossibile salvare la correzione. Controlla la connessione.");
+              button.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else if (!assignment.taskPath) {
+          card.appendChild(makeElement("span", "status", `Corretto il ${formatDate(submission.reviewedAt) || ""}`));
+          if (submission.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback: ${submission.feedback}`));
+        }
+        teacherTasks.appendChild(card);
+      });
+    }
+
+    function listenToGroup(groupId, renderer) {
+      if (listeningRef) listeningRef.off("value");
+      currentAssignments = {};
+      homeworkRef = firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni`);
+      listeningRef = homeworkRef;
+      listeningRef.on("value", handleAssignments, () => showMessage("Errore nel caricamento dei compiti. Verifica le regole Firebase."));
+      function handleAssignments(snapshot) {
+        currentAssignments = snapshot.val() || {};
+        renderer();
+      }
+    }
+
+    async function initializePage() {
+      try {
+        session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+      } catch (_) { session = null; }
+      if (!session || (!session.isTeacher && (!session.group || !session.name)) || (session.isTeacher && !TEACHER_PINS[session.teacher])) {
+        identity.textContent = "Accedi dalla pagina principale per visualizzare i compiti.";
+        showMessage("Sessione non valida o scaduta. Torna alla pagina principale ed effettua l’accesso.");
+        return;
+      }
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const groupsSnapshot = await firebase.database().ref("configurazioneScuola/gruppi").once("value");
+        groupData = groupsSnapshot.val() || {};
+        if (session.isTeacher) initializeTeacher();
+        else initializeStudent();
+      } catch (_) {
+        showMessage("Impossibile caricare i dati condivisi. Controlla la connessione e le regole Firebase.");
+      }
+    }
+
+    function initializeStudent() {
+      const group = groupData[session.group];
+      const limit = studentLimit(session.group, session.name);
+      if (!group || limit < 0) {
+        identity.textContent = "Studente o gruppo non trovato.";
+        showMessage("Il tuo account non risulta più attivo in questo gruppo. Torna alla pagina principale.");
+        return;
+      }
+      identity.textContent = `${session.name} · ${group.nome || session.group} · accesso fino all’unità ${limit}`;
+      studentView.classList.remove("hidden");
+      studentStatus.addEventListener("change", renderStudentTasks);
+      listenToGroup(session.group, renderStudentTasks);
+    }
+
+    function initializeTeacher() {
+      const activeGroups = Object.entries(groupData).filter(([, group]) => group && group.attivo !== false)
+        .sort((a, b) => String(a[1].nome || a[0]).localeCompare(String(b[1].nome || b[0]), "it"));
+      if (!activeGroups.length) {
+        showMessage("Non ci sono gruppi attivi da gestire.");
+        return;
+      }
+      identity.textContent = `Insegnante: ${session.teacher}`;
+      teacherView.classList.remove("hidden");
+      [assignmentGroup, reviewGroup].forEach(select => {
+        select.replaceChildren(...activeGroups.map(([id, group]) => new Option(`${group.nome || id} · ${id}`, id)));
+      });
+      for (let unit = 0; unit <= 77; unit++) assignmentUnit.add(new Option(unitOptionLabel(unit), unit));
+      assignmentUnit.addEventListener("change", refreshTaskChoices);
+      assignmentGroup.addEventListener("change", selectLatestGroupUnit);
+      assignmentTask.addEventListener("change", async () => {
+        if (!assignmentTask.value) {
+          assignmentTitle.value = "";
+          assignmentDescription.value = "";
+          return;
+        }
+        try {
+          const task = await loadTaskDefinition(assignmentTask.value);
+          assignmentTitle.value = task.title || assignmentTask.options[assignmentTask.selectedIndex].text;
+          assignmentDescription.value = task.instructions || "";
+        } catch (_) {
+          showMessage("Non è possibile caricare il compito selezionato.");
+        }
+      });
+      const initialGroup = groupData[session.group] && groupData[session.group].attivo !== false ? session.group : activeGroups[0][0];
+      assignmentGroup.value = initialGroup;
+      selectLatestGroupUnit();
+      reviewGroup.value = initialGroup;
+      reviewGroup.addEventListener("change", () => listenToGroup(reviewGroup.value, renderTeacherTasks));
+      reviewStatus.addEventListener("change", renderTeacherTasks);
+      assignmentForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        hideMessage();
+        const groupId = assignmentGroup.value;
+        const unitNumber = Number(assignmentUnit.value);
+        if (!groupData[groupId] || !Number.isInteger(unitNumber) || unitNumber < 0 || unitNumber > 77) {
+          showMessage("Seleziona un gruppo e un’unità validi.");
+          return;
+        }
+        if (!assignmentTask.value) {
+          showMessage("Non ci sono compiti disponibili per l’unità selezionata.");
+          return;
+        }
+        const button = assignmentForm.querySelector('button[type="submit"]');
+        button.disabled = true;
+        try {
+          const newAssignment = homeworkRefFor(groupId).push();
+          await newAssignment.set({
+            unitNumber,
+            title: assignmentTitle.value.trim() || `Compito — Unità ${unitNumber}`,
+            description: assignmentDescription.value.trim(),
+            taskPath: assignmentTask.value || null,
+            createdAt: Date.now(),
+            createdBy: session.teacher,
+            consegne: {}
+          });
+          assignmentTitle.value = "";
+          assignmentDescription.value = "";
+          showMessage(`Compito assegnato al gruppo ${groupData[groupId].nome || groupId}. Gli studenti lo vedranno se abilitati all’unità ${unitNumber}.`, "success");
+        } catch (_) {
+          showMessage("Impossibile assegnare il compito. Verifica le regole Firebase.");
+        } finally {
+          button.disabled = false;
+        }
+      });
+      listenToGroup(initialGroup, renderTeacherTasks);
+    }
+
+    function homeworkRefFor(groupId) {
+      return firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni`);
+    }
+
+    initializePage();
+  </script>
+</body>
+</html>

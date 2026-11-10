@@ -265,6 +265,31 @@
 
     .featured-unit a:hover { background: #1e3d27; }
 
+    .homework-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 22px;
+      padding: 16px 20px;
+      border: 1px solid #d8e5d8;
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 6px 20px rgba(43, 69, 46, .07);
+    }
+    .homework-entry p { margin: 0; color: var(--muted); }
+    .homework-entry strong { display: block; margin-bottom: 3px; color: var(--green); }
+    .homework-entry a {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .homework-entry a:hover { background: #1e3d27; }
+
     .precourse-card {
       display: flex;
       flex-wrap: wrap;
@@ -363,7 +388,7 @@
       text-transform: uppercase;
     }
 
-    .unit-link .unit-tit {
+    .unit-link .unit-***** {
       margin-top: 4px;
     }
 
@@ -547,6 +572,10 @@
     </div>
 
     <div id="featured-unit-container" class="hidden"></div>
+    <section id="homework-entry" class="homework-entry hidden" aria-label="Compiti a casa">
+      <p><strong>Compiti a casa</strong>Consulta i compiti assegnati e il loro stato.</p>
+      <a href="compiti.html">Apri i compiti →</a>
+    </section>
 
     <!-- Editor insegnante (visibile solo all'insegnante) -->
     <section id="teacher-editor" class="access-card hidden">
@@ -726,6 +755,7 @@
     const unitsSection = document.getElementById("units-section");
     const unitsContainer = document.getElementById("units-container");
     const featuredContainer = document.getElementById("featured-unit-container");
+    const homeworkEntry = document.getElementById("homework-entry");
 
     const groupSelect = document.getElementById("group-select");
     const nameSelect = document.getElementById("name-select");
@@ -944,6 +974,7 @@
     }
 
     function showStudentUI() {
+      homeworkEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       teacherGroupSwitchWrap.hidden = true;
@@ -954,6 +985,7 @@
     }
 
     function showTeacherUI() {
+      homeworkEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       userInfoDiv.classList.remove("hidden");
@@ -964,6 +996,7 @@
     }
 
     function resetToLogin() {
+      homeworkEntry.classList.add("hidden");
       unitsSection.classList.add("hidden");
       featuredContainer.replaceChildren();
       featuredContainer.classList.add("hidden");
@@ -1066,7 +1099,7 @@
             numSpan.className = "unit-num";
             numSpan.textContent = `U. ${num}`;
             const titleSpan = document.createElement("span");
-            titleSpan.className = "unit-tit";
+            titleSpan.className = "unit-*****";
             titleSpan.textContent = EXISTING[num].title;
             link.append(numSpan, titleSpan);
             grid.appendChild(link);
