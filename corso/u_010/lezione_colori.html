@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Colori e gli Aggettivi in Italiano</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --error-bg: #fde8e7;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255, 254, 250, .94);
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    /* Header Hero */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin: 8px 0 24px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      background: #eaf1e8;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(1.9rem, 5vw, 2.5rem);
+      color: var(--primary);
+    }
+    .hero-subtitle {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: .98rem;
+    }
+
+    .card {
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+      margin-bottom: 24px;
+    }
+    .lesson-slide { display: none; }
+    .lesson-slide.active { display: block; }
+    .lesson-slides .card {
+      margin-bottom: 14px;
+    }
+    .slide-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid #d8e5d8;
+      border-radius: 14px;
+      background: rgba(255, 254, 250, .96);
+    }
+    .slide-navigation button {
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .slide-navigation button:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-weight: 800; text-align: center; }
+    .color-grid { grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap: 8px; margin: 12px 0; }
+    .color-chip { padding: 8px; }
+    .color-swatch { height: 30px; margin-bottom: 5px; }
+    .ru-desc { line-height: 1.45; }
+    .example-table { margin: 10px 0 4px; line-height: 1.4; }
+    .example-table th, .example-table td { padding: 8px 10px; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .hero { margin-bottom: 14px; padding: 20px 14px; }
+      .lesson-slides .card { padding: 18px 14px; }
+      .slide-navigation { gap: 8px; padding: 8px; }
+      .slide-navigation button { padding: 8px 10px; }
+    }
+
+    /* Palette Colori */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+    .color-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      font-weight: 700;
+      font-size: .9rem;
+      text-align: center;
+    }
+    .color-swatch {
+      width: 100%;
+      height: 38px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    /* Gruppi Grammaticali */
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+      margin-top: 10px;
+    }
+    .ru-desc {
+      background: #f8f6f0;
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 12px 12px 0;
+      margin: 12px 0;
+      font-size: .95rem;
+    }
+
+    /* Tabelle Esempi */
+    .example-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: .95rem;
+    }
+    .example-table th, .example-table td {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .example-table th {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    /* Layout compatto per la navigazione a slide */
+    .lesson-slides .color-grid { grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap: 8px; margin: 12px 0; }
+    .lesson-slides .color-chip { padding: 8px; }
+    .lesson-slides .color-swatch { height: 30px; margin-bottom: 5px; }
+    .lesson-slides .ru-desc { line-height: 1.45; }
+    .lesson-slides .example-table { margin: 10px 0 4px; line-height: 1.4; }
+    .lesson-slides .example-table th, .lesson-slides .example-table td { padding: 8px 10px; }
+    @media (max-width: 600px) {
+      .lesson-slides .color-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .lesson-slides .example-table { font-size: .82rem; }
+      .lesson-slides .example-table th, .lesson-slides .example-table td { padding: 7px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="es_e.html">🎨 Vai all’esercizio sui colori</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Corso di Italiano · Lingua e Grammatica</span>
+      <h1>I Colori e gli Aggettivi</h1>
+      <p class="hero-subtitle">Цвета и три группы итальянских прилагательных</p>
+    </header>
+
+    <!-- PALETTE VISIVA -->
+    <div class="lesson-slides" aria-live="polite">
+    <section class="card lesson-slide active" aria-label="Palette dei colori" aria-hidden="false">
+      <h2 style="margin-top:0; color: var(--primary);">🎨 I Colori principali</h2>
+      <div class="color-grid">
+        <div class="color-chip"><div class="color-swatch" style="background:#ffffff;"></div>bianco</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#808080;"></div>grigio</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#000000;"></div>nero</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#e74c3c;"></div>rosso</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#f1c40f;"></div>giallo</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#87ceeb;"></div>azzurro</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#2ecc71;"></div>verde</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#e67e22;"></div>arancione</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#8b4513;"></div>marrone</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#40e0d0;"></div>turchese</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#000022;"></div>blu</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#ffc0cb;"></div>rosa</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#800080;"></div>viola</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#800020;"></div>bordeaux</div>
+        <div class="color-chip"><div class="color-swatch" style="background:#f5f5dc;"></div>beige</div>
+      </div>
+    </section>
+
+    <!-- REGOLE GRAMMATICALI -->
+    <section class="card lesson-slide" aria-label="Primo gruppo e regole degli aggettivi" aria-hidden="true">
+      <h2 style="margin:0 0 8px; color: var(--primary);">📚 Le 3 categorie di aggettivi</h2>
+      <p style="margin:0 0 14px; color:var(--text-muted);">I colori cambiano in base al genere e al numero del nome.</p>
+      <!-- Primo Gruppo -->
+      <div class="group-header">1️⃣ Primo gruppo (4 uscite: -o, -a, -i, -e)</div>
+      <p style="margin:4px 0; font-weight:700;">bianco, grigio, nero, rosso, giallo, azzurro</p>
+      <div class="ru-desc">
+        <strong>К первой группе</strong> относятся прилагательные, которые изменяются по родам и числам (имеют 4 окончания: <code>-o</code>, <code>-a</code>, <code>-i</code>, <code>-e</code>).[cite: 1]
+      </div>
+      <table class="example-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Singolare (Ед. ч.)</th>
+            <th>Plurale (Мн. ч.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Maschile (М. р.)</strong></td>
+            <td>un tavolo <strong>nero / rosso</strong></td>
+            <td>due tavoli <strong>neri / rossi</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Femminile (Ж. р.)</strong></td>
+            <td>una macchina <strong>nera / rossa</strong></td>
+            <td>due macchine <strong>nere / rosse</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card lesson-slide" aria-label="Secondo gruppo" aria-hidden="true">
+      <!-- Secondo Gruppo -->
+      <div class="group-header">2️⃣ Secondo gruppo (2 uscite: -e, -i)</div>
+      <p style="margin:4px 0; font-weight:700;">verde, arancione, marrone, turchese</p>
+      <div class="ru-desc">
+        <strong>Ко второй группе</strong> относятся прилагательные, которые изменяются <strong>только по числам</strong> (одинаковое окончание для м.р. и ж.р.: в ед. ч. <code>-e</code>, во мн. ч. <code>-i</code>).[cite: 1]
+      </div>
+      <table class="example-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Singolare (Ед. ч.)</th>
+            <th>Plurale (Мн. ч.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Maschile (М. р.)</strong></td>
+            <td>un tavolo <strong>verde / marrone</strong></td>
+            <td>due tavoli <strong>verdi / marroni</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Femminile (Ж. р.)</strong></td>
+            <td>una macchina <strong>verde / marrone</strong></td>
+            <td>due macchine <strong>verdi / marroni</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card lesson-slide" aria-label="Terzo gruppo" aria-hidden="true">
+      <!-- Terzo Gruppo -->
+      <div class="group-header">3️⃣ Terzo gruppo (Invariabili / Неизменяемые)</div>
+      <p style="margin:4px 0; font-weight:700;">blu, rosa, viola, bordeaux, beige, magenta</p>
+      <div class="ru-desc">
+        <strong>К третьей группе</strong> относятся неизменяемые прилагательные. Они сохраняют одну и ту же форму независимо от рода и числа существительного.[cite: 1]
+      </div>
+      <table class="example-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Singolare (Ед. ч.)</th>
+            <th>Plurale (Мн. ч.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Maschile (М. р.)</strong></td>
+            <td>un tavolo <strong>blu / rosa / viola</strong></td>
+            <td>due tavoli <strong>blu / rosa / viola</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Femminile (Ж. р.)</strong></td>
+            <td>una macchina <strong>blu / rosa / viola</strong></td>
+            <td>due macchine <strong>blu / rosa / viola</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card lesson-slide" aria-label="Sfumature e colori composti" aria-hidden="true">
+      <!-- Sfumature / Colori composti -->
+      <h2 style="margin:0 0 8px; color: var(--primary);">💡 Важное правило: составные цвета и оттенки</h2>
+        <p style="margin: 0; font-size: .95rem;">
+          Если к названию цвета добавляется уточняющее прилагательное (<em>chiaro, scuro</em>) или существительное (<em>notte, metallizzato, ferrari</em>), цвет становится <strong>неизменяемым (относится к 3-й группе)</strong>:[cite: 1]
+        </p>
+        <ul style="margin: 8px 0 0; padding-left: 20px; font-size: .95rem;">
+          <li>una macchina <strong>rosso ferrari</strong> / due macchine <strong>rosso ferrari</strong>[cite: 1]</li>
+          <li>una giacca <strong>verde scuro</strong> / due giacche <strong>verde scuro</strong>[cite: 1]</li>
+          <li>un vestito <strong>blu notte</strong> / due vestiti <strong>blu notte</strong>[cite: 1]</li>
+          <li>una macchina <strong>grigio metallizzato</strong>[cite: 1]</li>
+        </ul>
+    </section>
+    </div>
+
+    <nav class="slide-navigation" aria-label="Navigazione delle schede">
+      <button id="previous-slide" type="button" aria-label="Scheda precedente">← Precedente</button>
+      <span id="slide-progress" class="slide-progress" aria-live="polite"></span>
+      <button id="next-slide" type="button" aria-label="Scheda successiva">Successiva →</button>
+    </nav>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const slides = Array.from(document.querySelectorAll(".lesson-slide"));
+    const previousButton = document.getElementById("previous-slide");
+    const nextButton = document.getElementById("next-slide");
+    const progress = document.getElementById("slide-progress");
+    let activeSlide = 0;
+
+    function showSlide(index) {
+      activeSlide = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activeSlide;
+        slide.classList.toggle("active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+        if (isActive) slide.scrollTop = 0;
+      });
+      previousButton.disabled = activeSlide === 0;
+      nextButton.disabled = activeSlide === slides.length - 1;
+      progress.textContent = `Scheda ${activeSlide + 1} di ${slides.length}`;
+    }
+
+    previousButton.addEventListener("click", () => showSlide(activeSlide - 1));
+    nextButton.addEventListener("click", () => showSlide(activeSlide + 1));
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("a, button, input, select, textarea")) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") showSlide(activeSlide + 1);
+      if (event.key === "ArrowLeft" || event.key === "ArrowUp") showSlide(activeSlide - 1);
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>

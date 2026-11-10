@@ -63,6 +63,8 @@
   const exercisePages = [
     ["es_a.html", "Esercizio A"], ["es_b.html", "Esercizio B"],
     ["es_c.html", "Esercizio C"], ["es_d.html", "Esercizio D"],
+    ["es_e.html", "Esercizio E"], ["es_f.html", "Esercizio F"],
+    ["es_g.html", "Esercizio G"], ["lezione_colori.html", "Lezione sui colori"],
     ["es_h.html", "Esercizio H"], ["es_i.html", "Esercizio I"],
     ["es_j.html", "Esercizio J"], ["es_k.html", "Esercizio K"],
     ["es_l.html", "Esercizio L"], ["es_m.html", "Esercizio M"],
@@ -134,5 +136,8 @@
       teacherToggle.checked = true;
       teacherToggle.dispatchEvent(new Event("change", { bubbles: true }));
     }
+    const notesScript = document.createElement("script");
+    notesScript.src = "../classroom-notes.js";
+    document.body.appendChild(notesScript);
   }, { once: true });
 })();
