@@ -65,6 +65,7 @@
     .lesson-group h2 { margin-bottom: 18px; }
     .lesson { margin-top: 16px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcf8; }
     .lesson h3 { margin: 0 0 12px; color: var(--green); }
+    .lesson-date { margin: -5px 0 12px; color: var(--muted); font-weight: 700; }
     .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #111; }
     .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .pdf-preview { width: 100%; height: min(75vh, 800px); margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
@@ -92,7 +93,7 @@
     <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
 
     <section id="teacher-controls" class="card" hidden>
-      <h2>Aggiungi o aggiorna una videolezione</h2>
+      <h2>Aggiungi una videolezione</h2>
       <form id="video-form">
         <div class="toolbar">
           <div class="field">
@@ -102,6 +103,10 @@
           <div class="field">
             <label for="unit-select">Unità</label>
             <select id="unit-select" required></select>
+          </div>
+          <div class="field">
+            <label for="lesson-date">Data della lezione</label>
+            <input id="lesson-date" type="date" required>
           </div>
         </div>
         <div class="field" style="margin-top:12px">
@@ -137,6 +142,7 @@
     const unitSelect = document.getElementById("unit-select");
     const videoForm = document.getElementById("video-form");
     const youtubeUrl = document.getElementById("youtube-url");
+    const lessonDateInput = document.getElementById("lesson-date");
     const pdfUrlInput = document.getElementById("pdf-url");
     const archive = document.getElementById("archive");
 
@@ -161,6 +167,10 @@
       return element;
     }
     function groupName(id) { return groups[id]?.nome || id; }
+    function formatLessonDate(value) {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
+      return match ? `${match[3]}/${match[2]}/${match[1]}` : "";
+    }
     function getStudentLimit(group) {
       const active = (group.studenti || []).some(student => student.nome === session.name);
       const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
@@ -235,6 +245,8 @@
       lessons.forEach(({ key, video, unit }) => {
         const lesson = makeElement("article", "lesson");
         lesson.appendChild(makeElement("h3", "", `Unità ${unit}${video.title ? ` · ${video.title}` : ""}`));
+        const lessonDate = formatLessonDate(video.lessonDate);
+        if (lessonDate) lesson.appendChild(makeElement("p", "lesson-date", `Lezione del ${lessonDate}`));
         const frame = makeElement("div", "video-frame");
         const iframe = document.createElement("iframe");
         iframe.src = embedUrl(video);
@@ -345,6 +357,10 @@
         showMessage("Inserisci un link YouTube valido (video, youtu.be o Shorts).");
         return;
       }
+      if (!lessonDateInput.value) {
+        showMessage("Indica la data della lezione.");
+        return;
+      }
       const enteredPdfUrl = pdfUrlInput.value.trim();
       const pdfPreviewUrl = enteredPdfUrl ? googleDrivePreviewUrl(enteredPdfUrl) : "";
       if (enteredPdfUrl && !pdfPreviewUrl) {
@@ -362,12 +378,14 @@
           pdfUrl: enteredPdfUrl,
           pdfPreviewUrl,
           unitNumber: unit,
+          lessonDate: lessonDateInput.value,
           updatedAt: Date.now(),
           updatedBy: session.teacher
         };
 
         await lessonRef.set(lessonData);
         youtubeUrl.value = "";
+        lessonDateInput.value = "";
         if (enteredPdfUrl) pdfUrlInput.value = "";
         showMessage(`Videolezione salvata per ${groupName(groupId)}, unità ${unit}.`, "success");
       } catch (error) {
