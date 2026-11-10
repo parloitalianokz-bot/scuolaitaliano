@@ -83,6 +83,10 @@
     .btn-arrow { font: inherit; cursor: pointer; }
     .btn-arrow:disabled { opacity: .45; cursor: not-allowed; }
     .completion-message { margin: 22px 0 0; padding: 18px; border: 1px solid #b7dfc1; border-radius: 14px; background: var(--success-bg); color: #17623c; text-align: center; font-size: 1.05rem; font-weight: 800; line-height: 1.5; }
+    .unit11-button { display: block; min-height: 44px; margin: 14px auto 0; padding: 10px 18px; border: 0; border-radius: 10px; background: var(--primary); color: #fff; font: inherit; font-size: .95rem; font-weight: 800; cursor: pointer; }
+    .unit11-button:hover:not(:disabled) { background: var(--primary-dark); }
+    .unit11-button:disabled { background: #d9dedb; color: #626b65; cursor: not-allowed; }
+    #unit11-status { margin: 10px 0 0; font-size: .88rem; font-weight: 600; }
     .results-section { margin-top: 28px; }
     .results-section h2 { color: var(--primary-dark); font-size: 1.3rem; }
     .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
@@ -138,7 +142,12 @@
         <iframe src="https://www.youtube.com/embed/g-_0H8cwHFE" title="Fare acquisti — Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div id="items-container"></div>
-      <p class="completion-message" id="completion-message" hidden>🎉 Congratulazioni! Hai terminato l’Unità 10!<br>Поздравляем с завершением раздела 10!</p>
+      <div class="completion-message" id="completion-message" hidden>
+        🎉 Congratulazioni! Hai terminato l’Unità 10!<br>Поздравляем с завершением раздела 10!
+        <button type="button" id="go-to-unit-11" class="unit11-button" disabled>Vai all’Unità 11 · La casalinga</button>
+        <button type="button" id="enable-unit-11" class="unit11-button" hidden>Abilita l’Unità 11 per il gruppo</button>
+        <p id="unit11-status" role="status" aria-live="polite" hidden></p>
+      </div>
       <button type="button" id="btn-submit-all" class="btn-submit" hidden>📤 Отправить решение · Invia le risposte</button>
     </section>
     <section class="results-section" id="results-section" hidden>
@@ -179,6 +188,15 @@
     const responsesList = document.getElementById("responses-list");
     const submitButton = document.getElementById("btn-submit-all");
     const completionMessage = document.getElementById("completion-message");
+    const goToUnit11Button = document.getElementById("go-to-unit-11");
+    const enableUnit11Button = document.getElementById("enable-unit-11");
+    const unit11Status = document.getElementById("unit11-status");
+    const pageSession = window.parloUnit10Session || {};
+    const groupId = pageSession.group || "sconosciuto";
+    const teacherSession = Boolean(pageSession.isTeacher);
+    let groupUnitLimitRef = null;
+    goToUnit11Button.hidden = false;
+    enableUnit11Button.hidden = !teacherSession;
     const itemBoxes = [];
     const tabButtons = [];
 
@@ -282,6 +300,32 @@
       if (isTeacher && currentWorkMode === "token" && answersRef) answersRef.child("writers").set({});
     });
 
+    goToUnit11Button.addEventListener("click", () => {
+      if (goToUnit11Button.disabled) return;
+      const target = new URL("../u_011/011_lettura.html", window.location.href);
+      if (groupId && groupId !== "sconosciuto") target.searchParams.set("gruppo", groupId);
+      if (!teacherSession && pageSession.name) target.searchParams.set("nome", pageSession.name);
+      window.location.assign(target.href);
+    });
+
+    enableUnit11Button.addEventListener("click", async () => {
+      if (!teacherSession || !groupUnitLimitRef) {
+        unit11Status.textContent = "Impossibile connettersi ai dati del gruppo.";
+        unit11Status.hidden = false;
+        return;
+      }
+      enableUnit11Button.disabled = true;
+      unit11Status.textContent = "Salvataggio dell’accesso all’Unità 11…";
+      unit11Status.hidden = false;
+      try {
+        await groupUnitLimitRef.set(11);
+        unit11Status.textContent = "Unità 11 abilitata per il gruppo e aggiornata nell’indice.";
+      } catch (_) {
+        unit11Status.textContent = "Errore: non è stato possibile aggiornare l’ultima unità del gruppo.";
+        enableUnit11Button.disabled = false;
+      }
+    });
+
     function renderResponses() {
       responsesList.replaceChildren();
       const students = Object.values(allStudentResponses);
@@ -365,6 +409,25 @@
       try {
         firebase.initializeApp(firebaseConfig);
         answersRef = firebase.database().ref("esercizi/unita10-video-t");
+        if (groupId && groupId !== "sconosciuto") {
+          const safeGroupId = groupId.replace(/[.#$\/\[\]]/g, "_");
+          groupUnitLimitRef = firebase.database().ref(`esercizi/gruppi/${safeGroupId}/unitNumber`);
+          groupUnitLimitRef.on("value", snapshot => {
+            const maxUnit = Number(snapshot.val());
+            const unit11Available = Number.isFinite(maxUnit) && maxUnit >= 11;
+            goToUnit11Button.disabled = !unit11Available;
+            enableUnit11Button.disabled = unit11Available;
+            unit11Status.textContent = unit11Available
+              ? "L’Unità 11 è abilitata per questo gruppo."
+              : teacherSession
+                ? "Abilita l’Unità 11 per renderla disponibile al gruppo."
+                : "L’Unità 11 sarà disponibile quando l’insegnante la abiliterà per il gruppo.";
+            unit11Status.hidden = false;
+          }, () => {
+            unit11Status.textContent = "Impossibile verificare l’accesso del gruppo all’Unità 11.";
+            unit11Status.hidden = false;
+          });
+        }
         answersRef.on("value", snapshot => {
           const data = snapshot.val() || {};
           if (data.resetId && data.resetId !== lastResetId) {

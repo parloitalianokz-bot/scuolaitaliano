@@ -808,6 +808,37 @@
     let sessionInitialized = false;
     let groupMigrationStarted = false;
 
+    // Sincronizza l’abilitazione dell’Unità 11 impostata da es_t con i dati gestiti dall’indice.
+    let unit11SyncAttempts = 0;
+    const unit11SyncTimer = window.setInterval(() => {
+      unit11SyncAttempts++;
+      if (unit11SyncAttempts > 120) {
+        window.clearInterval(unit11SyncTimer);
+        return;
+      }
+      if (!groupsReady || !groupsRef || !window.firebase?.apps?.length) return;
+      window.clearInterval(unit11SyncTimer);
+      firebase.database().ref("esercizi/gruppi").on("value", snapshot => {
+        const sharedGroups = snapshot.val() || {};
+        Object.entries(sharedGroups).forEach(([groupId, sharedGroup]) => {
+          const sharedUnit = Number(sharedGroup?.unitNumber);
+          const group = GROUPS[groupId];
+          if (!group || !Number.isFinite(sharedUnit) || sharedUnit < 11 || Number(group.unitNumber) >= sharedUnit) return;
+          group.unitNumber = sharedUnit;
+          groupsRef.child(groupId).child("unitNumber").set(sharedUnit).catch(() => {});
+          if (currentGroup === groupId) {
+            if (isTeacher) {
+              renderUnits(null);
+              buildTeacherEditor();
+            } else if (currentName) {
+              showStudentUI();
+              renderUnits(getStudentMaxUnit(groupId, currentName));
+            }
+          }
+        });
+      });
+    }, 250);
+
     // ─────── FUNZIONI ───────
     function showMessage(el, text, type) {
       el.textContent = text;
@@ -1437,7 +1468,11 @@
         btnSaveGroups.disabled = true;
         try {
           group.unitNumber = newVal;
-          await saveCurrentGroup();
+          const safeGroupId = currentGroup.replace(/[.#$\/\[\]]/g, "_");
+          await groupsRef.root.update({
+            [`configurazioneScuola/gruppi/${currentGroup}`]: group,
+            [`esercizi/gruppi/${safeGroupId}/unitNumber`]: newVal
+          });
           showMessage(editorMessage, "Modifica salvata e condivisa con tutti i dispositivi.", "success");
           renderUnits(null);
           populateGroups();
