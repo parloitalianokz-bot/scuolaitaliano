@@ -271,22 +271,6 @@
     nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
     showSlide(0);
 
-    let backgroundUpdatePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundUpdatePending) return;
-      backgroundUpdatePending = true;
-      requestAnimationFrame(() => {
-        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? 0
-          : Math.min(window.scrollY * 0.12, 180);
-        document.body.style.setProperty("--background-offset", `${offset}px`);
-        backgroundUpdatePending = false;
-      });
-    }
-
-    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
-    updateBackgroundParallax();
-
     function getLoginParams() {
       const params = new URLSearchParams(location.search);
       try {
@@ -341,6 +325,6 @@
       }
     })();
   </script>
-  <script src="../classroom-notes.js"></script>
+  <script src="firebase-group-scope.js"></script>
 </body>
 </html>
