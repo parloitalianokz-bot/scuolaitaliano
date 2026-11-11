@@ -131,6 +131,7 @@
     </header>
 
     <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
+    
     <section id="student-view" class="hidden">
       <div class="card">
         <h2>I miei compiti</h2>
@@ -213,10 +214,13 @@
       46: "Il funerale dello zio Augusto",
       53: "Il viale del tramonto"
     };
-    // Elenco dei compiti pubblicati: aggiornarlo quando si aggiungono file in compiti/u_XXX.
+    
+    // Catalogo dei compiti disponibili suddivisi per unità
     const TASK_CATALOG = {
+      "1": [{ label: "Compito 1", path: "compiti/u_001/u_001_compito_1.html" }],
       "46": [{ label: "Compito 2", path: "compiti/u_046/compito2.html" }]
     };
+
     function unitOptionLabel(unit) {
       const title = UNIT_TITLES[unit];
       return title && title !== `Unità ${unit}` ? `Unità ${unit} — ${title}` : `Unità ${unit}`;
@@ -336,139 +340,6 @@
       card.appendChild(makeElement("p", "", question.prompt));
     }
 
-    async function renderStructuredTeacherTask(card, assignmentId, studentKey, assignment, submission, wanted, studentName) {
-      try {
-        const task = await loadTaskDefinition(assignment.taskPath);
-        const questions = taskQuestions(task);
-        const strip = makeElement("div", "question-strip");
-        questions.forEach((question, index) => {
-          const questionCard = makeElement("div", "question-card");
-          addQuestionPrompt(questionCard, question, index);
-          const response = submission.answers?.[question.id] || {};
-          let answerText = response.answer || "Nessuna risposta registrata.";
-          if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
-          questionCard.appendChild(makeElement("div", "task-answer", answerText));
-          if (question.modelAnswer) {
-            const details = document.createElement("details");
-            details.append(makeElement("summary", "", "Risposta attesa"), makeElement("p", "", question.modelAnswer));
-            questionCard.appendChild(details);
-          }
-          if (wanted === "pending") {
-            const controls = makeElement("div", "grading-controls");
-            const comment = makeElement("textarea");
-            comment.maxLength = 1000;
-            comment.placeholder = "Commento per questa risposta (facoltativo)";
-            comment.value = response.comment || "";
-            comment.setAttribute("aria-label", `Commento per la domanda ${index + 1}`);
-            const buttons = makeElement("div", "grade-buttons");
-            [["approved", "Approva", ""], ["rejected", "Non approva", "reject"]].forEach(([grade, label, className]) => {
-              const button = makeElement("button", className, label);
-              button.type = "button";
-              if (response.grade === grade) button.classList.add("selected");
-              button.addEventListener("click", async () => {
-                button.disabled = true;
-                const updatedAnswers = { ...(submission.answers || {}), [question.id]: { ...response, grade, comment: comment.value.trim() } };
-                const complete = questions.every(item => updatedAnswers[item.id]?.grade === "approved" || updatedAnswers[item.id]?.grade === "rejected");
-                const update = { answers: updatedAnswers };
-                if (complete) Object.assign(update, { status: "reviewed", reviewedAt: Date.now(), reviewedBy: session.teacher });
-                try {
-                  await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update(update);
-                  showMessage(complete ? `Tutte le risposte di ${studentName} sono state corrette e archiviate.` : `Esito salvato per la risposta di ${studentName}.`, "success");
-                } catch (_) {
-                  showMessage("Impossibile salvare la correzione. Controlla la connessione.");
-                  button.disabled = false;
-                }
-              });
-              buttons.appendChild(button);
-            });
-            controls.append(comment, buttons);
-            questionCard.appendChild(controls);
-          } else {
-            questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
-            if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
-          }
-          strip.appendChild(questionCard);
-        });
-        card.appendChild(strip);
-      } catch (_) {
-        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
-      }
-    }
-
-    async function renderStructuredStudentTask(card, assignmentId, assignment, submission, wanted) {
-      const strip = makeElement("div", "question-strip");
-      const form = makeElement("form", "task-form");
-      try {
-        const task = await loadTaskDefinition(assignment.taskPath);
-        const questions = taskQuestions(task);
-        if (wanted === "assigned") {
-          const controls = {};
-          questions.forEach((question, index) => {
-            const questionCard = makeElement("div", "question-card");
-            addQuestionPrompt(questionCard, question, index);
-            if (question.options) {
-              const options = makeElement("div", "question-options");
-              question.options.forEach((option, optionIndex) => {
-                const label = makeElement("label");
-                const input = document.createElement("input");
-                input.type = "radio";
-                input.name = `answer-${assignmentId}-${question.id}`;
-                input.value = String(optionIndex);
-                input.required = true;
-                label.append(input, document.createTextNode(option));
-                options.appendChild(label);
-              });
-              questionCard.appendChild(options);
-              controls[question.id] = () => form.querySelector(`input[name="answer-${assignmentId}-${question.id}"]:checked`)?.value || "";
-            } else {
-              const input = makeElement("textarea");
-              input.required = true;
-              input.maxLength = 2000;
-              input.setAttribute("aria-label", `Risposta ${index + 1}`);
-              questionCard.appendChild(input);
-              controls[question.id] = () => input.value.trim();
-            }
-            strip.appendChild(questionCard);
-          });
-          const submit = makeElement("button", "", "Invia tutte le risposte");
-          form.append(strip, submit);
-          form.addEventListener("submit", async event => {
-            event.preventDefault();
-            submit.disabled = true;
-            const answers = Object.fromEntries(Object.entries(controls).map(([key, getValue]) => [key, { answer: getValue() }]));
-            try {
-              await homeworkRef.child(`${assignmentId}/consegne/${safeNameKey(session.name)}`).set({
-                studentName: session.name, status: "pending", answers, submittedAt: Date.now()
-              });
-              showMessage("Risposte inviate: l’insegnante le vedrà in attesa di correzione.", "success");
-            } catch (_) {
-              showMessage("Impossibile inviare le risposte. Controlla la connessione e riprova.");
-              submit.disabled = false;
-            }
-          });
-          card.appendChild(form);
-        } else {
-          questions.forEach((question, index) => {
-            const questionCard = makeElement("div", "question-card");
-            addQuestionPrompt(questionCard, question, index);
-            const response = submission?.answers?.[question.id] || {};
-            let answerText = response.answer || "Nessuna risposta registrata.";
-            if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
-            questionCard.appendChild(makeElement("div", `task-answer${response.grade ? ` ${response.grade}` : ""}`, answerText));
-            if (wanted === "reviewed") {
-              questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
-              if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
-            }
-            strip.appendChild(questionCard);
-          });
-          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
-          card.appendChild(strip);
-        }
-      } catch (_) {
-        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
-      }
-    }
-
     function renderStudentTasks() {
       const wanted = studentStatus.value;
       const visible = sortedAssignments().filter(([, assignment]) => {
@@ -504,37 +375,6 @@
             if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
             if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
           }
-        } else if (wanted === "assigned") {
-          const form = makeElement("form", "task-form");
-          const label = makeElement("label", "", "La tua risposta");
-          const answer = makeElement("textarea");
-          answer.required = true;
-          answer.maxLength = 10000;
-          answer.setAttribute("aria-label", `Risposta per ${assignment.title || `Unità ${assignment.unitNumber}`}`);
-          const submit = makeElement("button", "", "Invia per la correzione");
-          form.append(label, answer, submit);
-          form.addEventListener("submit", async event => {
-            event.preventDefault();
-            submit.disabled = true;
-            try {
-              await homeworkRef.child(`${id}/consegne/${safeNameKey(session.name)}`).set({
-                studentName: session.name,
-                status: "pending",
-                answer: answer.value.trim(),
-                submittedAt: Date.now()
-              });
-              showMessage("Compito inviato: l’insegnante lo vedrà in attesa di correzione.", "success");
-            } catch (_) {
-              showMessage("Impossibile inviare il compito. Controlla la connessione e riprova.");
-              submit.disabled = false;
-            }
-          });
-          card.appendChild(form);
-        } else {
-          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
-          card.appendChild(makeElement("div", "task-answer", submission?.answer || "Nessuna risposta registrata."));
-          if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
-          if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
         }
         studentTasks.appendChild(card);
       });
@@ -569,37 +409,6 @@
           const taskLink = makeElement("a", "button-link", wanted === "pending" ? "Apri il compito da correggere →" : "Apri il compito →");
           taskLink.href = taskUrl.href;
           card.appendChild(taskLink);
-        } else {
-          card.appendChild(makeElement("div", "task-answer", submission.answer || "Nessuna risposta registrata."));
-        }
-        if (!assignment.taskPath && wanted === "pending") {
-          const form = makeElement("form", "task-form");
-          const label = makeElement("label", "", "Feedback per lo studente (facoltativo)");
-          const feedback = makeElement("textarea");
-          feedback.maxLength = 3000;
-          feedback.value = submission.feedback || "";
-          const button = makeElement("button", "", "Segna come corretto");
-          form.append(label, feedback, button);
-          form.addEventListener("submit", async event => {
-            event.preventDefault();
-            button.disabled = true;
-            try {
-              await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update({
-                status: "reviewed",
-                feedback: feedback.value.trim(),
-                reviewedAt: Date.now(),
-                reviewedBy: session.teacher
-              });
-              showMessage(`Compito di ${studentName} corretto e archiviato.`, "success");
-            } catch (_) {
-              showMessage("Impossibile salvare la correzione. Controlla la connessione.");
-              button.disabled = false;
-            }
-          });
-          card.appendChild(form);
-        } else if (!assignment.taskPath) {
-          card.appendChild(makeElement("span", "status", `Corretto il ${formatDate(submission.reviewedAt) || ""}`));
-          if (submission.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback: ${submission.feedback}`));
         }
         teacherTasks.appendChild(card);
       });
