@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività interattive con Wordwall, Unità 11." />
+  <title>Unità 11 — Attività interattive (Esercizio N)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --muted: #6b7069;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background: linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)), url("img/sfondo.webp") center / cover fixed, radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a, .exercise-link {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none; transition: .2s;
+    }
+    .home-navigation a:hover, .exercise-link:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px;
+      background: #eaf1e8; color: var(--primary-dark); font-size: .78rem;
+      font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem, 5vw, 2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--muted); font-size: .98rem; }
+    .activity-card {
+      padding: clamp(18px, 4vw, 30px); border: 1px solid var(--border); border-radius: 26px;
+      background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+    }
+    .activity-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 16px; }
+    .activity-heading h2 { margin: 0; color: var(--primary-dark); font-size: 1.15rem; }
+    .slide-count { color: var(--muted); font-size: .9rem; font-weight: 700; white-space: nowrap; }
+    .slides {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      scrollbar-width: thin; scrollbar-color: #b7d0bb #edf1e9; border-radius: 18px;
+    }
+    .slide {
+      display: grid; flex: 0 0 100%; min-width: 0; min-height: 440px; place-items: center;
+      padding: clamp(12px, 3vw, 24px); scroll-snap-align: start;
+      border: 1px solid #d8e5d8; border-radius: 18px;
+      background: linear-gradient(145deg, #fffefa, #f2f7ef);
+    }
+    .embed-frame { width: min(100%, 500px); aspect-ratio: 500 / 380; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px rgba(43, 69, 46, .1); }
+    .embed-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .slide-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+    .slide-controls button {
+      min-height: 42px; padding: 8px 16px; border: 1px solid #d8e5d8; border-radius: 10px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .slide-controls button:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .slide-controls button:disabled { cursor: not-allowed; opacity: .45; }
+    .dots { display: flex; justify-content: center; gap: 8px; }
+    .dot {
+      width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%;
+      background: #cbd5c9; cursor: pointer;
+    }
+    .dot[aria-current="true"] { background: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); }
+    .exercise-navigation { display: flex; justify-content: flex-end; margin: 18px 0 24px; }
+    .exercise-link { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .exercise-link:hover { background: var(--primary-dark); color: #fff; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .activity-heading { align-items: flex-start; flex-direction: column; }
+      .slide { min-height: auto; }
+      .slide-controls button { padding: 8px 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_m.html">← Esercizio M</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Attività interattive</span>
+      <h1>Giochiamo con l’italiano</h1>
+      <p class="hero-subtitle">Completa le due attività Wordwall scorrendo le schede.</p>
+    </header>
+
+    <section class="activity-card" aria-label="Attività Wordwall">
+      <div class="activity-heading">
+        <h2 id="activity-title">Scheda 1</h2>
+        <span class="slide-count" id="slide-count" aria-live="polite">1 di 2</span>
+      </div>
+      <div class="slides" id="slides" tabindex="0" aria-label="Schede interattive, scorri orizzontalmente">
+        <article class="slide" aria-labelledby="activity-title">
+          <div class="embed-frame">
+            <iframe src="https://wordwall.net/it/embed/55797537aab4496dba2de4f621b33da3?themeId=43&amp;templateId=30&amp;fontStackId=0" title="Attività Wordwall — Scheda 1" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </article>
+        <article class="slide" aria-label="Scheda 2">
+          <div class="embed-frame">
+            <iframe src="https://wordwall.net/it/embed/0d4deed51f4e4fa6aabf2f1a6054eed2?themeId=41&amp;templateId=30&amp;fontStackId=0" title="Attività Wordwall — Scheda 2" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </article>
+      </div>
+      <nav class="slide-controls" aria-label="Navigazione delle schede">
+        <button id="previous-slide" type="button" disabled>← Precedente</button>
+        <div class="dots" aria-label="Seleziona una scheda">
+          <button class="dot" type="button" aria-label="Vai alla scheda 1" aria-current="true" data-slide="0"></button>
+          <button class="dot" type="button" aria-label="Vai alla scheda 2" aria-current="false" data-slide="1"></button>
+        </div>
+        <button id="next-slide" type="button">Successiva →</button>
+      </nav>
+    </section>
+    <nav class="exercise-navigation" aria-label="Prossimo esercizio">
+      <a class="exercise-link" href="es_o.html">Vai all’esercizio O →</a>
+    </nav>
+  </main>
+  <script>
+    const slides = document.getElementById("slides");
+    const previousButton = document.getElementById("previous-slide");
+    const nextButton = document.getElementById("next-slide");
+    const slideCount = document.getElementById("slide-count");
+    const activityTitle = document.getElementById("activity-title");
+    const dots = [...document.querySelectorAll(".dot")];
+    let activeSlide = 0;
+
+    function showSlide(index) {
+      activeSlide = Math.max(0, Math.min(dots.length - 1, index));
+      slides.scrollTo({ left: activeSlide * slides.clientWidth, behavior: "smooth" });
+      updateNavigation();
+    }
+    function updateNavigation() {
+      previousButton.disabled = activeSlide === 0;
+      nextButton.disabled = activeSlide === dots.length - 1;
+      slideCount.textContent = `${activeSlide + 1} di ${dots.length}`;
+      activityTitle.textContent = `Scheda ${activeSlide + 1}`;
+      dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === activeSlide)));
+    }
+
+    previousButton.addEventListener("click", () => showSlide(activeSlide - 1));
+    nextButton.addEventListener("click", () => showSlide(activeSlide + 1));
+    dots.forEach((dot, index) => dot.addEventListener("click", () => showSlide(index)));
+    slides.addEventListener("scroll", () => {
+      const index = Math.round(slides.scrollLeft / slides.clientWidth);
+      if (index !== activeSlide) { activeSlide = index; updateNavigation(); }
+    }, { passive: true });
+    window.addEventListener("resize", () => showSlide(activeSlide));
+  </script>
+</body>
+</html>
