@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 11 — La casalinga (Esercizio B)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
+      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa;
+      --text: #292d28; --text-muted: #6b7069; --success: #278253;
+      --success-bg: #e1f1e5; --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.webp") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%,880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow {
+      display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px;
+      background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box, .top-controls {
+      margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8;
+      border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04);
+    }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .assignment-control { display: grid; flex: 1; min-width: min(100%,260px); gap: 5px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .assignment-control select { min-height: 42px; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--text); font: inherit; }
+    .assignment-control[hidden] { display: none; }
+    .reset-btn { min-height: 42px; padding: 6px 14px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #fef2f2; }
+    .reset-btn[hidden] { display: none; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    .assignment-status { margin: 0 0 18px; padding: 12px 16px; border-radius: 12px; background: var(--primary-light); color: var(--primary-dark); font-weight: 700; line-height: 1.5; }
+    .paragraph-slide { display: flex; flex-direction: column; gap: 16px; }
+    .paragraph-slide[hidden] { display: none; }
+    .paragraph-heading { margin: 0; color: var(--primary-dark); font-size: 1.05rem; font-weight: 800; }
+    .source-text { margin: 0; padding: 18px; border: 1px solid #e8e6dc; border-radius: 14px; background: #faf9f5; color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 1.05rem; line-height: 1.8; }
+    .answer-label { color: var(--primary-dark); font-size: .95rem; font-weight: 800; }
+    .rewrite-input { width: 100%; min-height: 150px; padding: 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: var(--text); font: inherit; font-size: 1rem; line-height: 1.65; resize: vertical; }
+    .rewrite-input:disabled { background: #f2f5f1; color: #475569; cursor: not-allowed; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button, .slide-navigation a { min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .save-status { margin: 0 0 18px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+    .save-status[hidden] { display: none; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .card { padding: 16px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button { width: 100%; }
+      .source-text { padding: 14px; font-size: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_a.html">← Esercizio A</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica e scrittura</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Riscrivete ogni paragrafo alla terza persona singolare.</p>
+      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio B</div>
+      <div class="instruction-text">👉 <strong>Прочитайте текст ещё раз и перепишите каждый абзац от третьего лица единственного числа:</strong> leggete di nuovo il testo e riscrivete ogni paragrafo alla terza persona singolare.</div>
+    </div>
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label id="assignment-control" class="assignment-control" for="writer-select" hidden>
+          ✍️ Studente autorizzato a riscrivere
+          <select id="writer-select"><option value="">— Nessuno selezionato —</option></select>
+        </label>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Azzera l’esercizio</button>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Riscrittura del racconto">
+      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+      <div id="paragraph-slides"></div>
+      <nav class="slide-navigation" aria-label="Navigazione paragrafi">
+        <button id="prev-paragraph" type="button">← Precedente</button>
+        <span id="paragraph-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-paragraph" type="button">Successivo →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    const paragraphs = [
+      "La vita della casalinga è difficile! La mia giornata comincia la mattina alle sette. Preparo la colazione per tutta la famiglia, mentre mio marito guarda la televisione in camera da letto e i bambini dormono ancora.",
+      "Alle otto e mezzo porto i bambini a scuola, poi vado al supermercato e faccio la spesa.",
+      "Alle undici torno a casa e preparo il pranzo, mentre mio marito guarda la televisione in salotto.",
+      "All’una andiamo a mangiare. Mentre mangiamo, mio marito guarda la televisione in cucina.",
+      "Dopo pranzo vado a prendere i bambini a scuola. Alle tre torniamo a casa: i bambini studiano un po’ e poi giocano in salotto, mentre io pulisco la casa e mio marito guarda la televisione in bagno.",
+      "Alle sette preparo la cena e alle otto e mezzo ceniamo. Poi io lavo i piatti.",
+      "Alle dieci porto i bambini a letto, e alle dieci e mezzo faccio una passeggiata in giardino con il cane.",
+      "A mezzanotte vado in camera da letto; mio marito guarda ancora un po’ la televisione e poi finalmente dormiamo."
+    ];
+
+    const params = new URLSearchParams(location.search);
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+    const groupName = params.get("gruppo") || session?.group || "sconosciuto";
+    const studentName = params.get("nome") || (!session?.isTeacher ? session?.name : "") || "";
+    const isTeacherView = Boolean(groupName && groupName !== "sconosciuto" && !studentName && (params.has("gruppo") || session?.isTeacher));
+    const currentStudentName = isTeacherView ? "" : (studentName || localStorage.getItem("parlo_student_name") || "");
+    const myClientId = "user_" + Math.random().toString(36).slice(2, 9);
+    const safe = value => value.replace(/[.#$\/\[\]]/g, "_");
+
+    const writerSelect = document.getElementById("writer-select");
+    const assignmentControl = document.getElementById("assignment-control");
+    const assignmentStatus = document.getElementById("assignment-status");
+    const resetButton = document.getElementById("reset");
+    const saveStatus = document.getElementById("save-status");
+    const slidesContainer = document.getElementById("paragraph-slides");
+    const progress = document.getElementById("paragraph-progress");
+    const previousButton = document.getElementById("prev-paragraph");
+    const nextButton = document.getElementById("next-paragraph");
+
+    let answersRef = null;
+    let currentWriter = "";
+    let groupRoster = [];
+    let onlineStudents = new Set();
+    let presenceData = {};
+    let answers = paragraphs.map(() => "");
+    let activeParagraph = 0;
+    let lastResetId = null;
+
+    assignmentControl.hidden = !isTeacherView;
+    resetButton.hidden = !isTeacherView;
+    document.body.classList.toggle("teacher-mode", isTeacherView);
+
+    function updateWriterMenu() {
+      const online = groupRoster.filter(student => onlineStudents.has(student.nome));
+      const offline = groupRoster.filter(student => !onlineStudents.has(student.nome));
+      writerSelect.replaceChildren(new Option("— Nessuno selezionato —", ""));
+      if (online.length) {
+        const onlineGroup = document.createElement("optgroup");
+        onlineGroup.label = "🟢 ONLINE ORA · ESERCIZIO B";
+        online.forEach(student => {
+          const option = new Option(`🟢 ${student.nome} · ONLINE`, student.nome);
+          option.style.fontWeight = "700";
+          onlineGroup.appendChild(option);
+        });
+        writerSelect.appendChild(onlineGroup);
+      }
+      if (offline.length) {
+        const otherGroup = document.createElement("optgroup");
+        otherGroup.label = "Altri studenti con accesso all’unità 11";
+        offline.forEach(student => otherGroup.appendChild(new Option(student.nome, student.nome)));
+        writerSelect.appendChild(otherGroup);
+      }
+      writerSelect.value = groupRoster.some(student => student.nome === currentWriter) ? currentWriter : "";
+    }
+
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      firebase.database().ref(`configurazioneScuola/gruppi/${safe(groupName)}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {})
+          .filter(student => student?.nome)
+          .map(student => ({ ...student, inactive: false }));
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => student?.nome && Number(student.unitNumber ?? unitNumber) >= 11)
+          .map(student => ({ ...student, inactive: true }));
+        groupRoster = unitNumber >= 11 ? [...active, ...inactive] : inactive;
+        groupRoster.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        if (currentWriter && !groupRoster.some(student => student.nome === currentWriter)) {
+          currentWriter = "";
+          if (isTeacherView && answersRef) answersRef.child("controlAssignments/writer").set(null);
+        }
+        updateWriterMenu();
+        updateAssignmentDisplay();
+      });
+    }
+
+    function updateOnlineStudents(value) {
+      onlineStudents = new Set();
+      Object.values(value || {}).forEach(studentPresence => {
+        Object.values(studentPresence || {}).forEach(connection => {
+          if (connection?.name) onlineStudents.add(connection.name);
+        });
+      });
+      updateWriterMenu();
+    }
+
+    function registerStudentPresence() {
+      if (!answersRef || !currentStudentName || groupName === "sconosciuto") return;
+      const presenceRef = answersRef.child("presence").child(safe(currentStudentName)).child(myClientId);
+      firebase.database().ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceRef.onDisconnect().remove().then(() => {
+          presenceRef.set({ name: currentStudentName, connectedAt: Date.now() });
+        }).catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
+
+    function updateAssignmentDisplay() {
+      if (!currentWriter) {
+        assignmentStatus.textContent = isTeacherView
+          ? "Seleziona uno studente nel menu per assegnargli la riscrittura."
+          : "L’insegnante non ha ancora assegnato la riscrittura.";
+      } else if (currentStudentName && currentStudentName === currentWriter) {
+        assignmentStatus.textContent = "✍️ Tu riscrivi il paragrafo selezionato.";
+      } else {
+        assignmentStatus.textContent = `✍️ ${currentWriter} riscrive il paragrafo selezionato.`;
+      }
+      slidesContainer.querySelectorAll(".rewrite-input").forEach(input => {
+        input.disabled = !currentStudentName || currentStudentName !== currentWriter;
+      });
+    }
+
+    function renderSlides() {
+      slidesContainer.replaceChildren();
+      paragraphs.forEach((text, index) => {
+        const slide = document.createElement("article");
+        slide.className = "paragraph-slide";
+        slide.hidden = index !== activeParagraph;
+
+        const heading = document.createElement("h2");
+        heading.className = "paragraph-heading";
+        heading.textContent = `Paragrafo ${index + 1} di ${paragraphs.length}`;
+
+        const source = document.createElement("p");
+        source.className = "source-text";
+        source.textContent = text;
+
+        const label = document.createElement("label");
+        label.className = "answer-label";
+        label.htmlFor = `rewrite-${index}`;
+        label.textContent = "✍️ Riscrivi alla terza persona singolare:";
+
+        const input = document.createElement("textarea");
+        input.id = label.htmlFor;
+        input.className = "rewrite-input";
+        input.rows = 5;
+        input.placeholder = "Riscrivi qui il paragrafo...";
+        input.setAttribute("aria-label", `Riscrittura del paragrafo ${index + 1} alla terza persona`);
+        input.value = answers[index] || "";
+        input.disabled = !currentStudentName || currentStudentName !== currentWriter;
+        input.addEventListener("input", () => {
+          answers[index] = input.value;
+          saveStatus.hidden = true;
+          if (answersRef && currentStudentName === currentWriter) {
+            answersRef.child("tokenData/answers").child(String(index)).set(input.value);
+          }
+        });
+
+        slide.append(heading, source, label, input);
+        slidesContainer.appendChild(slide);
+      });
+      updateNavigation();
+      updateAssignmentDisplay();
+    }
+
+    function updateNavigation() {
+      previousButton.disabled = activeParagraph === 0;
+      nextButton.disabled = activeParagraph === paragraphs.length - 1;
+      progress.textContent = `Paragrafo ${activeParagraph + 1} di ${paragraphs.length}`;
+    }
+
+    function showParagraph(index) {
+      const input = slidesContainer.querySelector(".paragraph-slide:not([hidden]) .rewrite-input");
+      if (input && answersRef && currentStudentName === currentWriter) {
+        answersRef.child("tokenData/answers").child(String(activeParagraph)).set(input.value);
+      }
+      activeParagraph = Math.max(0, Math.min(paragraphs.length - 1, index));
+      slidesContainer.querySelectorAll(".paragraph-slide").forEach((slide, slideIndex) => {
+        slide.hidden = slideIndex !== activeParagraph;
+      });
+      const nextInput = slidesContainer.querySelector(`#rewrite-${activeParagraph}`);
+      if (nextInput) nextInput.value = answers[activeParagraph] || "";
+      updateNavigation();
+    }
+
+    previousButton.addEventListener("click", () => showParagraph(activeParagraph - 1));
+    nextButton.addEventListener("click", () => showParagraph(activeParagraph + 1));
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
+      if (event.key === "ArrowLeft" && activeParagraph > 0) showParagraph(activeParagraph - 1);
+      if (event.key === "ArrowRight" && activeParagraph < paragraphs.length - 1) showParagraph(activeParagraph + 1);
+    });
+
+    writerSelect.addEventListener("change", event => {
+      if (isTeacherView && answersRef) {
+        currentWriter = event.target.value;
+        answersRef.child("controlAssignments/writer").set(currentWriter || null);
+        updateAssignmentDisplay();
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!isTeacherView || !answersRef || !confirm("Azzera la riscrittura e l’assegnazione?")) return;
+      answers = paragraphs.map(() => "");
+      currentWriter = "";
+      saveStatus.hidden = true;
+      answersRef.update({
+        resetId: `${Date.now()}_${myClientId}`,
+        controlAssignments: { writer: null },
+        tokenData: { answers }
+      });
+      renderSlides();
+    });
+
+    function getLoginParams() {
+      const resolved = new URLSearchParams(location.search);
+      if (!resolved.has("gruppo") && groupName !== "sconosciuto") resolved.set("gruppo", groupName);
+      if (!resolved.has("nome") && currentStudentName) resolved.set("nome", currentStudentName);
+      return resolved;
+    }
+
+    if (window.firebase && groupName !== "sconosciuto") {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref(`esercizi/gruppi/${safe(groupName)}/unita11-casalinga-b`);
+        loadGroupRoster();
+        registerStudentPresence();
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            answers = paragraphs.map(() => "");
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWriter = data.controlAssignments?.writer || "";
+          const savedAnswers = data.tokenData?.answers || {};
+          answers = paragraphs.map((_, index) => savedAnswers[index] || "");
+          presenceData = data.presence || {};
+          updateOnlineStudents(presenceData);
+          if (writerSelect.value !== currentWriter) updateWriterMenu();
+          slidesContainer.querySelectorAll(".rewrite-input").forEach((input, index) => {
+            input.disabled = !currentStudentName || currentStudentName !== currentWriter;
+            if (document.activeElement !== input) input.value = answers[index] || "";
+          });
+          updateAssignmentDisplay();
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+      }
+    } else {
+      assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
+    }
+
+    renderSlides();
+    updateAssignmentDisplay();
+
+    const badge = document.getElementById("user-badge");
+    if (groupName !== "sconosciuto" && currentStudentName) badge.textContent = `👤 ${groupName} · ${currentStudentName}`;
+    else if (groupName !== "sconosciuto") badge.textContent = `👩‍🏫 Insegnante · ${groupName}`;
+    else badge.hidden = true;
+
+    getLoginParams().forEach((value, key) => {
+      document.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute("href");
+        if (!href || href.startsWith("http") || href.startsWith("#")) return;
+        const target = new URL(href, location.href);
+        target.searchParams.set(key, value);
+        link.href = `${target.pathname}${target.search}${target.hash}`;
+      });
+    });
+  </script>
+</body>
+</html>

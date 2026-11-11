@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 11 — La casalinga (Esercizio A)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
+      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa;
+      --text: #292d28; --text-muted: #6b7069; --success: #278253;
+      --success-bg: #e1f1e5; --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.webp") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%,880px); margin: 0 auto; }
+    .home-navigation { display: flex; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow {
+      display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px;
+      background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box, .top-controls {
+      margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8;
+      border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04);
+    }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 6px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .85rem; }
+    button.reset-btn { min-height: 42px; padding: 6px 14px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    button.reset-btn:hover { background: #fef2f2; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    #token-mode-section, #all-students-mode-section { display: none; }
+    #token-mode-section.active-mode, #all-students-mode-section.active-mode { display: block; }
+    .token-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .assignment-controls { display: flex; flex: 1; flex-wrap: wrap; gap: 12px; }
+    .assignment-control { display: grid; flex: 1; min-width: 220px; gap: 5px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .assignment-control select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--text); font: inherit; font-weight: 600; }
+    .assignment-controls[hidden], .assignment-control[hidden] { display: none; }
+    .assignment-status { flex: 1 1 240px; margin: 0; color: var(--primary-dark); font-size: .92rem; font-weight: 700; line-height: 1.5; }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .slide-item { display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.03); }
+    .slide-item[hidden] { display: none; }
+    .question-title { margin-bottom: 8px; color: var(--primary-dark); font-size: 1.15rem; font-weight: 800; }
+    .options-group { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn { display: flex; align-items: center; padding: 12px 16px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #faf9f5; color: var(--text); font: inherit; font-size: 1rem; font-weight: 600; text-align: left; cursor: pointer; transition: all .2s ease; }
+    .option-btn:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary); }
+    .option-btn.selected { border-color: var(--primary-dark); background: #e2ede3; font-weight: 700; }
+    .option-btn.correct { border-color: var(--success) !important; background: var(--success-bg) !important; color: #17623c !important; font-weight: 800; }
+    .option-btn.incorrect { border-color: #dc2626 !important; background: #fde8e7 !important; color: #991b1b !important; }
+    .login-box { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px; border-radius: 14px; background: var(--primary-light); }
+    .login-box label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; white-space: nowrap; }
+    .login-box input { flex: 1; min-width: 0; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .formulated-question-label { margin-top: 2px; color: var(--primary-dark); font-size: .92rem; font-weight: 700; }
+    .formulated-question-input { width: 100%; min-height: 74px; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px; font: inherit; font-size: .95rem; resize: vertical; }
+    .save-status, .answer-feedback { padding: 10px 14px; border-radius: 10px; font-size: .95rem; font-weight: 700; }
+    .save-status { margin: 0 0 18px; border: 1px solid #b7dfc1; background: var(--success-bg); color: #17623c; }
+    .save-status[hidden], .answer-feedback[hidden] { display: none; }
+    .answer-feedback { margin: 10px 2px 0; }
+    .answer-feedback.correct { background: var(--success-bg); color: var(--success); }
+    .answer-feedback.incorrect { background: #fde8e7; color: #dc2626; }
+    .btn-submit { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button, .slide-navigation a { min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .slide-navigation a { display: inline-flex; align-items: center; }
+    .slide-navigation [hidden] { display: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .results-section h2 { margin-bottom: 16px; color: var(--primary-dark); font-size: 1.3rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(120px,.35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { display: block; padding: 8px 10px; border-radius: 8px; overflow-wrap: anywhere; font-weight: 600; }
+    .answer-text.correct { background: var(--success-bg); }
+    .answer-text.incorrect { background: #fde8e7; }
+    .formulated-question { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: 600; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .slide-item { padding: 14px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button, .slide-navigation a { width: 100%; justify-content: center; }
+      .login-box { align-items: stretch; flex-direction: column; }
+      .login-box label { white-space: normal; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale"><a href="../index.html">← Torna all’inizio</a></nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Lettura e Comprensione</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Scegliete la risposta corretta e formulate una domanda per il vostro compagno.</p>
+      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio A</div>
+      <div class="instruction-text">👉 <strong>Выберите правильный вариант:</strong></div>
+    </div>
+    <div id="top-controls" class="top-controls">
+      <div class="teacher-controls">
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera il token</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode">
+      <div class="token-bar">
+        <p id="assignment-status" class="assignment-status" aria-live="polite"></p>
+        <div id="assignment-controls" class="assignment-controls" hidden>
+          <label class="assignment-control" for="question-writer-select">✍️ Studente che formula la domanda
+            <select id="question-writer-select"><option value="">— Nessuno selezionato —</option></select>
+          </label>
+          <label class="assignment-control" for="answer-writer-select">☑️ Studente che sceglie la risposta
+            <select id="answer-writer-select"><option value="">— Nessuno selezionato —</option></select>
+          </label>
+        </div>
+      </div>
+      <div id="token-slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione schede">
+        <button id="prev-token-slide" type="button">← Precedente</button><span id="progress-token-slide" class="slide-progress"></span>
+        <button id="next-token-slide" type="button">Successiva →</button><a id="next-token-exercise" href="es_b.html" hidden>Vai all’esercizio B →</a>
+      </nav>
+    </section>
+
+    <section id="all-students-mode-section">
+      <div class="card" id="student-form-card">
+        <div class="login-box"><label for="student-name-input">Ваше имя (Имя Фамилия) · Nome e cognome:</label><input type="text" id="student-name-input" placeholder="Inserisci il tuo nome e cognome"></div>
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+        <div id="student-slides-container"></div>
+        <nav class="slide-navigation" aria-label="Navigazione schede">
+          <button id="prev-student-slide" type="button">← Precedente</button><span id="progress-student-slide" class="slide-progress"></span>
+          <button id="next-student-slide" type="button">Successiva →</button><a id="next-student-exercise" href="es_b.html" hidden>Vai all’esercizio B →</a>
+        </nav>
+        <button type="button" id="btn-submit-all" class="btn-submit">📤 Отправить решение · Invia le risposte</button>
+      </div>
+      <div class="results-section"><h2>📋 Ответы студентов · Risposte degli studenti</h2><div id="responses-list"></div></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    const questionsData = [
+      { id: "a1", num: "1.", question: "Maria...", options: ["lavora molto", "ha molto tempo libero"], correct: 0 },
+      { id: "a2", num: "2.", question: "Maria fa la spesa...", options: ["al mercato", "al supermercato", "in un negozio di alimentari"], correct: 1 },
+      { id: "a3", num: "3.", question: "I bambini di Maria...", options: ["vanno a scuola", "studiano all’università"], correct: 0 },
+      { id: "a4", num: "4.", question: "Maria ha un animale domestico:...", options: ["è suo marito", "è un gatto", "è un cane"], correct: 2 },
+      { id: "a5", num: "5.", question: "In casa di Maria...", options: ["ci sono poche televisioni", "ci sono molte televisioni", "non ci sono televisioni"], correct: 1 },
+      { id: "a6", num: "6.", question: "La mattina Maria...", options: ["fa shopping", "fa la spesa", "fa una passeggiata"], correct: 1 },
+      { id: "a7", num: "7.", question: "Il pomeriggio i bambini...", options: ["fanno i compiti e poi giocano", "dormono e poi giocano", "sono a scuola"], correct: 0 },
+      { id: "a8", num: "8.", question: "La sera Maria...", options: ["prepara la colazione", "prepara il pranzo", "prepara la cena"], correct: 2 },
+      { id: "a9", num: "9.", question: "Alle dieci Maria...", options: ["porta i bambini a scuola", "porta i bambini a letto"], correct: 1 },
+      { id: "a10", num: "10.", question: "Alle dieci e mezzo Maria...", options: ["passeggia con il cane", "passeggia con il marito", "passeggia con i bambini"], correct: 0 }
+    ];
+
+    const createEmptyState = () => Object.fromEntries(questionsData.map(item => [item.id, null]));
+    let studentState = createEmptyState();
+    let studentQuestionState = {};
+    let tokenState = createEmptyState();
+    let tokenQuestionState = Object.fromEntries(questionsData.map(item => [item.id, ""]));
+    let activeTokenSlide = 0;
+    let activeStudentSlide = 0;
+    let answersRef = null;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let allResponses = {};
+    let lastResetId = null;
+    let assignmentState = { questionWriter: "", answerWriter: "" };
+    let presenceDataState = {};
+    let groupRoster = [];
+    let onlineStudents = new Set();
+    let presenceConnectionRef = null;
+    const tokenQuestionSaveTimers = new Map();
+    const urlParams = new URLSearchParams(location.search);
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+    const groupName = urlParams.get("gruppo") || session?.group || "sconosciuto";
+    const studentName = urlParams.get("nome") || (!session?.isTeacher ? session?.name : "") || "";
+    const isTeacherView = !!groupName && !studentName && (urlParams.has("gruppo") || !!session?.isTeacher);
+    const currentStudentName = isTeacherView ? "" : (studentName || localStorage.getItem("parlo_student_name") || "");
+
+    if (!isTeacherView) document.getElementById("top-controls").hidden = true;
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const studentNameInput = document.getElementById("student-name-input");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+    const assignmentControls = document.getElementById("assignment-controls");
+    const questionWriterSelect = document.getElementById("question-writer-select");
+    const answerWriterSelect = document.getElementById("answer-writer-select");
+    const assignmentStatus = document.getElementById("assignment-status");
+    studentNameInput.value = currentStudentName;
+    assignmentControls.hidden = !isTeacherView;
+
+    function updateAssignmentSelects() {
+      [questionWriterSelect, answerWriterSelect].forEach((select, index) => {
+        const role = index === 0 ? "questionWriter" : "answerWriter";
+        const selectedName = assignmentState[role] || "";
+        select.replaceChildren(new Option("— Nessuno selezionato —", ""));
+        const online = groupRoster.filter(student => onlineStudents.has(student.nome));
+        const offline = groupRoster.filter(student => !onlineStudents.has(student.nome));
+        if (online.length) {
+          const onlineGroup = document.createElement("optgroup");
+          onlineGroup.label = "🟢 ONLINE ORA · ESERCIZIO A";
+          online.forEach(student => {
+            const option = new Option(`🟢 ${student.nome} · ONLINE`, student.nome);
+            option.style.fontWeight = "700";
+            onlineGroup.appendChild(option);
+          });
+          select.appendChild(onlineGroup);
+        }
+        if (offline.length) {
+          const otherGroup = document.createElement("optgroup");
+          otherGroup.label = "Altri studenti con accesso all’unità 11";
+          offline.forEach(student => otherGroup.appendChild(new Option(student.nome, student.nome)));
+          select.appendChild(otherGroup);
+        }
+        select.value = groupRoster.some(student => student.nome === selectedName) ? selectedName : "";
+      });
+
+      const questionWriter = assignmentState.questionWriter;
+      const answerWriter = assignmentState.answerWriter;
+      const questionAssignment = questionWriter
+        ? currentStudentName && currentStudentName === questionWriter
+          ? "Tu formuli la domanda"
+          : `${questionWriter} formula la domanda`
+        : "Nessuno è stato selezionato per formulare la domanda";
+      const answerAssignment = answerWriter
+        ? currentStudentName && currentStudentName === answerWriter
+          ? "Tu scegli l’opzione corretta"
+          : `${answerWriter} sceglie l’opzione corretta`
+        : "Nessuno è stato selezionato per scegliere l’opzione corretta";
+      assignmentStatus.textContent = `${questionAssignment} · ${answerAssignment}`;
+    }
+
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      const safeGroupId = groupName.replace(/[.#$\/\[\]]/g, "_");
+      firebase.database().ref(`configurazioneScuola/gruppi/${safeGroupId}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).map(student => student?.nome ? { ...student, inactive: false } : null).filter(Boolean);
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => Number(student.unitNumber ?? unitNumber) >= 11)
+          .map(student => ({ ...student, inactive: true }));
+        groupRoster = unitNumber >= 11 ? [...active, ...inactive] : inactive;
+        groupRoster.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        ["questionWriter", "answerWriter"].forEach(role => {
+          if (assignmentState[role] && !groupRoster.some(student => student.nome === assignmentState[role])) {
+            assignmentState[role] = "";
+            if (isTeacherView && answersRef) answersRef.child("controlAssignments").child(role).set(null);
+          }
+        });
+        updateAssignmentSelects();
+      });
+    }
+
+    function updateOnlineStudents(presenceData) {
+      onlineStudents = new Set();
+      Object.values(presenceData || {}).forEach(studentPresence => {
+        Object.values(studentPresence || {}).forEach(connection => {
+          if (connection?.name) onlineStudents.add(connection.name);
+        });
+      });
+      updateAssignmentSelects();
+    }
+
+    function registerStudentPresence() {
+      if (!answersRef || !currentStudentName) return;
+      const safeName = currentStudentName.replace(/[.#$\/\[\]]/g, "_");
+      presenceConnectionRef = answersRef.child("presence").child(safeName).child(myClientId);
+      firebase.database().ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceConnectionRef.onDisconnect().remove().then(() => {
+          presenceConnectionRef.set({ name: currentStudentName, connectedAt: Date.now() });
+        }).catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
+
+    function buildSlideItem(item, tokenMode, canEdit, canEditQuestion, state, selectOption) {
+      const box = document.createElement("div");
+      box.className = "slide-item";
+      const title = document.createElement("div");
+      title.className = "question-title";
+      title.textContent = `${item.num} ${item.question}`;
+      const options = document.createElement("div");
+      options.className = "options-group";
+      const selected = state[item.id];
+      const label = document.createElement("label");
+      label.className = "formulated-question-label";
+      label.htmlFor = `${tokenMode ? "token-" : ""}formulated-question-${item.id}`;
+      label.textContent = "✍️ Formula una domanda corrispondente:";
+      const input = document.createElement("textarea");
+      input.id = label.htmlFor;
+      input.className = "formulated-question-input";
+      input.rows = 2;
+      input.placeholder = "Scrivi qui la domanda...";
+      input.value = tokenMode ? (tokenQuestionState[item.id] || "") : (studentQuestionState[item.id] || "");
+      input.disabled = !canEditQuestion;
+      input.addEventListener("input", () => {
+        if (tokenMode) scheduleTokenQuestionSave(item.id, input.value);
+        else studentQuestionState[item.id] = input.value;
+      });
+      if (tokenMode) input.addEventListener("blur", () => flushTokenQuestionSave(item.id));
+      box.append(label, input, title);
+      item.options.forEach((text, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option-btn";
+        button.disabled = !canEdit;
+        button.textContent = `${String.fromCharCode(97 + index)}) ${text}`;
+        if (selected === index) button.classList.add("selected", index === item.correct ? "correct" : "incorrect");
+        button.addEventListener("click", () => canEdit && selectOption(index));
+        options.appendChild(button);
+      });
+      box.appendChild(options);
+      if (!tokenMode && selected !== null) {
+        const feedback = document.createElement("p");
+        feedback.className = `answer-feedback ${selected === item.correct ? "correct" : "incorrect"}`;
+        feedback.textContent = selected === item.correct ? "✓ Corretto!" : "✕ Non corretto, riprova!";
+        box.appendChild(feedback);
+      }
+      return box;
+    }
+
+    function renderStudentSlides() {
+      const container = document.getElementById("student-slides-container");
+      container.replaceChildren();
+      questionsData.forEach((item, index) => {
+        const card = buildSlideItem(item, false, true, true, studentState, option => {
+          studentState[item.id] = option;
+          saveStatus.hidden = true;
+          renderStudentSlides();
+        });
+        card.hidden = index !== activeStudentSlide;
+        container.appendChild(card);
+      });
+      updateProgress("student");
+    }
+
+    function renderTokenSlides() {
+      const container = document.getElementById("token-slides-container");
+      container.replaceChildren();
+      const canChoose = !isTeacherView && currentStudentName && currentStudentName === assignmentState.answerWriter;
+      const canFormulate = !isTeacherView && currentStudentName && currentStudentName === assignmentState.questionWriter;
+      questionsData.forEach((item, index) => {
+        const card = buildSlideItem(item, true, canChoose, canFormulate, tokenState, option => {
+          if (!canChoose) return;
+          tokenState[item.id] = option;
+          if (answersRef) answersRef.child("tokenData/answers").set(tokenState);
+          renderTokenSlides();
+        });
+        card.hidden = index !== activeTokenSlide;
+        container.appendChild(card);
+      });
+      updateProgress("token");
+    }
+
+    function updateProgress(mode) {
+      const index = mode === "token" ? activeTokenSlide : activeStudentSlide;
+      const prefix = mode === "token" ? "token" : "student";
+      document.getElementById(`prev-${prefix}-slide`).disabled = index === 0;
+      document.getElementById(`next-${prefix}-slide`).hidden = index === questionsData.length - 1;
+      document.getElementById(`next-${prefix}-exercise`).hidden = index !== questionsData.length - 1;
+      document.getElementById(`progress-${prefix}-slide`).textContent = `Domanda ${index + 1} di ${questionsData.length}`;
+    }
+
+    function navigate(mode, direction) {
+      if (mode === "token") {
+        activeTokenSlide = Math.max(0, Math.min(questionsData.length - 1, activeTokenSlide + direction));
+        if (direction !== 0) flushTokenQuestionSaves();
+        renderTokenSlides();
+      } else {
+        activeStudentSlide = Math.max(0, Math.min(questionsData.length - 1, activeStudentSlide + direction));
+        renderStudentSlides();
+      }
+    }
+    document.getElementById("prev-token-slide").onclick = () => navigate("token", -1);
+    document.getElementById("next-token-slide").onclick = () => navigate("token", 1);
+    document.getElementById("prev-student-slide").onclick = () => navigate("student", -1);
+    document.getElementById("next-student-slide").onclick = () => navigate("student", 1);
+
+    document.addEventListener("keydown", event => {
+      if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
+      const delta = ["ArrowRight", "ArrowDown"].includes(event.key) ? 1 : ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 0;
+      if (!delta) return;
+      event.preventDefault();
+      navigate(currentWorkMode, delta);
+    });
+
+    function saveTokenQuestionFormulation(id) {
+      if (answersRef && !isTeacherView && currentStudentName && currentStudentName === assignmentState.questionWriter) {
+        answersRef.child("tokenData/questionFormulations").child(id).set(tokenQuestionState[id]);
+      }
+    }
+    function scheduleTokenQuestionSave(id, value) {
+      tokenQuestionState[id] = value;
+      clearTimeout(tokenQuestionSaveTimers.get(id));
+      tokenQuestionSaveTimers.set(id, setTimeout(() => {
+        tokenQuestionSaveTimers.delete(id);
+        saveTokenQuestionFormulation(id);
+      }, 350));
+    }
+    function flushTokenQuestionSave(id) {
+      const timer = tokenQuestionSaveTimers.get(id);
+      if (timer === undefined) return;
+      clearTimeout(timer);
+      tokenQuestionSaveTimers.delete(id);
+      saveTokenQuestionFormulation(id);
+    }
+    function flushTokenQuestionSaves() { Array.from(tokenQuestionSaveTimers.keys()).forEach(flushTokenQuestionSave); }
+
+    workModeSelect.addEventListener("change", event => {
+      if (answersRef && isTeacherView) answersRef.child("workMode").set(event.target.value);
+    });
+    function saveAssignment(role, value) {
+      if (!isTeacherView || !answersRef) return;
+      assignmentState[role] = value;
+      answersRef.child("controlAssignments").child(role).set(value || null);
+      updateAssignmentSelects();
+      renderTokenSlides();
+    }
+    questionWriterSelect.addEventListener("change", event => saveAssignment("questionWriter", event.target.value));
+    answerWriterSelect.addEventListener("change", event => saveAssignment("answerWriter", event.target.value));
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacherView && currentWorkMode === "token" && answersRef) answersRef.child("tokenData/currentWriter").set(null);
+    });
+
+    function updateUIState() {
+      teacherReleaseTokenButton.hidden = true;
+      tokenSection.classList.toggle("active-mode", currentWorkMode === "token");
+      allSection.classList.toggle("active-mode", currentWorkMode === "all");
+      updateAssignmentSelects();
+      if (currentWorkMode === "token") {
+        const editingQuestion = document.activeElement?.classList.contains("formulated-question-input")
+          && currentStudentName === assignmentState.questionWriter;
+        if (!editingQuestion) renderTokenSlides();
+      } else {
+        renderStudentSlides();
+        renderResponsesAllMode();
+      }
+    }
+
+    function renderResponsesAllMode() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      questionsData.forEach((item, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `${item.num} ${item.question}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+        entries.forEach(([, student]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const selected = student.answers?.[item.id];
+          const answer = document.createElement("span");
+          answer.className = `answer-text ${selected == null ? "" : selected === item.correct ? "correct" : "incorrect"}`;
+          const formulation = student.questionFormulations?.[item.id]?.trim();
+          if (formulation) {
+            const text = document.createElement("span");
+            text.className = "formulated-question";
+            text.textContent = `Domanda: ${formulation}`;
+            answer.appendChild(text);
+          }
+          answer.appendChild(document.createTextNode(selected == null ? "—" : item.options[selected]));
+          row.append(author, answer);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    const fbGroup = groupName.replace(/[.#$\/\[\]]/g, "_");
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/gruppi/" + fbGroup + "/unita11-casalinga-a");
+        loadGroupRoster();
+        registerStudentPresence();
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentState = createEmptyState();
+            studentQuestionState = {};
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+          const token = data.tokenData || {};
+          currentWriter = token.currentWriter || null;
+          tokenState = token.answers || createEmptyState();
+          const formulations = token.questionFormulations || {};
+          tokenQuestionState = Object.fromEntries(questionsData.map(item => [item.id, typeof formulations[item.id] === "string" ? formulations[item.id] : ""]));
+          assignmentState = {
+            questionWriter: data.controlAssignments?.questionWriter || "",
+            answerWriter: data.controlAssignments?.answerWriter || ""
+          };
+          presenceDataState = data.presence || {};
+          updateOnlineStudents(presenceDataState);
+          allResponses = data.allStudentsData || {};
+          updateUIState();
+        });
+      } catch (error) { console.error("Errore Firebase:", error); }
+    }
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      localStorage.setItem("parlo_student_name", name);
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      try {
+        await answersRef.child("allStudentsData/students").child(studentId).update({
+          name, answers: studentState, questionFormulations: studentQuestionState, timestamp: Date.now()
+        });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (error) { alert("Errore durante l'invio delle risposte."); }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!answersRef || !confirm("Сбросить все ответы? · Azzera tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        tokenData: { currentWriter: null, answers: createEmptyState(), questionFormulations: Object.fromEntries(questionsData.map(item => [item.id, ""])) },
+        controlAssignments: { questionWriter: null, answerWriter: null },
+        presence: presenceDataState,
+        allStudentsData: {}
+      });
+    });
+
+    modeSelectorContainer.classList.toggle("visible", isTeacherView);
+    resetButton.hidden = !isTeacherView;
+    document.body.classList.toggle("teacher-mode", isTeacherView);
+    renderStudentSlides();
+    renderTokenSlides();
+    updateUIState();
+
+    (function() {
+      const badge = document.getElementById("user-badge");
+      if (groupName !== "sconosciuto" && studentName) badge.textContent = `👤 ${groupName} · ${studentName}`;
+      else if (groupName !== "sconosciuto") badge.textContent = `👩‍🏫 Insegnante · ${groupName}`;
+      else badge.hidden = true;
+      if (groupName !== "sconosciuto" || studentName) {
+        document.querySelectorAll('a[href]').forEach(link => {
+          const href = link.getAttribute("href");
+          if (!href || href.startsWith("http") || href.startsWith("#")) return;
+          const target = new URL(href, location.href);
+          if (groupName !== "sconosciuto") target.searchParams.set("gruppo", groupName);
+          if (studentName) target.searchParams.set("nome", studentName);
+          link.href = `${target.pathname}${target.search}${target.hash}`;
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -66,10 +66,12 @@
     .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
     #token-mode-section, #all-students-mode-section { display: none; }
     #token-mode-section.active-mode, #all-students-mode-section.active-mode { display: block; }
-    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
-    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
-    .btn-token.release { background: var(--accent); }
-    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .token-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .assignment-controls { display: flex; flex: 1; flex-wrap: wrap; gap: 12px; }
+    .assignment-control { display: grid; flex: 1; min-width: 220px; gap: 5px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .assignment-control select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--text); font: inherit; font-weight: 600; }
+    .assignment-controls[hidden], .assignment-control[hidden] { display: none; }
+    .assignment-status { flex: 1 1 240px; margin: 0; color: var(--primary-dark); font-size: .92rem; font-weight: 700; line-height: 1.5; }
     .slide-item { display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.03); }
     .slide-item[hidden] { display: none; }
     .question-title { margin-bottom: 8px; color: var(--primary-dark); font-size: 1.15rem; font-weight: 800; }
@@ -141,12 +143,21 @@
           <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
         </div>
         <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
-        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera il token</button>
       </div>
     </div>
 
     <section id="token-mode-section" class="card active-mode">
-      <div class="token-bar"><span id="token-status-text" style="font-weight:700;color:var(--primary-dark);"></span><button id="btn-take-token" class="btn-token" type="button">✋ Prendi la parola</button></div>
+      <div class="token-bar">
+        <p id="assignment-status" class="assignment-status" aria-live="polite"></p>
+        <div id="assignment-controls" class="assignment-controls" hidden>
+          <label class="assignment-control" for="question-writer-select">✍️ Studente che formula la domanda
+            <select id="question-writer-select"><option value="">— Nessuno selezionato —</option></select>
+          </label>
+          <label class="assignment-control" for="answer-writer-select">☑️ Studente che sceglie la risposta
+            <select id="answer-writer-select"><option value="">— Nessuno selezionato —</option></select>
+          </label>
+        </div>
+      </div>
       <div id="token-slides-container"></div>
       <nav class="slide-navigation" aria-label="Navigazione schede">
         <button id="prev-token-slide" type="button">← Precedente</button><span id="progress-token-slide" class="slide-progress"></span>
@@ -203,33 +214,126 @@
     let activeStudentSlide = 0;
     let answersRef = null;
     let currentWorkMode = "token";
-    let currentWriter = null;
     let allResponses = {};
     let lastResetId = null;
+    let assignmentState = { questionWriter: "", answerWriter: "" };
+    let presenceDataState = {};
+    let groupRoster = [];
+    let onlineStudents = new Set();
+    let presenceConnectionRef = null;
     const tokenQuestionSaveTimers = new Map();
     const urlParams = new URLSearchParams(location.search);
-    const isTeacherView = !!urlParams.get("gruppo") && !urlParams.get("nome");
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+    const groupName = urlParams.get("gruppo") || session?.group || "sconosciuto";
+    const studentName = urlParams.get("nome") || (!session?.isTeacher ? session?.name : "") || "";
+    const isTeacherView = !!groupName && !studentName && (urlParams.has("gruppo") || !!session?.isTeacher);
+    const currentStudentName = isTeacherView ? "" : (studentName || localStorage.getItem("parlo_student_name") || "");
 
-    // Nascondi controlli insegnante se non è l'insegnante
-    if (!isTeacherView) {
-      document.getElementById("top-controls").hidden = true;
-    }
+    if (!isTeacherView) document.getElementById("top-controls").hidden = true;
 
     const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
 
     const workModeSelect = document.getElementById("work-mode");
     const modeSelectorContainer = document.getElementById("mode-selector-container");
     const resetButton = document.getElementById("reset");
-    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
     const tokenSection = document.getElementById("token-mode-section");
     const allSection = document.getElementById("all-students-mode-section");
     const studentNameInput = document.getElementById("student-name-input");
     const saveStatus = document.getElementById("save-status");
     const responsesList = document.getElementById("responses-list");
-    const btnTakeToken = document.getElementById("btn-take-token");
-    const tokenStatusText = document.getElementById("token-status-text");
+    const assignmentControls = document.getElementById("assignment-controls");
+    const questionWriterSelect = document.getElementById("question-writer-select");
+    const answerWriterSelect = document.getElementById("answer-writer-select");
+    const assignmentStatus = document.getElementById("assignment-status");
 
-    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+    studentNameInput.value = currentStudentName;
+    assignmentControls.hidden = !isTeacherView;
+
+    function updateAssignmentSelects() {
+      [questionWriterSelect, answerWriterSelect].forEach((select, index) => {
+        const role = index === 0 ? "questionWriter" : "answerWriter";
+        const selectedName = assignmentState[role] || "";
+        select.replaceChildren(new Option("— Nessuno selezionato —", ""));
+        const online = groupRoster.filter(student => onlineStudents.has(student.nome));
+        const offline = groupRoster.filter(student => !onlineStudents.has(student.nome));
+        if (online.length) {
+          const onlineGroup = document.createElement("optgroup");
+          onlineGroup.label = "🟢 ONLINE ORA · ESERCIZIO A";
+          online.forEach(student => {
+            const option = new Option(`🟢 ${student.nome} · ONLINE`, student.nome);
+            option.style.fontWeight = "700";
+            onlineGroup.appendChild(option);
+          });
+          select.appendChild(onlineGroup);
+        }
+        if (offline.length) {
+          const otherGroup = document.createElement("optgroup");
+          otherGroup.label = "Altri studenti con accesso all’unità 10";
+          offline.forEach(student => otherGroup.appendChild(new Option(student.nome, student.nome)));
+          select.appendChild(otherGroup);
+        }
+        select.value = groupRoster.some(student => student.nome === selectedName) ? selectedName : "";
+      });
+
+      const questionWriter = assignmentState.questionWriter;
+      const answerWriter = assignmentState.answerWriter;
+      const questionAssignment = questionWriter
+        ? currentStudentName && currentStudentName === questionWriter
+          ? "Tu formuli la domanda"
+          : `${questionWriter} formula la domanda`
+        : "Nessuno è stato selezionato per formulare la domanda";
+      const answerAssignment = answerWriter
+        ? currentStudentName && currentStudentName === answerWriter
+          ? "Tu scegli l’opzione corretta"
+          : `${answerWriter} sceglie l’opzione corretta`
+        : "Nessuno è stato selezionato per scegliere l’opzione corretta";
+      assignmentStatus.textContent = `${questionAssignment} · ${answerAssignment}`;
+    }
+
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      const safeGroupId = groupName.replace(/[.#$\/\[\]]/g, "_");
+      firebase.database().ref(`configurazioneScuola/gruppi/${safeGroupId}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).map(student => student?.nome ? { ...student, inactive: false } : null).filter(Boolean);
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => Number(student.unitNumber ?? unitNumber) >= 10)
+          .map(student => ({ ...student, inactive: true }));
+        groupRoster = unitNumber >= 10 ? [...active, ...inactive] : inactive;
+        groupRoster.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        ["questionWriter", "answerWriter"].forEach(role => {
+          if (assignmentState[role] && !groupRoster.some(student => student.nome === assignmentState[role])) {
+            assignmentState[role] = "";
+            if (isTeacherView && answersRef) answersRef.child("controlAssignments").child(role).set(null);
+          }
+        });
+        updateAssignmentSelects();
+      });
+    }
+
+    function updateOnlineStudents(presenceData) {
+      onlineStudents = new Set();
+      Object.values(presenceData || {}).forEach(studentPresence => {
+        Object.values(studentPresence || {}).forEach(connection => {
+          if (connection?.name) onlineStudents.add(connection.name);
+        });
+      });
+      updateAssignmentSelects();
+    }
+
+    function registerStudentPresence() {
+      if (!answersRef || !currentStudentName) return;
+      const safeName = currentStudentName.replace(/[.#$\/\[\]]/g, "_");
+      const presenceConnectionRef = answersRef.child("presence").child(safeName).child(myClientId);
+      firebase.database().ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceConnectionRef.onDisconnect().remove().then(() => {
+          presenceConnectionRef.set({ name: currentStudentName, connectedAt: Date.now() });
+        }).catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
 
     function buildSlideItem(item, tokenMode, canEdit, canEditQuestion, state, selectOption) {
       const box = document.createElement("div");
@@ -297,8 +401,11 @@
     function renderTokenSlides() {
       const container = document.getElementById("token-slides-container");
       container.replaceChildren();
+      const canChoose = !isTeacherView && currentStudentName && currentStudentName === assignmentState.answerWriter;
+      const canFormulate = !isTeacherView && currentStudentName && currentStudentName === assignmentState.questionWriter;
       questionsData.forEach((item, index) => {
-        const card = buildSlideItem(item, true, true, currentWriter === myClientId, tokenState, option => {
+        const card = buildSlideItem(item, true, canChoose, canFormulate, tokenState, option => {
+          if (!canChoose) return;
           tokenState[item.id] = option;
           if (answersRef) answersRef.child("tokenData/answers").set(tokenState);
           renderTokenSlides();
@@ -342,7 +449,9 @@
     });
 
     function saveTokenQuestionFormulation(id) {
-      if (answersRef && currentWriter === myClientId) answersRef.child("tokenData/questionFormulations").child(id).set(tokenQuestionState[id]);
+      if (answersRef && !isTeacherView && currentStudentName && currentStudentName === assignmentState.questionWriter) {
+        answersRef.child("tokenData/questionFormulations").child(id).set(tokenQuestionState[id]);
+      }
     }
     function scheduleTokenQuestionSave(id, value) {
       tokenQuestionState[id] = value;
@@ -364,41 +473,24 @@
     workModeSelect.addEventListener("change", event => {
       if (answersRef && isTeacherView) answersRef.child("workMode").set(event.target.value);
     });
-    btnTakeToken.addEventListener("click", () => {
-      if (!answersRef) return;
-      if (currentWriter === myClientId) {
-        flushTokenQuestionSaves();
-        answersRef.child("tokenData/currentWriter").set(null);
-      } else if (!currentWriter) answersRef.child("tokenData/currentWriter").set(myClientId);
-    });
-    teacherReleaseTokenButton.addEventListener("click", () => {
-      if (isTeacherView && currentWorkMode === "token" && answersRef) answersRef.child("tokenData/currentWriter").set(null);
-    });
+    function saveAssignment(role, value) {
+      if (!isTeacherView || !answersRef) return;
+      assignmentState[role] = value;
+      answersRef.child("controlAssignments").child(role).set(value || null);
+      updateAssignmentSelects();
+      renderTokenSlides();
+    }
+    questionWriterSelect.addEventListener("change", event => saveAssignment("questionWriter", event.target.value));
+    answerWriterSelect.addEventListener("change", event => saveAssignment("answerWriter", event.target.value));
 
     function updateUIState() {
-      teacherReleaseTokenButton.hidden = !(isTeacherView && currentWorkMode === "token");
       tokenSection.classList.toggle("active-mode", currentWorkMode === "token");
       allSection.classList.toggle("active-mode", currentWorkMode === "all");
+      updateAssignmentSelects();
       if (currentWorkMode === "token") {
-        if (!currentWriter) {
-          tokenStatusText.textContent = "";
-          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
-          btnTakeToken.className = "btn-token";
-          btnTakeToken.disabled = false;
-        } else if (currentWriter === myClientId) {
-          tokenStatusText.textContent = "Вы редактируете · Stai modificando";
-          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
-          btnTakeToken.className = "btn-token release";
-          btnTakeToken.disabled = false;
-        } else {
-          tokenStatusText.textContent = "🔒 Пишет одноклассник · Compagno scrive";
-          btnTakeToken.textContent = "🔒 Пишет одноклассник · Compagno scrive";
-          btnTakeToken.className = "btn-token busy";
-          btnTakeToken.disabled = true;
-        }
-        const editingTokenQuestion = document.activeElement?.classList.contains("formulated-question-input")
-          && currentWriter === myClientId;
-        if (!editingTokenQuestion) renderTokenSlides();
+        const editingQuestion = document.activeElement?.classList.contains("formulated-question-input")
+          && currentStudentName === assignmentState.questionWriter;
+        if (!editingQuestion) renderTokenSlides();
       } else {
         renderStudentSlides();
         renderResponsesAllMode();
@@ -451,12 +543,14 @@
     }
 
     // Gruppo dal parametro URL (per percorsi Firebase separati)
-    const fbGroup = (urlParams.get("gruppo") || "sconosciuto").replace(/[.#$\/\[\]]/g, "_");
+    const fbGroup = groupName.replace(/[.#$\/\[\]]/g, "_");
 
     if (window.firebase) {
       try {
         firebase.initializeApp(firebaseConfig);
         answersRef = firebase.database().ref("esercizi/gruppi/" + fbGroup + "/unita10-borsa-rossa-a");
+        loadGroupRoster();
+        registerStudentPresence();
         answersRef.on("value", snapshot => {
           const data = snapshot.val() || {};
           if (data.resetId && data.resetId !== lastResetId) {
@@ -468,10 +562,15 @@
           currentWorkMode = data.workMode || "token";
           workModeSelect.value = currentWorkMode;
           const token = data.tokenData || {};
-          currentWriter = token.currentWriter || null;
           tokenState = token.answers || createEmptyState();
           const formulations = token.questionFormulations || {};
           tokenQuestionState = Object.fromEntries(questionsData.map(item => [item.id, typeof formulations[item.id] === "string" ? formulations[item.id] : ""]));
+          assignmentState = {
+            questionWriter: data.controlAssignments?.questionWriter || "",
+            answerWriter: data.controlAssignments?.answerWriter || ""
+          };
+          presenceDataState = data.presence || {};
+          updateOnlineStudents(presenceDataState);
           allResponses = data.allStudentsData || {};
           updateUIState();
         });
@@ -506,10 +605,11 @@
         resetId: `${Date.now()}_${myClientId}`,
         workMode: currentWorkMode,
         tokenData: {
-          currentWriter: null,
           answers: createEmptyState(),
           questionFormulations: Object.fromEntries(questionsData.map(item => [item.id, ""]))
         },
+        controlAssignments: { questionWriter: null, answerWriter: null },
+        presence: presenceDataState,
         allStudentsData: {}
       });
     });
@@ -526,9 +626,8 @@
   <script>
     // ─── Badge utente e propagazione parametri URL ───
     (function() {
-      const params = new URLSearchParams(location.search);
-      const gruppo = params.get("gruppo");
-      const nome = params.get("nome");
+      const gruppo = groupName !== "sconosciuto" ? groupName : "";
+      const nome = currentStudentName;
       const badge = document.getElementById("user-badge");
       if (badge) {
         if (gruppo && nome) {
@@ -541,7 +640,6 @@
           badge.hidden = true;
         }
       }
-      // Propaga gruppo a tutti i link interni
       if (gruppo || nome) {
         document.querySelectorAll('a[href]').forEach(a => {
           const href = a.getAttribute('href');
@@ -549,7 +647,7 @@
             try {
               const url = new URL(href, window.location.href);
               if (gruppo) url.searchParams.set('gruppo', gruppo);
-              if (nome && params.has("nome")) url.searchParams.set('nome', nome);
+              if (nome) url.searchParams.set('nome', nome);
               a.setAttribute('href', url.pathname + url.search + url.hash);
             } catch (e) {}
           }
