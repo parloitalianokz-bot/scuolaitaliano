@@ -237,8 +237,6 @@
       margin-bottom: 32px;
     }
 
-    body.teacher-mode #student-form-card { display: none; }
-
     .token-bar {
       display: flex;
       justify-content: space-between;
@@ -430,7 +428,7 @@
       <div class="instruction-title">💡 Задание · Esercizio D:</div>
       <div class="instruction-text">
         👉 <strong>Перескажите текст, когда учитель предоставит вам слово.</strong><br>
-        <small style="color: var(--text-muted);">Только выбранный учителем студент сможет включить микрофон. Распознанный текст будет виден всей группе.</small>
+        <small style="color: var(--text-muted);">Микрофон может включить только выбранный участник — студент или преподаватель. Распознанный текст будет виден всей группе.</small>
       </div>
     </div>
 
@@ -449,8 +447,8 @@
     <div id="status" class="top-controls">
       <div class="teacher-controls">
         <div id="writer-selector-container" class="writer-select-box" hidden>
-          <label for="writer-select">Dà la parola a:</label>
-          <select id="writer-select" aria-label="Scegli lo studente che può registrare"></select>
+          <label for="writer-select">Assegna il turno a:</label>
+          <select id="writer-select" aria-label="Scegli chi può registrare"></select>
         </div>
         <button id="reset" class="reset-btn" type="button" style="display:none;">⚠️ Сбросить · Azzera</button>
       </div>
@@ -501,12 +499,14 @@
     const session = window.parloUnit46Session || {};
     const isTeacher = !!session.isTeacher;
     const sessionName = session.name || "";
-    const sessionIdentity = sessionName
-      ? `${isTeacher ? "teacher" : "student"}_${encodeURIComponent(sessionName).replace(/[.]/g, "%2E")}`
-      : "";
+    const groupName = session.group || "sconosciuto";
+    const safeGroupName = session.safeGroup || groupName.replace(/[.#$\/\[\]]/g, "_");
+    const makeIdentity = (role, name) => `${role}_${encodeURIComponent(name).replace(/[.]/g, "%2E")}`;
+    const sessionIdentity = sessionName ? makeIdentity(isTeacher ? "teacher" : "student", sessionName) : "";
     let answersRef = null;
     let presenceRef = null;
     let connectedParticipants = {};
+    let groupRoster = [];
     let currentWriter = null;
     let currentWriterName = "";
     let allResponses = {};
@@ -553,7 +553,7 @@
         currentRecognitionTranscript = sessionTranscript.trim();
         const fullTranscript = getCurrentTranscript();
 
-        if (!isTeacher && sessionIdentity && currentWriter === sessionIdentity && answersRef) {
+        if (isCurrentUserAssigned() && answersRef) {
           liveTranscriptDisplay.textContent = fullTranscript || "Здесь появится распознанный текст вашего пересказа...";
           liveTranscriptDisplay.classList.toggle("placeholder", !fullTranscript);
           answersRef.child("tokenData").child("liveTranscript").set(fullTranscript);
@@ -571,7 +571,7 @@
         if (currentRecognitionTranscript) {
           committedTranscript = appendTranscript(committedTranscript, currentRecognitionTranscript);
           currentRecognitionTranscript = "";
-          if (!isTeacher && sessionIdentity && currentWriter === sessionIdentity && answersRef) {
+          if (isCurrentUserAssigned() && answersRef) {
             answersRef.child("tokenData").child("liveTranscript").set(committedTranscript);
           }
         }
@@ -588,7 +588,7 @@
     }
 
     function startRecording() {
-      if (!recognition || isTeacher || !sessionIdentity || currentWriter !== sessionIdentity) return;
+      if (!recognition || !isCurrentUserAssigned()) return;
       try {
         currentRecognitionTranscript = "";
         recognition.start();
@@ -628,12 +628,44 @@
       }
     };
 
+    function isCurrentUserAssigned() {
+      return Boolean(sessionIdentity && currentWriter === sessionIdentity);
+    }
+
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      firebase.database().ref(`configurazioneScuola/gruppi/${safeGroupName}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).filter(student => student?.nome);
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => student?.nome && Number(student.unitNumber ?? unitNumber) >= 46);
+        groupRoster = unitNumber >= 46 ? [...active, ...inactive] : inactive;
+        groupRoster = [...new Map(groupRoster.map(student => [student.nome, student])).values()]
+          .sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        renderWriterOptions();
+      });
+    }
+
     function renderWriterOptions() {
       if (!isTeacher) return;
       const participants = new Map();
+      if (sessionName) {
+        participants.set(sessionIdentity, {
+          identity: sessionIdentity,
+          name: sessionName,
+          role: "teacher",
+          online: true
+        });
+      }
+      groupRoster.forEach(student => {
+        const identity = makeIdentity("student", student.nome);
+        const online = Object.values(connectedParticipants).some(participant => participant?.identity === identity);
+        participants.set(identity, { identity, name: student.nome, role: "student", online });
+      });
       Object.values(connectedParticipants).forEach(participant => {
         if (participant?.identity && participant.name && participant.role === "student") {
-          participants.set(participant.identity, participant);
+          participants.set(participant.identity, { ...participant, online: true });
         }
       });
       if (currentWriter && !participants.has(currentWriter)) {
@@ -641,17 +673,24 @@
           identity: currentWriter,
           name: currentWriterName || "Studente",
           role: "student",
-          disconnected: true
+          online: false
         });
       }
 
       const options = [new Option("— Nessuno abilitato —", "")];
-      [...participants.values()]
-        .sort((a, b) => a.name.localeCompare(b.name, "it"))
-        .forEach(participant => {
-          const label = participant.disconnected ? `${participant.name} (non connesso)` : participant.name;
-          options.push(new Option(label, participant.identity));
+      const addGroup = (label, entries, online) => {
+        if (!entries.length) return;
+        const group = document.createElement("optgroup");
+        group.label = label;
+        entries.sort((a, b) => a.name.localeCompare(b.name, "it")).forEach(participant => {
+          const suffix = participant.role === "teacher" ? " · insegnante" : online ? " · ONLINE" : " · non connesso";
+          group.appendChild(new Option(`${participant.name}${suffix}`, participant.identity));
         });
+        options.push(group);
+      };
+      addGroup("👩‍🏫 DOCENTE", [...participants.values()].filter(item => item.role === "teacher"), true);
+      addGroup("🟢 STUDENTI ONLINE · UNITÀ 46", [...participants.values()].filter(item => item.role === "student" && item.online), true);
+      addGroup("ALTRI STUDENTI DEL GRUPPO", [...participants.values()].filter(item => item.role === "student" && !item.online), false);
       writerSelect.replaceChildren(...options);
       writerSelect.value = currentWriter || "";
     }
@@ -659,8 +698,11 @@
     writerSelect.addEventListener("change", () => {
       if (!isTeacher || !answersRef) return;
       const selectedIdentity = writerSelect.value || null;
-      const participant = Object.values(connectedParticipants)
-        .find(item => item?.identity === selectedIdentity && item.role === "student");
+      const participant = [...groupRoster.map(student => ({
+        identity: makeIdentity("student", student.nome), name: student.nome, role: "student"
+      })), ...Object.values(connectedParticipants).filter(item => item?.role === "student"),
+        ...(sessionName ? [{ identity: sessionIdentity, name: sessionName, role: "teacher" }] : [])]
+        .find(item => item.identity === selectedIdentity);
       if (selectedIdentity && !participant) {
         writerSelect.value = currentWriter || "";
         return;
@@ -689,6 +731,7 @@
           connectedParticipants = snapshot.val() || {};
           renderWriterOptions();
         });
+        loadGroupRoster();
 
         answersRef.on("value", (snapshot) => {
           const data = snapshot.val() || {};
@@ -708,13 +751,13 @@
           }
 
           if (!currentWriter) {
-            tokenStatusText.textContent = "Nessuno studente abilitato alla registrazione.";
+            tokenStatusText.textContent = "Nessuno è stato selezionato per la registrazione.";
             recordingArea.style.display = "none";
             currentSpeakerDisplay.textContent = "Никто не говорит";
-          } else if (!isTeacher && currentWriter === sessionIdentity) {
+          } else if (isCurrentUserAssigned()) {
             tokenStatusText.textContent = "Hai il turno · Puoi registrare il tuo racconto";
             recordingArea.style.display = "flex";
-            currentSpeakerDisplay.textContent = `${currentWriterName} (Вы)`;
+            currentSpeakerDisplay.textContent = `${currentWriterName} (tu)`;
           } else {
             tokenStatusText.textContent = `🔒 Turno assegnato a ${currentWriterName}`;
             recordingArea.style.display = "none";
