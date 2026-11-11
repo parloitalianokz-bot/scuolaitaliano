@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 1 — Compito 1: Alfabeto, Testo e Grammatica</title>
+  <style>
+    :root { 
+      color-scheme: light; 
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif; 
+      color: #292d28; 
+      background: #f5f3ec; 
+    }
+    * { box-sizing: border-box; }
+    body { 
+      min-height: 100vh; 
+      margin: 0; 
+      padding: 32px 16px; 
+      background: linear-gradient(rgba(250,248,241,.85), rgba(250,248,241,.85)), center / cover fixed, #e9e3d6; 
+    }
+    main { width: min(100%, 960px); margin: auto; }
+    a { color: #2f5739; font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2 { color: #2f5739; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    
+    header, .exercise-section, .question { 
+      margin-bottom: 24px; 
+      padding: 28px; 
+      border: 1px solid #d8e5d8; 
+      border-radius: 20px; 
+      background: #fffefa; 
+      box-shadow: 0 10px 30px rgba(43,69,46,.06); 
+    }
+    header p { color: #6b7069; }
+    
+    .progress-panel { 
+      margin-bottom: 24px; 
+      padding: 20px 24px; 
+      border: 1px solid #d8e5d8; 
+      border-radius: 18px; 
+      background: #fffefa; 
+      box-shadow: 0 6px 20px rgba(43,69,46,.04);
+    }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #2f5739; font-weight: 800; font-size: 0.95rem; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .progress-step { 
+      width: 42px; 
+      height: 42px; 
+      padding: 6px; 
+      border: 2px solid #d8e5d8; 
+      border-radius: 50%; 
+      background: white; 
+      color: #2f5739; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all 0.2s ease;
+    }
+    .progress-step:hover { border-color: #2f5739; background: #edf4ed; }
+    .progress-step.current { border-color: #2f5739; background: #2f5739; color: white; box-shadow: 0 4px 12px rgba(47,87,57,0.3); }
+
+    .question { border: 1px solid #e7e5dc; border-radius: 20px; padding: clamp(22px, 4vw, 36px); background: #fffefa; }
+    .question h2 { margin-top: 0; font-size: 1.35rem; border-bottom: 2px solid #edf4ed; padding-bottom: 12px; }
+    .question p { line-height: 1.6; }
+    .question-prompt { font-size: 1.12rem; font-weight: 700; color: #232722; margin-bottom: 8px; }
+    
+    .word-pool { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0; padding: 18px; background: #f4f8f4; border-radius: 16px; border: 2px dashed #b5c7b5; }
+    .word-chip { 
+      padding: 10px 18px; 
+      background: white; 
+      border: 2px solid #2f5739; 
+      border-radius: 24px; 
+      cursor: pointer; 
+      font-weight: 700; 
+      color: #2f5739; 
+      box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .word-chip:hover { background: #2f5739; color: white; transform: translateY(-2px); }
+    .word-chip.selected { background: #bd694d; border-color: #bd694d; color: white; transform: scale(1.05); }
+    
+    .phonetic-drop-zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 24px; }
+    .drop-zone { border: 2px dashed #b5c7b5; border-radius: 16px; padding: 18px; background: #fafaf6; min-height: 130px; transition: background 0.2s; }
+    .drop-zone:hover { background: #f2f7f2; }
+    .drop-zone h3 { margin: 0 0 10px 0; font-size: 0.95rem; color: #2f5739; font-weight: 700; }
+    .drop-zone-items { display: flex; flex-wrap: wrap; gap: 8px; min-height: 60px; }
+    .placed-item { padding: 6px 14px; background: white; border-radius: 16px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); }
+    .placed-item.correct { border: 2px solid #278253; background: #e1f1e5; color: #17623c; }
+    .placed-item.incorrect { border: 2px solid #c62828; background: #fde8e7; color: #a51d1d; }
+    .remove-btn { background: none; border: none; cursor: pointer; font-weight: bold; color: inherit; padding: 0; font-size: 1.1rem; line-height: 1; opacity: 0.7; }
+    .remove-btn:hover { opacity: 1; }
+
+    select.inline-select { 
+      padding: 10px 16px; 
+      border: 2px solid #d4e1d5; 
+      border-radius: 12px; 
+      font: inherit; 
+      font-weight: 700; 
+      background: white; 
+      color: #2f5739; 
+      max-width: 100%; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      cursor: pointer;
+    }
+    select.inline-select.correct { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    select.inline-select.incorrect { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
+
+    .translation { color: #6b7069; font-size: 0.95rem; font-style: italic; margin-top: 6px; margin-bottom: 18px; padding-left: 4px; border-left: 3px solid #d4e1d5; }
+    
+    button { 
+      min-height: 46px; 
+      padding: 10px 20px; 
+      border: 0; 
+      border-radius: 12px; 
+      background: #2f5739; 
+      color: white; 
+      font: inherit; 
+      font-weight: 700; 
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(47,87,57,0.2);
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover { background: #23422b; }
+    button:active { transform: translateY(1px); }
+    button.secondary { border: 2px solid #2f5739; background: white; color: #2f5739; box-shadow: none; }
+    button.secondary:hover { background: #edf4ed; }
+    button:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 28px; padding-top: 20px; border-top: 2px solid #edf4ed; }
+    .slide-progress { color: #2f5739; font-weight: 800; text-align: center; }
+    
+    .task-submit-panel { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin: 24px 0; padding: 22px 26px; border: 1px solid #d8e5d8; border-radius: 18px; background: #fffefa; box-shadow: 0 8px 24px rgba(43,69,46,.05); }
+    .task-submit-panel[hidden] { display: none; }
+    
+    #page-message { padding: 14px 18px; border-radius: 14px; background: #edf4ed; color: #2f5739; font-weight: 700; margin-bottom: 20px; border: 1px solid #d8e5d8; }
+    #page-message:empty { display: none; }
+    
+    .note { color: #6b7069; font-size: 0.94rem; }
+    .instruction-ru { color: #4a524a; font-size: 0.98rem; font-weight: 600; margin-bottom: 14px; background: #f2f7f3; padding: 12px 16px; border-radius: 12px; border-left: 4px solid #2f5739; }
+
+    @media (max-width: 600px) { 
+      body { padding: 16px 10px; } 
+      header, .exercise-section, .progress-panel, .question { padding: 20px; } 
+      .slide-navigation { flex-wrap: wrap; } 
+      .slide-progress { order: -1; width: 100%; } 
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <h1 id="task-title">Unità 1 — Compito 1</h1>
+      <p id="task-instructions">Completa gli esercizi con correzione automatica immediata. Puoi consegnare in qualsiasi momento.</p>
+      <p id="student-task-note" class="note">Le risposte vengono salvate in tempo reale. / Ответы сохраняются в реальном времени.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite"></p>
+    
+    <section id="task-workspace" hidden>
+      <nav class="progress-panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div id="question-progress" class="progress-list"></div>
+      </nav>
+
+      <div id="task-content"></div>
+
+      <nav class="slide-navigation" aria-label="Navigazione parti">
+        <button id="previous-question" class="secondary" type="button">← Parte Precedente</button>
+        <span id="question-position" class="slide-progress"></span>
+        <button id="next-question" class="secondary" type="button">Parte Successiva →</button>
+      </nav>
+
+      <section id="task-submit-panel" class="task-submit-panel" hidden aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span style="color:#6b7069; font-weight:normal;">Ты можешь отправить работу преподавателю, даже если ответил не на все вопросы.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante / Отправить работу</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  
+  <script id="homework-task-data" type="application/json">
+  {
+    "title": "Unità 1 — Compito 1: Fonetica, Testo e Grammatica",
+    "instructions": "Completa gli esercizi con correzione automatica immediata. Puoi consegnare in qualsiasi momento.",
+    "sections": [
+      {
+        "id": "sec1",
+        "title": "Parte 1: Fonetica e Ortografia (Фонетика и орфография)",
+        "instructions": "Esercizio 1: Clicca su una parola e poi clicca sulla categoria fonetica russa corrispondente per posizionarla."
+      },
+      {
+        "id": "sec2",
+        "title": "Parte 2: Comprensione del Testo 'Un albergo in centro'",
+        "instructions": "Esercizio 2: Leggi il testo della storia e rispondi alle domande."
+      },
+      {
+        "id": "sec3",
+        "title": "Parte 3: Il verbo essere (Глагол essere — быть)",
+        "instructions": "Esercizio 3: Completa le frasi scegliendo la forma corretta del verbo essere (è oppure sono) dal menu a tendina."
+      },
+      {
+        "id": "sec4",
+        "title": "Parte 4: Le preposizioni IN, A, PER",
+        "instructions": "Regola: Si usa A con le città (a Firenze), IN con le nazioni o luoghi (in Italia, in centro) e PER per esprimere uno scopo o motivo."
+      },
+      {
+        "id": "sec5",
+        "title": "Parte 5: Gli interrogativi — Dove, Chi, Che, Perché",
+        "instructions": "Esercizio 5: Associa a ogni domanda la risposta corretta scegliendola dal menu a tendina."
+      }
+    ]
+  }
+  </script>
+  <script>
+    const taskData = {
+      title: "Unità 1 — Compito 1: Fonetica, Testo e Grammatica",
+      sections: [
+        {
+          id: "sec1",
+          title: "Parte 1: Fonetica e Ortografia (Фонетика и орфография)",
+          instructions: "Esercizio 1: Clicca su una parola e poi clicca sulla categoria fonetica russa corrispondente per posizionarla.",
+          instructionRu: "Прочитайте слова из урока и соотнесите их с правильной фонетической группой.",
+          type: "phonetic_matching",
+          groups: [
+            { id: "A", label: "Звук мягкий «щ» / «ш»" },
+            { id: "B", label: "Звук твердый «ск»" },
+            { id: "C", label: "Звук носовой палатальный «нь»" },
+            { id: "D", label: "Звук латеральный палатальный «ль»" },
+            { id: "E", label: "Звук велярный твердый «г/к»" },
+            { id: "F", label: "Звук аффрикативный глухой «ц»" },
+            { id: "G", label: "Звук фрикативный звонкий «дз»" }
+          ],
+          words: [
+            { id: "w1", text: "Scimpanzé", correctGroup: "A" },
+            { id: "w2", text: "Pesche", correctGroup: "B" },
+            { id: "w3", text: "Pesce", correctGroup: "A" },
+            { id: "w4", text: "Insegnante", correctGroup: "C" },
+            { id: "w5", text: "Figli", correctGroup: "D" },
+            { id: "w6", text: "Bruschetta", correctGroup: "B" },
+            { id: "w7", text: "Piscina", correctGroup: "A" },
+            { id: "w8", text: "Zaino", correctGroup: "G" },
+            { id: "w9", text: "Albergo", correctGroup: "E" },
+            { id: "w10", text: "Schiaccianoci", correctGroup: "B" },
+            { id: "w11", text: "Lasagne", correctGroup: "C" },
+            { id: "w12", text: "Gnomo", correctGroup: "C" },
+            { id: "w13", text: "Tagliatelle", correctGroup: "D" },
+            { id: "w14", text: "Maglione", correctGroup: "D" },
+            { id: "w15", text: "Casa", correctGroup: "E" },
+            { id: "w16", text: "Gatto", correctGroup: "E" },
+            { id: "w17", text: "Pizza", correctGroup: "F" },
+            { id: "w18", text: "Stazione", correctGroup: "F" },
+            { id: "w19", text: "Zebra", correctGroup: "G" }
+          ]
+        },
+        {
+          id: "sec2",
+          title: "Parte 2: Comprensione del Testo 'Un albergo in centro'",
+          instructions: "Esercizio 2: Leggi il testo della storia e rispondi alle domande selezionando l'opzione corretta (A, B o C).",
+          instructionRu: "Прочитайте текст истории и ответьте на вопросы, выбрав правильный вариант (A, B или C).",
+          type: "multiple_choice",
+          questions: [
+            { id: "q17", prompt: "Dove si trova l'albergo Pontevecchio?", translation: "Где находится отель Понтевеккьо?", options: ["A) A Roma", "B) A Firenze", "C) A Milano"], correct: 1 },
+            { id: "q18", prompt: "Perché l'albergo è comodo per gli stranieri?", translation: "Почему отель удобен для иностранцев?", options: ["A) Perché costa poco", "B) Perché ha una piscina grande", "C) Perché è in centro"], correct: 2 },
+            { id: "q19", prompt: "Chi è Victor e perché si trova in Italia?", translation: "Кто такой Виктор и почему он в Италии?", options: ["A) È francese, fa l'avvocato ed è in Italia per affari.", "B) È tedesco, fa lo studente ed è in Italia per studiare.", "C) È inglese, fa l'insegnante ed è in Italia per lavoro."], correct: 0 },
+            { id: "q20", prompt: "Cosa fanno Klaus e Karl in Italia?", translation: "Что делают Клаус и Карл в Италии?", options: ["A) Lavorano come avvocati.", "B) Sono in Italia per studiare l'italiano.", "C) Sono in Italia per fare shopping."], correct: 1 },
+            { id: "q21", prompt: "Che lavoro fa Yoko?", translation: "Кем работает Йоко?", options: ["A) È studentessa.", "B) È insegnante d'inglese.", "C) È dentista ed è in Italia per una conferenza."], correct: 2 },
+            { id: "q22", prompt: "Per quale motivo Olga si trova a Firenze?", translation: "По какой причине Ольга находится во Флоренции?", options: ["A) Per lavorare come dentista.", "B) Per studiare l'italiano e per fare shopping.", "C) Per insegnare la lingua russa."], correct: 1 },
+            { id: "q23", prompt: "Chi è Paolo Rossi e qual è la sua situazione familiare?", translation: "Кто такой Паоло Росси и каково его семейное положение?", options: ["A) È un cliente dell'albergo, è celibe e non ha figli.", "B) È il direttore dell'albergo Pontevecchio, è sposato e ha tre figli.", "C) È l'avvocato dell'albergo ed è padre di due figli."], correct: 1 }
+          ]
+        },
+        {
+          id: "sec3",
+          title: "Parte 3: Il verbo essere (Глагол essere — быть)",
+          instructions: "Esercizio 3: Completa le frasi scegliendo la forma corretta del verbo essere (è oppure sono) dal menu a tendina.",
+          instructionRu: "Заполните пропуски в предложениях, выбрав правильную форму глагола essere (è или sono).",
+          type: "dropdown_completion",
+          items: [
+            { id: "q24", prompt: "L'albergo Pontevecchio [sel1] a Firenze.", selects: [{name: "sel1", correct: "è", options: ["è", "sono"]}], translation: "Отель Понтевеккьо во Флоренции." },
+            { id: "q25", prompt: "Victor [sel1] francese ed [sel2] avvocato.", selects: [{name: "sel1", correct: "è", options: ["è", "sono"]}, {name: "sel2", correct: "è", options: ["è", "sono"]}], translation: "Виктор — француз и адвокат." },
+            { id: "q26", prompt: "Klaus e Carl [sel1] tedeschi e [sel2] studenti.", selects: [{name: "sel1", correct: "sono", options: ["è", "sono"]}, {name: "sel2", correct: "sono", options: ["è", "sono"]}], translation: "Клаус и Карл — немцы и студенты." },
+            { id: "q27", prompt: "Yoko [sel1] giapponese ed [sel2] dentista.", selects: [{name: "sel1", correct: "è", options: ["è", "sono"]}, {name: "sel2", correct: "è", options: ["è", "sono"]}], translation: "Йоко — японка и зубной врач." },
+            { id: "q28", prompt: "Chi [sel1] gli ospiti dell'albergo in questo momento?", selects: [{name: "sel1", correct: "sono", options: ["è", "sono"]}], translation: "Кто гости отеля в данный момент?" },
+            { id: "q29", prompt: "Olga [sel1] russa ed [sel2] studentessa.", selects: [{name: "sel1", correct: "è", options: ["è", "sono"]}, {name: "sel2", correct: "è", options: ["è", "sono"]}], translation: "Ольга — русская и студентка." },
+            { id: "q30", prompt: "Paolo Rossi [sel1] il direttore dell'albergo.", selects: [{name: "sel1", correct: "è", options: ["è", "sono"]}], translation: "Паоло Росси — директор отеля." }
+          ]
+        },
+        {
+          id: "sec4",
+          title: "Parte 4: Le preposizioni IN, A, PER",
+          instructions: "Regola: Si usa A con le città (a Firenze), IN con le nazioni o luoghi (in Italia, in centro) e PER per esprimere uno scopo o motivo.\nEsercizio 4: Scegli la preposizione corretta dai menu a tendina.",
+          instructionRu: "Вставьте правильный предлог, выбрав между in, a или per.",
+          type: "dropdown_completion",
+          items: [
+            { id: "q31", prompt: "L'albergo Pontevecchio si trova [sel1] Firenze, [sel2] Italia.", selects: [{name: "sel1", correct: "a", options: ["a", "in", "per"]}, {name: "sel2", correct: "in", options: ["a", "in", "per"]}], translation: "Отель Понтевеккьо находится во Флоренции, в Италии." },
+            { id: "q32", prompt: "L'albergo è molto comodo perché è [sel1] centro.", selects: [{name: "sel1", correct: "in", options: ["a", "in", "per"]}], translation: "Отель очень удобный, потому что он в центре." },
+            { id: "q33", prompt: "Victor è in Italia [sel1] affari.", selects: [{name: "sel1", correct: "per", options: ["a", "in", "per"]}], translation: "Виктор в Италии по делам." },
+            { id: "q34", prompt: "Klaus e Carl sono in Italia [sel1] studiare l'italiano.", selects: [{name: "sel1", correct: "per", options: ["a", "in", "per"]}], translation: "Клаус и Карл в Италии, чтобы учить итальянский." },
+            { id: "q35", prompt: "Yoko è in Italia [sel1] una conferenza.", selects: [{name: "sel1", correct: "per", options: ["a", "in", "per"]}], translation: "Йоко в Италии на конференции." },
+            { id: "q36", prompt: "Olga è in Italia per studiare l'italiano e [sel1] fare shopping.", selects: [{name: "sel1", correct: "per", options: ["a", "in", "per"]}], translation: "Ольга в Италии, чтобы учить итальянский и делать покупки." },
+            { id: "q37", prompt: "Mary è inglese ed è in Italia [sel1] insegnare l'inglese.", selects: [{name: "sel1", correct: "per", options: ["a", "in", "per"]}], translation: "Мэри — англичанка и находится в Италии, чтобы преподавать английский." }
+          ]
+        },
+        {
+          id: "sec5",
+          title: "Parte 5: Gli interrogativi — Dove, Chi, Che, Perché",
+          instructions: "Esercizio 5: Associa a ogni domanda la risposta corretta scegliendola dal menu a tendina.",
+          instructionRu: "Соотнесите каждый вопрос с правильным ответом.",
+          type: "matching_dropdown",
+          pairs: [
+            { id: "q38", question: "1. Dove è l'albergo Pontevecchio?", correctAns: "È a Firenze, in Italia." },
+            { id: "q39", question: "2. Chi è il direttore dell'albergo?", correctAns: "Paolo Rossi." },
+            { id: "q40", question: "3. Che lavoro fa Yoko?", correctAns: "È dentista." },
+            { id: "q41", question: "4. Perché Victor è in Italia?", correctAns: "È in Italia per affari." },
+            { id: "q42", question: "5. Chi sono Klaus e Carl?", correctAns: "Sono due studenti tedeschi." },
+            { id: "q43", question: "6. Perché Olga è a Firenze?", correctAns: "Per studiare l'italiano e per fare shopping." }
+          ],
+          allAnswers: [
+            "È a Firenze, in Italia.",
+            "È in Italia per affari.",
+            "Paolo Rossi.",
+            "È dentista.",
+            "Sono due studenti tedeschi.",
+            "Per studiare l'italiano e per fare shopping."
+          ]
+        }
+      ]
+    };
+
+    let currentSectionIndex = 0;
+    let savedAnswers = {};
+    let submissionRef = null;
+    let studentName = "";
+    let isStudentSession = false;
+    let selectedWord = null;
+    let shuffledWordsCache = null; // Cache per mantenere l'ordine random finché non si ricarica
+
+    const taskWorkspace = document.getElementById("task-workspace");
+    const taskContent = document.getElementById("task-content");
+    const pageMessage = document.getElementById("page-message");
+    const progressList = document.getElementById("question-progress");
+    const progressCount = document.getElementById("progress-count");
+    const questionPosition = document.getElementById("question-position");
+    const previousButton = document.getElementById("previous-question");
+    const nextButton = document.getElementById("next-question");
+    const taskSubmitPanel = document.getElementById("task-submit-panel");
+    const submitTaskButton = document.getElementById("submit-task");
+    const backToHomework = document.getElementById("back-to-homework");
+    const taskParams = new URLSearchParams(location.search);
+    const assignmentId = taskParams.get("assignment");
+
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    document.title = taskData.title;
+    document.getElementById("task-title").textContent = taskData.title;
+
+    function renderProgress() {
+      progressList.replaceChildren();
+      taskData.sections.forEach((sec, index) => {
+        const step = document.createElement("button");
+        step.type = "button";
+        step.className = `progress-step${index === currentSectionIndex ? " current" : ""}`;
+        step.textContent = String(index + 1);
+        step.setAttribute("aria-label", `Parte ${index + 1}`);
+        step.addEventListener("click", () => { currentSectionIndex = index; renderSection(); });
+        progressList.appendChild(step);
+      });
+      progressCount.textContent = `${currentSectionIndex + 1} / ${taskData.sections.length}`;
+      questionPosition.textContent = `Parte ${currentSectionIndex + 1} di ${taskData.sections.length}`;
+      previousButton.disabled = currentSectionIndex === 0;
+      nextButton.disabled = currentSectionIndex === taskData.sections.length - 1;
+      taskSubmitPanel.hidden = !isStudentSession;
+    }
+
+    function renderSection() {
+      taskWorkspace.hidden = false;
+      taskContent.replaceChildren();
+      const sec = taskData.sections[currentSectionIndex];
+
+      const card = document.createElement("article");
+      card.className = "question";
+      card.appendChild(Object.assign(document.createElement("h2"), { textContent: sec.title }));
+      
+      if (sec.instructions) {
+        card.appendChild(Object.assign(document.createElement("p"), { style: "font-weight: 600; color: #232722; margin-bottom: 6px;", textContent: sec.instructions }));
+      }
+      if (sec.instructionRu) {
+        const divRu = document.createElement("div");
+        divRu.className = "instruction-ru";
+        divRu.textContent = sec.instructionRu;
+        card.appendChild(divRu);
+      }
+
+      if (sec.type === "phonetic_matching") {
+        renderPhoneticExercise(sec, card);
+      } else if (sec.type === "multiple_choice") {
+        renderMultipleChoice(sec, card);
+      } else if (sec.type === "dropdown_completion") {
+        renderDropdownCompletion(sec, card);
+      } else if (sec.type === "matching_dropdown") {
+        renderMatchingDropdown(sec, card);
+      }
+
+      taskContent.appendChild(card);
+      renderProgress();
+    }
+
+    // 1. Fonetica (con parole mescolate a random)
+    function renderPhoneticExercise(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      // Mescola le parole in modo random solo la prima volta che si carica la sezione
+      if (!shuffledWordsCache) {
+        shuffledWordsCache = [...sec.words].sort(() => Math.random() - 0.5);
+      }
+
+      const poolContainer = document.createElement("div");
+      poolContainer.innerHTML = "<p style='font-weight:700; color:#2f5739;'>Parole disponibili / Доступные слова (нажмите на слово):</p>";
+      const pool = document.createElement("div");
+      pool.className = "word-pool";
+
+      shuffledWordsCache.forEach(w => {
+        if (!state[w.id]) {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = `word-chip${selectedWord === w.id ? " selected" : ""}`;
+          chip.textContent = w.text;
+          chip.addEventListener("click", () => {
+            selectedWord = w.id;
+            renderSection();
+          });
+          pool.appendChild(chip);
+        }
+      });
+      poolContainer.appendChild(pool);
+      container.appendChild(poolContainer);
+
+      const dropZonesContainer = document.createElement("div");
+      dropZonesContainer.className = "phonetic-drop-zones";
+
+      sec.groups.forEach(g => {
+        const zone = document.createElement("div");
+        zone.className = "drop-zone";
+        zone.innerHTML = `<h3>${g.label}</h3>`;
+        const itemsList = document.createElement("div");
+        itemsList.className = "drop-zone-items";
+
+        sec.words.forEach(w => {
+          if (state[w.id] === g.id) {
+            const isCorrect = g.id === w.correctGroup;
+            const item = document.createElement("div");
+            item.className = `placed-item ${isCorrect ? "correct" : "incorrect"}`;
+            item.innerHTML = `${w.text} <button class="remove-btn" title="Rimuovi">×</button>`;
+            item.querySelector("button").addEventListener("click", () => {
+              delete state[w.id];
+              saveAndSync(sec.id, state);
+              renderSection();
+            });
+            itemsList.appendChild(item);
+          }
+        });
+
+        zone.appendChild(itemsList);
+        zone.addEventListener("click", () => {
+          if (selectedWord) {
+            state[selectedWord] = g.id;
+            selectedWord = null;
+            saveAndSync(sec.id, state);
+            renderSection();
+          }
+        });
+        dropZonesContainer.appendChild(zone);
+      });
+
+      container.appendChild(dropZonesContainer);
+    }
+
+    // 2. Scelta Multipla
+    function renderMultipleChoice(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      sec.questions.forEach((q, qIdx) => {
+        const qDiv = document.createElement("div");
+        qDiv.style.margin = "22px 0";
+        qDiv.style.paddingBottom = "18px";
+        qDiv.style.borderBottom = "1px solid #e7e5dc";
+
+        const prompt = document.createElement("p");
+        prompt.className = "question-prompt";
+        prompt.textContent = `${qIdx + 1}. ${q.prompt}`;
+        qDiv.appendChild(prompt);
+
+        if (q.translation) {
+          const trans = document.createElement("div");
+          trans.className = "translation";
+          trans.textContent = q.translation;
+          qDiv.appendChild(trans);
+        }
+
+        q.options.forEach((opt, optIdx) => {
+          const label = document.createElement("label");
+          label.style.display = "flex";
+          label.style.alignItems = "center";
+          label.style.gap = "10px";
+          label.style.margin = "10px 0";
+          label.style.cursor = "pointer";
+          label.style.padding = "6px 8px";
+          label.style.borderRadius = "8px";
+          label.style.transition = "background 0.15s";
+          label.onmouseover = () => label.style.background = "#f4f8f4";
+          label.onmouseout = () => label.style.background = "transparent";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `radio_${q.id}`;
+          radio.value = optIdx;
+          radio.checked = state[q.id] === optIdx;
+          radio.style.accentColor = "#2f5739";
+          radio.style.width = "18px";
+          radio.style.height = "18px";
+
+          const span = document.createElement("span");
+          span.textContent = opt;
+
+          if (state[q.id] === optIdx) {
+            span.style.fontWeight = "bold";
+            span.style.color = optIdx === q.correct ? "#17623c" : "#a51d1d";
+          }
+
+          radio.addEventListener("change", () => {
+            state[q.id] = optIdx;
+            saveAndSync(sec.id, state);
+            renderSection();
+          });
+
+          label.append(radio, span);
+          qDiv.appendChild(label);
+        });
+
+        container.appendChild(qDiv);
+      });
+    }
+
+    // 3 & 4. Menu a tendina con correzione immediata
+    function renderDropdownCompletion(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      sec.items.forEach((item, itemIdx) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.margin = "22px 0";
+        itemDiv.style.paddingBottom = "18px";
+        itemDiv.style.borderBottom = "1px solid #e7e5dc";
+
+        const p = document.createElement("p");
+        p.className = "question-prompt";
+        p.innerHTML = `${itemIdx + 1}. `;
+
+        let text = item.prompt;
+        item.selects.forEach((sel) => {
+          text = text.replace(`[${sel.name}]`, `@@SELECT_${sel.name}@@`);
+        });
+
+        let parts = text.split(/@@SELECT_(.*?)@@/);
+        parts.forEach((part, pIdx) => {
+          if (pIdx % 2 === 0) {
+            p.appendChild(document.createTextNode(part));
+          } else {
+            const selName = part;
+            const selConfig = item.selects.find(s => s.name === selName);
+            const select = document.createElement("select");
+            select.className = "inline-select";
+            
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "— scegli —";
+            select.appendChild(defaultOpt);
+
+            selConfig.options.forEach(opt => {
+              const option = document.createElement("option");
+              option.value = opt;
+              option.textContent = opt;
+              select.appendChild(option);
+            });
+
+            const valKey = `sel_${item.id}_${selName}`;
+            select.value = state[valKey] || "";
+
+            const checkDropdown = (val) => {
+              if (!val) {
+                select.className = "inline-select";
+              } else if (val === selConfig.correct) {
+                select.className = "inline-select correct";
+              } else {
+                select.className = "inline-select incorrect";
+              }
+            };
+            checkDropdown(select.value);
+
+            select.addEventListener("change", (e) => {
+              state[valKey] = e.target.value;
+              checkDropdown(e.target.value);
+              saveAndSync(sec.id, state);
+            });
+
+            p.appendChild(select);
+          }
+        });
+
+        itemDiv.appendChild(p);
+        if (item.translation) {
+          const trans = document.createElement("div");
+          trans.className = "translation";
+          trans.textContent = item.translation;
+          itemDiv.appendChild(trans);
+        }
+        container.appendChild(itemDiv);
+      });
+    }
+
+    // 5. Abbinamento con Menu a Tendina
+    function renderMatchingDropdown(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      sec.pairs.forEach((pair, pIdx) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.margin = "22px 0";
+        itemDiv.style.paddingBottom = "18px";
+        itemDiv.style.borderBottom = "1px solid #e7e5dc";
+
+        const p = document.createElement("p");
+        p.className = "question-prompt";
+        p.textContent = `${pair.question}`;
+        itemDiv.appendChild(p);
+
+        const select = document.createElement("select");
+        select.className = "inline-select";
+        select.style.width = "100%";
+        select.style.maxWidth = "550px";
+
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "— Seleziona la risposta corrispondente —";
+        select.appendChild(defaultOpt);
+
+        sec.allAnswers.forEach(ans => {
+          const option = document.createElement("option");
+          option.value = ans;
+          option.textContent = ans;
+          select.appendChild(option);
+        });
+
+        const valKey = `match_${pair.id}`;
+        select.value = state[valKey] || "";
+
+        const checkMatch = (val) => {
+          if (!val) {
+            select.className = "inline-select";
+          } else if (val === pair.correctAns) {
+            select.className = "inline-select correct";
+          } else {
+            select.className = "inline-select incorrect";
+          }
+        };
+        checkMatch(select.value);
+
+        select.addEventListener("change", (e) => {
+          state[valKey] = e.target.value;
+          checkMatch(e.target.value);
+          saveAndSync(sec.id, state);
+        });
+
+        itemDiv.appendChild(select);
+        container.appendChild(itemDiv);
+      });
+    }
+
+    // Salvataggio automatico su Firebase
+    async function saveAndSync(sectionId, sectionAnswers) {
+      if (!submissionRef) return;
+      savedAnswers[sectionId] = sectionAnswers;
+      try {
+        await submissionRef.child(`answers/${sectionId}`).set(sectionAnswers);
+        await submissionRef.update({
+          studentName,
+          status: "in-progress",
+          updatedAt: Date.now()
+        });
+        pageMessage.textContent = "Risposta salvata automaticamente in tempo reale. ✓";
+        setTimeout(() => { if (pageMessage.textContent.includes("✓")) pageMessage.textContent = ""; }, 2500);
+      } catch (err) {
+        pageMessage.textContent = "Errore di salvataggio. Controlla la connessione.";
+      }
+    }
+
+    submitTaskButton.addEventListener("click", async () => {
+      if (!submissionRef) return;
+      submitTaskButton.disabled = true;
+      pageMessage.textContent = "Invio del compito all’insegnante… / Отправка работы...";
+      try {
+        await submissionRef.update({
+          studentName,
+          status: "pending",
+          submittedAt: Date.now()
+        });
+        pageMessage.textContent = "Compito inviato con successo all'insegnante! 🎉 / Работа успешно отправлена!";
+      } catch (err) {
+        pageMessage.textContent = "Impossibile inviare. Riprova.";
+        submitTaskButton.disabled = false;
+      }
+    });
+
+    previousButton.addEventListener("click", () => {
+      if (currentSectionIndex > 0) { currentSectionIndex--; renderSection(); window.scrollTo(0,0); }
+    });
+    nextButton.addEventListener("click", () => {
+      if (currentSectionIndex < taskData.sections.length - 1) { currentSectionIndex++; renderSection(); window.scrollTo(0,0); }
+    });
+
+    async function initializeTask() {
+      let session;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      isStudentSession = Boolean(session && !session.isTeacher && session.group && session.name);
+
+      if (!assignmentId) {
+        pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere.";
+        return;
+      }
+      if (!isStudentSession) {
+        pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito.";
+        return;
+      }
+
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+          assignmentRef.once("value"),
+          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]);
+
+        const assignment = assignmentSnapshot.val();
+        const group = groupSnapshot.val();
+        if (!assignment || !group) throw new Error("Compito non disponibile per questo gruppo.");
+
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+        studentName = session.name;
+
+        const submissionSnapshot = await submissionRef.once("value");
+        const submission = submissionSnapshot.val() || {};
+        savedAnswers = submission.answers || {};
+
+        renderSection();
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito.";
+      }
+    }
+
+    initializeTask();
+  </script>
+</body>
+</html>
