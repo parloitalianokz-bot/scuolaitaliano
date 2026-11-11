@@ -80,6 +80,11 @@
     input.verb-input:disabled { background: #f1f5f1; color: #2f5739; }
     input.verb-input.correct { border-color: var(--success); background: var(--success-bg); color: #17623c; }
     input.verb-input.incorrect { border-color: #dc2626; background: #fde8e7; color: #991b1b; }
+    .teacher-hint { position: relative; display: inline-block; vertical-align: middle; white-space: normal; }
+    .teacher-hint-button { min-width: 26px; min-height: 26px; margin-left: 2px; padding: 0 5px; border: 1px solid #d8e5d8; border-radius: 50%; background: #fff; color: var(--primary-dark); font: inherit; font-size: .8rem; font-weight: 800; cursor: pointer; }
+    .teacher-hint-button:hover, .teacher-hint-button[aria-expanded="true"] { border-color: var(--primary); background: var(--primary-light); }
+    .teacher-hint-text { position: absolute; z-index: 5; top: calc(100% + 7px); left: 0; width: min(300px, calc(100vw - 48px)); padding: 11px 13px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fffefa; color: var(--text); box-shadow: 0 8px 22px rgba(43,69,46,.16); font-family: 'Segoe UI', Inter, system-ui, sans-serif; font-size: .86rem; font-weight: 600; line-height: 1.45; }
+    .teacher-hint-text[hidden] { display: none; }
     .answer-feedback { margin: 0; padding: 10px 14px; border-radius: 10px; font-size: .92rem; font-weight: 700; }
     .answer-feedback.correct { background: var(--success-bg); color: var(--success); }
     .answer-feedback.incorrect { background: #fde8e7; color: #dc2626; }
@@ -226,6 +231,45 @@
       }
     ];
 
+    const teacherPrompts = {
+      c1: [
+        "Что является подлежащим? Кто или что начинает день?",
+        "Кто готовит завтрак для всей семьи? Как рассказчик говорит о себе?",
+        "Кто смотрит телевизор? Какое лицо и число у этого подлежащего?",
+        "Кто ещё спит? Подлежащее одно или их несколько?"
+      ],
+      c2: [
+        "Кто отвозит детей в школу? От чьего лица ведётся рассказ?",
+        "Кто потом идёт в супермаркет? Как это понять по рассказу?",
+        "Кто делает покупки? Найди того же исполнителя действия."
+      ],
+      c3: [
+        "Кто возвращается домой в одиннадцать? Рассказчик говорит о себе или о других?",
+        "Кто готовит обед? Найди подлежащее, даже если оно не названо.",
+        "Кто идёт обедать в час? Один человек или несколько?",
+        "Кто ест, пока муж смотрит телевизор? Что подсказывает контекст?"
+      ],
+      c4: [
+        "Кто идёт за детьми после обеда? Кто рассказывает эту историю?",
+        "Кто возвращается домой в три? Сколько людей включает это «мы»?",
+        "Кто учится? Найди подлежащее и определи его число.",
+        "Кто играет в гостиной? То же ли это подлежащее, что и в предыдущем действии?",
+        "Кто убирает дом? Как рассказчик называет себя?"
+      ],
+      c5: [
+        "Кто готовит ужин? Определи подлежащее по точке зрения рассказчика.",
+        "Кто ужинает в половине девятого? Один человек или вся семья?",
+        "Кто моет посуду? К кому относится «я» в рассказе?",
+        "Кто укладывает детей? Кто выполняет это действие?",
+        "Кто гуляет с собакой? Рассказчик действует один или вместе с кем-то?"
+      ],
+      c6: [
+        "Кто идёт в спальню в полночь? Найди подлежащее.",
+        "Кто смотрит телевизор? Какое это лицо и число?",
+        "Кто в итоге ложится спать: только муж или несколько человек? Что подсказывает весь рассказ?"
+      ]
+    };
+
     function createEmptyState() {
       return Object.fromEntries(paragraphs.map(item => [item.id, item.keys.map(() => "")]));
     }
@@ -235,6 +279,14 @@
         .trim().replace(/\s+/g, " ");
     }
     function isCorrect(value, key) { return normalizeAnswer(value) === normalizeAnswer(key); }
+
+    function updateVerbFeedback(input, key) {
+      const value = input.value.trim();
+      const correct = value !== "" && isCorrect(value, key);
+      input.classList.toggle("correct", correct);
+      input.classList.toggle("incorrect", value !== "" && !correct);
+      input.setAttribute("aria-invalid", String(value !== "" && !correct));
+    }
 
     const session = window.parloUnit11Session || {};
     const params = new URLSearchParams(location.search);
@@ -379,11 +431,10 @@
         input.value = answers[item.id]?.[index] || "";
         const canEdit = mode === "student" ? !isTeacherView : !isTeacherView && currentStudentName === currentWriter;
         input.disabled = !canEdit;
-        if (mode === "student" && studentSubmitted && input.value.trim()) {
-          input.classList.add(isCorrect(input.value, item.keys[index]) ? "correct" : "incorrect");
-        }
+        updateVerbFeedback(input, item.keys[index]);
         input.addEventListener("input", () => {
           answers[item.id][index] = input.value;
+          updateVerbFeedback(input, item.keys[index]);
           if (mode === "token") {
             if (answersRef && currentStudentName && currentStudentName === currentWriter) {
               answersRef.child("tokenData/answers").child(item.id).set(answers[item.id]);
@@ -391,10 +442,36 @@
           } else {
             studentSubmitted = false;
             saveStatus.hidden = true;
-            input.classList.remove("correct", "incorrect");
           }
         });
-        text.appendChild(input);
+        if (isTeacherView) {
+          const hint = document.createElement("span");
+          hint.className = "teacher-hint";
+          const hintButton = document.createElement("button");
+          hintButton.type = "button";
+          hintButton.className = "teacher-hint-button";
+          hintButton.textContent = "ⓘ";
+          hintButton.setAttribute("aria-label", `Подсказка учителю: ${item.verbs[index]}`);
+          hintButton.setAttribute("aria-expanded", "false");
+          const hintText = document.createElement("span");
+          hintText.className = "teacher-hint-text";
+          hintText.id = `teacher-hint-${item.id}-${index}`;
+          hintText.setAttribute("role", "tooltip");
+          hintText.hidden = true;
+          hintText.textContent = teacherPrompts[item.id][index];
+          hintButton.setAttribute("aria-controls", hintText.id);
+          hintButton.addEventListener("click", () => {
+            const isExpanded = hintButton.getAttribute("aria-expanded") === "true";
+            hintButton.setAttribute("aria-expanded", String(!isExpanded));
+            hintText.hidden = isExpanded;
+            if (isExpanded) hintButton.removeAttribute("aria-describedby");
+            else hintButton.setAttribute("aria-describedby", hintText.id);
+          });
+          hint.append(input, hintButton, hintText);
+          text.appendChild(hint);
+        } else {
+          text.appendChild(input);
+        }
       });
       card.append(heading, text);
 

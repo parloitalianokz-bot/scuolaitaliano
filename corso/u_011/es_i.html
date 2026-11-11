@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esercizio sul presente progressivo: la giornata di Maria, Unità 11." />
+  <title>Unità 11 — La giornata di Maria (Esercizio I)</title>
+  <style>
+    :root {
+      color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
+      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa; --text: #292d28;
+      --text-muted: #6b7069; --success: #278253; --success-bg: #e1f1e5;
+      --error: #c43d3d; --error-bg: #fae7e5; --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body { min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text); background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)), url("img/sfondo.webp") center / cover fixed, radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main); }
+    .container { width: min(100%,880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a { display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px; border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-weight: 700; text-decoration: none; }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center; border: 1px solid rgba(71,119,85,.13); border-radius: 24px; background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow: 0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .grammar-link-wrap { display: flex; justify-content: center; margin: -7px 0 22px; }
+    .grammar-link { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 12px 22px; border: 1px solid var(--primary); border-radius: 14px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 800; text-align: center; text-decoration: none; box-shadow: 0 6px 18px rgba(71,119,85,.2); }
+    .grammar-link:hover { background: var(--primary-dark); }
+    .instruction-box,.top-controls { margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .example-box { margin-top: 10px; padding: 12px 14px; border-left: 4px solid var(--accent); border-radius: 10px; background: #fffaf0; line-height: 1.6; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; width: 100%; }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select,.assignment-control select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--primary-dark); font: inherit; }
+    .reset-btn { min-height: 42px; padding: 7px 14px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #fef2f2; }
+    [hidden] { display: none !important; }
+    .card { margin-bottom: 28px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    #token-mode-section,#all-students-mode-section { display: none; }
+    #token-mode-section.active-mode,#all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode .student-form { display: none; }
+    .token-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .assignment-status { flex: 1 1 240px; margin: 0; color: var(--primary-dark); font-size: .92rem; font-weight: 700; line-height: 1.5; }
+    .assignment-control { display: grid; min-width: min(100%,260px); flex: 1 1 260px; gap: 5px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 9px; background: var(--primary-dark); color: #fff; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .slide-item { display: flex; flex-direction: column; gap: 14px; padding: clamp(16px,3vw,24px); border: 1px solid var(--border); border-radius: 20px; background: linear-gradient(145deg,#fffefa,#f2f7ef); }
+    .slide-item[hidden] { display: none; }
+    .question-heading { margin: 0; color: var(--accent); font-size: .86rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .prompt-card { margin: 0; padding: 18px; border: 1px solid #d0e2d2; border-radius: 14px; background: var(--primary-light); color: var(--primary-dark); font-size: clamp(1.04rem,2.7vw,1.22rem); font-weight: 800; line-height: 1.6; }
+    .answer-input { display: block; width: 100%; min-height: 70px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: var(--text); font: inherit; line-height: 1.55; resize: vertical; }
+    .answer-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71,119,85,.15); }
+    .answer-input:disabled { background: #f1f5f1; color: #5f6863; }
+    .answer-feedback { min-height: 22px; margin: 0; font-size: .92rem; font-weight: 800; }
+    .answer-feedback.correct { color: var(--success); }
+    .answer-feedback.incorrect { color: var(--error); }
+    .teacher-hint { position: relative; align-self: flex-start; }
+    .teacher-hint-button { min-width: 32px; min-height: 32px; padding: 0 7px; border: 1px solid #d8e5d8; border-radius: 50%; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; cursor: pointer; }
+    .teacher-hint-button:hover,.teacher-hint-button[aria-expanded="true"] { border-color: var(--primary); background: var(--primary-light); }
+    .teacher-hint-text { position: absolute; z-index: 5; top: calc(100% + 7px); left: 0; width: min(340px,calc(100vw - 48px)); padding: 11px 13px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fffefa; color: var(--text); box-shadow: 0 8px 22px rgba(43,69,46,.16); font-size: .88rem; font-weight: 600; line-height: 1.5; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button,.slide-navigation a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 16px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .slide-navigation button:hover:not(:disabled),.slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .progress-track { height: 8px; margin-top: 14px; overflow: hidden; border-radius: 99px; background: #e8eee6; }
+    .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--primary),#a8c49f); transition: width .2s ease; }
+    .progress-range { display: block; width: 100%; height: 28px; margin: 4px 0 0; accent-color: var(--primary); cursor: pointer; }
+    .btn-submit { width: 100%; margin-top: 18px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .save-status { margin: 0 0 16px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+    .results-section h2 { color: var(--primary-dark); font-size: 1.2rem; }
+    .answer-list { display: grid; gap: 10px; }
+    .answer-row { display: grid; grid-template-columns: minmax(120px,.3fr) 1fr; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .answer-author { color: var(--primary-dark); font-weight: 800; }
+    .answer-text { overflow-wrap: anywhere; white-space: pre-wrap; }
+    .empty-message { color: var(--text-muted); }
+    @media(max-width:640px) { body { padding: 16px 8px; } .teacher-controls,.mode-select-box { align-items: stretch; flex-direction: column; } .slide-navigation { flex-wrap: wrap; } .slide-navigation > * { flex: 1 1 40%; } .answer-row { grid-template-columns: 1fr; gap: 4px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_h.html">← Esercizio H</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>La giornata di Maria</h1>
+      <p class="hero-subtitle">Descrivi che cosa sta succedendo nei diversi momenti della giornata.</p>
+      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+    <div class="grammar-link-wrap">
+      <a class="grammar-link" href="progressivo.html">📘 Scheda grammaticale: il presente progressivo (continuo)</a>
+    </div>
+    <section class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">👉 <strong>Измените предложения по образцу:</strong>
+        <div class="example-box"><strong>7.15 — Maria — cucina</strong><br>→ Sono le 7 e un quarto e Maria sta preparando la colazione in cucina.</div>
+        Scrivi una frase completa usando <em>stare</em> + gerundio.
+      </div>
+    </section>
+    <div id="top-controls" class="top-controls">
+      <div class="teacher-controls">
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы · Modalità:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="reset-answers" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera le risposte</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode" aria-label="Modalità a turno">
+      <div class="token-bar">
+        <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+        <label id="assignment-control" class="assignment-control" for="writer-select" hidden>✍️ Persona autorizzata a rispondere
+          <select id="writer-select"><option value="">— Nessuno selezionato —</option></select>
+        </label>
+      </div>
+      <div id="token-slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi a turno">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress" aria-live="polite"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+        <a href="es_j.html" id="token-next-exercise" hidden>Vai all’esercizio J →</a>
+      </nav>
+      <div class="progress-track" aria-hidden="true"><div id="token-progress-fill" class="progress-fill"></div></div>
+      <input id="token-progress-range" class="progress-range" type="range" min="0" max="16" value="0" aria-label="Vai a una frase della modalità a turno">
+    </section>
+
+    <section id="all-students-mode-section" class="card" aria-label="Modalità tutti insieme">
+      <div id="student-form-card" class="student-form">
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+        <div id="student-slides-container"></div>
+        <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+          <button id="prev-student-slide" type="button">← Precedente</button>
+          <span id="progress-student-slide" class="slide-progress" aria-live="polite"></span>
+          <button id="next-student-slide" type="button">Successiva →</button>
+          <a href="es_j.html" id="student-next-exercise" hidden>Vai all’esercizio J →</a>
+        </nav>
+        <div class="progress-track" aria-hidden="true"><div id="student-progress-fill" class="progress-fill"></div></div>
+        <input id="student-progress-range" class="progress-range" type="range" min="0" max="16" value="0" aria-label="Vai a una frase">
+        <button id="btn-submit-all" class="btn-submit" type="button">📤 Отправить ответы · Invia le risposte</button>
+      </div>
+      <div class="results-section"><h2>📋 Ответы студентов · Risposte degli studenti</h2><div id="responses-list"></div></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const questions = [
+      { id: "i1", time: "6.00", subject: "i bambini", place: "letto", answer: "Sono le sei e i bambini stanno dormendo a letto.", hint: "Кто выполняет действие? Какой вспомогательный глагол нужен с множественным числом? Как образуется gerundio от dormire?" },
+      { id: "i2", time: "7.15", subject: "il marito di Maria", place: "camera da letto", answer: "Sono le sette e un quarto e il marito di Maria sta guardando la televisione in camera da letto.", hint: "Что муж смотрит утром? Какой предлог нужен перед camera da letto? Как образовать gerundio от guardare?" },
+      { id: "i3", time: "10.30", subject: "Maria", place: "supermercato", answer: "Sono le dieci e mezza e Maria sta facendo la spesa al supermercato.", hint: "Что Мария обычно делает в супермаркете? Вспомните устойчивое выражение fare la spesa и форму gerundio." },
+      { id: "i4", time: "11.00", subject: "i bambini", place: "scuola", answer: "Sono le undici e i bambini stanno studiando a scuola.", hint: "Какое действие дети выполняют в школе? Согласуйте stare с i bambini, затем образуйте gerundio от studiare." },
+      { id: "i5", time: "12.30", subject: "Maria", place: "cucina", answer: "Sono le dodici e mezza e Maria sta preparando il pranzo in cucina.", hint: "Что Мария готовит перед обедом? Как будет gerundio у preparare? Как сказать in cucina?" },
+      { id: "i6", time: "12.30", subject: "il marito di Maria", place: "salotto", answer: "Sono le dodici e mezza e il marito di Maria sta guardando la televisione in salotto.", hint: "Что делает муж в гостиной? Выберите stare для единственного числа и образуйте gerundio." },
+      { id: "i7", time: "13.00", subject: "Maria e suo marito", place: "cucina", answer: "È l'una e Maria e suo marito stanno mangiando in cucina.", hint: "Как сказать время 13.00 по-итальянски? Подберите форму stare для двух человек и gerundio от mangiare." },
+      { id: "i8", time: "16.30", subject: "i bambini", place: "salotto", answer: "Sono le quattro e mezza e i bambini stanno giocando in salotto.", hint: "Что дети делают в гостиной? Как образуется gerundio от giocare?" },
+      { id: "i9", time: "16.30", subject: "Maria", place: "casa", answer: "Sono le quattro e mezza e Maria sta pulendo la casa.", hint: "Что Мария делает дома, пока дети играют? Вспомните gerundio от pulire." },
+      { id: "i10", time: "17.30", subject: "il marito di Maria", place: "bagno", answer: "Sono le cinque e mezza e il marito di Maria sta guardando la televisione in bagno.", hint: "Какое занятие мужа повторяется в тексте? Какой предлог обычно используется перед bagno?" },
+      { id: "i11", time: "19.00", subject: "Maria", place: "cucina", answer: "Sono le sette e Maria sta preparando la cena in cucina.", hint: "Что Мария готовит в семь вечера? Образуйте stare + gerundio." },
+      { id: "i12", time: "20.30", subject: "tutta la famiglia", place: "cucina", answer: "Sono le otto e mezza e tutta la famiglia sta cenando in cucina.", hint: "Кто составляет подлежащее: отдельные люди или вся семья как единая группа? Как согласовать stare?" },
+      { id: "i13", time: "21.00", subject: "Maria", place: "cucina", answer: "Sono le nove e Maria sta lavando i piatti in cucina.", hint: "Что Мария делает после ужина? Как образуется gerundio от lavare?" },
+      { id: "i14", time: "21.30", subject: "il marito di Maria", place: "salotto", answer: "Sono le nove e mezza e il marito di Maria sta guardando la televisione in salotto.", hint: "Где муж смотрит телевизор вечером? Постройте фразу с sta + gerundio." },
+      { id: "i15", time: "22.00", subject: "i bambini", place: "letto", answer: "Sono le dieci e i bambini stanno andando a letto.", hint: "Как сказать 22.00 в разговорной форме? Как передать действие andare a letto с stare + gerundio?" },
+      { id: "i16", time: "22.30", subject: "Maria", place: "giardino", answer: "Sono le dieci e mezza e Maria sta facendo una passeggiata in giardino con il cane.", hint: "Вспомните выражение fare una passeggiata и добавьте, с кем гуляет Мария. Как выглядит gerundio у fare?" },
+      { id: "i17", time: "24.00", subject: "Maria", place: "camera da letto", answer: "È mezzanotte e Maria sta andando a dormire in camera da letto.", hint: "Как сказать 24.00? Подумайте, как выразить действие «идти спать» с конструкцией stare + gerundio." }
+    ];
+
+    const session = window.parloUnit11Session || {};
+    const params = new URLSearchParams(location.search);
+    const groupName = session.group || params.get("gruppo") || "sconosciuto";
+    const isTeacherView = Boolean(session.isTeacher) || (groupName !== "sconosciuto" && !params.get("nome"));
+    const currentTeacherName = isTeacherView ? (session.name || "") : "";
+    const currentStudentName = isTeacherView ? "" : (session.name || params.get("nome") || "");
+    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
+    const myClientId = "user_" + Math.random().toString(36).slice(2, 9);
+    const emptyAnswers = () => Object.fromEntries(questions.map(question => [question.id, ""]));
+    const normalize = value => String(value || "").toLocaleLowerCase("it-IT").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,;!?]/g, "").replace(/\s+/g, " ").trim();
+
+    let answersRef = null;
+    let currentWorkMode = "token";
+    let currentWriter = "";
+    let groupRoster = [];
+    let onlineStudents = new Set();
+    let presenceData = {};
+    let tokenAnswers = emptyAnswers();
+    let studentAnswers = emptyAnswers();
+    let allResponses = {};
+    let activeTokenSlide = 0;
+    let activeStudentSlide = 0;
+    let hasLoadedStudentAnswers = false;
+    let lastResetId = null;
+
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelector = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset-answers");
+    const assignmentControl = document.getElementById("assignment-control");
+    const writerSelect = document.getElementById("writer-select");
+    const assignmentStatus = document.getElementById("assignment-status");
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+    const tokenContainer = document.getElementById("token-slides-container");
+    const studentContainer = document.getElementById("student-slides-container");
+
+    document.getElementById("top-controls").hidden = !isTeacherView;
+    assignmentControl.hidden = !isTeacherView;
+    modeSelector.classList.toggle("visible", isTeacherView);
+    resetButton.hidden = !isTeacherView;
+    document.body.classList.toggle("teacher-mode", isTeacherView);
+
+    function isCurrentUserAssigned() {
+      const name = isTeacherView ? currentTeacherName : currentStudentName;
+      return Boolean(name && currentWriter === name);
+    }
+    function updateWriterMenu() {
+      writerSelect.replaceChildren(new Option("— Nessuno selezionato —", ""));
+      if (isTeacherView && currentTeacherName) {
+        const teachers = document.createElement("optgroup");
+        teachers.label = "👩‍🏫 DOCENTE";
+        teachers.appendChild(new Option(`👩‍🏫 ${currentTeacherName} · insegnante`, currentTeacherName));
+        writerSelect.appendChild(teachers);
+      }
+      const online = groupRoster.filter(student => onlineStudents.has(student.nome));
+      const offline = groupRoster.filter(student => !onlineStudents.has(student.nome));
+      if (online.length) {
+        const group = document.createElement("optgroup"); group.label = "🟢 ONLINE ORA · ESERCIZIO I";
+        online.forEach(student => group.appendChild(new Option(`🟢 ${student.nome} · ONLINE`, student.nome)));
+        writerSelect.appendChild(group);
+      }
+      if (offline.length) {
+        const group = document.createElement("optgroup"); group.label = "Altri studenti con accesso all’Unità 11";
+        offline.forEach(student => group.appendChild(new Option(student.nome, student.nome)));
+        writerSelect.appendChild(group);
+      }
+      if (currentWriter && currentWriter !== currentTeacherName && !groupRoster.some(student => student.nome === currentWriter)) {
+        writerSelect.add(new Option(`${currentWriter} · non presente nell’elenco`, currentWriter));
+      }
+      writerSelect.value = currentWriter || "";
+    }
+    function updateOnlineStudents(value) {
+      onlineStudents = new Set();
+      Object.values(value || {}).forEach(connections => Object.values(connections || {}).forEach(connection => {
+        if (connection?.name) onlineStudents.add(connection.name);
+      }));
+      updateWriterMenu();
+    }
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      firebase.database().ref(`configurazioneScuola/gruppi/${safe(groupName)}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).filter(student => student?.nome);
+        const inactive = Object.values(group.studentiInattivi || {}).filter(student => student?.nome && Number(student.unitNumber ?? unitNumber) >= 11);
+        groupRoster = unitNumber >= 11 ? [...active, ...inactive] : inactive;
+        groupRoster.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        updateWriterMenu();
+      });
+    }
+    function registerStudentPresence() {
+      if (!answersRef || !currentStudentName || groupName === "sconosciuto") return;
+      const presenceRef = answersRef.child("presence").child(safe(currentStudentName)).child(myClientId);
+      firebase.database().ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceRef.onDisconnect().remove().then(() => presenceRef.set({ name: currentStudentName, connectedAt: Date.now() }))
+          .catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
+
+    function setFeedback(element, value, question) {
+      const text = String(value || "").trim();
+      if (!text) { element.textContent = ""; element.className = "answer-feedback"; return; }
+      const correct = normalize(text) === normalize(question.answer);
+      element.textContent = correct ? "✓ Frase corretta!" : "Controlla la struttura stare + gerundio e le informazioni della traccia.";
+      element.className = `answer-feedback ${correct ? "correct" : "incorrect"}`;
+    }
+    function buildQuestion(question, mode, answers, index) {
+      const card = document.createElement("article"); card.className = "slide-item";
+      const heading = document.createElement("h2"); heading.className = "question-heading"; heading.textContent = `Frase ${index + 1} di ${questions.length}`;
+      const prompt = document.createElement("p"); prompt.className = "prompt-card"; prompt.textContent = `${question.time} — ${question.subject} — ${question.place}`;
+      const input = document.createElement("textarea"); input.className = "answer-input"; input.rows = 2;
+      input.placeholder = "Scrivi la frase completa al presente progressivo..."; input.value = answers[question.id] || "";
+      input.disabled = mode === "token" ? !isCurrentUserAssigned() : isTeacherView;
+      input.setAttribute("aria-label", `Frase ${index + 1}: ${question.time}, ${question.subject}, ${question.place}`);
+      const feedback = document.createElement("p"); feedback.className = "answer-feedback"; setFeedback(feedback, input.value, question);
+      input.addEventListener("input", () => {
+        answers[question.id] = input.value; setFeedback(feedback, input.value, question);
+        if (mode === "token") {
+          if (answersRef && isCurrentUserAssigned()) answersRef.child("tokenData/answers").child(question.id).set(input.value);
+        } else saveStatus.hidden = true;
+      });
+      card.append(heading, prompt, input, feedback);
+      if (isTeacherView) {
+        const hint = document.createElement("span"); hint.className = "teacher-hint";
+        const button = document.createElement("button"); button.type = "button"; button.className = "teacher-hint-button"; button.textContent = "ⓘ";
+        button.setAttribute("aria-label", `Подсказка учителю: фраза ${index + 1}`); button.setAttribute("aria-expanded", "false");
+        const text = document.createElement("span"); text.className = "teacher-hint-text"; text.id = `teacher-hint-${question.id}`;
+        text.setAttribute("role", "tooltip"); text.hidden = true; text.textContent = question.hint;
+        button.setAttribute("aria-controls", text.id);
+        button.addEventListener("click", () => { const open = button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded", String(!open)); text.hidden = open; });
+        hint.append(button, text); card.appendChild(hint);
+      }
+      return card;
+    }
+    function updateNavigation(mode) {
+      const token = mode === "token", index = token ? activeTokenSlide : activeStudentSlide, prefix = token ? "token" : "student";
+      const next = document.getElementById(`next-${prefix}-slide`), link = document.getElementById(`${prefix}-next-exercise`);
+      document.getElementById(`prev-${prefix}-slide`).disabled = index === 0;
+      const last = index === questions.length - 1;
+      next.hidden = last; next.disabled = last; link.hidden = !last;
+      document.getElementById(`progress-${prefix}-slide`).textContent = `Frase ${index + 1} di ${questions.length}`;
+      document.getElementById(`${prefix}-progress-fill`).style.width = `${((index + 1) / questions.length) * 100}%`;
+      document.getElementById(`${prefix}-progress-range`).value = index;
+    }
+    function updateAssignmentStatus() {
+      assignmentStatus.textContent = !currentWriter
+        ? (isTeacherView ? "Seleziona uno studente o te stesso/a nel menu per assegnare il turno." : "L’insegnante non ha ancora assegnato il turno.")
+        : isCurrentUserAssigned()
+          ? "✍️ È il tuo turno: la risposta si salva automaticamente."
+          : `✍️ ${currentWriter} ha il turno.`;
+      tokenContainer.querySelectorAll(".answer-input").forEach(input => { input.disabled = !isCurrentUserAssigned(); });
+    }
+    function renderSlides(mode) {
+      const token = mode === "token", container = token ? tokenContainer : studentContainer;
+      const answers = token ? tokenAnswers : studentAnswers, active = token ? activeTokenSlide : activeStudentSlide;
+      container.replaceChildren();
+      questions.forEach((question, index) => { const card = buildQuestion(question, mode, answers, index); card.hidden = index !== active; container.appendChild(card); });
+      updateNavigation(mode);
+      if (token) updateAssignmentStatus();
+    }
+    function navigate(mode, delta) {
+      if (mode === "token") { activeTokenSlide = Math.max(0, Math.min(questions.length - 1, activeTokenSlide + delta)); renderSlides("token"); }
+      else { activeStudentSlide = Math.max(0, Math.min(questions.length - 1, activeStudentSlide + delta)); renderSlides("student"); }
+    }
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      const hasAnswers = entries.some(([, student]) => Object.values(student.answers || {}).some(answer => String(answer || "").trim()));
+      if (!hasAnswers) { const empty = document.createElement("p"); empty.className = "empty-message"; empty.textContent = "Пока никто не отправил ответы... · Nessuna risposta inviata."; responsesList.appendChild(empty); return; }
+      const list = document.createElement("div"); list.className = "answer-list";
+      questions.forEach((question, index) => entries.forEach(([, student]) => {
+        const value = String(student.answers?.[question.id] || "").trim(); if (!value) return;
+        const row = document.createElement("div"); row.className = "answer-row";
+        const author = document.createElement("span"); author.className = "answer-author"; author.textContent = `${student.name || "Studente"} · ${index + 1}`;
+        const answer = document.createElement("span"); answer.className = "answer-text"; answer.textContent = value;
+        row.append(author, answer); list.appendChild(row);
+      }));
+      responsesList.appendChild(list);
+    }
+    function updateUI() {
+      const tokenMode = currentWorkMode === "token";
+      tokenSection.classList.toggle("active-mode", tokenMode); allSection.classList.toggle("active-mode", !tokenMode);
+      if (tokenMode) { if (!tokenContainer.contains(document.activeElement)) renderSlides("token"); }
+      else { if (!studentContainer.contains(document.activeElement)) renderSlides("student"); renderResponses(); }
+      updateWriterMenu();
+    }
+
+    document.getElementById("token-progress-range").addEventListener("input", event => { activeTokenSlide = Number(event.target.value); renderSlides("token"); });
+    document.getElementById("student-progress-range").addEventListener("input", event => { activeStudentSlide = Number(event.target.value); renderSlides("student"); });
+    document.getElementById("prev-token-slide").addEventListener("click", () => navigate("token", -1));
+    document.getElementById("next-token-slide").addEventListener("click", () => navigate("token", 1));
+    document.getElementById("prev-student-slide").addEventListener("click", () => navigate("student", -1));
+    document.getElementById("next-student-slide").addEventListener("click", () => navigate("student", 1));
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input, textarea, select, button, a, [tabindex]")) return;
+      const delta = ["ArrowRight", "ArrowDown"].includes(event.key) ? 1 : ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 0;
+      if (!delta) return; event.preventDefault(); navigate(currentWorkMode, delta);
+    });
+    writerSelect.addEventListener("change", () => {
+      if (!isTeacherView || !answersRef) return;
+      currentWriter = writerSelect.value || "";
+      answersRef.child("controlAssignments/writer").set(currentWriter || null);
+      updateAssignmentStatus(); renderSlides("token");
+    });
+    workModeSelect.addEventListener("change", event => { if (isTeacherView && answersRef) answersRef.child("workMode").set(event.target.value); });
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      if (!currentStudentName) { alert("Sessione studente non disponibile. Torna al login principale."); return; }
+      if (!answersRef) { alert("Connessione al database non disponibile."); return; }
+      if (!Object.values(studentAnswers).some(answer => String(answer).trim())) { alert("Scrivi almeno una frase prima di inviare."); return; }
+      try {
+        await answersRef.child("allStudentsData/students").child(safe(currentStudentName)).update({ name: currentStudentName, answers: studentAnswers, timestamp: Date.now() });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante! · Ответы отправлены учителю!"; saveStatus.hidden = false;
+      } catch (error) { alert("Errore durante l’invio delle risposte."); }
+    });
+    resetButton.addEventListener("click", () => {
+      if (!isTeacherView || !answersRef || !confirm("Сбросить все ответы? · Azzera tutte le risposte?")) return;
+      answersRef.set({ resetId: `${Date.now()}_${myClientId}`, workMode: currentWorkMode, controlAssignments: { writer: null }, tokenData: { answers: emptyAnswers() }, presence: presenceData, allStudentsData: {} });
+      currentWriter = ""; tokenAnswers = emptyAnswers(); studentAnswers = emptyAnswers(); saveStatus.hidden = true; updateUI();
+    });
+
+    if (window.firebase && groupName !== "sconosciuto") {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita11-presente-progressivo-i");
+        loadGroupRoster(); registerStudentPresence();
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) { studentAnswers = emptyAnswers(); saveStatus.hidden = true; }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode === "all" ? "all" : "token"; workModeSelect.value = currentWorkMode;
+          currentWriter = data.controlAssignments?.writer || "";
+          tokenAnswers = { ...emptyAnswers(), ...(data.tokenData?.answers || {}) };
+          allResponses = data.allStudentsData || {}; presenceData = data.presence || {};
+          const savedAnswers = allResponses.students?.[safe(currentStudentName)]?.answers;
+          if (!isTeacherView && currentStudentName && !hasLoadedStudentAnswers && savedAnswers) {
+            studentAnswers = { ...studentAnswers, ...savedAnswers };
+            hasLoadedStudentAnswers = true;
+          }
+          updateOnlineStudents(presenceData); updateUI();
+        });
+      } catch (error) { console.error("Errore Firebase:", error); }
+    } else {
+      assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
+    }
+    renderSlides("token"); renderSlides("student"); updateAssignmentStatus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 11 — La casalinga (Esercizio F)</title>
+  <style>
+    :root {
+      color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
+      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa; --text: #292d28;
+      --text-muted: #6b7069; --success: #278253; --success-bg: #e1f1e5; --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.webp") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%,880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a { display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px; border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-weight: 700; text-decoration: none; }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center; border: 1px solid rgba(71,119,85,.13); border-radius: 24px; background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow: 0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box, .top-controls { margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .recording-tips { margin: -10px 0 24px; padding: 12px 16px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .recording-tips summary { color: var(--primary-dark); font-weight: 700; cursor: pointer; }
+    .recording-tips ul { margin: 10px 0 0; padding-left: 22px; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: rgba(255,254,250,.96); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select, .assignment-control select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--text); font: inherit; }
+    .reset-btn { min-height: 42px; padding: 6px 14px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #fef2f2; }
+    .reset-btn[hidden] { display: none; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    .token-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .assignment-control { display: grid; min-width: min(100%,260px); flex: 1 1 260px; gap: 5px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .assignment-control[hidden] { display: none; }
+    .assignment-status { flex: 1 1 240px; margin: 0; color: var(--primary-dark); font-size: .92rem; font-weight: 700; line-height: 1.5; }
+    .speech-prompts { position: relative; margin: 0 0 24px; padding: clamp(20px,4vw,28px); overflow: hidden; border: 1px solid #d8e5d8; border-radius: 20px; background: linear-gradient(145deg,#fffefa,#f2f7ef); box-shadow: 0 10px 28px rgba(43,69,46,.07); }
+    .speech-prompts::before { position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg,var(--primary),#a8c49f,var(--accent)); content: ""; }
+    .speech-prompts h2 { margin: 0; color: var(--primary-dark); font-size: clamp(1.2rem,3vw,1.45rem); }
+    .speech-prompts-intro { margin: 6px 0 18px; color: var(--text-muted); font-size: .94rem; line-height: 1.5; }
+    .speech-prompts-viewport { height: 220px; overflow-y: auto; padding: 2px 8px 2px 2px; scrollbar-color: #a8c49f #edf4ed; scrollbar-width: thin; overscroll-behavior: contain; }
+    .speech-prompts ol { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: prompt; }
+    .speech-prompts li { display: flex; align-items: flex-start; gap: 10px; min-height: 48px; padding: 10px 12px; border: 1px solid rgba(71,119,85,.14); border-radius: 14px; background: rgba(255,255,255,.88); color: var(--text); font-size: .95rem; font-weight: 600; line-height: 1.35; counter-increment: prompt; }
+    .speech-prompts li::before { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border-radius: 10px; background: var(--primary-light); color: var(--primary-dark); font-size: .82rem; font-weight: 800; content: counter(prompt,decimal-leading-zero); }
+    .recording-controls { display: flex; justify-content: center; margin: 0 0 20px; }
+    .recording-controls[hidden] { display: none; }
+    .btn-mic { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 14px 24px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font: inherit; font-size: 1.05rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); transition: .2s; }
+    .btn-mic:hover { background: var(--primary-dark); }
+    .btn-mic.recording { background: #dc2626; box-shadow: 0 4px 14px rgba(220,38,38,.4); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { transform: scale(1.02); } }
+    .speaking-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--primary-dark); font-size: .95rem; font-weight: 800; }
+    .speaker-name { color: var(--accent); }
+    .live-transcript-box { min-height: 180px; padding: 20px; border: 2px dashed #b7dfc1; border-radius: 18px; background: #faf9f5; color: var(--text); font-size: 1.08rem; line-height: 1.7; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .live-transcript-box.placeholder { color: var(--text-muted); font-style: italic; }
+    .results-section h2 { margin-bottom: 16px; color: var(--primary-dark); font-size: 1.3rem; }
+    .answer-list { display: flex; flex-direction: column; gap: 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(130px,.3fr) 1fr; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: #fff; font-size: .95rem; }
+    .answer-author { color: var(--primary-dark); font-weight: 800; }
+    .answer-text { display: block; padding: 10px 14px; border: 1px solid #e8e6dc; border-radius: 10px; background: #faf9f5; overflow-wrap: anywhere; white-space: pre-wrap; line-height: 1.6; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .speech-prompts-viewport { height: 220px; }
+      .token-bar { align-items: stretch; flex-direction: column; }
+      .answer-row { grid-template-columns: 1fr; gap: 6px; }
+      .btn-mic { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_e.html">← Esercizio E</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Produzione Orale</span>
+      <h1>La giornata di Maria</h1>
+      <p class="hero-subtitle">Racconta la giornata di Maria in italiano.</p>
+      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">
+        👉 <strong>Перескажите по-итальянски текст «La giornata di Maria», опираясь на вопросы.</strong><br>
+        <small style="color:var(--text-muted);">Когда учитель даст вам слово, нажмите кнопку микрофона. Распознанный текст увидит вся группа.</small>
+      </div>
+    </div>
+    <details class="recording-tips">
+      <summary>Советы для стабильной записи микрофона</summary>
+      <ul>
+        <li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li>
+        <li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li>
+        <li>Подключите устройство к зарядке и отключите режим энергосбережения.</li>
+        <li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li>
+        <li>Если распознавание остановилось, нажмите кнопку завершения, а затем снова начните запись: новый фрагмент добавится к уже распознанному тексту.</li>
+      </ul>
+    </details>
+    <div id="top-controls" class="top-controls">
+      <div class="teacher-controls">
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
+        </div>
+        <button id="reset" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+    <section id="student-form-card" class="card">
+      <div class="token-bar">
+        <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+        <label id="assignment-control" class="assignment-control" for="writer-select" hidden>
+          🎙️ Studente o insegnante autorizzato a parlare
+          <select id="writer-select"><option value="">— Nessuno selezionato —</option></select>
+        </label>
+      </div>
+      <section class="speech-prompts" aria-labelledby="speech-prompts-title">
+        <h2 id="speech-prompts-title">💬 Domande per il racconto</h2>
+        <p class="speech-prompts-intro">Segui queste domande per ricordare la giornata e raccontarla con frasi complete.</p>
+        <div class="speech-prompts-viewport" tabindex="0" aria-label="Domande scorrevoli: usa la rotellina, il touch o i tasti freccia per scorrere">
+          <ol>
+            <li>A che ora comincia la giornata di Maria?</li>
+            <li>Che cosa fa Maria la mattina alle sette?</li>
+            <li>Che cosa fa Maria alle otto e mezzo?</li>
+            <li>Che cosa fa Maria alle undici?</li>
+            <li>Che cosa fa il marito di Maria alle undici?</li>
+            <li>Che cosa fa Maria all’una?</li>
+            <li>Che cosa fa Maria dopo pranzo?</li>
+            <li>Che cosa fa Maria il pomeriggio alle tre?</li>
+            <li>Che cosa fa Maria la sera alle sette?</li>
+            <li>Che cosa fa Maria alle otto e mezzo?</li>
+            <li>Che cosa fa Maria alle dieci?</li>
+            <li>Che cosa fa Maria alle dieci e mezzo?</li>
+            <li>Che cosa fa Maria a mezzanotte?</li>
+            <li>A che ora finisce la giornata di Maria?</li>
+            <li>Che cosa fa il marito di Maria tutto il giorno?</li>
+          </ol>
+        </div>
+      </section>
+      <div id="recording-area" class="recording-controls" hidden>
+        <button id="btn-toggle-mic" class="btn-mic" type="button">🎤 Inizia a parlare · Начать говорить</button>
+      </div>
+      <div class="speaking-indicator">🗣️ Говорит: <span id="current-speaker-display" class="speaker-name">Никто не говорит</span></div>
+      <div id="live-transcript-display" class="live-transcript-box placeholder" role="status" aria-live="polite">Здесь появится распознанный текст вашего пересказа...</div>
+    </section>
+    <section class="results-section card">
+      <h2>📋 Рассказы студентов · Racconti degli studenti</h2>
+      <div id="responses-list"><p style="color:var(--text-muted);font-size:.9rem;">Пока никто не отправил рассказ...</p></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const placeholderTranscript = "Здесь появится распознанный текст вашего пересказа...";
+    const session = window.parloUnit11Session || {};
+    const params = new URLSearchParams(location.search);
+    const groupName = session.group || params.get("gruppo") || "sconosciuto";
+    const isTeacherView = Boolean(session.isTeacher) || (groupName !== "sconosciuto" && !params.get("nome"));
+    const currentTeacherName = isTeacherView ? (session.name || "") : "";
+    const currentStudentName = isTeacherView ? "" : (session.name || params.get("nome") || "");
+    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
+    const myClientId = "user_" + Math.random().toString(36).slice(2, 9);
+
+    let answersRef = null;
+    let currentWriter = "";
+    let currentWriterName = "";
+    let groupRoster = [];
+    let onlineStudents = new Set();
+    let presenceData = {};
+    let allResponses = {};
+    let recognition = null;
+    let isRecording = false;
+    let committedTranscript = "";
+    let recognitionSegment = "";
+    let recordingOwnerName = "";
+    let recognitionAvailable = false;
+
+    const assignmentControl = document.getElementById("assignment-control");
+    const writerSelect = document.getElementById("writer-select");
+    const assignmentStatus = document.getElementById("assignment-status");
+    const recordingArea = document.getElementById("recording-area");
+    const btnToggleMic = document.getElementById("btn-toggle-mic");
+    const currentSpeakerDisplay = document.getElementById("current-speaker-display");
+    const liveTranscriptDisplay = document.getElementById("live-transcript-display");
+    const responsesList = document.getElementById("responses-list");
+    const resetButton = document.getElementById("reset");
+
+    document.getElementById("top-controls").hidden = !isTeacherView;
+    assignmentControl.hidden = !isTeacherView;
+    resetButton.hidden = !isTeacherView;
+    document.body.classList.toggle("teacher-mode", isTeacherView);
+
+    function appendTranscript(base, addition) {
+      const first = String(base || "").trim();
+      const next = String(addition || "").trim();
+      if (!next) return first;
+      return first ? `${first} ${next}` : next;
+    }
+
+    function displayTranscript(text) {
+      const value = String(text || "").trim();
+      liveTranscriptDisplay.textContent = value || placeholderTranscript;
+      liveTranscriptDisplay.classList.toggle("placeholder", !value);
+    }
+
+    function getCurrentTranscript() {
+      return appendTranscript(committedTranscript, recognitionSegment);
+    }
+
+    function saveTranscript(text, ownerName = "") {
+      const name = ownerName || currentStudentName || (isTeacherView && currentWriter === currentTeacherName ? currentTeacherName : "");
+      const transcript = String(text || "").trim();
+      if (!answersRef || !name || !transcript) return;
+      answersRef.child("allStudentsData/students").child(safe(name)).update({
+        name,
+        transcription: transcript,
+        timestamp: Date.now()
+      });
+    }
+
+    function setLiveTranscript(text) {
+      if (!answersRef) return;
+      answersRef.child("tokenData").update({ liveTranscript: text });
+    }
+
+    function stopRecording() {
+      if (!isRecording) return;
+      isRecording = false;
+      btnToggleMic.textContent = "🎤 Inizia a parlare · Начать говорить";
+      btnToggleMic.classList.remove("recording");
+      try { recognition.stop(); } catch (error) { /* Il riconoscimento potrebbe essere già terminato. */ }
+    }
+
+    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "it-IT";
+      recognitionAvailable = true;
+      recognition.onresult = event => {
+        let segment = "";
+        for (let index = 0; index < event.results.length; index++) {
+          segment += event.results[index][0].transcript;
+        }
+        recognitionSegment = segment.trim();
+        const transcript = getCurrentTranscript();
+        displayTranscript(transcript);
+        if (isRecording && isCurrentUserAssigned()) setLiveTranscript(transcript);
+      };
+      recognition.onerror = event => {
+        console.error("Errore riconoscimento vocale:", event.error);
+        if (isRecording) stopRecording();
+      };
+      recognition.onend = () => {
+        if (recognitionSegment) {
+          committedTranscript = appendTranscript(committedTranscript, recognitionSegment);
+          recognitionSegment = "";
+          displayTranscript(committedTranscript);
+          if (isCurrentUserAssigned()) setLiveTranscript(committedTranscript);
+        }
+        if (committedTranscript && recordingOwnerName) saveTranscript(committedTranscript, recordingOwnerName);
+        if (isRecording && isCurrentUserAssigned()) {
+          window.setTimeout(() => {
+            if (isRecording && isCurrentUserAssigned()) {
+              try { recognition.start(); } catch (error) { /* Il riconoscimento potrebbe essere già attivo. */ }
+            }
+          }, 250);
+        } else {
+          recordingOwnerName = "";
+        }
+      };
+    }
+
+    function startRecording() {
+      if (!recognitionAvailable || !isCurrentUserAssigned()) return;
+      try {
+        recognitionSegment = "";
+        recordingOwnerName = isTeacherView ? currentTeacherName : currentStudentName;
+        recognition.start();
+        isRecording = true;
+        btnToggleMic.textContent = "⏹️ Закончить и сохранить · Ferma e salva";
+        btnToggleMic.classList.add("recording");
+      } catch (error) {
+        console.error("Errore avvio registrazione:", error);
+      }
+    }
+
+    btnToggleMic.addEventListener("click", () => {
+      if (isRecording) stopRecording();
+      else startRecording();
+    });
+
+    function updateWriterMenu() {
+      if (!isTeacherView) return;
+      const online = groupRoster.filter(student => onlineStudents.has(student.nome));
+      const offline = groupRoster.filter(student => !onlineStudents.has(student.nome));
+      writerSelect.replaceChildren(new Option("— Nessuno selezionato —", ""));
+      if (currentTeacherName) {
+        const teacherGroup = document.createElement("optgroup");
+        teacherGroup.label = "👩‍🏫 DOCENTE";
+        teacherGroup.appendChild(new Option(`👩‍🏫 ${currentTeacherName} · insegnante`, currentTeacherName));
+        writerSelect.appendChild(teacherGroup);
+      }
+      if (online.length) {
+        const onlineGroup = document.createElement("optgroup");
+        onlineGroup.label = "🟢 ONLINE ORA · ESERCIZIO F";
+        online.forEach(student => onlineGroup.appendChild(new Option(`🟢 ${student.nome} · ONLINE`, student.nome)));
+        writerSelect.appendChild(onlineGroup);
+      }
+      if (offline.length) {
+        const offlineGroup = document.createElement("optgroup");
+        offlineGroup.label = "Altri studenti con accesso all’Unità 11";
+        offline.forEach(student => offlineGroup.appendChild(new Option(student.nome, student.nome)));
+        writerSelect.appendChild(offlineGroup);
+      }
+      if (currentWriter && currentWriter !== currentTeacherName && !groupRoster.some(student => student.nome === currentWriter)) {
+        writerSelect.add(new Option(`${currentWriter} · non presente nell’elenco`, currentWriter));
+      }
+      writerSelect.value = currentWriter || "";
+    }
+
+    function loadGroupRoster() {
+      if (!window.firebase || groupName === "sconosciuto") return;
+      firebase.database().ref(`configurazioneScuola/gruppi/${safe(groupName)}`).on("value", snapshot => {
+        const group = snapshot.val() || {};
+        const unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).filter(student => student?.nome);
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => student?.nome && Number(student.unitNumber ?? unitNumber) >= 11);
+        groupRoster = unitNumber >= 11 ? [...active, ...inactive] : inactive;
+        groupRoster.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        if (isTeacherView && currentWriter && currentWriter !== currentTeacherName && !groupRoster.some(student => student.nome === currentWriter)) {
+          currentWriter = "";
+          currentWriterName = "";
+          if (answersRef) answersRef.child("controlAssignments").update({ writer: null, writerName: "" });
+        }
+        updateWriterMenu();
+      });
+    }
+
+    function registerStudentPresence() {
+      if (!answersRef || !currentStudentName || groupName === "sconosciuto") return;
+      const presenceRef = answersRef.child("presence").child(safe(currentStudentName)).child(myClientId);
+      firebase.database().ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceRef.onDisconnect().remove().then(() => {
+          presenceRef.set({ name: currentStudentName, connectedAt: Date.now() });
+        }).catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
+
+    function updateOnlineStudents(value) {
+      onlineStudents = new Set();
+      Object.values(value || {}).forEach(connections => {
+        Object.values(connections || {}).forEach(connection => {
+          if (connection?.name) onlineStudents.add(connection.name);
+        });
+      });
+      updateWriterMenu();
+    }
+
+    function isCurrentUserAssigned() {
+      const name = isTeacherView ? currentTeacherName : currentStudentName;
+      return Boolean(name && currentWriter === name);
+    }
+
+    function updateAssignmentStatus() {
+      if (!currentWriter) {
+        assignmentStatus.textContent = isTeacherView
+          ? "Seleziona uno studente o te stesso/a nel menu per assegnare il turno."
+          : "L’insegnante non ha ancora assegnato il turno di parola.";
+        currentSpeakerDisplay.textContent = "Никто не говорит";
+        recordingArea.hidden = true;
+        return;
+      }
+      const assignedToMe = isCurrentUserAssigned();
+      assignmentStatus.textContent = assignedToMe
+        ? "🎙️ È il tuo turno: avvia il microfono. Il testo riconosciuto si aggiunge ai segmenti precedenti."
+        : `🎙️ È il turno di ${currentWriter}: la trascrizione sarà visibile qui.`;
+      currentSpeakerDisplay.textContent = assignedToMe ? `${currentWriter} (tu)` : currentWriter;
+      recordingArea.hidden = !assignedToMe;
+      if (assignedToMe && !recognitionAvailable) {
+        btnToggleMic.disabled = true;
+        btnToggleMic.title = "Il browser non supporta il riconoscimento vocale.";
+      } else {
+        btnToggleMic.disabled = false;
+        btnToggleMic.removeAttribute("title");
+      }
+    }
+
+    writerSelect.addEventListener("change", () => {
+      if (!isTeacherView || !answersRef) return;
+      const selectedName = writerSelect.value || "";
+      const selectedStudent = groupRoster.find(student => student.nome === selectedName);
+      if (selectedName && selectedName !== currentTeacherName && !selectedStudent) {
+        writerSelect.value = currentWriter || "";
+        return;
+      }
+      const nameChanged = selectedName !== currentWriter;
+      currentWriter = selectedName;
+      currentWriterName = selectedName;
+      answersRef.child("controlAssignments").update({ writer: selectedName || null, writerName: selectedName });
+      if (nameChanged) {
+        committedTranscript = "";
+        recognitionSegment = "";
+        answersRef.child("tokenData").update({ liveTranscript: "" });
+        displayTranscript("");
+      }
+      updateAssignmentStatus();
+    });
+
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил рассказ...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const list = document.createElement("div");
+      list.className = "answer-list";
+      entries.sort(([, a], [, b]) => String(a.name || "").localeCompare(String(b.name || ""), "it"));
+      entries.forEach(([, student]) => {
+        const row = document.createElement("div");
+        row.className = "answer-row";
+        const author = document.createElement("span");
+        author.className = "answer-author";
+        author.textContent = student.name || "Studente";
+        const answer = document.createElement("span");
+        answer.className = "answer-text";
+        answer.textContent = String(student.transcription || "").trim() || "—";
+        row.append(author, answer);
+        list.appendChild(row);
+      });
+      responsesList.appendChild(list);
+    }
+
+    document.getElementById("reset").addEventListener("click", () => {
+      if (!isTeacherView || !answersRef || !confirm("Сбросить все рассказы? · Azzera tutti i racconti?")) return;
+      recordingOwnerName = "";
+      if (isRecording) stopRecording();
+      answersRef.set({
+        controlAssignments: { writer: null, writerName: "" },
+        tokenData: { liveTranscript: "" },
+        presence: presenceData,
+        allStudentsData: {}
+      });
+      currentWriter = "";
+      currentWriterName = "";
+      committedTranscript = "";
+      recognitionSegment = "";
+      displayTranscript("");
+      updateWriterMenu();
+      updateAssignmentStatus();
+    });
+
+    if (window.firebase && groupName !== "sconosciuto") {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref(`esercizi/gruppi/${safe(groupName)}/unita11-casalinga-f`);
+        loadGroupRoster();
+        registerStudentPresence();
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          const control = data.controlAssignments || {};
+          const nextWriter = control.writer || "";
+          const writerChanged = nextWriter !== currentWriter;
+          if (isRecording && nextWriter !== (isTeacherView ? currentTeacherName : currentStudentName)) stopRecording();
+          currentWriter = nextWriter;
+          currentWriterName = control.writerName || nextWriter;
+          const liveText = String(data.tokenData?.liveTranscript || "");
+          if (writerChanged || !isRecording) {
+            committedTranscript = liveText.trim();
+            recognitionSegment = "";
+            displayTranscript(liveText);
+          }
+          allResponses = data.allStudentsData || {};
+          presenceData = data.presence || {};
+          updateOnlineStudents(presenceData);
+          updateAssignmentStatus();
+          renderResponses();
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+      }
+    } else {
+      assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
+    }
+
+    const badge = document.getElementById("user-badge");
+    if (groupName !== "sconosciuto" && currentStudentName) badge.textContent = `👤 ${groupName} · ${currentStudentName}`;
+    else if (groupName !== "sconosciuto") badge.textContent = `👩‍🏫 ${currentTeacherName || "Insegnante"} · ${groupName}`;
+    else badge.hidden = true;
+  </script>
+</body>
+</html>

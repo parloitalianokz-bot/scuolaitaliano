@@ -45,6 +45,16 @@
     };
   }
 
+  // Lo sfondo scorre insieme al contenuto, senza effetto parallasse.
+  const backgroundStyle = document.createElement("style");
+  backgroundStyle.textContent = `
+    body {
+      background-attachment: scroll !important;
+      background-position: center center !important;
+    }
+  `;
+  document.head.appendChild(backgroundStyle);
+
   document.querySelectorAll(".login-box, .student-entry").forEach(box => { box.hidden = true; });
 
   const exercisePages = [
@@ -52,7 +62,8 @@
     ...Array.from({ length: 15 }, (_, index) => {
       const letter = String.fromCharCode(97 + index);
       return [`es_${letter}.html`, `Esercizio ${letter.toUpperCase()}`];
-    })
+    }),
+    ["progressivo.html", "Scheda grammaticale: presente progressivo"]
   ];
   let navigation = document.querySelector(".home-navigation, .top-exercises");
   if (!navigation) {

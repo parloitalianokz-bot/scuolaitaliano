@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri in modo induttivo il presente progressivo italiano: stare + gerundio." />
+  <title>Unità 11 — Il presente progressivo</title>
+  <style>
+    :root { color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif; --primary:#477755; --primary-light:#edf4ed; --primary-dark:#2f5739; --accent:#bd694d; --bg-main:#f5f1e7; --card-bg:#fffefa; --text:#292d28; --muted:#6b7069; --border:#e7e5dc; --success:#278253; --success-bg:#e1f1e5; --error:#b83b35; --error-bg:#fae7e5; }
+    * { box-sizing:border-box; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:32px 16px; color:var(--text); background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.webp") center / cover fixed,var(--bg-main); }
+    .container { width:min(100%,880px); margin:0 auto; }
+    .home-navigation { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 12px; }
+    .home-navigation a { display:inline-flex; align-items:center; min-height:42px; padding:8px 16px; border:1px solid #d8e5d8; border-radius:10px; background:rgba(255,254,250,.94); color:var(--primary-dark); font-weight:700; text-decoration:none; }
+    .home-navigation a:hover { background:var(--primary-light); border-color:var(--primary); }
+    .hero,.slide-viewport { border:1px solid var(--border); border-radius:24px; background:var(--card-bg); box-shadow:0 14px 38px rgba(43,69,46,.08); }
+    .hero { margin:8px 0 20px; padding:28px 20px; text-align:center; background:linear-gradient(135deg,rgba(255,254,250,.95),rgba(242,247,239,.92)); }
+    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:#eaf1e8; color:var(--primary-dark); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+    h1 { margin:4px 0; color:var(--primary-dark); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
+    .hero p { margin:8px 0 0; color:var(--muted); }
+    .slide-viewport { height:750px; overflow:hidden; border-radius:24px; }
+    .slides-track { display:flex; align-items:stretch; height:100%; transition:transform .4s ease; will-change:transform; }
+    .card { flex:0 0 100%; height:100%; min-width:0; margin:0; padding:clamp(20px,4vw,30px); overflow-y:auto; overscroll-behavior-y:contain; scrollbar-gutter:stable; background:var(--card-bg); line-height:1.65; }
+    h2 { margin:0 0 12px; color:var(--primary-dark); font-size:1.2rem; }
+    h3 { margin:14px 0 6px; color:var(--primary-dark); font-size:1rem; }
+    .step-label { display:inline-block; margin-bottom:8px; color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .prompt { margin:10px 0; padding:14px 16px; border-left:4px solid var(--accent); border-radius:10px; background:#fffaf0; }
+    .ru { display:block; margin-top:4px; color:var(--muted); font-size:.93rem; line-height:1.5; }
+    .contrast-grid,.example-grid,.choice-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:10px; margin:14px 0; }
+    .contrast,.example { padding:14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .contrast strong,.example strong { color:var(--primary-dark); }
+    .highlight { padding:2px 5px; border-radius:5px; background:#eaf1e8; color:var(--primary-dark); font-weight:800; }
+    .example-label { display:block; margin-top:7px; color:var(--accent); font-size:.88rem; font-weight:800; }
+    .button-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    button,.practice-input { min-height:42px; padding:8px 12px; border:1px solid #d4e1d5; border-radius:9px; background:#fff; color:var(--primary-dark); font:inherit; }
+    button { font-weight:700; cursor:pointer; }
+    button:hover:not(:disabled) { border-color:var(--primary); background:var(--primary-light); }
+    .question-button { text-align:left; }
+    .feedback { margin:10px 0 0; padding:10px 12px; border-radius:9px; background:var(--primary-light); color:var(--primary-dark); }
+    .feedback[hidden] { display:none; }
+    .feedback.correct { background:var(--success-bg); color:var(--success); }
+    .feedback.try-again { background:var(--error-bg); color:var(--error); }
+    .formula { margin:14px 0; padding:16px; border:1px solid #d0e2d2; border-radius:14px; background:var(--primary-light); color:var(--primary-dark); text-align:center; font-size:1.12rem; font-weight:800; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th,td { padding:10px 12px; border:1px solid var(--border); text-align:left; }
+    th { background:var(--primary-light); color:var(--primary-dark); }
+    .practice-row { display:grid; grid-template-columns:minmax(120px,.8fr) minmax(140px,1fr) auto; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+    .practice-row:last-of-type { border-bottom:0; }
+    .practice-input { width:100%; }
+    .teacher-only { display:none; }
+    body.teacher-mode .teacher-only { display:block; }
+    .teacher-note { margin-top:14px; padding:12px 14px; border-left:4px solid var(--accent); border-radius:10px; background:#fffaf0; color:var(--text); font-size:.92rem; }
+    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:14px 0 24px; padding:12px; border:1px solid #d8e5d8; border-radius:14px; background:rgba(255,254,250,.94); }
+    .slide-navigation button { min-width:112px; }
+    .slide-navigation button:disabled { cursor:not-allowed; opacity:.45; }
+    .slide-counter { color:var(--primary-dark); font-weight:800; text-align:center; }
+    .slide-indicators { display:flex; justify-content:center; gap:7px; margin:0 0 24px; }
+    .slide-indicators button { width:38px; min-height:34px; padding:4px; }
+    .slide-indicators button[aria-current="step"] { border-color:var(--primary); background:var(--primary-light); }
+    .next-link { display:flex; justify-content:flex-end; margin:8px 0 24px; }
+    .next-link a { display:inline-flex; align-items:center; min-height:44px; padding:10px 16px; border-radius:10px; background:var(--primary); color:#fff; font-weight:800; text-decoration:none; }
+    .next-link a:hover { background:var(--primary-dark); }
+    @media(max-width:560px) {
+      body { padding:16px 8px; }
+      th,td { padding:8px; }
+      .practice-row { grid-template-columns:1fr; gap:6px; }
+      .practice-row button { width:100%; }
+      .slide-navigation { gap:6px; padding:8px; }
+      .slide-navigation button { min-width:0; padding:8px; }
+      .slide-counter { font-size:.88rem; }
+      .slide-indicators { gap:4px; }
+      .slide-indicators button { width:34px; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .slides-track { transition:none; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_i.html">← Esercizio I</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Scopri la grammatica</span>
+      <h1>Che cosa sta succedendo?</h1>
+      <p>Osserva, fai ipotesi e ricava la regola: il presente progressivo.</p>
+      <p class="ru" lang="ru">Наблюдай, выдвигай гипотезы и самостоятельно сформулируй правило: итальянское настоящее длительное время.</p>
+    </header>
+
+    <div class="slide-viewport" aria-label="Schede di scoperta grammaticale">
+      <div class="slides-track" id="slides-track">
+        <section class="card" aria-labelledby="expect-title">
+          <span class="step-label">1 · Attiva quello che sai</span>
+          <h2 id="expect-title">Immagina la scena</h2>
+          <p>È mattina in casa di Maria. I bambini sono a letto, Maria è in cucina e suo marito è in camera.</p>
+          <p class="ru" lang="ru">Утро в доме Марии. Дети в кровати, Мария на кухне, а её муж в комнате.</p>
+          <div class="prompt"><strong>Che cosa pensi che stiano facendo proprio adesso?</strong><span class="ru" lang="ru">Как ты думаешь, что они делают прямо сейчас?</span></div>
+          <div class="prompt"><strong>«Ogni mattina Maria prepara la colazione»: è un’azione che succede quando?</strong><span class="ru" lang="ru">«Каждое утро Мария готовит завтрак»: когда происходит это действие?</span></div>
+          <div class="button-row"><button type="button" data-reveal="routine-feedback">Fai un’ipotesi · Выскажи предположение</button></div>
+          <p id="routine-feedback" class="feedback" hidden>È un’abitudine: succede ogni mattina.<span class="ru" lang="ru">Это привычное действие: оно происходит каждое утро.</span></p>
+          <div class="prompt"><strong>«Adesso Maria sta preparando la colazione»: “adesso” indica che l’azione è finita o è in corso?</strong><span class="ru" lang="ru">«Сейчас Мария готовит завтрак»: слово «сейчас» означает, что действие уже закончилось или ещё продолжается?</span></div>
+          <div class="button-row"><button type="button" data-reveal="now-feedback">Fai un’ipotesi · Выскажи предположение</button></div>
+          <p id="now-feedback" class="feedback" hidden>È un’azione in corso: è iniziata, ma non è ancora finita.<span class="ru" lang="ru">Это действие в процессе: оно уже началось, но ещё не закончилось.</span></p>
+        </section>
+
+        <section class="card" aria-labelledby="notice-title">
+          <span class="step-label">2 · Nota la lingua</span>
+          <h2 id="notice-title">Che cosa si ripete?<span class="ru" lang="ru">Что повторяется?</span></h2>
+          <p>Confronta le frasi e osserva le parole evidenziate. Prova a spiegare la differenza prima di leggere la regola.</p>
+          <p class="ru" lang="ru">Сравни предложения и обрати внимание на выделенные слова. Попробуй объяснить разницу, прежде чем прочитать правило.</p>
+          <div class="example-grid">
+            <div class="example">I bambini <span class="highlight">dormono</span> presto ogni sera.<span class="ru" lang="ru">Дети рано ложатся спать каждый вечер.</span><span class="example-label">Abitudine · Привычное действие</span></div>
+            <div class="example">I bambini <span class="highlight">stanno dormendo</span> adesso.<span class="ru" lang="ru">Дети сейчас спят.</span><span class="example-label">Azione in corso · Действие в процессе</span></div>
+            <div class="example">Maria <span class="highlight">fa</span> la spesa il sabato.<span class="ru" lang="ru">Мария ходит за покупками по субботам.</span><span class="example-label">Abitudine · Привычное действие</span></div>
+            <div class="example">Maria <span class="highlight">sta facendo</span> la spesa al supermercato.<span class="ru" lang="ru">Мария сейчас делает покупки в супермаркете.</span><span class="example-label">Azione in corso · Действие в процессе</span></div>
+          </div>
+          <div class="button-row" role="group" aria-label="Formula un'ipotesi sulla costruzione">
+            <button class="question-button" type="button" data-reveal="hypothesis-a">Quale parte cambia con la persona?<span class="ru" lang="ru">Какая часть меняется в зависимости от лица?</span></button>
+            <button class="question-button" type="button" data-reveal="hypothesis-b">Quale parte esprime l’azione?<span class="ru" lang="ru">Какая часть обозначает действие?</span></button>
+          </div>
+          <p id="hypothesis-a" class="feedback" hidden><em>Stare</em> cambia con il soggetto: sto, stai, sta, stiamo, state, stanno.<span class="ru" lang="ru">Глагол <em>stare</em> изменяется по лицам и согласуется с подлежащим: sto, stai, sta, stiamo, state, stanno.</span></p>
+          <p id="hypothesis-b" class="feedback" hidden>Il verbo che esprime l’azione diventa gerundio: dormire → dormendo; fare → facendo.<span class="ru" lang="ru">Глагол, обозначающий действие, принимает форму герундия: dormire → dormendo; fare → facendo.</span></p>
+          <div class="teacher-note teacher-only" lang="ru"><strong>Вопросы для think aloud:</strong> «Есть ли похожая конструкция в английском или казахском? Какие два элемента образуют эту форму? Какой из них согласуется с подлежащим? Что происходит с глаголом действия?»</div>
+        </section>
+
+        <section class="card" aria-labelledby="rule-title">
+          <span class="step-label">3 · Ecco la tua regola</span>
+          <h2 id="rule-title">Le vostre ipotesi portano a una formula</h2>
+          <p class="ru" lang="ru">Ваши наблюдения и предположения помогли вывести формулу.</p>
+          <div class="formula"><em>stare</em> al presente + gerundio<span class="ru" lang="ru">Глагол <em>stare</em> в настоящем времени + герундий</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Soggetto<br><span lang="ru">Подлежащее</span></th><th><em>stare</em></th><th>+ preparare</th><th>Forma progressiva<br><span lang="ru">Длительная форма</span></th></tr></thead>
+              <tbody>
+                <tr><td>io<br><span lang="ru">я</span></td><td>sto</td><td>preparando</td><td>sto preparando</td></tr>
+                <tr><td>tu<br><span lang="ru">ты</span></td><td>stai</td><td>preparando</td><td>stai preparando</td></tr>
+                <tr><td>lui / lei<br><span lang="ru">он / она</span></td><td>sta</td><td>preparando</td><td>sta preparando</td></tr>
+                <tr><td>noi<br><span lang="ru">мы</span></td><td>stiamo</td><td>preparando</td><td>stiamo preparando</td></tr>
+                <tr><td>voi<br><span lang="ru">вы</span></td><td>state</td><td>preparando</td><td>state preparando</td></tr>
+                <tr><td>loro<br><span lang="ru">они</span></td><td>stanno</td><td>preparando</td><td>stanno preparando</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prompt"><strong>Uso:</strong> il presente progressivo mette a fuoco un’azione che è iniziata e non è ancora finita, nel momento considerato o in un periodo attuale.</div>
+          <p class="ru" lang="ru"><strong>Употребление:</strong> настоящее длительное время подчёркивает действие, которое началось и ещё не закончилось, в данный момент или в текущий период.</p>
+          <p>Per parlare di abitudini si usa normalmente il presente semplice: <em>Maria prepara la colazione ogni mattina.</em></p>
+          <p class="ru" lang="ru">Для описания привычек обычно используется простое настоящее время: <em>Maria prepara la colazione ogni mattina.</em></p>
+        </section>
+
+        <section class="card" aria-labelledby="gerund-title">
+          <span class="step-label">4 · Verifica la regola con le forme</span>
+          <h2 id="gerund-title">Come si forma il gerundio?<span class="ru" lang="ru">Как образуется герундий?</span></h2>
+          <p>Osserva i verbi: togli la desinenza dell’infinito e aggiungi la terminazione adatta.</p>
+          <p class="ru" lang="ru">Посмотри на глаголы: убери окончание инфинитива и добавь соответствующее окончание.</p>
+          <ul>
+            <li><strong>-are → -ando</strong>: preparare → preparando; giocare → giocando.<span class="ru" lang="ru">У глаголов на -are замени -are на -ando.</span></li>
+            <li><strong>-ere → -endo</strong>: leggere → leggendo.<span class="ru" lang="ru">У глаголов на -ere замени -ere на -endo.</span></li>
+            <li><strong>-ire → -endo</strong>: dormire → dormendo; pulire → pulendo.<span class="ru" lang="ru">У глаголов на -ire замени -ire на -endo.</span></li>
+          </ul>
+          <p>Alcune forme frequenti sono irregolari: <em>fare → facendo</em>, <em>dire → dicendo</em>, <em>bere → bevendo</em>.</p>
+          <p class="ru" lang="ru">Некоторые частотные формы неправильные: <em>fare → facendo</em> (делать), <em>dire → dicendo</em> (говорить), <em>bere → bevendo</em> (пить).</p>
+          <h3>Prova tu: scrivi il gerundio <span lang="ru">· Попробуй: напиши герундий</span></h3>
+          <p class="ru" lang="ru">Введи форму герундия и нажми «Проверить».</p>
+          <div class="practice-row"><label for="gerund-1">preparare →</label><input id="gerund-1" class="practice-input" type="text" autocomplete="off" aria-label="Gerundio di preparare"><button type="button" data-check="gerund-1" data-answer="preparando">Controlla<br><span lang="ru">Проверить</span></button></div>
+          <p id="gerund-1-feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+          <div class="practice-row"><label for="gerund-2">leggere →</label><input id="gerund-2" class="practice-input" type="text" autocomplete="off" aria-label="Gerundio di leggere"><button type="button" data-check="gerund-2" data-answer="leggendo">Controlla<br><span lang="ru">Проверить</span></button></div>
+          <p id="gerund-2-feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+          <div class="practice-row"><label for="gerund-3">dormire →</label><input id="gerund-3" class="practice-input" type="text" autocomplete="off" aria-label="Gerundio di dormire"><button type="button" data-check="gerund-3" data-answer="dormendo">Controlla<br><span lang="ru">Проверить</span></button></div>
+          <p id="gerund-3-feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="card" aria-labelledby="output-title">
+          <span class="step-label">5 · Usa la lingua e rifletti</span>
+          <h2 id="output-title">Dal modello alla tua frase<span class="ru" lang="ru">От модели — к собственной фразе</span></h2>
+          <div class="example-grid">
+            <div class="example">Maria <strong>sta preparando</strong> la colazione.<span class="ru" lang="ru">Мария готовит завтрак (прямо сейчас).</span></div>
+            <div class="example">I bambini <strong>stanno dormendo</strong> a letto.<span class="ru" lang="ru">Дети спят в кровати.</span></div>
+            <div class="example">Il marito di Maria <strong>sta guardando</strong> la televisione.<span class="ru" lang="ru">Муж Марии смотрит телевизор.</span></div>
+            <div class="example">Maria <strong>non sta guardando</strong> la televisione.<span class="ru" lang="ru">Мария не смотрит телевизор.</span></div>
+          </div>
+          <p><strong>Ora tocca a te:</strong> scegli una persona e un’azione che immagini nella scena di Maria. Dilla ad alta voce usando <em>stare + gerundio</em>.</p>
+          <p class="ru" lang="ru"><strong>Теперь твоя очередь:</strong> выбери персонажа и действие, которое, по-твоему, происходит в доме Марии. Произнеси фразу вслух, используя <em>stare + герундий</em>.</p>
+          <div class="teacher-note teacher-only" lang="ru"><strong>Метакогнитивная рефлексия · Как ты к этому пришёл(ла)?</strong>
+            <p><strong>Вопросы для think aloud:</strong></p>
+            <ul>
+              <li>Какие слова в предложении показывают, что действие продолжается?</li>
+              <li>Как ты выбрал(а) форму глагола <em>stare</em>?</li>
+              <li>Какое изменение ты применил(а) к инфинитиву?</li>
+              <li>Твоё предложение описывает действие сейчас или привычку?</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+    <nav class="slide-navigation" aria-label="Navigazione delle schede">
+      <button id="previous-slide" type="button" disabled>← Precedente</button>
+      <span id="slide-counter" class="slide-counter" aria-live="polite">Scheda 1 di 5</span>
+      <button id="next-slide" type="button">Successiva →</button>
+    </nav>
+    <nav id="slide-indicators" class="slide-indicators" aria-label="Vai direttamente a una scheda"></nav>
+    <nav class="next-link" aria-label="Vai all’esercizio"><a href="es_i.html">Metti in pratica · Vai all’esercizio I →</a></nav>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const slides = [...document.querySelectorAll(".slides-track > .card")];
+    const track = document.getElementById("slides-track");
+    const previousButton = document.getElementById("previous-slide");
+    const nextButton = document.getElementById("next-slide");
+    const counter = document.getElementById("slide-counter");
+    const indicators = document.getElementById("slide-indicators");
+    let activeSlide = 0;
+
+    document.body.classList.toggle("teacher-mode", Boolean(window.parloUnit11Session?.isTeacher));
+
+    function showSlide(index) {
+      activeSlide = Math.max(0, Math.min(slides.length - 1, index));
+      track.style.transform = `translateX(-${activeSlide * 100}%)`;
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute("aria-hidden", String(slideIndex !== activeSlide));
+        slide.inert = slideIndex !== activeSlide;
+      });
+      previousButton.disabled = activeSlide === 0;
+      nextButton.disabled = activeSlide === slides.length - 1;
+      counter.textContent = `Scheda ${activeSlide + 1} di ${slides.length}`;
+      [...indicators.children].forEach((button, buttonIndex) => {
+        button.setAttribute("aria-current", buttonIndex === activeSlide ? "step" : "false");
+      });
+    }
+
+    slides.forEach((_, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = index + 1;
+      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}`);
+      button.addEventListener("click", () => showSlide(index));
+      indicators.appendChild(button);
+    });
+    previousButton.addEventListener("click", () => showSlide(activeSlide - 1));
+    nextButton.addEventListener("click", () => showSlide(activeSlide + 1));
+
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT|BUTTON|A/.test(document.activeElement?.tagName || "")) return;
+      if (event.key === "ArrowRight") { event.preventDefault(); showSlide(activeSlide + 1); }
+      if (event.key === "ArrowLeft") { event.preventDefault(); showSlide(activeSlide - 1); }
+    });
+
+    document.querySelectorAll("[data-reveal]").forEach(button => {
+      button.addEventListener("click", () => {
+        const feedback = document.getElementById(button.dataset.reveal);
+        if (feedback) feedback.hidden = !feedback.hidden;
+      });
+    });
+    document.querySelectorAll("[data-check]").forEach(button => {
+      button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.check);
+        const feedback = document.getElementById(`${button.dataset.check}-feedback`);
+        const correct = input.value.trim().toLocaleLowerCase("it-IT") === button.dataset.answer;
+        feedback.innerHTML = correct
+          ? "✓ Esatto! Hai ricavato correttamente la forma.<span class=\"ru\" lang=\"ru\">Верно! Ты правильно образовал(а) форму.</span>"
+          : `Riprova: controlla la desinenza. La forma è <strong>${button.dataset.answer}</strong>.<span class=\"ru\" lang=\"ru\">Попробуй ещё раз: проверь окончание. Правильная форма: <strong>${button.dataset.answer}</strong>.</span>`;
+        feedback.className = `feedback ${correct ? "correct" : "try-again"}`;
+        feedback.hidden = false;
+      });
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
