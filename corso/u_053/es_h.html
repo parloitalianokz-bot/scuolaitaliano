@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 53 — Il viale del tramonto (Esercizio H)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --error: #c43d3d;
+      --error-bg: #fae7e5;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none; transition: .2s;
+    }
+    .home-navigation a:hover { background: var(--primary-light); border-color: var(--primary); transform: translateY(-1px); }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box { margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent); border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .grammar-tip { margin-bottom: 24px; overflow: hidden; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.97); box-shadow: 0 6px 18px rgba(43,69,46,.05); }
+    .grammar-tip summary { padding: 16px 20px; color: var(--primary-dark); font-weight: 800; cursor: pointer; background: var(--primary-light); }
+    .grammar-content { padding: 18px 20px; line-height: 1.6; }
+    .grammar-formula { display: block; margin: 12px 0; padding: 14px; border-radius: 12px; background: #fff; color: var(--primary-dark); font-size: 1.05rem; font-weight: 800; text-align: center; }
+    .grammar-example { margin: 0; color: var(--text-muted); }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.96); box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .teacher-toggle { display: flex; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; cursor: pointer; }
+    .teacher-toggle input { accent-color: var(--primary); }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; }
+    .reset-btn { min-height: 40px; padding: 7px 13px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #fef2f2; }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    #token-mode-section, #all-students-mode-section { display: none; }
+    #token-mode-section.active-mode, #all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode .student-entry { display: none; }
+    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .slide-item { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.03); }
+    .item-heading { color: var(--primary-dark); font-size: 1.1rem; font-weight: 800; line-height: 1.5; }
+    .answer-input { width: 100%; min-height: 54px; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; color: var(--text); font: inherit; line-height: 1.45; }
+    .answer-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71,119,85,.15); }
+    .answer-input:disabled { background: #f1f5f1; color: #4b554b; cursor: not-allowed; }
+    .answer-input::placeholder { color: #858a83; }
+    .login-box { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; padding: 14px 16px; border-radius: 14px; background: var(--primary-light); }
+    .login-box label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .login-box input { flex: 1; min-width: 0; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .save-status { margin: 0 0 14px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+    .save-status[hidden] { display: none; }
+    .btn-submit { width: 100%; margin-top: 16px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button, .slide-navigation a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-navigation [hidden] { display: none; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .results-section { margin-top: 24px; }
+    .results-section h2 { margin-bottom: 16px; color: var(--primary-dark); font-size: 1.25rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(110px,.35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { display: block; padding: 8px 10px; border-radius: 8px; background: #faf9f5; overflow-wrap: anywhere; font-weight: 600; }
+    .review-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .review-controls button { min-width: 42px; min-height: 38px; border: 1px solid var(--border); border-radius: 9px; background: #fff; font-size: 1.1rem; cursor: pointer; }
+    .review-controls button:hover { background: var(--primary-light); border-color: var(--primary); }
+    .review-controls button.selected-approved { border-color: var(--success); background: var(--success-bg); }
+    .review-controls button.selected-rejected { border-color: var(--error); background: var(--error-bg); }
+    .review-status { display: inline-block; margin-top: 8px; padding: 5px 9px; border-radius: 8px; font-size: .84rem; font-weight: 800; }
+    .review-status.approved { background: var(--success-bg); color: var(--success); }
+    .review-status.rejected { background: var(--error-bg); color: var(--error); }
+    .review-status.pending { color: var(--text-muted); }
+    @media (max-width: 640px) {
+      body { padding: 16px 8px; }
+      .slide-item { padding: 14px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button, .slide-navigation a { width: 100%; }
+      .login-box { align-items: stretch; flex-direction: column; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+      .teacher-controls { align-items: stretch; flex-direction: column; }
+      .mode-select-box { align-items: stretch; flex-direction: column; }
+      .token-bar { align-items: stretch; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione esercizi">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_g.html">← Esercizio G</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 53 · Grammatica</span>
+      <h1>Il condizionale presente e passato</h1>
+      <p class="hero-subtitle">Trasforma le frasi seguendo gli esempi.</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio H</div>
+      <div class="instruction-text">👉 <strong>Измените предложения по образцам:</strong></div>
+    </div>
+
+    <details class="grammar-tip" open>
+      <summary>📘 Condizionale presente e passato con dovere</summary>
+      <div class="grammar-content">
+        Per esprimere un consiglio o un’opportunità mancata, si usa il condizionale di <em>dovere</em>:
+        <span class="grammar-formula">presente: dovresti + infinito · passato: avresti dovuto + infinito</span>
+        <p class="grammar-example"><strong>Образцы:</strong><br>a) Devi studiare di più. → Dovresti studiare di più.<br>b) Dovevi studiare di più. → Avresti dovuto studiare di più.</p>
+      </div>
+    </details>
+
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle"><input type="checkbox" id="teacher-mode"> Режим учителя · Modalità insegnante</label>
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode">
+            <option value="token">Uno alla volta · По одному</option>
+            <option value="all">Tutti insieme · Tutti rispondono</option>
+          </select>
+        </div>
+        <button id="reset-answers" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera il token</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode" aria-label="Esercizio: una frase alla volta">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700;color:var(--primary-dark);"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+      <div id="token-slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress" aria-live="polite"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+        <a id="token-next-exercise-link" href="es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+
+    <section id="all-students-mode-section" class="card" aria-label="Esercizio: invia una risposta alla volta">
+      <div class="student-entry">
+        <div class="login-box"><label for="student-name">Ваше имя (Имя Фамилия) · Nome e cognome:</label><input id="student-name" type="text" placeholder="Inserisci il tuo nome e cognome"></div>
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+      </div>
+      <div id="all-slide-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="prev-all-slide" type="button">← Precedente</button>
+        <span id="progress-all-slide" class="slide-progress" aria-live="polite"></span>
+        <button id="next-all-slide" type="button">Successiva →</button>
+        <a id="all-next-exercise-link" href="es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+      <div class="student-entry">
+        <button id="submit-answer" class="btn-submit" type="button">📤 Отправить ответ · Invia questa risposta</button>
+      </div>
+      <div class="results-section" id="responses-panel">
+        <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+        <div id="responses-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const questions = [
+      "È tardi, dobbiamo andare a casa.",
+      "Dovevo studiare le lingue da giovane!",
+      "Mi metto un maglione, perché non voglio ammalarmi.",
+      "Era meglio prendere la macchina; arrivavamo prima.",
+      "Non piace a nessuno restare bloccato in ascensore.",
+      "Comunque non potevo fare niente per aiutarti.",
+      "Non devi fumare tanto!",
+      "Non dovevi bere tanto!",
+      "Meno male sono uscito presto, se no arrivavo tardi.",
+      "Dobbiamo studiare, ma non abbiamo voglia.",
+      "Non ci sono novità, altrimenti ti telefonavo.",
+      "Stasera possiamo uscire o possiamo stare a casa; cosa preferisci?",
+      "Dobbiamo riposare un po’, è da ore che lavoriamo senza fermarci.",
+      "Dovevi chiedere aiuto quando era il momento, adesso è tardi.",
+      "Era meglio prendere un taxi, così evitavamo il traffico.",
+      "Devi mangiare più sano, è importante per la tua salute.",
+      "Era meglio rimanere in casa, c’era troppo caos fuori.",
+      "Dovevamo completare il progetto, ma non eravamo motivati.",
+      "È meglio prendere un ombrello, sta per piovere.",
+      "Bisogna essere più puntuali, è importante per il lavoro.",
+      "Dovevi leggere le istruzioni; ora il mobile sembra un’opera di Dalì.",
+      "Preferisco restare a letto, è più comodo che andare in ufficio.",
+      "Dovevi lasciare cucinare la nonna, hai fatto più disastri in cucina di un tornado in un negozio di porcellane.",
+      "Dovevamo prenotare l’albergo il mese scorso, quando c’erano prezzi più convenienti.",
+      "Secondo me devi parlare con il tuo capo; è più facile risolvere i problemi di persona."
+    ].map((text, index) => ({ id: `answer${index + 1}`, text }));
+
+    const createEmptyState = () => Object.fromEntries(questions.map(question => [question.id, ""]));
+    let studentAnswers = createEmptyState();
+    let tokenAnswers = createEmptyState();
+    let activeTokenSlide = 0;
+    let activeAllSlide = 0;
+    let answersRef = null;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let allResponses = {};
+    let lastResetId = null;
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+
+    const teacherToggle = document.getElementById("teacher-mode");
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset-answers");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const tokenSlidesContainer = document.getElementById("token-slides-container");
+    const allSlideContainer = document.getElementById("all-slide-container");
+    const tokenStatusText = document.getElementById("token-status-text");
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const studentNameInput = document.getElementById("student-name");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+    const previousTokenButton = document.getElementById("prev-token-slide");
+    const nextTokenButton = document.getElementById("next-token-slide");
+    const previousAllButton = document.getElementById("prev-all-slide");
+    const nextAllButton = document.getElementById("next-all-slide");
+    const submitAnswerButton = document.getElementById("submit-answer");
+    const tokenNextExerciseLink = document.getElementById("token-next-exercise-link");
+    const allNextExerciseLink = document.getElementById("all-next-exercise-link");
+
+    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+
+    function makeSlide(item, answer, editable, placeholder, onInput) {
+      const card = document.createElement("div");
+      card.className = "slide-item";
+      const heading = document.createElement("div");
+      heading.className = "item-heading";
+      heading.textContent = `${questions.indexOf(item) + 1}. ${item.text}`;
+      const input = document.createElement("textarea");
+      input.className = "answer-input";
+      input.rows = 2;
+      input.placeholder = placeholder;
+      input.value = answer || "";
+      input.disabled = !editable;
+      input.setAttribute("aria-label", `Riscrivi la frase ${questions.indexOf(item) + 1} usando il condizionale`);
+      input.addEventListener("input", () => onInput(input.value));
+      card.append(heading, input);
+      return card;
+    }
+
+    function renderTokenSlide() {
+      tokenSlidesContainer.replaceChildren();
+      const item = questions[activeTokenSlide];
+      tokenSlidesContainer.appendChild(makeSlide(item, tokenAnswers[item.id], currentWriter === myClientId,
+        "Riscrivi la frase usando il condizionale presente o passato...", value => {
+          tokenAnswers[item.id] = value;
+          if (answersRef && currentWriter === myClientId) {
+            answersRef.child("tokenData").child("answers").child(item.id).set(value);
+          }
+        }));
+      previousTokenButton.disabled = activeTokenSlide === 0;
+      const isLast = activeTokenSlide === questions.length - 1;
+      nextTokenButton.disabled = isLast;
+      nextTokenButton.hidden = isLast;
+      tokenNextExerciseLink.hidden = !isLast;
+      nextTokenButton.textContent = "Successiva →";
+      document.getElementById("progress-token-slide").textContent = `Frase ${activeTokenSlide + 1} di ${questions.length}`;
+    }
+
+    function renderAllSlide() {
+      allSlideContainer.replaceChildren();
+      const item = questions[activeAllSlide];
+      allSlideContainer.appendChild(makeSlide(item, studentAnswers[item.id], !isTeacher,
+        "Riscrivi questa frase usando il condizionale...", value => {
+          studentAnswers[item.id] = value;
+          saveStatus.hidden = true;
+        }));
+      previousAllButton.disabled = activeAllSlide === 0;
+      const isLast = activeAllSlide === questions.length - 1;
+      nextAllButton.disabled = isLast;
+      nextAllButton.hidden = isLast;
+      allNextExerciseLink.hidden = !isLast;
+      nextAllButton.textContent = "Successiva →";
+      document.getElementById("progress-all-slide").textContent = `Frase ${activeAllSlide + 1} di ${questions.length}`;
+      submitAnswerButton.disabled = isTeacher;
+    }
+
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      const hasAnswers = entries.some(([, student]) => Object.values(student.answers || {}).some(Boolean));
+      if (!hasAnswers) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы... · Nessuna risposta inviata.";
+        responsesList.appendChild(empty);
+        return;
+      }
+
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      questions.forEach((item, index) => {
+        const answerEntries = entries.filter(([, student]) => student.answers?.[item.id]);
+        if (!answerEntries.length) return;
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `${index + 1}. ${item.text}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+
+        answerEntries.forEach(([studentId, student]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const responseBox = document.createElement("div");
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          answer.textContent = student.answers[item.id];
+          responseBox.appendChild(answer);
+          const review = student.reviews?.[item.id] || "pending";
+
+          if (isTeacher) {
+            const controls = document.createElement("div");
+            controls.className = "review-controls";
+            const approveButton = document.createElement("button");
+            approveButton.type = "button";
+            approveButton.textContent = "✅";
+            approveButton.title = "Approva risposta";
+            approveButton.setAttribute("aria-label", `Approva la risposta di ${student.name || "studente"} alla frase ${index + 1}`);
+            approveButton.setAttribute("aria-pressed", review === "approved");
+            approveButton.classList.toggle("selected-approved", review === "approved");
+            approveButton.addEventListener("click", () => setReview(studentId, item.id, "approved"));
+            const rejectButton = document.createElement("button");
+            rejectButton.type = "button";
+            rejectButton.textContent = "❌";
+            rejectButton.title = "Non approvare risposta";
+            rejectButton.setAttribute("aria-label", `Non approvare la risposta di ${student.name || "studente"} alla frase ${index + 1}`);
+            rejectButton.setAttribute("aria-pressed", review === "rejected");
+            rejectButton.classList.toggle("selected-rejected", review === "rejected");
+            rejectButton.addEventListener("click", () => setReview(studentId, item.id, "rejected"));
+            controls.append(approveButton, rejectButton);
+            responseBox.appendChild(controls);
+          } else {
+            const status = document.createElement("span");
+            status.className = `review-status ${review}`;
+            status.textContent = review === "approved" ? "✅ Approvata" : review === "rejected" ? "❌ Da correggere" : "⏳ In attesa di revisione";
+            responseBox.appendChild(status);
+          }
+          row.append(author, responseBox);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    function setReview(studentId, answerId, status) {
+      if (!isTeacher || !answersRef) return;
+      answersRef.child("allStudentsData").child("students").child(studentId)
+        .child("reviews").child(answerId).set(status);
+    }
+
+    function updateUIState() {
+      const showAll = currentWorkMode === "all";
+      tokenSection.classList.toggle("active-mode", !showAll);
+      allSection.classList.toggle("active-mode", showAll);
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.hidden = !isTeacher;
+      teacherReleaseTokenButton.hidden = !(isTeacher && !showAll);
+      document.body.classList.toggle("teacher-mode", isTeacher);
+
+      if (showAll) {
+        if (!allSlideContainer.contains(document.activeElement)) renderAllSlide();
+        renderResponses();
+        return;
+      }
+
+      if (!currentWriter) {
+        tokenStatusText.textContent = "";
+        btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+        btnTakeToken.className = "btn-token";
+        btnTakeToken.disabled = false;
+      } else if (currentWriter === myClientId) {
+        tokenStatusText.textContent = "Вы редактируете · Stai lavorando";
+        btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
+        btnTakeToken.className = "btn-token release";
+        btnTakeToken.disabled = false;
+      } else {
+        tokenStatusText.textContent = "🔒 Пишет одноклассник · Un compagno sta lavorando";
+        btnTakeToken.textContent = "🔒 Пишет одноклассник · Un compagno al lavoro";
+        btnTakeToken.className = "btn-token busy";
+        btnTakeToken.disabled = true;
+      }
+      if (!tokenSlidesContainer.contains(document.activeElement)) renderTokenSlide();
+    }
+
+    previousTokenButton.addEventListener("click", () => {
+      activeTokenSlide = Math.max(0, activeTokenSlide - 1);
+      renderTokenSlide();
+    });
+    nextTokenButton.addEventListener("click", () => {
+      activeTokenSlide = Math.min(questions.length - 1, activeTokenSlide + 1);
+      renderTokenSlide();
+    });
+    previousAllButton.addEventListener("click", () => {
+      activeAllSlide = Math.max(0, activeAllSlide - 1);
+      renderAllSlide();
+      saveStatus.hidden = true;
+    });
+    nextAllButton.addEventListener("click", () => {
+      activeAllSlide = Math.min(questions.length - 1, activeAllSlide + 1);
+      renderAllSlide();
+      saveStatus.hidden = true;
+    });
+
+    btnTakeToken.addEventListener("click", () => {
+      if (!answersRef) return;
+      if (currentWriter === myClientId) answersRef.child("tokenData").child("currentWriter").set(null);
+      else if (!currentWriter) answersRef.child("tokenData").child("currentWriter").set(myClientId);
+    });
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) {
+        answersRef.child("tokenData").child("currentWriter").set(null);
+      }
+    });
+    teacherToggle.addEventListener("change", event => {
+      isTeacher = event.target.checked;
+      updateUIState();
+    });
+    workModeSelect.addEventListener("change", event => {
+      if (answersRef && isTeacher) answersRef.child("workMode").set(event.target.value);
+    });
+
+    submitAnswerButton.addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      const item = questions[activeAllSlide];
+      const answer = studentAnswers[item.id].trim();
+      if (!answer) {
+        alert("Сначала напишите ответ. · Scrivi la risposta prima di inviare.");
+        allSlideContainer.querySelector("textarea").focus();
+        return;
+      }
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      localStorage.setItem("parlo_student_name", name);
+      try {
+        await answersRef.child("allStudentsData").child("students").child(studentId).update({
+          name,
+          timestamp: Date.now(),
+          [`answers/${item.id}`]: answer
+        });
+        saveStatus.textContent = "✅ Risposta inviata all’insegnante! · Ответ отправлен учителю!";
+        saveStatus.hidden = false;
+      } catch (error) {
+        alert("Errore durante l'invio della risposta. · Ошибка при отправке ответа.");
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!isTeacher || !answersRef || !confirm("Сбросить все ответы? · Azzera tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        tokenData: { currentWriter: null, answers: createEmptyState() },
+        allStudentsData: {}
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        if (currentWorkMode === "token") {
+          activeTokenSlide = Math.min(questions.length - 1, activeTokenSlide + 1);
+          renderTokenSlide();
+        } else {
+          activeAllSlide = Math.min(questions.length - 1, activeAllSlide + 1);
+          renderAllSlide();
+        }
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        if (currentWorkMode === "token") {
+          activeTokenSlide = Math.max(0, activeTokenSlide - 1);
+          renderTokenSlide();
+        } else {
+          activeAllSlide = Math.max(0, activeAllSlide - 1);
+          renderAllSlide();
+        }
+      }
+    });
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita53-condizionale-presente-passato");
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            studentAnswers = createEmptyState();
+            tokenAnswers = createEmptyState();
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode === "all" ? "all" : "token";
+          workModeSelect.value = currentWorkMode;
+          const tokenData = data.tokenData || {};
+          currentWriter = tokenData.currentWriter || null;
+          tokenAnswers = { ...createEmptyState(), ...(tokenData.answers || {}) };
+          allResponses = data.allStudentsData || {};
+          updateUIState();
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+      }
+    }
+
+    renderTokenSlide();
+    renderAllSlide();
+    updateUIState();
+  </script>
+</body>
+</html>

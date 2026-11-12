@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 53 — Il viale del tramonto (Esercizio E)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --error: #c43d3d;
+      --error-bg: #fae7e5;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; margin: 0 0 12px; }
+    .home-navigation a, .exercise-navigation a {
+      display: inline-flex; align-items: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font-weight: 700; text-decoration: none; transition: .2s;
+    }
+    .home-navigation a:hover, .exercise-navigation a:hover { background: var(--primary-light); border-color: var(--primary); transform: translateY(-1px); }
+    .exercise-navigation { display: flex; justify-content: flex-end; margin: 0 0 24px; }
+    .hero {
+      margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center;
+      border: 1px solid rgba(71,119,85,.13); border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box { margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent); border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .grammar-tip { margin-bottom: 24px; overflow: hidden; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.97); box-shadow: 0 6px 18px rgba(43,69,46,.05); }
+    .grammar-tip summary { padding: 16px 20px; color: var(--primary-dark); font-weight: 800; cursor: pointer; background: var(--primary-light); }
+    .grammar-content { padding: 18px 20px; line-height: 1.6; }
+    .grammar-formula { display: block; margin: 12px 0; padding: 14px; border-radius: 12px; background: #fff; color: var(--primary-dark); font-size: 1.05rem; font-weight: 800; text-align: center; }
+    .grammar-example { margin: 0; color: var(--text-muted); }
+    .card { margin-bottom: 32px; padding: clamp(20px,4vw,32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    #token-mode-section, #all-students-mode-section { display: none; }
+    #token-mode-section.active-mode, #all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode #student-form-card { display: none; }
+    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 14px 18px; border-radius: 14px; background: var(--primary-light); }
+    .btn-token { min-height: 42px; padding: 8px 14px; border: 0; border-radius: 8px; background: var(--primary-dark); color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .btn-token.release { background: var(--accent); }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .slide-item { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43,69,46,.03); }
+    .slide-item[hidden] { display: none; }
+    .item-heading { color: var(--primary-dark); font-size: 1.1rem; font-weight: 800; }
+    .top-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.96); box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+    .teacher-toggle { display: flex; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; cursor: pointer; }
+    .teacher-toggle input { accent-color: var(--primary); }
+    .mode-select-box { display: none; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .88rem; font-weight: 700; }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select { padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; }
+    .reset-btn { min-height: 40px; padding: 7px 13px; border: 1px solid #fca5a5; border-radius: 10px; background: #fff; color: #dc2626; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .reset-btn:hover { background: #fef2f2; }
+    .exercise-viewport { padding: 8px; border: 1px solid #d8e5d8; border-radius: 18px; background: linear-gradient(145deg,#fffefa,#f2f7ef); }
+    body.teacher-all-mode .exercise-viewport { display: none; }
+    .exercise-list { display: grid; margin: 0; padding: 4px; list-style: none; counter-reset: item; }
+    .exercise-row { display: none; grid-template-columns: 42px minmax(190px,.75fr) minmax(0,1.25fr); align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 3px 10px rgba(43,69,46,.04); counter-increment: item; }
+    .exercise-list.show-all .last-exercise-link { display: inline-flex; grid-column: 2 / -1; color: var(--primary-dark); font-weight: 800; text-decoration: none; }
+    .exercise-list.show-all .last-exercise-link:hover { text-decoration: underline; }
+    .exercise-row.active { display: grid; }
+    .exercise-list.show-all .exercise-row { display: grid; margin-bottom: 10px; }
+    .exercise-list.show-all .exercise-row:last-child { margin-bottom: 0; }
+    .last-exercise-link { display: none; grid-column: 2 / -1; color: var(--primary-dark); font-weight: 800; text-decoration: none; }
+    .exercise-list.show-all .last-exercise-link { display: inline-flex; }
+    .last-exercise-link:hover { text-decoration: underline; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation[hidden] { display: none; }
+    .slide-navigation button, .slide-navigation a { display: inline-flex; align-items: center; min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .exercise-row::before { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 10px; background: var(--primary-light); color: var(--primary-dark); font-size: .85rem; font-weight: 800; content: attr(data-number); }
+    .pair { color: var(--primary-dark); font-weight: 700; line-height: 1.45; }
+    .answer-input { width: 100%; min-height: 44px; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; color: var(--text); font: inherit; line-height: 1.45; }
+    .answer-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71,119,85,.15); }
+    .answer-input::placeholder { color: #858a83; }
+    #student-name-box, #student-submit-panel, #responses-panel { display: none; }
+    body.teacher-mode #student-name-box, body.teacher-mode #student-submit-panel { display: none !important; }
+    #student-name-box.visible { display: flex; }
+    #student-submit-panel.visible, #responses-panel.visible { display: block; }
+    .student-name-box { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 14px 16px; border-radius: 14px; background: var(--primary-light); }
+    .student-name-box label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .student-name-box input { flex: 1; min-width: 0; padding: 10px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px; background: #fff; font: inherit; }
+    .save-status { margin: 0 0 14px; padding: 11px 14px; border: 1px solid #b7dfc1; border-radius: 12px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
+    .save-status[hidden] { display: none; }
+    .btn-submit { width: 100%; margin: 4px 0 24px; padding: 14px; border: 0; border-radius: 14px; background: var(--primary); color: #fff; font: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .results-section { margin-top: 24px; }
+    .results-section h2 { margin-bottom: 16px; color: var(--primary-dark); font-size: 1.25rem; }
+    .question-responses details { margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question-responses summary { padding: 14px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row { display: grid; grid-template-columns: minmax(110px,.35fr) 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { color: var(--primary-dark); font-weight: 700; }
+    .answer-text { display: block; padding: 8px 10px; border-radius: 8px; background: #faf9f5; overflow-wrap: anywhere; font-weight: 600; }
+    .review-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .review-controls button { min-width: 42px; min-height: 38px; border: 1px solid var(--border); border-radius: 9px; background: #fff; font-size: 1.1rem; cursor: pointer; }
+    .review-controls button:hover { background: var(--primary-light); border-color: var(--primary); }
+    .review-controls button.selected-approved { border-color: var(--success); background: var(--success-bg); }
+    .review-controls button.selected-rejected { border-color: var(--error); background: var(--error-bg); }
+    .review-status { display: inline-block; margin-top: 8px; padding: 5px 9px; border-radius: 8px; font-size: .84rem; font-weight: 800; }
+    .review-status.approved { background: var(--success-bg); color: var(--success); }
+    .review-status.rejected { background: var(--error-bg); color: var(--error); }
+    .review-status.pending { color: var(--text-muted); }
+    .slide-navigation a[hidden], .slide-navigation button[hidden] { display: none; }
+    @media (max-width: 640px) {
+      body { padding: 16px 8px; }
+      .exercise-row { grid-template-columns: 36px minmax(0,1fr); gap: 10px; }
+      .answer-input { grid-column: 2; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button, .slide-navigation a { width: 100%; justify-content: center; }
+      .student-name-box { align-items: stretch; flex-direction: column; }
+      .answer-row { grid-template-columns: 1fr; gap: 4px; }
+      .teacher-controls { align-items: stretch; flex-direction: column; }
+      .mode-select-box { align-items: stretch; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale"><a href="index.html">← Torna all’inizio</a></nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 53 · Grammatica</span>
+      <h1>Il comparativo di maggioranza</h1>
+      <p class="hero-subtitle">Forma frasi complete seguendo l’esempio.</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio E</div>
+      <div class="instruction-text">👉 <strong>Составьте предложения по образцу:</strong></div>
+    </div>
+
+    <details class="grammar-tip" open>
+      <summary>📘 Как образовать сравнительную степень превосходства?</summary>
+      <div class="grammar-content">
+        Чтобы сравнить двух людей или предмета и сказать, что у первого признак выражен сильнее, используйте эту конструкцию:
+        <span class="grammar-formula">Первое существительное + è (есть) + più (более) + прилагательное + di (чем) + второе существительное</span>
+        <p class="grammar-example"><strong>Пример:</strong> Marco — Stefano → Marco è più simpatico di Stefano. (Марко симпатичнее Стефано.)</p>
+      </div>
+    </details>
+
+    <div class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle"><input type="checkbox" id="teacher-mode"> Режим учителя · Modalità insegnante</label>
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode">
+            <option value="token">Uno alla volta · По одному</option>
+            <option value="all">Tutti insieme · Все вместе</option>
+          </select>
+        </div>
+        <button id="reset-answers" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
+        <button id="teacher-release-token" class="btn-token" type="button" hidden>🔓 Libera il token</button>
+      </div>
+    </div>
+
+    <section id="token-mode-section" class="card active-mode" aria-label="Esercizio: una scheda alla volta">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700;color:var(--primary-dark);"></span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+      <div id="token-slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress" aria-live="polite"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+        <a id="token-next-exercise-link" href="es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+
+    <section id="all-students-mode-section" class="card" aria-label="Esercizio: completa le frasi">
+      <div class="student-name-box" id="student-name-box"><label for="student-name">Ваше имя (Имя Фамилия) · Nome e cognome:</label><input id="student-name" type="text" placeholder="Inserisci il tuo nome e cognome"></div>
+      <div class="exercise-viewport" aria-label="Scheda con la coppia di parole e il campo per completare la frase">
+        <ol class="exercise-list">
+        <li class="exercise-row"><span class="pair">Gli elefanti — le formiche</span><input class="answer-input" type="text" aria-label="Frase 1" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La cucina italiana — la cucina francese</span><input class="answer-input" type="text" aria-label="Frase 2" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">L’aereo — il treno</span><input class="answer-input" type="text" aria-label="Frase 3" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Lo zucchero — il sale</span><input class="answer-input" type="text" aria-label="Frase 4" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">L’estate — l’inverno</span><input class="answer-input" type="text" aria-label="Frase 5" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La fisica — la matematica</span><input class="answer-input" type="text" aria-label="Frase 6" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Lo zibellino — il visone</span><input class="answer-input" type="text" aria-label="Frase 7" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il Po — il Tevere</span><input class="answer-input" type="text" aria-label="Frase 8" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il sole — la luna</span><input class="answer-input" type="text" aria-label="Frase 9" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La città — la campagna</span><input class="answer-input" type="text" aria-label="Frase 10" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il calcio — il basket</span><input class="answer-input" type="text" aria-label="Frase 11" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il cane — il gatto</span><input class="answer-input" type="text" aria-label="Frase 12" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il mare — la montagna</span><input class="answer-input" type="text" aria-label="Frase 13" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La pizza — la pasta</span><input class="answer-input" type="text" aria-label="Frase 14" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">L’oro — l’argento</span><input class="answer-input" type="text" aria-label="Frase 15" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il giorno — la notte</span><input class="answer-input" type="text" aria-label="Frase 16" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La frutta — la verdura</span><input class="answer-input" type="text" aria-label="Frase 17" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il cinema — il teatro</span><input class="answer-input" type="text" aria-label="Frase 18" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La musica classica — la musica pop</span><input class="answer-input" type="text" aria-label="Frase 19" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il vino rosso — il vino bianco</span><input class="answer-input" type="text" aria-label="Frase 20" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">La neve — la pioggia</span><input class="answer-input" type="text" aria-label="Frase 21" placeholder="Scrivi la frase completa..."></li>
+        <li class="exercise-row"><span class="pair">Il mare Mediterraneo — l’oceano Atlantico</span><input class="answer-input" type="text" aria-label="Frase 22" placeholder="Scrivi la frase completa..."><a class="last-exercise-link" href="es_f.html">Vai all’esercizio F →</a></li>
+        </ol>
+      </div>
+      <nav class="slide-navigation" id="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="prev-slide" type="button">← Precedente</button>
+        <span id="slide-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-slide" type="button">Successiva →</button>
+        <a id="next-exercise-link" href="es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+      <div id="student-submit-panel">
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+        <button id="submit-answers" class="btn-submit" type="button">📤 Отправить ответы · Invia le risposte</button>
+      </div>
+      <div id="responses-panel" class="results-section">
+        <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+        <div id="responses-list"></div>
+      </div>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+    const slideRows = [...document.querySelectorAll(".exercise-row")];
+    const questions = slideRows.map((row, index) => ({
+      id: `answer${index + 1}`,
+      text: row.querySelector(".pair").textContent
+    }));
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const tokenSlidesContainer = document.getElementById("token-slides-container");
+    const tokenStatusText = document.getElementById("token-status-text");
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const teacherReleaseTokenButton = document.getElementById("teacher-release-token");
+    const exerciseList = document.querySelector(".exercise-list");
+    const previousButton = document.getElementById("prev-slide");
+    const nextButton = document.getElementById("next-slide");
+    const previousTokenButton = document.getElementById("prev-token-slide");
+    const nextTokenButton = document.getElementById("next-token-slide");
+    const tokenProgress = document.getElementById("progress-token-slide");
+    const tokenNextExerciseLink = document.getElementById("token-next-exercise-link");
+    const nextExerciseLink = document.getElementById("next-exercise-link");
+    const slideProgress = document.getElementById("slide-progress");
+    const slideNavigation = document.getElementById("slide-navigation");
+    const teacherToggle = document.getElementById("teacher-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const workModeSelect = document.getElementById("work-mode");
+    const resetButton = document.getElementById("reset-answers");
+    const answerInputs = [...document.querySelectorAll(".answer-input")];
+    const studentNameInput = document.getElementById("student-name");
+    const studentNameBox = document.getElementById("student-name-box");
+    const saveStatus = document.getElementById("save-status");
+    const studentSubmitPanel = document.getElementById("student-submit-panel");
+    const responsesPanel = document.getElementById("responses-panel");
+    const responsesList = document.getElementById("responses-list");
+    let activeSlide = 0;
+    let activeTokenSlide = 0;
+    let answersRef = null;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let tokenAnswers = {};
+    let allResponses = {};
+    let lastResetId = null;
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+
+    studentNameInput.value = localStorage.getItem("parlo_student_name") || "";
+
+    function showSlide(index) {
+      activeSlide = Math.max(0, Math.min(slideRows.length - 1, index));
+      slideRows.forEach((row, rowIndex) => {
+        row.classList.toggle("active", rowIndex === activeSlide);
+        row.dataset.number = rowIndex + 1;
+      });
+      const isLastSlide = activeSlide === slideRows.length - 1;
+      previousButton.disabled = activeSlide === 0;
+      nextButton.hidden = isLastSlide;
+      nextExerciseLink.hidden = !isLastSlide;
+      slideProgress.textContent = `Frase ${activeSlide + 1} di ${slideRows.length}`;
+    }
+
+    function renderTokenSlide() {
+      tokenSlidesContainer.replaceChildren();
+      const item = questions[activeTokenSlide];
+      const card = document.createElement("div");
+      card.className = "slide-item";
+      const heading = document.createElement("div");
+      heading.className = "item-heading";
+      heading.textContent = `${activeTokenSlide + 1}. ${item.text}`;
+      const input = document.createElement("textarea");
+      input.className = "answer-input";
+      input.rows = 2;
+      input.placeholder = "Scrivi la frase completa...";
+      input.value = tokenAnswers[item.id] || "";
+      input.disabled = currentWriter !== myClientId;
+      input.addEventListener("input", () => {
+        tokenAnswers[item.id] = input.value;
+        if (answersRef && currentWriter === myClientId) {
+          answersRef.child("tokenData").child("answers").child(item.id).set(input.value);
+        }
+      });
+      card.append(heading, input);
+      tokenSlidesContainer.appendChild(card);
+      const isLast = activeTokenSlide === questions.length - 1;
+      previousTokenButton.disabled = activeTokenSlide === 0;
+      nextTokenButton.hidden = isLast;
+      tokenNextExerciseLink.hidden = !isLast;
+      tokenProgress.textContent = `Frase ${activeTokenSlide + 1} di ${questions.length}`;
+    }
+
+    function updateMode() {
+      const showAll = currentWorkMode === "all";
+      tokenSection.classList.toggle("active-mode", !showAll);
+      allSection.classList.toggle("active-mode", showAll);
+      exerciseList.classList.toggle("show-all", showAll);
+      slideNavigation.hidden = true;
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.hidden = !isTeacher;
+      teacherReleaseTokenButton.hidden = !(isTeacher && !showAll);
+      studentNameBox.classList.toggle("visible", showAll && !isTeacher);
+      studentSubmitPanel.classList.toggle("visible", showAll && !isTeacher);
+      responsesPanel.classList.toggle("visible", showAll);
+      document.body.classList.toggle("teacher-mode", isTeacher);
+      document.body.classList.toggle("teacher-all-mode", isTeacher && showAll);
+      if (!showAll) {
+        if (!currentWriter) {
+          tokenStatusText.textContent = "";
+          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+          btnTakeToken.className = "btn-token";
+          btnTakeToken.disabled = false;
+        } else if (currentWriter === myClientId) {
+          tokenStatusText.textContent = "Вы редактируете · Stai lavorando";
+          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
+          btnTakeToken.className = "btn-token release";
+          btnTakeToken.disabled = false;
+        } else {
+          tokenStatusText.textContent = "🔒 Пишет одноклассник · Un compagno sta lavorando";
+          btnTakeToken.textContent = "🔒 Пишет одноклассник · Un compagno al lavoro";
+          btnTakeToken.className = "btn-token busy";
+          btnTakeToken.disabled = true;
+        }
+        if (!tokenSlidesContainer.contains(document.activeElement)) renderTokenSlide();
+      }
+      else renderResponses();
+    }
+
+    function renderResponses() {
+      responsesList.replaceChildren();
+      const entries = Object.entries(allResponses.students || {});
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--text-muted)";
+        empty.textContent = "Пока никто не отправил ответы... · Nessuna risposta inviata.";
+        responsesList.appendChild(empty);
+        return;
+      }
+      const grouped = document.createElement("div");
+      grouped.className = "question-responses";
+      slideRows.forEach((exerciseRow, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = `${index + 1}. ${exerciseRow.querySelector(".pair").textContent}`;
+        const list = document.createElement("div");
+        list.className = "answer-list";
+        entries.forEach(([studentId, student]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = student.name || "Studente";
+          const responseBox = document.createElement("div");
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          answer.textContent = student.answers?.[`answer${index + 1}`] || "—";
+          responseBox.appendChild(answer);
+          const review = student.reviews?.[`answer${index + 1}`] || "pending";
+          if (isTeacher) {
+            const controls = document.createElement("div");
+            controls.className = "review-controls";
+            const approveButton = document.createElement("button");
+            approveButton.type = "button";
+            approveButton.textContent = "✅";
+            approveButton.setAttribute("aria-label", `Approva la risposta di ${student.name || "studente"} alla frase ${index + 1}`);
+            approveButton.title = "Approva risposta";
+            approveButton.classList.toggle("selected-approved", review === "approved");
+            approveButton.setAttribute("aria-pressed", review === "approved");
+            approveButton.addEventListener("click", () => setReview(studentId, index, "approved"));
+            const rejectButton = document.createElement("button");
+            rejectButton.type = "button";
+            rejectButton.textContent = "❌";
+            rejectButton.setAttribute("aria-label", `Non approvare la risposta di ${student.name || "studente"} alla frase ${index + 1}`);
+            rejectButton.title = "Non approvare risposta";
+            rejectButton.classList.toggle("selected-rejected", review === "rejected");
+            rejectButton.setAttribute("aria-pressed", review === "rejected");
+            rejectButton.addEventListener("click", () => setReview(studentId, index, "rejected"));
+            controls.append(approveButton, rejectButton);
+            responseBox.appendChild(controls);
+          } else {
+            const status = document.createElement("span");
+            status.className = `review-status ${review}`;
+            status.textContent = review === "approved" ? "✅ Approvata" : review === "rejected" ? "❌ Da correggere" : "⏳ In attesa di revisione";
+            responseBox.appendChild(status);
+          }
+          row.append(author, responseBox);
+          list.appendChild(row);
+        });
+        details.append(summary, list);
+        grouped.appendChild(details);
+      });
+      responsesList.appendChild(grouped);
+    }
+
+    function setReview(studentId, index, status) {
+      if (!isTeacher || !answersRef) return;
+      answersRef.child("allStudentsData").child("students").child(studentId)
+        .child("reviews").child(`answer${index + 1}`).set(status);
+    }
+
+    previousButton.addEventListener("click", () => showSlide(activeSlide - 1));
+    nextButton.addEventListener("click", () => showSlide(activeSlide + 1));
+    previousTokenButton.addEventListener("click", () => {
+      activeTokenSlide = Math.max(0, activeTokenSlide - 1);
+      renderTokenSlide();
+    });
+    nextTokenButton.addEventListener("click", () => {
+      activeTokenSlide = Math.min(questions.length - 1, activeTokenSlide + 1);
+      renderTokenSlide();
+    });
+    btnTakeToken.addEventListener("click", () => {
+      if (!answersRef) return;
+      if (currentWriter === myClientId) answersRef.child("tokenData").child("currentWriter").set(null);
+      else if (!currentWriter) answersRef.child("tokenData").child("currentWriter").set(myClientId);
+    });
+    teacherReleaseTokenButton.addEventListener("click", () => {
+      if (isTeacher && currentWorkMode === "token" && answersRef) {
+        answersRef.child("tokenData").child("currentWriter").set(null);
+      }
+    });
+    teacherToggle.addEventListener("change", () => {
+      isTeacher = teacherToggle.checked;
+      updateMode();
+    });
+    workModeSelect.addEventListener("change", () => {
+      currentWorkMode = workModeSelect.value;
+      updateMode();
+      if (answersRef && isTeacher) answersRef.child("workMode").set(currentWorkMode);
+    });
+    answerInputs.forEach(input => input.addEventListener("input", () => { saveStatus.hidden = true; }));
+
+    document.getElementById("submit-answers").addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome e cognome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+      const answers = Object.fromEntries(answerInputs.map((input, index) => [`answer${index + 1}`, input.value.trim()]));
+      if (!Object.values(answers).some(Boolean)) {
+        alert("Сначала напишите хотя бы один ответ. · Scrivi almeno una risposta prima di inviare.");
+        answerInputs[0].focus();
+        return;
+      }
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      localStorage.setItem("parlo_student_name", name);
+      try {
+        await answersRef.child("allStudentsData").child("students").child(studentId).update({
+          name, answers, timestamp: Date.now()
+        });
+        saveStatus.textContent = "✅ Risposte inviate all’insegnante! · Ответы отправлены учителю!";
+        saveStatus.hidden = false;
+      } catch (error) {
+        alert("Errore durante l'invio delle risposte. · Ошибка при отправке ответов.");
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (!isTeacher || !answersRef || !confirm("Сбросить все ответы? · Azzera tutte le risposte?")) return;
+      answersRef.set({
+        resetId: `${Date.now()}_${myClientId}`,
+        workMode: currentWorkMode,
+        tokenData: { currentWriter: null, answers: Object.fromEntries(questions.map(question => [question.id, ""])) },
+        allStudentsData: {}
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (currentWorkMode !== "token" || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        activeTokenSlide = Math.min(questions.length - 1, activeTokenSlide + 1);
+        renderTokenSlide();
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        activeTokenSlide = Math.max(0, activeTokenSlide - 1);
+        renderTokenSlide();
+      }
+    });
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita53-comparativo-maggioranza");
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          if (data.resetId && data.resetId !== lastResetId) {
+            answerInputs.forEach(input => { input.value = ""; });
+            tokenAnswers = Object.fromEntries(questions.map(question => [question.id, ""]));
+            saveStatus.hidden = true;
+          }
+          lastResetId = data.resetId || null;
+          currentWorkMode = data.workMode === "all" ? "all" : "token";
+          workModeSelect.value = currentWorkMode;
+          const tokenData = data.tokenData || {};
+          currentWriter = tokenData.currentWriter || null;
+          tokenAnswers = { ...Object.fromEntries(questions.map(question => [question.id, ""])), ...(tokenData.answers || {}) };
+          allResponses = data.allStudentsData || {};
+          updateMode();
+        });
+      } catch (error) { console.error("Errore Firebase:", error); }
+    }
+
+    showSlide(0);
+    updateMode();
+  </script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 53 — Il viale del tramonto</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background: #e9e3d6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      z-index: 0;
+      inset: -6px;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover no-repeat,
+        radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .72), transparent 55%);
+      filter: blur(3px);
+    }
+
+    main { position: relative; z-index: 1; width: min(100%, 880px); margin: 0 auto; }
+    .page-heading { margin: 8px 0 14px; text-align: center; }
+
+    .top-exercises { display: flex; justify-content: flex-start; margin: 0 0 14px; }
+    .top-exercises select {
+      min-height: 36px; max-width: 180px; padding: 6px 10px;
+      border: 1px solid #d8e5d8; border-radius: 9px;
+      background: rgba(255, 254, 250, .9); color: var(--green);
+      font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer;
+    }
+    .top-exercises select:hover { border-color: var(--green); background: var(--green-light); }
+    .top-exercises { gap: 10px; }
+    .top-exercises a {
+      display: inline-flex; align-items: center; min-height: 36px; padding: 6px 10px;
+      border: 1px solid #d8e5d8; border-radius: 9px;
+      background: rgba(255, 254, 250, .9); color: var(--green);
+      font-size: .88rem; font-weight: 700; text-decoration: none;
+    }
+    .top-exercises a:hover { border-color: var(--green); background: var(--green-light); }
+    .top-exercises .home-link { order: 0; justify-content: center; width: 36px; padding: 0; }
+    .top-exercises .home-link svg { width: 19px; height: 19px; }
+    #teacher-group-switch { order: 1; }
+    #exercise-menu { order: 2; margin-left: auto; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    .eyebrow {
+      display: inline-block; margin-bottom: 12px; padding: 8px 15px;
+      border-radius: 20px; background: rgba(255, 254, 250, .9); color: var(--green);
+      font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+    }
+
+    .banner {
+      aspect-ratio: 4 / 1; position: relative; overflow: hidden; margin: 0 0 22px;
+      border: 1px solid rgba(71, 119, 85, .15); border-radius: 26px;
+      background: url("img/banner.jpeg") center / cover no-repeat;
+      box-shadow: 0 14px 36px rgba(43, 69, 46, .12);
+    }
+    .banner::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(31, 35, 29, .18), transparent 65%);
+    }
+
+    .page-heading h1 {
+      margin: 0; color: var(--green); font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: -.045em; line-height: 1.1;
+    }
+    .subtitle { margin: 12px 0 0; color: var(--muted); font-size: 1.05rem; }
+
+    .video-card {
+      max-width: 820px; margin: 0 auto 24px; padding: clamp(18px, 4vw, 30px);
+      border: 1px solid #4a5149; border-radius: 22px;
+      background: linear-gradient(145deg, #30352f, #171b18 72%);
+      box-shadow: 0 18px 40px rgba(26, 30, 26, .25), inset 0 1px rgba(255, 255, 255, .08);
+      color: #f8f5eb;
+    }
+    .video-card[hidden], .reading[hidden] { display: none; }
+    .video-card h2 {
+      margin: 0 0 16px; color: #f8f5eb;
+      font-size: clamp(1.1rem, 3vw, 1.35rem); letter-spacing: .02em;
+    }
+    .video-frame {
+      aspect-ratio: 16 / 9; overflow: hidden; padding: 7px;
+      border: 1px solid rgba(231, 208, 160, .45); border-radius: 14px;
+      background: #090b0a;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .05);
+    }
+    .video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+    .reading {
+      position: relative; max-width: 820px; margin: 0 auto;
+      padding: clamp(30px, 7vw, 68px) clamp(24px, 8vw, 82px);
+      border: 1px solid #d8ccb5; border-radius: 4px 12px 12px 4px;
+      background:
+        repeating-linear-gradient(0deg, rgba(112, 83, 48, .018) 0, rgba(112, 83, 48, .018) 1px, transparent 1px, transparent 4px),
+        linear-gradient(90deg, #f0e7d4 0, #fbf6e9 5%, #fffaf0 18%, #fffaf0 100%);
+      box-shadow: 0 18px 42px rgba(68, 53, 34, .18), inset 12px 0 18px rgba(111, 78, 42, .07);
+      color: #2b261f; font-family: Georgia, 'Times New Roman', serif;
+    }
+    .reading::before {
+      content: ""; position: absolute; top: 18px; bottom: 18px; left: 17px;
+      width: 1px; background: rgba(154, 103, 66, .18);
+    }
+    .reading p {
+      margin: 0 0 18px; font-size: clamp(1.12rem, 2.1vw, 1.22rem);
+      line-height: 1.8; text-align: left; text-indent: 1.2em; hyphens: auto;
+    }
+    .reading p:first-of-type::first-letter {
+      float: left; margin: .08em .12em 0 0; color: #8b5c3d;
+      font-size: 3.2em; font-weight: 700; line-height: .8;
+    }
+    .reading p[hidden] { display: none; }
+    .reading p:last-child { margin-bottom: 0; }
+
+    .reading-navigation {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      max-width: 820px; margin: 24px auto 0; padding: 16px 0 0;
+      border-top: 1px solid #d9cbb2; font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+    }
+    .reading-navigation button, .reading-navigation a {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 14px;
+      border: 1px solid #c9d8c9; border-radius: 10px;
+      background: rgba(255, 254, 250, .8); color: var(--green);
+      font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .reading-navigation button:hover:not(:disabled), .reading-navigation a:hover {
+      border-color: var(--green); background: var(--green-light);
+    }
+    .reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .reading-navigation [hidden] { display: none; }
+    .reading-progress {
+      color: #59452f; font-size: .92rem; font-weight: 800; text-align: center; white-space: nowrap;
+    }
+
+    .vocab-tip {
+      position: relative; color: #315b3a;
+      text-decoration: underline dotted #bd694d 2px; text-underline-offset: 3px; cursor: help;
+    }
+    .vocab-tip::after {
+      content: attr(data-tip); position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 9px);
+      width: max-content; max-width: min(290px, 75vw); padding: 9px 12px;
+      border: 1px solid #d8ccb5; border-radius: 10px; background: #fffaf0; color: #292d28;
+      box-shadow: 0 6px 18px rgba(43, 41, 32, .18);
+      font: 600 .9rem/1.45 'Segoe UI', Inter, system-ui, sans-serif;
+      text-align: left; white-space: normal; opacity: 0; visibility: hidden;
+      transform: translate(-50%, 4px); transition: opacity .16s ease, transform .16s ease, visibility .16s;
+      pointer-events: none;
+    }
+    .vocab-tip:hover::after, .vocab-tip:focus::after {
+      opacity: 1; visibility: visible; transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 10px; }
+      .reading { padding: 34px 24px 34px 30px; }
+      .reading::before { left: 12px; }
+      .reading p { text-align: left; line-height: 1.8; }
+      .reading-navigation { gap: 6px; }
+      .reading-navigation button, .reading-navigation a { padding: 8px 10px; font-size: .85rem; }
+      .reading-progress { font-size: .82rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-exercises" aria-label="Menu degli esercizi">
+      <label for="exercise-menu" class="visually-hidden">Seleziona un esercizio</label>
+      <select id="exercise-menu">
+        <option value="">Esercizi</option>
+        <option value="es_a.html">Esercizio A</option>
+        <option value="es_b.html">Esercizio B</option>
+        <option value="es_c.html">Esercizio C</option>
+        <option value="es_d.html">Esercizio D</option>
+        <option value="es_e.html">Esercizio E</option>
+        <option value="es_f.html">Esercizio F</option>
+        <option value="es_g.html">Esercizio G</option>
+        <option value="es_h.html">Esercizio H</option>
+        <option value="es_i.html">Esercizio I</option>
+        <option value="es_j.html">Esercizio J</option>
+        <option value="es_k.html">Esercizio K</option>
+      </select>
+      <a class="home-link" href="../index.html" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+    </nav>
+    <div class="page-heading">
+      <span class="eyebrow">Lettura · Unità 53</span>
+    </div>
+    <div class="banner" role="img" aria-label="Viale al tramonto"></div>
+    <header class="page-heading">
+      <h1>Il viale del tramonto</h1>
+      <p class="subtitle">Guardate il video, leggete il racconto e scoprite le parole nuove.</p>
+      <p id="user-badge" class="subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+
+    <section class="video-card" aria-labelledby="video-title">
+      <h2 id="video-title">🎬 Guarda il video</h2>
+      <div class="video-frame">
+        <iframe
+          src="https://www.youtube.com/embed/zCDi4p75Z4k"
+          title="Il viale del tramonto — video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <article class="reading" aria-label="Testo del racconto">
+      <p>Un giorno, una signora entra in una pellicceria con un uomo <span class="vocab-tip" tabindex="0" data-tip="в сопровождении; буквально: «с человеком за ней»" aria-label="al seguito: в сопровождении">al seguito</span>. Lei è <span class="vocab-tip" tabindex="0" data-tip="среднего возраста" aria-label="di mezza età: среднего возраста">di mezza età</span>, elegante ma vestita come <span class="vocab-tip" tabindex="0" data-tip="дива 50-х годов" aria-label="una diva degli anni '50: дива пятидесятых годов">una diva degli anni '50</span>; lui <span class="vocab-tip" tabindex="0" data-tip="кажется, будто вышел из нуарного фильма — мрачного криминального жанра" aria-label="sembra uscito da un film noir: словно вышел из нуарного фильма">sembra uscito da un film noir</span> con quel completo nero e il berretto dello stesso colore.</p>
+      <p>La signora guarda le pellicce in esposizione, e ne vede due che le piacciono. “Posso provarle?”, chiede. “Ma certo, Signora”, risponde il commesso. “Sono indecisa”, dice lei, osservando le pellicce. “Lo <span class="vocab-tip" tabindex="0" data-tip="соболь; здесь — соболиный мех" aria-label="zibellino: соболь">zibellino</span> mi sembra un po’ pesante. E poi... quanto costa, scusi?”. “Lo zibellino 6.800 euro, il <span class="vocab-tip" tabindex="0" data-tip="норка; здесь — мех норки" aria-label="visone: норка">visone</span> 2.900”. “Beh, sono entrambe così belle che le prenderei tutte e due,” dice lei. “Ottima scelta, Signora”, dice il commesso, che ormai già sogna la sua provvigione.</p>
+      <p>Ma l’uomo che la accompagna <span class="vocab-tip" tabindex="0" data-tip="вмешивается в разговор" aria-label="interviene: вмешивается">interviene</span>: “Io non prenderei né l’una né l’altra”. La signora lo guarda, <span class="vocab-tip" tabindex="0" data-tip="недовольная, раздосадованная" aria-label="contrariata: недовольная">contrariata</span>. “Germano! Ma che dice! Scusi, eh, il mio autista non è molto educato. Comunque per le pellicce ci penserò”, e escono dal negozio come due divi di Hollywood.</p>
+      <p>Subito dopo <span class="vocab-tip" tabindex="0" data-tip="направляются" aria-label="si dirigono: направляются">si dirigono</span> verso una <span class="vocab-tip" tabindex="0" data-tip="ювелирный магазин" aria-label="gioielleria: ювелирный магазин">gioielleria</span>. La signora vede due <span class="vocab-tip" tabindex="0" data-tip="кольца" aria-label="anelli: кольца">anelli</span>, uno con un diamante e l’altro con un rubino enorme. “Quale mi consiglierebbe?”, chiede al gioielliere. “Vede, Signora, il diamante ha più luce del rubino, ma il rubino è più caldo. Dipende dal Suo stile”, risponde il gioielliere, già <span class="vocab-tip" tabindex="0" data-tip="предвкушая продажу, заранее радуясь ей" aria-label="pregustando: предвкушая">pregustando</span> la vendita. “Io, per non sbagliare, li prenderei tutti e due,” dice lei.</p>
+      <p>“Io invece non prenderei nulla, Signora Contessa”, <span class="vocab-tip" tabindex="0" data-tip="вмешивается в разговор" aria-label="interviene: вмешивается">interviene</span> di nuovo Germano, con la delicatezza di un elefante. “Germano! Ma Lei è proprio senza speranza... viene dalla campagna, Lo scusi... non sa come ci si comporta e non capisce il valore delle cose. Comunque ci penserò, grazie”, e se ne escono dal negozio.</p>
+      <p>Proseguono in un negozio di abbigliamento. Anche qui, la signora è indecisa tra un paio di pantaloni di pelle nera, <span class="vocab-tip" tabindex="0" data-tip="strettissimi, molto aderenti" aria-label="attillatissimi: molto aderenti">attillatissimi</span>, e un paio di <span class="vocab-tip" tabindex="0" data-tip="джинсы с прорехами, рваные джинсы" aria-label="jeans strappati: рваные джинсы">jeans strappati</span>, pieni di <span class="vocab-tip" tabindex="0" data-tip="блёстки, маленькие блестящие украшения" aria-label="brillantini: блёстки">brillantini</span>. La commessa, un po' <span class="vocab-tip" tabindex="0" data-tip="смущённая, неловко себя чувствующая" aria-label="imbarazzata: смущённая">imbarazzata</span>, suggerisce: “Forse dovrebbe guardare in un altro negozio, queste taglie non fanno per Lei”.</p>
+      <p>“Ma no, sono perfetti! Certo, i pantaloni sono più eleganti, ma i jeans sono così... moderni. Che ne dice, Germano?”. “Io tornerei a casa, Signora Contessa”, <span class="vocab-tip" tabindex="0" data-tip="выпаливает, резко говорит; обычно из раздражения" aria-label="sbotta: выпаливает">sbotta</span> lui, <span class="vocab-tip" tabindex="0" data-tip="измученный, совершенно уставший" aria-label="esausto: совершенно уставший">esausto</span>. E ancora una volta escono senza aver comprato niente.</p>
+      <p>Infine, passano davanti a una <span class="vocab-tip" tabindex="0" data-tip="автосалон" aria-label="concessionaria: автосалон">concessionaria</span> di auto. La contessa si ferma a osservare le vetrine. “In effetti, una macchina nuova non ci starebbe male, Germano”. Lui <span class="vocab-tip" tabindex="0" data-tip="тяжело вздыхает" aria-label="sospira: вздыхает">sospira</span> profondamente, ma non dice niente. “Quella Lamborghini <span class="vocab-tip" tabindex="0" data-tip="подошла бы как нельзя лучше; идиома: идеально подходить" aria-label="andrebbe a pennello: подошла бы идеально">andrebbe a pennello</span> con lo zibellino di prima, ma l’Alfa Romeo è una macchina più affidabile della Lamborghini, non è vero?”. Questa volta, continuano a camminare, <span class="vocab-tip" tabindex="0" data-tip="даже не войдя внутрь" aria-label="senza neanche entrare: даже не войдя">senza neanche entrare</span> nell’autosalone.</p>
+      <p>Arrivano alla fermata dell’autobus. La signora, ancora offesa, <span class="vocab-tip" tabindex="0" data-tip="ворчит, бормочет себе под нос" aria-label="borbotta: ворчит">borbotta</span>: “Che <span class="vocab-tip" tabindex="0" data-tip="грубая, невоспитанная женщина; разговорное неодобрительное слово" aria-label="cafona: грубая, невоспитанная женщина">cafona</span> quella commessa! Solo perché è più giovane e più magra di me... Il commesso della pellicceria, invece, sì che era un gentiluomo. Non trova, Germano?”. Proprio in quel momento arriva l’autobus. La contessa e Germano salgono, trovano due posti liberi e si siedono. “Ah, Germano, mi sono scordata: non ho monete. Potrebbe fare i biglietti Lei , per favore?”</p>
+    </article>
+
+    <nav class="reading-navigation" aria-label="Navigazione del racconto">
+      <button id="previous-paragraph" type="button">← Precedente</button>
+      <span id="reading-progress" class="reading-progress" role="status" aria-live="polite"></span>
+      <button id="next-paragraph" type="button">Successivo →</button>
+      <a id="exercise-a-link" href="es_a.html" hidden>Vai all’esercizio A →</a>
+    </nav>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
+    const previousParagraphButton = document.getElementById("previous-paragraph");
+    const nextParagraphButton = document.getElementById("next-paragraph");
+    const exerciseALink = document.getElementById("exercise-a-link");
+    const readingProgress = document.getElementById("reading-progress");
+    const videoCard = document.querySelector(".video-card");
+    const readingCard = document.querySelector(".reading");
+    let currentSlide = 0;
+    const totalSlides = storyParagraphs.length + 1;
+
+    function showSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      videoCard.hidden = currentSlide !== 0;
+      readingCard.hidden = currentSlide === 0;
+      storyParagraphs.forEach((paragraph, paragraphIndex) => {
+        paragraph.hidden = paragraphIndex !== currentSlide - 1;
+      });
+      previousParagraphButton.disabled = currentSlide === 0;
+      const isLastSlide = currentSlide === totalSlides - 1;
+      nextParagraphButton.hidden = isLastSlide;
+      nextParagraphButton.disabled = isLastSlide;
+      exerciseALink.hidden = !isLastSlide;
+      readingProgress.textContent = currentSlide === 0
+        ? "Video introduttivo"
+        : `Paragrafo ${currentSlide} di ${storyParagraphs.length}`;
+    }
+
+    previousParagraphButton.addEventListener("click", () => showSlide(currentSlide - 1));
+    nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
+    showSlide(0);
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : Math.min(window.scrollY * 0.12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+
+    function getLoginParams() {
+      const params = new URLSearchParams(location.search);
+      try {
+        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
+      } catch (_) {}
+      return params;
+    }
+
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (!href || !/^es_[a-z]\.html$/i.test(href)) return;
+      const target = new URL(href, location.href);
+      getLoginParams().forEach((value, key) => target.searchParams.set(key, value));
+      link.href = `${target.pathname}${target.search}${target.hash}`;
+    });
+
+    document.getElementById("exercise-menu").addEventListener("change", (event) => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = getLoginParams();
+      ["gruppo", "nome"].forEach(key => {
+        if (params.has(key)) target.searchParams.set(key, params.get(key));
+      });
+      window.location.href = target.href;
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
+      if (event.key === "ArrowLeft" && currentSlide > 0) {
+        event.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (event.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+        event.preventDefault();
+        showSlide(currentSlide + 1);
+      }
+    });
+  // ─── Badge utente dalla query string ───
+    (function() {
+      const params = getLoginParams();
+      const gruppo = params.get("gruppo");
+      const nome = params.get("nome");
+      const badge = document.getElementById("user-badge");
+      if (gruppo && nome) {
+        badge.textContent = `👤 ${gruppo} · ${nome}`;
+      } else if (gruppo) {
+        badge.textContent = `👩‍🏫 Insegnante · ${gruppo}`;
+      } else {
+        badge.hidden = true;
+      }
+    })();
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>
