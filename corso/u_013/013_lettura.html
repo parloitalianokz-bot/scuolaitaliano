@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Leggi e ascolta Il grande scrittore, Unità 13." />
+  <title>Unità 13 — Il grande scrittore</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% 0, rgba(255,255,255,.8), transparent 55%),
+        #e9e3d6;
+    }
+    main { width: min(100%, 880px); margin: 0 auto; }
+    .top-exercises { display: flex; justify-content: flex-start; margin: 0 0 14px; }
+    .top-exercises select {
+      min-height: 36px;
+      max-width: 180px;
+      padding: 6px 10px;
+      border: 1px solid #d8e5d8;
+      border-radius: 9px;
+      background: #fffefa;
+      color: var(--green);
+      font: inherit;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .top-exercises select:hover { border-color: var(--green); background: var(--green-light); }
+    .top-exercises { gap: 10px; }
+    .top-exercises a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 6px 10px;
+      border: 1px solid #d8e5d8;
+      border-radius: 9px;
+      background: #fffefa;
+      color: var(--green);
+      font-size: .88rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .top-exercises a:hover { border-color: var(--green); background: var(--green-light); }
+    .top-exercises .home-link { order: 0; justify-content: center; width: 36px; padding: 0; }
+    .top-exercises .home-link svg { width: 19px; height: 19px; }
+    #teacher-group-switch { order: 1; }
+    #exercise-menu { order: 2; margin-left: auto; }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    header { margin: 20px 0 24px; text-align: center; }
+    .banner {
+      aspect-ratio: 4 / 1;
+      overflow: hidden;
+      margin: 0 0 22px;
+      border: 1px solid rgba(71, 119, 85, .15);
+      border-radius: 26px;
+      background: url("img/banner.jpeg") center / cover no-repeat;
+      box-shadow: 0 14px 36px rgba(43, 69, 46, .09);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #fffefa;
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: -.045em;
+      line-height: 1.1;
+    }
+    .subtitle { margin: 12px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .video-card, .reading {
+      max-width: 820px;
+      margin: 0 auto;
+      border-radius: 20px;
+      box-shadow: 0 18px 42px rgba(43, 53, 41, .14);
+    }
+    .video-card {
+      padding: clamp(18px, 4vw, 30px);
+      background: linear-gradient(145deg, #30352f, #171b18 72%);
+      color: #f8f5eb;
+    }
+    .video-card[hidden], .reading[hidden] { display: none; }
+    .video-card h2 { margin: 0 0 16px; font-size: 1.2rem; }
+    .video-frame {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      padding: 7px;
+      border: 1px solid rgba(231, 208, 160, .45);
+      border-radius: 14px;
+      background: #090b0a;
+    }
+    .video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .reading {
+      position: relative;
+      padding: clamp(30px, 7vw, 68px) clamp(24px, 8vw, 82px);
+      border: 1px solid #d8ccb5;
+      background:
+        repeating-linear-gradient(0deg, rgba(112,83,48,.018) 0, rgba(112,83,48,.018) 1px, transparent 1px, transparent 4px),
+        linear-gradient(90deg, #f0e7d4 0, #fbf6e9 5%, #fffaf0 18%, #fffaf0 100%);
+      color: #2b261f;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .reading::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      bottom: 18px;
+      left: 17px;
+      width: 1px;
+      background: rgba(154, 103, 66, .18);
+    }
+    .reading p { margin: 0; font-size: clamp(1.12rem, 2.1vw, 1.22rem); line-height: 1.8; text-indent: 1.2em; }
+    .vocab-tip {
+      position: relative;
+      color: #315b3a;
+      text-decoration: underline dotted var(--accent) 2px;
+      text-underline-offset: 3px;
+      cursor: help;
+    }
+    .vocab-tip::after {
+      content: attr(data-tip);
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      width: max-content;
+      max-width: min(290px, 75vw);
+      padding: 9px 12px;
+      border: 1px solid #d8ccb5;
+      border-radius: 10px;
+      background: #fffaf0;
+      color: var(--text);
+      box-shadow: 0 6px 18px rgba(43, 41, 32, .18);
+      font: 600 .9rem/1.45 'Segoe UI', Inter, system-ui, sans-serif;
+      text-align: left;
+      white-space: normal;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 4px);
+      transition: opacity .16s ease, transform .16s ease, visibility .16s;
+      pointer-events: none;
+    }
+    .vocab-tip:hover::after, .vocab-tip:focus::after { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+    .reading-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 820px;
+      margin: 24px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid #d9cbb2;
+    }
+    .reading-navigation button, .reading-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid #c9d8c9;
+      border-radius: 10px;
+      background: #fffefa;
+      color: var(--green);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .reading-navigation button:hover:not(:disabled), .reading-navigation a:hover { border-color: var(--green); background: var(--green-light); }
+    .reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .reading-navigation [hidden] { display: none; }
+    .reading-progress { color: #59452f; font-size: .92rem; font-weight: 800; text-align: center; white-space: nowrap; }
+    @media (max-width: 600px) {
+      body { padding: 16px 10px; }
+      .reading { padding: 34px 24px 34px 30px; }
+      .reading::before { left: 12px; }
+      .reading-navigation { gap: 6px; }
+      .reading-navigation button { padding: 8px 10px; font-size: .85rem; }
+      .reading-progress { font-size: .82rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-exercises" aria-label="Menu degli esercizi">
+      <label for="exercise-menu" class="visually-hidden">Seleziona un esercizio</label>
+      <select id="exercise-menu">
+        <option value="">Esercizi</option>
+        <option value="es_a.html">Esercizio A</option>
+        <option value="es_b.html">Esercizio B</option>
+        <option value="es_c.html">Esercizio C</option>
+        <option value="es_d.html">Esercizio D</option>
+        <option value="es_e.html">Esercizio E</option>
+        <option value="es_f.html">Esercizio F</option>
+        <option value="es_g.html">Esercizio G</option>
+        <option value="es_h.html">Esercizio H</option>
+        <option value="es_i.html">Esercizio I</option>
+        <option value="es_j.html">Esercizio J</option>
+        <option value="es_k.html">Esercizio K</option>
+        <option value="es_l.html">Esercizio L</option>
+        <option value="es_m.html">Esercizio M</option>
+        <option value="es_n.html">Esercizio N</option>
+        <option value="es_o.html">Esercizio O</option>
+        <option value="es_p.html">Esercizio P</option>
+      </select>
+      <a class="home-link" href="../index.html" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+    </nav>
+    <div class="banner" role="img" aria-label="Immagine introduttiva del racconto Il grande scrittore"></div>
+    <header>
+      <span class="eyebrow">Lettura · Unità 13</span>
+      <h1>Il grande scrittore</h1>
+      <p class="subtitle">Guardate il video, leggete il racconto e scoprite le parole nuove.</p>
+      <p id="user-badge" class="subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+
+    <section class="video-card" aria-labelledby="video-title">
+      <h2 id="video-title">🎬 Guarda il video</h2>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/wHLKCpX_F2o" title="Il grande scrittore — video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <article class="reading" aria-label="Testo del racconto">
+      <p>Mi chiamo Riccardo Ricchi. Sono uno scrittore, un grande scrittore. Oggi è un grande giorno: devo cominciare un nuovo romanzo, un grande romanzo.</p>
+      <p>La mattina comincio a scrivere presto: devo scrivere tutto il giorno, devo scrivere un grande romanzo. Per fortuna abito da solo, in un vecchio castello <span class="vocab-tip" tabindex="0" data-tip="на вершине">in cima a</span> una montagna, così posso scrivere <span class="vocab-tip" tabindex="0" data-tip="спокойно; в тишине">in pace</span>. Ho un cane, che si chiama Dante, e ho anche una donna di servizio, che si chiama Beatrice.</p>
+      <p>La donna di servizio arriva alle dieci. Lei pulisce tutte le stanze del castello e poi prepara il pranzo. Io non posso pulire e preparare il pranzo: sono un grande scrittore e devo scrivere.</p>
+      <p>Scrivo tutta la mattina, fino a mezzogiorno. A mezzogiorno Beatrice, la donna di servizio, viene da me e dice: “Signor Ricchi, non vuole mangiare? Il pranzo è pronto!”. Ma io non posso mangiare, devo scrivere.</p>
+      <p>Continuo a scrivere. Alle cinque il mio cane, Dante, viene da me e <span class="vocab-tip" tabindex="0" data-tip="лает">abbaia</span>: vuole fare una passeggiata. Ma io non posso passeggiare, devo scrivere. Dico: “Basta, Dante!”. E continuo a scrivere. Scrivo tutto il pomeriggio.</p>
+      <p>La sera Beatrice prepara la cena, e poi lava i piatti. Io non posso fare queste cose, devo scrivere un grande romanzo. Alle nove i miei amici telefonano perché vogliono andare al cinema. Ma io non posso andare al cinema con loro: sono un grande scrittore, devo scrivere un grande romanzo! Perché nessuno lo capisce?</p>
+      <p>Scrivo tutta la sera, fino a mezzanotte. Però non sono contento del mio lavoro. Alla fine <span class="vocab-tip" tabindex="0" data-tip="зажигаю огонь; разжигаю камин">accendo il fuoco</span> nel caminetto e <span class="vocab-tip" tabindex="0" data-tip="бросаю">butto</span> il mio romanzo nel fuoco. Il romanzo brucia e io vado a letto.</p>
+      <p>Ma la mattina tutto <span class="vocab-tip" tabindex="0" data-tip="начинается снова">ricomincia</span>: sono un grande scrittore e devo scrivere un grande romanzo! Oggi è un grande giorno!</p>
+    </article>
+
+    <nav class="reading-navigation" aria-label="Navigazione del racconto">
+      <button id="previous-paragraph" type="button">← Precedente</button>
+      <span id="reading-progress" class="reading-progress" role="status" aria-live="polite"></span>
+      <button id="next-paragraph" type="button">Successivo →</button>
+      <a id="exercise-a-link" href="es_a.html" hidden>Vai all’esercizio A →</a>
+    </nav>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
+    const previousButton = document.getElementById("previous-paragraph");
+    const nextButton = document.getElementById("next-paragraph");
+    const exerciseALink = document.getElementById("exercise-a-link");
+    const readingProgress = document.getElementById("reading-progress");
+    const videoCard = document.querySelector(".video-card");
+    const readingCard = document.querySelector(".reading");
+    let currentSlide = 0;
+    const totalSlides = storyParagraphs.length + 1;
+
+    function showSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      videoCard.hidden = currentSlide !== 0;
+      readingCard.hidden = currentSlide === 0;
+      storyParagraphs.forEach((paragraph, paragraphIndex) => {
+        paragraph.hidden = paragraphIndex !== currentSlide - 1;
+      });
+      previousButton.disabled = currentSlide === 0;
+      const isLastSlide = currentSlide === totalSlides - 1;
+      nextButton.hidden = isLastSlide;
+      nextButton.disabled = isLastSlide;
+      exerciseALink.hidden = !isLastSlide;
+      readingProgress.textContent = currentSlide === 0
+        ? "Video introduttivo"
+        : `Paragrafo ${currentSlide} di ${storyParagraphs.length}`;
+    }
+
+    previousButton.addEventListener("click", () => showSlide(currentSlide - 1));
+    nextButton.addEventListener("click", () => showSlide(currentSlide + 1));
+    function getLoginParams() {
+      const params = new URLSearchParams(location.search);
+      try {
+        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
+      } catch (_) {}
+      return params;
+    }
+
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (!href || !/^es_[a-z]\.html$/i.test(href)) return;
+      const target = new URL(href, location.href);
+      getLoginParams().forEach((value, key) => target.searchParams.set(key, value));
+      link.href = `${target.pathname}${target.search}${target.hash}`;
+    });
+
+    document.getElementById("exercise-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = getLoginParams();
+      ["gruppo", "nome"].forEach(key => {
+        if (params.has(key)) target.searchParams.set(key, params.get(key));
+      });
+      window.location.href = target.href;
+    });
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
+      if (event.key === "ArrowLeft" && currentSlide > 0) showSlide(currentSlide - 1);
+      if (event.key === "ArrowRight" && currentSlide < totalSlides - 1) showSlide(currentSlide + 1);
+    });
+    showSlide(0);
+  // ─── Badge utente dalla query string ───
+    (function() {
+      const params = getLoginParams();
+      const gruppo = params.get("gruppo");
+      const nome = params.get("nome");
+      const badge = document.getElementById("user-badge");
+      if (gruppo && nome) {
+        badge.textContent = `👤 ${gruppo} · ${nome}`;
+      } else if (gruppo) {
+        badge.textContent = `👩‍🏫 Insegnante · ${gruppo}`;
+      } else {
+        badge.hidden = true;
+      }
+    })();
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>
