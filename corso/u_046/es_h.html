@@ -51,6 +51,10 @@
     .answer-input { width:clamp(92px,17vw,145px); min-height:40px; margin:2px 3px; padding:6px 9px; border:1.5px solid #d4e1d5; border-radius:9px; background:#fff; color:var(--primary-dark); font:700 .98rem 'Segoe UI',Inter,system-ui,sans-serif; text-align:center; }
     .answer-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(71,119,85,.15); }
     .answer-input:disabled { background:#f1f5f1; color:#5f6863; cursor:not-allowed; }
+    .submit-contribution { align-self:flex-start; min-height:42px; padding:9px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .submit-contribution:hover:not(:disabled) { background:var(--primary-dark); }
+    .submit-contribution:disabled { cursor:not-allowed; opacity:.5; }
+    .shared-text-note { margin:0 0 16px; color:var(--text-muted); font-size:.88rem; line-height:1.5; }
     .answer-input.correct { border-color:var(--success); background:var(--success-bg); color:#17623c; }
     .answer-input.incorrect { border-color:var(--error); background:var(--error-bg); color:#991b1b; }
     .answer-feedback { min-height:22px; margin:0; font-size:.9rem; font-weight:800; }
@@ -116,6 +120,7 @@
     <section class="card" aria-label="Frasi con fare e prendere">
       <div class="assignment-bar"><p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p></div>
       <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+      <p class="shared-text-note">Le risposte sono condivise con la classe: solo chi ha il turno può modificarle. Premi «Invia il contributo» per aggiungere la risposta alla scheda corrente.</p>
       <div class="slide-viewport"><div id="slides-track" class="slides-track"></div></div>
       <nav class="slide-navigation" aria-label="Navigazione delle frasi">
         <button id="previous-slide" type="button">← Precedente</button>
@@ -125,8 +130,8 @@
       <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
       <input id="progress-range" class="progress-range" type="range" min="0" max="11" value="0" aria-label="Vai a una frase">
     </section>
-    <section class="results-section card" id="results-section" aria-label="Risposte della classe" hidden>
-      <h2>📋 Risposte della classe · Risposte degli studenti</h2>
+    <section class="results-section card" id="results-section" aria-label="Contributi degli studenti">
+      <h2>📋 Contributi degli studenti · Risposte della classe</h2>
       <div id="responses-list"></div>
     </section>
   </main>
@@ -173,12 +178,13 @@
     const navNext = document.getElementById("next-slide");
 
     teacherControls.hidden = !isTeacher;
-    resultsSection.hidden = !isTeacher;
+    resultsSection.hidden = false;
 
     let answersRef = null;
     let groupRoster = [];
     let presenceData = {};
-    let allStudentsData = {};
+    let allContributions = {};
+    let sharedAnswers = emptyAnswers();
     let currentWriter = "";
     let currentWriterRole = "";
     let currentAnswers = emptyAnswers();
@@ -282,10 +288,10 @@
           if (!isAssignedToCurrentUser() || snapshotPending) return;
           const values = [...card.querySelectorAll(".answer-input")].map(field => field.value);
           currentAnswers[question.id] = values;
+          sharedAnswers[question.id] = values;
           updateFeedback(question, card);
-          saveStatus.classList.remove("error");
-          showSaveStatus("Salvataggio della risposta…");
-          pendingAnswers = structuredClone(currentAnswers);
+          showSaveStatus("Salvataggio delle risposte condivise…");
+          pendingAnswers = { questionId: question.id, values };
           clearTimeout(writeTimer);
           writeTimer = setTimeout(savePendingAnswers, 350);
         });
@@ -295,11 +301,17 @@
       const feedback = document.createElement("p");
       feedback.className = "answer-feedback";
       feedback.setAttribute("aria-live", "polite");
-      card.append(sentence, feedback);
+      const submitButton = document.createElement("button");
+      submitButton.type = "button";
+      submitButton.className = "submit-contribution";
+      submitButton.textContent = "📤 Invia il contributo";
+      submitButton.disabled = true;
+      submitButton.addEventListener("click", () => submitContribution(question, card, submitButton));
+      card.append(sentence, feedback, submitButton);
       const hint = createTeacherHint(question);
       if (hint) card.appendChild(hint);
-              slidesTrack.appendChild(card);
-        if (slideResizeObserver) slideResizeObserver.observe(card);
+      slidesTrack.appendChild(card);
+      if (slideResizeObserver) slideResizeObserver.observe(card);
       });
 
     function updateSlides() {
@@ -310,6 +322,7 @@
       document.getElementById("slide-counter").textContent = `Frase ${activeSlide + 1} di ${questions.length}`;
       progressRange.value = activeSlide;
       progressFill.style.width = `${((activeSlide + 1) / questions.length) * 100}%`;
+      renderResponses();
     }
 
     function updateAssignment() {
@@ -324,7 +337,7 @@
       } else if (isAssignedToCurrentUser()) {
         assignmentStatus.textContent = `✍️ È il tuo turno, ${sessionName}: completa le frasi. La correzione è automatica.`;
       } else {
-        assignmentStatus.textContent = `🔒 Il turno è assegnato a ${currentWriter}. Puoi consultare le frasi, ma non modificarle.`;
+        assignmentStatus.textContent = `🔒 Il turno è assegnato a ${currentWriter}. Puoi leggere le risposte condivise e i contributi, ma non modificarli.`;
       }
       slidesTrack.querySelectorAll(".slide-item").forEach(card => {
         const question = questions[Number(card.getAttribute("aria-label").match(/\d+/)[0]) - 1];
@@ -334,6 +347,7 @@
           const value = currentAnswers[question.id]?.[index] || "";
           if (document.activeElement !== input && input.value !== value) input.value = value;
         });
+        card.querySelector(".submit-contribution").disabled = !isAssignedToCurrentUser();
         updateFeedback(question, card);
       });
     }
@@ -378,14 +392,10 @@
     }
 
     function restoreAnswersForWriter() {
-      const saved = currentWriter ? allStudentsData[safe(currentWriter)]?.answers || {} : {};
-      currentAnswers = emptyAnswers();
-      questions.forEach(question => {
-        const values = saved[question.id];
-        if (Array.isArray(values)) currentAnswers[question.id] = question.keys.map((_, index) => String(values[index] || ""));
-        else if (values && typeof values === "object") currentAnswers[question.id] = question.keys.map((_, index) => String(values[index] || ""));
-        else if (typeof values === "string" && question.keys.length === 1) currentAnswers[question.id] = [values];
-      });
+      currentAnswers = Object.fromEntries(questions.map(question => [
+        question.id,
+        question.keys.map((_, index) => String(sharedAnswers[question.id]?.[index] || ""))
+      ]));
       updateAssignment();
     }
 
@@ -394,67 +404,87 @@
     }
 
     function renderResponses() {
-      if (!isTeacher) return;
       responsesList.replaceChildren();
-      const entries = Object.entries(allStudentsData)
-        .filter(([, person]) => person?.answers && Object.values(person.answers).some(value => Array.isArray(value) ? value.some(item => String(item || "").trim()) : String(value || "").trim()))
-        .sort((a, b) => String(a[1].name || "").localeCompare(String(b[1].name || ""), "it"));
+      const question = questions[activeSlide];
+      const entries = Object.entries(allContributions[question.id] || {})
+        .map(([id, contribution]) => ({ ...contribution, id }))
+        .filter(contribution => String(contribution.text || "").trim())
+        .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0) || a.id.localeCompare(b.id));
+      const details = document.createElement("details");
+      details.className = "question-responses";
+      details.open = true;
+      const summary = document.createElement("summary");
+      summary.textContent = `${question.number}. ${formatAnswer(question, [])}`;
+      const list = document.createElement("div");
+      list.className = "answer-list";
       if (!entries.length) {
         const empty = document.createElement("p");
         empty.className = "empty-message";
-        empty.textContent = "Пока никто не отправил ответы... · Non ci sono ancora risposte.";
-        responsesList.appendChild(empty);
+        empty.textContent = "Nessun contributo per questa scheda.";
+        list.appendChild(empty);
+      }
+      entries.forEach(contribution => {
+        const row = document.createElement("div");
+        row.className = "answer-row";
+        const author = document.createElement("span");
+        author.className = "answer-author";
+        const timestamp = Number(contribution.timestamp);
+        const dateLabel = timestamp ? new Date(timestamp).toLocaleString("it-IT") : "";
+        author.textContent = `${contribution.name || "Studente"}${dateLabel ? ` · ${dateLabel}` : ""}`;
+        const answer = document.createElement("span");
+        answer.className = "answer-text";
+        answer.textContent = String(contribution.text || "").trim();
+        row.append(author, answer);
+        list.appendChild(row);
+      });
+      details.append(summary, list);
+      responsesList.appendChild(details);
+    }
+
+    async function submitContribution(question, card, button) {
+      const values = [...card.querySelectorAll(".answer-input")].map(input => input.value);
+      if (!answersRef || !isAssignedToCurrentUser()) return;
+      if (values.every(value => !value.trim())) {
+        showSaveStatus("Completa almeno uno spazio prima di inviare il contributo.", true);
+        card.querySelector(".answer-input")?.focus();
         return;
       }
-      const grouped = document.createElement("div");
-      grouped.className = "question-responses";
-      questions.forEach(question => {
-        const answered = entries.filter(([, person]) => {
-          const values = person.answers?.[question.id];
-          return Array.isArray(values) ? values.some(value => String(value || "").trim()) : Boolean(String(values || "").trim());
+      clearTimeout(writeTimer);
+      writeTimer = null;
+      pendingAnswers = null;
+      currentAnswers[question.id] = values;
+      sharedAnswers[question.id] = values;
+      button.disabled = true;
+      showSaveStatus("Invio del contributo…");
+      const contributionRef = answersRef.child(`allStudentsData/contributions/${question.id}`).push();
+      const timestamp = Date.now();
+      try {
+        await answersRef.update({
+          [`tokenData/sharedAnswers/${question.id}`]: values,
+          [`allStudentsData/contributions/${question.id}/${contributionRef.key}`]: {
+            name: sessionName,
+            role: isTeacher ? "teacher" : "student",
+            studentId: safe(sessionName),
+            text: formatAnswer(question, values),
+            timestamp
+          }
         });
-        if (!answered.length) return;
-        const details = document.createElement("details");
-        if (question.number === 1) details.open = true;
-        const summary = document.createElement("summary");
-        summary.textContent = `${question.number}. ${formatAnswer(question, [])}`;
-        const list = document.createElement("div");
-        list.className = "answer-list";
-        answered.forEach(([, person]) => {
-          const row = document.createElement("div");
-          row.className = "answer-row";
-          const author = document.createElement("span");
-          author.className = "answer-author";
-          author.textContent = person.name || "Studente";
-          const answer = document.createElement("span");
-          answer.className = "answer-text";
-          const stored = person.answers[question.id];
-          answer.textContent = formatAnswer(question, Array.isArray(stored) ? stored : [stored]);
-          row.append(author, answer);
-          list.appendChild(row);
-        });
-        details.append(summary, list);
-        grouped.appendChild(details);
-      });
-      responsesList.appendChild(grouped);
+        showSaveStatus("✅ Contributo inviato e aggiunto sotto ai precedenti.");
+      } catch (error) {
+        console.error("Errore invio contributo:", error);
+        showSaveStatus("⚠️ Contributo non inviato. Controlla la connessione e riprova.", true);
+      } finally {
+        button.disabled = !isAssignedToCurrentUser();
+      }
     }
 
     function savePendingAnswers() {
       writeTimer = null;
       if (!pendingAnswers || !answersRef || !isAssignedToCurrentUser()) return;
-      const answersToSave = pendingAnswers;
+      const pending = pendingAnswers;
       pendingAnswers = null;
-      const studentKey = safe(sessionName);
-      const updates = {
-        "controlAssignments/writer": currentWriter,
-        "controlAssignments/role": currentWriterRole,
-        [`allStudentsData/students/${studentKey}/name`]: sessionName,
-        [`allStudentsData/students/${studentKey}/role`]: currentWriterRole,
-        [`allStudentsData/students/${studentKey}/answers`]: answersToSave,
-        [`allStudentsData/students/${studentKey}/timestamp`]: Date.now()
-      };
-      answersRef.update(updates).then(() => {
-        if (isAssignedToCurrentUser()) showSaveStatus("✅ Risposte salvate automaticamente.");
+      answersRef.child(`tokenData/sharedAnswers/${pending.questionId}`).set(pending.values).then(() => {
+        if (isAssignedToCurrentUser()) showSaveStatus("✅ Risposte condivise salvate.");
       }).catch(error => {
         console.error("Errore salvataggio risposte:", error);
         showSaveStatus("⚠️ Risposte non salvate. Controlla la connessione e riprova.", true);
@@ -492,7 +522,9 @@
       answersRef.update({
         "controlAssignments/writer": name || null,
         "controlAssignments/role": name ? role : null,
-        "controlAssignments/writerName": name || ""
+        "controlAssignments/writerName": name || "",
+        "tokenData/currentWriter": name || null,
+        "tokenData/writerName": name || ""
       }).catch(error => {
         currentWriter = previousWriter;
         currentWriterRole = previousRole;
@@ -528,14 +560,18 @@
       answersRef.set({
         resetId:`${Date.now()}_${safe(sessionName)}`,
         controlAssignments:{ writer:null, role:null, writerName:"" },
+        tokenData:{ currentWriter:null, writerName:"", sharedAnswers:cleared },
         allStudentsData:{}
       }).then(() => {
         currentWriter = "";
         currentWriterRole = "";
+        sharedAnswers = cleared;
         currentAnswers = cleared;
+        allContributions = {};
         saveStatus.hidden = true;
         renderWriterMenu();
         updateAssignment();
+        renderResponses();
       }).catch(error => console.error("Errore reset risposte:", error));
     });
 
@@ -556,26 +592,26 @@
         answersRef.on("value", snapshot => {
           const data = snapshot.val() || {};
           const assignment = data.controlAssignments || {};
-          const nextWriter = assignment.writer || "";
-          const nextRole = assignment.role || "";
+          const nextWriter = assignment.writer || data.tokenData?.currentWriter || "";
+          const nextRole = assignment.role || (nextWriter && nextWriter === sessionName && isTeacher ? "teacher" : nextWriter ? "student" : "");
           const changed = nextWriter !== currentWriter || nextRole !== currentWriterRole;
-          currentWriter = nextWriter;
-          currentWriterRole = nextRole;
-          allStudentsData = data.allStudentsData?.students || {};
           if (changed) {
             clearTimeout(writeTimer);
             writeTimer = null;
             pendingAnswers = null;
-            restoreAnswersForWriter();
-          } else if (currentWriter) {
-            const stored = allStudentsData[safe(currentWriter)]?.answers || {};
-            questions.forEach(question => {
-              if (Array.isArray(stored[question.id])) {
-                const focused = [...slidesTrack.querySelectorAll(`.answer-input[data-question-id="${question.id}"]`)].some(input => input === document.activeElement);
-                if (!focused) currentAnswers[question.id] = question.keys.map((_, index) => String(stored[question.id][index] || ""));
-              }
-            });
           }
+          currentWriter = nextWriter;
+          currentWriterRole = nextRole;
+          allContributions = data.allStudentsData?.contributions || {};
+          const stored = data.tokenData?.sharedAnswers || data.tokenData?.answers || data.allStudentsData?.students?.[safe(nextWriter)]?.answers || {};
+          sharedAnswers = emptyAnswers();
+          questions.forEach(question => {
+            const values = stored[question.id];
+            if (Array.isArray(values)) sharedAnswers[question.id] = question.keys.map((_, index) => String(values[index] || ""));
+            else if (values && typeof values === "object") sharedAnswers[question.id] = question.keys.map((_, index) => String(values[index] || ""));
+            else if (typeof values === "string" && question.keys.length === 1) sharedAnswers[question.id] = [values];
+          });
+          currentAnswers = Object.fromEntries(questions.map(question => [question.id, [...sharedAnswers[question.id]]]));
           snapshotPending = true;
           updateAssignment();
           snapshotPending = false;
