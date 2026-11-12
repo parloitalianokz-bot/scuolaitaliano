@@ -452,26 +452,33 @@
         const active = Object.values(group.studenti || {}).filter(person => person?.nome);
         const inactive = Object.values(group.studentiInattivi || {})
           .filter(person => person?.nome && Number(person.unitNumber ?? unitNumber) >= 53);
-        groupRoster = unitNumber >= 53 ? [...active, ...inactive] : inactive;
+        groupRoster = [...new Map([...active, ...inactive].map(person => [person.nome, person])).values()]
+          .sort((a, b) => a.nome.localeCompare(b.nome, "it"));
         renderWriterMenu();
       });
     }
     function updateOnlineStudents(value) {
       onlineStudents = new Set();
-      Object.values(value || {}).forEach(connections => {
-        Object.values(connections || {}).forEach(connection => {
-          if (connection?.name) onlineStudents.add(connection.name);
+      Object.values(value || {}).forEach(entry => {
+        if (entry?.name && entry.role === "student") onlineStudents.add(entry.name);
+        Object.values(entry || {}).forEach(connection => {
+          if (connection?.name && (!connection.role || connection.role === "student")) {
+            onlineStudents.add(connection.name);
+          }
         });
       });
       renderWriterMenu();
     }
     function registerStudentPresence() {
-      if (!answersRef || !userName || isTeacher) return;
-      const presenceRef = answersRef.child("presence").child(safe(userName)).child(myClientId);
+      if (!userName || isTeacher) return;
+      const role = "student";
+      const identity = `${role}_${encodeURIComponent(userName).replace(/[.]/g, "%2E")}`;
+      const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+      const presenceRef = firebase.database().ref("esercizi/unita46-presence").child(presenceId);
       firebase.database().ref(".info/connected").on("value", snapshot => {
         if (snapshot.val() !== true) return;
         presenceRef.onDisconnect().remove().then(() => {
-          presenceRef.set({ name: userName, connectedAt: Date.now() });
+          presenceRef.set({ identity, name: userName, role });
         }).catch(error => console.error("Errore stato presenza:", error));
       });
     }
@@ -498,7 +505,7 @@
     });
     document.getElementById("reset-answers").addEventListener("click", () => {
       if (!isTeacher || !answersRef || !confirm("Azzera le risposte condivise e lo storico dei contributi?")) return;
-      answersRef.set({ resetId:`${Date.now()}_${safe(userName)}`, controlAssignments:{ writer:null, role:null }, tokenData:{ sharedAnswers:emptyAnswers() }, presence:presenceData, allStudentsData:{ contributions:{} } });
+      answersRef.set({ resetId:`${Date.now()}_${safe(userName)}`, controlAssignments:{ writer:null, role:null }, tokenData:{ sharedAnswers:emptyAnswers() }, allStudentsData:{ contributions:{} } });
       saveStatus.hidden = true;
     });
 
@@ -540,7 +547,7 @@
         groupRef = database.ref(`configurazioneScuola/gruppi/${safeGroup}`);
         loadGroupRoster();
         registerStudentPresence();
-        answersRef.child("presence").on("value", snapshot => {
+        firebase.database().ref("esercizi/unita46-presence").on("value", snapshot => {
           presenceData = snapshot.val() || {};
           updateOnlineStudents(presenceData);
         });
@@ -550,7 +557,7 @@
           lastResetId = data.resetId || null;
           const assignment = data.controlAssignments || {};
           currentWriter = assignment.writer || "";
-          currentWriterRole = assignment.role || "";
+          currentWriterRole = assignment.role || (currentWriter && currentWriter === userName && isTeacher ? "teacher" : "student");
           const saved = data.tokenData?.sharedAnswers || {};
           sharedAnswers = emptyAnswers();
           passages.forEach(item => {
