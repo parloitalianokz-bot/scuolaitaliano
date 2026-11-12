@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 53 — Compito 2</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5; --error: #c43d3d; --error-bg: #fae7e5;
+    }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.84),rgba(250,248,241,.9)), url("../../u_053/img/sfondo.jpeg") center / cover fixed, #e9e3d6; }
+    main { width: min(100%, 900px); margin: auto; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1,h2,h3 { color: var(--green); }
+    header,.panel,.question { margin-bottom: 22px; padding: clamp(22px,4vw,36px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 12px 34px rgba(43,69,46,.08); }
+    header { padding: clamp(26px,5vw,44px); border-top: 4px solid var(--green); text-align: center; }
+    header > a { display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 18px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
+    header p { max-width: 700px; margin: 12px auto 0; color: var(--muted); line-height: 1.55; }
+    #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
+    #page-message:empty { display: none; }
+    #workspace[hidden] { display: none; }
+    .progress-panel { padding: 18px 22px; }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--green); font-weight: 800; }
+    .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .progress-step { width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; }
+    .progress-step.current { border-color: var(--green); background: var(--green); color: white; }
+    .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
+    .section-instructions { margin: 0 0 20px; color: var(--muted); line-height: 1.6; }
+    .question h3 { margin: 0 0 12px; font-size: 1rem; }
+    .question p { line-height: 1.65; }
+    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 1.9; }
+    .story-paragraph { margin: 0 0 12px; }
+    .story-paragraph:last-child { margin-bottom: 0; }
+    .gap-input { display: inline-block; width: min(150px, 34vw); min-height: 38px; margin: 3px 2px; padding: 6px 8px; border: 1px solid #b9cdb9; border-radius: 8px; background: #fff; font: inherit; }
+    .gap-input.correct { border-color: var(--success); background: var(--success-bg); }
+    .gap-input.incorrect { border-color: var(--error); background: var(--error-bg); }
+    .open-input { display: block; width: 100%; min-height: 100px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
+    .open-input:focus,.gap-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.12); }
+    .translation-note { margin: 8px 0 0; color: var(--muted); font-size: .88rem; }
+    .answer-feedback { min-height: 1.3em; margin: 6px 0 0; font-size: .88rem; font-weight: 700; }
+    .answer-feedback.correct { color: var(--success); }
+    .answer-feedback.incorrect { color: var(--error); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
+    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover:not(:disabled) { background: var(--green-dark); }
+    button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    .position { color: var(--green); font-weight: 800; text-align: center; }
+    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit p { margin: 0; line-height: 1.5; }
+    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
+    @media(max-width:600px) { body { padding: 16px 9px 36px; } .slide-navigation { flex-wrap: wrap; justify-content: center; } .slide-navigation button { flex: 1 1 130px; } .position { order: -1; width: 100%; } .question { padding: 18px; } .progress-step { width: 38px; height: 38px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../../compiti.html">← Torna ai compiti a casa</a>
+      <span class="eyebrow">Italiano · Unità 53 · Compito 2</span>
+      <h1>Il passato e i desideri irrealizzati</h1>
+      <p>Ripassa passato prossimo, imperfetto e condizionale composto con la storia della Contessa Prosciuttoni.</p>
+      <p class="translation-note">Le risposte vengono salvate automaticamente per il tuo gruppo. Puoi consegnare anche il compito incompleto.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite"></p>
+    <section id="workspace" hidden>
+      <nav class="progress-panel panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="progress-list" class="progress-list"></div>
+      </nav>
+      <div id="section-content"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti">
+        <button id="previous-section" class="secondary" type="button">← Parte precedente</button>
+        <span id="section-position" class="position" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Parte successiva →</button>
+      </nav>
+      <section class="task-submit" aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="translation-note">Можно отправить работу, даже если она не завершена.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante / Отправить работу</button>
+      </section>
+      <p id="save-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const sections = [
+      {
+        id: "sec1", title: "1. Passato prossimo o imperfetto?",
+        instructions: "Completa il racconto con la forma corretta del verbo tra parentesi. Usa il passato prossimo per gli eventi conclusi e l’imperfetto per descrizioni, situazioni e azioni in corso.",
+        paragraphs: [
+          ["Un sabato pomeriggio, mentre la Contessa Prosciuttoni ", {id:"q1",verb:"passeggiare",answers:["passeggiava"]}, " tranquilla nel centro di Cremona, ", {id:"q2",verb:"vedere",answers:["ha visto","vide"]}, " una vetrina particolarmente luccicante. ", {id:"q3",verb:"essere",answers:["era"]}, " una giornata fredda e ventosa, ma la signora non ", {id:"q4",verb:"avere",answers:["aveva"]}, " alcuna intenzione di restare a casa."],
+          ["Germano, il suo autista, la ", {id:"q5",verb:"seguire",answers:["seguiva"]}, " a passo lento con il suo solito completo nero e il berretto abbinato. L’uomo ", {id:"q6",verb:"sembrare",answers:["sembrava"]}, " esausto perché la Contessa ", {id:"q7",verb:"trascorrere",answers:["aveva trascorso","aveva passato"]}, " già tre ore a guardare vetrine senza comprare nulla."],
+          ["All’improvviso, la Contessa ", {id:"q8",verb:"notare",answers:["ha notato","notò"]}, " un cappello stravagante con piume colorate e ", {id:"q9",verb:"decidere",answers:["ha deciso","decise"]}, " subito di entrare nel negozio. Il commesso, che ", {id:"q10",verb:"essere",answers:["era"]}, " un giovane molto distinto, le ", {id:"q11",verb:"offrire",answers:["ha offerto","offrì"]}, " subito una sedia e un caffè."],
+          ["Mentre la signora si ", {id:"q12",verb:"guardare",answers:["guardava"]}, " allo specchio tutta contenta, Germano ", {id:"q13",verb:"sospirare",answers:["sospirava"]}, " ad alta voce. La Contessa gli ", {id:"q14",verb:"chiedere",answers:["ha chiesto","chiese"]}, ": «Germano, non trovi che questo cappello mi stia benissimo?». Ma l’autista ", {id:"q15",verb:"rispondere",answers:["ha risposto","rispose"]}, " con aria seria: «Io ", {id:"q16",verb:"preferire",answers:["avrei preferito","preferivo"]}, " tornare a casa mezz’ora fa»."],
+          ["Proprio quando la Contessa ", {id:"q17",verb:"stare",answers:["stava"]}, " per chiedere il prezzo, ", {id:"q18",verb:"accorgersi",answers:["si è accorta","si accorse"]}, " di non avere monete né carte con sé. Così, sorridendo con eleganza al commesso, ", {id:"q19",verb:"esclamare",answers:["ha esclamato","esclamò"]}, ": «Ci penserò!» ed ", {id:"q20",verb:"uscire",answers:["è uscita","uscì"]}, " dal negozio a testa alta."]
+        ]
+      },
+      {
+        id: "sec2", title: "2. Condizionale composto: desideri ed eventi irrealizzati",
+        instructions: "Completa le frasi con il condizionale composto del verbo tra parentesi. Fai attenzione all’ausiliare e all’accordo del participio quando necessario.",
+        items: [
+          {id:"q1",text:"La Contessa ",verb:"comperare",tail:" volentieri la pelliccia di zibellino, ma costava decisamente troppo.",answers:["avrebbe comperato"]},
+          {id:"q2",text:"Germano ",verb:"guidare",tail:" volentieri una Lamborghini, ma ha dovuto prendere l’autobus con la signora.",answers:["avrebbe guidato"]},
+          {id:"q3",text:"Noi ",verb:"visitare",tail:" un’altra gioielleria, ma i negozi avevano già chiuso.",answers:["avremmo visitato"]},
+          {id:"q4",text:"I due protagonisti ",verb:"prendere",tail:" entrambi gli anelli, ma l’autista ha sconsigliato l’acquisto.",answers:["avrebbero preso"]},
+          {id:"q5",text:"Io ",verb:"uscire",tail:" prima dal lavoro per fare shopping, ma ho dovuto finire una riunione.",answers:["sarei uscito","sarei uscita"]},
+          {id:"q6",text:"Tu non ",verb:"preferire",tail:" rimanere a casa a riposare invece di camminare per ore?",answers:["avresti preferito"]},
+          {id:"q7",text:"La commessa ",verb:"vendere",tail:" quei pantaloni attillati, ma la taglia non era adatta alla cliente.",answers:["avrebbe venduto"]},
+          {id:"q8",text:"Voi ",verb:"bere",tail:" volentieri un altro caffè al bar, ma la macchina del caffè era rotta.",answers:["avreste bevuto"]},
+          {id:"q9",text:"Stefano ",verb:"prendere",tail:" un taxi per tornare a casa, ma non aveva abbastanza contanti con sé.",answers:["avrebbe preso"]},
+          {id:"q10",text:"La signora ",verb:"continuare",tail:" il giro dei negozi, se Germano non fosse stato così stanco.",answers:["avrebbe continuato"]}
+        ]
+      },
+      {
+        id: "sec3", title: "3. Esprimi i tuoi desideri irrealizzati",
+        instructions: "Rispondi con frasi complete usando il condizionale composto. Le risposte sono personali: non c’è un’unica soluzione. Usa gli avvii come guida.",
+        items: [
+          {id:"q1",prompt:"Che cosa avresti voluto comprare l’ultima volta che sei andato/a a fare shopping, ma non hai comprato?",starter:"L’ultima volta che sono andato/a al centro commerciale, avrei voluto comprare…"},
+          {id:"q2",prompt:"Dove ti sarebbe piaciuto andare in vacanza lo scorso anno?",starter:"Lo scorso anno mi sarebbe piaciuto andare a…"},
+          {id:"q3",prompt:"Che cosa avresti fatto lo scorso fine settimana se non avessi dovuto studiare o lavorare?",starter:"Se fossi stato/a libero/a, sarei andato/a…"},
+          {id:"q4",prompt:"Quale capo d’abbigliamento o accessorio avresti scelto al posto della Contessa: zibellino, visone, diamanti o jeans? Perché?",starter:"Io al suo posto avrei scelto…"},
+          {id:"q5",prompt:"Che cosa avresti detto alla commessa del negozio di abbigliamento dopo il suo commento sulla taglia?",starter:"Io le avrei risposto che…"}
+        ]
+      },
+      {
+        id: "sec4", title: "4. Comprensione: Il viale del tramonto",
+        instructions: "Rispondi alle domande sul testo letto a lezione, spiegando ogni risposta con parole tue e usando frasi complete.",
+        items: [
+          {id:"q1",prompt:"Come vengono descritti la signora e il suo accompagnatore Germano all’inizio della storia?"},
+          {id:"q2",prompt:"Quali sono le differenze di prezzo e di caratteristiche tra la pelliccia di zibellino e quella di visone?"},
+          {id:"q3",prompt:"Come si comporta Germano dentro la gioielleria quando la signora vuole prendere sia il diamante sia il rubino?"},
+          {id:"q4",prompt:"Che cosa suggerisce la commessa del negozio di abbigliamento quando la Contessa prova i pantaloni e i jeans?"},
+          {id:"q5",prompt:"Perché la Contessa e Germano non entrano nella concessionaria di auto pur avendo osservato le macchine in vetrina?"},
+          {id:"q6",prompt:"Come si conclude la giornata di shopping della Contessa e chi paga il viaggio di ritorno?"}
+        ]
+      }
+    ];
+
+    let sectionIndex = 0;
+    let answers = {};
+    let submissionRef = null;
+    let studentName = "";
+    let saveTimer = null;
+    const taskParams = new URLSearchParams(location.search);
+    const assignmentId = taskParams.get("assignment");
+    const workspace = document.getElementById("workspace");
+    const content = document.getElementById("section-content");
+    const pageMessage = document.getElementById("page-message");
+    const saveStatus = document.getElementById("save-status");
+    const progressList = document.getElementById("progress-list");
+
+    function normalize(value) {
+      return String(value || "").trim().toLocaleLowerCase("it-IT").replace(/[’']/g,"'").replace(/[.!?,;:]/g,"").replace(/\s+/g," ");
+    }
+    function persistAnswer(sectionId, answerId, value) {
+      if (!answers[sectionId]) answers[sectionId] = {};
+      answers[sectionId][answerId] = value;
+      saveStatus.textContent = "Salvataggio delle risposte…";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(async () => {
+        if (!submissionRef) return;
+        try {
+          await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
+          await submissionRef.update({ studentName, status: "in-progress", updatedAt: Date.now() });
+          saveStatus.textContent = "Risposte salvate automaticamente. ✓";
+        } catch (error) {
+          saveStatus.textContent = "Errore di salvataggio. Controlla la connessione.";
+        }
+      }, 300);
+    }
+    function setFeedback(input, feedback, correct, hasValue) {
+      if (!hasValue) {
+        input.classList.remove("correct","incorrect");
+        feedback.textContent = "";
+        feedback.className = "answer-feedback";
+        return;
+      }
+      const isCorrect = correct.some(value => normalize(value) === normalize(input.value));
+      input.classList.toggle("correct", isCorrect);
+      input.classList.toggle("incorrect", !isCorrect);
+      feedback.textContent = isCorrect ? "✓ Forma corretta" : "";
+      feedback.className = `answer-feedback${isCorrect ? " correct" : ""}`;
+    }
+    function appendCloze(paragraph, sectionId, part) {
+      if (typeof part === "string") { paragraph.appendChild(document.createTextNode(part)); return; }
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "gap-input";
+      input.autocomplete = "off";
+      input.setAttribute("aria-label", `Verbo ${part.verb}`);
+      input.placeholder = `${part.verb} (${part.id.slice(1)})`;
+      input.value = answers[sectionId]?.[part.id] || "";
+      const feedback = document.createElement("span");
+      feedback.className = "answer-feedback";
+      setFeedback(input, feedback, part.answers, Boolean(input.value.trim()));
+      input.addEventListener("input", () => {
+        setFeedback(input, feedback, part.answers, Boolean(input.value.trim()));
+        persistAnswer(sectionId, part.id, input.value);
+      });
+      paragraph.append(input, feedback);
+    }
+    function renderSection() {
+      content.replaceChildren();
+      const section = sections[sectionIndex];
+      const card = document.createElement("article");
+      card.className = "question";
+      const heading = document.createElement("h2");
+      heading.className = "section-heading";
+      heading.textContent = section.title;
+      const instructions = document.createElement("p");
+      instructions.className = "section-instructions";
+      instructions.textContent = section.instructions;
+      card.append(heading, instructions);
+      if (section.paragraphs) {
+        const story = document.createElement("div");
+        story.className = "story";
+        section.paragraphs.forEach(parts => {
+          const paragraph = document.createElement("p");
+          paragraph.className = "story-paragraph";
+          parts.forEach(part => appendCloze(paragraph, section.id, part));
+          story.appendChild(paragraph);
+        });
+        card.appendChild(story);
+      }
+      (section.items || []).forEach((item, index) => {
+        const block = document.createElement("div");
+        block.className = "question";
+        const prompt = document.createElement("h3");
+        prompt.textContent = `${index + 1}. ${item.prompt || (item.verb ? `Completa con ${item.verb}.` : "Rispondi con parole tue.")}`;
+        block.appendChild(prompt);
+        if (item.verb) {
+          const line = document.createElement("p");
+          line.append(document.createTextNode(item.text));
+          const input = document.createElement("input");
+          input.type = "text";
+          input.className = "gap-input";
+          input.autocomplete = "off";
+          input.setAttribute("aria-label", `Forma di ${item.verb}, frase ${index + 1}`);
+          input.placeholder = `${item.verb}`;
+          input.value = answers[section.id]?.[item.id] || "";
+          const feedback = document.createElement("span");
+          feedback.className = "answer-feedback";
+          setFeedback(input, feedback, item.answers, Boolean(input.value.trim()));
+          input.addEventListener("input", () => {
+            setFeedback(input, feedback, item.answers, Boolean(input.value.trim()));
+            persistAnswer(section.id, item.id, input.value);
+          });
+          line.append(input, document.createTextNode(item.tail));
+          block.append(line, feedback);
+        } else {
+          if (item.starter) {
+            const starter = document.createElement("p");
+            starter.className = "translation-note";
+            starter.textContent = `Esempio di avvio: «${item.starter}»`;
+            block.appendChild(starter);
+          }
+          const textarea = document.createElement("textarea");
+          textarea.className = "open-input";
+          textarea.rows = 4;
+          textarea.placeholder = "Scrivi la tua risposta completa in italiano…";
+          textarea.setAttribute("aria-label", `Risposta ${index + 1}: ${item.prompt}`);
+          textarea.value = answers[section.id]?.[item.id] || "";
+          textarea.addEventListener("input", () => persistAnswer(section.id, item.id, textarea.value));
+          block.appendChild(textarea);
+        }
+        card.appendChild(block);
+      });
+      content.appendChild(card);
+      renderProgress();
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      sections.forEach((section, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}`;
+        button.textContent = String(index + 1);
+        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title}`);
+        button.setAttribute("aria-current", index === sectionIndex ? "step" : "false");
+        button.addEventListener("click", () => { sectionIndex = index; renderSection(); window.scrollTo(0,0); });
+        progressList.appendChild(button);
+      });
+      document.getElementById("progress-count").textContent = `${sectionIndex + 1} / ${sections.length}`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / sections.length) * 100}%`;
+      document.getElementById("section-position").textContent = `Parte ${sectionIndex + 1} di ${sections.length}`;
+      document.getElementById("previous-section").disabled = sectionIndex === 0;
+      document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
+    }
+
+    document.getElementById("previous-section").addEventListener("click", () => { sectionIndex = Math.max(0, sectionIndex - 1); renderSection(); window.scrollTo(0,0); });
+    document.getElementById("next-section").addEventListener("click", () => { sectionIndex = Math.min(sections.length - 1, sectionIndex + 1); renderSection(); window.scrollTo(0,0); });
+    document.getElementById("submit-task").addEventListener("click", async () => {
+      if (!submissionRef) return;
+      clearTimeout(saveTimer);
+      try {
+        const updates = { studentName, status: "pending", submittedAt: Date.now() };
+        Object.entries(answers).forEach(([sectionId, sectionAnswers]) => {
+          updates[`answers/${sectionId}`] = sectionAnswers;
+        });
+        await submissionRef.update(updates);
+        saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
+        document.getElementById("submit-task").disabled = true;
+      } catch (error) {
+        saveStatus.textContent = "Impossibile inviare il compito. Riprova.";
+      }
+    });
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
+      if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) { sectionIndex++; renderSection(); }
+      else if (event.key === "ArrowLeft" && sectionIndex > 0) { sectionIndex--; renderSection(); }
+    });
+
+    async function initializeTask() {
+      let session;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
+      if (!assignmentId) { pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return; }
+      if (!isStudent) { pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return; }
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+          assignmentRef.once("value"),
+          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]);
+        if (!assignmentSnapshot.val() || !groupSnapshot.val()) throw new Error("Compito non disponibile per questo gruppo.");
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+        studentName = session.name;
+        const submission = (await submissionRef.once("value")).val() || {};
+        answers = submission.answers || {};
+        workspace.hidden = false;
+        renderSection();
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito.";
+      }
+    }
+    initializeTask();
+  </script>
+</body>
+</html>
