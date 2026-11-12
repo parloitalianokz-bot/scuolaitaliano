@@ -59,6 +59,10 @@
     .answer-input { display:block; width:100%; min-height:100px; padding:13px 15px; border:1.5px solid #d4e1d5; border-radius:12px; background:#fff; color:var(--text); font:inherit; line-height:1.55; resize:vertical; }
     .answer-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(71,119,85,.15); }
     .answer-input:disabled { background:#f1f5f1; color:#5f6863; }
+    .submit-contribution { display:block; min-height:42px; margin-top:12px; padding:9px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .submit-contribution:hover:not(:disabled) { background:var(--primary-dark); }
+    .submit-contribution:disabled { cursor:not-allowed; opacity:.5; }
+    .shared-text-note { margin:0 0 16px; color:var(--text-muted); font-size:.88rem; line-height:1.5; }
     .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
     .slide-navigation button { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:8px 18px; border:1px solid #d8e5d8; border-radius:10px; background:#fff; color:var(--primary-dark); font:inherit; font-weight:700; cursor:pointer; }
     .slide-navigation button:hover:not(:disabled) { border-color:var(--primary); background:var(--primary-light); }
@@ -118,6 +122,7 @@
     <section class="card" aria-label="Domande sui pronomi diretti">
       <div class="token-bar"><span id="assignment-status" class="token-status" role="status" aria-live="polite">Caricamento dello stato...</span></div>
       <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+      <p class="shared-text-note">La risposta di ogni domanda è condivisa con la classe e si aggiorna mentre viene scritta. Solo chi ha il turno può modificarla. Premi «Invia il contributo» per aggiungere una registrazione allo storico della domanda.</p>
       <div class="slide-viewport"><div id="slides-track" class="slides-track"></div></div>
       <nav class="slide-navigation" aria-label="Navigazione delle domande">
         <button id="previous-slide" type="button">← Precedente</button><span id="slide-counter" class="slide-progress" aria-live="polite"></span><button id="next-slide" type="button">Successiva →</button>
@@ -126,8 +131,8 @@
       <input id="progress-range" class="progress-range" type="range" min="0" max="11" value="0" aria-label="Vai a una domanda">
       <div id="completion-container"></div>
     </section>
-    <section class="results-section card" id="results-section" aria-label="Risposte della classe" hidden>
-      <h2>📋 Risposte della classe · Risposte degli studenti</h2>
+    <section class="results-section card" id="results-section" aria-label="Contributi degli studenti">
+      <h2>📋 Contributi degli studenti · Domanda corrente</h2>
       <div id="responses-list"></div>
     </section>
   </main>
@@ -180,12 +185,13 @@
 
     document.querySelector(".top-controls").hidden = !isTeacher;
     document.getElementById("reset-answers").hidden = !isTeacher;
-    resultsSection.hidden = !isTeacher;
+    resultsSection.hidden = false;
     let answersRef = null;
     let groupRef = null;
     let groupRoster = [];
     let presenceData = {};
-    let allStudentsData = {};
+    let allContributions = {};
+    let sharedAnswers = emptyAnswers();
     let currentWriter = "";
     let currentWriterRole = "";
     let currentAnswers = emptyAnswers();
@@ -247,14 +253,21 @@
       input.addEventListener("input", () => {
         if (!isAssignedToCurrentUser() || snapshotPending) return;
         currentAnswers[question.id] = input.value;
-        pendingSave = { name: currentWriter, role: currentWriterRole, answers: { ...currentAnswers } };
+        sharedAnswers[question.id] = input.value;
         saveStatus.classList.remove("error");
-        saveStatus.textContent = "Salvataggio della risposta…";
+        saveStatus.textContent = "Salvataggio della risposta condivisa…";
         saveStatus.hidden = false;
+        pendingSave = { questionId: question.id, value: input.value };
         clearTimeout(writeTimer);
         writeTimer = setTimeout(flushPendingSave, 350);
       });
-      card.append(prompt, label, input);
+      const submitButton = document.createElement("button");
+      submitButton.type = "button";
+      submitButton.className = "submit-contribution";
+      submitButton.textContent = "📤 Invia il contributo";
+      submitButton.disabled = true;
+      submitButton.addEventListener("click", () => submitContribution(question, input, submitButton));
+      card.append(prompt, label, input, submitButton);
       const hint = createTeacherHint(question);
       if (hint) card.appendChild(hint);
       slidesTrack.appendChild(card);
@@ -267,6 +280,7 @@
       document.getElementById("slide-counter").textContent = `Domanda ${activeSlide + 1} di ${questions.length}`;
       progressRange.value = activeSlide;
       progressFill.style.width = `${((activeSlide + 1) / questions.length) * 100}%`;
+      renderResponses();
     }
 
     function updateAssignment() {
@@ -274,12 +288,14 @@
       else if (!answersRef) assignmentStatus.textContent = "Connessione all’esercizio non disponibile. Verifica la connessione e ricarica la pagina.";
       else if (!sessionName) assignmentStatus.textContent = "Accedi dal gruppo della classe con il tuo nome per partecipare.";
       else if (!currentWriter) assignmentStatus.textContent = isTeacher ? "Seleziona uno studente o te stesso/a dal menu per assegnare il turno." : "L’insegnante non ha ancora assegnato il turno.";
-      else if (isAssignedToCurrentUser()) assignmentStatus.textContent = `✍️ È il tuo turno, ${sessionName}: puoi rispondere. Le risposte si salvano automaticamente.`;
-      else assignmentStatus.textContent = `🔒 Il turno è assegnato a ${currentWriter}. Puoi leggere le domande, ma non scrivere.`;
+      else if (isAssignedToCurrentUser()) assignmentStatus.textContent = `✍️ È il tuo turno, ${sessionName}: puoi modificare la risposta condivisa e inviare il tuo contributo.`;
+      else assignmentStatus.textContent = `🔒 Il turno è assegnato a ${currentWriter}. Puoi leggere le risposte condivise e i contributi, ma non modificarli.`;
       slidesTrack.querySelectorAll(".answer-input").forEach(input => {
         input.disabled = !isAssignedToCurrentUser();
         const value = currentAnswers[input.dataset.questionId] || "";
         if (document.activeElement !== input && input.value !== value) input.value = value;
+        const submitButton = input.closest(".slide-item")?.querySelector(".submit-contribution");
+        if (submitButton) submitButton.disabled = !isAssignedToCurrentUser();
       });
     }
 
@@ -317,70 +333,60 @@
     }
 
     function restoreAnswersForWriter() {
-      const saved = currentWriter ? allStudentsData[safe(currentWriter)]?.answers || {} : {};
-      currentAnswers = { ...emptyAnswers(), ...saved };
+      currentAnswers = { ...emptyAnswers(), ...sharedAnswers };
       updateAssignment();
     }
 
     function renderResponses() {
-      if (!isTeacher) return;
       responsesList.replaceChildren();
-      const entries = Object.entries(allStudentsData)
-        .filter(([, person]) => person?.answers && Object.values(person.answers).some(value => String(value || "").trim()))
-        .sort((a, b) => String(a[1].name || "").localeCompare(String(b[1].name || ""), "it"));
+      const question = questions[activeSlide];
+      const entries = Object.entries(allContributions[question.id] || {})
+        .map(([id, contribution]) => ({ ...contribution, id }))
+        .filter(contribution => String(contribution.text || "").trim())
+        .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0) || a.id.localeCompare(b.id));
+      const details = document.createElement("details");
+      details.className = "question-responses";
+      details.open = true;
+      const summary = document.createElement("summary");
+      summary.textContent = `${question.number}. ${question.text}`;
+      const list = document.createElement("div");
+      list.className = "answer-list";
       if (!entries.length) {
         const empty = document.createElement("p");
         empty.className = "empty-message";
-        empty.textContent = "Пока никто не ответил · Non ci sono ancora risposte.";
-        responsesList.appendChild(empty);
-        return;
+        empty.textContent = "Nessun contributo per questa domanda.";
+        list.appendChild(empty);
       }
-      const grouped = document.createElement("div");
-      grouped.className = "question-responses";
-      questions.forEach(question => {
-        const answered = entries.filter(([, person]) => String(person.answers?.[question.id] || "").trim());
-        if (!answered.length) return;
-        const details = document.createElement("details");
-        const summary = document.createElement("summary");
-        summary.textContent = `${question.number}. ${question.text}`;
-        const list = document.createElement("div");
-        list.className = "answer-list";
-        answered.forEach(([, person]) => {
-          const row = document.createElement("div");
-          row.className = "answer-row";
-          const author = document.createElement("span");
-          author.className = "answer-author";
-          author.textContent = person.name || "Studente";
-          const answer = document.createElement("span");
-          answer.className = "answer-text";
-          answer.textContent = person.answers[question.id];
-          row.append(author, answer);
-          list.appendChild(row);
-        });
-        details.append(summary, list);
-        grouped.appendChild(details);
+      entries.forEach(contribution => {
+        const row = document.createElement("div");
+        row.className = "answer-row";
+        const author = document.createElement("span");
+        author.className = "answer-author";
+        const timestamp = Number(contribution.timestamp);
+        const dateLabel = timestamp ? new Date(timestamp).toLocaleString("it-IT") : "";
+        author.textContent = `${contribution.name || "Studente"}${dateLabel ? ` · ${dateLabel}` : ""}`;
+        const answer = document.createElement("span");
+        answer.className = "answer-text";
+        answer.textContent = String(contribution.text || "");
+        row.append(author, answer);
+        list.appendChild(row);
       });
-      responsesList.appendChild(grouped);
+      details.append(summary, list);
+      responsesList.appendChild(details);
     }
 
-    function persistAnswers(save) {
-      if (!answersRef || !save?.name) return;
-      const key = safe(save.name);
-      const updates = {};
-      questions.forEach(question => {
-        updates[`allStudentsData/students/${key}/answers/${question.id}`] = save.answers[question.id] || "";
-      });
-      updates[`allStudentsData/students/${key}/name`] = save.name;
-      updates[`allStudentsData/students/${key}/role`] = save.role;
-      updates[`allStudentsData/students/${key}/timestamp`] = Date.now();
-      answersRef.update(updates).then(() => {
-        if (currentWriter === save.name && currentWriterRole === save.role) {
+    function persistAnswer(questionId, value) {
+      clearTimeout(writeTimer);
+      writeTimer = null;
+      if (!answersRef || !isAssignedToCurrentUser()) return;
+      answersRef.child(`tokenData/sharedAnswers/${questionId}`).set(String(value || "")).then(() => {
+        if (isAssignedToCurrentUser()) {
           saveStatus.classList.remove("error");
-          saveStatus.textContent = "✅ Risposta salvata automaticamente.";
+          saveStatus.textContent = "✅ Risposta condivisa salvata.";
           saveStatus.hidden = false;
         }
       }).catch(error => {
-        console.error("Errore salvataggio risposte:", error);
+        console.error("Errore salvataggio risposta:", error);
         saveStatus.textContent = "⚠️ Risposta non salvata. Controlla la connessione e riprova.";
         saveStatus.classList.add("error");
         saveStatus.hidden = false;
@@ -390,9 +396,51 @@
     function flushPendingSave() {
       clearTimeout(writeTimer);
       writeTimer = null;
-      const save = pendingSave;
+      const pending = pendingSave;
       pendingSave = null;
-      if (save) persistAnswers(save);
+      if (pending) persistAnswer(pending.questionId, pending.value);
+    }
+
+    async function submitContribution(question, input, button) {
+      const text = input.value.trim();
+      if (!answersRef || !isAssignedToCurrentUser()) return;
+      if (!text) {
+        saveStatus.textContent = "Scrivi una risposta prima di inviare il contributo.";
+        saveStatus.classList.add("error");
+        saveStatus.hidden = false;
+        input.focus();
+        return;
+      }
+      clearTimeout(writeTimer);
+      writeTimer = null;
+      pendingSave = null;
+      sharedAnswers[question.id] = text;
+      currentAnswers[question.id] = text;
+      const contributionRef = answersRef.child(`allStudentsData/contributions/${question.id}`).push();
+      const timestamp = Date.now();
+      button.disabled = true;
+      saveStatus.classList.remove("error");
+      saveStatus.textContent = "Invio del contributo…";
+      saveStatus.hidden = false;
+      try {
+        await answersRef.update({
+          [`tokenData/sharedAnswers/${question.id}`]: text,
+          [`allStudentsData/contributions/${question.id}/${contributionRef.key}`]: {
+            name: sessionName,
+            role: isTeacher ? "teacher" : "student",
+            timestamp,
+            text
+          }
+        });
+        saveStatus.textContent = "✅ Contributo inviato e aggiunto allo storico.";
+        renderResponses();
+      } catch (error) {
+        console.error("Errore invio contributo:", error);
+        saveStatus.textContent = "⚠️ Contributo non inviato. Controlla la connessione e riprova.";
+        saveStatus.classList.add("error");
+      } finally {
+        button.disabled = !isAssignedToCurrentUser();
+      }
     }
 
     function loadGroupRoster() {
@@ -492,13 +540,20 @@
       if (!isTeacher || !answersRef || !confirm("Сбросить все ответы? · Vuoi azzerare tutte le risposte?")) return;
       clearTimeout(writeTimer);
       pendingSave = null;
-      answersRef.set({ controlAssignments: { writer: null, role: null, writerName: "" }, allStudentsData: {} });
+      answersRef.set({
+        controlAssignments: { writer: null, role: null, writerName: "" },
+        tokenData: { sharedAnswers: emptyAnswers() },
+        allStudentsData: { contributions: {} }
+      });
       currentWriter = "";
       currentWriterRole = "";
+      sharedAnswers = emptyAnswers();
+      allContributions = {};
       currentAnswers = emptyAnswers();
       saveStatus.hidden = true;
       renderWriterMenu();
       updateAssignment();
+      renderResponses();
     });
 
     updateSlides();
@@ -513,7 +568,7 @@
         answersRef = firebase.database().ref("esercizi/unita46-pronomi-diretti-i");
         groupRef = firebase.database().ref(`configurazioneScuola/gruppi/${safeGroup}`);
         teacherControls.hidden = !isTeacher;
-        resultsSection.hidden = !isTeacher;
+        resultsSection.hidden = false;
         loadGroupRoster();
         groupRef.child("unitNumber").on("value", snapshot => { groupUnitNumber = snapshot.exists() ? Number(snapshot.val()) : null; updateCompletionPanel(); });
         firebase.database().ref("esercizi/unita46-presence").on("value", snapshot => { presenceData = snapshot.val() || {}; renderWriterMenu(); });
@@ -523,22 +578,24 @@
           const nextWriter = assignment.writer || "";
           const nextRole = assignment.role || "";
           const changed = nextWriter !== currentWriter || nextRole !== currentWriterRole;
+          snapshotPending = true;
           currentWriter = nextWriter;
           currentWriterRole = nextRole;
-          allStudentsData = data.allStudentsData?.students || {};
+          allContributions = data.allStudentsData?.contributions || {};
+          const storedAnswers = data.tokenData?.sharedAnswers || {};
+          sharedAnswers = emptyAnswers();
+          questions.forEach(question => { sharedAnswers[question.id] = String(storedAnswers[question.id] || ""); });
           if (changed) {
             clearTimeout(writeTimer);
             writeTimer = null;
             pendingSave = null;
-            restoreAnswersForWriter();
-          } else if (currentWriter) {
-            const saved = allStudentsData[safe(currentWriter)]?.answers || {};
+            currentAnswers = { ...emptyAnswers(), ...sharedAnswers };
+          } else {
             questions.forEach(question => {
               const input = slidesTrack.querySelector(`.answer-input[data-question-id="${question.id}"]`);
-              if (document.activeElement !== input) currentAnswers[question.id] = String(saved[question.id] || "");
+              if (document.activeElement !== input) currentAnswers[question.id] = sharedAnswers[question.id];
             });
           }
-          snapshotPending = true;
           updateAssignment();
           snapshotPending = false;
           renderWriterMenu();
