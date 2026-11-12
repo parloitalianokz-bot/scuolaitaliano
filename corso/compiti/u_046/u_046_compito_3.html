@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 46 — Compito 3: I pronomi diretti e il passato prossimo</title>
+  <style>
+    :root { 
+      color-scheme: light; 
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif; 
+      color: #292d28; 
+      background: #f5f3ec; 
+    }
+    * { box-sizing: border-box; }
+    body { 
+      min-height: 100vh; 
+      margin: 0; 
+      padding: 32px 16px; 
+      background: 
+        linear-gradient(rgba(250,248,241,.88), rgba(250,248,241,.88)), 
+        url("img/sfondo-funerale-augusto.jpg") center / cover fixed, 
+        #e9e3d6; 
+    }
+    main { width: min(100%, 960px); margin: auto; }
+    a { color: #2f5739; font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3 { color: #2f5739; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    
+    header, .exercise-section, .question { 
+      margin-bottom: 24px; 
+      padding: 28px; 
+      border: 1px solid #d8e5d8; 
+      border-radius: 20px; 
+      background: #fffefa; 
+      box-shadow: 0 10px 30px rgba(43,69,46,.06); 
+    }
+    header p { color: #6b7069; }
+    
+    .progress-panel { 
+      margin-bottom: 24px; 
+      padding: 20px 24px; 
+      border: 1px solid #d8e5d8; 
+      border-radius: 18px; 
+      background: #fffefa; 
+      box-shadow: 0 6px 20px rgba(43,69,46,.04);
+    }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #2f5739; font-weight: 800; font-size: 0.95rem; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .progress-step { 
+      width: 42px; 
+      height: 42px; 
+      padding: 6px; 
+      border: 2px solid #d8e5d8; 
+      border-radius: 50%; 
+      background: white; 
+      color: #2f5739; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all 0.2s ease;
+    }
+    .progress-step:hover { border-color: #2f5739; background: #edf4ed; }
+    .progress-step.current { border-color: #2f5739; background: #2f5739; color: white; box-shadow: 0 4px 12px rgba(47,87,57,0.3); }
+
+    .question { border: 1px solid #e7e5dc; border-radius: 20px; padding: clamp(22px, 4vw, 36px); background: #fffefa; }
+    .question h2 { margin-top: 0; font-size: 1.35rem; border-bottom: 2px solid #edf4ed; padding-bottom: 12px; }
+    .question p { line-height: 1.6; }
+    .question-prompt { font-size: 1.12rem; font-weight: 700; color: #232722; margin-bottom: 8px; }
+    
+    details { 
+      margin: 16px 0; 
+      padding: 14px 18px; 
+      background: #f4f8f4; 
+      border: 1px solid #b5c7b5; 
+      border-radius: 14px; 
+      transition: background 0.2s;
+    }
+    details summary { 
+      font-weight: 700; 
+      color: #2f5739; 
+      cursor: pointer; 
+      font-size: 1.02rem;
+      outline: none;
+    }
+    details[open] { background: #edf4ed; }
+    details .explanation-content { 
+      margin-top: 12px; 
+      padding-top: 10px; 
+      border-top: 1px solid #d4e1d5; 
+      font-size: 0.96rem; 
+      line-height: 1.6; 
+      color: #2f5739; 
+    }
+    details .explanation-ru { 
+      margin-top: 8px; 
+      color: #555b55; 
+      font-style: italic; 
+    }
+
+    select.inline-select, input.inline-input { 
+      padding: 8px 14px; 
+      border: 2px solid #d4e1d5; 
+      border-radius: 10px; 
+      font: inherit; 
+      font-weight: 700; 
+      background: white; 
+      color: #2f5739; 
+      max-width: 100%; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      cursor: pointer;
+    }
+    input.inline-input { width: 240px; text-align: left; }
+    select.inline-select.correct, input.inline-input.correct { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    select.inline-select.incorrect, input.inline-input.incorrect { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
+
+    .explanation-hint {
+      margin-top: 6px;
+      font-size: 0.88rem;
+      color: #6b7069;
+      font-style: italic;
+    }
+
+    button { 
+      min-height: 46px; 
+      padding: 10px 20px; 
+      border: 0; 
+      border-radius: 12px; 
+      background: #2f5739; 
+      color: white; 
+      font: inherit; 
+      font-weight: 700; 
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(47,87,57,0.2);
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover { background: #23422b; }
+    button:active { transform: translateY(1px); }
+    button.secondary { border: 2px solid #2f5739; background: white; color: #2f5739; box-shadow: none; }
+    button.secondary:hover { background: #edf4ed; }
+    button:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 28px; padding-top: 20px; border-top: 2px solid #edf4ed; }
+    .slide-progress { color: #2f5739; font-weight: 800; text-align: center; }
+    
+    .task-submit-panel { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin: 24px 0; padding: 22px 26px; border: 1px solid #d8e5d8; border-radius: 18px; background: #fffefa; box-shadow: 0 8px 24px rgba(43,69,46,.05); }
+    .task-submit-panel[hidden] { display: none; }
+    
+    #page-message { padding: 14px 18px; border-radius: 14px; background: #edf4ed; color: #2f5739; font-weight: 700; margin-bottom: 20px; border: 1px solid #d8e5d8; }
+    #page-message:empty { display: none; }
+    
+    .note { color: #6b7069; font-size: 0.94rem; }
+    .instruction-ru { color: #4a524a; font-size: 0.98rem; font-weight: 600; margin-bottom: 14px; background: #f2f7f3; padding: 12px 16px; border-radius: 12px; border-left: 4px solid #2f5739; }
+
+    @media (max-width: 600px) { 
+      body { padding: 16px 10px; } 
+      header, .exercise-section, .progress-panel, .question { padding: 20px; } 
+      .slide-navigation { flex-wrap: wrap; } 
+      .slide-progress { order: -1; width: 100%; } 
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <h1 id="task-title">Unità 46 — Compito 3</h1>
+      <p id="task-instructions">I pronomi diretti e il passato prossimo con accordo del participio. Correggi in tempo reale.</p>
+      <p id="student-task-note" class="note">Le risposte vengono salvate in tempo reale. / Ответы сохраняются в реальном времени.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite"></p>
+    
+    <section id="task-workspace" hidden>
+      <nav class="progress-panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div id="question-progress" class="progress-list"></div>
+      </nav>
+
+      <div id="task-content"></div>
+
+      <nav class="slide-navigation" aria-label="Navigazione parti">
+        <button id="previous-question" class="secondary" type="button">← Parte Precedente</button>
+        <span id="question-position" class="slide-progress"></span>
+        <button id="next-question" class="secondary" type="button">Parte Successiva →</button>
+      </nav>
+
+      <section id="task-submit-panel" class="task-submit-panel" hidden aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span style="color:#6b7069; font-weight:normal;">Ты можешь отправить работу преподавателю, даже если ответил не на все вопросы.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante / Отправить работу</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  
+  <script id="homework-task-data" type="application/json">
+  {
+    "title": "Unità 46 — Compito 3: I pronomi diretti e il passato prossimo",
+    "instructions": "Esercizi sui pronomi diretti al presente e al passato prossimo con accordo del participio.",
+    "sections": [
+      {
+        "id": "sec1",
+        "title": "Esercizio 1: Scelta del pronome diretto (lo, la, li, le)",
+        "instructions": "Sostituisci il nome sottolineato scegliendo il pronome corretto tra lo, la, li, le."
+      },
+      {
+        "id": "sec2",
+        "title": "Esercizio 2: Risposta al passato e accordo del participio (Parte 1)",
+        "instructions": "Rispondi alle domande al passato prossimo sostituendo l'elemento in grassetto con il pronome diretto opportuno e facendo l'accordo (frasi 1–10)."
+      },
+      {
+        "id": "sec3",
+        "title": "Esercizio 2 (continua): Risposta al passato e accordo del participio (Parte 2)",
+        "instructions": "Rispondi alle domande al passato prossimo sostituendo l'elemento in grassetto con il pronome diretto opportuno e facendo l'accordo (frasi 11–20)."
+      }
+    ]
+  }
+  </script>
+  
+  <script>
+    const taskData = {
+      title: "Unità 46 — Compito 3: I pronomi diretti e il passato prossimo",
+      sections: [
+        {
+          id: "sec1",
+          title: "Esercizio 1: Scelta del pronome diretto (lo, la, li, le)",
+          instructions: "Sostituisci il nome sottolineato scegliendo il pronome corretto tra lo, la, li, le.",
+          instructionRu: "Замените подчеркнутое существительное правильным прямым местоимением (lo, la, li, le).",
+          hasExplanation: true,
+          explanationTitle: "Spiegazione grammaticale: I pronomi diretti / Прямые местоимения",
+          explanationHtml: `
+            <p>I pronomi diretti sostituiscono un complemento oggetto (rispondono alla domanda <em>Chi?</em> o <em>Che cosa?</em>) e concordano in genere e numero con il nome che sostituiscono:</p>
+            <ul>
+              <li><strong>LO</strong> = maschile singolare (il libro → lo leggo) / мужской род, ед. ч.</li>
+              <li><strong>LA</strong> = femminile singolare (la lettera → la scrivo) / женский род, ед. ч.</li>
+              <li><strong>LI</strong> = maschile plurale (i compagni → li avviso) / мужской род, мн. ч.</li>
+              <li><strong>LE</strong> = femminile plurale (le amiche → le incontro) / женский род, мн. ч.</li>
+            </ul>
+            <p><strong>Posizione:</strong> Il pronome si colloca di norma prima del verbo coniugato al presente. / Место: местоимение обычно ставится перед спрягаемым глаголом в настоящем времени.</p>
+            <div class="explanation-ru">Прямые местоимения заменяют дополнение без предлога и согласуются в роде и числе с заменяемым существительным.</div>
+          `,
+          type: "dropdown_completion",
+          items: [
+            { id: "q1", prompt: "Per tradurre questo testo usiamo sempre <u>il dizionario</u>: [sel1] usiamo ogni giorno.", selects: [{name: "sel1", correct: "lo", options: ["lo", "la", "li", "le"]}], translation: "Чтобы перевести этот текст, мы всегда используем словарь: мы используем его каждый день.", correctionReason: "«Il dizionario» è maschile singolare → LO." },
+            { id: "q2", prompt: "Non trovo <u>la mia chiave</u>: tu [sel1] vedi da qualche parte?", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation: "Я не нахожу мой ключ: ты видишь его где-нибудь?", correctionReason: "«La mia chiave» è femminile singolare → LA." },
+            { id: "q3", prompt: "Se vedi <u>i tuoi amici</u> al bar, [sel1] saluti da parte mia?", selects: [{name: "sel1", correct: "li", options: ["lo", "la", "li", "le"]}], translation: "Если ты увидишь твоих друзей в баре, передашь им привет от меня?", correctionReason: "«I tuoi amici» è maschile plurale → LI." },
+            { id: "q4", prompt: "La mia stanza è sempre pulita: [sel1] riordino ogni fine settimana.", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation:yna="Моя комната всегда чистая: я убираю ее каждые выходные.", correctionReason: "«La stanza» è femminile singolare → LA." },
+            { id: "q5", prompt: "Non mangio mai <u>le caramelle</u>: non [sel1] compro quasi mai.", selects: [{name: "sel1", correct: "le", options: ["lo", "la", "li", "le"]}], translation: "Я никогда не ем конфеты: я почти никогда их не покупаю.", correctionReason: "«Le caramelle» è femminile plurale → LE." },
+            { id: "q6", prompt: "Hai il numero di telefono <u>del direttore</u>? Devo chiamar[sel1] subito.", selects: [{name: "sel1", correct: "lo", options: ["lo", "la", "li", "le"]}], translation: "У тебя есть номер телефона директора? Я должен позвонить ему немедленно.", correctionReason: "«Il direttore» (maschile singolare) con l'infinito: chiamar + lo = chiamarlo (la vocale finale cade)." },
+            { id: "q7", prompt: "Dove sono <u>i documenti</u> di lavoro? [sel1] cerco da mezz'ora!", selects: [{name: "sel1", correct: "li", options: ["lo", "la", "li", "le"]}], translation: "Где рабочие документы? Я ищу их уже полчаса!", correctionReason: "«I documenti» è maschile plurale → LI." },
+            { id: "q8", prompt: "Conosci <u>la professoressa</u> di italiano? [sel1] incontro spesso in università.", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation: "Ты знаешь преподавательницу итальянского? Я часто встречю ее в университете.", correctionReason: "«La professoressa» è femminile singolare → LA." },
+            { id: "q9", prompt: "Devo comprare <u>il pane</u> fresco: [sel1] prendo al panificio sotto casa.", selects: [{name: "sel1", correct: "lo", options: ["lo", "la", "li", "le"]}], translation: "Я должен купить свежий хлеб: беру его в пекарне под домом.", correctionReason: "«Il pane» è maschile singolare → LO." },
+            { id: "q10", prompt: "Ascolti <u>le canzoni</u> di questo cantante? Sì, [sel1] ascolto volentieri.", selects: [{name: "sel1", correct: "le", options: ["lo", "la", "li", "le"]}], translation: "Ты слушаешь песни этого певца? Да, я слушаю их с удовольствием.", correctionReason: "«Le canzoni» è femminile plurale → LE (attenzione all'elisione con ascolto: le ascolto)." }
+          ]
+        },
+        {
+          id: "sec2",
+          title: "Esercizio 2: Risposta al passato e accordo del participio (Parte 1)",
+          instructions: "Rispondi alle domande al passato prossimo sostituendo l'elemento in grassetto con il pronome diretto opportuno e facendo l'accordo del participio passato (frasi 1–10).",
+          instructionRu: "Ответьте на вопросы в passato prossimo, заменив выделенный элемент прямым местоимением и согласовав причастие (предложения 1–10).",
+          hasExplanation: true,
+          explanationTitle: "Spiegazione grammaticale: Il passato prossimo e l'accordo del participio",
+          explanationHtml: `
+            <p>Quando si utilizzano i pronomi diretti al passato prossimo (con l'ausiliare <strong>avere</strong>):</p>
+            <ol>
+              <li><strong>Accordo obbligatorio del participio:</strong> La desinenza finale del participio passato (-o, -a, -i, -e) concorda in genere e numero con il pronome diretto:
+                <ul>
+                  <li><strong>LO / L'</strong> (masch. sing.) → finale in <strong>-O</strong> (lo scooter → L'ho parcheggiato)</li>
+                  <li><strong>LA / L'</strong> (femm. sing.) → finale in <strong>-A</strong> (la cena → L'ha preparata)</li>
+                  <li><strong>LI</strong> (masch. plur.) → finale in <strong>-I</strong> (i biglietti → Li abbiamo comprati)</li>
+                  <li><strong>LE</strong> (femm. plur.) → finale in <strong>-E</strong> (le mele → Le abbiamo mangiate)</li>
+                </ul>
+              </li>
+              <li><strong>Forma apostrofata:</strong><br>
+                I pronomi singolari <em>lo</em> e <em>la</em> si elidono davanti alle forme di <em>avere</em> (l'ho, l'hai, l'ha, l'abbiamo, l'avete, l'hanno). I plurali <em>li</em> e <em>le</em> non si apostrofano mai (li ho, le ho).
+              </li>
+            </ol>
+            <div class="explanation-ru">При использовании прямых местоимений с passato prossimo (aux. avere) причастие обязательно согласуется в роде и числе с местоимением: -o (lo), -a (la), -i (li), -e (le). Местоимения lo и la сокращаются перед глаголом avere (l'ho), а li и le никогда не апострофируются.</div>
+          `,
+          type: "inline_completion",
+          items: [
+            { id: "q11", prompt: "1. Hai letto la prima pagina del giornale? → Sì, ", expected: "Sì, l'ho letta.", hint: "Esempio atteso: Sì, l'ho letta.", translation: "Ты прочитал первую страницу газеты? → Да, я ее прочитал(-а)." },
+            { id: "q12", prompt: "2. Avete mangiato tutte le mele? → Sì, ", expected: "Sì, le abbiamo mangiate.", hint: "Esempio atteso: Sì, le abbiamo mangiate.", translation: "Вы съели все яблоки? → Да, мы их съели." },
+            { id: "q13", prompt: "3. Chi ha rotto questo bicchiere? → (Marco) ", expected: "L'ha rotto Marco.", hint: "Esempio atteso: L'ha rotto Marco.", translation:- "Кто разбил этот стакан? → Его разбил Марко." },
+            { id: "q14", prompt: "4. Hai ricevuto i pacchi di Amazon? → No, ", expected: "No, non li ho ricevuti.", hint: "Esempio atteso: No, non li ho ricevuti.", translation: "Ты получил посылки с Амазона? → Нет, я их не получил." },
+            { id: "q15", prompt: "5. Avete comprato i biglietti per il museo? → Sì, ", expected: "Sì, li abbiamo comprati.", hint: "Esempio atteso: Sì, li abbiamo comprati.", translation: "Вы купили билеты в музей? → Да, мы их купили." },
+            { id: "q16", prompt: "6. Chi ha preparato la cena per gli ospiti? → (mia madre) ", expected: "L'ha preparata mia madre.", hint: "Esempio atteso: L'ha preparata mia madre.", translation: "Кто приготовил ужин для гостей? → Его приготовила моя мама." },
+            { id: "q17", prompt: "7. Hai salutato le nuove vicine? → Sì, ", expected: "Sì, le ho salutate.", hint: "Esempio atteso: Sì, le ho salutate.", translation: "Ты поприветствовал новых соседок? → Да, я их поприветствовал(-а)." },
+            { id: "q18", prompt: "8. Avete visitato la cattedrale di Firenze? → No, (non ancora) ", expected: "No, non l'abbiamo ancora visitata.", hint: "Esempio atteso: No, non l'abbiamo ancora visitata.", translation: "Вы посетили собор во Флоренции? → Нет, мы его еще не посетили." },
+            { id: "q19", prompt: "9. Chi ha firmato questi contratti? → (il responsabile) ", expected: "Li ha firmati il responsabile.", hint: "Esempio atteso: Li ha firmati il responsabile.", translation: "Кто подписал эти контракты? → Их подписал ответственный сотрудник." },
+            { id: "q20", prompt: "10. Chi ha lavato i piatti sporchi? → (io) ", expected: "Li ho lavati io.", hint: "Esempio atteso: Li ho lavati io.", translation: "Кто помыл грязную посуду? → Их помыл я." }
+          ]
+        },
+        {
+          id: "sec3",
+          title: "Esercizio 2 (continua): Risposta al passato e accordo del participio (Parte 2)",
+          instructions: "Rispondi alle domande al passato prossimo sostituendo l'elemento in grassetto con il pronome diretto opportuno e facendo l'accordo del participio passato (frasi 11–20).",
+          instructionRu: "Продолжение упражнения 2: ответьте на вопросы в passato prossimo (предложения 11–20).",
+          hasExplanation: false,
+          type: "inline_completion",
+          items: [
+            { id: "q21", prompt: "11. Avete ascoltato il messaggio vocale di Luca? → Sì, ", expected: "Sì, l'abbiamo ascoltato.", hint: "Esempio atteso: Sì, l'abbiamo ascoltato.", translation: "Вы прослушали голосовое сообщение от Луки? → Да, мы его прослушали." },
+            { id: "q22", prompt: "12. Chi ha perso le chiavi del garage? → (tuo fratello) ", expected: "Le ha perse tuo fratello.", hint: "Esempio atteso: Le ha perse tuo fratello.", translation: "Кто потерял ключи от гаража? → Их потерял твой брат." },
+            { id: "q23", prompt: "13. Hai piantato quegli alberi in giardino? → Sì, ", expected: "Sì, li ho piantati.", hint: "Esempio atteso: Sì, li ho piantati.", translation: "Ты посадил те деревья в саду? → Да, я их посадил." },
+            { id: "q24", prompt: "14. Avete prenotato le camere in hotel? → Sì, ", expected: "Sì, le abbiamo prenotate.", hint: "Esempio atteso: Sì, le abbiamo prenotate.", translation: "Вы забронировали номера в отеле? → Да, мы их забронировали." },
+            { id: "q25", prompt: "15. Chi ha organizzato questa festa a sorpresa? → (i miei studenti) ", expected: "L'hanno organizzata i miei studenti.", hint: "Esempio atteso: L'hanno organizzata i miei studenti.", translation: "Кто организовал этот праздник-сюрприз? → Его организовали мои студенты." },
+            { id: "q26", prompt: "16. Hai provato la nuova ricetta della pasta? → No, ", expected: "No, non l'ho provata.", hint: "Esempio atteso: No, non l'ho provata.", translation: "Ты попробовал новый рецепт пасты? → Нет, я его не попробовал(-а)." },
+            { id: "q27", prompt: "17. Avete visto i nuovi episodi della serie? → Sì, ", expected: "Sì, li abbiamo visti.", hint: "Esempio atteso: Sì, li abbiamo visti.", translation: "Вы видели новые серии сериала? → Да, мы их видели." },
+            { id: "q28", prompt: "18. Chi ha stampato le fotocopie per la riunione? → (la segretaria) ", expected: "Le ha stampate la segretaria.", hint: "Esempio atteso: Le ha stampate la segretaria.", translation: "Кто распечатал ксерокопии для совещания? → Их распечатала секретарша." },
+            { id: "q29", prompt: "19. Hai parcheggiato lo scooter nel cortile? → No, (in cantina) ", expected: "No, l'ho parcheggiato in cantina.", hint: "Esempio atteso: No, l'ho parcheggiato in cantina.", translation: "Ты припарковал скутер во дворе? → Нет, я припарковал его в подвале." },
+            { id: "q30", prompt: "20. Avete invitato tutti i parenti al matrimonio? → Sì, ", expected: "Sì, li abbiamo invitati.", hint: "Esempio atteso: Sì, li abbiamo invitati.", translation: "Вы пригласили всех родственников на свадьбу? → Да, мы их пригласили." }
+          ]
+        }
+      ]
+    };
+
+    let currentSectionIndex = 0;
+    let savedAnswers = {};
+    let submissionRef = null;
+    let studentName = "";
+    let isStudentSession = false;
+
+    const taskWorkspace = document.getElementById("task-workspace");
+    const taskContent = document.getElementById("task-content");
+    const pageMessage = document.getElementById("page-message");
+    const progressList = document.getElementById("question-progress");
+    const progressCount = document.getElementById("progress-count");
+    const questionPosition = document.getElementById("question-position");
+    const previousButton = document.getElementById("previous-question");
+    const nextButton = document.getElementById("next-question");
+    const taskSubmitPanel = document.getElementById("task-submit-panel");
+    const submitTaskButton = document.getElementById("submit-task");
+    const backToHomework = document.getElementById("back-to-homework");
+    const taskParams = new URLSearchParams(location.search);
+    const assignmentId = taskParams.get("assignment");
+
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    document.title = taskData.title;
+    document.getElementById("task-title").textContent = taskData.title;
+
+    function renderProgress() {
+      progressList.replaceChildren();
+      taskData.sections.forEach((sec, index) => {
+        const step = document.createElement("button");
+        step.type = "button";
+        step.className = `progress-step${index === currentSectionIndex ? " current" : ""}`;
+        step.textContent = String(index + 1);
+        step.setAttribute("aria-label", `Parte ${index + 1}`);
+        step.addEventListener("click", () => { currentSectionIndex = index; renderSection(); });
+        progressList.appendChild(step);
+      });
+      progressCount.textContent = `${currentSectionIndex + 1} / ${taskData.sections.length}`;
+      questionPosition.textContent = `Parte ${currentSectionIndex + 1} di ${taskData.sections.length}`;
+      previousButton.disabled = currentSectionIndex === 0;
+      nextButton.disabled = currentSectionIndex === taskData.sections.length - 1;
+      taskSubmitPanel.hidden = !isStudentSession;
+    }
+
+    function renderSection() {
+      taskWorkspace.hidden = false;
+      taskContent.replaceChildren();
+      const sec = taskData.sections[currentSectionIndex];
+
+      const card = document.createElement("article");
+      card.className = "question";
+      card.appendChild(Object.assign(document.createElement("h2"), { textContent: sec.title }));
+      
+      if (sec.instructions) {
+        card.appendChild(Object.assign(document.createElement("p"), { style: "font-weight: 600; color: #232722; margin-bottom: 6px;", textContent: sec.instructions }));
+      }
+      if (sec.instructionRu) {
+        const divRu = document.createElement("div");
+        divRu.className = "instruction-ru";
+        divRu.textContent = sec.instructionRu;
+        card.appendChild(divRu);
+      }
+
+      // Expandable Explanation (Closed by default)
+      if (sec.hasExplanation) {
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        summary.textContent = sec.explanationTitle || "Spiegazione grammaticale / Грамматическое объяснение";
+        details.appendChild(summary);
+
+        const expContent = document.createElement("div");
+        expContent.className = "explanation-content";
+        expContent.innerHTML = sec.explanationHtml;
+        details.appendChild(expContent);
+
+        card.appendChild(details);
+      }
+
+      if (sec.type === "dropdown_completion") {
+        renderDropdownCompletion(sec, card);
+      } else if (sec.type === "inline_completion") {
+        renderInlineCompletion(sec, card);
+      }
+
+      taskContent.appendChild(card);
+      renderProgress();
+    }
+
+    function renderDropdownCompletion(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      sec.items.forEach((item, itemIdx) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.margin = "22px 0";
+        itemDiv.style.paddingBottom = "18px";
+        itemDiv.style.borderBottom = "1px solid #e7e5dc";
+
+        const p = document.createElement("p");
+        p.className = "question-prompt";
+        p.innerHTML = `${itemIdx + 1}. `;
+
+        let text = item.prompt;
+        item.selects.forEach((sel) => {
+          text = text.replace(`[${sel.name}]`, `@@SELECT_${sel.name}@@`);
+        });
+
+        let parts = text.split(/@@SELECT_(.*?)@@/);
+        parts.forEach((part, pIdx) => {
+          if (pIdx % 2 === 0) {
+            p.appendChild(document.createElement("span")).innerHTML = part;
+          } else {
+            const selName = part;
+            const selConfig = item.selects.find(s => s.name === selName);
+            const select = document.createElement("select");
+            select.className = "inline-select";
+            
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "— scegli —";
+            select.appendChild(defaultOpt);
+
+            selConfig.options.forEach(opt => {
+              const option = document.createElement("option");
+              option.value = opt;
+              option.textContent = opt;
+              select.appendChild(option);
+            });
+
+            const valKey = `sel_${item.id}_${selName}`;
+            select.value = state[valKey] || "";
+
+            const checkDropdown = (val) => {
+              if (!val) {
+                select.className = "inline-select";
+              } else if (val === selConfig.correct) {
+                select.className = "inline-select correct";
+              } else {
+                select.className = "inline-select incorrect";
+              }
+            };
+            checkDropdown(select.value);
+
+            select.addEventListener("change", (e) => {
+              state[valKey] = e.target.value;
+              checkDropdown(e.target.value);
+              saveAndSync(sec.id, state);
+            });
+
+            p.appendChild(select);
+          }
+        });
+
+        itemDiv.appendChild(p);
+
+        if (item.translation) {
+          const trans = document.createElement("div");
+          trans.className = "translation";
+          trans.style.cssText = "color: #6b7069; font-size: 0.95rem; font-style: italic; margin-top: 6px; padding-left: 4px; border-left: 3px solid #d4e1d5;";
+          trans.textContent = item.translation;
+          itemDiv.appendChild(trans);
+        }
+
+        if (item.correctionReason) {
+          const hint = document.createElement("div");
+          hint.className = "explanation-hint";
+          hint.textContent = `💡 Spiegazione: ${item.correctionReason}`;
+          itemDiv.appendChild(hint);
+        }
+
+        container.appendChild(itemDiv);
+      });
+    }
+
+    function renderInlineCompletion(sec, container) {
+      if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
+      const state = savedAnswers[sec.id];
+
+      sec.items.forEach((item, itemIdx) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.style.margin = "22px 0";
+        itemDiv.style.paddingBottom = "18px";
+        itemDiv.style.borderBottom = "1px solid #e7e5dc";
+
+        const p = document.createElement("p");
+        p.className = "question-prompt";
+        p.innerHTML = item.prompt;
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "inline-input";
+        input.placeholder = item.hint || "Scrivi la risposta...";
+        const valKey = `input_${item.id}`;
+        input.value = state[valKey] || "";
+
+        const checkVal = (val) => {
+          const cleanVal = val.trim().toLowerCase().replace(/[\.,\?!]/g, "");
+          const expected = item.expected.trim().toLowerCase().replace(/[\.,\?!]/g, "");
+          if (cleanVal === "") {
+            input.className = "inline-input";
+          } else if (cleanVal === expected) {
+            input.className = "inline-input correct";
+          } else {
+            input.className = "inline-input incorrect";
+          }
+        };
+
+        checkVal(input.value);
+
+        input.addEventListener("input", (e) => {
+          state[valKey] = e.target.value;
+          checkVal(e.target.value);
+          saveAndSync(sec.id, state);
+        });
+
+        p.appendChild(input);
+        itemDiv.appendChild(p);
+
+        if (item.translation) {
+          const trans = document.createElement("div");
+          trans.className = "translation";
+          trans.style.cssText = "color: #6b7069; font-size: 0.95rem; font-style: italic; margin-top: 6px; padding-left: 4px; border-left: 3px solid #d4e1d5;";
+          trans.textContent = item.translation;
+          itemDiv.appendChild(trans);
+        }
+
+        container.appendChild(itemDiv);
+      });
+    }
+
+    async function saveAndSync(sectionId, sectionAnswers) {
+      if (!submissionRef) return;
+      savedAnswers[sectionId] = sectionAnswers;
+      try {
+        await submissionRef.child(`answers/${sectionId}`).set(sectionAnswers);
+        await submissionRef.update({
+          studentName,
+          status: "in-progress",
+          updatedAt: Date.now()
+        });
+        pageMessage.textContent = "Risposta salvata automaticamente in tempo reale. ✓";
+        setTimeout(() => { if (pageMessage.textContent.includes("✓")) pageMessage.textContent = ""; }, 2500);
+      } catch (err) {
+        pageMessage.textContent = "Errore di salvataggio. Controlla la connessione.";
+      }
+    }
+
+    submitTaskButton.addEventListener("click", async () => {
+      if (!submissionRef) return;
+      submitTaskButton.disabled = true;
+      pageMessage.textContent = "Invio del compito all’insegnante… / Отправка работы...";
+      try {
+        await submissionRef.update({
+          studentName,
+          status: "pending",
+          submittedAt: Date.now()
+        });
+        pageMessage.textContent = "Compito inviato con successo all'insegnante! 🎉 / Работа успешно отправлена!";
+      } catch (err) {
+        pageMessage.textContent = "Impossibile inviare. Riprova.";
+        submitTaskButton.disabled = false;
+      }
+    });
+
+    previousButton.addEventListener("click", () => {
+      if (currentSectionIndex > 0) { currentSectionIndex--; renderSection(); window.scrollTo(0,0); }
+    });
+    nextButton.addEventListener("click", () => {
+      if (currentSectionIndex < taskData.sections.length - 1) { currentSectionIndex++; renderSection(); window.scrollTo(0,0); }
+    });
+
+    async function initializeTask() {
+      let session;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      isStudentSession = Boolean(session && !session.isTeacher && session.group && session.name);
+
+      if (!assignmentId) {
+        pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere.";
+        return;
+      }
+      if (!isStudentSession) {
+        pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito.";
+        return;
+      }
+
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+          assignmentRef.once("value"),
+          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]);
+
+        const assignment = assignmentSnapshot.val();
+        const group = groupSnapshot.val();
+        if (!assignment || !group) throw new Error("Compito non disponibile per questo gruppo.");
+
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+        studentName = session.name;
+
+        const submissionSnapshot = await submissionRef.once("value");
+        const submission = submissionSnapshot.val() || {};
+        savedAnswers = submission.answers || {};
+
+        renderSection();
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito.";
+      }
+    }
+
+    initializeTask();
+  </script>
+</body>
+</html>
