@@ -1,0 +1,19 @@
+{
+  "1": [
+    {
+      "label": "Compito 1",
+      "path": "compiti/u_001/u_001_compito_1.html",
+      "description": "Pronuncia, comprensione del testo, verbo essere, preposizioni e interrogativi."
+    }
+  ],
+  "46": [
+    {
+      "label": "Compito 2",
+      "path": "compiti/u_046/compito2.html"
+    },
+    {
+      "label": "Compito 3",
+      "path": "compiti/u_046/u_046_compito_3.html"
+    }
+  ]
+}

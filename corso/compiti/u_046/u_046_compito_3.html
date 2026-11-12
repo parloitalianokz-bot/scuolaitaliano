@@ -5,62 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unità 46 — Compito 3: I pronomi diretti e il passato prossimo</title>
   <style>
-    :root { 
-      color-scheme: light; 
-      font-family: 'Segoe UI', Inter, system-ui, sans-serif; 
-      color: #292d28; 
-      background: #f5f3ec; 
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739;
+      --green-dark: #1e3d27;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --muted: #6b7069;
+      --line: #d8e5d8;
+      --paper: #fffefa;
     }
     * { box-sizing: border-box; }
-    body { 
-      min-height: 100vh; 
-      margin: 0; 
-      padding: 32px 16px; 
-      background: 
-        linear-gradient(rgba(250,248,241,.88), rgba(250,248,241,.88)), 
-        url("img/sfondo-funerale-augusto.jpg") center / cover fixed, 
-        #e9e3d6; 
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px 56px;
+      background:
+        linear-gradient(rgba(250,248,241,.84), rgba(250,248,241,.9)),
+        url("../../u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed,
+        #e9e3d6;
     }
-    main { width: min(100%, 960px); margin: auto; }
-    a { color: #2f5739; font-weight: 700; text-decoration: none; }
+    main { width: min(100%, 900px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    h1, h2, h3 { color: #2f5739; }
+    h1, h2, h3 { color: var(--green); }
     :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
-    
-    header, .exercise-section, .question { 
-      margin-bottom: 24px; 
-      padding: 28px; 
-      border: 1px solid #d8e5d8; 
-      border-radius: 20px; 
-      background: #fffefa; 
-      box-shadow: 0 10px 30px rgba(43,69,46,.06); 
+
+    header, .exercise-section, .question {
+      margin-bottom: 24px;
+      padding: clamp(22px, 4vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(43,69,46,.08);
     }
-    header p { color: #6b7069; }
-    
-    .progress-panel { 
-      margin-bottom: 24px; 
-      padding: 20px 24px; 
-      border: 1px solid #d8e5d8; 
-      border-radius: 18px; 
-      background: #fffefa; 
-      box-shadow: 0 6px 20px rgba(43,69,46,.04);
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(26px, 5vw, 44px);
+      border-top: 4px solid var(--green);
+      text-align: center;
     }
-    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #2f5739; font-weight: 800; font-size: 0.95rem; }
+    header::after {
+      position: absolute;
+      top: -75px;
+      right: -55px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(237,244,237,.85), rgba(237,244,237,0));
+      content: "";
+      pointer-events: none;
+    }
+    header > * { position: relative; z-index: 1; }
+    header > a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-bottom: 22px;
+      padding: 7px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      font-size: .9rem;
+    }
+    header > a:hover { background: var(--green-light); text-decoration: none; }
+    .eyebrow {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.55rem);
+      letter-spacing: -.04em;
+      line-height: 1.15;
+    }
+    header p { max-width: 650px; margin: 12px auto 0; color: var(--muted); line-height: 1.55; }
+    header .note { margin-top: 16px; font-size: .88rem; }
+    #task-instructions { font-size: 1.04rem; }
+    #page-message:not(:empty) {
+      margin: 0 0 20px;
+      padding: 13px 17px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--green-light);
+      color: var(--green);
+      font-weight: 700;
+      box-shadow: 0 5px 16px rgba(43,69,46,.05);
+    }
+    #page-message:empty { display: none; }
+    header p { color: var(--muted); }
+    .question { transition: box-shadow .2s ease, transform .2s ease; }
+    .question h2 {
+      margin: 0 0 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--green-light);
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      line-height: 1.3;
+    }
+    .question-prompt { line-height: 1.55; }
+    .question-prompt u { text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .translation { color: var(--muted); }
+    .explanation-hint { padding: 9px 12px; border-radius: 9px; background: #fff8f2; color: #87452f; }
+    .instruction-ru { border-left-color: var(--accent); }
+    
+    
+    .progress-panel {
+      margin-bottom: 24px;
+      padding: 20px 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(43,69,46,.06);
+    }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: var(--green); font-weight: 800; font-size: .95rem; }
+    .progress-track { height: 7px; margin-bottom: 16px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green), #6c966d); transition: width .25s ease; }
     .progress-list { display: flex; flex-wrap: wrap; gap: 10px; }
-    .progress-step { 
-      width: 42px; 
-      height: 42px; 
-      padding: 6px; 
-      border: 2px solid #d8e5d8; 
-      border-radius: 50%; 
-      background: white; 
-      color: #2f5739; 
-      font-weight: 700; 
-      cursor: pointer; 
-      transition: all 0.2s ease;
+    .progress-step {
+      width: 42px;
+      height: 42px;
+      padding: 6px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: white;
+      color: var(--green);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
     }
-    .progress-step:hover { border-color: #2f5739; background: #edf4ed; }
-    .progress-step.current { border-color: #2f5739; background: #2f5739; color: white; box-shadow: 0 4px 12px rgba(47,87,57,0.3); }
+    .progress-step:hover { transform: translateY(-2px); border-color: var(--green); background: var(--green-light); }
+    .progress-step.current { border-color: var(--green); background: var(--green); color: white; box-shadow: 0 4px 12px rgba(47,87,57,.25); }
 
     .question { border: 1px solid #e7e5dc; border-radius: 20px; padding: clamp(22px, 4vw, 36px); background: #fffefa; }
     .question h2 { margin-top: 0; font-size: 1.35rem; border-bottom: 2px solid #edf4ed; padding-bottom: 12px; }
@@ -109,7 +192,9 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.04);
       cursor: pointer;
     }
-    input.inline-input { width: 240px; text-align: left; }
+    input.inline-input { width: min(100%, 360px); min-height: 44px; text-align: left; cursor: text; }
+    select.inline-select:hover, input.inline-input:hover { border-color: #8eaa90; }
+    select.inline-select:focus, input.inline-input:focus { border-color: var(--green); outline: 3px solid rgba(47,87,57,.13); }
     select.inline-select.correct, input.inline-input.correct { border-color: #278253; background: #e1f1e5; color: #17623c; }
     select.inline-select.incorrect, input.inline-input.incorrect { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
 
@@ -120,29 +205,29 @@
       font-style: italic;
     }
 
-    button { 
-      min-height: 46px; 
-      padding: 10px 20px; 
-      border: 0; 
-      border-radius: 12px; 
-      background: #2f5739; 
-      color: white; 
-      font: inherit; 
-      font-weight: 700; 
-      cursor: pointer; 
-      box-shadow: 0 4px 12px rgba(47,87,57,0.2);
-      transition: background 0.2s, transform 0.1s;
+    button {
+      min-height: 46px;
+      padding: 10px 20px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(47,87,57,.18);
+      transition: background .2s, transform .15s, box-shadow .2s;
     }
-    button:hover { background: #23422b; }
+    button:hover { background: var(--green-dark); box-shadow: 0 6px 16px rgba(47,87,57,.2); }
     button:active { transform: translateY(1px); }
-    button.secondary { border: 2px solid #2f5739; background: white; color: #2f5739; box-shadow: none; }
-    button.secondary:hover { background: #edf4ed; }
+    button.secondary { border: 1.5px solid var(--green); background: white; color: var(--green); box-shadow: none; }
+    button.secondary:hover { background: var(--green-light); }
     button:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; transform: none; }
 
-    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 28px; padding-top: 20px; border-top: 2px solid #edf4ed; }
-    .slide-progress { color: #2f5739; font-weight: 800; text-align: center; }
-    
-    .task-submit-panel { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin: 24px 0; padding: 22px 26px; border: 1px solid #d8e5d8; border-radius: 18px; background: #fffefa; box-shadow: 0 8px 24px rgba(43,69,46,.05); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 28px 0 24px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.9); }
+    .slide-progress { color: var(--green); font-weight: 800; text-align: center; }
+
+    .task-submit-panel { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin: 24px 0; padding: 22px 26px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg, var(--green-light), #fffefa 75%); box-shadow: 0 8px 24px rgba(43,69,46,.08); }
     .task-submit-panel[hidden] { display: none; }
     
     #page-message { padding: 14px 18px; border-radius: 14px; background: #edf4ed; color: #2f5739; font-weight: 700; margin-bottom: 20px; border: 1px solid #d8e5d8; }
@@ -151,11 +236,21 @@
     .note { color: #6b7069; font-size: 0.94rem; }
     .instruction-ru { color: #4a524a; font-size: 0.98rem; font-weight: 600; margin-bottom: 14px; background: #f2f7f3; padding: 12px 16px; border-radius: 12px; border-left: 4px solid #2f5739; }
 
-    @media (max-width: 600px) { 
-      body { padding: 16px 10px; } 
-      header, .exercise-section, .progress-panel, .question { padding: 20px; } 
-      .slide-navigation { flex-wrap: wrap; } 
-      .slide-progress { order: -1; width: 100%; } 
+    @media (max-width: 600px) {
+      body { padding: 18px 12px 36px; background-attachment: scroll; }
+      header, .exercise-section, .progress-panel, .question { padding: 20px; }
+      header > a { margin-bottom: 18px; font-size: .8rem; }
+      .progress-panel { padding: 18px; }
+      .progress-list { gap: 8px; }
+      .progress-step { width: 38px; height: 38px; }
+      .slide-navigation { flex-wrap: wrap; justify-content: center; padding: 14px; }
+      .slide-navigation button { flex: 1 1 145px; }
+      .slide-progress { order: -1; width: 100%; }
+      .task-submit-panel { padding: 18px; }
+      .task-submit-panel button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
@@ -163,6 +258,7 @@
   <main>
     <header>
       <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <span class="eyebrow">Italiano · Unità 46 · Compito 3</span>
       <h1 id="task-title">Unità 46 — Compito 3</h1>
       <p id="task-instructions">I pronomi diretti e il passato prossimo con accordo del participio. Correggi in tempo reale.</p>
       <p id="student-task-note" class="note">Le risposte vengono salvate in tempo reale. / Ответы сохраняются в реальном времени.</p>
@@ -172,6 +268,7 @@
     <section id="task-workspace" hidden>
       <nav class="progress-panel" aria-label="Avanzamento del compito">
         <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
         <div id="question-progress" class="progress-list"></div>
       </nav>
 
@@ -244,7 +341,7 @@
             { id: "q1", prompt: "Per tradurre questo testo usiamo sempre <u>il dizionario</u>: [sel1] usiamo ogni giorno.", selects: [{name: "sel1", correct: "lo", options: ["lo", "la", "li", "le"]}], translation: "Чтобы перевести этот текст, мы всегда используем словарь: мы используем его каждый день.", correctionReason: "«Il dizionario» è maschile singolare → LO." },
             { id: "q2", prompt: "Non trovo <u>la mia chiave</u>: tu [sel1] vedi da qualche parte?", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation: "Я не нахожу мой ключ: ты видишь его где-нибудь?", correctionReason: "«La mia chiave» è femminile singolare → LA." },
             { id: "q3", prompt: "Se vedi <u>i tuoi amici</u> al bar, [sel1] saluti da parte mia?", selects: [{name: "sel1", correct: "li", options: ["lo", "la", "li", "le"]}], translation: "Если ты увидишь твоих друзей в баре, передашь им привет от меня?", correctionReason: "«I tuoi amici» è maschile plurale → LI." },
-            { id: "q4", prompt: "La mia stanza è sempre pulita: [sel1] riordino ogni fine settimana.", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation:yna="Моя комната всегда чистая: я убираю ее каждые выходные.", correctionReason: "«La stanza» è femminile singolare → LA." },
+            { id: "q4", prompt: "La mia stanza è sempre pulita: [sel1] riordino ogni fine settimana.", selects: [{name: "sel1", correct: "la", options: ["lo", "la", "li", "le"]}], translation: "Моя комната всегда чистая: я убираю ее каждые выходные.", correctionReason: "«La stanza» è femminile singolare → LA." },
             { id: "q5", prompt: "Non mangio mai <u>le caramelle</u>: non [sel1] compro quasi mai.", selects: [{name: "sel1", correct: "le", options: ["lo", "la", "li", "le"]}], translation: "Я никогда не ем конфеты: я почти никогда их не покупаю.", correctionReason: "«Le caramelle» è femminile plurale → LE." },
             { id: "q6", prompt: "Hai il numero di telefono <u>del direttore</u>? Devo chiamar[sel1] subito.", selects: [{name: "sel1", correct: "lo", options: ["lo", "la", "li", "le"]}], translation: "У тебя есть номер телефона директора? Я должен позвонить ему немедленно.", correctionReason: "«Il direttore» (maschile singolare) con l'infinito: chiamar + lo = chiamarlo (la vocale finale cade)." },
             { id: "q7", prompt: "Dove sono <u>i documenti</u> di lavoro? [sel1] cerco da mezz'ora!", selects: [{name: "sel1", correct: "li", options: ["lo", "la", "li", "le"]}], translation: "Где рабочие документы? Я ищу их уже полчаса!", correctionReason: "«I documenti» è maschile plurale → LI." },
@@ -281,7 +378,7 @@
           items: [
             { id: "q11", prompt: "1. Hai letto la prima pagina del giornale? → Sì, ", expected: "Sì, l'ho letta.", hint: "Esempio atteso: Sì, l'ho letta.", translation: "Ты прочитал первую страницу газеты? → Да, я ее прочитал(-а)." },
             { id: "q12", prompt: "2. Avete mangiato tutte le mele? → Sì, ", expected: "Sì, le abbiamo mangiate.", hint: "Esempio atteso: Sì, le abbiamo mangiate.", translation: "Вы съели все яблоки? → Да, мы их съели." },
-            { id: "q13", prompt: "3. Chi ha rotto questo bicchiere? → (Marco) ", expected: "L'ha rotto Marco.", hint: "Esempio atteso: L'ha rotto Marco.", translation:- "Кто разбил этот стакан? → Его разбил Марко." },
+            { id: "q13", prompt: "3. Chi ha rotto questo bicchiere? → (Marco) ", expected: "L'ha rotto Marco.", hint: "Esempio atteso: L'ha rotto Marco.", translation: "Кто разбил этот стакан? → Его разбил Марко." },
             { id: "q14", prompt: "4. Hai ricevuto i pacchi di Amazon? → No, ", expected: "No, non li ho ricevuti.", hint: "Esempio atteso: No, non li ho ricevuti.", translation: "Ты получил посылки с Амазона? → Нет, я их не получил." },
             { id: "q15", prompt: "5. Avete comprato i biglietti per il museo? → Sì, ", expected: "Sì, li abbiamo comprati.", hint: "Esempio atteso: Sì, li abbiamo comprati.", translation: "Вы купили билеты в музей? → Да, мы их купили." },
             { id: "q16", prompt: "6. Chi ha preparato la cena per gli ospiti? → (mia madre) ", expected: "L'ha preparata mia madre.", hint: "Esempio atteso: L'ha preparata mia madre.", translation: "Кто приготовил ужин для гостей? → Его приготовила моя мама." },
@@ -354,6 +451,7 @@
         progressList.appendChild(step);
       });
       progressCount.textContent = `${currentSectionIndex + 1} / ${taskData.sections.length}`;
+      document.getElementById("progress-bar").style.width = `${((currentSectionIndex + 1) / taskData.sections.length) * 100}%`;
       questionPosition.textContent = `Parte ${currentSectionIndex + 1} di ${taskData.sections.length}`;
       previousButton.disabled = currentSectionIndex === 0;
       nextButton.disabled = currentSectionIndex === taskData.sections.length - 1;
