@@ -687,10 +687,15 @@
         }
         try {
           const task = await loadTaskDefinition(assignmentTask.value);
-          assignmentTitle.value = task.title || assignmentTask.options[assignmentTask.selectedIndex].text;
-          assignmentDescription.value = task.instructions || "";
+          assignmentTitle.value = selectedTask?.title || task.title || assignmentTask.options[assignmentTask.selectedIndex].text;
+          assignmentDescription.value = selectedTask?.instructions || task.instructions || "";
         } catch (_) {
-          showMessage("Non è possibile caricare il compito selezionato.");
+          if (selectedTask?.title || selectedTask?.instructions) {
+            assignmentTitle.value = selectedTask.title || assignmentTask.options[assignmentTask.selectedIndex].text;
+            assignmentDescription.value = selectedTask.instructions || "";
+          } else {
+            showMessage("Non è possibile caricare il compito selezionato.");
+          }
         }
       });
       const initialGroup = groupData[session.group] && groupData[session.group].attivo !== false ? session.group : activeGroups[0][0];
