@@ -97,6 +97,7 @@
   </main>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
   <script>
     const firebaseConfig = {
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
@@ -329,9 +330,43 @@
       else if (event.key === "ArrowLeft" && sectionIndex > 0) { sectionIndex--; renderSection(); }
     });
 
+    function buildTeacherReviewRows(submission) {
+      const saved = submission.answers || {};
+      return sections.map(section => {
+        const state = saved[section.id] || {};
+        let rows = [];
+        if (section.paragraphs) {
+          rows = section.paragraphs.flatMap(paragraph => paragraph
+            .filter(part => typeof part === "object")
+            .map(part => ({
+              id: part.id,
+              prompt: `Completa con la forma corretta di «${part.verb}».`,
+              answer: state[part.id] || "Nessuna risposta inserita",
+              expected: part.answers
+            })));
+        }
+        if (section.items) {
+          rows = rows.concat(section.items.map(item => ({
+            id: item.id,
+            prompt: item.prompt || `${item.text || "Completa la frase"}${item.tail || ""}`,
+            answer: state[item.id] || "Nessuna risposta inserita",
+            expected: item.answers
+          })));
+        }
+        return { id: section.id, title: section.title, rows };
+      });
+    }
+
     async function initializeTask() {
       let session;
       try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      try {
+        const openedForReview = await window.openHomeworkTeacherReview({ taskData: { title: "Unità 53 — Compito 2: Il passato e i desideri irrealizzati" }, buildRows: buildTeacherReviewRows });
+        if (openedForReview) return;
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
+        return;
+      }
       const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
       if (!assignmentId) { pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return; }
       if (!isStudent) { pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return; }

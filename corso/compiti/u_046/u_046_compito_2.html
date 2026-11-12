@@ -149,7 +149,7 @@
     const submitCorrectionsButton = document.getElementById("submit-corrections");
     const taskParams = new URLSearchParams(location.search);
     const assignmentId = taskParams.get("assignment");
-    const teacherReview = taskParams.get("teacherReview") === "1";
+    const teacherReview = taskParams.get("teacherReview") === "1" || (taskParams.has("group") && taskParams.has("student"));
     const teacherGroup = taskParams.get("group");
     const teacherStudentKey = taskParams.get("student");
     const backToHomework = document.getElementById("back-to-homework");
@@ -444,7 +444,7 @@
     });
 
     async function initializeTeacherTask() {
-      if (!teacherSession || !teacherSession.isTeacher || TEACHER_PINS[teacherSession.teacher] == null || !teacherGroup || !teacherStudentKey) {
+      if (!teacherSession || !teacherSession.isTeacher || TEACHER_PINS[teacherSession.teacher] == null || !assignmentId || !teacherGroup || !teacherStudentKey) {
         pageMessage.textContent = "Accedi come insegnante dalla pagina principale per correggere questo compito.";
         return;
       }

@@ -242,6 +242,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
   
   <script id="homework-task-data" type="application/json">
   {
@@ -788,10 +789,56 @@
       if (currentSectionIndex < taskData.sections.length - 1) { currentSectionIndex++; renderSection(); window.scrollTo(0,0); }
     });
 
+    function buildTeacherReviewRows(submission) {
+      const saved = submission.answers || {};
+      return taskData.sections.map(section => {
+        const state = saved[section.id] || {};
+        let rows = [];
+        if (section.type === "phonetic_matching") {
+          rows = section.words.map(word => ({
+            id: word.id,
+            prompt: word.text,
+            answer: section.groups.find(group => group.id === state[word.id])?.label || "Nessuna categoria selezionata",
+            expected: section.groups.find(group => group.id === word.correctGroup)?.label || word.correctGroup
+          }));
+        } else if (section.type === "multiple_choice") {
+          rows = section.questions.map(question => ({
+            id: question.id,
+            prompt: question.prompt,
+            answer: state[question.id] === undefined ? "Nessuna risposta selezionata" : question.options[Number(state[question.id])],
+            expected: question.options[question.correct]
+          }));
+        } else if (section.type === "dropdown_completion") {
+          rows = section.items.flatMap(item => item.selects.map(select => ({
+            id: `${item.id}_${select.name}`,
+            prompt: `${item.prompt.replace(/\[sel\d+\]/g, "…")} · ${select.name}`,
+            answer: state[`sel_${item.id}_${select.name}`] || "Nessuna risposta selezionata",
+            expected: select.correct
+          })));
+        } else if (section.type === "matching_dropdown") {
+          rows = section.pairs.map(pair => ({
+            id: pair.id,
+            prompt: pair.question,
+            answer: state[`match_${pair.id}`] || "Nessuna risposta selezionata",
+            expected: pair.correctAns
+          }));
+        }
+        return { id: section.id, title: section.title, rows };
+      });
+    }
+
     async function initializeTask() {
       let session;
       try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
       isStudentSession = Boolean(session && !session.isTeacher && session.group && session.name);
+
+      try {
+        const openedForReview = await window.openHomeworkTeacherReview({ taskData, buildRows: buildTeacherReviewRows });
+        if (openedForReview) return;
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
+        return;
+      }
 
       if (!assignmentId) {
         pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere.";
