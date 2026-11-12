@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 46 — Compito 2</title>
+  <style>
+    :root { color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, sans-serif; color: #292d28; background: #f5f3ec; }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 28px 16px; background: linear-gradient(rgba(250,248,241,.82), rgba(250,248,241,.82)), url("../../u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed, #e9e3d6; }
+    main { width: min(100%, 900px); margin: auto; }
+    a { color: #2f5739; font-weight: 700; }
+    h1, h2 { color: #2f5739; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    header, .exercise-section { margin-bottom: 18px; padding: 22px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fffefa; box-shadow: 0 8px 26px rgba(43,69,46,.07); }
+    header p { color: #6b7069; }
+    .progress-panel { margin-bottom: 18px; padding: 18px 22px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fffefa; }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #2f5739; font-weight: 800; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .progress-step { width: 38px; min-height: 38px; padding: 6px; border: 1px solid #d8e5d8; border-radius: 50%; background: white; color: #2f5739; }
+    .progress-step.completed { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    .progress-step.current { border-color: #2f5739; background: #2f5739; color: white; }
+    .question { padding: clamp(20px, 4vw, 32px); border: 1px solid #e7e5dc; border-radius: 22px; background: #fffefa; box-shadow: 0 16px 42px rgba(43,69,46,.08); }
+    .question h2 { margin: 8px 0; }
+    .question p { line-height: 1.55; }
+    .question-prompt { font-size: 1.08rem; font-weight: 800; }
+    .task-answer { margin: 16px 0; padding: 18px 20px; border: 2px solid #d8e5d8; border-radius: 14px; background: #f8faf6; color: #292d28; font-size: 1.2rem; font-weight: 800; line-height: 1.5; white-space: pre-wrap; }
+    .task-answer.approved { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    .task-answer.rejected { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
+    .answer-grade { display: block; margin-top: 8px; font-size: .85rem; font-weight: 800; }
+    .question label { display: flex; align-items: flex-start; gap: 9px; margin: 12px 0; }
+    .question input[type="radio"] { flex: 0 0 auto; margin-top: 4px; accent-color: #477755; }
+    textarea { width: 100%; min-height: 110px; padding: 12px; border: 1px solid #d4e1d5; border-radius: 10px; font: inherit; resize: vertical; }
+    button { min-height: 42px; padding: 9px 16px; border: 0; border-radius: 10px; background: #2f5739; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button.secondary { border: 1px solid #d8e5d8; background: white; color: #2f5739; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; padding-top: 16px; border-top: 1px solid #e7e5dc; }
+    .slide-progress { color: #2f5739; font-weight: 800; text-align: center; }
+    .answer-state { margin-top: 14px; padding: 11px 14px; border-radius: 10px; background: #edf4ed; color: #2f5739; font-weight: 700; }
+    .task-submit-panel { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 18px 0; padding: 18px 22px; border: 1px solid #d8e5d8; border-radius: 16px; background: #fffefa; }
+    .task-submit-panel[hidden] { display: none; }
+    .task-submit-panel p { margin: 0; color: #2f5739; font-weight: 700; }
+    #page-message { padding: 12px; border-radius: 10px; background: #edf4ed; }
+    #page-message:empty { display: none; }
+    .note { color: #6b7069; font-size: .92rem; }
+    .question-number { color: #bd694d; font-size: .82rem; font-weight: 800; }
+    @media (max-width: 600px) { body { padding: 18px 12px; } header, .exercise-section, .progress-panel { padding: 17px; } .slide-navigation { flex-wrap: wrap; } .slide-progress { order: -1; width: 100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <h1 id="task-title">Unità 46 — Compito 2</h1>
+      <p id="task-instructions"></p>
+      <p id="student-task-note" class="note">Invia ogni risposta singolarmente e consegna il compito quando vuoi, anche se alcune risposte mancano. / Отправляй каждый ответ отдельно; работу можно отправить в любое время, даже если на некоторые вопросы нет ответа.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite"></p>
+    <section id="task-workspace" hidden>
+      <nav class="progress-panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div id="question-progress" class="progress-list"></div>
+      </nav>
+      <div id="task-content"></div>
+      <nav class="slide-navigation" aria-label="Navigazione domande">
+        <button id="previous-question" class="secondary" type="button">← Precedente</button>
+        <span id="question-position" class="slide-progress"></span>
+        <button id="next-question" class="secondary" type="button">Successiva →</button>
+      </nav>
+      <section id="task-submit-panel" class="task-submit-panel" hidden aria-label="Consegna del compito">
+        <p>Puoi inviare il compito all’insegnante anche con risposte mancanti. / Ты можешь отправить работу преподавателю, даже если ответил не на все вопросы.</p>
+        <button id="submit-task" type="button" disabled>Invia il compito all’insegnante / Отправить работу преподавателю</button>
+      </section>
+      <section id="teacher-review-panel" class="task-submit-panel" hidden aria-label="Invio delle correzioni">
+        <p>Quando hai terminato la correzione, invia gli esiti allo studente.</p>
+        <button id="submit-corrections" type="button">Invia correzioni</button>
+      </section>
+    </section>
+    <div id="readonly-task"></div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script id="homework-task-data" type="application/json">
+  {
+    "title": "Unità 46 — Compito 2",
+    "instructions": "Rispondi a tutte le domande. Le risposte saranno corrette dall'insegnante. / Ответь на все вопросы. Преподаватель проверит ответы.",
+    "sections": [
+      {
+        "title": "Pronomi diretti e concordanza",
+        "instructions": "Rispondi alle domande usando i pronomi diretti (lo, la, li, le, l') e facendo concordare il participio passato quando necessario. / Ответьте на вопросы, используя прямые местоимения (lo, la, li, le, l') и согласуя причастие прошедшего времени, когда это необходимо.",
+        "questions": [
+          {"id":"q1","prompt":"Chi ha accompagnato le zie alla stazione e all'aeroporto?","modelAnswer":"Le ha accompagnate Marco."},
+          {"id":"q2","prompt":"Marco ha comprato i biglietti del treno per la zia Gemma e la zia Berta? (Sì, ... / No, ...)","modelAnswer":"Sì, li ha comprati Marco."},
+          {"id":"q3","prompt":"Chi ha messo la zia Berta sul treno sbagliato? (... Marco)","modelAnswer":"L'ha messa Marco."},
+          {"id":"q4","prompt":"Avete visto la zia Albina vicino al cimitero? (Sì, ...)","modelAnswer":"Sì, l'abbiamo vista a due passi dal cimitero."},
+          {"id":"q5","prompt":"Chi ha salutato la zia Camilla prima della partenza? (... i parenti)","modelAnswer":"L'hanno salutata i parenti."},
+          {"id":"q6","prompt":"Chi di solito prende l'aereo per andare in Sicilia? (... la zia Camilla)","modelAnswer":"La prende la zia Camilla."},
+          {"id":"q7","prompt":"Marco ha portato le valigie sui treni giusti? (Sì, ...)","modelAnswer":"Sì, le ha messe sui treni giusti."},
+          {"id":"q8","prompt":"Chi ha svegliato la zia Albina in macchina? (... Marco)","modelAnswer":"L'ha svegliata Marco."},
+          {"id":"q9","prompt":"La zia Gemma fa progetti a lungo termine alla sua età? (No, non ...)","modelAnswer":"No, non li fa."},
+          {"id":"q10","prompt":"Hai incontrato le quattro zie al funerale dello zio Augusto? (Sì, ...)","modelAnswer":"Sì, le ho incontrate (oppure: Sì, le abbiamo incontrate)."},
+          {"id":"q11","prompt":"Chi ha aiutato la zia Berta con la valigia? (... Marco)","modelAnswer":"L'ha aiutata Marco."},
+          {"id":"q12","prompt":"Chi ha avvisato la zia Berta che doveva cambiare treno a Bologna? (... Marco)","modelAnswer":"L'ha avvisata Marco."},
+          {"id":"q13","prompt":"La zia Camilla ascolta sempre i consigli di Marco? (No, non ...)","modelAnswer":"No, non li ascolta."},
+          {"id":"q14","prompt":"Avete invitato tutti i parenti al funerale dello zio Augusto? (Sì, ...)","modelAnswer":"Sì, li abbiamo invitati tutti."},
+          {"id":"q15","prompt":"Chi ha riportato la zia Camilla in città alla fine della giornata? (... Marco)","modelAnswer":"L'ha riportata Marco."}
+        ]
+      },
+      {
+        "title": "Dal presente al passato prossimo",
+        "instructions": "Riscrivi le frasi al passato prossimo, sostituendo l'elemento tra parentesi con il pronome diretto adatto e facendo attenzione alla concordanza del participio.",
+        "questions": [
+          {"id":"q16","prompt":"Marco accompagna (le zie) alla stazione.","modelAnswer":"Marco le ha accompagnate alla stazione."},
+          {"id":"q17","prompt":"Il nipote invita (la zia Albina) a prendere un caffè.","modelAnswer":"Il nipote l'ha invitata a prendere un caffè."},
+          {"id":"q18","prompt":"Marco compra (i biglietti del treno) allo sportello.","modelAnswer":"Marco li ha comprati allo sportello."},
+          {"id":"q19","prompt":"La zia Gemma saluta (tutti i parenti) prima di partire.","modelAnswer":"La zia Gemma li ha salutati prima di partire."},
+          {"id":"q20","prompt":"Il controllore controlla (la valigia della zia Berta).","modelAnswer":"Il controllore l'ha controllata."},
+          {"id":"q21","prompt":"I parenti ricordano (lo zio Augusto) con affetto.","modelAnswer":"I parenti l'hanno ricordato con affetto."}
+        ]
+      },
+      {
+        "title": "Scegli la risposta corretta",
+        "instructions": "Scegli la risposta corretta per completare ciascun mini-dialogo mantenendo la giusta concordanza del pronome.",
+        "questions": [
+          {"id":"q22","prompt":"— Hai visto le valigie della zia Gemma?","options":["Sì, l'ho vista sul binario.","Sì, le ho viste sul binario.","Sì, li ho visti sul binario."],"correctOption":1,"modelAnswer":"Sì, le ho viste sul binario."},
+          {"id":"q23","prompt":"— Chi ha accompagnato la zia Camilla all'aeroporto?","options":["L'ha accompagnata Marco.","L'ha accompagnato Marco.","Le ha accompagnate Marco."],"correctOption":0,"modelAnswer":"L'ha accompagnata Marco."},
+          {"id":"q24","prompt":"— Avete avvisato i vicini di casa per il rumore?","options":["Sì, l'abbiamo avvisati.","Sì, li abbiamo avvisati.","Sì, le abbiamo avvisate."],"correctOption":1,"modelAnswer":"Sì, li abbiamo avvisati."},
+          {"id":"q25","prompt":"— Dove hai messo il biglietto del treno?","options":["L'ho messo in tasca.","L'ho messa in tasca.","Li ho messi in tasca."],"correctOption":0,"modelAnswer":"L'ho messo in tasca."},
+          {"id":"q26","prompt":"— Avete incontrato le zie al cimitero?","options":["Sì, li abbiamo incontrati.","Sì, le abbiamo incontrate.","Sì, l'abbiamo incontrata."],"correctOption":1,"modelAnswer":"Sì, le abbiamo incontrate."}
+        ]
+      }
+    ]
+  }
+  </script>
+  <script>
+    const task = JSON.parse(document.getElementById("homework-task-data").textContent);
+    const taskWorkspace = document.getElementById("task-workspace");
+    const taskContent = document.getElementById("task-content");
+    const readonlyTask = document.getElementById("readonly-task");
+    const pageMessage = document.getElementById("page-message");
+    const progressList = document.getElementById("question-progress");
+    const progressCount = document.getElementById("progress-count");
+    const questionPosition = document.getElementById("question-position");
+    const previousButton = document.getElementById("previous-question");
+    const nextButton = document.getElementById("next-question");
+    const taskSubmitPanel = document.getElementById("task-submit-panel");
+    const submitTaskButton = document.getElementById("submit-task");
+    const teacherReviewPanel = document.getElementById("teacher-review-panel");
+    const submitCorrectionsButton = document.getElementById("submit-corrections");
+    const taskParams = new URLSearchParams(location.search);
+    const assignmentId = taskParams.get("assignment");
+    const teacherReview = taskParams.get("teacherReview") === "1";
+    const teacherGroup = taskParams.get("group");
+    const teacherStudentKey = taskParams.get("student");
+    const backToHomework = document.getElementById("back-to-homework");
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const questions = (task.sections || []).flatMap(section => (section.questions || []).map(question => ({
+      ...question, sectionTitle: section.title || "Esercizio", sectionInstructions: section.instructions || ""
+    })));
+    let savedAnswers = {};
+    let drafts = {};
+    let currentQuestion = 0;
+    let canSubmit = false;
+    let submissionRef = null;
+    let studentName = "";
+    let teacherSubmission = null;
+    let teacherSubmissionRef = null;
+    let teacherSession = null;
+    let isStudentSession = false;
+    let isAuthorizedTeacher = false;
+    const TEACHER_PINS = { Antonio: "2202", Assel: "2109" };
+
+    document.title = task.title;
+    document.getElementById("task-title").textContent = task.title;
+    document.getElementById("task-instructions").textContent = task.instructions || "";
+
+    function currentAnswer(question) {
+      if (Object.prototype.hasOwnProperty.call(drafts, question.id)) return drafts[question.id];
+      return savedAnswers[question.id]?.answer ?? "";
+    }
+
+    function answered(question) {
+      const value = savedAnswers[question.id]?.answer;
+      return value !== undefined && String(value).trim() !== "";
+    }
+
+    function renderProgress() {
+      progressList.replaceChildren();
+      questions.forEach((question, index) => {
+        const step = document.createElement("button");
+        step.type = "button";
+        step.className = `progress-step${index === currentQuestion ? " current" : ""}${answered(question) ? " completed" : ""}`;
+        step.textContent = String(index + 1);
+        step.setAttribute("aria-label", `Vai alla domanda ${index + 1}${answered(question) ? ", risposta inviata" : ""}`);
+        step.setAttribute("aria-current", index === currentQuestion ? "step" : "false");
+        step.addEventListener("click", () => { currentQuestion = index; renderQuestion(); });
+        progressList.appendChild(step);
+      });
+      const completed = questions.filter(answered).length;
+      progressCount.textContent = `${completed} / ${questions.length}`;
+      taskSubmitPanel.hidden = !isStudentSession || !canSubmit || teacherReview;
+      submitTaskButton.disabled = !canSubmit;
+      teacherReviewPanel.hidden = !isAuthorizedTeacher || !teacherReview || teacherSubmission?.status !== "pending";
+      questionPosition.textContent = `Domanda ${currentQuestion + 1} di ${questions.length}`;
+      previousButton.disabled = currentQuestion === 0;
+      nextButton.disabled = currentQuestion === questions.length - 1;
+    }
+
+    function renderTeacherQuestion(question) {
+      taskWorkspace.hidden = false;
+      taskContent.replaceChildren();
+      const card = document.createElement("article");
+      card.className = "question";
+      card.appendChild(Object.assign(document.createElement("div"), { className: "question-number", textContent: `${question.sectionTitle} · Domanda ${currentQuestion + 1}` }));
+      card.appendChild(Object.assign(document.createElement("h2"), { textContent: question.sectionTitle }));
+      if (question.sectionInstructions) card.appendChild(Object.assign(document.createElement("p"), { textContent: question.sectionInstructions }));
+      card.appendChild(Object.assign(document.createElement("p"), { className: "question-prompt", textContent: question.prompt }));
+      const response = teacherSubmission?.answers?.[question.id] || {};
+      let answerText = response.answer;
+      if (question.options && answerText !== undefined) answerText = question.options[Number(answerText)] || answerText;
+      const answerBox = Object.assign(document.createElement("div"), {
+        className: `task-answer${response.grade ? ` ${response.grade}` : ""}`,
+        textContent: answerText || "Nessuna risposta registrata."
+      });
+      if (response.grade) {
+        answerBox.appendChild(Object.assign(document.createElement("span"), {
+          className: "answer-grade",
+          textContent: response.grade === "approved" ? "✓ Approvata" : "✗ Non approvata"
+        }));
+      }
+      card.appendChild(answerBox);
+      if (question.modelAnswer) {
+        const details = document.createElement("details");
+        details.append(Object.assign(document.createElement("summary"), { textContent: "Risposta attesa" }), Object.assign(document.createElement("p"), { textContent: question.modelAnswer }));
+        card.appendChild(details);
+      }
+      if (teacherSubmission?.status === "pending") {
+        const comment = document.createElement("textarea");
+        comment.maxLength = 1000;
+        comment.placeholder = "Commento per questa risposta (facoltativo)";
+        comment.value = response.comment || "";
+        comment.setAttribute("aria-label", `Commento per la domanda ${currentQuestion + 1}`);
+        card.appendChild(comment);
+        const controls = document.createElement("div");
+        controls.style.cssText = "display:flex;flex-wrap:wrap;gap:10px;margin-top:12px";
+        [["approved", "Approva"], ["rejected", "Non approva"]].forEach(([grade, label]) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = label;
+          if (response.grade === grade) button.classList.add("secondary");
+          button.addEventListener("click", async () => {
+            button.disabled = true;
+            const updatedAnswers = { ...(teacherSubmission.answers || {}), [question.id]: { ...response, grade, comment: comment.value.trim() } };
+            const update = { answers: updatedAnswers };
+            try {
+              await teacherSubmissionRef.update(update);
+              teacherSubmission = { ...teacherSubmission, ...update };
+              pageMessage.textContent = "Correzione salvata. Quando hai terminato, invia le correzioni allo studente.";
+              renderQuestion();
+            } catch (_) {
+              pageMessage.textContent = "Impossibile salvare la correzione. Controlla la connessione.";
+              button.disabled = false;
+            }
+          });
+          controls.appendChild(button);
+        });
+        card.appendChild(controls);
+      } else if (response.grade) {
+        card.appendChild(Object.assign(document.createElement("p"), { className: "answer-state", textContent: response.grade === "approved" ? "Approvata" : "Non approvata" }));
+        if (response.comment) card.appendChild(Object.assign(document.createElement("p"), { textContent: `Commento: ${response.comment}` }));
+      }
+      taskContent.appendChild(card);
+      renderProgress();
+    }
+
+    function renderQuestion() {
+      if (teacherReview) {
+        const question = questions[currentQuestion];
+        if (question) renderTeacherQuestion(question);
+        return;
+      }
+      taskWorkspace.hidden = false;
+      readonlyTask.replaceChildren();
+      taskContent.replaceChildren();
+      const question = questions[currentQuestion];
+      if (!question) return;
+      const card = document.createElement("article");
+      card.className = "question";
+      card.appendChild(Object.assign(document.createElement("div"), { className: "question-number", textContent: `${question.sectionTitle} · Domanda ${currentQuestion + 1}` }));
+      const heading = document.createElement("h2");
+      heading.textContent = question.sectionTitle;
+      card.appendChild(heading);
+      if (question.sectionInstructions) {
+        const instructions = document.createElement("p");
+        instructions.textContent = question.sectionInstructions;
+        card.appendChild(instructions);
+      }
+      const prompt = document.createElement("p");
+      prompt.className = "question-prompt";
+      prompt.textContent = question.prompt;
+      card.appendChild(prompt);
+
+      const value = currentAnswer(question);
+      if (!canSubmit) {
+        const response = savedAnswers[question.id] || {};
+        let answerText = response.answer;
+        if (question.options && answerText !== undefined) answerText = question.options[Number(answerText)] || answerText;
+        if (answerText !== undefined && String(answerText).trim() !== "") {
+          const answerBox = Object.assign(document.createElement("div"), {
+            className: `task-answer${response.grade ? ` ${response.grade}` : ""}`,
+            textContent: answerText
+          });
+          if (response.grade) {
+            answerBox.appendChild(Object.assign(document.createElement("span"), {
+              className: "answer-grade",
+              textContent: response.grade === "approved" ? "✓ Approvata" : "✗ Non approvata"
+            }));
+          }
+          card.appendChild(answerBox);
+          if (response.comment) card.appendChild(Object.assign(document.createElement("p"), { className: "answer-state", textContent: `Commento dell’insegnante: ${response.comment}` }));
+        } else {
+          card.appendChild(Object.assign(document.createElement("div"), { className: "task-answer", textContent: "Nessuna risposta registrata." }));
+        }
+      } else if (question.options) {
+        question.options.forEach((option, optionIndex) => {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `answer-${question.id}`;
+          input.value = String(optionIndex);
+          input.checked = String(value) === String(optionIndex);
+          input.addEventListener("change", () => { drafts[question.id] = input.value; });
+          label.append(input, document.createTextNode(option));
+          card.appendChild(label);
+        });
+      } else {
+        const input = document.createElement("textarea");
+        input.maxLength = 2000;
+        input.value = value;
+        input.setAttribute("aria-label", `Risposta alla domanda ${currentQuestion + 1}`);
+        input.addEventListener("input", () => { drafts[question.id] = input.value; });
+        card.appendChild(input);
+      }
+
+      if (answered(question)) {
+        const answerState = document.createElement("p");
+        answerState.className = "answer-state";
+        answerState.textContent = canSubmit ? "Risposta salvata. Puoi aggiornarla finché non invii tutte le risposte." : "Risposta inviata";
+        card.appendChild(answerState);
+      }
+      if (canSubmit) {
+        const send = document.createElement("button");
+        send.type = "button";
+        send.textContent = answered(question) ? "Aggiorna risposta" : "Invia questa risposta";
+        send.addEventListener("click", () => sendAnswer(question, send));
+        card.appendChild(send);
+      }
+      taskContent.appendChild(card);
+      renderProgress();
+    }
+
+    async function sendAnswer(question, button) {
+      const selected = taskContent.querySelector(`input[name="answer-${question.id}"]:checked`);
+      const text = taskContent.querySelector("textarea");
+      const answer = question.options ? (selected?.value ?? "") : (text?.value.trim() ?? "");
+      if (!answer) {
+        pageMessage.textContent = "Inserisci o seleziona una risposta prima di inviarla.";
+        return;
+      }
+      button.disabled = true;
+      pageMessage.textContent = "Salvataggio della risposta…";
+      try {
+        await submissionRef.child(`answers/${question.id}`).set({ answer });
+        savedAnswers[question.id] = { ...(savedAnswers[question.id] || {}), answer };
+        delete drafts[question.id];
+        await submissionRef.update({
+          studentName,
+          status: "in-progress",
+          updatedAt: Date.now()
+        });
+        const allAnswered = questions.every(answered);
+        pageMessage.textContent = allAnswered
+          ? "Tutte le risposte sono salvate. Ora puoi inviare il compito all’insegnante."
+          : "Risposta salvata. Puoi continuare con le altre domande.";
+        renderQuestion();
+      } catch (_) {
+        pageMessage.textContent = "Impossibile salvare la risposta. Controlla la connessione e riprova.";
+        button.disabled = false;
+      }
+    }
+
+    async function submitTask() {
+      if (!canSubmit) return;
+      submitTaskButton.disabled = true;
+      pageMessage.textContent = "Invio del compito all’insegnante… / Отправка работы преподавателю…";
+      try {
+        await submissionRef.update({
+          studentName,
+          status: "pending",
+          submittedAt: Date.now()
+        });
+        canSubmit = false;
+        const completed = questions.filter(answered).length;
+        pageMessage.textContent = `Compito inviato all’insegnante (${completed}/${questions.length} risposte salvate). È in attesa di correzione. / Работа отправлена преподавателю (${completed}/${questions.length} сохранённых ответов) и ожидает проверки.`;
+        renderQuestion();
+      } catch (_) {
+        pageMessage.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova. / Не удалось отправить работу. Проверь подключение и попробуй снова.";
+        submitTaskButton.disabled = false;
+      }
+    }
+
+    submitTaskButton.addEventListener("click", submitTask);
+
+    async function submitCorrections() {
+      if (!teacherSubmissionRef || teacherSubmission?.status !== "pending") return;
+      submitCorrectionsButton.disabled = true;
+      pageMessage.textContent = "Invio delle correzioni allo studente…";
+      try {
+        const update = {
+          status: "reviewed",
+          reviewedAt: Date.now(),
+          reviewedBy: teacherSession.teacher
+        };
+        await teacherSubmissionRef.update(update);
+        teacherSubmission = { ...teacherSubmission, ...update };
+        pageMessage.textContent = "Correzioni inviate. Lo studente troverà il compito nella sezione dei compiti corretti.";
+        renderQuestion();
+      } catch (_) {
+        pageMessage.textContent = "Impossibile inviare le correzioni. Controlla la connessione e riprova.";
+        submitCorrectionsButton.disabled = false;
+      }
+    }
+
+    submitCorrectionsButton.addEventListener("click", submitCorrections);
+
+    previousButton.addEventListener("click", () => {
+      if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+    });
+    nextButton.addEventListener("click", () => {
+      if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); }
+    });
+
+    async function initializeTeacherTask() {
+      if (!teacherSession || !teacherSession.isTeacher || TEACHER_PINS[teacherSession.teacher] == null || !teacherGroup || !teacherStudentKey) {
+        pageMessage.textContent = "Accedi come insegnante dalla pagina principale per correggere questo compito.";
+        return;
+      }
+      backToHomework.textContent = "← Torna alla gestione compiti";
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const assignmentRef = firebase.database().ref(`compiti/gruppi/${teacherGroup}/assegnazioni/${assignmentId}`);
+        const assignmentSnapshot = await assignmentRef.once("value");
+        const assignment = assignmentSnapshot.val();
+        if (!assignment || !assignment.taskPath || !location.pathname.endsWith(assignment.taskPath)) throw new Error("Compito non disponibile.");
+        teacherSubmissionRef = assignmentRef.child(`consegne/${teacherStudentKey}`);
+        const submissionSnapshot = await teacherSubmissionRef.once("value");
+        teacherSubmission = submissionSnapshot.val();
+        if (!teacherSubmission || !["pending", "reviewed"].includes(teacherSubmission.status)) throw new Error("Consegna non disponibile.");
+        savedAnswers = teacherSubmission.answers || {};
+        pageMessage.textContent = `Correzione di ${teacherSubmission.studentName || "studente"} · ${teacherSubmission.status === "reviewed" ? "compito revisionato" : "in attesa di correzione"}.`;
+        renderQuestion();
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito da correggere.";
+      }
+    }
+
+    async function initializeTask() {
+      let session;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      isStudentSession = Boolean(session && !session.isTeacher && session.group && session.name);
+      isAuthorizedTeacher = Boolean(session?.isTeacher && TEACHER_PINS[session.teacher] != null);
+      document.getElementById("student-task-note").hidden = !isStudentSession || teacherReview;
+      if (!assignmentId) {
+        pageMessage.textContent = "Apri il compito dal tuo elenco per poter inviare le risposte.";
+        renderQuestion();
+        return;
+      }
+      if (teacherReview) {
+        teacherSession = session;
+        await initializeTeacherTask();
+        return;
+      }
+      if (!isStudentSession) {
+        pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito.";
+        renderQuestion();
+        return;
+      }
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+          assignmentRef.once("value"),
+          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]);
+        const assignment = assignmentSnapshot.val();
+        const group = groupSnapshot.val();
+        if (!assignment || !group || !assignment.taskPath || !location.pathname.endsWith(assignment.taskPath)) {
+          throw new Error("Compito non disponibile per questo gruppo.");
+        }
+        const active = (group.studenti || []).some(student => student.nome === session.name);
+        const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+        const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+        if ((!active && !inactive) || Number(assignment.unitNumber) > limit) {
+          throw new Error("Non sei abilitato a svolgere questo compito.");
+        }
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+        studentName = session.name;
+        const submissionSnapshot = await submissionRef.once("value");
+        const submission = submissionSnapshot.val() || {};
+        savedAnswers = submission.answers || {};
+        canSubmit = !["pending", "reviewed"].includes(submission.status);
+        if (submission.status === "reviewed") {
+          pageMessage.textContent = "Questo compito è già stato revisionato. Le risposte sono mostrate qui sotto.";
+        } else if (submission.status === "pending") {
+          const completed = questions.filter(answered).length;
+          pageMessage.textContent = `Compito inviato (${completed}/${questions.length} risposte salvate) ed è in attesa di correzione. / Работа отправлена (${completed}/${questions.length} сохранённых ответов) и ожидает проверки.`;
+        } else {
+          pageMessage.textContent = "Invia ogni risposta singolarmente; puoi riprendere il compito in seguito.";
+        }
+        renderQuestion();
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";
+        canSubmit = false;
+        renderQuestion();
+      }
+    }
+    initializeTask();
+  </script>
+</body>
+</html>
