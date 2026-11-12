@@ -150,35 +150,34 @@
     .question p { line-height: 1.6; }
     .question-prompt { font-size: 1.12rem; font-weight: 700; color: #232722; margin-bottom: 8px; }
     
-    details { 
-      margin: 16px 0; 
-      padding: 14px 18px; 
-      background: #f4f8f4; 
-      border: 1px solid #b5c7b5; 
-      border-radius: 14px; 
-      transition: background 0.2s;
+    .explanation-toggle {
+      display: inline-grid;
+      place-items: center;
+      width: 46px;
+      min-height: 46px;
+      margin: 14px 0 8px;
+      padding: 0;
+      border: 1px solid #d8e5d8;
+      border-radius: 50%;
+      background: #f4f8f4;
+      color: #2f5739;
+      font-size: 1.35rem;
+      box-shadow: 0 3px 10px rgba(43,69,46,.08);
     }
-    details summary { 
-      font-weight: 700; 
-      color: #2f5739; 
-      cursor: pointer; 
-      font-size: 1.02rem;
-      outline: none;
+    .explanation-toggle:hover { background: #edf4ed; transform: translateY(-2px); }
+    .explanation-toggle[hidden] { display: none; }
+    .explanation-panel {
+      margin: 8px 0 18px;
+      padding: 16px 18px;
+      border: 1px solid #b5c7b5;
+      border-radius: 14px;
+      background: #edf4ed;
+      color: #2f5739;
+      font-size: .96rem;
+      line-height: 1.6;
     }
-    details[open] { background: #edf4ed; }
-    details .explanation-content { 
-      margin-top: 12px; 
-      padding-top: 10px; 
-      border-top: 1px solid #d4e1d5; 
-      font-size: 0.96rem; 
-      line-height: 1.6; 
-      color: #2f5739; 
-    }
-    details .explanation-ru { 
-      margin-top: 8px; 
-      color: #555b55; 
-      font-style: italic; 
-    }
+    .explanation-panel[hidden] { display: none; }
+    .explanation-panel .explanation-ru { margin-top: 8px; color: #555b55; font-style: italic; }
 
     select.inline-select, input.inline-input { 
       padding: 8px 14px; 
@@ -413,6 +412,7 @@
 
     let currentSectionIndex = 0;
     let savedAnswers = {};
+    let attemptedSections = new Set();
     let submissionRef = null;
     let studentName = "";
     let isStudentSession = false;
@@ -477,36 +477,71 @@
         card.appendChild(divRu);
       }
 
-      // Expandable Explanation (Closed by default)
-      if (sec.hasExplanation) {
-        const details = document.createElement("details");
-        const summary = document.createElement("summary");
-        summary.textContent = sec.explanationTitle || "Spiegazione grammaticale / Грамматическое объяснение";
-        details.appendChild(summary);
-
-        const expContent = document.createElement("div");
-        expContent.className = "explanation-content";
-        expContent.innerHTML = sec.explanationHtml;
-        details.appendChild(expContent);
-
-        card.appendChild(details);
-      }
+      const explanationControl = renderExplanationControl(sec, card);
 
       if (sec.type === "dropdown_completion") {
-        renderDropdownCompletion(sec, card);
+        renderDropdownCompletion(sec, card, explanationControl);
       } else if (sec.type === "inline_completion") {
-        renderInlineCompletion(sec, card);
+        renderInlineCompletion(sec, card, explanationControl);
       }
 
       taskContent.appendChild(card);
       renderProgress();
     }
 
-    function renderDropdownCompletion(sec, container) {
+    function hasSectionAttempt(sec) {
+      if (sec.id && attemptedSections.has(sec.id)) return true;
+      const state = savedAnswers[sec.id] || {};
+      return (sec.items || []).some(item => {
+        if (item.selects) {
+          return item.selects.some(select => Boolean(state[`sel_${item.id}_${select.name}`]));
+        }
+        return Boolean(state[`input_${item.id}`]?.trim());
+      });
+    }
+
+    function renderExplanationControl(sec, container) {
+      if (!sec.hasExplanation) return null;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "explanation-toggle";
+      button.textContent = "💡";
+      button.title = sec.explanationTitle || "Mostra la spiegazione grammaticale";
+      button.setAttribute("aria-label", "Mostra la spiegazione grammaticale");
+      button.setAttribute("aria-expanded", "false");
+      button.hidden = !hasSectionAttempt(sec);
+
+      const panel = document.createElement("div");
+      panel.className = "explanation-panel";
+      panel.id = `explanation-${sec.id}`;
+      panel.hidden = true;
+      panel.setAttribute("aria-label", sec.explanationTitle || "Spiegazione grammaticale");
+      panel.innerHTML = `<strong>${sec.explanationTitle || "Spiegazione grammaticale / Грамматическое объяснение"}</strong>${sec.explanationHtml}`;
+      button.setAttribute("aria-controls", panel.id);
+      button.addEventListener("click", () => {
+        panel.hidden = !panel.hidden;
+        button.setAttribute("aria-expanded", String(!panel.hidden));
+        button.setAttribute("aria-label", panel.hidden ? "Mostra la spiegazione grammaticale" : "Nascondi la spiegazione grammaticale");
+      });
+
+      container.append(button, panel);
+      return { button, panel, sec };
+    }
+
+    function updateExplanationAvailability(control, hasAttempt) {
+      if (!control || !hasAttempt) return;
+      attemptedSections.add(control.sec.id);
+      control.button.hidden = false;
+    }
+
+    function renderDropdownCompletion(sec, container, explanationControl) {
       if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
       const state = savedAnswers[sec.id];
 
       sec.items.forEach((item, itemIdx) => {
+        let itemHasAttempted = item.selects.some(sel => Boolean(state[`sel_${item.id}_${sel.name}`]));
+        let correctionToggle = null;
         const itemDiv = document.createElement("div");
         itemDiv.style.margin = "22px 0";
         itemDiv.style.paddingBottom = "18px";
@@ -560,6 +595,11 @@
             select.addEventListener("change", (e) => {
               state[valKey] = e.target.value;
               checkDropdown(e.target.value);
+              if (e.target.value) {
+                itemHasAttempted = true;
+                if (correctionToggle) correctionToggle.hidden = false;
+              }
+              updateExplanationAvailability(explanationControl, Boolean(e.target.value));
               saveAndSync(sec.id, state);
             });
 
@@ -578,17 +618,34 @@
         }
 
         if (item.correctionReason) {
+          correctionToggle = document.createElement("button");
+          correctionToggle.type = "button";
+          correctionToggle.className = "explanation-toggle";
+          correctionToggle.textContent = "💡";
+          correctionToggle.title = "Mostra la spiegazione della risposta";
+          correctionToggle.setAttribute("aria-label", "Mostra la spiegazione della risposta");
+          correctionToggle.setAttribute("aria-expanded", "false");
+          correctionToggle.hidden = !itemHasAttempted;
+
           const hint = document.createElement("div");
-          hint.className = "explanation-hint";
-          hint.textContent = `💡 Spiegazione: ${item.correctionReason}`;
-          itemDiv.appendChild(hint);
+          hint.className = "explanation-panel";
+          hint.id = `explanation-${item.id}`;
+          hint.textContent = item.correctionReason;
+          hint.hidden = true;
+          correctionToggle.setAttribute("aria-controls", hint.id);
+          correctionToggle.addEventListener("click", () => {
+            hint.hidden = !hint.hidden;
+            correctionToggle.setAttribute("aria-expanded", String(!hint.hidden));
+            correctionToggle.setAttribute("aria-label", hint.hidden ? "Mostra la spiegazione della risposta" : "Nascondi la spiegazione della risposta");
+          });
+          itemDiv.append(correctionToggle, hint);
         }
 
         container.appendChild(itemDiv);
       });
     }
 
-    function renderInlineCompletion(sec, container) {
+    function renderInlineCompletion(sec, container, explanationControl) {
       if (!savedAnswers[sec.id]) savedAnswers[sec.id] = {};
       const state = savedAnswers[sec.id];
 
@@ -626,6 +683,7 @@
         input.addEventListener("input", (e) => {
           state[valKey] = e.target.value;
           checkVal(e.target.value);
+          updateExplanationAvailability(explanationControl, Boolean(e.target.value.trim()));
           saveAndSync(sec.id, state);
         });
 
