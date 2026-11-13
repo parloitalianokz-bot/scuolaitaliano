@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esercizio orale: parlate della vostra giornata." />
+  <title>Unità 13 — Parlate della vostra giornata (Esercizio P)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a, .exercise-navigation a, .unlock-button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 16px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94);
+      color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none;
+    }
+    .home-navigation a:hover, .exercise-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center; border: 1px solid rgba(71,119,85,.13); border-radius: 24px; background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow: 0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .user-badge { margin-top: 5px; color: var(--accent); font-size: .85rem; font-weight: 700; }
+    .instruction-box, .recording-tips, .top-controls, .card, .completion-message { margin-bottom: 22px; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.96); box-shadow: 0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { padding: 16px 20px; border-left: 5px solid var(--accent); }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.55; }
+    .recording-tips { padding: 12px 16px; line-height: 1.55; }
+    .recording-tips summary { color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .recording-tips ul { margin: 10px 0 0; padding-left: 22px; }
+    .top-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 14px 20px; }
+    .teacher-controls { display: flex; width: 100%; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .writer-select-box { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
+    .writer-select-box select { min-height: 40px; max-width: 100%; padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--primary-dark); font: inherit; }
+    .card { padding: clamp(20px,4vw,32px); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    .assignment-status { margin: 0 0 18px; padding: 12px 15px; border-radius: 12px; background: var(--primary-light); color: var(--primary-dark); font-weight: 700; line-height: 1.5; }
+    .speech-prompts { margin-bottom: 18px; padding: clamp(18px,4vw,26px); border: 1px solid #d8e5d8; border-radius: 18px; background: linear-gradient(145deg,#fffefa,#f2f7ef); }
+    .speech-prompts h2, .contribution-panel h2 { margin: 0; color: var(--primary-dark); font-size: 1.1rem; }
+    .speech-prompts p { margin: 8px 0 0; color: var(--text-muted); line-height: 1.6; }
+    .recording-controls { display: flex; justify-content: center; margin: 18px 0; }
+    .btn-mic { min-height: 48px; padding: 12px 22px; border: 0; border-radius: 12px; background: var(--primary); color: #fff; font: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(71,119,85,.3); }
+    .btn-mic:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-mic.recording { background: #c43d3d; }
+    .btn-mic:disabled { opacity: .55; cursor: not-allowed; }
+    .mic-status { margin: 0 0 16px; color: var(--text-muted); font-size: .9rem; line-height: 1.5; text-align: center; }
+    .speaking-indicator { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; color: var(--primary-dark); font-weight: 800; }
+    .speaker-name { color: var(--accent); }
+    .live-transcript-box { display: block; width: 100%; min-height: 170px; padding: 16px; border: 1.5px solid #b7dfc1; border-radius: 14px; background: #faf9f5; color: var(--text); font: inherit; font-size: 1rem; line-height: 1.65; resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .live-transcript-box::placeholder { color: var(--text-muted); font-style: italic; }
+    .contribution-panel { display: grid; gap: 12px; margin-top: 22px; padding: 16px; border-radius: 14px; background: #f8f8f3; }
+    .contribution-list { display: grid; gap: 10px; }
+    .contribution { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .contribution-meta { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: .82rem; font-weight: 700; }
+    .empty-message { margin: 0; color: var(--text-muted); font-size: .92rem; font-style: italic; }
+    .completion-message { padding: 22px 20px; border-color: #b7dfc1; background: linear-gradient(135deg,#e1f1e5,#f2f7ef); color: var(--primary-dark); text-align: center; }
+    .completion-message h2 { margin: 0 0 6px; font-size: clamp(1.2rem,4vw,1.6rem); }
+    .completion-message p { margin: 0; color: var(--success); font-size: 1.15rem; font-weight: 800; }
+    .unit-access-status { flex: 1 1 100%; margin: 0; color: var(--text-muted); font-size: .9rem; }
+    .exercise-navigation { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 8px 0 24px; }
+    .exercise-navigation a.unit-link { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .exercise-navigation a.unit-link:hover { background: var(--primary-dark); }
+    .exercise-navigation a.unit-link[aria-disabled="true"] { border-color: #cbd1c8; background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+    .unlock-button { border-color: #e8c58a; background: #fffaf0; color: #8a5a12; cursor: pointer; }
+    .unlock-button:hover:not(:disabled) { background: #fff1d6; }
+    .unlock-button:disabled { opacity: .6; cursor: wait; }
+    @media (max-width: 600px) { body { padding: 16px 8px; } .teacher-controls { align-items: stretch; flex-direction: column; } .writer-select-box { align-items: stretch; flex-direction: column; } .exercise-navigation > * { flex: 1 1 100%; text-align: center; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_o.html">← Esercizio O</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 13 · Produzione orale</span>
+      <h1>Parlate della vostra giornata</h1>
+      <p class="hero-subtitle">Raccontate in italiano com’è una vostra giornata.</p>
+      <p id="user-badge" class="user-badge" aria-live="polite"></p>
+    </header>
+
+    <section class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio P</div>
+      <div class="instruction-text">👉 <strong>Parlate della vostra giornata.</strong><br>La persona a cui l’insegnante assegna il turno può avviare il microfono. La trascrizione in italiano apparirà nel riquadro condiviso; ogni sessione completata viene aggiunta allo storico dei contributi.</div>
+    </section>
+
+    <details class="recording-tips">
+      <summary>Советы для стабильной записи микрофона</summary>
+      <ul lang="ru">
+        <li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li>
+        <li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li>
+        <li>Подключите устройство к зарядке и отключите режим энергосбережения.</li>
+        <li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li>
+        <li>По возможности используйте стабильное подключение к интернету.</li>
+      </ul>
+    </details>
+
+    <section class="top-controls" aria-label="Assegnazione del turno">
+      <div class="teacher-controls">
+        <div id="writer-selector-container" class="writer-select-box" hidden>
+          <label for="writer-select">✍️ Assegna il turno a:</label>
+          <select id="writer-select" aria-label="Scegli chi può registrare"><option value="">— Nessuno selezionato —</option></select>
+        </div>
+      </div>
+    </section>
+
+    <section id="speech-card" class="card" aria-label="Racconto orale condiviso">
+      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite">Connessione all’esercizio in corso…</p>
+      <section class="speech-prompts" aria-labelledby="speech-prompts-title">
+        <h2 id="speech-prompts-title">La mia giornata</h2>
+        <p>Raccontate che cosa fate durante la giornata: a che ora vi svegliate, che cosa fate la mattina e il pomeriggio, che cosa mangiate e a che ora andate a dormire.</p>
+      </section>
+      <div id="recording-area" class="recording-controls" hidden>
+        <button id="btn-toggle-mic" class="btn-mic" type="button" disabled>🎤 Inizia a parlare · Начать говорить</button>
+      </div>
+      <p id="mic-status" class="mic-status" role="status" aria-live="polite">Il riconoscimento vocale richiede il supporto del browser e il permesso di usare il microfono.</p>
+      <div class="speaking-indicator">🗣️ Говорит: <span id="current-speaker-display" class="speaker-name">Никто не говорит</span></div>
+      <label class="field-label" for="live-transcript-display">Trascrizione condivisa · Общая транскрипция</label>
+      <textarea id="live-transcript-display" class="live-transcript-box" rows="6" readonly placeholder="La trascrizione della vostra giornata apparirà qui..."></textarea>
+      <section class="contribution-panel" aria-labelledby="contribution-title">
+        <h2 id="contribution-title">📋 Contributi della scheda</h2>
+        <div id="responses-list" class="contribution-list"><p class="empty-message">Пока никто не отправил рассказ...</p></div>
+      </section>
+    </section>
+
+    <section class="completion-message" aria-label="Fine dell’unità">
+      <h2>Congratulazioni, avete terminato l’unità 13!</h2>
+      <p>Bravi!!!!</p>
+    </section>
+
+    <nav class="exercise-navigation" aria-label="Accesso all’Unità 14">
+      <p id="unit-access-status" class="unit-access-status" role="status" aria-live="polite">Verifica dei privilegi per l’Unità 14…</p>
+      <button id="unlock-unit-button" class="unlock-button" type="button" hidden>🔓 Sblocca l’Unità 14 per la classe</button>
+      <a id="unit-14-link" class="unit-link" href="../u_014/014_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 14 →</a>
+    </nav>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+    const session = window.parloUnit13Session || {};
+    const groupName = session.group || "sconosciuto";
+    const isTeacher = Boolean(session.isTeacher);
+    const userName = session.name || (isTeacher ? "Insegnante" : "");
+    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
+    const makeIdentity = (role, name) => `${role}_${encodeURIComponent(name).replace(/[.]/g, "%2E")}`;
+    const userIdentity = userName ? makeIdentity(isTeacher ? "teacher" : "student", userName) : "";
+    const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+
+    let database = null;
+    let answersRef = null;
+    let groupRef = null;
+    let currentWriter = null;
+    let currentWriterName = "";
+    let connectedParticipants = {};
+    let groupRoster = [];
+    let legacyResponses = {};
+    let contributions = {};
+    let committedTranscript = "";
+    let currentRecognitionTranscript = "";
+    let recognition = null;
+    let isRecording = false;
+    let sessionOpen = false;
+    let recordingOwner = null;
+    let unitNumber = 0;
+    let savingUnit = false;
+
+    const writerSelectorContainer = document.getElementById("writer-selector-container");
+    const writerSelect = document.getElementById("writer-select");
+    const assignmentStatus = document.getElementById("assignment-status");
+    const recordingArea = document.getElementById("recording-area");
+    const micButton = document.getElementById("btn-toggle-mic");
+    const micStatus = document.getElementById("mic-status");
+    const speakerDisplay = document.getElementById("current-speaker-display");
+    const transcriptDisplay = document.getElementById("live-transcript-display");
+    const responsesList = document.getElementById("responses-list");
+    const unlockButton = document.getElementById("unlock-unit-button");
+    const unit14Link = document.getElementById("unit-14-link");
+    const unitAccessStatus = document.getElementById("unit-access-status");
+    const speechSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
+
+    writerSelectorContainer.hidden = !isTeacher;
+    unlockButton.hidden = !isTeacher;
+    if (groupName !== "sconosciuto") {
+      document.getElementById("user-badge").textContent = `${isTeacher ? "👩‍🏫" : "👤"} ${userName || "Utente"} · ${groupName}`;
+    } else {
+      document.getElementById("user-badge").hidden = true;
+    }
+
+    function isCurrentUserAssigned() {
+      return Boolean(userIdentity && currentWriter === userIdentity);
+    }
+    function appendTranscript(base, addition) {
+      const first = String(base || "").trim();
+      const next = String(addition || "").trim();
+      if (!next) return first;
+      return first ? `${first}\n${next}` : next;
+    }
+    function getCurrentTranscript() {
+      return appendTranscript(committedTranscript, currentRecognitionTranscript);
+    }
+    function updateTranscript(text) {
+      const value = String(text || "");
+      if (document.activeElement !== transcriptDisplay || transcriptDisplay.value !== value) transcriptDisplay.value = value;
+    }
+    function updateAssignmentUI() {
+      const assigned = isCurrentUserAssigned();
+      recordingArea.hidden = !assigned;
+      micButton.disabled = !assigned || !speechSupported;
+      if (!currentWriter) {
+        assignmentStatus.textContent = isTeacher ? "Seleziona dal menu la persona che avrà il turno di registrazione." : "L’insegnante non ha ancora assegnato il turno.";
+        speakerDisplay.textContent = "Никто не говорит";
+      } else if (assigned) {
+        assignmentStatus.textContent = `✍️ È il tuo turno, ${userName}: puoi avviare il microfono.`;
+        speakerDisplay.textContent = `${currentWriterName || userName} (tu)`;
+      } else {
+        assignmentStatus.textContent = `🔒 Turno assegnato a ${currentWriterName || "un partecipante"}. Puoi ascoltare e leggere la trascrizione.`;
+        speakerDisplay.textContent = currentWriterName || "Участник";
+      }
+      if (isRecording) {
+        micButton.textContent = "⏹️ Ferma e salva il contributo";
+        micButton.classList.add("recording");
+      } else {
+        micButton.textContent = "🎤 Inizia a parlare · Начать говорить";
+        micButton.classList.remove("recording");
+      }
+    }
+
+    function saveContribution(text, owner) {
+      const value = String(text || "").trim();
+      if (!value || !answersRef || !owner) return Promise.resolve();
+      const entryRef = answersRef.child("tokenData/contributions").push();
+      const timestamp = Date.now();
+      return entryRef.set({
+        name: owner.name,
+        author: owner.name,
+        role: owner.role,
+        timestamp,
+        text: value,
+        transcription: value
+      }).catch(error => {
+        console.error("Errore salvataggio contributo vocale:", error);
+        micStatus.textContent = "⚠️ La trascrizione non è stata aggiunta allo storico. Controlla la connessione.";
+      });
+    }
+    function finishRecognitionSession() {
+      if (!sessionOpen) return;
+      const segment = currentRecognitionTranscript.trim();
+      const owner = recordingOwner;
+      committedTranscript = appendTranscript(committedTranscript, segment);
+      currentRecognitionTranscript = "";
+      sessionOpen = false;
+      recordingOwner = null;
+      updateTranscript(getCurrentTranscript());
+      if (answersRef && isCurrentUserAssigned()) {
+        answersRef.child("tokenData/liveTranscript").set(committedTranscript).catch(error => console.error("Errore aggiornamento trascrizione:", error));
+      }
+      if (segment) saveContribution(segment, owner);
+    }
+    function startRecognitionSession() {
+      if (!recognition || !isCurrentUserAssigned() || sessionOpen) return;
+      currentRecognitionTranscript = "";
+      recordingOwner = { name: userName, role: isTeacher ? "teacher" : "student" };
+      sessionOpen = true;
+      try {
+        recognition.start();
+        micStatus.textContent = "Microfono attivo. Se il riconoscimento si interrompe, il testo acquisito viene salvato e puoi riprendere.";
+      } catch (error) {
+        sessionOpen = false;
+        recordingOwner = null;
+        isRecording = false;
+        micStatus.textContent = "Impossibile avviare il microfono. Controlla i permessi e riprova.";
+        updateAssignmentUI();
+      }
+    }
+    function startRecording() {
+      if (!speechSupported || !isCurrentUserAssigned()) return;
+      if (!recognition) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "it-IT";
+        recognition.onresult = event => {
+          let transcript = "";
+          for (let index = 0; index < event.results.length; index++) transcript += `${event.results[index][0].transcript} `;
+          currentRecognitionTranscript = transcript.trim();
+          const fullTranscript = getCurrentTranscript();
+          updateTranscript(fullTranscript);
+          if (answersRef && isCurrentUserAssigned()) {
+            answersRef.child("tokenData/liveTranscript").set(fullTranscript).catch(error => console.error("Errore sincronizzazione trascrizione:", error));
+          }
+        };
+        recognition.onerror = event => {
+          console.error("Errore riconoscimento vocale:", event.error);
+          if (["not-allowed", "service-not-allowed", "audio-capture"].includes(event.error)) {
+            isRecording = false;
+            micStatus.textContent = event.error === "audio-capture"
+              ? "Microfono non disponibile. Verifica che non sia scollegato o usato da un’altra applicazione."
+              : "Accesso al microfono non consentito. Controlla le autorizzazioni del browser.";
+            updateAssignmentUI();
+          } else {
+            micStatus.textContent = "Riconoscimento interrotto: il testo acquisito sarà salvato prima di riprendere.";
+          }
+        };
+        recognition.onend = () => {
+          finishRecognitionSession();
+          if (isRecording && isCurrentUserAssigned()) {
+            window.setTimeout(() => {
+              if (isRecording && isCurrentUserAssigned()) startRecognitionSession();
+            }, 350);
+          } else {
+            isRecording = false;
+            updateAssignmentUI();
+            if (currentWriter && userIdentity === currentWriter) micStatus.textContent = "Sessione salvata. Puoi riavviare il microfono per continuare il racconto.";
+          }
+        };
+      }
+      isRecording = true;
+      updateAssignmentUI();
+      startRecognitionSession();
+    }
+    function stopRecording() {
+      isRecording = false;
+      updateAssignmentUI();
+      if (recognition && sessionOpen) {
+        try { recognition.stop(); } catch (_) { finishRecognitionSession(); }
+      } else {
+        finishRecognitionSession();
+      }
+    }
+    micButton.addEventListener("click", () => isRecording ? stopRecording() : startRecording());
+    if (!speechSupported) {
+      micButton.disabled = true;
+      micStatus.textContent = "Il riconoscimento vocale non è supportato da questo browser. Usa un browser compatibile e consenti l’accesso al microfono.";
+    }
+
+    function isParticipantOnline(identity) {
+      let online = false;
+      const visit = value => {
+        if (!value || typeof value !== "object" || online) return;
+        if (value.identity === identity) {
+          online = true;
+          return;
+        }
+        Object.values(value).forEach(visit);
+      };
+      visit(connectedParticipants);
+      return online;
+    }
+
+    function renderWriterOptions() {
+      if (!isTeacher) return;
+      const selected = currentWriter || "";
+      const participantMap = new Map();
+      if (userName) participantMap.set(userIdentity, { identity: userIdentity, name: userName, role: "teacher", online: true });
+      groupRoster.forEach(student => {
+        const identity = makeIdentity("student", student.nome);
+        participantMap.set(identity, { identity, name: student.nome, role: "student", online: isParticipantOnline(identity) });
+      });
+      Object.values(connectedParticipants).forEach(participant => {
+        if (participant?.identity && participant.name && participant.role === "student") {
+          participantMap.set(participant.identity, { ...participant, online: true });
+        }
+      });
+      if (selected && !participantMap.has(selected)) {
+        participantMap.set(selected, { identity: selected, name: currentWriterName || "Turno precedente (da riassegnare)", role: "student", online: false, legacy: true });
+      }
+      const options = [new Option("— Nessuno selezionato —", "")];
+      const addGroup = (label, participants, online) => {
+        if (!participants.length) return;
+        const group = document.createElement("optgroup");
+        group.label = label;
+        participants.sort((a, b) => a.name.localeCompare(b.name, "it")).forEach(participant => {
+          const prefix = participant.online && participant.role === "student" ? "🟢 " : "";
+          const suffix = participant.role === "teacher" ? " · insegnante" : online ? " · ONLINE" : " · OFFLINE";
+          group.appendChild(new Option(`${prefix}${participant.name}${suffix}`, participant.identity));
+        });
+        options.push(group);
+      };
+      addGroup("🟢 STUDENTI ONLINE", [...participantMap.values()].filter(item => item.role === "student" && item.online && !item.legacy), true);
+      addGroup("STUDENTI OFFLINE", [...participantMap.values()].filter(item => item.role === "student" && !item.online), false);
+      addGroup("👩‍🏫 DOCENTE", [...participantMap.values()].filter(item => item.role === "teacher"), true);
+      writerSelect.replaceChildren(...options);
+      writerSelect.value = selected;
+    }
+    function loadGroupRoster() {
+      if (!groupRef) return;
+      groupRef.on("value", snapshot => {
+        const group = snapshot.val() || {};
+        unitNumber = Number(group.unitNumber || 0);
+        const active = Object.values(group.studenti || {}).filter(student => student?.nome);
+        const inactive = Object.values(group.studentiInattivi || {})
+          .filter(student => student?.nome && Number(student.unitNumber ?? unitNumber) >= 13);
+        groupRoster = [...new Map([...active, ...inactive].map(student => [student.nome, student])).values()]
+          .sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        renderWriterOptions();
+        updateUnitAccess();
+      });
+    }
+    function registerPresence() {
+      if (!userName || !answersRef) return;
+      const presenceRef = answersRef.child(`presence/${safe(userName)}/${presenceId}`);
+      database.ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceRef.onDisconnect().remove().then(() => presenceRef.set({ identity: userIdentity, name: userName, role: isTeacher ? "teacher" : "student" }))
+          .catch(error => console.error("Errore stato presenza:", error));
+      });
+    }
+
+    writerSelect.addEventListener("change", async () => {
+      if (!isTeacher || !answersRef) return;
+      const identity = writerSelect.value || null;
+      const participant = [...groupRoster.map(student => ({ identity: makeIdentity("student", student.nome), name: student.nome, role: "student" })),
+        ...(userName ? [{ identity: userIdentity, name: userName, role: "teacher" }] : [])]
+        .find(item => item.identity === identity);
+      if (identity && !participant) {
+        writerSelect.value = currentWriter || "";
+        return;
+      }
+      if (isRecording) stopRecording();
+      try {
+        await answersRef.child("tokenData").update({ currentWriter: identity, writerName: participant?.name || "" });
+      } catch (error) {
+        console.error("Errore assegnazione turno:", error);
+        assignmentStatus.textContent = "Impossibile assegnare il turno. Controlla la connessione.";
+      }
+    });
+
+    function renderContributions() {
+      responsesList.replaceChildren();
+      const legacy = Object.entries(legacyResponses.students || {}).flatMap(([id, student]) => {
+        const text = String(student?.transcription || "").trim();
+        return text ? [{ id: `legacy-${id}`, name: student.name || "Studente", timestamp: Number(student.timestamp) || 0, text }] : [];
+      });
+      const current = Object.entries(contributions || {}).map(([id, entry]) => ({
+        id,
+        name: entry?.name || entry?.author || "Partecipante",
+        timestamp: Number(entry?.timestamp) || 0,
+        text: String(entry?.text || entry?.transcription || entry?.answer || "").trim()
+      })).filter(entry => entry.text);
+      const entries = [...legacy, ...current].sort((a, b) => a.timestamp - b.timestamp || a.id.localeCompare(b.id));
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "Пока никто не отправил рассказ...";
+        responsesList.appendChild(empty);
+        return;
+      }
+      entries.forEach(entry => {
+        const item = document.createElement("article");
+        item.className = "contribution";
+        const meta = document.createElement("span");
+        meta.className = "contribution-meta";
+        meta.textContent = `${entry.name} · ${entry.timestamp ? new Date(entry.timestamp).toLocaleString("it-IT") : "Data non disponibile"}`;
+        item.append(meta, document.createTextNode(entry.text));
+        responsesList.appendChild(item);
+      });
+    }
+
+    function updateUnitAccess() {
+      const unlocked = unitNumber >= 14;
+      unit14Link.setAttribute("aria-disabled", String(!unlocked));
+      unit14Link.tabIndex = unlocked ? 0 : -1;
+      unitAccessStatus.textContent = unlocked
+        ? "L’Unità 14 è disponibile per questo gruppo."
+        : isTeacher
+          ? `Il gruppo ha accesso fino all’Unità ${unitNumber}. Puoi sbloccare l’Unità 14 qui o dalla gestione classi.`
+          : `L’Unità 14 non è ancora sbloccata per questo gruppo (accesso attuale: Unità ${unitNumber}).`;
+      unlockButton.hidden = !isTeacher || unlocked;
+    }
+    unit14Link.addEventListener("click", event => {
+      if (unitNumber < 14) event.preventDefault();
+    });
+    unlockButton.addEventListener("click", async () => {
+      if (!isTeacher || !database || !groupRef || savingUnit || unitNumber >= 14) return;
+      if (!confirm("Sbloccare l’Unità 14 per tutto il gruppo? Il limite sarà aggiornato anche nella gestione classi.")) return;
+      savingUnit = true;
+      unlockButton.disabled = true;
+      unitAccessStatus.textContent = "Aggiornamento dei privilegi del gruppo…";
+      try {
+        const safeGroup = session.safeGroup || safe(groupName);
+        await database.ref().update({
+          [`configurazioneScuola/gruppi/${safeGroup}/unitNumber`]: 14,
+          [`esercizi/gruppi/${safeGroup}/unitNumber`]: 14
+        });
+        unitNumber = 14;
+        updateUnitAccess();
+      } catch (error) {
+        console.error("Errore aggiornamento accesso Unità 14:", error);
+        unitAccessStatus.textContent = "Impossibile aggiornare i privilegi. Riprova o usa la gestione classi.";
+      } finally {
+        savingUnit = false;
+        unlockButton.disabled = false;
+      }
+    });
+
+    if (groupName !== "sconosciuto" && window.firebase) {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        answersRef = database.ref("esercizi/unita13-giornata-p");
+        groupRef = database.ref(`configurazioneScuola/gruppi/${session.safeGroup || safe(groupName)}`);
+        loadGroupRoster();
+        registerPresence();
+        answersRef.child("presence").on("value", snapshot => {
+          connectedParticipants = snapshot.val() || {};
+          renderWriterOptions();
+        });
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {};
+          const tokenData = data.tokenData || {};
+          const nextWriter = tokenData.currentWriter || data.controlAssignments?.writer?.identity || data.controlAssignments?.writer || null;
+          const nextWriterName = tokenData.writerName || data.controlAssignments?.writer?.name || "";
+          if (isRecording && nextWriter !== currentWriter) stopRecording();
+          const writerChanged = currentWriter !== nextWriter;
+          currentWriter = nextWriter;
+          currentWriterName = nextWriterName;
+          if (writerChanged && !isRecording) committedTranscript = String(tokenData.liveTranscript || "").trim();
+          else if (!isRecording) committedTranscript = String(tokenData.liveTranscript || "").trim();
+          if (!isRecording) updateTranscript(committedTranscript);
+          contributions = tokenData.contributions || {};
+          legacyResponses = data.allStudentsData || {};
+          renderWriterOptions();
+          updateAssignmentUI();
+          renderContributions();
+        }, error => {
+          console.error("Errore Firebase esercizio:", error);
+          assignmentStatus.textContent = "Connessione all’esercizio non disponibile.";
+        });
+      } catch (error) {
+        console.error("Errore Firebase:", error);
+        assignmentStatus.textContent = "Connessione all’esercizio non disponibile.";
+      }
+    } else {
+      assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
+      unitAccessStatus.textContent = "Accedi al gruppo della classe per verificare i privilegi dell’Unità 14.";
+    }
+
+    let backgroundUpdatePending = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = reducedMotion.matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+    updateAssignmentUI();
+  </script>
+</body>
+</html>

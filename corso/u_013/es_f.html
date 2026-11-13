@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esercizi interattivi di coniugazione dei verbi, Unità 13." />
+  <title>Unità 13 — Спрягайте глаголы (Esercizio F)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a, .exercise-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255,254,250,.94);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .home-navigation a:hover, .exercise-navigation a:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .hero {
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71,119,85,.13);
+      border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #eaf1e8;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .explanation-link-wrap { display: flex; justify-content: center; margin: -8px 0 22px; }
+    .explanation-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 12px 22px;
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(71,119,85,.2);
+      transition: background .2s, transform .2s;
+    }
+    .explanation-link:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .instruction-box {
+      margin-bottom: 24px;
+      padding: 16px 20px;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(43,69,46,.04);
+    }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .instruction-text { font-size: .98rem; line-height: 1.5; }
+    .activity-card {
+      margin-bottom: 22px;
+      padding: clamp(18px,4vw,28px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--card-bg);
+      box-shadow: 0 16px 42px rgba(43,69,46,.09);
+    }
+    .activity-card h2 { margin: 0 0 14px; color: var(--primary-dark); font-size: 1.15rem; }
+    .activity-slide { display: none; }
+    .activity-slide.active { display: block; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button, .slide-navigation a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { border-color: var(--primary); background: var(--primary-light); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-navigation [hidden] { display: none; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .activity-frame {
+      width: 100%;
+      aspect-ratio: 500 / 380;
+      overflow: hidden;
+      border: 1px solid #d8e5d8;
+      border-radius: 14px;
+      background: #fff;
+    }
+    .activity-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .exercise-navigation { display: flex; justify-content: flex-end; margin: 8px 0 24px; }
+    .exercise-navigation a { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .exercise-navigation a:hover { background: var(--primary-dark); color: #fff; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .activity-card { padding: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_e.html">← Esercizio E</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 13 · Grammatica</span>
+      <h1>Спрягайте глаголы</h1>
+      <p class="hero-subtitle">Coniuga i verbi e ripassa le forme del presente.</p>
+    </header>
+
+    <div class="explanation-link-wrap">
+      <a class="explanation-link" href="verbi_servili.html">📘 Spiegazione: verbi servili</a>
+    </div>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">👉 <strong>Спрягайте глаголы:</strong> scegliete la forma corretta e completate le attività interattive.</div>
+    </div>
+
+    <section class="activity-card" aria-label="Attività di coniugazione">
+      <article class="activity-slide active" aria-labelledby="activity-one-title">
+        <h2 id="activity-one-title">Attività 1 · Verbo dovere</h2>
+        <div class="activity-frame">
+          <iframe src="https://wordwall.net/it/embed/2868976b96634b21b317885f6ce886c7?themeId=48&amp;templateId=3&amp;fontStackId=0" title="Wordwall: глагол dovere" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </article>
+      <article class="activity-slide" aria-labelledby="activity-two-title" hidden>
+        <h2 id="activity-two-title">Attività 2 · Verbo potere</h2>
+        <div class="activity-frame">
+          <iframe src="https://wordwall.net/it/embed/d5dd0df8e4784d49adb8b6bd54275680?themeId=48&amp;templateId=3&amp;fontStackId=0" title="Wordwall: глагол potere" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </article>
+      <article class="activity-slide" aria-labelledby="activity-three-title" hidden>
+        <h2 id="activity-three-title">Attività 3 · Verbo volere</h2>
+        <div class="activity-frame">
+          <iframe src="https://wordwall.net/it/embed/d3a963d7c00f4de7a57544138f4acf1f?themeId=48&amp;templateId=5&amp;fontStackId=0" title="Wordwall: глагол volere" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </article>
+      <nav class="slide-navigation" aria-label="Navigazione delle attività">
+        <button id="previous-activity" type="button" disabled>← Precedente</button>
+        <span id="activity-progress" class="slide-progress" aria-live="polite">Attività 1 di 3</span>
+        <button id="next-activity" type="button">Successiva →</button>
+        <a id="next-exercise-link" href="es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+  <script>
+    const activitySlides = [...document.querySelectorAll(".activity-slide")];
+    const previousActivityButton = document.getElementById("previous-activity");
+    const nextActivityButton = document.getElementById("next-activity");
+    const activityProgress = document.getElementById("activity-progress");
+    const nextExerciseLink = document.getElementById("next-exercise-link");
+    let activeActivity = 0;
+
+    function showActivity(index) {
+      activeActivity = Math.max(0, Math.min(activitySlides.length - 1, index));
+      activitySlides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activeActivity;
+        slide.classList.toggle("active", isActive);
+        slide.hidden = !isActive;
+      });
+      previousActivityButton.disabled = activeActivity === 0;
+      const isLastActivity = activeActivity === activitySlides.length - 1;
+      nextActivityButton.hidden = isLastActivity;
+      nextExerciseLink.hidden = !isLastActivity;
+      activityProgress.textContent = `Attività ${activeActivity + 1} di ${activitySlides.length}`;
+    }
+
+    previousActivityButton.addEventListener("click", () => showActivity(activeActivity - 1));
+    nextActivityButton.addEventListener("click", () => showActivity(activeActivity + 1));
+
+    let backgroundUpdatePending = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = reducedMotion.matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+  <script src="firebase-group-scope.js"></script>
+</body>
+</html>

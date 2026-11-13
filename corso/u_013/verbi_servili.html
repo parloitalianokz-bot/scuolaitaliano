@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Spiegazione dei verbi servili italiani: volere, potere e dovere." />
+  <title>Unità 13 — I verbi servili</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation, .exercise-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .exercise-navigation { justify-content: flex-end; margin: 24px 0 0; }
+    .home-navigation a, .exercise-navigation a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255,254,250,.94);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .home-navigation a:hover, .exercise-navigation a:hover { background: var(--primary-light); border-color: var(--primary); transform: translateY(-1px); }
+    .hero {
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71,119,85,.13);
+      border-radius: 24px;
+      background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));
+      box-shadow: 0 12px 32px rgba(43,69,46,.07);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #eaf1e8;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .content-card {
+      margin-bottom: 22px;
+      padding: clamp(20px,4vw,32px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--card-bg);
+      box-shadow: 0 18px 48px rgba(43,69,46,.09);
+    }
+    .content-card h2 { margin: 0 0 12px; color: var(--primary-dark); font-size: 1.25rem; }
+    .content-card h3 { margin: 24px 0 12px; color: var(--primary-dark); font-size: 1.08rem; }
+    .content-card p { margin: 0 0 14px; line-height: 1.65; }
+    .content-card p:last-child { margin-bottom: 0; }
+    .story-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 14px; margin: 18px 0 22px; }
+    .story-item { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: #fbfaff; text-align: center; }
+    .story-item .emoji { display: block; margin-bottom: 8px; font-size: 2.3rem; }
+    .story-item .phrase { margin-bottom: 5px; color: var(--primary-dark); font-size: 1.02rem; font-weight: 800; }
+    .story-item .trans { color: var(--text-muted); font-size: .9rem; }
+    .rule-box { margin-top: 18px; padding: 18px 20px; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent); border-radius: 16px; background: #fff; line-height: 1.65; }
+    .rule-title { margin-bottom: 8px; color: var(--primary-dark); font-weight: 800; }
+    .it-highlight { color: var(--primary-dark); font-weight: 800; }
+    .grammar-highlight { display: inline-block; padding: 2px 7px; border-radius: 7px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; }
+    .conjugation-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    .conjugation-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .95rem; }
+    .conjugation-table th, .conjugation-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+    .conjugation-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 800; }
+    .conjugation-table tr:last-child td { border-bottom: 0; }
+    .conjugation-table td:first-child { font-weight: 800; }
+    .conjugation-table td:not(:first-child) { color: var(--primary-dark); font-weight: 700; }
+    .modal-example { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 10px; margin: 12px 0 0; }
+    .modal-example div { padding: 12px 14px; border-radius: 12px; background: var(--primary-light); line-height: 1.5; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .content-card { padding: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="index.html">← Torna all’inizio</a>
+      <a href="es_f.html">← Esercizio F</a>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 13 · Grammatica</span>
+      <h1>I verbi servili</h1>
+      <p class="hero-subtitle">Volere, potere e dovere accompagnano un altro verbo all’infinito.</p>
+    </header>
+
+    <section class="content-card" aria-labelledby="observe-title">
+      <h2 id="observe-title">💡 Osserva e capisci</h2>
+      <p>I verbi servili esprimono volontà, possibilità o necessità di compiere un’azione.</p>
+      <div class="story-grid">
+        <div class="story-item">
+          <span class="emoji" aria-hidden="true">🍕</span>
+          <div class="phrase">Voglio <strong>mangiare</strong> una pizza.</div>
+          <div class="trans">Я хочу съесть пиццу.</div>
+        </div>
+        <div class="story-item">
+          <span class="emoji" aria-hidden="true">🚪</span>
+          <div class="phrase">Posso <strong>entrare</strong>?</div>
+          <div class="trans">Я могу войти?</div>
+        </div>
+        <div class="story-item">
+          <span class="emoji" aria-hidden="true">⏰</span>
+          <div class="phrase">Devo <strong>andare</strong> a casa.</div>
+          <div class="trans">Я должен идти домой.</div>
+        </div>
+      </div>
+
+      <div class="rule-box">
+        <div class="rule-title">💡 Основное правило (La regola fondamentale)</div>
+        <p>Модальные глаголы (<em>verbi servili / modali</em>) употребляются непосредственно перед инфинитивом другого глагола и дополняют его смысл. Они выражают желание, возможность или необходимость. Между модальным глаголом и инфинитивом предлог не ставится — ни <em>a</em>, ни <em>di</em>.</p>
+        <p><strong>Три основных модальных глагола:</strong></p>
+        <ul>
+          <li><strong>Volere</strong> (желание, хотение) → <em>Voglio mangiare.</em> (Я хочу есть.)</li>
+          <li><strong>Potere</strong> (возможность, разрешение) → <em>Posso entrare?</em> (Можно мне войти? / Я могу войти?)</li>
+          <li><strong>Dovere</strong> (долг, необходимость, обязанность) → <em>Devo andare.</em> (Мне нужно идти / Я должен идти.)</li>
+        </ul>
+      </div>
+
+      <h3>Спряжение основных модальных глаголов в presente</h3>
+      <div class="conjugation-wrap" role="region" aria-label="Таблица спряжения, прокручиваемая по горизонтали" tabindex="0">
+        <table class="conjugation-table">
+          <thead>
+            <tr><th>Лицо</th><th>Volere (хотеть)</th><th>Potere (мочь)</th><th>Dovere (быть должным)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Io</td><td>voglio</td><td>posso</td><td>devo</td></tr>
+            <tr><td>Tu</td><td>vuoi</td><td>puoi</td><td>devi</td></tr>
+            <tr><td>Lui / Lei</td><td>vuole</td><td>può</td><td>deve</td></tr>
+            <tr><td>Noi</td><td>vogliamo</td><td>possiamo</td><td>dobbiamo</td></tr>
+            <tr><td>Voi</td><td>volete</td><td>potete</td><td>dovete</td></tr>
+            <tr><td>Loro</td><td>vogliono</td><td>possono</td><td>devono</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="content-card" aria-labelledby="sapere-title">
+      <h2 id="sapere-title">📌 Особый случай: sapere</h2>
+      <p>Глагол <span class="it-highlight">sapere</span> также может использоваться как модальный, когда означает «уметь», то есть обладать навыком что-то делать.</p>
+      <div class="modal-example">
+        <div><em>Sai nuotare?</em><br>Ты умеешь плавать?</div>
+        <div><em>So parlare italiano.</em><br>Я умею говорить по-итальянски.</div>
+      </div>
+      <p style="margin-top:14px;">Формы в presente: <span class="grammar-highlight">so, sai, sa, sappiamo, sapete, sanno</span>.</p>
+    </section>
+
+    <nav class="exercise-navigation" aria-label="Torna all’esercizio">
+      <a href="es_f.html">Torna all’esercizio F →</a>
+    </nav>
+  </main>
+  <script>
+    let backgroundUpdatePending = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = reducedMotion.matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive:true });
+    updateBackgroundParallax();
+  </script>
+  <script src="firebase-group-scope.js"></script>
+</body>
+</html>

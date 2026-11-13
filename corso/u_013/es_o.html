@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività interattive di ripasso, Unità 13, Esercizio O." />
+  <title>Unità 13 — Attività interattive (Esercizio O)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --border: #e7e5dc;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background: linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%), var(--bg-main);
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .home-navigation a, .nav-button, .next-exercise {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: rgba(255, 254, 250, .94);
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .home-navigation a:hover, .nav-button:hover:not(:disabled), .next-exercise:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+    .hero {
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem, 5vw, 2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .activities-card {
+      padding: clamp(18px, 4vw, 28px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+    }
+    .scroller-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .scroller-hint { margin: 0; color: var(--text-muted); font-size: .9rem; }
+    .scroller-buttons { display: flex; gap: 8px; }
+    .nav-button { min-width: 44px; padding: 8px 12px; }
+    .nav-button:disabled { opacity: .45; cursor: not-allowed; }
+    .activity-scroller {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding: 4px 3px 16px;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      overscroll-behavior-inline: contain;
+    }
+    .activity-card {
+      flex: 0 0 100%;
+      min-width: 0;
+      padding: 16px;
+      scroll-snap-align: start;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fffefa, #f2f7ef);
+    }
+    .activity-card h2 { margin: 0 0 12px; color: var(--primary-dark); font-size: 1.05rem; }
+    .activity-card iframe {
+      display: block;
+      width: 100%;
+      height: 380px;
+      max-width: 100%;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .page-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .page-footer [hidden] { display: none; }
+    .slide-counter { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    .next-exercise { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .next-exercise:hover { background: var(--primary-dark); color: #fff; }
+    @media (max-width: 600px) {
+      body { padding: 16px 8px; }
+      .activity-card { padding: 12px; }
+      .activity-card iframe { height: 380px; }
+      .page-footer { flex-wrap: wrap; }
+      .page-footer > * { flex: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="home-navigation" aria-label="Navigazione principale">
+      <a href="../index.html">← Torna all’inizio</a>
+      <a href="es_n.html">← Esercizio N</a>
+    </nav>
+    <header class="hero">
+      <span class="eyebrow">Unità 13 · Ripasso</span>
+      <h1>Attività interattive</h1>
+      <p class="hero-subtitle">Scorri orizzontalmente le schede per completare le attività.</p>
+    </header>
+
+    <section class="activities-card" aria-label="Attività Wordwall">
+      <div class="scroller-controls">
+        <p class="scroller-hint">Usa la navigazione in basso o scorri le schede lateralmente.</p>
+      </div>
+      <div class="activity-scroller" id="activity-scroller" tabindex="0" aria-label="Schede delle attività, scorri orizzontalmente">
+        <article class="activity-card">
+          <h2>Attività 1</h2>
+          <iframe title="Attività Wordwall 1" src="https://wordwall.net/it/embed/40dce9cb3dcf43759217b779094a9f48?themeId=41&amp;templateId=30&amp;fontStackId=0" width="500" height="380" allowfullscreen></iframe>
+        </article>
+        <article class="activity-card">
+          <h2>Attività 2</h2>
+          <iframe title="Attività Wordwall 2" src="https://wordwall.net/it/embed/657208a69db44bd8bccb27027bfc9afc?themeId=44&amp;templateId=36&amp;fontStackId=0" width="500" height="380" allowfullscreen></iframe>
+        </article>
+        <article class="activity-card">
+          <h2>Attività 3</h2>
+          <iframe title="Attività Wordwall 3" src="https://wordwall.net/it/embed/7c2e5ab81a844dddaf060002daed3576?themeId=43&amp;templateId=30&amp;fontStackId=0" width="500" height="380" allowfullscreen></iframe>
+        </article>
+      </div>
+      <footer class="page-footer" aria-label="Navigazione delle attività">
+        <button class="nav-button" id="scroll-previous" type="button" aria-label="Attività precedente">← Precedente</button>
+        <span class="slide-counter" id="slide-counter" aria-live="polite"></span>
+        <button class="nav-button" id="scroll-next" type="button" aria-label="Attività successiva">Successiva →</button>
+        <a class="next-exercise" id="next-exercise" href="es_p.html" hidden>Vai all’esercizio P →</a>
+      </footer>
+    </section>
+  </main>
+  <script>
+    const scroller = document.getElementById("activity-scroller");
+    const activityCards = [...scroller.querySelectorAll(".activity-card")];
+    const previousButton = document.getElementById("scroll-previous");
+    const nextButton = document.getElementById("scroll-next");
+    const nextExercise = document.getElementById("next-exercise");
+    const slideCounter = document.getElementById("slide-counter");
+    let activeActivity = 0;
+
+    function scrollToActivity(index) {
+      const target = Math.max(0, Math.min(activityCards.length - 1, index));
+      scroller.scrollTo({ left: activityCards[target].offsetLeft - scroller.offsetLeft, behavior: "smooth" });
+    }
+
+    function updateNavigation() {
+      activeActivity = activityCards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(activityCards[closestIndex].offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+      previousButton.disabled = activeActivity === 0;
+      nextButton.hidden = activeActivity === activityCards.length - 1;
+      nextButton.disabled = activeActivity === activityCards.length - 1;
+      nextExercise.hidden = activeActivity !== activityCards.length - 1;
+      slideCounter.textContent = `Attività ${activeActivity + 1} di ${activityCards.length}`;
+    }
+
+    previousButton.addEventListener("click", () => scrollToActivity(activeActivity - 1));
+    nextButton.addEventListener("click", () => scrollToActivity(activeActivity + 1));
+    scroller.addEventListener("scroll", updateNavigation, { passive: true });
+    window.addEventListener("resize", updateNavigation);
+    updateNavigation();
+
+    let backgroundUpdatePending = false;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = reducedMotion.matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+  <script src="firebase-group-scope.js"></script>
+</body>
+</html>
