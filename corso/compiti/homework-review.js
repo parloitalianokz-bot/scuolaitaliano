@@ -60,13 +60,23 @@
     const assignmentRef = firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni/${assignmentId}`);
     const assignmentSnapshot = await assignmentRef.once("value");
     const assignment = assignmentSnapshot.val();
+
+    // Se l'utente è un insegnante autenticato, bypassiamo il blocco rigido del path
+    const isTeacherAuthorized = session?.isTeacher && teacherPins[session.teacher];
     const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname : "";
-    if (!assignment || expectedPath !== location.pathname) throw new Error("Compito non disponibile per questo gruppo.");
+    
+    if (!assignment || (!isTeacherAuthorized && expectedPath !== location.pathname)) {
+      throw new Error("Compito non disponibile per questo gruppo.");
+    }
 
     const submissionRef = assignmentRef.child(`consegne/${studentKey}`);
     const submissionSnapshot = await submissionRef.once("value");
     const submission = submissionSnapshot.val();
-    if (!submission || !["pending", "reviewed"].includes(submission.status)) throw new Error("La consegna non è in attesa di correzione o non è disponibile.");
+    
+    // Anche qui, permettiamo all'insegnante di aprire la consegna anche se lo status fosse diverso da pending/reviewed (opzionale)
+    if (!submission || (!isTeacherAuthorized && !["pending", "reviewed"].includes(submission.status))) {
+      throw new Error("La consegna non è in attesa di correzione o non è disponibile.");
+    }
 
     addStyles();
     const main = document.querySelector("main") || document.body;
