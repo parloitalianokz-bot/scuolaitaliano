@@ -49,14 +49,6 @@
     .slide-progress { color:var(--green); font-weight:800; text-align:center; }
     .task-submit-panel { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:18px 22px; border:2px solid var(--green); border-radius:16px; background:linear-gradient(135deg,var(--green-light),#fffefa 75%); }
     .task-submit-panel p { margin:0; line-height:1.5; }
-    
-    /* Stili specifici per il riordino dialoghi con pulsanti su/giù */
-    .dialog-sortable-list { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
-    .dialog-sortable-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border:1.5px solid #d4e1d5; border-radius:10px; background:#fff; }
-    .dialog-sortable-text { flex:1; line-height:1.5; word-break:break-word; }
-    .dialog-sortable-buttons { display:flex; gap:6px; }
-    .dialog-sortable-buttons button { min-height:36px; padding:6px 12px; font-size:.9rem; }
-
     @media(max-width:600px) { body{padding:18px 10px 36px;} header,.panel{padding:19px;} .slide-navigation{flex-wrap:wrap;justify-content:center;} .slide-navigation button{flex:1 1 140px;} .slide-progress{order:-1;width:100%;} .task-submit-panel button{width:100%;} }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;} }
   </style>
@@ -72,6 +64,10 @@
     </header>
     <p id="page-message" role="status" aria-live="polite" hidden></p>
     <section id="task-workspace" hidden>
+      <section id="final-teacher-review" class="teacher-feedback" aria-live="polite" hidden>
+        <strong>Giudizio finale dell’insegnante</strong>
+        <p id="final-teacher-comment"></p>
+      </section>
       <nav class="panel" aria-label="Avanzamento del compito">
         <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
         <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
@@ -96,51 +92,17 @@
   <script id="homework-task-data" type="application/json">
   {
     "title": "Facciamo shopping, grammatica e verbi",
-    "instructions": "Дорогие студенты!\nВыполните эти интерактивные упражнения для закрепления материала урока «La borsa rossa 2».\nВас ждут 6 практических заданий (с отдельными карточками для диалогов):\nДиалог А: Читать и упорядочить реплики.\nДиалог В: Читать и упорядочить реплики.\nДиалог С: Читать и упорядочить реплики.\nГлагол piacere: выберите правильную форму (piace или piacciono).\nСлова molto и poco: вставьте подходящее по смыслу и форме слово.\nСпряжение глаголов: просклоняйте глаголы в настоящем времени (обратите внимание на глаголы на -isc- и особые формы).\nУдачи в выполнении!",
+    "instructions": "Дорогие студенты!\nВыполните эти интерактивные упражнения для закрепления материала урока «La borsa rossa 2».\nВас ждут 4 практических задания:\nДиалоги в магазине: восстановите правильный порядок реплик.\nГлагол piacere: выберите правильную форму (piace или piacciono).\nСлова molto и poco: вставьте подходящее по смыслу и форме слово.\nСпряжение глаголов: просклоняйте глаголы в настоящем времени (обратите внимание на глаголы на -isc- и особые формы).\nУдачи в выполнении!",
     "sections": [
       {
-        "id":"dialogA",
-        "title":"Esercizio 1 (Parte A): Dialogo A",
-        "instructions":"Riordina le battute del Dialogo A (Chiedere il prezzo e contrattare) usando i pulsanti freccia su e giù.",
-        "instructionRu":"Упорядочите реплики Диалога A с помощью стрелок вверх и вниз.",
+        "id":"ex1",
+        "title":"Esercizio 1: Riordino dei dialoghi",
+        "instructions":"Metti nell'ordine corretto le battute dei tre dialoghi ambientati in contesto commerciale.",
+        "instructionRu":"Упорядочьте реплики каждого диалога. Запишите номера реплик в правильной последовательности.",
         "questions":[
-          {"id":"dialogA","type":"dialogSort","prompt":"Dialogo A: Chiedere il prezzo e contrattare","lines":[
-            {"id":"1","text":"Posso fare 90 euro, ma è davvero l'ultimo prezzo per un capo in pura pelle!"},
-            {"id":"2","text":"Buongiorno! Quanto costa questo giubbotto di pelle nera?"},
-            {"id":"3","text":"Va bene, è un ottimo affare. Lo prendo!"},
-            {"id":"4","text":"Costa 110 euro, signora. È un modello artigianale di grande qualità."},
-            {"id":"5","text":"Mi sembra un po' caro... È possibile avere uno piccolo sconto?"}
-          ],"expected":"2-4-5-1-3","modelAnswer":"2 → 4 → 5 → 1 → 3"}
-        ]
-      },
-      {
-        "id":"dialogB",
-        "title":"Esercizio 1 (Parte B): Dialogo B",
-        "instructions":"Riordina le battute del Dialogo B (Acquistare capi di abbigliamento e valutare la vestibilità) usando i pulsanti freccia su e giù.",
-        "instructionRu":"Упорядочите реплики Диалога B с помощью стрелок вверх и вниз.",
-        "questions":[
-          {"id":"dialogB","type":"dialogSort","prompt":"Dialogo B: Acquistare capi di abbigliamento e valutare la vestibilità","lines":[
-            {"id":"1","text":"Perfetto! Mi sta benissimo ed è molto comodo. Lo compro!"},
-            {"id":"2","text":"Cerco un cappotto invernale eleganti. Avete qualcosa in saldo?"},
-            {"id":"3","text":"Provi questa taglia superiore allora: è più morbido e la lunghezza è ideale."},
-            {"id":"4","text":"Guardi questo modello blu: preferisce lungo o corto?"},
-            {"id":"5","text":"Preferisco il modello lungo, ma questo mi sembra un po' troppo stretto sulle spalle."}
-          ],"expected":"2-4-5-3-1","modelAnswer":"2 → 4 → 5 → 3 → 1"}
-        ]
-      },
-      {
-        "id":"dialogC",
-        "title":"Esercizio 1 (Parte C): Dialogo C",
-        "instructions":"Riordina le battute del Dialogo C (Vestiti, accessori, borse, pellicce e calcolo del totale) usando i pulsanti freccia su e giù.",
-        "instructionRu":"Упорядочите реплики Диалога C с помощью стрелок вверх и вниз.",
-        "questions":[
-          {"id":"dialogC","type":"dialogSort","prompt":"Dialogo C: Vestiti, accessori, borse, pellicce e calcolo del totale","lines":[
-            {"id":"1","text":"In tutto viene 340 euro, signora."},
-            {"id":"2","text":"Certamente! La borsa costa 90 euro e la giacca con collo in pelliccia viene 250 euro."},
-            {"id":"3","text":"Vorrei vedere quella borsa rossa in vetrina e la giacca con la pelliccia."},
-            {"id":"4","text":"Pagherò con la carta di credito. Grazie mille!"},
-            {"id":"5","text":"Se le prendo entrambe, quanto spenderei in totale?"}
-          ],"expected":"3-2-5-1-4","modelAnswer":"3 → 2 → 5 → 1 → 4"}
+          {"id":"dialogA","type":"text","prompt":"Dialogo A: Chiedere il prezzo e contrattare\nFrasi da riordinare (Scrambled):\n1. Posso fare 90 euro, ma è davvero l'ultimo prezzo per un capo in pura pelle!\n2. Buongiorno! Quanto costa questo giubbotto di pelle nera?\n3. Va bene, è un ottimo affare. Lo prendo!\n4. Costa 110 euro, signora. È un modello artigianale di grande qualità.\n5. Mi sembra un po' caro... È possibile avere uno piccolo sconto?","modelAnswer":"2 → 4 → 5 → 1 → 3","expected":"2-4-5-1-3"},
+          {"id":"dialogB","type":"text","prompt":"Dialogo B: Acquistare capi di abbigliamento e valutare la vestibilità\nFrasi da riordinare (Scrambled):\n1. Perfetto! Mi sta benissimo ed è molto comodo. Lo compro!\n2. Cerco un cappotto invernale eleganti. Avete qualcosa in saldo?\n3. Provi questa taglia superiore allora: è più morbido e la lunghezza è ideale.\n4. Guardi questo modello blu: preferisce lungo o corto?\n5. Preferisco il modello lungo, ma questo mi sembra un po' troppo stretto sulle spalle.","modelAnswer":"2 → 4 → 5 → 3 → 1","expected":"2-4-5-3-1"},
+          {"id":"dialogC","type":"text","prompt":"Dialogo C: Vestiti, accessori, borse, pellicce e calcolo del totale\nFrasi da riordinare (Scrambled):\n1. In tutto viene 340 euro, signora.\n2. Certamente! La borsa costa 90 euro e la giacca con collo in pelliccia viene 250 euro.\n3. Vorrei vedere quella borsa rossa in vetrina e la giacca con la pelliccia.\n4. Pagherò con la carta di credito. Grazie mille!\n5. Se le prendo entrambe, quanto spenderei in totale?","modelAnswer":"3 → 2 → 5 → 1 → 4","expected":"3-2-5-1-4"}
         ]
       },
       {
@@ -248,9 +210,6 @@
     }
     function isAnswered(question) {
       const answer = answers[question.id]?.answer;
-      if (question.type === "dialogSort") {
-        return Array.isArray(answer) && answer.length > 0;
-      }
       return Array.isArray(answer) ? answer.some(value => String(value || "").trim()) : String(answer || "").trim() !== "";
     }
     function renderProgress() {
@@ -313,87 +272,13 @@
       const prompt = document.createElement("p");
       prompt.className = "question-prompt";
       const saved = answers[question.id]?.answer;
-
-      if (question.type === "dialogSort") {
-        prompt.textContent = question.prompt;
-        card.appendChild(prompt);
-
-        // Inizializza l'ordine corrente (usa il salvataggio o l'ordine originale delle linee)
-        let currentOrder = [];
-        if (Array.isArray(saved) && saved.length === question.lines.length) {
-          currentOrder = saved;
-        } else {
-          currentOrder = [...question.lines];
-          // Salva lo stato iniziale ordinato di default se non presente
-          if (editable && !answers[question.id]) {
-            setTimeout(() => saveAnswer(section.id, question, currentOrder), 50);
-          }
-        }
-
-        const listContainer = document.createElement("div");
-        listContainer.className = "dialog-sortable-list";
-
-        const renderList = () => {
-          listContainer.replaceChildren();
-          currentOrder.forEach((line, idx) => {
-            const item = document.createElement("div");
-            item.className = "dialog-sortable-item";
-
-            const textSpan = document.createElement("span");
-            textSpan.className = "dialog-sortable-text";
-            textSpan.textContent = `${idx + 1}. ${line.text}`;
-            item.appendChild(textSpan);
-
-            const btnWrap = document.createElement("div");
-            btnWrap.className = "dialog-sortable-buttons";
-
-            const upBtn = document.createElement("button");
-            upBtn.type = "button";
-            upBtn.className = "secondary";
-            upBtn.textContent = "↑ Su";
-            upBtn.disabled = !editable || idx === 0;
-            upBtn.addEventListener("click", () => {
-              if (idx > 0) {
-                const temp = currentOrder[idx];
-                currentOrder[idx] = currentOrder[idx - 1];
-                currentOrder[idx - 1] = temp;
-                renderList();
-                saveAnswer(section.id, question, currentOrder);
-              }
-            });
-
-            const downBtn = document.createElement("button");
-            downBtn.type = "button";
-            downBtn.className = "secondary";
-            downBtn.textContent = "↓ Giù";
-            downBtn.disabled = !editable || idx === currentOrder.length - 1;
-            downBtn.addEventListener("click", () => {
-              if (idx < currentOrder.length - 1) {
-                const temp = currentOrder[idx];
-                currentOrder[idx] = currentOrder[idx + 1];
-                currentOrder[idx + 1] = temp;
-                renderList();
-                saveAnswer(section.id, question, currentOrder);
-              }
-            });
-
-            btnWrap.append(upBtn, downBtn);
-            item.appendChild(btnWrap);
-            listContainer.appendChild(item);
-          });
-        };
-
-        renderList();
-        card.appendChild(listContainer);
-
-      } else if (question.type === "choice") {
+      if (question.type === "choice") {
         const marker = "[ piace / piacciono ]";
         const parts = question.prompt.split(marker);
         prompt.append(document.createTextNode(parts[0]));
         const selectQuestion = { options:question.options };
         prompt.appendChild(makeSelect(selectQuestion,saved,value => saveAnswer(section.id,question,value),"inline-answer"));
         prompt.append(document.createTextNode(parts.slice(1).join(marker)));
-        card.appendChild(prompt);
       } else if (question.type === "multiChoice") {
         const values = Array.isArray(saved) ? saved : [];
         let remaining = question.prompt;
@@ -408,18 +293,15 @@
           remaining = parts.slice(1).join(marker);
         });
         prompt.append(document.createTextNode(remaining));
-        card.appendChild(prompt);
       } else {
         prompt.textContent = question.prompt;
-        card.appendChild(prompt);
       }
-
+      card.appendChild(prompt);
       if (question.type === "multiChoice") {
         question.expected.forEach((_,index) => appendTeacherFeedback(card,teacherReviews[section.id]?.[`${question.id}_blank_${index + 1}`]));
       } else {
         appendTeacherFeedback(card,teacherReviews[section.id]?.[question.id]);
       }
-
       if (question.type === "text") {
         const label = document.createElement("label");
         label.className = "answer-label";
@@ -440,7 +322,6 @@
         input.addEventListener("blur",() => { if (editable && input.value !== (answers[question.id]?.answer || "")) saveAnswer(section.id,question,input.value.trim()); });
         card.append(label,input);
       }
-
       const status = document.createElement("div");
       status.className = "answer-row-controls";
       const state = document.createElement("span");
@@ -473,11 +354,6 @@
         title:section.title,
         rows:section.questions.flatMap(question => {
           const response = saved[section.id]?.[question.id]?.answer;
-          if (question.type === "dialogSort") {
-            const currentLines = Array.isArray(response) ? response : question.lines;
-            const formattedAnswer = currentLines.map((l, i) => `${i + 1}. ${l.text}`).join(" \n");
-            return [{ id: question.id, prompt: question.prompt, answer: formattedAnswer, expected: question.modelAnswer }];
-          }
           if (question.type === "multiChoice") {
             const values = Array.isArray(response) ? response : [];
             return question.expected.map((expected,index) => ({
@@ -519,6 +395,11 @@
       const submission = snapshot.val() || {};
       answers = submission.answers || {};
       teacherReviews = submission.teacherReview?.answers || {};
+      const finalComment = submission.teacherReview?.finalComment || "";
+      if (finalComment) {
+        document.getElementById("final-teacher-comment").textContent = finalComment;
+        document.getElementById("final-teacher-review").hidden = false;
+      }
       editable = !["pending","reviewed"].includes(submission.status);
       revealStudentPage();
       if (submission.status === "reviewed") showMessage("Questo compito è già stato revisionato. Le risposte sono mostrate qui sotto.");

@@ -66,6 +66,10 @@
     </header>
     <p id="page-message" role="status" aria-live="polite" hidden></p>
     <section id="task-workspace" hidden>
+      <section id="final-teacher-review" class="teacher-feedback" aria-live="polite" hidden>
+        <strong>Giudizio finale dell’insegnante</strong>
+        <p id="final-teacher-comment"></p>
+      </section>
       <nav class="panel" aria-label="Avanzamento del compito">
         <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
         <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
@@ -350,6 +354,8 @@
       const snapshot=await submissionRef.once("value"), submission=snapshot.val()||{};
       answers=Object.fromEntries(taskData.sections.flatMap(section=>section.questions.map(question=>[question.id,submission.answers?.[section.id]?.[question.id]||{}])));
       teacherReviews=submission.teacherReview?.answers||{};
+      const finalComment=submission.teacherReview?.finalComment||"";
+      if(finalComment){document.getElementById("final-teacher-comment").textContent=finalComment;document.getElementById("final-teacher-review").hidden=false;}
       editable=!['pending','reviewed'].includes(submission.status);
       revealStudentPage();
       if(submission.status==="reviewed") showMessage("Questo compito è già stato revisionato. Le risposte e i commenti sono mostrati qui sotto.");

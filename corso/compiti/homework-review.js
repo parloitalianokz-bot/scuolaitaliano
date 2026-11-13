@@ -26,6 +26,7 @@
       #homework-review .review-row[data-grade="approved"] { border-color:#278253; background:#e1f1e5; }
       #homework-review .review-row[data-grade="rejected"] { border-color:#c62828; background:#fde8e7; }
       #homework-review .review-footer { margin-top:18px; }
+      #homework-review .review-final-comment { display:block; width:100%; min-height:100px; margin:12px 0; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       @media(max-width:600px) { #homework-review { margin:12px 8px; padding:17px; } }
     `;
     document.head.appendChild(style);
@@ -187,13 +188,44 @@
 
     const footer = document.createElement("div");
     footer.className = "review-footer";
+    const finalLabel = document.createElement("label");
+    finalLabel.textContent = "Giudizio finale per lo studente (facoltativo)";
+    finalLabel.htmlFor = "homework-final-comment";
+    const finalComment = document.createElement("textarea");
+    finalComment.id = "homework-final-comment";
+    finalComment.className = "review-final-comment";
+    finalComment.maxLength = 3000;
+    finalComment.placeholder = "Scrivi un commento complessivo sulla consegna…";
+    finalComment.value = submission.teacherReview?.finalComment || "";
+    const saveFinalComment = document.createElement("button");
+    saveFinalComment.type = "button";
+    saveFinalComment.textContent = "💾 Salva il giudizio finale";
+    saveFinalComment.addEventListener("click", async () => {
+      saveFinalComment.disabled = true;
+      try {
+        await submissionRef.child("teacherReview").update({ finalComment: finalComment.value.trim(), finalCommentBy: session.teacher, finalCommentUpdatedAt: Date.now() });
+        status.className = "review-status";
+        status.textContent = "Giudizio finale salvato e visibile allo studente.";
+      } catch (_) {
+        status.className = "review-status error";
+        status.textContent = "Impossibile salvare il giudizio finale. Controlla la connessione e riprova.";
+      } finally { saveFinalComment.disabled = false; }
+    });
     const finish = document.createElement("button");
     finish.type = "button";
     finish.textContent = submission.status === "reviewed" ? "Salva la revisione" : "Invia la correzione allo studente";
     finish.addEventListener("click", async () => {
       finish.disabled = true;
       try {
-        await submissionRef.update({ status: "reviewed", reviewedAt: Date.now(), reviewedBy: session.teacher });
+        const now = Date.now();
+        await submissionRef.update({
+          status: "reviewed",
+          reviewedAt: now,
+          reviewedBy: session.teacher,
+          "teacherReview/finalComment": finalComment.value.trim(),
+          "teacherReview/finalCommentBy": session.teacher,
+          "teacherReview/finalCommentUpdatedAt": now
+        });
         status.className = "review-status";
         status.textContent = `Correzione inviata a ${submission.studentName || studentKey}.`;
         finish.textContent = "Revisione salvata";
@@ -203,7 +235,7 @@
         finish.disabled = false;
       }
     });
-    footer.appendChild(finish);
+    footer.append(finalLabel, finalComment, saveFinalComment, finish);
     root.appendChild(footer);
     document.title = `Correzione · ${taskData.title || "Compito"}`;
     return true;
