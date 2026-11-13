@@ -199,8 +199,9 @@
           <div class="field">
             <label for="review-status">Mostra</label>
             <select id="review-status">
-              <option value="pending">In attesa di correzione</option>
-              <option value="reviewed">Archivio — corretti</option>
+                          <option value="pending">In attesa di correzione</option>
+            <option value="reviewed">Archivio — corretti</option>
+            <option value="unsubmitted">Non consegnati</option>
             </select>
           </div>
         </div>
@@ -589,15 +590,53 @@
     function renderTeacherTasks() {
       const wanted = reviewStatus.value;
       const rows = [];
-      sortedAssignments().forEach(([assignmentId, assignment]) => {
-        Object.entries(assignment.consegne || {}).forEach(([studentKey, submission]) => {
-          if (submission?.status === wanted) rows.push({ assignmentId, assignment, studentKey, submission });
+      const assignments = sortedAssignments();
+      if (wanted === "unsubmitted") {
+        const group = groupData[reviewGroup.value] || {};
+        const students = [...(group.studenti || []), ...(group.studentiInattivi || [])]
+          .filter(student => student?.nome)
+          .filter((student, index, all) => all.findIndex(item => item.nome === student.nome) === index);
+        assignments.forEach(([assignmentId, assignment]) => {
+          const submissions = assignment.consegne || {};
+          students.forEach(student => {
+            const studentName = student.nome;
+            if (Number(assignment.unitNumber) > studentLimit(reviewGroup.value, studentName)) return;
+            const studentKey = safeNameKey(studentName);
+            const submission = submissions[studentKey];
+            if (!submission || submission.status === "in-progress") {
+              rows.push({ assignmentId, assignment, studentKey, studentName, submission });
+            }
+          });
         });
-      });
-      rows.sort((a, b) => Number(b.submission.submittedAt || 0) - Number(a.submission.submittedAt || 0));
+        rows.sort((a, b) => Number(b.assignment.createdAt || 0) - Number(a.assignment.createdAt || 0)
+          || a.studentName.localeCompare(b.studentName, "it"));
+      } else {
+        assignments.forEach(([assignmentId, assignment]) => {
+          Object.entries(assignment.consegne || {}).forEach(([studentKey, submission]) => {
+            if (submission?.status === wanted) rows.push({ assignmentId, assignment, studentKey, submission });
+          });
+        });
+        rows.sort((a, b) => Number(b.submission.submittedAt || 0) - Number(a.submission.submittedAt || 0));
+      }
       teacherTasks.replaceChildren();
       if (!rows.length) {
-        noTasks(teacherTasks, wanted === "pending" ? "Nessun compito in attesa di correzione per questo gruppo." : "Nessun compito corretto nell’archivio di questo gruppo.");
+        const emptyLabels = {
+          pending: "Nessun compito in attesa di correzione per questo gruppo.",
+          reviewed: "Nessun compito corretto nell’archivio di questo gruppo.",
+          unsubmitted: "Tutti gli studenti abilitati hanno consegnato i compiti assegnati."
+        };
+        noTasks(teacherTasks, emptyLabels[wanted]);
+        return;
+      }
+      if (wanted === "unsubmitted") {
+        rows.forEach(({ assignment, studentName, submission }) => {
+          const card = makeElement("article", "task");
+          card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
+          card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+          if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+          card.appendChild(makeElement("span", "status", submission?.status === "in-progress" ? "In corso · non consegnato" : "Non consegnato"));
+          teacherTasks.appendChild(card);
+        });
         return;
       }
       rows.forEach(({ assignmentId, assignment, studentKey, submission }) => {
