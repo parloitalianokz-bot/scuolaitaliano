@@ -6,6 +6,15 @@
       "description": "Pronuncia, comprensione del testo, verbo essere, preposizioni e interrogativi."
     }
   ],
+  "10": [
+    {
+      "label": "Compito 3",
+      "path": "compiti/u_010/u_10_compiti_3.html",
+      "title": "Facciamo shopping, grammatica e verbi",
+      "instructions": "Дорогие студенты!\nВыполните эти интерактивные упражнения для закрепления материала урока «La borsa rossa 2».\nВас ждут 4 практических задания:\nДиалоги в магазине: восстановите правильный порядок реплик.\nГлагол piacere: выберите правильную форму (piace или piacciono).\nСлова molto и poco: вставьте подходящее по смыслу и форме слово.\nСпряжение глаголов: просклоняйте глаголы в настоящем времени (обратите внимание на глаголы на -isc- и особые формы).\nУдачи в выполнении!",
+      "description": "Funzione comunicativa: shopping; verbo piacere; molto e poco; verbi con -isc-."
+    }
+  ],
   "46": [
     {
       "label": "Compito 2",

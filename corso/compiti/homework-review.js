@@ -58,23 +58,23 @@
     });
 
     const assignmentRef = firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni/${assignmentId}`);
-    const assignmentSnapshot = await assignmentRef.once("value");
+    const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+      assignmentRef.once("value"),
+      firebase.database().ref(`configurazioneScuola/gruppi/${groupId}`).once("value")
+    ]);
     const assignment = assignmentSnapshot.val();
+    const group = groupSnapshot.val();
+    let expectedPath = "";
+    try { expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname : ""; } catch (_) {}
 
-    // Se l'utente è un insegnante autenticato, bypassiamo il blocco rigido del path
-    const isTeacherAuthorized = session?.isTeacher && teacherPins[session.teacher];
-    const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname : "";
-    
-    if (!assignment || (!isTeacherAuthorized && expectedPath !== location.pathname)) {
-      throw new Error("Compito non disponibile per questo gruppo.");
+    if (!group || !assignment || expectedPath !== location.pathname) {
+      throw new Error("Compito non disponibile per questo gruppo o percorso.");
     }
 
     const submissionRef = assignmentRef.child(`consegne/${studentKey}`);
     const submissionSnapshot = await submissionRef.once("value");
     const submission = submissionSnapshot.val();
-    
-    // Anche qui, permettiamo all'insegnante di aprire la consegna anche se lo status fosse diverso da pending/reviewed (opzionale)
-    if (!submission || (!isTeacherAuthorized && !["pending", "reviewed"].includes(submission.status))) {
+    if (!submission || !["pending", "reviewed"].includes(submission.status)) {
       throw new Error("La consegna non è in attesa di correzione o non è disponibile.");
     }
 
@@ -138,6 +138,21 @@
         comment.setAttribute("aria-label", `Commento: ${label.textContent}`);
         const actions = document.createElement("div");
         actions.className = "review-actions";
+        const saveComment = document.createElement("button");
+        saveComment.type = "button";
+        saveComment.textContent = "💾 Salva commento";
+        saveComment.addEventListener("click", async () => {
+          saveComment.disabled = true;
+          try {
+            await rowRef.update({ comment: comment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now() });
+            status.className = "review-status";
+            status.textContent = "Commento salvato. Puoi continuare la revisione.";
+          } catch (_) {
+            status.className = "review-status error";
+            status.textContent = "Impossibile salvare il commento. Controlla la connessione e riprova.";
+          } finally { saveComment.disabled = false; }
+        });
+        actions.appendChild(saveComment);
         [["approved", "✓ Approva", ""], ["rejected", "✕ Da rivedere", "reject"]].forEach(([grade, text, className]) => {
           const button = document.createElement("button");
           button.type = "button";

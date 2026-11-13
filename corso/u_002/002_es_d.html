@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mini dialoghi: nazionalità ed età, Unità 2." />
+  <title>Unità 2 — I mini dialoghi · Esercizio D</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739; --green-light: #edf4ed; --accent: #bd694d;
+      --text: #292d28; --muted: #6b7069; --paper: #fffefa; --border: #d8e5d8;
+      --success: #17623c; --success-bg: #e1f1e5; --error: #991b1b; --error-bg: #fde8e7;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 28px 14px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px)) / cover fixed,
+        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
+    }
+    main { width: min(100%,900px); margin: 0 auto; }
+    .top-menu { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:14px; }
+    .top-menu select,.top-menu a,.assignment-select { min-height:40px; max-width:100%; padding:7px 12px; border:1px solid var(--border); border-radius:10px; background:var(--paper); color:var(--green); font:inherit; font-size:.9rem; font-weight:700; }
+    .top-menu a { display:inline-flex; align-items:center; text-decoration:none; }
+    .top-menu a:hover,.top-menu select:hover { border-color:var(--green); background:var(--green-light); }
+    #exercise-menu { margin-left:auto; }
+    #user-badge { color:var(--accent); font-size:.87rem; font-weight:700; }
+    .hero { margin:8px 0 20px; padding:26px 18px; border:1px solid var(--border); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); text-align:center; box-shadow:0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
+    h1 { margin:4px 0; color:var(--green); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
+    .hero-subtitle { margin:8px 0 0; color:var(--muted); line-height:1.5; }
+    .instruction-box,.teacher-controls { margin-bottom:16px; padding:14px 18px; border:1px solid var(--border); border-radius:14px; background:rgba(255,254,250,.95); box-shadow:0 6px 18px rgba(43,69,46,.04); }
+    .instruction-box { border-left:5px solid var(--accent); line-height:1.55; }
+    .teacher-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .teacher-controls[hidden] { display:none; }
+    .assignment-field { display:grid; gap:6px; color:var(--green); font-size:.9rem; font-weight:800; }
+    .assignment-select { width:100%; }
+    .card { margin-bottom:20px; padding:clamp(16px,4vw,30px); border:1px solid #e7e5dc; border-radius:24px; background:rgba(255,254,250,.97); box-shadow:0 18px 48px rgba(43,69,46,.1); }
+    .overall-progress { display:flex; gap:6px; overflow-x:auto; padding:2px 1px 9px; margin:0 0 12px; scrollbar-width:thin; }
+    .progress-step,.nav-btn,.submit-answer,.accent-toolbar button { min-height:40px; padding:8px 13px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--green); font:inherit; font-weight:700; cursor:pointer; }
+    .progress-step { flex:0 0 36px; min-height:36px; padding:4px; }
+    .progress-step:hover,.nav-btn:hover:not(:disabled),.accent-toolbar button:hover:not(:disabled) { background:var(--green-light); border-color:var(--green); }
+    .progress-step[aria-current="step"] { border-color:var(--green); background:var(--green); color:#fff; }
+    .dialogue-slide { display:none; flex-direction:column; gap:15px; min-width:0; padding:clamp(14px,3vw,22px); border:1px solid var(--border); border-radius:18px; background:#fff; }
+    .dialogue-slide.active { display:flex; }
+    .person-header { display:flex; align-items:center; gap:14px; padding-bottom:13px; border-bottom:2px solid var(--green-light); }
+    .person-image { width:72px; height:72px; flex:0 0 72px; border:2px solid var(--green-light); border-radius:15px; background:#f0f4f0; object-fit:cover; }
+    .person-title { display:block; color:var(--green); font-size:1.12rem; font-weight:800; }
+    .person-data { display:block; margin-top:4px; color:var(--muted); font-size:.92rem; font-weight:600; }
+    .assignment-status { margin:0; padding:9px 12px; border-radius:9px; background:var(--green-light); color:var(--green); font-size:.9rem; font-weight:700; }
+    .answer-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-items:start; }
+    .answer-panel { min-width:0; padding:13px; border:1px solid var(--border); border-radius:14px; background:#f8faf6; }
+    .answer-panel h2 { margin:0 0 9px; color:var(--green); font-size:1rem; line-height:1.4; }
+    .answer-input { width:100%; min-height:110px; padding:10px 12px; border:1.5px solid #d4e1d5; border-radius:10px; background:#fff; color:var(--text); font:inherit; line-height:1.5; resize:vertical; }
+    .answer-input:disabled { background:#f2f5f1; color:#475569; }
+    .accent-toolbar { display:flex; flex-wrap:wrap; gap:5px; margin:0 0 8px; }
+    .accent-toolbar button { min-width:36px; min-height:32px; padding:3px 8px; border-radius:8px; }
+    .accent-toolbar button:disabled { cursor:not-allowed; opacity:.5; }
+    .submit-answer { display:block; margin:9px 0 0 auto; min-height:39px; border:0; background:var(--green); color:#fff; }
+    .submit-answer:hover:not(:disabled) { background:#24452d; }
+    .submit-answer:disabled { opacity:.55; cursor:not-allowed; }
+    .contributions { display:grid; gap:8px; margin-top:13px; }
+    .contributions h3 { margin:0; color:var(--green); font-size:.95rem; }
+    .contribution-list { display:grid; gap:8px; }
+    .contribution { min-width:0; padding:10px 11px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+    .contribution-meta { display:block; margin-bottom:5px; color:var(--muted); font-size:.8rem; font-weight:700; }
+    .contribution-text { white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.5; }
+    .empty-message { margin:0; color:var(--muted); font-size:.88rem; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .suggestion { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#fbfdf9; line-height:1.55; }
+    .suggestion summary { color:var(--green); font-weight:800; cursor:pointer; }
+    .suggestion p { margin:9px 0 0; }
+    .teacher-suggestion { border-left:4px solid var(--accent); }
+    .legacy-section { margin-top:14px; padding:13px; border:1px dashed var(--border); border-radius:12px; background:#fbfaf6; }
+    .legacy-section h3 { margin:0 0 8px; color:var(--green); font-size:.95rem; }
+    .legacy-list { display:grid; gap:8px; }
+    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:16px; padding-top:14px; border-top:1px solid #e7e5dc; }
+    .slide-progress { color:var(--green); font-size:.9rem; font-weight:800; text-align:center; }
+    .nav-btn:disabled { opacity:.45; cursor:not-allowed; }
+    .save-status { margin:12px 0 0; padding:10px 12px; border-radius:10px; background:var(--success-bg); color:var(--success); font-size:.9rem; font-weight:700; }
+    .save-status.error { background:var(--error-bg); color:var(--error); }
+    @media(max-width:650px) { .answer-columns,.teacher-controls { grid-template-columns:1fr; } }
+    @media(max-width:600px) { body { padding:16px 8px; } .top-menu select { flex:1 1 auto; } .slide-navigation { flex-wrap:wrap; } .nav-btn { flex:1; } .person-header { align-items:flex-start; } .person-image { width:60px; height:60px; flex-basis:60px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation:none!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-menu" aria-label="Navigazione Unità 2">
+      <select id="exercise-menu" aria-label="Vai a un esercizio">
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option>
+        <option value="002_es_c.html">Esercizio C</option><option value="002_es_d.html" selected>Esercizio D</option>
+        <option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option>
+        <option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option>
+        <option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option>
+        <option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option>
+        <option value="002_es_m.html">Esercizio M</option>
+        <optgroup label="Schede grammaticali">
+          <option value="002_numeri.html">I numeri cardinali</option>
+          <option value="002_verbo_essere.html">Il verbo essere</option>
+          <option value="002_verbo_avere.html">Il verbo avere</option>
+        </optgroup>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 2 · Grammatica e comunicazione</span>
+      <h1>I mini dialoghi</h1>
+      <p class="hero-subtitle">Создайте мини-диалоги по образцу, используя итальянские числа и национальности.</p>
+      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
+    </header>
+    <div class="instruction-box">
+      💡 <strong>Создайте мини-диалог для каждой карточки:</strong> задайте вопросы о человеке и ответьте полными фразами.
+      <div style="margin-top:8px;color:var(--green);"><em>Chi è Gianni? Quanti anni ha?</em> — <em>Gianni è italiano. Ha vent’anni.</em></div>
+    </div>
+
+    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione dei turni">
+      <label class="assignment-field" for="question-writer-select">🗣️ Turno per formulare le domande
+        <select id="question-writer-select" class="assignment-select"><option value="">— Nessuno assegnato —</option></select>
+      </label>
+      <label class="assignment-field" for="answer-writer-select">💬 Turno per scrivere le risposte
+        <select id="answer-writer-select" class="assignment-select"><option value="">— Nessuno assegnato —</option></select>
+      </label>
+    </section>
+
+    <section class="card" aria-label="Schede dei mini dialoghi">
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente a una scheda"></nav>
+      <div id="slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle schede">
+        <button id="previous-slide" class="nav-btn" type="button">← Precedente</button>
+        <span id="slide-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-slide" class="nav-btn" type="button">Successiva →</button>
+      </nav>
+      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY", authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano", appId: "INSERISCI_APP_ID"
+    };
+    const people = [
+      { id:"p1", name:"Giovanna", country:"Italia 🇮🇹", age:"50", img:"img/giovanna.jpg" },
+      { id:"p2", name:"Maria", country:"Spagna 🇪🇸", age:"30", img:"img/maria.jpg" },
+      { id:"p3", name:"Pierre", country:"Francia 🇫🇷", age:"45", img:"img/pierre.jpg" },
+      { id:"p4", name:"Hans", country:"Germania 🇩🇪", age:"60", img:"img/hans.jpg" },
+      { id:"p5", name:"Viktor", country:"Russia 🇷🇺", age:"35", img:"img/viktor.jpg" },
+      { id:"p6", name:"Yuki", country:"Giappone 🇯🇵", age:"22", img:"img/yuki.jpg" },
+      { id:"p7", name:"Miguel e Isabella", country:"Messico 🇲🇽", age:"28 e 26", img:"img/miguel_isabella.jpg" },
+      { id:"p8", name:"Katarina", country:"Svezia 🇸🇪", age:"18", img:"img/katarina.jpg" },
+      { id:"p9", name:"Elena", country:"Grecia 🇬🇷", age:"33", img:"img/elena.jpg" },
+      { id:"p10", name:"Kairat e Aizhan", country:"Kazakistan 🇰🇿", age:"19 e 20", img:"img/kairat_aizhan.jpg" },
+      { id:"p11", name:"Anya", country:"Ucraina 🇺🇦", age:"40", img:"img/anya.jpg" },
+      { id:"p12", name:"Mei-Ling", country:"Cina 🇨🇳", age:"25", img:"img/meiling.jpg" },
+      { id:"p13", name:"Ivan e Natasha", country:"Russia 🇷🇺", age:"36 e 34", img:"img/ivan_natasha.jpg" },
+      { id:"p14", name:"Diego", country:"Colombia 🇨🇴", age:"29", img:"img/diego.jpg" },
+      { id:"p15", name:"Sophie", country:"Canada 🇨🇦", age:"24", img:"img/sophie.jpg" },
+      { id:"p16", name:"Mustafa", country:"Turchia 🇹🇷", age:"38", img:"img/mustafa.jpg" },
+      { id:"p17", name:"Olga", country:"Ucraina 🇺🇦", age:"55", img:"img/olga.jpg" },
+      { id:"p18", name:"Carlos e Lucia", country:"Brasile 🇧🇷", age:"23 e 21", img:"img/carlos_lucia.jpg" },
+      { id:"p19", name:"Aigul", country:"Kazakistan 🇰🇿", age:"38", img:"img/aigul.jpg" },
+      { id:"p20", name:"Io e Giovanni", country:"Italia 🇮🇹", age:"28 e 32", img:"img/io_giovanni.jpg" }
+    ];
+
+    const session = window.parloUnit2Session || {};
+    const group = session.group && session.group !== "sconosciuto" ? session.group : "";
+    const userName = String(session.name || "").trim();
+    const isTeacher = Boolean(session.isTeacher);
+    const identity = userName ? { role:isTeacher ? "teacher" : "student", name:userName } : null;
+    const presenceId = `presence_${Math.random().toString(36).slice(2,10)}`;
+    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g,"_");
+    const safeGroup = safe(group || "sconosciuto");
+    const teacherControls = document.getElementById("teacher-controls");
+    const questionWriterSelect = document.getElementById("question-writer-select");
+    const answerWriterSelect = document.getElementById("answer-writer-select");
+    const slidesContainer = document.getElementById("slides-container");
+    const progressNav = document.getElementById("exercise-progress");
+    const previousButton = document.getElementById("previous-slide");
+    const nextButton = document.getElementById("next-slide");
+    const progressText = document.getElementById("slide-progress");
+    const saveStatus = document.getElementById("save-status");
+    teacherControls.hidden = !isTeacher;
+
+    document.getElementById("exercise-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      if (group) target.searchParams.set("gruppo", group);
+      if (userName && !isTeacher) target.searchParams.set("nome", userName);
+      location.assign(`${target.pathname}${target.search}${target.hash}`);
+    });
+
+    let answersRef = null;
+    let database = null;
+    let activeSlide = 0;
+    let roster = [];
+    let presenceData = {};
+    let assignments = {};
+    let sharedAnswers = {};
+    let contributions = {};
+    let legacyTokenDialogues = {};
+    let legacyStudentDialogues = {};
+    const slideCards = [];
+    const saveTimers = new Map();
+
+    function identityValue(person) {
+      return person?.role && person?.name ? JSON.stringify({ role:person.role, name:person.name }) : "";
+    }
+    function parseIdentity(value) {
+      if (!value) return null;
+      try {
+        const person = JSON.parse(value);
+        return person && ["student","teacher"].includes(person.role) && person.name ? { role:person.role, name:person.name } : null;
+      } catch (_) { return null; }
+    }
+    function assignedTo(index, field) {
+      const target = assignments[people[index].id]?.[field];
+      return Boolean(identity && target && target.role === identity.role && target.name === identity.name);
+    }
+    function isOnline(name) {
+      return Object.values(presenceData[safe(name)] || {}).some(entry => entry?.role === "student" && entry.name === name);
+    }
+    function orderedRoster() {
+      const unique = new Map();
+      roster.forEach(student => {
+        const name = String(student?.nome || "").trim();
+        if (name) unique.set(name, { role:"student", name, online:isOnline(name) });
+      });
+      Object.values(presenceData).forEach(connections => Object.values(connections || {}).forEach(entry => {
+        if (entry?.role === "student" && entry.name) unique.set(entry.name, { role:"student", name:entry.name, online:true });
+      }));
+      return [...unique.values()].sort((a,b) => Number(b.online)-Number(a.online) || a.name.localeCompare(b.name,"it"));
+    }
+    function refreshAssignmentMenus() {
+      const personId = people[activeSlide].id;
+      const peopleOptions = orderedRoster();
+      [["ans1",questionWriterSelect],["ans2",answerWriterSelect]].forEach(([field,select]) => {
+        const selected = identityValue(assignments[personId]?.[field]);
+        select.replaceChildren(new Option("— Nessuno assegnato —",""));
+        const online = peopleOptions.filter(person => person.online);
+        const offline = peopleOptions.filter(person => !person.online);
+        if (online.length) {
+          const groupOption = document.createElement("optgroup");
+          groupOption.label = "🟢 Studenti online";
+          online.forEach(person => groupOption.appendChild(new Option(`🟢 ${person.name}`,identityValue(person))));
+          select.appendChild(groupOption);
+        }
+        if (offline.length) {
+          const groupOption = document.createElement("optgroup");
+          groupOption.label = "Studenti offline";
+          offline.forEach(person => groupOption.appendChild(new Option(person.name,identityValue(person))));
+          select.appendChild(groupOption);
+        }
+        if (identity?.role === "teacher") {
+          const groupOption = document.createElement("optgroup");
+          groupOption.label = "👩‍🏫 Insegnante";
+          groupOption.appendChild(new Option(identity.name,identityValue(identity)));
+          select.appendChild(groupOption);
+        }
+        select.value = selected;
+      });
+    }
+    function formatDate(value) {
+      const timestamp = Number(value) || 0;
+      return timestamp ? new Intl.DateTimeFormat("it-IT",{ dateStyle:"short", timeStyle:"short" }).format(new Date(timestamp)) : "Data non disponibile";
+    }
+    function setStatus(message,isError=false) {
+      saveStatus.textContent = message;
+      saveStatus.hidden = !message;
+      saveStatus.classList.toggle("error",isError);
+    }
+    function createAccentToolbar(input, canEdit) {
+      const toolbar = document.createElement("div");
+      toolbar.className = "accent-toolbar";
+      toolbar.setAttribute("role","group");
+      toolbar.setAttribute("aria-label","Inserisci un carattere accentato");
+      ["'","à","è","ì","ò","ù","È"].forEach(character => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = character;
+        button.setAttribute("aria-label",`Inserisci ${character === "'" ? "apostrofo" : character}`);
+        button.disabled = !canEdit;
+        button.addEventListener("mousedown",event => event.preventDefault());
+        button.addEventListener("click",() => {
+          if (input.disabled) return;
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? start;
+          input.setRangeText(character,start,end,"end");
+          input.focus();
+          input.dispatchEvent(new Event("input",{ bubbles:true }));
+        });
+        toolbar.appendChild(button);
+      });
+      return toolbar;
+    }
+    function saveDraft(index,field,value) {
+      const personId = people[index].id;
+      sharedAnswers[personId] = { ...(sharedAnswers[personId] || {}), [field]:value };
+      if (!answersRef || !assignedTo(index,field)) return;
+      const key = `${personId}:${field}`;
+      clearTimeout(saveTimers.get(key));
+      saveTimers.set(key,setTimeout(() => {
+        saveTimers.delete(key);
+        answersRef.child("sharedAnswers").child(personId).child(field).set(value)
+          .catch(() => setStatus("Impossibile sincronizzare la risposta. Controlla la connessione.",true));
+      },250));
+    }
+    function flushDraft(index,field,value) {
+      const key = `${people[index].id}:${field}`;
+      if (saveTimers.has(key)) {
+        clearTimeout(saveTimers.get(key));
+        saveTimers.delete(key);
+      }
+      if (!answersRef || !assignedTo(index,field)) return Promise.resolve();
+      return answersRef.child("sharedAnswers").child(people[index].id).child(field).set(value);
+    }
+    function legacyDraft(personId,field) {
+      const tokenValue = legacyTokenDialogues[personId]?.[field];
+      if (typeof tokenValue === "string") return tokenValue;
+      return "";
+    }
+    function renderContributions(index,field,list) {
+      list.replaceChildren();
+      const personId = people[index].id;
+      const records = Object.entries(contributions[personId]?.[field] || {}).map(([id,item]) => ({
+        id, author:item?.author || "Partecipante", text:String(item?.text || ""), timestamp:Number(item?.timestamp) || 0
+      })).filter(item => item.text.trim());
+      records.sort((a,b) => a.timestamp-b.timestamp || a.id.localeCompare(b.id));
+      if (!records.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "Nessun contributo inviato per questa scheda.";
+        list.appendChild(empty);
+        return;
+      }
+      records.forEach(record => {
+        const article = document.createElement("article");
+        article.className = "contribution";
+        const meta = document.createElement("span");
+        meta.className = "contribution-meta";
+        meta.textContent = `${record.author} · ${formatDate(record.timestamp)}`;
+        const text = document.createElement("div");
+        text.className = "contribution-text";
+        text.textContent = record.text;
+        article.append(meta,text);
+        list.appendChild(article);
+      });
+    }
+    function renderLegacySubmissions(index,list) {
+      list.replaceChildren();
+      const entries = Object.entries(legacyStudentDialogues).map(([id,student]) => ({
+        id, author:student?.name || "Studente", text:String(student?.dialogues?.[people[index].id] || "").trim(), timestamp:Number(student?.timestamp) || 0
+      })).filter(entry => entry.text);
+      entries.sort((a,b) => a.timestamp-b.timestamp || a.id.localeCompare(b.id));
+      const section = slideCards[index].legacySection;
+      section.hidden = !entries.length;
+      entries.forEach(entry => {
+        const article = document.createElement("article");
+        article.className = "contribution";
+        const meta = document.createElement("span");
+        meta.className = "contribution-meta";
+        meta.textContent = `${entry.author} · ${formatDate(entry.timestamp)} · mini-dialogo completo inviato in precedenza`;
+        const text = document.createElement("div");
+        text.className = "contribution-text";
+        text.textContent = entry.text;
+        article.append(meta,text);
+        list.appendChild(article);
+      });
+    }
+    function renderCardState(index) {
+      const item = slideCards[index];
+      const personId = people[index].id;
+      ["ans1","ans2"].forEach(field => {
+        const canWrite = assignedTo(index,field) && Boolean(answersRef);
+        const input = item.inputs[field];
+        const serverDraft = sharedAnswers[personId]?.[field];
+        const draft = typeof serverDraft === "string" ? serverDraft : legacyDraft(personId,field);
+        if (document.activeElement !== input && input.value !== draft) input.value = draft;
+        input.disabled = !canWrite;
+        item.toolbars[field].querySelectorAll("button").forEach(button => { button.disabled = !canWrite; });
+        item.submits[field].disabled = !canWrite || !input.value.trim();
+        item.submits[field].title = canWrite ? "Invia un nuovo contributo" : "Il turno di scrittura per questo box non è assegnato a te";
+        const writer = assignments[personId]?.[field];
+        item.statuses[field].textContent = writer
+          ? (canWrite ? "✍️ Il turno è tuo: puoi scrivere e inviare." : `Turno assegnato a ${writer.name}.`)
+          : "Turno non assegnato: chiedi all’insegnante di scegliere chi scrive.";
+        renderContributions(index,field,item.lists[field]);
+      });
+      renderLegacySubmissions(index,item.legacyList);
+      item.card.classList.toggle("active",index === activeSlide);
+    }
+    function updateUI() {
+      slideCards.forEach((_,index) => renderCardState(index));
+      refreshAssignmentMenus();
+      progressNav.querySelectorAll("button").forEach((button,index) => button.setAttribute("aria-current",index === activeSlide ? "step" : "false"));
+      progressText.textContent = `Scheda ${activeSlide + 1} di ${people.length}`;
+      previousButton.disabled = activeSlide === 0;
+      nextButton.disabled = activeSlide === people.length-1;
+    }
+    function showSlide(index,scroll=true) {
+      activeSlide = Math.max(0,Math.min(people.length-1,index));
+      if (scroll) slideCards[activeSlide].card.scrollIntoView({ behavior:"smooth", block:"nearest" });
+      updateUI();
+    }
+    function addPersonHeader(person,index) {
+      const header = document.createElement("div");
+      header.className = "person-header";
+      const image = document.createElement("img");
+      image.className = "person-image";
+      image.src = person.img;
+      image.alt = person.name;
+      image.loading = "lazy";
+      image.onerror = () => { image.hidden = true; };
+      const info = document.createElement("div");
+      const title = document.createElement("span");
+      title.className = "person-title";
+      title.textContent = `${index+1}. ${person.name}`;
+      const details = document.createElement("span");
+      details.className = "person-data";
+      details.textContent = `📍 ${person.country}　·　🎂 ${person.age} anni`;
+      info.append(title,details);
+      header.append(image,info);
+      return header;
+    }
+    function createAnswerPanel(index,field,titleText,placeholder) {
+      const panel = document.createElement("section");
+      panel.className = "answer-panel";
+      const title = document.createElement("h2");
+      title.textContent = titleText;
+      const label = document.createElement("label");
+      const input = document.createElement("textarea");
+      input.id = `answer-${field}-${index}`;
+      input.className = "answer-input";
+      input.rows = 4;
+      input.placeholder = placeholder;
+      label.htmlFor = input.id;
+      label.className = "visually-hidden";
+      label.textContent = titleText;
+      input.value = String(sharedAnswers[people[index].id]?.[field] ?? legacyDraft(people[index].id,field));
+      const writerStatus = document.createElement("p");
+      writerStatus.className = "assignment-status";
+      writerStatus.setAttribute("aria-live","polite");
+      const toolbar = createAccentToolbar(input,false);
+      const submit = document.createElement("button");
+      input.addEventListener("input",() => {
+        if (!assignedTo(index,field)) return;
+        saveDraft(index,field,input.value);
+        submit.disabled = !input.value.trim() || !answersRef;
+      });
+      input.addEventListener("blur",() => flushDraft(index,field,input.value)
+        .catch(() => setStatus("Impossibile sincronizzare la risposta. Controlla la connessione.",true)));
+      submit.type = "button";
+      submit.className = "submit-answer";
+      submit.textContent = "📤 Invia il contributo";
+      submit.disabled = true;
+      submit.addEventListener("click",async () => {
+        const text = input.value.trim();
+        if (!answersRef || !assignedTo(index,field) || !text) return;
+        submit.disabled = true;
+        try {
+          await flushDraft(index,field,input.value);
+          await answersRef.child("contributions").child(people[index].id).child(field).push().set({
+            text, author:userName || "Partecipante", role:identity?.role || "student", timestamp:firebase.database.ServerValue.TIMESTAMP
+          });
+          setStatus(`Contributo aggiunto alla scheda ${index+1}, box ${field === "ans1" ? "sinistro" : "destro"}.`);
+        } catch (_) {
+          setStatus("Invio non riuscito. Controlla la connessione e riprova.",true);
+        } finally { renderCardState(index); }
+      });
+      const contributionsSection = document.createElement("section");
+      contributionsSection.className = "contributions";
+      const contributionsHeading = document.createElement("h3");
+      contributionsHeading.textContent = "Contributi inviati";
+      const list = document.createElement("div");
+      list.className = "contribution-list";
+      list.setAttribute("aria-live","polite");
+      contributionsSection.append(contributionsHeading,list);
+      panel.append(title,writerStatus,label,toolbar,input,submit,contributionsSection);
+      return { panel,input,toolbar,submit,list,writerStatus };
+    }
+
+    people.forEach((person,index) => {
+      const card = document.createElement("article");
+      card.className = "dialogue-slide";
+      card.setAttribute("aria-label",`Scheda ${index+1}: ${person.name}`);
+      card.appendChild(addPersonHeader(person,index));
+      const columns = document.createElement("div");
+      columns.className = "answer-columns";
+      const panelA = createAnswerPanel(index,"ans1","🗣️ Box sinistro · Formula le domande","Es.: Chi è? Di dov’è? Quanti anni ha?");
+      const panelB = createAnswerPanel(index,"ans2","💬 Box destro · Scrivi le risposte","Scrivi risposte complete in italiano...");
+      columns.append(panelA.panel,panelB.panel);
+
+      const legacySection = document.createElement("section");
+      legacySection.className = "legacy-section";
+      legacySection.hidden = true;
+      const legacyHeading = document.createElement("h3");
+      legacyHeading.textContent = "Invii precedenti · mini-dialogo completo";
+      const legacyList = document.createElement("div");
+      legacyList.className = "legacy-list";
+      legacySection.append(legacyHeading,legacyList);
+
+      const studentSuggestion = document.createElement("details");
+      studentSuggestion.className = "suggestion";
+      const studentSummary = document.createElement("summary");
+      studentSummary.textContent = "Suggerimenti";
+      const studentHint = document.createElement("p");
+      studentHint.lang = "ru";
+      studentHint.textContent = "Посмотри на имя, страну и возраст. Какие вопросы помогут узнать эти сведения? Как можно построить полный вопрос и полный ответ? Какие слова в ответе изменятся, если речь идёт о двух людях? Проверь, звучит ли диалог естественно.";
+      studentSuggestion.append(studentSummary,studentHint);
+
+      const teacherSuggestion = document.createElement("details");
+      teacherSuggestion.className = "suggestion teacher-suggestion";
+      teacherSuggestion.hidden = !isTeacher;
+      const teacherSummary = document.createElement("summary");
+      teacherSummary.textContent = "Spunti per l’insegnante · think aloud e LAD";
+      const teacherHint = document.createElement("p");
+      teacherHint.textContent = "Invitate lo studente a osservare le informazioni disponibili e a verbalizzare come le trasforma in domande e risposte: «Quale informazione vuoi scoprire?», «Quali parole ti servono per formulare la domanda?», «Che cosa cambia quando parli di due persone?», «Quale forma verbale senti naturale?». Lasciate che confronti le proprie ipotesi e si autocorregga prima di offrire un modello.";
+      teacherSuggestion.append(teacherSummary,teacherHint);
+
+      const item = {
+        card, statuses:{ ans1:panelA.writerStatus, ans2:panelB.writerStatus },
+        inputs:{ ans1:panelA.input, ans2:panelB.input },
+        toolbars:{ ans1:panelA.toolbar, ans2:panelB.toolbar },
+        submits:{ ans1:panelA.submit, ans2:panelB.submit },
+        lists:{ ans1:panelA.list, ans2:panelB.list }, legacySection, legacyList
+      };
+      card.append(columns,legacySection,studentSuggestion,teacherSuggestion);
+      slidesContainer.appendChild(card);
+      slideCards.push(item);
+
+      const step = document.createElement("button");
+      step.type = "button";
+      step.className = "progress-step";
+      step.textContent = String(index+1);
+      step.title = person.name;
+      step.setAttribute("aria-label",`Vai alla scheda ${index+1}: ${person.name}`);
+      step.addEventListener("click",() => showSlide(index));
+      progressNav.appendChild(step);
+
+    });
+
+    function saveAssignment(field,value) {
+      if (!isTeacher || !answersRef) return;
+      answersRef.child("assignments").child(people[activeSlide].id).child(field).set(parseIdentity(value))
+        .catch(() => setStatus("Impossibile salvare il turno assegnato.",true));
+    }
+    questionWriterSelect.addEventListener("change",() => saveAssignment("ans1",questionWriterSelect.value));
+    answerWriterSelect.addEventListener("change",() => saveAssignment("ans2",answerWriterSelect.value));
+    previousButton.addEventListener("click",() => showSlide(activeSlide-1));
+    nextButton.addEventListener("click",() => showSlide(activeSlide+1));
+    document.addEventListener("keydown",event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,select,button,a,[tabindex]")) return;
+      if (event.key === "ArrowLeft") showSlide(activeSlide-1);
+      if (event.key === "ArrowRight") showSlide(activeSlide+1);
+    });
+
+    function registerPresence() {
+      if (!identity || isTeacher || !answersRef) return;
+      const presenceRef = answersRef.child("presence").child(safe(userName)).child(presenceId);
+      database.ref(".info/connected").on("value",snapshot => {
+        if (snapshot.val() !== true) return;
+        presenceRef.onDisconnect().remove().then(() => presenceRef.set({ name:userName, role:"student", connectedAt:Date.now() })).catch(() => {});
+      });
+    }
+    function loadRoster() {
+      database.ref(`configurazioneScuola/gruppi/${safeGroup}`).on("value",snapshot => {
+        const data = snapshot.val() || {};
+        const active = Object.values(data.studenti || {}).filter(student => student?.nome);
+        const inactive = Object.values(data.studentiInattivi || {}).filter(student => student?.nome && Number(student.unitNumber ?? data.unitNumber ?? 0) >= 2);
+        roster = [...new Map([...active,...inactive].map(student => [student.nome,student])).values()];
+        roster.sort((a,b) => a.nome.localeCompare(b.nome,"it"));
+        updateUI();
+      });
+    }
+
+    if (window.firebase) {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        if (group) {
+          database = firebase.database();
+          answersRef = database.ref(`esercizi/unita2-mini-dialoghi-d`);
+          registerPresence();
+          loadRoster();
+          answersRef.on("value",snapshot => {
+            const data = snapshot.val() || {};
+            assignments = data.assignments || {};
+            sharedAnswers = data.sharedAnswers || {};
+            contributions = data.contributions || {};
+            presenceData = data.presence || {};
+            legacyTokenDialogues = data.tokenData?.dialogues || {};
+            legacyStudentDialogues = data.allStudentsData?.students || {};
+            updateUI();
+          },error => {
+            console.error("Errore lettura Firebase:",error);
+            setStatus("Impossibile leggere i dati condivisi del gruppo.",true);
+          });
+          if (!userName) setStatus("La sessione non contiene un nome: non puoi ricevere un turno di scrittura.",true);
+        } else setStatus("Gruppo non trovato: accedi dalla pagina iniziale per usare l’attività condivisa.",true);
+      } catch (error) {
+        console.error("Errore Firebase:",error);
+        setStatus("Servizio dati condivisi non disponibile.",true);
+      }
+    } else setStatus("Servizio dati condivisi non disponibile.",true);
+
+    updateUI();
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY*.12,180);
+        document.body.style.setProperty("--background-offset",`${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll",updateBackgroundParallax,{ passive:true });
+    updateBackgroundParallax();
+  </script>
+</body>
+</html>

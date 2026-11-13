@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compito dell’Unità 10: shopping, verbo piacere, molto e poco e verbi in -isc-. ">
+  <title>Unità 10 — Facciamo shopping, grammatica e verbi</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --green:#2f5739; --green-light:#edf4ed; --accent:#bd694d; --muted:#6b7069; --line:#d8e5d8; --paper:#fffefa; --text:#292d28; }
+    * { box-sizing:border-box; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:30px 16px 56px; color:var(--text); background:linear-gradient(rgba(250,248,241,.82),rgba(250,248,241,.9)),url("../../u_010/img/sfondo.jpg") center/cover fixed,#e9e3d6; }
+    main { width:min(100%,900px); margin:auto; }
+    header,.panel,.question { margin-bottom:18px; padding:clamp(18px,4vw,30px); border:1px solid var(--line); border-radius:20px; background:var(--paper); box-shadow:0 10px 30px rgba(43,69,46,.07); }
+    header { text-align:center; border-top:4px solid var(--green); }
+    header a { display:inline-flex; align-items:center; min-height:40px; margin-bottom:16px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--green); font-weight:700; text-decoration:none; }
+    .eyebrow { display:block; margin-bottom:8px; color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    h1,h2 { color:var(--green); } h1 { margin:0; font-size:clamp(1.8rem,5vw,2.5rem); line-height:1.15; } header p { max-width:760px; margin:12px auto 0; color:var(--muted); line-height:1.6; }
+    #student-task-note { font-size:.9rem; }
+    #page-message { padding:12px 15px; border-radius:12px; background:var(--green-light); color:var(--green); font-weight:700; line-height:1.5; }
+    #page-message:empty,[hidden] { display:none!important; }
+    .progress-label { display:flex; justify-content:space-between; gap:12px; margin-bottom:12px; color:var(--green); font-weight:800; }
+    .progress-track { height:8px; margin-bottom:14px; overflow:hidden; border-radius:99px; background:var(--green-light); }
+    .progress-track span { display:block; width:0; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--green),#a8c49f); transition:width .2s ease; }
+    .progress-list { display:flex; flex-wrap:wrap; gap:8px; }
+    button { min-height:42px; padding:9px 15px; border:0; border-radius:10px; background:var(--green); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    button:hover:not(:disabled) { background:#1e3d27; } button:disabled { cursor:not-allowed; opacity:.5; }
+    .progress-step,.secondary { border:1px solid var(--line); background:#fff; color:var(--green); }
+    .progress-step { width:40px; min-height:40px; padding:6px; border-radius:50%; }
+    .progress-step.current { border-color:var(--green); background:var(--green); color:#fff; }
+    .progress-step.completed { border-color:#278253; background:#e1f1e5; color:#17623c; }
+    .section-heading { margin:0 0 8px; color:var(--green); font-size:1.35rem; }
+    .section-instructions { margin:0 0 20px; line-height:1.6; }
+    .instruction-ru { margin:0 0 20px; padding:13px 16px; border-left:4px solid var(--accent); border-radius:10px; background:#fff8f2; line-height:1.6; white-space:pre-wrap; }
+    .question { padding:18px; box-shadow:none; }
+    .question h3 { margin:0 0 10px; color:var(--green); font-size:1.04rem; }
+    .question-prompt { margin:0 0 12px; line-height:1.65; white-space:pre-wrap; }
+    .question-prompt ol { margin:8px 0; padding-left:28px; }
+    .question textarea,.question input[type="text"],.question select { width:100%; min-height:44px; padding:10px 12px; border:1.5px solid #d4e1d5; border-radius:10px; background:#fff; color:var(--text); font:inherit; }
+    .question textarea { min-height:80px; resize:vertical; }
+    .answer-input-wrap { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .answer-input-wrap input { flex:1 1 220px; }
+    .question label.answer-label { display:block; margin:0 0 6px; color:var(--green); font-size:.9rem; font-weight:700; }
+    .question select.inline-answer { display:inline-block; width:auto; min-width:140px; min-height:38px; margin:0 3px; padding:5px 9px; vertical-align:middle; }
+    .question .answer-row-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:8px; }
+    .answer-state { color:var(--muted); font-size:.84rem; }
+    .teacher-feedback { margin-top:10px; padding:10px 12px; border-left:3px solid var(--accent); border-radius:8px; background:#fff8f2; line-height:1.5; white-space:pre-wrap; }
+    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0; }
+    .slide-progress { color:var(--green); font-weight:800; text-align:center; }
+    .task-submit-panel { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:18px 22px; border:2px solid var(--green); border-radius:16px; background:linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit-panel p { margin:0; line-height:1.5; }
+    @media(max-width:600px) { body{padding:18px 10px 36px;} header,.panel{padding:19px;} .slide-navigation{flex-wrap:wrap;justify-content:center;} .slide-navigation button{flex:1 1 140px;} .slide-progress{order:-1;width:100%;} .task-submit-panel button{width:100%;} }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;} }
+  </style>
+</head>
+<body>
+  <main>
+    <header id="task-header" hidden>
+      <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <span class="eyebrow">Italiano · Unità 10 · Compito 3</span>
+      <h1 id="task-title">Facciamo shopping, grammatica e verbi</h1>
+      <p id="task-instructions"></p>
+      <p id="student-task-note">Le risposte vengono salvate automaticamente. Puoi consegnare il compito anche se incompleto. / Ответы сохраняются автоматически. Можно отправить работу, даже если она выполнена не полностью.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite" hidden></p>
+    <section id="task-workspace" hidden>
+      <nav class="panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="section-progress" class="progress-list"></div>
+      </nav>
+      <article id="section-content" class="panel"></article>
+      <nav class="slide-navigation" aria-label="Navigazione esercizi">
+        <button id="previous-section" class="secondary" type="button">← Precedente</button>
+        <span id="section-position" class="slide-progress" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Successivo →</button>
+      </nav>
+      <section id="task-submit-panel" class="task-submit-panel" aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span>Ты можешь отправить работу преподавателю, даже если ответил не на все вопросы.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante / Отправить работу</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
+  <script id="homework-task-data" type="application/json">
+  {
+    "title": "Facciamo shopping, grammatica e verbi",
+    "instructions": "Дорогие студенты!\nВыполните эти интерактивные упражнения для закрепления материала урока «La borsa rossa 2».\nВас ждут 4 практических задания:\nДиалоги в магазине: восстановите правильный порядок реплик.\nГлагол piacere: выберите правильную форму (piace или piacciono).\nСлова molto и poco: вставьте подходящее по смыслу и форме слово.\nСпряжение глаголов: просклоняйте глаголы в настоящем времени (обратите внимание на глаголы на -isc- и особые формы).\nУдачи в выполнении!",
+    "sections": [
+      {
+        "id":"ex1",
+        "title":"Esercizio 1: Riordino dei dialoghi",
+        "instructions":"Metti nell'ordine corretto le battute dei tre dialoghi ambientati in contesto commerciale.",
+        "instructionRu":"Упорядочьте реплики каждого диалога. Запишите номера реплик в правильной последовательности.",
+        "questions":[
+          {"id":"dialogA","type":"text","prompt":"Dialogo A: Chiedere il prezzo e contrattare\nFrasi da riordinare (Scrambled):\n1. Posso fare 90 euro, ma è davvero l'ultimo prezzo per un capo in pura pelle!\n2. Buongiorno! Quanto costa questo giubbotto di pelle nera?\n3. Va bene, è un ottimo affare. Lo prendo!\n4. Costa 110 euro, signora. È un modello artigianale di grande qualità.\n5. Mi sembra un po' caro... È possibile avere uno piccolo sconto?","modelAnswer":"2 → 4 → 5 → 1 → 3","expected":"2-4-5-1-3"},
+          {"id":"dialogB","type":"text","prompt":"Dialogo B: Acquistare capi di abbigliamento e valutare la vestibilità\nFrasi da riordinare (Scrambled):\n1. Perfetto! Mi sta benissimo ed è molto comodo. Lo compro!\n2. Cerco un cappotto invernale eleganti. Avete qualcosa in saldo?\n3. Provi questa taglia superiore allora: è più morbido e la lunghezza è ideale.\n4. Guardi questo modello blu: preferisce lungo o corto?\n5. Preferisco il modello lungo, ma questo mi sembra un po' troppo stretto sulle spalle.","modelAnswer":"2 → 4 → 5 → 3 → 1","expected":"2-4-5-3-1"},
+          {"id":"dialogC","type":"text","prompt":"Dialogo C: Vestiti, accessori, borse, pellicce e calcolo del totale\nFrasi da riordinare (Scrambled):\n1. In tutto viene 340 euro, signora.\n2. Certamente! La borsa costa 90 euro e la giacca con collo in pelliccia viene 250 euro.\n3. Vorrei vedere quella borsa rossa in vetrina e la giacca con la pelliccia.\n4. Pagherò con la carta di credito. Grazie mille!\n5. Se le prendo entrambe, quanto spenderei in totale?","modelAnswer":"3 → 2 → 5 → 1 → 4","expected":"3-2-5-1-4"}
+        ]
+      },
+      {
+        "id":"ex2",
+        "title":"Esercizio 2: Uso del verbo piacere (piace / piacciono)",
+        "instructions":"Scegli la forma corretta tra piace e piacciono.",
+        "instructionRu":"Выберите правильную форму: piace или piacciono.",
+        "questions":[
+          {"id":"p1","type":"choice","prompt":"Ti [ piace / piacciono ] la cucina italiana tradizionale?","options":["piace","piacciono"],"expected":"piace","modelAnswer":"piace (la cucina)"},
+          {"id":"p2","type":"choice","prompt":"A Marco non [ piace / piacciono ] gli spaghetti al pesto.","options":["piace","piacciono"],"expected":"piacciono","modelAnswer":"piacciono (gli spaghetti)"},
+          {"id":"p3","type":"choice","prompt":"Vi [ piace / piacciono ] questi biscotti al cioccolato?","options":["piace","piacciono"],"expected":"piacciono","modelAnswer":"piacciono (questi biscotti)"},
+          {"id":"p4","type":"choice","prompt":"Alla docente non [ piace / piacciono ] questo modello di cappotto troppo lungo.","options":["piace","piacciono"],"expected":"piace","modelAnswer":"piace (questo modello)"},
+          {"id":"p5","type":"choice","prompt":"Ci [ piace / piacciono ] molto viaggiare e visitare i mercatini locali.","options":["piace","piacciono"],"expected":"piace","modelAnswer":"piace (viaggiare — verbo all'infinito)"},
+          {"id":"p6","type":"choice","prompt":"A Maria e Luca [ piace / piacciono ] le borse in pelle artigianale.","options":["piace","piacciono"],"expected":"piacciono","modelAnswer":"piacciono (le borse)"},
+          {"id":"p7","type":"choice","prompt":"Ti [ piace / piacciono ] le fragole con la panna come dessert?","options":["piace","piacciono"],"expected":"piacciono","modelAnswer":"piacciono (le fragole)"},
+          {"id":"p8","type":"choice","prompt":"Ai bambini non [ piace / piacciono ] il caffè amaro.","options":["piace","piacciono"],"expected":"piace","modelAnswer":"piace (il caffè)"},
+          {"id":"p9","type":"choice","prompt":"Le [ piace / piacciono ] questa pelliccia ecologica, signora?","options":["piace","piacciono"],"expected":"piace","modelAnswer":"piace (questa pelliccia)"},
+          {"id":"p10","type":"choice","prompt":"Vi [ piace / piacciono ] i piatti a base di frutti di mare?","options":["piace","piacciono"],"expected":"piacciono","modelAnswer":"piacciono (i piatti)"}
+        ]
+      },
+      {
+        "id":"ex3",
+        "title":"Esercizio 3: Aggettivi e avverbi di quantità (molto / poco)",
+        "instructions":"Inserisci la forma adeguata di molto o poco (ricorda: se riferiti a un verbo o aggettivo restano invariabili; se riferiti a un sostantivo concordano in genere e numero: molto/a/i/e, poco/a/chi/che).",
+        "instructionRu":"Вставьте подходящую форму molto или poco. Если слово относится к глаголу или прилагательному, оно не изменяется; если к существительному — согласуется с ним в роде и числе.",
+        "questions":[
+          {"id":"m1","type":"multiChoice","prompt":"Giorgio lavora {1} ogni giorno, perciò la sera ha {2} energie per uscire.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molto","poche"],"modelAnswer":"molto / poche"},
+          {"id":"m2","type":"multiChoice","prompt":"In questo negozio ci sono {1} cappotti eleganti, ma costano {2}.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molti","molto"],"modelAnswer":"molti / molto"},
+          {"id":"m3","type":"multiChoice","prompt":"Laura ha {1} pazienza quando fa shopping, quindi compra {2} vestiti online.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["poca","molti"],"modelAnswer":"poca / molti"},
+          {"id":"m4","type":"multiChoice","prompt":"Oggi fa {1} freddo in città e ci sono {2} clienti per strada.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molto","pochi"],"modelAnswer":"molto / pochi"},
+          {"id":"m5","type":"multiChoice","prompt":"Anna mangia {1} carne, ma beve {2} acqua durante il giorno.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["poca","molta"],"modelAnswer":"poca / molta"},
+          {"id":"m6","type":"multiChoice","prompt":"Noi abbiamo {1} tempo libero a disposizione, quindi riposiamo {2}.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["poco","poco"],"modelAnswer":"poco / poco"},
+          {"id":"m7","type":"multiChoice","prompt":"Quelle borse di pelle sono {1} raffinate, però purtroppo ci sono {2} opzioni di colore.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molto","poche"],"modelAnswer":"molto / poche"},
+          {"id":"m8","type":"multiChoice","prompt":"Gli studenti capiscono {1} bene la spiegazione perché la professoressa è {2} chiara.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molto","molto"],"modelAnswer":"molto / molto"},
+          {"id":"m9","type":"multiChoice","prompt":"Voi leggete {1} libri in lingua italiana durante il corso?","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["molti"],"modelAnswer":"molti"},
+          {"id":"m10","type":"multiChoice","prompt":"Stasera c'è {1} gente nel centro commerciale, quindi c'è {2} traffico.","options":["molto","molta","molti","molte","poco","poca","pochi","poche"],"expected":["poca","poco"],"modelAnswer":"poca / poco"}
+        ]
+      },
+      {
+        "id":"ex4",
+        "title":"Esercizio 4: Coniugazione verbale al presente (Variazioni fonetiche ed esito in -isc-)",
+        "instructions":"Coniuga i verbi tra parentesi al presente indicativo. Fai attenzione ai verbi con variazioni grafiche/fonetiche (leggere, conoscere) e ai verbi della 3ª coniugazione con l'infisso -isc- (capire, finire, preferire, pulire, spedire), ricordando l'eccezione delle persone noi e voi (senza -isc-).",
+        "instructionRu":"Поставьте глаголы в скобках в presente indicativo. Обратите внимание на изменения написания и произношения и на формы с -isc-; у noi и voi инфикса -isc- нет.",
+        "questions":[
+          {"id":"v1","type":"text","prompt":"Io ____________ (leggere) una rivista di moda, mentre mio fratello ____________ (leggere) un romanzo.","expected":"leggo / legge","modelAnswer":"leggo / legge"},
+          {"id":"v2","type":"text","prompt":"Voi ____________ (conoscere) la commessa di questo negozio di calzature?","expected":"conoscete","modelAnswer":"conoscete"},
+          {"id":"v3","type":"text","prompt":"Gli studenti non ____________ (capire) questa parola difficile, ma la docente la spiega di nuovo.","expected":"capiscono","modelAnswer":"capiscono"},
+          {"id":"v4","type":"text","prompt":"Noi ____________ (capire) sempre tutto quando l'insegnante parla lentamente.","expected":"capiamo","modelAnswer":"capiamo (eccezione noi — senza -isc-)"},
+          {"id":"v5","type":"text","prompt":"Tu a che ora ____________ (finire) di lavorare stasera?","expected":"finisci","modelAnswer":"finisci"},
+          {"id":"v6","type":"text","prompt":"Voi a che ora ____________ (finire) di riordinare i vestiti nell'armadio?","expected":"finite","modelAnswer":"finite (eccezione voi — senza -isc-)"},
+          {"id":"v7","type":"text","prompt":"Elena ____________ (conoscere) molti negozi economici nel centro di Milano.","expected":"conosce","modelAnswer":"conosce"},
+          {"id":"v8","type":"text","prompt":"Io e Marco ____________ (leggere) insieme i prezzi sul catalogo online.","expected":"leggiamo","modelAnswer":"leggiamo"},
+          {"id":"v9","type":"text","prompt":"Io ____________ (conoscere) bene questa città perché ci abito da anni.","expected":"conosco","modelAnswer":"conosco"},
+          {"id":"v10","type":"text","prompt":"Loro ____________ (preferire) acquistare accessori in pelle o capi in maglia?","expected":"preferiscono","modelAnswer":"preferiscono"},
+          {"id":"v11","type":"text","prompt":"Noi ____________ (preferire) indossare un cappotto corto anziché una pelliccia pesante.","expected":"preferiamo","modelAnswer":"preferiamo (eccezione noi — senza -isc-)"},
+          {"id":"v12","type":"text","prompt":"La commessa ____________ (pulire) la vetrina del negozio ogni mattina prima dell'apertura.","expected":"pulisce","modelAnswer":"pulisce"},
+          {"id":"v13","type":"text","prompt":"Voi ____________ (pulire) il vostro guardaroba ad ogni cambio di stagione?","expected":"pulite","modelAnswer":"pulite (eccezione voi — senza -isc-)"},
+          {"id":"v14","type":"text","prompt":"Tu ____________ (conoscere) il prezzo di quella borsa rossa in vetrina?","expected":"conosci","modelAnswer":"conosci"},
+          {"id":"v15","type":"text","prompt":"I clienti ____________ (leggere) attentamente le etichette dei tessuti prima di comprare.","expected":"leggono","modelAnswer":"leggono"}
+        ]
+      }
+    ]
+  }
+  </script>
+  <script>
+    const taskData = JSON.parse(document.getElementById("homework-task-data").textContent);
+    const params = new URLSearchParams(location.search);
+    const assignmentId = params.get("assignment");
+    const teacherReview = params.get("teacherReview") === "1" || (params.has("group") && params.has("student"));
+    const firebaseConfig = { databaseURL:"https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app", projectId:"esercizi-parlo-italiano" };
+    const header = document.getElementById("task-header");
+    const pageMessage = document.getElementById("page-message");
+    const workspace = document.getElementById("task-workspace");
+    const sectionContent = document.getElementById("section-content");
+    const progressList = document.getElementById("section-progress");
+    const previousButton = document.getElementById("previous-section");
+    const nextButton = document.getElementById("next-section");
+    const submitButton = document.getElementById("submit-task");
+    let session = null;
+    let submissionRef = null;
+    let answers = {};
+    let teacherReviews = {};
+    let sectionIndex = 0;
+    let editable = false;
+    let saveQueue = Promise.resolve();
+    const saveTimers = new Map();
+
+    document.title = taskData.title;
+    document.getElementById("task-title").textContent = taskData.title;
+    document.getElementById("task-instructions").textContent = taskData.instructions;
+
+    function showMessage(message, isError = false) {
+      pageMessage.textContent = message;
+      pageMessage.style.background = isError ? "#fde8e7" : "var(--green-light)";
+      pageMessage.style.color = isError ? "#a51d1d" : "var(--green)";
+      pageMessage.hidden = false;
+    }
+    function revealStudentPage() { header.hidden = false; workspace.hidden = false; pageMessage.hidden = false; }
+    function isAnswered(question) {
+      const answer = answers[question.id]?.answer;
+      return Array.isArray(answer) ? answer.some(value => String(value || "").trim()) : String(answer || "").trim() !== "";
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      taskData.sections.forEach((section,index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}${section.questions.every(isAnswered) ? " completed" : ""}`;
+        button.textContent = String(index + 1);
+        button.setAttribute("aria-label",`Vai a ${section.title}`);
+        button.setAttribute("aria-current",index === sectionIndex ? "step" : "false");
+        button.addEventListener("click",() => { sectionIndex=index; renderSection(); });
+        progressList.appendChild(button);
+      });
+      const answeredCount = taskData.sections.flatMap(section => section.questions).filter(isAnswered).length;
+      const total = taskData.sections.reduce((count,section) => count + section.questions.length,0);
+      document.getElementById("progress-count").textContent = `${answeredCount} / ${total} risposte`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / taskData.sections.length) * 100}%`;
+      document.getElementById("section-position").textContent = `Esercizio ${sectionIndex + 1} di ${taskData.sections.length}`;
+      previousButton.disabled = sectionIndex === 0;
+      nextButton.disabled = sectionIndex === taskData.sections.length - 1;
+      submitButton.disabled = !editable;
+    }
+    function saveAnswer(sectionId, question, value) {
+      if (!editable || !submissionRef) return;
+      const key = `${sectionId}::${question.id}`;
+      const pending = saveTimers.get(key);
+      if (pending) clearTimeout(pending.timer);
+      saveTimers.delete(key);
+      answers[question.id] = { ...(answers[question.id] || {}), answer:value };
+      renderProgress();
+      saveQueue = saveQueue.then(async () => {
+        await submissionRef.child(`answers/${sectionId}/${question.id}`).update({ answer:value });
+        await submissionRef.update({ studentName:session.name, status:"in-progress", updatedAt:Date.now() });
+      }).then(() => showMessage("Risposta salvata automaticamente. ✓"))
+        .catch(() => showMessage("Errore di salvataggio. Controlla la connessione.",true));
+    }
+    function makeSelect(question, current, onChange, className="") {
+      const select = document.createElement("select");
+      select.className = className;
+      select.disabled = !editable;
+      const placeholder = new Option("— scegli —","");
+      select.add(placeholder);
+      question.options.forEach(option => select.add(new Option(option,option)));
+      select.value = current || "";
+      select.addEventListener("change",() => onChange(select.value));
+      return select;
+    }
+    function appendTeacherFeedback(card, review) {
+      if (!review || (!review.grade && !review.comment)) return;
+      const feedback = document.createElement("div");
+      feedback.className = "teacher-feedback";
+      const grade = review.grade === "approved" ? "✓ Approvata" : review.grade === "rejected" ? "✕ Da rivedere" : "";
+      feedback.textContent = [grade, review.comment ? `Commento: ${review.comment}` : ""].filter(Boolean).join(" · ");
+      card.appendChild(feedback);
+    }
+    function renderQuestion(question, section) {
+      const card = document.createElement("article");
+      card.className = "question";
+      const prompt = document.createElement("p");
+      prompt.className = "question-prompt";
+      const saved = answers[question.id]?.answer;
+      if (question.type === "choice") {
+        const marker = "[ piace / piacciono ]";
+        const parts = question.prompt.split(marker);
+        prompt.append(document.createTextNode(parts[0]));
+        const selectQuestion = { options:question.options };
+        prompt.appendChild(makeSelect(selectQuestion,saved,value => saveAnswer(section.id,question,value),"inline-answer"));
+        prompt.append(document.createTextNode(parts.slice(1).join(marker)));
+      } else if (question.type === "multiChoice") {
+        const values = Array.isArray(saved) ? saved : [];
+        let remaining = question.prompt;
+        question.expected.forEach((_,index) => {
+          const marker = `{${index + 1}}`;
+          const parts = remaining.split(marker);
+          prompt.append(document.createTextNode(parts[0]));
+          prompt.appendChild(makeSelect(question,values[index],value => {
+            const next = question.expected.map((__,position) => position === index ? value : (Array.isArray(answers[question.id]?.answer) ? answers[question.id].answer[position] || "" : ""));
+            saveAnswer(section.id,question,next);
+          },"inline-answer"));
+          remaining = parts.slice(1).join(marker);
+        });
+        prompt.append(document.createTextNode(remaining));
+      } else {
+        prompt.textContent = question.prompt;
+      }
+      card.appendChild(prompt);
+      if (question.type === "multiChoice") {
+        question.expected.forEach((_,index) => appendTeacherFeedback(card,teacherReviews[section.id]?.[`${question.id}_blank_${index + 1}`]));
+      } else {
+        appendTeacherFeedback(card,teacherReviews[section.id]?.[question.id]);
+      }
+      if (question.type === "text") {
+        const label = document.createElement("label");
+        label.className = "answer-label";
+        label.textContent = "La tua risposta / Ваш ответ";
+        const input = document.createElement("textarea");
+        input.maxLength = 2000;
+        input.disabled = !editable;
+        input.value = saved || "";
+        input.setAttribute("aria-label",`Risposta: ${question.id}`);
+        const saveKey = `${section.id}::${question.id}`;
+        input.addEventListener("input",() => {
+          const prior = saveTimers.get(saveKey);
+          if (prior) clearTimeout(prior.timer);
+          const timer = setTimeout(() => saveAnswer(section.id,question,input.value.trim()),350);
+          saveTimers.set(saveKey,{ timer, save:() => saveAnswer(section.id,question,input.value.trim()) });
+        });
+        input.addEventListener("change",() => saveAnswer(section.id,question,input.value.trim()));
+        input.addEventListener("blur",() => { if (editable && input.value !== (answers[question.id]?.answer || "")) saveAnswer(section.id,question,input.value.trim()); });
+        card.append(label,input);
+      }
+      const status = document.createElement("div");
+      status.className = "answer-row-controls";
+      const state = document.createElement("span");
+      state.className = "answer-state";
+      state.textContent = isAnswered(question) ? "Risposta salvata" : "Risposta non ancora salvata";
+      status.appendChild(state);
+      card.appendChild(status);
+      return card;
+    }
+    function renderSection() {
+      const section = taskData.sections[sectionIndex];
+      sectionContent.replaceChildren();
+      const title = document.createElement("h2");
+      title.className = "section-heading";
+      title.textContent = section.title;
+      const instructions = document.createElement("p");
+      instructions.className = "section-instructions";
+      instructions.textContent = section.instructions;
+      const ru = document.createElement("p");
+      ru.className = "instruction-ru";
+      ru.textContent = section.instructionRu;
+      sectionContent.append(title,instructions,ru);
+      section.questions.forEach(question => sectionContent.appendChild(renderQuestion(question,section)));
+      renderProgress();
+    }
+    function buildReviewRows(submission) {
+      const saved = submission.answers || {};
+      return taskData.sections.map(section => ({
+        id:section.id,
+        title:section.title,
+        rows:section.questions.flatMap(question => {
+          const response = saved[section.id]?.[question.id]?.answer;
+          if (question.type === "multiChoice") {
+            const values = Array.isArray(response) ? response : [];
+            return question.expected.map((expected,index) => ({
+              id:`${question.id}_blank_${index + 1}`,
+              prompt:`${question.prompt.replace(/\{\d+\}/g,"…")} · Spazio ${index + 1}`,
+              answer:values[index] || "Nessuna risposta inserita",
+              expected:question.modelAnswer.split(" / ")[index] || expected
+            }));
+          }
+          const answer = response == null || response === "" ? "Nessuna risposta inserita" : response;
+          return [{ id:question.id, prompt:question.prompt, answer, expected:question.modelAnswer || question.expected }];
+        })
+      }));
+    }
+    async function initializeStudent() {
+      if (!assignmentId) throw new Error("Apri il compito dal tuo elenco per poterlo svolgere.");
+      let storedSession = null;
+      try { storedSession = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+      if (!storedSession || storedSession.isTeacher || !storedSession.group || !storedSession.name) throw new Error("Accedi come studente dalla pagina principale per svolgere questo compito.");
+      session = storedSession;
+      if (!window.firebase) throw new Error("Firebase non disponibile.");
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      const assignmentRef = database.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+      const [assignmentSnapshot,groupSnapshot] = await Promise.all([
+        assignmentRef.once("value"),
+        database.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+      ]);
+      const assignment = assignmentSnapshot.val();
+      const group = groupSnapshot.val();
+      if (!assignment || !group || !assignment.taskPath || new URL(assignment.taskPath,location.origin).pathname !== location.pathname) throw new Error("Compito non disponibile per questo gruppo.");
+      const active = (group.studenti || []).some(student => student.nome === session.name);
+      const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+      const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+      if ((!active && !inactive) || Number(assignment.unitNumber) > limit) throw new Error("Non sei abilitato a svolgere questo compito.");
+      const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+      submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+      const snapshot = await submissionRef.once("value");
+      const submission = snapshot.val() || {};
+      answers = submission.answers || {};
+      teacherReviews = submission.teacherReview?.answers || {};
+      editable = !["pending","reviewed"].includes(submission.status);
+      revealStudentPage();
+      if (submission.status === "reviewed") showMessage("Questo compito è già stato revisionato. Le risposte sono mostrate qui sotto.");
+      else if (submission.status === "pending") showMessage("Compito inviato ed è in attesa di correzione. Le risposte non possono essere modificate.");
+      else showMessage("Le risposte vengono salvate automaticamente; puoi riprendere il compito in seguito.");
+      if (!editable) submitButton.hidden = true;
+      renderSection();
+    }
+    document.getElementById("previous-section").addEventListener("click",() => { if (sectionIndex > 0) { sectionIndex--; renderSection(); window.scrollTo(0,0); } });
+    document.getElementById("next-section").addEventListener("click",() => { if (sectionIndex < taskData.sections.length - 1) { sectionIndex++; renderSection(); window.scrollTo(0,0); } });
+    submitButton.addEventListener("click",async () => {
+      if (!editable || !submissionRef) return;
+      submitButton.disabled = true;
+      try {
+        saveTimers.forEach(({timer,save}) => { clearTimeout(timer); save(); });
+        saveTimers.clear();
+        await saveQueue;
+        await submissionRef.update({ studentName:session.name, status:"pending", submittedAt:Date.now() });
+        editable = false;
+        submitButton.hidden = true;
+        showMessage("Compito inviato all’insegnante e in attesa di correzione. / Работа отправлена преподавателю и ожидает проверки.");
+        renderSection();
+      } catch (_) {
+        showMessage("Impossibile inviare il compito. Controlla la connessione e riprova.",true);
+        submitButton.disabled = false;
+      }
+    });
+
+    (async () => {
+      try {
+        const opened = await window.openHomeworkTeacherReview({ taskData, buildRows:buildReviewRows });
+        if (opened || teacherReview) return;
+      } catch (error) {
+        showMessage(error.message || "Impossibile caricare la consegna da correggere.",true);
+        return;
+      }
+      try { await initializeStudent(); }
+      catch (error) { header.hidden = false; showMessage(error.message || "Impossibile caricare il compito.",true); }
+    })();
+  </script>
+</body>
+</html>

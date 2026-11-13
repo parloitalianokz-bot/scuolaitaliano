@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 2 — Essere o avere · Esercizio E</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --border: #d8e5d8;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 28px 14px;
+      color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
+    }
+    main { width: min(100%, 900px); margin: 0 auto; }
+    .top-menu { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .top-menu select {
+      flex: 1 1 230px; min-height: 42px; max-width: 100%; padding: 8px 14px;
+      border: 1px solid var(--border); border-radius: 10px; background: var(--paper);
+      color: var(--green); font: inherit; font-weight: 700;
+    }
+    .hero, .activity, .game-section {
+      border: 1px solid var(--border); border-radius: 22px;
+      background: rgba(255,254,250,.97); box-shadow: 0 14px 36px rgba(43,69,46,.09);
+    }
+    .hero { margin: 8px 0 18px; padding: 26px 18px; text-align: center; }
+    .eyebrow {
+      display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px;
+      background: var(--green-light); color: var(--green); font-size: .78rem;
+      font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    }
+    h1 { margin: 4px 0; color: var(--green); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--muted); line-height: 1.5; }
+    #user-badge { color: var(--accent); font-size: .88rem; font-weight: 700; }
+    .instruction-box {
+      margin-bottom: 16px; padding: 16px 18px; border: 1px solid var(--border);
+      border-left: 5px solid var(--accent); border-radius: 14px; background: #fff; line-height: 1.65;
+    }
+    .instruction-box strong { color: var(--green); }
+    .instruction-box ol { margin: 10px 0 0; padding-left: 24px; }
+    .example {
+      display: block; margin-top: 12px; padding: 12px 14px; border-radius: 10px;
+      background: var(--green-light); color: var(--green); font-weight: 700;
+    }
+    .game-section { margin-bottom: 24px; padding: 18px; text-align: center; }
+    .game-section h2 { margin: 0 0 8px; color: var(--green); font-size: 1.3rem; }
+    .game-section p { margin: 0 0 14px; color: var(--muted); }
+    iframe { max-width: 100%; border: 0; border-radius: 12px; }
+    @media (max-width: 620px) {
+      body { padding: 16px 8px; }
+      .hero { padding: 22px 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-menu" aria-label="Navigazione Unità 2">
+      <select id="exercise-menu" aria-label="Vai a un esercizio">
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option>
+        <option value="002_es_c.html">Esercizio C</option><option value="002_es_d.html">Esercizio D</option>
+        <option value="002_es_e.html" selected>Esercizio E</option><option value="002_es_f.html">Esercizio F</option>
+        <option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option>
+        <option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option>
+        <option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option>
+        <option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
+        <option value="002_numeri.html">I numeri cardinali</option>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 2 · Comunicazione orale</span>
+      <h1>Essere o non essere (avere)</h1>
+      <p class="hero-subtitle">Работа в парах: задавайте вопросы и отвечайте, используя <em>essere</em> или <em>avere</em>.</p>
+      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
+    </header>
+
+    <section class="instruction-box" aria-label="Istruzioni">
+      💬 <strong>Работайте в парах. Упражнение только устное: ничего записывать не нужно.</strong>
+      <ol>
+        <li>Студент A выбирает слово на карточке и задаёт вопрос партнёру.</li>
+        <li>Студент B отвечает, затем задаёт такой же вопрос студенту A.</li>
+        <li>Студент A отвечает. Потом выберите следующую карточку.</li>
+      </ol>
+      <span class="example"><em>Tu sei studente?</em> — <em>Sì, sono studente.</em> / <em>No, non sono studente, sono insegnante.</em><br>
+      <em>E tu, sei studente?</em> — <em>Sì, sono studente.</em><br>
+      <em>Hai fame?</em> — <em>No, non ho fame. Ho sete.</em></span>
+    </section>
+
+    <section class="game-section" aria-label="Gioco Wordwall">
+      <h2>🎮 Alleniamoci con il gioco</h2>
+      <p>Продолжите тренировку с глаголами <em>essere</em> и <em>avere</em>.</p>
+      <iframe src="https://wordwall.net/it/embed/4266d7b567f34be88803a02ad83b463b?themeId=41&amp;templateId=70&amp;fontStackId=0" width="500" height="380" title="Wordwall: essere o avere" loading="lazy" allowfullscreen></iframe>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    let session = {};
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+    const group = params.get("gruppo") || session.group || "";
+    const studentName = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
+    const teacherView = Boolean(session.isTeacher || (group && (!studentName || studentName === "Insegnante")));
+    const badge = document.getElementById("user-badge");
+
+    if (group && teacherView) badge.textContent = `👩‍🏫 Insegnante · ${group}`;
+    else if (group && studentName) badge.textContent = `👤 ${group} · ${studentName}`;
+    else badge.textContent = "Accedi dalla pagina iniziale per associare l’attività al tuo gruppo.";
+
+    function addLoginParams(target) {
+      if (group) target.searchParams.set("gruppo", group);
+      if (studentName && !teacherView) target.searchParams.set("nome", studentName);
+      return target;
+    }
+    document.querySelectorAll("#exercise-menu, #grammar-menu").forEach(menu => {
+      menu.addEventListener("change", event => {
+        if (event.target.value) location.href = addLoginParams(new URL(event.target.value, location.href)).href;
+      });
+    });
+
+  </script>
+</body>
+</html>
