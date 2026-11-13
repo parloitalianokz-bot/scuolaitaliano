@@ -31,6 +31,14 @@
     document.head.appendChild(style);
   }
 
+  function taskPathMatches(taskPath) {
+    try {
+      const expectedPath = new URL(taskPath, location.origin).pathname.replace(/\/+$/, "");
+      const currentPath = location.pathname.replace(/\/+$/, "");
+      return currentPath === expectedPath || currentPath.endsWith(expectedPath);
+    } catch (_) { return false; }
+  }
+
   function formatValue(value) {
     if (value === null || value === undefined || value === "") return "Nessuna risposta registrata.";
     if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" · ");
@@ -64,10 +72,7 @@
     ]);
     const assignment = assignmentSnapshot.val();
     const group = groupSnapshot.val();
-    let expectedPath = "";
-    try { expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname : ""; } catch (_) {}
-
-    if (!group || !assignment || expectedPath !== location.pathname) {
+    if (!group || !assignment || !assignment.taskPath || !taskPathMatches(assignment.taskPath)) {
       throw new Error("Compito non disponibile per questo gruppo o percorso.");
     }
 

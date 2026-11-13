@@ -197,6 +197,13 @@
       pageMessage.hidden = false;
     }
     function revealStudentPage() { header.hidden = false; workspace.hidden = false; pageMessage.hidden = false; }
+    function taskPathMatches(taskPath) {
+      try {
+        const expectedPath = new URL(taskPath, location.origin).pathname.replace(/\/+$/, "");
+        const currentPath = location.pathname.replace(/\/+$/, "");
+        return currentPath === expectedPath || currentPath.endsWith(expectedPath);
+      } catch (_) { return false; }
+    }
     function isAnswered(question) {
       const answer = answers[question.id]?.answer;
       return Array.isArray(answer) ? answer.some(value => String(value || "").trim()) : String(answer || "").trim() !== "";
@@ -373,7 +380,7 @@
       ]);
       const assignment = assignmentSnapshot.val();
       const group = groupSnapshot.val();
-      if (!assignment || !group || !assignment.taskPath || new URL(assignment.taskPath,location.origin).pathname !== location.pathname) throw new Error("Compito non disponibile per questo gruppo.");
+      if (!assignment || !group || !assignment.taskPath || !taskPathMatches(assignment.taskPath)) throw new Error("Compito non disponibile per questo gruppo.");
       const active = (group.studenti || []).some(student => student.nome === session.name);
       const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
       const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
