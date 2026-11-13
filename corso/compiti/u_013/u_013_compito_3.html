@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compito dell’Unità 13: comprensione del testo e verbi servili dovere, potere e volere.">
+  <title>Il grande scrittore e i verbi servili</title>
+  <style>
+    :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --green:#2f5739; --green-light:#edf4ed; --accent:#bd694d; --muted:#6b7069; --line:#d8e5d8; --paper:#fffefa; --text:#292d28; }
+    * { box-sizing:border-box; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    body { min-height:100vh; margin:0; padding:30px 16px 56px; color:var(--text); background:linear-gradient(rgba(250,248,241,.82),rgba(250,248,241,.9)),url("../../u_013/img/sfondo.jpeg") center/cover fixed,#e9e3d6; }
+    main { width:min(100%,900px); margin:auto; }
+    header,.panel { margin-bottom:18px; padding:clamp(18px,4vw,30px); border:1px solid var(--line); border-radius:20px; background:var(--paper); box-shadow:0 10px 30px rgba(43,69,46,.07); }
+    header { text-align:center; border-top:4px solid var(--green); }
+    header a { display:inline-flex; align-items:center; min-height:40px; margin-bottom:16px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--green); font-weight:700; text-decoration:none; }
+    .eyebrow { display:block; margin-bottom:8px; color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    h1,h2,h3 { color:var(--green); } h1 { margin:0; font-size:clamp(1.8rem,5vw,2.5rem); line-height:1.15; }
+    header p { max-width:760px; margin:12px auto 0; color:var(--muted); line-height:1.6; }
+    #student-task-note { font-size:.9rem; }
+    #page-message { padding:12px 15px; border-radius:12px; background:var(--green-light); color:var(--green); font-weight:700; line-height:1.5; }
+    #page-message:empty,[hidden] { display:none!important; }
+    .progress-label { display:flex; justify-content:space-between; gap:12px; margin-bottom:12px; color:var(--green); font-weight:800; }
+    .progress-track { height:8px; margin-bottom:14px; overflow:hidden; border-radius:99px; background:var(--green-light); }
+    .progress-track span { display:block; width:0; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--green),#a8c49f); transition:width .2s ease; }
+    .progress-list { display:flex; flex-wrap:wrap; gap:8px; }
+    button { min-height:42px; padding:9px 15px; border:0; border-radius:10px; background:var(--green); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    button:hover:not(:disabled) { background:#1e3d27; } button:disabled { cursor:not-allowed; opacity:.5; }
+    .progress-step,.secondary { border:1px solid var(--line); background:#fff; color:var(--green); }
+    .progress-step { width:40px; min-height:40px; padding:6px; border-radius:50%; }
+    .progress-step.current { border-color:var(--green); background:var(--green); color:#fff; }
+    .progress-step.completed { border-color:#278253; background:#e1f1e5; color:#17623c; }
+    .section-heading { margin:0 0 8px; font-size:1.35rem; }
+    .section-instructions { margin:0 0 12px; line-height:1.6; }
+    .instruction-ru { margin:0 0 20px; padding:13px 16px; border-left:4px solid var(--accent); border-radius:10px; background:#fff8f2; line-height:1.6; white-space:pre-wrap; }
+    .question { margin:12px 0; padding:16px; border:1px solid #e7e5dc; border-radius:12px; background:#fffefa; }
+    .question-prompt { margin:0 0 12px; line-height:1.65; white-space:pre-wrap; }
+    .question textarea,.question select { display:block; width:100%; min-height:44px; padding:10px 12px; border:1.5px solid #d4e1d5; border-radius:10px; background:#fff; color:var(--text); font:inherit; }
+    .question textarea { min-height:90px; resize:vertical; }
+    .answer-state { display:block; margin-top:8px; color:var(--muted); font-size:.84rem; }
+    .teacher-feedback { margin-top:9px; padding:10px 12px; border-left:3px solid var(--accent); border-radius:8px; background:#fff8f2; line-height:1.5; white-space:pre-wrap; }
+    .matching-instructions { color:var(--muted); font-size:.9rem; }
+    .matching-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; margin-top:12px; }
+    .matching-person,.matching-form { width:100%; min-height:44px; padding:9px 12px; border:1px solid var(--line); border-radius:9px; background:#fff; color:var(--green); text-align:left; }
+    .matching-person[aria-pressed="true"] { border:2px solid var(--accent); background:#fff8f2; }
+    .matching-person.matched { background:var(--green-light); }
+    .matching-form.used { opacity:.55; }
+    .matching-pair { display:grid; grid-template-columns:1fr; gap:8px; align-items:center; margin:8px 0; }
+    .matching-feedback { grid-column:1/-1; }
+    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0; }
+    .slide-progress { color:var(--green); font-weight:800; text-align:center; }
+    .task-submit-panel { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:18px 22px; border:2px solid var(--green); border-radius:16px; background:linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit-panel p { margin:0; line-height:1.5; }
+    @media(max-width:600px) { body{padding:18px 10px 36px;} header,.panel{padding:19px;} .slide-navigation{flex-wrap:wrap;justify-content:center;} .slide-navigation button{flex:1 1 140px;} .slide-progress{order:-1;width:100%;} .task-submit-panel button{width:100%;} .matching-board{gap:7px;} .matching-person,.matching-form{padding:8px;font-size:.88rem;} }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;} }
+  </style>
+</head>
+<body>
+  <main>
+    <header id="task-header" hidden>
+      <a id="back-to-homework" href="../../compiti.html">← Esci e torna ai compiti a casa / Выйти и вернуться к заданиям</a>
+      <span class="eyebrow">Italiano · Unità 13 · Compito 3</span>
+      <h1 id="task-title">Il grande scrittore e i verbi servili</h1>
+      <p id="task-instructions"></p>
+      <p id="student-task-note">Le risposte vengono salvate automaticamente. Puoi consegnare il compito anche se incompleto. / Ответы сохраняются автоматически. Можно отправить работу, даже если она выполнена не полностью.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite" hidden></p>
+    <section id="task-workspace" hidden>
+      <nav class="panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="section-progress" class="progress-list"></div>
+      </nav>
+      <article id="section-content" class="panel"></article>
+      <nav class="slide-navigation" aria-label="Navigazione esercizi">
+        <button id="previous-section" class="secondary" type="button">← Precedente</button>
+        <span id="section-position" class="slide-progress" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Successivo →</button>
+      </nav>
+      <section id="task-submit-panel" class="task-submit-panel" aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span>Ты можешь отправить работу преподавателю, даже если ответил не на все вопросы.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante / Отправить работу</button>
+      </section>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
+  <script id="homework-task-data" type="application/json">
+  {
+    "title":"Il grande scrittore e i verbi servili",
+    "instructions":"Дорогие студенты! Выполните 6 заданий по тексту «Il grande scrittore» и модальным глаголам dovere, potere e volere. Напишите краткое содержание, сопоставьте местоимения и формы глаголов, затем заполните предложения правильными формами. В последнем упражнении выберите модальный глагол по смыслу и поставьте его в нужную форму.",
+    "description":"Comprensione del testo Il grande scrittore; verbi servili dovere, potere e volere al presente; obbligo, possibilità, permesso, richieste cortesi, desideri e preferenze.",
+    "sections":[
+      {"id":"ex1","title":"Esercizio 1 – Comprensione del testo «Il grande scrittore»","instructions":"Scrivi un breve riassunto del racconto letto nell’Unità 13.","instructionRu":"Напишите краткий пересказ рассказа «Il grande scrittore».","questions":[{"id":"summary","type":"text","prompt":"Riassumi in poche frasi la giornata di Riccardo Ricchi e spiega che cosa succede alla fine.","expected":"Risposta libera: Riccardo è uno scrittore che passa la giornata a scrivere il suo romanzo nel castello. Rifiuta il pranzo, la passeggiata e il cinema perché deve lavorare. La sera non è soddisfatto, brucia il romanzo e il giorno dopo ricomincia a scrivere.","subjective":true}]},
+      {"id":"ex2","title":"Esercizio 2 – Coniugazione dei verbi modali","instructions":"Abbina ogni pronome personale alla forma corretta del verbo indicato. Seleziona un pronome, poi la forma corrispondente. Completa una tabella alla volta.","instructionRu":"Соедините каждое личное местоимение с правильной формой указанного глагола. Сначала выберите местоимение, затем нажмите на соответствующую форму.","questions":[
+        {"id":"match_volere","type":"matching","prompt":"Abbina i pronomi alle forme del verbo volere.","subjects":["io","tu","lui / lei","noi","voi","loro"],"options":["voglio","vuoi","vuole","vogliamo","volete","vogliono"],"expected":["voglio","vuoi","vuole","vogliamo","volete","vogliono"]},
+        {"id":"match_potere","type":"matching","prompt":"Abbina i pronomi alle forme del verbo potere.","subjects":["io","tu","lui / lei","noi","voi","loro"],"options":["posso","puoi","può","possiamo","potete","possono"],"expected":["posso","puoi","può","possiamo","potete","possono"]},
+        {"id":"match_dovere","type":"matching","prompt":"Abbina i pronomi alle forme del verbo dovere.","subjects":["io","tu","lui / lei","noi","voi","loro"],"options":["devo","devi","deve","dobbiamo","dovete","devono"],"expected":["devo","devi","deve","dobbiamo","dovete","devono"]}
+      ]},
+      {"id":"ex3","title":"Esercizio 3 – Inserimento del verbo dovere","instructions":"Completa le frasi con la forma corretta di dovere al presente. Esprimi obbligo, necessità o urgenza.","instructionRu":"Вставьте правильную форму dovere в настоящем времени. Выразите обязанность или необходимость.","questions":[
+        {"id":"d1","type":"text","prompt":"Non ho più latte, ________ andare al supermercato a comprarlo.","expected":"devo"},
+        {"id":"d2","type":"text","prompt":"Domani tu ________ portare la macchina dal meccanico.","expected":"devi"},
+        {"id":"d3","type":"text","prompt":"I ragazzi ________ studiare prima di andare in discoteca.","expected":"devono"},
+        {"id":"d4","type":"text","prompt":"Signorina, ________ finire questo lavoro entro oggi, per favore.","expected":"deve"},
+        {"id":"d5","type":"text","prompt":"La mamma ________ preparare la cena per tutta la famiglia.","expected":"deve"},
+        {"id":"d6","type":"text","prompt":"Prima di uscire, voi ________ spegnere tutte le luci.","expected":"dovete"},
+        {"id":"d7","type":"text","prompt":"Signora, per andare in centro, ________ prendere l'autobus numero 12.","expected":"deve"},
+        {"id":"d8","type":"text","prompt":"Ogni giorno io ________ prendere le medicine per il diabete.","expected":"devo"},
+        {"id":"d9","type":"text","prompt":"Se vogliamo arrivare in tempo, ________ partire subito.","expected":"dobbiamo"},
+        {"id":"d10","type":"text","prompt":"I bambini ________ andare a letto presto.","expected":"devono"}
+      ]},
+      {"id":"ex4","title":"Esercizio 4 – Inserimento del verbo potere","instructions":"Completa le frasi con la forma corretta di potere al presente. Esprimi possibilità, permesso o una richiesta cortese.","instructionRu":"Вставьте правильную форму potere в настоящем времени. Выразите возможность, разрешение или вежливую просьбу.","questions":[
+        {"id":"p1","type":"text","prompt":"Non ________ andare alla festa, ho troppo da fare.","expected":"posso"},
+        {"id":"p2","type":"text","prompt":"________ passarmi il sale, per favore?","expected":"puoi"},
+        {"id":"p3","type":"text","prompt":"Domani tu ________ portare la macchina dal meccanico.","expected":"puoi"},
+        {"id":"p4","type":"text","prompt":"Marco non ________ partecipare alla riunione domani perché è malato.","expected":"può"},
+        {"id":"p5","type":"text","prompt":"Mi scusi, ________ ripetere la domanda?","expected":"può"},
+        {"id":"p6","type":"text","prompt":"Stasera non ________ uscire di casa, piove troppo e siamo senza ombrello.","expected":"possiamo"},
+        {"id":"p7","type":"text","prompt":"Certo che ________ venire alla festa stasera, siete invitati!","expected":"potete"},
+        {"id":"p8","type":"text","prompt":"Papà, mi ________ aiutare con questo problema?","expected":"puoi"},
+        {"id":"p9","type":"text","prompt":"Ragazzi, ________ dirmi che ore sono, per favore?","expected":"potete"},
+        {"id":"p10","type":"text","prompt":"I bambini non ________ andare al parco quando piove.","expected":"possono"}
+      ]},
+      {"id":"ex5","title":"Esercizio 5 – Inserimento del verbo volere","instructions":"Completa le frasi con la forma corretta di volere al presente. Esprimi desideri, intenzioni e preferenze.","instructionRu":"Вставьте правильную форму volere в настоящем времени. Выразите желания, намерения и предпочтения.","questions":[
+        {"id":"w1","type":"text","prompt":"Per il mio compleanno ______ una bicicletta nuova.","expected":"voglio"},
+        {"id":"w2","type":"text","prompt":"______ mangiare la pizza o preferisci la pasta?","expected":"vuoi"},
+        {"id":"w3","type":"text","prompt":"Noi ______ comprare una villa con giardino.","expected":"vogliamo"},
+        {"id":"w4","type":"text","prompt":"Ragazze, ______ uscire stasera o preferite rimanere a casa?","expected":"volete"},
+        {"id":"w5","type":"text","prompt":"I miei amici ______ fare una passeggiata in montagna questo weekend.","expected":"vogliono"},
+        {"id":"w6","type":"text","prompt":"Maria ______ una torta al cioccolato per il suo compleanno.","expected":"vuole"},
+        {"id":"w7","type":"text","prompt":"Gli studenti ______ imparare bene l'italiano.","expected":"vogliono"},
+        {"id":"w8","type":"text","prompt":"Voi ______ studiare medicina o ingegneria?","expected":"volete"},
+        {"id":"w9","type":"text","prompt":"Io ______ studiare italiano solo con Antonio.","expected":"voglio"},
+        {"id":"w10","type":"text","prompt":"Luca, ______ venire al nostro concerto sabato sera?","expected":"vuoi"}
+      ]},
+      {"id":"ex6","title":"Esercizio 6 – Scelta e uso contestuale dei verbi modali","instructions":"Scegli la forma corretta di dovere, potere o volere in base al significato della frase e alla persona. Considera volontà, obbligo, possibilità e cortesia.","instructionRu":"Выберите подходящую форму dovere, potere или volere по смыслу и лицу. Обратите внимание на желание, обязанность, возможность и вежливые просьбы.","questions":[
+        {"id":"c1","type":"choice","prompt":"Ho finito il latte: ________ andare al supermercato.","options":["devo","posso","voglio"],"expected":"devo"},
+        {"id":"c2","type":"choice","prompt":"È tardi e domani lavoro: non ________ uscire.","options":["voglio","posso","devo"],"expected":"posso"},
+        {"id":"c3","type":"choice","prompt":"Per il mio compleanno ________ una bicicletta rossa.","options":["voglio","devo","posso"],"expected":"voglio"},
+        {"id":"c4","type":"choice","prompt":"Signora, ________ ripetere l’indirizzo, per favore?","options":["vuole","deve","può"],"expected":"può"},
+        {"id":"c5","type":"choice","prompt":"Noi ________ risparmiare per comprare una casa: è importante mettere soldi da parte.","options":["vogliamo","dobbiamo","possiamo"],"expected":"dobbiamo"},
+        {"id":"c6","type":"choice","prompt":"Tu ________ evitare il traffico? Allora partiamo dopo le nove.","options":["vuoi","devi","puoi"],"expected":"vuoi"},
+        {"id":"c7","type":"choice","prompt":"Il negozio è aperto: voi ________ entrare adesso.","options":["volete","dovete","potete"],"expected":"potete"},
+        {"id":"c8","type":"choice","prompt":"Luca ________ pagare le tasse entro la fine del mese: è obbligatorio.","options":["può","vuole","deve"],"expected":"deve"},
+        {"id":"c9","type":"choice","prompt":"Io ________ fare le pulizie oggi, perché domani arrivano gli ospiti.","options":["devo","posso","voglio"],"expected":"devo"},
+        {"id":"c10","type":"choice","prompt":"I bambini ________ guardare un film dopo aver finito i compiti?","options":["devono","possono","vogliono"],"expected":"possono"},
+        {"id":"c11","type":"choice","prompt":"Marta ________ imparare a cucinare: è una sua grande aspirazione.","options":["vuole","deve","può"],"expected":"vuole"},
+        {"id":"c12","type":"choice","prompt":"Per arrivare in stazione alle otto, noi ________ prendere il treno delle sette.","options":["vogliamo","possiamo","dobbiamo"],"expected":"dobbiamo"},
+        {"id":"c13","type":"choice","prompt":"Ragazzi, ________ aiutarmi con le valigie, per favore?","options":["volete","potete","dovete"],"expected":"potete"},
+        {"id":"c14","type":"choice","prompt":"I miei amici ________ visitare Firenze, ma non hanno ancora deciso quando.","options":["vogliono","devono","possono"],"expected":"vogliono"},
+        {"id":"c15","type":"choice","prompt":"Per fare la spesa, tu ________ controllare che cosa manca in cucina.","options":["puoi","vuoi","devi"],"expected":"devi"},
+        {"id":"c16","type":"choice","prompt":"La signora ________ pagare con la carta oppure in contanti?","options":["vuole","deve","può"],"expected":"vuole"},
+        {"id":"c17","type":"choice","prompt":"Se avete il permesso, voi ________ parcheggiare qui.","options":["volete","potete","dovete"],"expected":"potete"},
+        {"id":"c18","type":"choice","prompt":"Io e Anna ________ ordinare una pizza: abbiamo molta fame.","options":["vogliamo","dobbiamo","possiamo"],"expected":"vogliamo"},
+        {"id":"c19","type":"choice","prompt":"Per non perdere l’autobus, loro ________ uscire subito.","options":["vogliono","possono","devono"],"expected":"devono"},
+        {"id":"c20","type":"choice","prompt":"Tu ________ risparmiare, ma solo se riduci le spese non necessarie.","options":["devi","vuoi","puoi"],"expected":"puoi"}
+      ]}
+    ]
+  }
+  </script>
+  <script>
+    const taskData = JSON.parse(document.getElementById("homework-task-data").textContent);
+    const params = new URLSearchParams(location.search);
+    const assignmentId = params.get("assignment");
+    const teacherReview = params.get("teacherReview") === "1" || (params.has("group") && params.has("student"));
+    const firebaseConfig = { databaseURL:"https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app", projectId:"esercizi-parlo-italiano" };
+    const header = document.getElementById("task-header");
+    const pageMessage = document.getElementById("page-message");
+    const workspace = document.getElementById("task-workspace");
+    const sectionContent = document.getElementById("section-content");
+    const progressList = document.getElementById("section-progress");
+    const previousButton = document.getElementById("previous-section");
+    const nextButton = document.getElementById("next-section");
+    const submitButton = document.getElementById("submit-task");
+    let session = null, submissionRef = null, answers = {}, teacherReviews = {}, sectionIndex = 0, editable = false;
+    let saveQueue = Promise.resolve();
+    const saveTimers = new Map();
+
+    document.title = taskData.title;
+    document.getElementById("task-title").textContent = taskData.title;
+    document.getElementById("task-instructions").textContent = taskData.instructions;
+    function showMessage(message, isError=false) {
+      pageMessage.textContent = message;
+      pageMessage.style.background = isError ? "#fde8e7" : "var(--green-light)";
+      pageMessage.style.color = isError ? "#a51d1d" : "var(--green)";
+      pageMessage.hidden = false;
+    }
+    function revealStudentPage() { header.hidden = false; workspace.hidden = false; pageMessage.hidden = false; }
+    function taskPathMatches(taskPath) {
+      try {
+        const expected = new URL(taskPath, location.origin).pathname.replace(/\/+$/, "");
+        const current = location.pathname.replace(/\/+$/, "");
+        return current === expected || current.endsWith(`/${expected.replace(/^\/+/, "")}`);
+      } catch (_) { return false; }
+    }
+    function isAnswered(question) {
+      const value = answers[question.id]?.answer;
+      if (question.type === "matching") return Array.isArray(value) && question.subjects.every((_,index) => String(value[index] || "").trim());
+      if (Array.isArray(value)) return value.some(item => String(item || "").trim());
+      return String(value || "").trim() !== "";
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      taskData.sections.forEach((section,index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `progress-step${index===sectionIndex?" current":""}${section.questions.every(isAnswered)?" completed":""}`;
+        button.textContent = String(index+1);
+        button.setAttribute("aria-label",`Vai a ${section.title}`);
+        button.setAttribute("aria-current",index===sectionIndex?"step":"false");
+        button.addEventListener("click",()=>{sectionIndex=index;renderSection();});
+        progressList.appendChild(button);
+      });
+      const all = taskData.sections.flatMap(section=>section.questions);
+      document.getElementById("progress-count").textContent = `${all.filter(isAnswered).length} / ${all.length} risposte`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex+1)/taskData.sections.length)*100}%`;
+      document.getElementById("section-position").textContent = `Esercizio ${sectionIndex+1} di ${taskData.sections.length}`;
+      previousButton.disabled = sectionIndex===0;
+      nextButton.disabled = sectionIndex===taskData.sections.length-1;
+      submitButton.disabled = !editable;
+    }
+    function saveAnswer(sectionId,question,value) {
+      if (!editable || !submissionRef) return;
+      const key = `${sectionId}::${question.id}`;
+      const pending = saveTimers.get(key);
+      if (pending) clearTimeout(pending.timer);
+      saveTimers.delete(key);
+      answers[question.id] = {...(answers[question.id]||{}),answer:value};
+      renderProgress();
+      saveQueue = saveQueue.then(async()=>{
+        await submissionRef.child(`answers/${sectionId}/${question.id}`).update({answer:value});
+        await submissionRef.update({studentName:session.name,status:"in-progress",updatedAt:Date.now()});
+      }).then(()=>showMessage("Risposta salvata automaticamente. ✓"))
+        .catch(()=>showMessage("Errore di salvataggio. Controlla la connessione.",true));
+    }
+    function appendFeedback(container,review) {
+      if (!review || (!review.grade && !review.comment)) return;
+      const note = document.createElement("div");
+      note.className = "teacher-feedback";
+      const grade = review.grade === "approved" ? "✓ Approvata" : review.grade === "rejected" ? "✕ Da rivedere" : "";
+      note.textContent = [grade,review.comment?`Commento: ${review.comment}`:""].filter(Boolean).join(" · ");
+      container.appendChild(note);
+    }
+    function renderMatching(question,section,card) {
+      const saved = Array.isArray(answers[question.id]?.answer) ? [...answers[question.id].answer] : Array(question.subjects.length).fill("");
+      const help = document.createElement("p");
+      help.className = "matching-instructions";
+      help.textContent = "Clicca un pronome nella colonna sinistra, poi la forma corrispondente nella colonna destra. Puoi cambiare gli abbinamenti in qualsiasi momento.";
+      card.appendChild(help);
+      const board = document.createElement("div");
+      board.className = "matching-board";
+      const left = document.createElement("div"), right = document.createElement("div");
+      let selected = -1;
+      const redraw = () => {
+        left.replaceChildren(); right.replaceChildren();
+        question.subjects.forEach((subject,index)=>{
+          const row = document.createElement("div"); row.className="matching-pair";
+          const button = document.createElement("button"); button.type="button"; button.className=`matching-person${saved[index]?" matched":""}`;
+          button.textContent = `${subject} → ${saved[index] || "seleziona la forma"}`;
+          button.setAttribute("aria-pressed",String(selected===index));
+          button.disabled = !editable;
+          button.addEventListener("click",()=>{selected=selected===index?-1:index;redraw();});
+          row.appendChild(button); left.appendChild(row);
+        });
+        question.options.forEach(form=>{
+          const button = document.createElement("button"); button.type="button"; button.className="matching-form";
+          const usedAt = saved.indexOf(form);
+          button.textContent = form;
+          if (usedAt!==-1) { button.classList.add("used"); button.setAttribute("aria-label",`${form}, abbinato a ${question.subjects[usedAt]}`); }
+          button.disabled = !editable || selected===-1;
+          button.addEventListener("click",()=>{
+            if (selected<0) return;
+            const prior = saved.indexOf(form);
+            if (prior!==-1) saved[prior]="";
+            saved[selected]=form; selected=-1;
+            saveAnswer(section.id,question,[...saved]); redraw();
+          });
+          right.appendChild(button);
+        });
+      };
+      board.append(left,right); card.appendChild(board); redraw();
+    }
+    function renderQuestion(question,section) {
+      const card=document.createElement("article"); card.className="question";
+      const prompt=document.createElement("p"); prompt.className="question-prompt"; prompt.textContent=question.prompt; card.appendChild(prompt);
+      if (question.type==="matching") renderMatching(question,section,card);
+      else if (question.type==="choice") {
+        const select=document.createElement("select"); select.disabled=!editable;
+        select.add(new Option("— scegli —","")); question.options.forEach(value=>select.add(new Option(value,value)));
+        select.value=answers[question.id]?.answer||"";
+        select.addEventListener("change",()=>saveAnswer(section.id,question,select.value));
+        card.appendChild(select);
+      } else {
+        const input=document.createElement("textarea"); input.disabled=!editable;
+        input.maxLength=question.id==="summary"?4000:500; input.value=answers[question.id]?.answer||"";
+        input.setAttribute("aria-label",`Risposta ${question.id}`);
+        const key=`${section.id}::${question.id}`;
+        input.addEventListener("input",()=>{
+          const prior=saveTimers.get(key); if(prior) clearTimeout(prior.timer);
+          const save=()=>saveAnswer(section.id,question,input.value.trim());
+          saveTimers.set(key,{timer:setTimeout(save,350),save});
+        });
+        input.addEventListener("change",()=>saveAnswer(section.id,question,input.value.trim()));
+        input.addEventListener("blur",()=>{if(editable&&input.value!==(answers[question.id]?.answer||"")) saveAnswer(section.id,question,input.value.trim());});
+        card.appendChild(input);
+      }
+      if(question.type==="matching") {
+        question.subjects.forEach((_,index)=>appendFeedback(card,teacherReviews[section.id]?.[`${question.id}_${index+1}`]));
+      } else appendFeedback(card,teacherReviews[section.id]?.[question.id]);
+      const state=document.createElement("span"); state.className="answer-state";
+      state.textContent=isAnswered(question)?"Risposta salvata":"Risposta non ancora salvata"; card.appendChild(state);
+      return card;
+    }
+    function renderSection() {
+      const section=taskData.sections[sectionIndex]; sectionContent.replaceChildren();
+      const title=document.createElement("h2"); title.className="section-heading"; title.textContent=section.title;
+      const instructions=document.createElement("p"); instructions.className="section-instructions"; instructions.textContent=section.instructions;
+      const ru=document.createElement("p"); ru.className="instruction-ru"; ru.textContent=section.instructionRu;
+      sectionContent.append(title,instructions,ru);
+      section.questions.forEach(question=>sectionContent.appendChild(renderQuestion(question,section)));
+      renderProgress();
+    }
+    function buildReviewRows(submission) {
+      const saved=submission.answers||{};
+      return taskData.sections.map(section=>({id:section.id,title:section.title,rows:section.questions.flatMap(question=>{
+        const answer=saved[section.id]?.[question.id]?.answer;
+        if(question.type==="matching") return question.subjects.map((subject,index)=>({id:`${question.id}_${index+1}`,prompt:`${question.prompt} · ${subject}`,answer:Array.isArray(answer)?answer[index]||"Nessun abbinamento":"Nessun abbinamento",expected:question.expected[index]}));
+        return [{id:question.id,prompt:question.prompt,answer:answer==null||answer===""?"Nessuna risposta inserita":answer,expected:question.expected}];
+      })}));
+    }
+    async function initializeStudent() {
+      if(!assignmentId) throw new Error("Apri il compito dal tuo elenco per poterlo svolgere.");
+      let stored=null; try{stored=JSON.parse(localStorage.getItem("parlo_session")||"null");}catch(_){}
+      if(!stored||stored.isTeacher||!stored.group||!stored.name) throw new Error("Accedi come studente dalla pagina principale per svolgere questo compito.");
+      session=stored;
+      if(!window.firebase) throw new Error("Firebase non disponibile.");
+      if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      const db=firebase.database();
+      const assignmentRef=db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+      const [assignmentSnapshot,groupSnapshot]=await Promise.all([assignmentRef.once("value"),db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")]);
+      const assignment=assignmentSnapshot.val(), group=groupSnapshot.val();
+      if(!assignment||!group||!assignment.taskPath||!taskPathMatches(assignment.taskPath)) throw new Error("Compito non disponibile per questo gruppo o percorso.");
+      const active=(group.studenti||[]).some(student=>student.nome===session.name);
+      const inactive=(group.studentiInattivi||[]).find(student=>student.nome===session.name);
+      const limit=inactive?.unitNumber!=null?Number(inactive.unitNumber):Number(group.unitNumber);
+      if((!active&&!inactive)||Number(assignment.unitNumber)>limit) throw new Error("Non sei abilitato a svolgere questo compito.");
+      const studentKey=Array.from(session.name).map(char=>char.codePointAt(0).toString(16)).join("_")||"studente";
+      submissionRef=assignmentRef.child(`consegne/${studentKey}`);
+      const snapshot=await submissionRef.once("value"), submission=snapshot.val()||{};
+      answers=Object.fromEntries(taskData.sections.flatMap(section=>section.questions.map(question=>[question.id,submission.answers?.[section.id]?.[question.id]||{}])));
+      teacherReviews=submission.teacherReview?.answers||{};
+      editable=!['pending','reviewed'].includes(submission.status);
+      revealStudentPage();
+      if(submission.status==="reviewed") showMessage("Questo compito è già stato revisionato. Le risposte e i commenti sono mostrati qui sotto.");
+      else if(submission.status==="pending") showMessage("Compito inviato ed è in attesa di correzione. Le risposte non possono essere modificate.");
+      else showMessage("Le risposte vengono salvate automaticamente; puoi riprendere il compito in seguito.");
+      if(!editable) submitButton.hidden=true;
+      renderSection();
+    }
+    previousButton.addEventListener("click",()=>{if(sectionIndex>0){sectionIndex--;renderSection();window.scrollTo(0,0);}});
+    nextButton.addEventListener("click",()=>{if(sectionIndex<taskData.sections.length-1){sectionIndex++;renderSection();window.scrollTo(0,0);}});
+    submitButton.addEventListener("click",async()=>{
+      if(!editable||!submissionRef)return;
+      submitButton.disabled=true;
+      try {
+        for(const [key,pending] of saveTimers){clearTimeout(pending.timer);pending.save();}
+        saveTimers.clear(); await saveQueue;
+        await submissionRef.update({studentName:session.name,status:"pending",submittedAt:Date.now()});
+        editable=false; submitButton.hidden=true;
+        showMessage("Compito inviato all’insegnante e in attesa di correzione. / Работа отправлена преподавателю и ожидает проверки."); renderSection();
+      } catch(_) { showMessage("Impossibile inviare il compito. Controlla la connessione e riprova.",true); submitButton.disabled=false; }
+    });
+    (async()=>{
+      try {
+        const opened=await window.openHomeworkTeacherReview({taskData,buildRows:buildReviewRows});
+        if(opened||teacherReview)return;
+      } catch(error) { showMessage(error.message||"Impossibile caricare la consegna da correggere.",true); return; }
+      try { await initializeStudent(); }
+      catch(error) { header.hidden=false; showMessage(error.message||"Impossibile caricare il compito.",true); }
+    })();
+  </script>
+</body>
+</html>
