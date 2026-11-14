@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 2 — Un bravo ragazzo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
+    }
+    main { width: min(100%, 880px); margin: 0 auto; }
+    .page-heading { margin: 8px 0 14px; text-align: center; }
+    .top-exercises { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 14px; }
+    .top-exercises select, .top-exercises a {
+      min-height: 36px; max-width: 100%; padding: 6px 10px; border: 1px solid #d8e5d8;
+      border-radius: 9px; background: rgba(255,254,250,.9); color: var(--green);
+      font: inherit; font-size: .88rem; font-weight: 700;
+    }
+    .top-exercises select { cursor: pointer; }
+    .top-exercises a { display: inline-flex; align-items: center; text-decoration: none; }
+    .top-exercises select:hover, .top-exercises a:hover { border-color: var(--green); background: var(--green-light); }
+    .top-exercises .home-link { justify-content: center; width: 36px; padding: 0; }
+    .home-link svg { width: 19px; height: 19px; }
+    #exercise-menu { margin-left: auto; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .eyebrow { display: inline-block; margin-bottom: 12px; padding: 8px 15px; border-radius: 20px; background: rgba(255,254,250,.9); color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .banner { aspect-ratio: 4 / 1; position: relative; overflow: hidden; margin: 0 0 22px; border: 1px solid rgba(71,119,85,.15); border-radius: 26px; background: url("img/banner.png") center / cover no-repeat; box-shadow: 0 14px 36px rgba(43,69,46,.09); }
+    .page-heading h1 { margin: 0; color: var(--green); font-size: clamp(2rem,6vw,3.2rem); letter-spacing: -.045em; line-height: 1.1; }
+    .subtitle { margin: 12px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .video-card { max-width: 820px; margin: 0 auto 24px; padding: clamp(18px,4vw,30px); border: 1px solid #4a5149; border-radius: 22px; background: linear-gradient(145deg,#30352f,#171b18 72%); box-shadow: 0 18px 40px rgba(26,30,26,.25),inset 0 1px rgba(255,255,255,.08); color: #f8f5eb; }
+    .video-card[hidden], .reading[hidden] { display: none; }
+    .video-card h2 { margin: 0 0 16px; color: #f8f5eb; font-size: clamp(1.1rem,3vw,1.35rem); letter-spacing: .02em; }
+    .video-frame { aspect-ratio: 16 / 9; overflow: hidden; padding: 7px; border: 1px solid rgba(231,208,160,.45); border-radius: 14px; background: #090b0a; box-shadow: 0 8px 24px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05); }
+    .video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .reading { position: relative; max-width: 820px; margin: 0 auto; padding: clamp(30px,7vw,68px) clamp(24px,8vw,82px); border: 1px solid #d8ccb5; border-radius: 4px 12px 12px 4px; background: repeating-linear-gradient(0deg,rgba(112,83,48,.018) 0,rgba(112,83,48,.018) 1px,transparent 1px,transparent 4px),linear-gradient(90deg,#f0e7d4 0,#fbf6e9 5%,#fffaf0 18%,#fffaf0 100%); box-shadow: 0 18px 42px rgba(68,53,34,.18),inset 12px 0 18px rgba(111,78,42,.07); color: #2b261f; font-family: Georgia,'Times New Roman',serif; }
+    .reading::before { content: ""; position: absolute; top: 18px; bottom: 18px; left: 17px; width: 1px; background: rgba(154,103,66,.18); }
+    .reading p { margin: 0 0 18px; font-size: clamp(1.12rem,2.1vw,1.22rem); line-height: 1.8; text-align: left; text-indent: 1.2em; hyphens: auto; }
+    .reading p:first-of-type::first-letter { float: left; margin: .08em .12em 0 0; color: #8b5c3d; font-size: 3.2em; font-weight: 700; line-height: .8; }
+    .reading p[hidden] { display: none; }
+    .reading p:last-child { margin-bottom: 0; }
+    .reading-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 820px; margin: 24px auto 0; padding: 16px 0 0; border-top: 1px solid #d9cbb2; font-family: 'Segoe UI',Inter,system-ui,sans-serif; }
+    .reading-navigation button, .reading-navigation a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 14px; border: 1px solid #c9d8c9; border-radius: 10px; background: rgba(255,254,250,.8); color: var(--green); font: inherit; font-weight: 700; text-decoration: none; }
+    .reading-navigation button { cursor: pointer; transition: background .2s,border-color .2s; }
+    .reading-navigation button:hover:not(:disabled), .reading-navigation a:hover { border-color: var(--green); background: var(--green-light); }
+    .reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .reading-navigation [hidden] { display: none; }
+    .reading-progress { color: #59452f; font-size: .92rem; font-weight: 800; text-align: center; white-space: nowrap; }
+    .vocab-tip { position: relative; color: #315b3a; text-decoration: underline dotted #bd694d 2px; text-underline-offset: 3px; cursor: help; }
+    .vocab-tip::after { content: attr(data-tip); position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 9px); width: max-content; max-width: min(290px,75vw); padding: 9px 12px; border: 1px solid #d8ccb5; border-radius: 10px; background: #fffaf0; color: #292d28; box-shadow: 0 6px 18px rgba(43,41,32,.18); font: 600 .9rem/1.45 'Segoe UI',Inter,system-ui,sans-serif; text-align: left; white-space: normal; opacity: 0; visibility: hidden; transform: translate(-50%,4px); transition: opacity .16s ease,transform .16s ease,visibility .16s; pointer-events: none; }
+    .vocab-tip:hover::after, .vocab-tip:focus::after { opacity: 1; visibility: visible; transform: translate(-50%,0); }
+    @media (max-width: 600px) { body { padding: 16px 10px; } .reading { padding: 34px 24px 34px 30px; } .reading::before { left: 12px; } .reading p { line-height: 1.8; } .reading-navigation { gap: 6px; } .reading-navigation button,.reading-navigation a { padding: 8px 10px; font-size: .85rem; } .reading-progress { font-size: .82rem; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top-exercises" aria-label="Menu dell’Unità 2">
+      <label for="exercise-menu" class="visually-hidden">Seleziona un esercizio</label>
+      <select id="exercise-menu">
+        <option value="">Esercizi</option>
+        <option value="002_es_a.html">Esercizio A</option>
+        <option value="002_es_b.html">Esercizio B</option>
+        <option value="002_es_c.html">Esercizio C</option>
+        <option value="002_es_d.html">Esercizio D</option>
+        <option value="002_es_e.html">Esercizio E</option>
+        <option value="002_es_f.html">Esercizio F</option>
+        <option value="002_es_g.html">Esercizio G</option>
+        <option value="002_es_h.html">Esercizio H</option>
+        <option value="002_es_i.html">Esercizio I</option>
+        <option value="002_es_j.html">Esercizio J</option>
+        <option value="002_es_k.html">Esercizio K</option>
+        <option value="002_es_l.html">Esercizio L</option>
+        <option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <label for="grammar-menu" class="visually-hidden">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
+        <option value="002_numeri.html">I numeri</option>
+      </select>
+      <a class="home-link" href="../index.html" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+    </nav>
+    <div class="page-heading"><span class="eyebrow">Lettura · Unità 2</span></div>
+    <div class="banner" role="img" aria-label="Immagine introduttiva del racconto Un bravo ragazzo"></div>
+    <header class="page-heading">
+      <h1>Un bravo ragazzo</h1>
+      <p class="subtitle">Guardate il video, leggete il racconto e scoprite le parole nuove.</p>
+      <p id="user-badge" class="subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
+    </header>
+
+    <section class="video-card" aria-labelledby="video-title">
+      <h2 id="video-title">🎬 Guarda il video</h2>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/6kl8KZftC_A" title="Un bravo ragazzo — video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <article class="reading" aria-label="Testo del racconto">
+      <p>La mamma e suo figlio Marco sono in casa. Marco è in camera, è a <span class="vocab-tip" tabindex="0" data-tip="кровать; a letto — в постели" aria-label="letto: кровать">letto</span>; la madre è in cucina.</p>
+      <p>Il figlio <span class="vocab-tip" tabindex="0" data-tip="зовёт, зовёт к себе" aria-label="chiama: зовёт">chiama</span> la madre e <span class="vocab-tip" tabindex="0" data-tip="говорит" aria-label="dice: говорит">dice</span>: “Mamma, <span class="vocab-tip" tabindex="0" data-tip="я хочу пить; буквально: у меня жажда" aria-label="ho sete: хочу пить">ho sete</span”. <span class="vocab-tip" tabindex="0" data-tip="тогда" aria-label="allora: тогда">Allora</span> la madre <span class="vocab-tip" tabindex="0" data-tip="приносит" aria-label="porta: приносит">porta</span> un <span class="vocab-tip" tabindex="0" data-tip="стакан" aria-label="bicchiere: стакан">bicchiere</span> d’acqua. Il figlio <span class="vocab-tip" tabindex="0" data-tip="пьёт" aria-label="beve: пьёт">beve</span> l’acqua, e <span class="vocab-tip" tabindex="0" data-tip="больше не хочет пить; больше не испытывает жажду" aria-label="non ha più sete: больше не хочет пить">non ha più sete</span>.</p>
+      <p>Ma poi dice: “Mamma, ho <span class="vocab-tip" tabindex="0" data-tip="голод; ho fame — я хочу есть" aria-label="fame: голод">fame</span”. Allora la madre porta un piatto di pasta. Marco mangia la pasta, e non ha più fame.</p>
+      <p>Ma poi dice: “Mamma, ho <span class="vocab-tip" tabindex="0" data-tip="холод; ho freddo — мне холодно" aria-label="freddo: холодно">freddo</span”. Allora la madre porta una <span class="vocab-tip" tabindex="0" data-tip="одеяло" aria-label="coperta: одеяло">coperta</span>. Con la coperta, il figlio non ha più freddo.</p>
+      <p>Ma poi dice: “Mamma, ho <span class="vocab-tip" tabindex="0" data-tip="сон; ho sonno — я хочу спать" aria-label="sonno: сон">sonno</span”. Allora la madre <span class="vocab-tip" tabindex="0" data-tip="выключает свет" aria-label="spegne la luce: выключает свет">spegne la luce</span> e <span class="vocab-tip" tabindex="0" data-tip="закрывает окно" aria-label="chiude la finestra: закрывает окно">chiude la finestra</span>, e lui <span class="vocab-tip" tabindex="0" data-tip="спит" aria-label="dorme: спит">dorme</span>.</p>
+      <p>Marco dorme un po’, e poi dice: “Mamma, ho <span class="vocab-tip" tabindex="0" data-tip="страх; ho paura — мне страшно" aria-label="paura: страх">paura</span”. Allora la madre dice: “Perché hai paura? Non sei più un bambino. Hai già <span class="vocab-tip" tabindex="0" data-tip="тридцать пять" aria-label="trentacinque: тридцать пять">trentacinque</span> anni”.</p>
+    </article>
+
+    <nav class="reading-navigation" aria-label="Navigazione del racconto">
+      <button id="previous-paragraph" type="button">← Precedente</button>
+      <span id="reading-progress" class="reading-progress" role="status" aria-live="polite"></span>
+      <button id="next-paragraph" type="button">Successivo →</button>
+      <a id="exercise-a-link" href="002_es_a.html" hidden>Vai all’esercizio A →</a>
+    </nav>
+  </main>
+
+  <script>
+    const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
+    const previousParagraphButton = document.getElementById("previous-paragraph");
+    const nextParagraphButton = document.getElementById("next-paragraph");
+    const exerciseALink = document.getElementById("exercise-a-link");
+    const readingProgress = document.getElementById("reading-progress");
+    const videoCard = document.querySelector(".video-card");
+    const readingCard = document.querySelector(".reading");
+    let currentSlide = 0;
+    const totalSlides = storyParagraphs.length + 1;
+
+    function showSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      videoCard.hidden = currentSlide !== 0;
+      readingCard.hidden = currentSlide === 0;
+      storyParagraphs.forEach((paragraph, paragraphIndex) => {
+        paragraph.hidden = paragraphIndex !== currentSlide - 1;
+      });
+      previousParagraphButton.disabled = currentSlide === 0;
+      const isLastParagraph = currentSlide === totalSlides - 1;
+      nextParagraphButton.hidden = isLastParagraph;
+      nextParagraphButton.disabled = isLastParagraph;
+      exerciseALink.hidden = !isLastParagraph;
+      readingProgress.textContent = currentSlide === 0
+        ? "Video introduttivo"
+        : `Paragrafo ${currentSlide} di ${storyParagraphs.length}`;
+    }
+
+    previousParagraphButton.addEventListener("click", () => showSlide(currentSlide - 1));
+    nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
+    showSlide(0);
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : Math.min(window.scrollY * 0.12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+
+    function getLoginParams() {
+      const params = new URLSearchParams(location.search);
+      try {
+        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
+      } catch (_) {}
+      return params;
+    }
+
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (!href || !/^002_es_[a-m]\.html$/i.test(href)) return;
+      const target = new URL(href, location.href);
+      getLoginParams().forEach((value, key) => target.searchParams.set(key, value));
+      link.href = `${target.pathname}${target.search}${target.hash}`;
+    });
+
+    document.getElementById("exercise-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = getLoginParams();
+      ["gruppo", "nome"].forEach(key => {
+        if (params.has(key)) target.searchParams.set(key, params.get(key));
+      });
+      location.href = target.href;
+    });
+
+    document.getElementById("grammar-menu").addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = getLoginParams();
+      ["gruppo", "nome"].forEach(key => {
+        if (params.has(key)) target.searchParams.set(key, params.get(key));
+      });
+      location.href = target.href;
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
+      if (event.key === "ArrowLeft" && currentSlide > 0) {
+        event.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (event.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+        event.preventDefault();
+        showSlide(currentSlide + 1);
+      }
+    });
+
+    const params = getLoginParams();
+    const gruppo = params.get("gruppo");
+    const nome = params.get("nome");
+    const badge = document.getElementById("user-badge");
+    if (gruppo && nome) badge.textContent = `👤 ${gruppo} · ${nome}`;
+    else if (gruppo) badge.textContent = `👩‍🏫 Insegnante · ${gruppo}`;
+    else badge.hidden = true;
+  </script>
+</body>
+</html>
