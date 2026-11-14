@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conosci i tuoi compagni: dialogo in coppia (Personaggio A e Personaggio B), Unità 3." />
+  <title>Unità 3 — Conosci i tuoi compagni (Esercizio K)</title>
+  <style>
+    :root{color-scheme:light;font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif;--primary:#477755;--primary-light:#edf4ed;--primary-dark:#2f5739;--accent:#bd694d;--bg-main:#f5f1e7;--card-bg:#fffefa;--text:#292d28;--text-muted:#6b7069;--success:#278253;--success-bg:#e1f1e5;--error:#b42318;--error-bg:#fde8e7;--border:#e7e5dc}
+    *{box-sizing:border-box}[hidden]{display:none!important}:focus-visible{outline:3px solid rgba(189,105,77,.55);outline-offset:3px}
+    body{min-height:100vh;margin:0;padding:32px 16px;color:var(--text);background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%),var(--bg-main)}
+    .container{width:min(100%,900px);margin:0 auto}
+    .top-menu{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 14px}
+    .top-menu a,.top-menu select{min-height:42px;max-width:100%;padding:8px 12px;border:1px solid #d8e5d8;border-radius:10px;background:rgba(255,254,250,.94);color:var(--primary-dark);font:inherit;font-weight:700;text-decoration:none}
+    .top-menu a{display:inline-flex;align-items:center}
+    .top-menu a:hover,.top-menu select:hover{background:var(--primary-light);border-color:var(--primary)}
+    #exercise-menu{margin-left:auto}#user-badge{color:var(--accent);font-size:.85rem;font-weight:700}
+    .hero{margin:8px 0 22px;padding:28px 20px 26px;text-align:center;border:1px solid rgba(71,119,85,.13);border-radius:24px;background:linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91));box-shadow:0 12px 32px rgba(43,69,46,.07)}
+    .eyebrow{display:inline-block;margin-bottom:10px;padding:8px 15px;border-radius:20px;background:#eaf1e8;color:var(--primary-dark);font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+    h1{margin:4px 0;color:var(--primary-dark);font-size:clamp(1.9rem,5vw,2.65rem);letter-spacing:-.04em;line-height:1.12}
+    .hero-subtitle{margin:8px 0 0;color:var(--text-muted);font-size:.98rem}
+    .instruction-box,.teacher-controls{margin-bottom:18px;border:1px solid #d8e5d8;border-radius:15px;background:rgba(255,254,250,.96);box-shadow:0 6px 18px rgba(43,69,46,.04)}
+    .instruction-box{padding:15px 18px;border-left:5px solid var(--accent);line-height:1.55}
+    .instruction-box ul{margin:8px 0 0;padding-left:20px}
+    .teacher-controls{padding:13px 16px}.teacher-controls[hidden]{display:none}
+    .assignment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .assignment-field{display:grid;gap:6px;color:var(--primary-dark);font-size:.9rem;font-weight:800}
+    .assignment-field select{width:100%;min-height:42px;padding:7px 12px;border:1px solid #d8e5d8;border-radius:10px;background:#fff;color:var(--text);font:inherit}
+    .card{margin-bottom:22px;padding:clamp(18px,4vw,30px);border:1px solid var(--border);border-radius:24px;background:var(--card-bg);box-shadow:0 18px 48px rgba(43,69,46,.1);display:flex;flex-direction:column;gap:14px}
+    .assignment-status{margin:0;padding:11px 13px;border-radius:10px;background:var(--primary-light);color:var(--primary-dark);font-size:.9rem;font-weight:700;line-height:1.5}
+
+    /* Barra compatta caratteri speciali italiani */
+    .char-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0;padding:8px 12px;border:1px solid #d8e5d8;border-radius:12px;background:#f7faf6}
+    .char-toolbar-label{font-size:.82rem;font-weight:800;color:var(--primary-dark);margin-right:4px}
+    .char-btn{min-width:34px;height:34px;padding:0 8px;border:1px solid #cbd9cc;border-radius:8px;background:#fff;color:var(--primary-dark);font:800 .98rem 'Segoe UI',Inter,system-ui,sans-serif;cursor:pointer;transition:background .15s,border-color .15s}
+    .char-btn:hover{background:var(--primary-light);border-color:var(--primary)}
+    .char-btn:active{background:var(--primary);color:#fff}
+
+    .roles-pill{display:flex;flex-wrap:wrap;gap:8px;font-size:.82rem;font-weight:700}
+    .role-tag{padding:5px 11px;border-radius:99px;background:#e6f2ff;color:#004085;border:1px solid #b3d7ff}
+    .role-tag.role-b{background:#fffde6;color:#856404;border-color:#ffe899}
+
+    /* Layout del Dialogo */
+    .dialogue-container{display:flex;flex-direction:column;gap:13px}
+    .dialogue-line{padding:15px 18px;border-radius:16px;font-size:1.03rem;line-height:1.85;display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;box-shadow:0 4px 12px rgba(0,0,0,.03)}
+    .dialogue-line.student-a{background:#e6f2ff;border:1.5px solid #b3d7ff;color:#004085}
+    .dialogue-line.student-b{background:#fffde6;border:1.5px solid #ffe899;color:#856404}
+    .speaker-tag{font-weight:800;margin-right:4px}
+
+    input.inline-input{display:inline-block;padding:4px 10px;border:1.5px solid #bdc3c7;border-radius:8px;font:inherit;font-size:.98rem;font-weight:700;color:var(--text);background:#fff;outline:none;transition:border-color .15s,background .15s,box-shadow .15s}
+    .student-a input.inline-input{border-color:#9ec5fe;color:#004085}
+    .student-b input.inline-input{border-color:#ffe066;color:#856404}
+    input.inline-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(71,119,85,.18)}
+    input.inline-input:disabled{background:rgba(255,255,255,.65);opacity:.88;cursor:not-allowed}
+
+    .submit-contribution{align-self:flex-start;min-height:42px;padding:9px 16px;border:0;border-radius:10px;background:var(--primary);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+    .submit-contribution:hover:not(:disabled){background:var(--primary-dark)}
+    .submit-contribution:disabled{cursor:not-allowed;opacity:.5}
+    .contribution-panel{display:grid;gap:9px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#fbfaf6}
+    .contribution-panel h2{margin:0;color:var(--primary-dark);font-size:.98rem}
+    .contribution-list{display:grid;gap:8px}
+    .contribution{padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;line-height:1.55}
+    .contribution-meta{display:block;margin-bottom:4px;color:var(--text-muted);font-size:.82rem;font-weight:700}
+    .contribution-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.92rem}
+    .empty-message{margin:0;color:var(--text-muted);font-size:.9rem;font-style:italic}
+    .status-message{min-height:1.2em;margin:0;color:var(--primary-dark);font-size:.9rem;font-weight:700}
+    .status-message.error{color:var(--error)}
+    @media(max-width:640px){body{padding:16px 8px}.card{padding:14px}.assignment-grid{grid-template-columns:1fr}.dialogue-line{padding:12px 14px;font-size:.96rem}input.inline-input{width:105px!important}#user-badge{flex-basis:100%;margin-left:0}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav class="top-menu" aria-label="Navigazione Unità 3">
+      <a id="home-link" href="../index.html">← Torna all’inizio</a>
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’Unità 3"></select>
+      <span id="user-badge" aria-live="polite"></span>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 3 · Lavoro in Coppia</span>
+      <h1>Conosci i tuoi compagni</h1>
+      <p class="hero-subtitle">Познакомьтесь со своими одноклассниками! Работа в парах (Персонаж A и Персонаж B).</p>
+    </header>
+
+    <div class="instruction-box">
+      💡 <strong>Come funziona:</strong> L’insegnante assegna i due turni ai partecipanti:
+      <ul>
+        <li><strong>Personaggio A (blocco azzurro):</strong> completa le proprie battute con i dati personali.</li>
+        <li><strong>Personaggio B (blocco giallino):</strong> completa le proprie risposte in tempo reale.</li>
+      </ul>
+    </div>
+
+    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione dei ruoli">
+      <div class="assignment-grid">
+        <label class="assignment-field" for="writer-a-select">
+          🗣️ Personaggio A (Azzurro)
+          <select id="writer-a-select"><option value="">— Nessuno assegnato —</option></select>
+        </label>
+        <label class="assignment-field" for="writer-b-select">
+          💬 Personaggio B (Giallino)
+          <select id="writer-b-select"><option value="">— Nessuno assegnato —</option></select>
+        </label>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Dialogo di presentazione">
+      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+
+      <div class="roles-pill">
+        <span id="role-tag-a" class="role-tag">A (Azzurro): —</span>
+        <span id="role-tag-b" class="role-tag role-b">B (Giallino): —</span>
+      </div>
+
+      <div id="char-toolbar" class="char-toolbar" role="toolbar" aria-label="Caratteri speciali italiani">
+        <span class="char-toolbar-label">Caratteri:</span>
+        <button type="button" class="char-btn" data-char="'">'</button>
+        <button type="button" class="char-btn" data-char="à">à</button>
+        <button type="button" class="char-btn" data-char="è">è</button>
+        <button type="button" class="char-btn" data-char="ì">ì</button>
+        <button type="button" class="char-btn" data-char="ò">ò</button>
+        <button type="button" class="char-btn" data-char="ù">ù</button>
+        <button type="button" class="char-btn" data-char="È">È</button>
+      </div>
+
+      <div id="dialogue-container" class="dialogue-container">
+        <!-- Battuta 1: Personaggio A -->
+        <div class="dialogue-line student-a">
+          <span class="speaker-tag">A:</span> Ciao, mi chiamo
+          <input type="text" class="inline-input" data-speaker="a" data-idx="0" style="width: 125px;" placeholder="nome..." aria-label="Personaggio A, nome" disabled>
+          e tu come ti chiami?
+        </div>
+
+        <!-- Battuta 2: Personaggio B -->
+        <div class="dialogue-line student-b">
+          <span class="speaker-tag">B:</span> Mi chiamo
+          <input type="text" class="inline-input" data-speaker="b" data-idx="0" style="width: 125px;" placeholder="nome..." aria-label="Personaggio B, nome" disabled>.
+          Sono
+          <input type="text" class="inline-input" data-speaker="b" data-idx="1" style="width: 120px;" placeholder="nazionalità..." aria-label="Personaggio B, nazionalità" disabled>
+          di
+          <input type="text" class="inline-input" data-speaker="b" data-idx="2" style="width: 120px;" placeholder="città..." aria-label="Personaggio B, città" disabled>
+          e tu di dove sei?
+        </div>
+
+        <!-- Battuta 3: Personaggio A -->
+        <div class="dialogue-line student-a">
+          <span class="speaker-tag">A:</span> Sono
+          <input type="text" class="inline-input" data-speaker="a" data-idx="1" style="width: 120px;" placeholder="nazionalità..." aria-label="Personaggio A, nazionalità" disabled>
+          di
+          <input type="text" class="inline-input" data-speaker="a" data-idx="2" style="width: 120px;" placeholder="città..." aria-label="Personaggio A, città" disabled>.
+          Ho
+          <input type="text" class="inline-input" data-speaker="a" data-idx="3" style="width: 85px;" placeholder="età..." aria-label="Personaggio A, età" disabled>
+          anni. E tu quanti anni hai?
+        </div>
+
+        <!-- Battuta 4: Personaggio B -->
+        <div class="dialogue-line student-b">
+          <span class="speaker-tag">B:</span> Ho
+          <input type="text" class="inline-input" data-speaker="b" data-idx="3" style="width: 85px;" placeholder="età..." aria-label="Personaggio B, età" disabled>
+          anni. Sono
+          <input type="text" class="inline-input" data-speaker="b" data-idx="4" style="width: 135px;" placeholder="professione..." aria-label="Personaggio B, professione" disabled>
+          e tu che lavoro fai?
+        </div>
+
+        <!-- Battuta 5: Personaggio A -->
+        <div class="dialogue-line student-a">
+          <span class="speaker-tag">A:</span> Sono
+          <input type="text" class="inline-input" data-speaker="a" data-idx="4" style="width: 135px;" placeholder="professione..." aria-label="Personaggio A, professione" disabled>.
+          Ci vediamo
+          <input type="text" class="inline-input" data-speaker="a" data-idx="5" style="width: 105px;" placeholder="presto..." aria-label="Personaggio A, saluto" disabled>!
+        </div>
+
+        <!-- Battuta 6: Personaggio B -->
+        <div class="dialogue-line student-b">
+          <span class="speaker-tag">B:</span> Ciao!
+        </div>
+      </div>
+
+      <button id="submit-contribution" class="submit-contribution" type="button" disabled>📤 Invia il contributo</button>
+
+      <section class="contribution-panel" aria-label="Dialoghi salvati">
+        <h2>📋 Dialoghi inviati dalla classe</h2>
+        <div id="contribution-list" class="contribution-list" aria-live="polite"></div>
+      </section>
+
+      <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-group-scope.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    const session = window.parloUnit3Session || {};
+    const params = new URLSearchParams(location.search);
+    const group = String(session.group || params.get("gruppo") || "").trim();
+    const isTeacher = Boolean(session.isTeacher);
+    const teacherName = String(session.teacherName || session.name || "Insegnante").trim();
+    const userName = isTeacher ? teacherName : String(session.name || params.get("nome") || localStorage.getItem("parlo_student_name") || "").trim();
+    const identity = userName ? { role: isTeacher ? "teacher" : "student", name: userName } : null;
+    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
+    const safeGroup = session.safeGroup || safe(group);
+
+    const teacherControls = document.getElementById("teacher-controls");
+    const writerASelect = document.getElementById("writer-a-select");
+    const writerBSelect = document.getElementById("writer-b-select");
+    const assignmentStatus = document.getElementById("assignment-status");
+    const roleTagA = document.getElementById("role-tag-a");
+    const roleTagB = document.getElementById("role-tag-b");
+    const statusMessage = document.getElementById("status-message");
+    const badge = document.getElementById("user-badge");
+    const homeLink = document.getElementById("home-link");
+    const exerciseMenu = document.getElementById("exercise-menu");
+    const charToolbar = document.getElementById("char-toolbar");
+    const dialogueContainer = document.getElementById("dialogue-container");
+    const submitButton = document.getElementById("submit-contribution");
+    const contributionList = document.getElementById("contribution-list");
+
+    teacherControls.hidden = !isTeacher;
+    badge.textContent = group && group !== "sconosciuto"
+      ? `${isTeacher ? "👩‍🏫" : "👤"} ${userName || "Utente"} · ${group}`
+      : "Accedi dalla pagina iniziale per associare l’attività al gruppo.";
+
+    const withSession = url => {
+      if (group && group !== "sconosciuto") url.searchParams.set("gruppo", group);
+      if (!isTeacher && userName) url.searchParams.set("nome", userName);
+      return url;
+    };
+
+    homeLink.href = withSession(new URL("../index.html", location.href)).href;
+    exerciseMenu.addEventListener("change", () => {
+      if (exerciseMenu.value) location.assign(withSession(new URL(exerciseMenu.value, location.href)).href);
+    });
+
+    const emptyDialogState = () => ({
+      a: ["", "", "", "", "", ""],
+      b: ["", "", "", "", ""]
+    });
+
+    let answersRef = null, groupRoster = [], onlineStudents = new Set(), dialogState = emptyDialogState(), contributions = {}, writerA = null, writerB = null, isApplyingSnapshot = false;
+    let lastActiveInput = null;
+    const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+
+    const allInputs = [...dialogueContainer.querySelectorAll("input.inline-input")];
+    allInputs.forEach(input => {
+      input.addEventListener("focus", () => { lastActiveInput = input; });
+    });
+
+    function parseAssignment(value) {
+      if (value && typeof value === "object" && ["student", "teacher"].includes(value.role) && value.name) return value;
+      if (typeof value === "string" && value) {
+        try {
+          const parsed = JSON.parse(value);
+          if (parsed?.role && parsed?.name) return parsed;
+        } catch (_) {}
+        return { role: "student", name: value };
+      }
+      return null;
+    }
+
+    function assignmentValue(person) {
+      return person?.role && person?.name ? JSON.stringify({ role: person.role, name: person.name }) : "";
+    }
+
+    function matchesIdentity(person) {
+      return Boolean(identity && person && identity.role === person.role && identity.name === person.name);
+    }
+
+    function canWriteRole(roleCode) {
+      if (!answersRef || !identity) return false;
+      return roleCode === "A" ? matchesIdentity(writerA) : matchesIdentity(writerB);
+    }
+
+    function canWriteAny() {
+      return canWriteRole("A") || canWriteRole("B");
+    }
+
+    function setStatus(message, error = false) {
+      statusMessage.textContent = message;
+      statusMessage.classList.toggle("error", error);
+    }
+
+    function formatDate(value) {
+      const time = Number(value) || 0;
+      return time ? new Intl.DateTimeFormat("it-IT", { dateStyle: "short", timeStyle: "short" }).format(new Date(time)) : "Data non disponibile";
+    }
+
+    // Barra caratteri speciali italiani: mantiene selezione e focus nel campo
+    charToolbar.addEventListener("mousedown", e => {
+      if (e.target.closest(".char-btn")) e.preventDefault();
+    });
+
+    charToolbar.addEventListener("click", e => {
+      const btn = e.target.closest(".char-btn");
+      if (!btn) return;
+      const char = btn.dataset.char || "";
+      const target = (document.activeElement && dialogueContainer.contains(document.activeElement) && document.activeElement.matches("input.inline-input:not(:disabled)"))
+        ? document.activeElement
+        : (lastActiveInput && !lastActiveInput.disabled ? lastActiveInput : null);
+
+      if (!target) return;
+      const start = target.selectionStart ?? target.value.length;
+      const end = target.selectionEnd ?? target.value.length;
+      target.focus();
+      if (typeof target.setRangeText === "function") {
+        target.setRangeText(char, start, end, "end");
+      } else {
+        target.value = target.value.slice(0, start) + char + target.value.slice(end);
+        const caret = start + char.length;
+        target.setSelectionRange(caret, caret);
+      }
+      target.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+
+    function buildWriterOptions(currentAssigned) {
+      const options = [new Option("— Nessuno assegnato —", "")];
+      const students = [...new Map(groupRoster.filter(p => p?.nome).map(p => [p.nome, p])).values()].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+      const online = students.filter(p => onlineStudents.has(p.nome));
+      const offline = students.filter(p => !onlineStudents.has(p.nome));
+
+      if (online.length) {
+        const g = document.createElement("optgroup");
+        g.label = "🟢 STUDENTI ONLINE";
+        online.forEach(p => g.appendChild(new Option(`🟢 ${p.nome} · ONLINE`, assignmentValue({ role: "student", name: p.nome }))));
+        options.push(g);
+      }
+      if (offline.length) {
+        const g = document.createElement("optgroup");
+        g.label = "STUDENTI OFFLINE";
+        offline.forEach(p => g.appendChild(new Option(p.nome, assignmentValue({ role: "student", name: p.nome }))));
+        options.push(g);
+      }
+      if (currentAssigned?.role === "student" && !students.some(p => p.nome === currentAssigned.name)) {
+        const g = document.createElement("optgroup");
+        g.label = "TURNO ATTUALE";
+        g.appendChild(new Option(`${currentAssigned.name} · non presente nell’elenco`, assignmentValue(currentAssigned)));
+        options.push(g);
+      }
+      if (identity?.role === "teacher") {
+        const g = document.createElement("optgroup");
+        g.label = "👩‍🏫 INSEGNANTE";
+        g.appendChild(new Option(`${identity.name} · insegnante`, assignmentValue(identity)));
+        options.push(g);
+      }
+      return options;
+    }
+
+    function renderWriterMenus() {
+      if (!isTeacher) return;
+      writerASelect.replaceChildren(...buildWriterOptions(writerA));
+      writerASelect.value = assignmentValue(writerA);
+
+      writerBSelect.replaceChildren(...buildWriterOptions(writerB));
+      writerBSelect.value = assignmentValue(writerB);
+    }
+
+    function renderContributions() {
+      const entries = Object.entries(contributions || {})
+        .map(([id, entry]) => ({ ...entry, id }))
+        .filter(entry => entry.a || entry.b)
+        .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0) || a.id.localeCompare(b.id));
+
+      contributionList.replaceChildren();
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "Nessun dialogo inviato finora.";
+        contributionList.appendChild(empty);
+        return;
+      }
+
+      entries.forEach(entry => {
+        const article = document.createElement("article"), meta = document.createElement("span"), text = document.createElement("div");
+        article.className = "contribution";
+        meta.className = "contribution-meta";
+        const labelAuthors = [entry.authorA && `A: ${entry.authorA}`, entry.authorB && `B: ${entry.authorB}`].filter(Boolean).join(" · ") || entry.author || "Partecipanti";
+        meta.textContent = `${labelAuthors} · ${formatDate(entry.timestamp)}`;
+        text.className = "contribution-text";
+
+        const a = Array.isArray(entry.a) ? entry.a : [];
+        const b = Array.isArray(entry.b) ? entry.b : [];
+        text.textContent = [
+          `A: Ciao, mi chiamo ${a[0] || "___"} e tu come ti chiami?`,
+          `B: Mi chiamo ${b[0] || "___"}. Sono ${b[1] || "___"} di ${b[2] || "___"} e tu di dove sei?`,
+          `A: Sono ${a[1] || "___"} di ${a[2] || "___"}. Ho ${a[3] || "___"} anni. E tu quanti anni hai?`,
+          `B: Ho ${b[3] || "___"} anni. Sono ${b[4] || "___"} e tu che lavoro fai?`,
+          `A: Sono ${a[4] || "___"}. Ci vediamo ${a[5] || "___"}!`,
+          `B: Ciao!`
+        ].join("\n");
+
+        article.append(meta, text);
+        contributionList.appendChild(article);
+      });
+    }
+
+    function renderUI() {
+      const canEditA = canWriteRole("A");
+      const canEditB = canWriteRole("B");
+      const nameA = writerA?.name || "non assegnato";
+      const nameB = writerB?.name || "non assegnato";
+
+      roleTagA.textContent = `A (Azzurro): ${writerA?.name || "—"}`;
+      roleTagB.textContent = `B (Giallino): ${writerB?.name || "—"}`;
+
+      if (!group || group === "sconosciuto") {
+        assignmentStatus.textContent = "Accedi tramite il gruppo della classe per utilizzare l’esercizio condiviso.";
+      } else if (!answersRef) {
+        assignmentStatus.textContent = "Connessione all’esercizio non disponibile. Verifica la connessione e ricarica la pagina.";
+      } else if (!identity) {
+        assignmentStatus.textContent = "Accedi dal gruppo della classe con il tuo nome per partecipare.";
+      } else if (!writerA && !writerB) {
+        assignmentStatus.textContent = isTeacher
+          ? "Assegna i turni per Personaggio A e Personaggio B dai menu qui sopra."
+          : "L’insegnante non ha ancora assegnato i turni per Personaggio A e Personaggio B.";
+      } else if (canEditA && canEditB) {
+        assignmentStatus.textContent = `✍️ Hai entrambi i ruoli (Personaggio A e Personaggio B), ${identity.name}.`;
+      } else if (canEditA) {
+        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio A (azzurro), ${identity.name}. Personaggio B (giallino): ${nameB}.`;
+      } else if (canEditB) {
+        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio B (giallino), ${identity.name}. Personaggio A (azzurro): ${nameA}.`;
+      } else {
+        assignmentStatus.textContent = `🔒 Personaggio A: ${nameA} · Personaggio B: ${nameB}. Puoi seguire il dialogo in tempo reale.`;
+      }
+
+      allInputs.forEach(input => {
+        const speaker = input.dataset.speaker;
+        const idx = parseInt(input.dataset.idx, 10);
+        const canEdit = speaker === "a" ? canEditA : canEditB;
+
+        if (!(canEdit && document.activeElement === input)) {
+          input.value = String((dialogState[speaker] && dialogState[speaker][idx]) || "");
+        }
+        input.disabled = !canEdit;
+      });
+
+      const hasAnyText = [...(dialogState.a || []), ...(dialogState.b || [])].some(v => String(v || "").trim());
+      submitButton.disabled = !canWriteAny() || !hasAnyText;
+      renderContributions();
+      renderWriterMenus();
+    }
+
+    allInputs.forEach(input => {
+      input.addEventListener("input", () => {
+        const speaker = input.dataset.speaker;
+        const idx = parseInt(input.dataset.idx, 10);
+        const allowed = speaker === "a" ? canWriteRole("A") : canWriteRole("B");
+        if (!allowed || isApplyingSnapshot) return;
+
+        if (!dialogState[speaker]) dialogState[speaker] = [];
+        dialogState[speaker][idx] = input.value;
+
+        const hasAnyText = [...(dialogState.a || []), ...(dialogState.b || [])].some(v => String(v || "").trim());
+        submitButton.disabled = !canWriteAny() || !hasAnyText;
+        setStatus("");
+
+        answersRef.child(`tokenData/answers/${speaker}/${idx}`).set(input.value).catch(error => {
+          console.error("Errore salvataggio campo:", error);
+          setStatus("⚠️ Risposta non sincronizzata. Controlla la connessione.", true);
+        });
+      });
+    });
+
+    submitButton.addEventListener("click", async () => {
+      if (!answersRef || !canWriteAny()) return;
+      const aClean = [0, 1, 2, 3, 4, 5].map(idx => String(dialogState.a?.[idx] || "").trim());
+      const bClean = [0, 1, 2, 3, 4].map(idx => String(dialogState.b?.[idx] || "").trim());
+      if (![...aClean, ...bClean].some(Boolean)) {
+        setStatus("Compila almeno un campo prima di inviare il dialogo.", true);
+        return;
+      }
+      submitButton.disabled = true;
+      setStatus("Invio del dialogo…");
+      const record = answersRef.child("tokenData/contributions").push();
+      try {
+        await record.set({
+          a: aClean,
+          b: bClean,
+          author: identity.name,
+          authorA: writerA?.name || "",
+          authorB: writerB?.name || "",
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+        setStatus("✅ Dialogo salvato nello storico della classe.");
+      } catch (error) {
+        console.error("Errore invio contributo:", error);
+        setStatus("⚠️ Dialogo non inviato. Controlla la connessione e riprova.", true);
+      } finally {
+        renderUI();
+      }
+    });
+
+    function loadRoster(database) {
+      if (!group || group === "sconosciuto") return;
+      database.ref(`configurazioneScuola/gruppi/${safeGroup}`).on("value", snapshot => {
+        const data = snapshot.val() || {}, unit = Number(data.unitNumber || 0);
+        const active = Object.values(data.studenti || {}).filter(p => p?.nome);
+        const inactive = Object.values(data.studentiInattivi || {}).filter(p => p?.nome && Number(p.unitNumber ?? unit) >= 3);
+        groupRoster = [...new Map([...active, ...inactive].map(p => [p.nome, p])).values()].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+        renderWriterMenus();
+      });
+    }
+
+    function registerPresence(database) {
+      if (!userName || isTeacher || !answersRef) return;
+      const ref = answersRef.child(`presence/${safe(userName)}/${presenceId}`);
+      database.ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() !== true) return;
+        ref.onDisconnect().remove().then(() => ref.set({ name: userName, role: "student", connectedAt: Date.now() })).catch(e => console.error(e));
+      });
+    }
+
+    function updateOnline(value) {
+      onlineStudents = new Set();
+      const visit = node => {
+        if (!node || typeof node !== "object") return;
+        if (node.name && (!node.role || node.role === "student")) onlineStudents.add(node.name);
+        Object.values(node).forEach(child => { if (child && typeof child === "object") visit(child); });
+      };
+      visit(value);
+      renderWriterMenus();
+    }
+
+    writerASelect.addEventListener("change", () => {
+      if (!isTeacher || !answersRef) return;
+      let assignment = null;
+      try { assignment = writerASelect.value ? JSON.parse(writerASelect.value) : null; } catch (_) {}
+      writerA = assignment;
+      renderUI();
+      answersRef.child("controlAssignments/writerA").set(assignment).catch(error => {
+        console.error("Errore assegnazione Personaggio A:", error);
+        setStatus("Impossibile salvare il turno assegnato per Personaggio A.", true);
+      });
+    });
+
+    writerBSelect.addEventListener("change", () => {
+      if (!isTeacher || !answersRef) return;
+      let assignment = null;
+      try { assignment = writerBSelect.value ? JSON.parse(writerBSelect.value) : null; } catch (_) {}
+      writerB = assignment;
+      renderUI();
+      answersRef.child("controlAssignments/writerB").set(assignment).catch(error => {
+        console.error("Errore assegnazione Personaggio B:", error);
+        setStatus("Impossibile salvare il turno assegnato per Personaggio B.", true);
+      });
+    });
+
+    if (group && group !== "sconosciuto" && window.firebase) {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        answersRef = database.ref("esercizi/unita3-conoscersi-k");
+        loadRoster(database);
+        registerPresence(database);
+        answersRef.child("presence").on("value", snapshot => updateOnline(snapshot.val() || {}));
+        answersRef.on("value", snapshot => {
+          const data = snapshot.val() || {}, tData = data.tokenData || {}, assignments = data.controlAssignments || {};
+          writerA = parseAssignment(assignments.writerA ?? tData.currentAWriter);
+          writerB = parseAssignment(assignments.writerB ?? tData.currentBWriter);
+          const saved = tData.answers || {};
+          dialogState = {
+            a: [0, 1, 2, 3, 4, 5].map(idx => String(saved.a?.[idx] ?? saved.a?.[String(idx)] ?? "")),
+            b: [0, 1, 2, 3, 4].map(idx => String(saved.b?.[idx] ?? saved.b?.[String(idx)] ?? ""))
+          };
+          contributions = tData.contributions || {};
+          isApplyingSnapshot = true;
+          renderUI();
+          isApplyingSnapshot = false;
+        }, error => {
+          console.error("Errore dati esercizio:", error);
+          setStatus("Impossibile leggere i dati condivisi del gruppo.", true);
+          renderUI();
+        });
+      } catch (error) {
+        console.error("Errore inizializzazione Firebase:", error);
+        setStatus("Servizio dati condivisi non disponibile.", true);
+      }
+    } else {
+      setStatus("Accedi dalla pagina iniziale tramite il gruppo della classe per usare l’esercizio condiviso.", true);
+      renderUI();
+    }
+
+    renderUI();
+
+    let backgroundUpdatePending = false;
+    function updateBackgroundParallax() {
+      if (backgroundUpdatePending) return;
+      backgroundUpdatePending = true;
+      requestAnimationFrame(() => {
+        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .12, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        backgroundUpdatePending = false;
+      });
+    }
+    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
+    updateBackgroundParallax();
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>
