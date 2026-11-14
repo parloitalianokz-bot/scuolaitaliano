@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 2 — Il plurale e i numeri (Esercizio H)</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --primary: #477755;
+      --primary-light: #edf4ed;
+      --primary-dark: #2f5739;
+      --accent: #bd694d;
+      --bg-main: #f5f1e7;
+      --card-bg: #fffefa;
+      --text: #292d28;
+      --text-muted: #6b7069;
+      --success: #278253;
+      --success-bg: #e1f1e5;
+      --border: #e7e5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    :focus-visible {
+      outline: 3px solid rgba(189, 105, 77, .55);
+      outline-offset: 3px;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .88), rgba(250, 248, 241, .88)),
+        url("img/sfondo.jpg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 840px); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin: 8px 0 22px;
+      padding: 28px 20px 26px;
+      text-align: center;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--primary-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      background: #eaf1e8;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 {
+      margin: 4px 0;
+      font-size: clamp(1.9rem, 5vw, 2.65rem);
+      letter-spacing: -.04em;
+      color: var(--primary-dark);
+      line-height: 1.12;
+    }
+    .hero-subtitle {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: .98rem;
+    }
+
+    /* Box Istruzioni */
+    .instruction-box {
+      background: #fff;
+      border: 1px solid #d8e5d8;
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title {
+      font-size: .85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .instruction-text {
+      font-size: .98rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .example-card {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: var(--primary-light);
+      border-radius: 10px;
+      font-size: .95rem;
+      color: var(--primary-dark);
+      border: 1px solid #d0e2d2;
+    }
+
+    /* Tooltip Styling */
+    .has-tooltip {
+      position: relative;
+      border-bottom: 2px dashed var(--accent);
+      cursor: help;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+    .has-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2d3748;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s ease, visibility .2s ease;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      pointer-events: none;
+    }
+    .has-tooltip:hover::after,
+    .has-tooltip:focus::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Top Controls */
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 14px 20px;
+      border: 1px solid rgba(71, 119, 85, .13);
+      border-radius: 16px;
+      background: rgba(255, 254, 250, .96);
+      box-shadow: 0 8px 22px rgba(43, 69, 46, .055);
+    }
+    .teacher-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .teacher-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+    .teacher-toggle input { accent-color: var(--primary); }
+
+    .mode-select-box {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .mode-select-box.visible { display: flex; }
+    .mode-select-box select {
+      padding: 6px 10px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 8px;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: #fff;
+    }
+
+    button.reset-btn {
+      padding: 6px 14px;
+      border: 1px solid #fca5a5;
+      border-radius: 10px;
+      background: #fff;
+      color: #dc2626;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    button.reset-btn:hover { background: #fef2f2; }
+
+    .card {
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--card-bg);
+      box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+      margin-bottom: 32px;
+    }
+
+    /* Navigazione Slide */
+    .slide-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .slide-navigation button {
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 1px solid #d8e5d8;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .slide-navigation button:hover:not(:disabled) {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+    .slide-navigation button:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+    .slide-progress {
+      color: var(--primary-dark);
+      font-size: .95rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    #token-mode-section { display: none; }
+    #token-mode-section.active-mode { display: block; }
+
+    #all-students-mode-section { display: none; }
+    #all-students-mode-section.active-mode { display: block; }
+    body.teacher-mode #student-form-card { display: none; }
+
+    .token-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      background: var(--primary-light);
+      border-radius: 14px;
+    }
+    .btn-token {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      min-height: 42px;
+    }
+    .btn-token.release { background: #bd694d; }
+    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+
+    /* Card Esercizio */
+    .slide-item {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(43, 69, 46, .03);
+    }
+    .slide-item[hidden] { display: none; }
+
+    .prompt-box {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 18px;
+      padding: 14px 18px;
+      background: var(--primary-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    textarea.answer-input {
+      width: 100%;
+      min-height: 64px;
+      padding: 12px 16px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      resize: vertical;
+      outline: none;
+      background: #fff;
+    }
+    textarea.answer-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(71, 119, 85, .15);
+    }
+    textarea.answer-input:disabled {
+      background: #f8faf8;
+      color: #475569;
+    }
+
+    .login-box {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--primary-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .login-box label {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--primary-dark);
+      white-space: nowrap;
+    }
+    .login-box input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 10px;
+      font: inherit;
+      font-size: .95rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .save-status {
+      margin: 0 0 18px;
+      padding: 11px 14px;
+      border: 1px solid #b7dfc1;
+      border-radius: 12px;
+      background: var(--success-bg);
+      color: #17623c;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+    .save-status[hidden] { display: none; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(71, 119, 85, .3);
+      margin-top: 18px;
+    }
+
+    .results-section h2 {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+    .student-result-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(43, 69, 46, .04);
+    }
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .student-name { font-weight: 800; color: var(--primary-dark); }
+
+    .question-responses { margin-bottom: 12px; }
+    .question-responses details {
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .question-responses summary {
+      padding: 14px 16px;
+      color: var(--primary-dark);
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--primary-light);
+    }
+    .answer-list { padding: 4px 16px 12px; }
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(120px, .35fr) 1fr;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .92rem;
+    }
+    .answer-row:last-child { border-bottom: 0; }
+    .answer-author { font-weight: 700; color: var(--primary-dark); }
+    .answer-text {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+    }
+    .answer-text.correct { background: var(--success-bg); }
+    .answer-text.incorrect { background: #fde8e7; }
+    .teacher-reviews-title {
+      margin: 24px 0 12px;
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+    }
+
+    .teacher-review-box {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #d5e2d5;
+    }
+    .feedback-input {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: .85rem;
+      margin-bottom: 8px;
+    }
+    .review-btns { display: flex; gap: 8px; }
+    .btn-review-ok, .btn-review-comment {
+      min-height: 40px;
+      padding: 7px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-review-ok { background: var(--success); color: white; }
+    .btn-review-comment { background: var(--accent); color: #fff; }
+
+    @media (max-width: 520px) {
+      body { padding: 16px 8px; }
+      .slide-item { padding: 14px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <header class="hero">
+      <span class="eyebrow">Unità 2 · Grammatica</span>
+      <h1>Il plurale e i numeri</h1>
+      <p class="hero-subtitle">Составьте предложения по образцу!</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio H:</div>
+      <div class="instruction-text">
+        👉 <strong>Составьте предложения с глаголом <em>avere</em>, множественным числом и числительными:</strong>
+        <div class="example-card">
+          📌 <em>Пример:</em> <strong>Io — Penna rossa (3)</strong> → ✍️ <strong>Io ho tre penne rosse.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra Controlli Superiore -->
+    <div id="status" class="top-controls">
+      <div class="teacher-controls">
+        <label class="teacher-toggle">
+          <input type="checkbox" id="teacher-mode">
+          Режим учителя · Modalità insegnante
+        </label>
+
+        <div class="mode-select-box" id="mode-selector-container">
+          <label for="work-mode">Режим работы:</label>
+          <select id="work-mode">
+            <option value="token">Uno alla volta · По одному</option>
+            <option value="all">Tutti insieme · Все вместе</option>
+          </select>
+        </div>
+
+        <button id="reset" class="reset-btn" type="button" style="display:none;">⚠️ Сбросить · Azzera</button>
+      </div>
+    </div>
+
+    <!-- MODALITÀ 1: UNO ALLA VOLTA -->
+    <section id="token-mode-section" class="card active-mode">
+      <div class="token-bar">
+        <span id="token-status-text" style="font-weight:700; color:var(--primary-dark);">Открыто для работы</span>
+        <button id="btn-take-token" class="btn-token" type="button">✋ Взять слово · Prendi la parola</button>
+      </div>
+
+      <nav class="slide-navigation" aria-label="Navigazione schede">
+        <button id="prev-token-slide" type="button">← Precedente</button>
+        <span id="progress-token-slide" class="slide-progress"></span>
+        <button id="next-token-slide" type="button">Successiva →</button>
+      </nav>
+
+      <div id="token-slides-container"></div>
+    </section>
+
+    <!-- MODALITÀ 2: TUTTI INSIEME -->
+    <section id="all-students-mode-section">
+      <div class="card" id="student-form-card">
+        <div class="login-box">
+          <label for="student-name-input">Ваше имя (Имя Фамилия):</label>
+          <input type="text" id="student-name-input" placeholder="Введите ваше имя...">
+        </div>
+
+        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+
+        <nav class="slide-navigation" aria-label="Navigazione schede">
+          <button id="prev-student-slide" type="button">← Precedente</button>
+          <span id="progress-student-slide" class="slide-progress"></span>
+          <button id="next-student-slide" type="button">Successiva →</button>
+        </nav>
+
+        <div id="student-slides-container"></div>
+
+        <button type="button" id="btn-submit-all" class="btn-submit">📤 Отправить решение · Invia la risposta</button>
+      </div>
+
+      <div class="results-section">
+        <h2>📋 Ответы студентов · Risposte degli studenti</h2>
+        <div id="responses-list">
+          <p style="color: var(--text-muted); font-size: .9rem;">Пока никто не отправил ответы...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "INSERISCI_API_KEY",
+      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano",
+      appId: "INSERISCI_APP_ID"
+    };
+
+    // Данные упражнения H с подсказками (Tooltip)
+    const itemsData = [
+      { id: "k1", num: "1.", promptHTML: 'Gli studenti — Libro interessante (4)', acceptedAnswers: ['Gli studenti hanno quattro libri interessanti.', 'Gli studenti hanno 4 libri interessanti.'] },
+      { id: "k2", num: "2.", promptHTML: 'Tu — <span class="has-tooltip" data-tooltip="диван">Divano</span> grande (2)', acceptedAnswers: ['Tu hai due divani grandi.', 'Tu hai 2 divani grandi.'] },
+      { id: "k3", num: "3.", promptHTML: 'Maria — Bambino piccolo (3)', acceptedAnswers: ['Maria ha tre bambini piccoli.', 'Maria ha 3 bambini piccoli.'] },
+      { id: "k4", num: "4.", promptHTML: 'Noi — Gatto <span class="has-tooltip" data-tooltip="хитрый / умный">furbo</span> (7)', acceptedAnswers: ['Noi abbiamo sette gatti furbi.', 'Noi abbiamo 7 gatti furbi.'] },
+      { id: "k5", num: "5.", promptHTML: 'Voi — <span class="has-tooltip" data-tooltip="часы">Orologio</span> <span class="has-tooltip" data-tooltip="точный">preciso</span> (3)', acceptedAnswers: ['Voi avete tre orologi precisi.', 'Voi avete 3 orologi precisi.'] },
+      { id: "k6", num: "6.", promptHTML: 'Loro — <span class="has-tooltip" data-tooltip="рубашка">Camicia</span> bianca (5)', acceptedAnswers: ['Loro hanno cinque camicie bianche.', 'Loro hanno 5 camicie bianche.'] },
+      { id: "k7", num: "7.", promptHTML: 'Io — Telefono nuovo (3)', acceptedAnswers: ['Io ho tre telefoni nuovi.', 'Io ho 3 telefoni nuovi.'] },
+      { id: "k8", num: "8.", promptHTML: 'Tu — Macchina tedesca (2)', acceptedAnswers: ['Tu hai due macchine tedesche.', 'Tu hai 2 macchine tedesche.'] },
+      { id: "k9", num: "9.", promptHTML: 'Paolo — Casa moderna (3)', acceptedAnswers: ['Paolo ha tre case moderne.', 'Paolo ha 3 case moderne.'] },
+      { id: "k10", num: "10.", promptHTML: 'Noi — Amica inglese (12)', acceptedAnswers: ['Noi abbiamo dodici amiche inglesi.', 'Noi abbiamo 12 amiche inglesi.'] },
+      { id: "k11", num: "11.", promptHTML: 'Tu — <span class="has-tooltip" data-tooltip="сумка">Borsa</span> elegante (8)', acceptedAnswers: ['Tu hai otto borse eleganti.', 'Tu hai 8 borse eleganti.'] },
+      { id: "k12", num: "12.", promptHTML: 'Noi — Computer veloce (24)', acceptedAnswers: ['Noi abbiamo ventiquattro computer veloci.', 'Noi abbiamo 24 computer veloci.'] },
+      { id: "k13", num: "13.", promptHTML: 'Loro — <span class="has-tooltip" data-tooltip="чашка">Tazza</span> grande (12)', acceptedAnswers: ['Loro hanno dodici tazze grandi.', 'Loro hanno 12 tazze grandi.'] },
+      { id: "k14", num: "14.", promptHTML: 'Noi — Letto comodo (4)', acceptedAnswers: ['Noi abbiamo quattro letti comodi.', 'Noi abbiamo 4 letti comodi.'] },
+      { id: "k15", num: "15.", promptHTML: 'La casa — Finestra grande (15)', acceptedAnswers: ['La casa ha quindici finestre grandi.', 'La casa ha 15 finestre grandi.'] },
+      { id: "k16", num: "16.", promptHTML: '<span class="has-tooltip" data-tooltip="Скруэлла Де Виль (101 далматинец)">Crudelia</span> — Cane intelligente (101)', acceptedAnswers: ['Crudelia ha centouno cani intelligenti.', 'Crudelia ha cento e uno cani intelligenti.', 'Crudelia ha 101 cani intelligenti.'] },
+      { id: "k17", num: "17.", promptHTML: 'Voi — Hobby interessante (4)', acceptedAnswers: ['Voi avete quattro hobby interessanti.', 'Voi avete 4 hobby interessanti.'] },
+      { id: "k18", num: "18.", promptHTML: 'Io — <span class="has-tooltip" data-tooltip="куртка / пиджак">Giacca</span> elegante (9)', acceptedAnswers: ['Io ho nove giacche eleganti.', 'Io ho 9 giacche eleganti.'] },
+      { id: "k19", num: "19.", promptHTML: 'Luigi — Auto sportiva (10)', acceptedAnswers: ['Luigi ha dieci auto sportive.', 'Luigi ha 10 auto sportive.'] },
+      { id: "k20", num: "20.", promptHTML: 'Tu — Televisore grande (11)', acceptedAnswers: ['Tu hai undici televisori grandi.', 'Tu hai 11 televisori grandi.'] }
+    ];
+
+    function normalizeAnswer(value) {
+      return String(value || "")
+        .toLocaleLowerCase("it")
+        .replace(/[.,!?;:¿¡"'’“”«»()]/g, "")
+        .trim()
+        .replace(/\s+/g, " ");
+    }
+
+    function createEmptyState() {
+      const state = {};
+      itemsData.forEach(item => { state[item.id] = ""; });
+      return state;
+    }
+
+    let studentState = createEmptyState();
+    let tokenState = createEmptyState();
+    let activeTokenSlide = 0;
+    let activeStudentSlide = 0;
+
+    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    const teacherToggle = document.getElementById("teacher-mode");
+    const workModeSelect = document.getElementById("work-mode");
+    const modeSelectorContainer = document.getElementById("mode-selector-container");
+    const resetButton = document.getElementById("reset");
+
+    const tokenSection = document.getElementById("token-mode-section");
+    const allSection = document.getElementById("all-students-mode-section");
+    const studentNameInput = document.getElementById("student-name-input");
+    const saveStatus = document.getElementById("save-status");
+    const responsesList = document.getElementById("responses-list");
+
+    const btnTakeToken = document.getElementById("btn-take-token");
+    const tokenStatusText = document.getElementById("token-status-text");
+
+    if (localStorage.getItem("parlo_student_name")) {
+      studentNameInput.value = localStorage.getItem("parlo_student_name");
+    }
+
+    // Navigazione Slide
+    function setupNavigation(prevBtnId, nextBtnId, progressId, getCurrentSlide, setCurrentSlide, total) {
+      const prevBtn = document.getElementById(prevBtnId);
+      const nextBtn = document.getElementById(nextBtnId);
+      const progressSpan = document.getElementById(progressId);
+
+      function updateNav() {
+        const current = getCurrentSlide();
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        progressSpan.textContent = `Scheda ${current + 1} di ${total}`;
+      }
+
+      prevBtn.onclick = () => {
+        if (getCurrentSlide() > 0) {
+          setCurrentSlide(getCurrentSlide() - 1);
+          updateNav();
+          renderStudentSlides();
+          renderTokenSlides();
+        }
+      };
+
+      nextBtn.onclick = () => {
+        if (getCurrentSlide() < total - 1) {
+          setCurrentSlide(getCurrentSlide() + 1);
+          updateNav();
+          renderStudentSlides();
+          renderTokenSlides();
+        }
+      };
+
+      updateNav();
+    }
+
+    // Render per "Tutti insieme"
+    function renderStudentSlides() {
+      const container = document.getElementById("student-slides-container");
+      container.replaceChildren();
+
+      itemsData.forEach((item, idx) => {
+        const box = document.createElement("div");
+        box.className = "slide-item";
+        box.hidden = idx !== activeStudentSlide;
+
+        const promptBox = document.createElement("div");
+        promptBox.className = "prompt-box";
+        promptBox.innerHTML = `<span>${item.num}</span> <div>${item.promptHTML}</div>`;
+
+        const textarea = document.createElement("textarea");
+        textarea.className = "answer-input";
+        textarea.rows = 2;
+        textarea.placeholder = "Scrivi la frase completa...";
+        textarea.value = studentState[item.id] || "";
+        textarea.addEventListener("input", (e) => {
+          studentState[item.id] = e.target.value;
+          saveStatus.hidden = true;
+        });
+
+        box.append(promptBox, textarea);
+        container.appendChild(box);
+      });
+    }
+
+    // Render per "Uno alla volta"
+    function renderTokenSlides() {
+      const container = document.getElementById("token-slides-container");
+      const canEdit = currentWriter === myClientId;
+
+      // Firebase invia uno snapshot dopo ogni carattere: non ricreare il campo attivo.
+      if (canEdit && container.contains(document.activeElement)) return;
+
+      container.replaceChildren();
+
+      itemsData.forEach((item, idx) => {
+        const box = document.createElement("div");
+        box.className = "slide-item";
+        box.hidden = idx !== activeTokenSlide;
+
+        const promptBox = document.createElement("div");
+        promptBox.className = "prompt-box";
+        promptBox.innerHTML = `<span>${item.num}</span> <div>${item.promptHTML}</div>`;
+
+        const textarea = document.createElement("textarea");
+        textarea.className = "answer-input";
+        textarea.rows = 2;
+        textarea.placeholder = canEdit ? "Scrivi la frase completa..." : "Prendi la parola per scrivere...";
+        textarea.disabled = !canEdit;
+        textarea.value = tokenState[item.id] || "";
+        textarea.addEventListener("input", (e) => {
+          tokenState[item.id] = e.target.value;
+          if (answersRef && currentWriter === myClientId) {
+            answersRef.child("tokenData").child("answers").set(tokenState);
+          }
+        });
+
+        box.append(promptBox, textarea);
+        container.appendChild(box);
+      });
+    }
+
+    // Firebase Init
+    let answersRef = null;
+    let isTeacher = false;
+    let currentWorkMode = "token";
+    let currentWriter = null;
+    let allResponses = {};
+
+    teacherToggle.addEventListener("change", (e) => {
+      isTeacher = e.target.checked;
+      document.body.classList.toggle("teacher-mode", isTeacher);
+      modeSelectorContainer.classList.toggle("visible", isTeacher);
+      resetButton.style.display = isTeacher ? "inline-block" : "none";
+      updateUIState();
+    });
+
+    workModeSelect.addEventListener("change", (e) => {
+      if (answersRef && isTeacher) {
+        answersRef.child("workMode").set(e.target.value);
+      }
+    });
+
+    btnTakeToken.onclick = () => {
+      if (answersRef) {
+        if (currentWriter === myClientId) {
+          answersRef.child("tokenData").child("currentWriter").set(null);
+        } else if (!currentWriter) {
+          answersRef.child("tokenData").child("currentWriter").set(myClientId);
+        }
+      }
+    };
+
+    if (window.firebase) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        answersRef = firebase.database().ref("esercizi/unita2-plurale-numeri-h");
+
+        answersRef.on("value", (snapshot) => {
+          const data = snapshot.val() || {};
+          currentWorkMode = data.workMode || "token";
+          workModeSelect.value = currentWorkMode;
+
+          const tData = data.tokenData || {};
+          currentWriter = tData.currentWriter || null;
+          if (tData.answers) {
+            tokenState = tData.answers;
+          }
+
+          allResponses = data.allStudentsData || {};
+          updateUIState();
+        });
+      } catch (e) {
+        console.error("Errore Firebase:", e);
+      }
+    }
+
+    document.getElementById("btn-submit-all").addEventListener("click", async () => {
+      const name = studentNameInput.value.trim();
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя! · Inserisci il tuo nome!");
+        studentNameInput.focus();
+        return;
+      }
+      if (!answersRef) {
+        alert("Нет соединения с базой данных. · Connessione non disponibile.");
+        return;
+      }
+
+      localStorage.setItem("parlo_student_name", name);
+      const studentId = name.replace(/[.#$\/\[\]]/g, "_");
+      const studentRef = answersRef.child("allStudentsData").child("students").child(studentId);
+
+      try {
+        await studentRef.update({
+          name,
+          answers: studentState,
+          timestamp: Date.now()
+        });
+
+        saveStatus.textContent = "✅ Ответ отправлен учителю! · Risposta inviata all’insegnante!";
+        saveStatus.hidden = false;
+      } catch (err) {
+        alert("Ошибка при отправке · Errore durante l'invio.");
+      }
+    });
+
+    function updateUIState() {
+      if (currentWorkMode === "token") {
+        tokenSection.classList.add("active-mode");
+        allSection.classList.remove("active-mode");
+
+        if (!currentWriter) {
+          tokenStatusText.textContent = "Открыто · In corso";
+          btnTakeToken.textContent = "✋ Взять слово · Prendi la parola";
+          btnTakeToken.className = "btn-token";
+          btnTakeToken.disabled = false;
+        } else if (currentWriter === myClientId) {
+          tokenStatusText.textContent = "Вы редактируете · Stai modificando";
+          btnTakeToken.textContent = "✔ Передать слово · Lascia la parola";
+          btnTakeToken.className = "btn-token release";
+          btnTakeToken.disabled = false;
+        } else {
+          tokenStatusText.textContent = "🔒 Пишет одноклассник · Compagno scrive";
+          btnTakeToken.textContent = "🔒 Пишет одноклассник · Compagno scrive";
+          btnTakeToken.className = "btn-token busy";
+          btnTakeToken.disabled = true;
+        }
+
+        renderTokenSlides();
+      } else {
+        tokenSection.classList.remove("active-mode");
+        allSection.classList.add("active-mode");
+        renderStudentSlides();
+        renderResponsesAllMode();
+      }
+    }
+
+    function renderResponsesAllMode() {
+      responsesList.replaceChildren();
+      const studentsData = allResponses.students || {};
+      const studentEntries = Object.entries(studentsData);
+
+      if (studentEntries.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.style.color = "var(--text-muted)";
+        emptyMessage.style.fontSize = ".9rem";
+        emptyMessage.textContent = "Пока никто не отправил ответы...";
+        responsesList.appendChild(emptyMessage);
+        return;
+      }
+
+      const groupedAnswers = document.createElement("div");
+      groupedAnswers.className = "question-responses";
+
+      itemsData.forEach((item, index) => {
+        const details = document.createElement("details");
+        if (index === 0) details.open = true;
+
+        const summary = document.createElement("summary");
+        // Rimuove eventuali tag HTML dal summary per pulizia
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = item.promptHTML;
+        summary.textContent = `${item.num} ${tempDiv.textContent || tempDiv.innerText}`;
+        details.appendChild(summary);
+
+        const answerList = document.createElement("div");
+        answerList.className = "answer-list";
+        studentEntries.forEach(([, sData]) => {
+          const row = document.createElement("div");
+          row.className = "answer-row";
+
+          const author = document.createElement("span");
+          author.className = "answer-author";
+          author.textContent = sData.name || "Studente";
+
+          const submittedAnswer = sData.answers?.[item.id] || "";
+          const answerText = submittedAnswer.trim() ? submittedAnswer : "—";
+          const answer = document.createElement("span");
+          answer.className = "answer-text";
+          answer.textContent = answerText;
+          if (submittedAnswer.trim()) {
+            const normalizedAnswer = normalizeAnswer(submittedAnswer);
+            const acceptedAnswers = item.acceptedAnswers.map(normalizeAnswer);
+            answer.classList.add(acceptedAnswers.includes(normalizedAnswer) ? "correct" : "incorrect");
+          }
+          row.append(author, answer);
+          answerList.appendChild(row);
+        });
+
+        details.appendChild(answerList);
+        groupedAnswers.appendChild(details);
+      });
+      responsesList.appendChild(groupedAnswers);
+
+      if (isTeacher) {
+        const reviewTitle = document.createElement("h3");
+        reviewTitle.className = "teacher-reviews-title";
+        reviewTitle.textContent = "Revisione per studente";
+        responsesList.appendChild(reviewTitle);
+
+        studentEntries.forEach(([studentId, item]) => {
+          const card = document.createElement("article");
+          card.className = "student-result-card";
+
+          const header = document.createElement("div");
+          header.className = "student-header";
+          const name = document.createElement("span");
+          name.className = "student-name";
+          name.textContent = `👤 ${item.name || "Studente"}`;
+          header.appendChild(name);
+          if (item.status === "approved") {
+            const status = document.createElement("span");
+            status.textContent = "✔ Approvato";
+            header.appendChild(status);
+          }
+          card.appendChild(header);
+
+          const reviewBox = document.createElement("div");
+          reviewBox.className = "teacher-review-box";
+          const feedbackInput = document.createElement("input");
+          feedbackInput.className = "feedback-input";
+          feedbackInput.placeholder = "Замечание или исправление...";
+          feedbackInput.value = item.feedback || "";
+
+          const buttons = document.createElement("div");
+          buttons.className = "review-btns";
+          const approveButton = document.createElement("button");
+          approveButton.type = "button";
+          approveButton.className = "btn-review-ok";
+          approveButton.textContent = "✔ Одобрить";
+          approveButton.onclick = () => {
+            answersRef.child("allStudentsData").child("students").child(studentId).update({ status: "approved" });
+          };
+
+          const commentButton = document.createElement("button");
+          commentButton.type = "button";
+          commentButton.className = "btn-review-comment";
+          commentButton.textContent = "💬 Сохранить";
+          commentButton.onclick = () => {
+            answersRef.child("allStudentsData").child("students").child(studentId).update({ feedback: feedbackInput.value.trim() });
+          };
+
+          buttons.append(approveButton, commentButton);
+          reviewBox.append(feedbackInput, buttons);
+          card.appendChild(reviewBox);
+          responsesList.appendChild(card);
+        });
+      }
+    }
+
+    resetButton.addEventListener("click", () => {
+      if (confirm("Сбросить все ответы? · Azzera tutte le risposte?")) {
+        answersRef.set({
+          workMode: currentWorkMode,
+          tokenData: { currentWriter: null, answers: createEmptyState() },
+          allStudentsData: {}
+        });
+      }
+    });
+
+    setupNavigation("prev-token-slide", "next-token-slide", "progress-token-slide", () => activeTokenSlide, (val) => activeTokenSlide = val, itemsData.length);
+    setupNavigation("prev-student-slide", "next-student-slide", "progress-student-slide", () => activeStudentSlide, (val) => activeStudentSlide = val, itemsData.length);
+
+    renderStudentSlides();
+    renderTokenSlides();
+  </script>
+</body>
+</html>
