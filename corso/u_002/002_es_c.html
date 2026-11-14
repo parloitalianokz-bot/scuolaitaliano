@@ -6,626 +6,68 @@
   <meta name="description" content="Produzione orale: Un bravo ragazzo, Unità 2." />
   <title>Unità 2 — Un bravo ragazzo · Esercizio C</title>
   <style>
-    :root {
-      color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
-      --green: #2f5739; --green-light: #edf4ed; --accent: #bd694d;
-      --text: #292d28; --muted: #6b7069; --border: #d8e5d8;
-      --success: #17623c; --success-bg: #e1f1e5; --error: #991b1b; --error-bg: #fde8e7;
-    }
-    * { box-sizing: border-box; }
-    [hidden] { display: none !important; }
-    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
-    body {
-      min-height: 100vh; margin: 0; padding: 28px 14px; color: var(--text);
-      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
-        url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px)) / cover fixed,
-        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
-    }
-    main { width: min(100%,880px); margin: 0 auto; }
-    .top-menu { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:14px; }
-    .top-menu select,.top-menu a,.assignment-select { min-height:40px; max-width:100%; padding:7px 12px; border:1px solid var(--border); border-radius:10px; background:#fffefa; color:var(--green); font:inherit; font-size:.9rem; font-weight:700; }
-    .top-menu a { display:inline-flex; align-items:center; text-decoration:none; }
-    .top-menu a:hover,.top-menu select:hover { border-color:var(--green); background:var(--green-light); }
-    #exercise-menu { margin-left:auto; }
-    #user-badge { color:var(--accent); font-size:.87rem; font-weight:700; }
-    .hero { margin:8px 0 20px; padding:26px 18px; border:1px solid var(--border); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); text-align:center; box-shadow:0 12px 32px rgba(43,69,46,.07); }
-    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
-    h1 { margin:4px 0; color:var(--green); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
-    .hero-subtitle { margin:8px 0 0; color:var(--muted); }
-    .instruction-box,.teacher-controls { margin-bottom:18px; padding:14px 18px; border:1px solid var(--border); border-radius:14px; background:rgba(255,254,250,.95); box-shadow:0 6px 18px rgba(43,69,46,.04); }
-    .instruction-box { border-left:5px solid var(--accent); line-height:1.5; }
-    .teacher-controls { display:grid; gap:6px; }
-    .teacher-controls[hidden] { display:none; }
-    .teacher-controls label { color:var(--green); font-size:.9rem; font-weight:800; }
-    .assignment-select { width:100%; }
-    .card { margin-bottom:20px; padding:clamp(16px,4vw,30px); border:1px solid #e7e5dc; border-radius:24px; background:rgba(255,254,250,.97); box-shadow:0 18px 48px rgba(43,69,46,.1); }
-    .speech-prompts { margin:0 0 18px; padding:clamp(16px,4vw,24px); border:1px solid var(--border); border-radius:18px; background:linear-gradient(145deg,#fffefa,#f2f7ef); }
-    .speech-prompts h2 { margin:0; color:var(--green); font-size:1.25rem; }
-    .speech-prompts-intro { margin:6px 0 14px; color:var(--muted); font-size:.94rem; line-height:1.5; }
-    .story-starter { margin:0 0 12px; padding:12px 14px; border-left:4px solid var(--accent); border-radius:8px; background:#fff; color:var(--green); font:700 1.08rem Georgia,'Times New Roman',serif; }
-    .speech-prompts-viewport { max-height:280px; overflow-y:auto; padding:2px 5px 2px 2px; }
-    .speech-prompts ol { display:grid; gap:7px; margin:0; padding:0; list-style:none; }
-    .speech-prompts li { padding:0; }
-    .prompt-link { width:100%; display:flex; align-items:flex-start; gap:9px; padding:9px 11px; border:1px solid rgba(71,119,85,.14); border-radius:11px; background:rgba(255,255,255,.9); color:var(--text); font:inherit; font-size:.94rem; font-weight:600; line-height:1.4; text-align:left; cursor:pointer; }
-    .prompt-link::before { content:attr(data-number); display:grid; flex:0 0 28px; width:28px; height:28px; place-items:center; border-radius:8px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; }
-    .prompt-link[aria-current="step"] { border-color:var(--green); background:var(--green-light); }
-    .overall-progress { display:flex; gap:6px; overflow-x:auto; padding:2px 1px 9px; margin:0 0 12px; }
-    .progress-step,.nav-btn { min-height:40px; padding:8px 13px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--green); font:inherit; font-weight:700; cursor:pointer; }
-    .progress-step { flex:0 0 36px; min-height:36px; padding:4px; }
-    .progress-step:hover,.nav-btn:hover:not(:disabled) { background:var(--green-light); border-color:var(--green); }
-    .progress-step[aria-current="step"] { border-color:var(--green); background:var(--green); color:#fff; }
-    .response-slide { display:none; flex-direction:column; gap:12px; min-width:0; padding:clamp(14px,3vw,22px); border:1px solid var(--border); border-radius:18px; background:#fff; }
-    .response-slide.active { display:flex; }
-    .response-slide h2 { margin:0; color:var(--green); font-size:1.08rem; line-height:1.45; }
-    .writer-status { margin:0; padding:9px 12px; border-radius:9px; background:var(--green-light); color:var(--green); font-size:.9rem; font-weight:700; }
-    .recording-area { display:flex; justify-content:center; }
-    .btn-mic,.submit-contribution { min-height:42px; padding:10px 16px; border:0; border-radius:10px; background:var(--green); color:#fff; font:inherit; font-weight:800; cursor:pointer; }
-    .btn-mic.recording { background:#dc2626; }
-    .btn-mic:disabled,.submit-contribution:disabled { opacity:.55; cursor:not-allowed; }
-    .live-transcript-label,.answer-label { color:var(--green); font-size:.92rem; font-weight:800; }
-    .live-transcript-box { min-height:70px; padding:11px 13px; border:1px dashed #b7dfc1; border-radius:11px; background:#faf9f5; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.5; }
-    .live-transcript-box.placeholder { color:var(--muted); font-style:italic; }
-    .response-input { width:100%; min-height:130px; padding:12px 14px; border:1.5px solid #d4e1d5; border-radius:12px; background:#fff; color:var(--text); font:inherit; font-size:1rem; line-height:1.55; resize:vertical; }
-    .response-input:disabled { background:#f2f5f1; color:#475569; }
-    .contributions { display:grid; gap:8px; margin-top:4px; }
-    .contributions h3 { margin:0; color:var(--green); font-size:1rem; }
-    .contribution-list { display:grid; gap:8px; }
-    .contribution { padding:11px 12px; border:1px solid var(--border); border-radius:10px; background:#fbfaf6; }
-    .contribution-meta { display:block; margin-bottom:5px; color:var(--muted); font-size:.82rem; font-weight:700; }
-    .contribution-text { white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.5; }
-    .empty-message { margin:0; color:var(--muted); font-size:.9rem; }
-    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:16px; padding-top:14px; border-top:1px solid #e7e5dc; }
-    .slide-progress { color:var(--green); font-size:.9rem; font-weight:800; text-align:center; }
-    .nav-btn:disabled { opacity:.45; cursor:not-allowed; }
-    .save-status { margin:12px 0 0; padding:10px 12px; border-radius:10px; background:var(--success-bg); color:var(--success); font-size:.9rem; font-weight:700; }
-    .save-status.error { background:var(--error-bg); color:var(--error); }
-    .recording-tips { margin:0 0 20px; padding:12px 16px; border:1px solid var(--border); border-radius:12px; background:rgba(255,254,250,.96); line-height:1.55; }
-    .recording-tips summary { color:var(--green); font-weight:700; cursor:pointer; }
-    .recording-tips ul { margin:10px 0 0; padding-left:22px; }
-    @media(max-width:600px) { body { padding:16px 8px; } .slide-navigation { flex-wrap:wrap; } .nav-btn { flex:1; } }
-    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation:none!important; } }
+    :root{color-scheme:light;font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif;--green:#2f5739;--green-light:#edf4ed;--accent:#bd694d;--text:#292d28;--muted:#6b7069;--border:#d8e5d8;--success:#17623c;--success-bg:#e1f1e5;--error:#991b1b;--error-bg:#fde8e7}
+    *{box-sizing:border-box}[hidden]{display:none!important}:focus-visible{outline:3px solid rgba(189,105,77,.55);outline-offset:3px}
+    body{min-height:100vh;margin:0;padding:28px 14px;color:var(--text);background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%),#e9e3d6}
+    main{width:min(100%,880px);margin:0 auto}.top-menu{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}.top-menu select,.top-menu a{min-height:40px;max-width:100%;padding:7px 12px;border:1px solid var(--border);border-radius:10px;background:#fffefa;color:var(--green);font:inherit;font-size:.9rem;font-weight:700;text-decoration:none}.top-menu a{display:inline-flex;align-items:center}.top-menu a:hover,.top-menu select:hover{border-color:var(--green);background:var(--green-light)}#exercise-menu{margin-left:auto}#user-badge{color:var(--accent);font-size:.87rem;font-weight:700}
+    .hero{margin:8px 0 20px;padding:26px 18px;border:1px solid var(--border);border-radius:24px;background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94));text-align:center;box-shadow:0 12px 32px rgba(43,69,46,.07)}.eyebrow{display:inline-block;margin-bottom:10px;padding:8px 15px;border-radius:20px;background:var(--green-light);color:var(--green);font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}h1{margin:4px 0;color:var(--green);font-size:clamp(1.9rem,5vw,2.65rem);letter-spacing:-.04em;line-height:1.12}.hero-subtitle{margin:8px 0 0;color:var(--muted)}
+    .instruction-box,.teacher-controls{margin-bottom:18px;padding:14px 18px;border:1px solid var(--border);border-radius:14px;background:rgba(255,254,250,.95);box-shadow:0 6px 18px rgba(43,69,46,.04)}.instruction-box{border-left:5px solid var(--accent);line-height:1.5}.teacher-controls[hidden]{display:none}.teacher-controls label{display:grid;gap:6px;color:var(--green);font-size:.9rem;font-weight:800}.teacher-controls select{width:100%;min-height:42px;padding:7px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit}
+    .card{margin-bottom:20px;padding:clamp(16px,4vw,30px);border:1px solid #e7e5dc;border-radius:24px;background:rgba(255,254,250,.97);box-shadow:0 18px 48px rgba(43,69,46,.1)}.speech-prompts{margin:0 0 18px;padding:clamp(16px,4vw,24px);border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,#fffefa,#f2f7ef)}.speech-prompts h2{margin:0;color:var(--green);font-size:1.25rem}.speech-prompts-intro{margin:6px 0 14px;color:var(--muted);font-size:.94rem;line-height:1.5}.story-starter{margin:0 0 12px;padding:12px 14px;border-left:4px solid var(--accent);border-radius:8px;background:#fff;color:var(--green);font:700 1.08rem Georgia,'Times New Roman',serif}.speech-prompts-viewport{max-height:280px;overflow-y:auto;padding:2px 5px 2px 2px;overscroll-behavior:contain}.speech-prompts ol{display:grid;gap:7px;margin:0;padding:0;list-style:none}.speech-prompts li{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border:1px solid rgba(71,119,85,.14);border-radius:11px;background:rgba(255,255,255,.9);font-size:.94rem;font-weight:600;line-height:1.4}.speech-prompts li::before{content:counter(prompt,decimal-leading-zero);display:grid;flex:0 0 28px;width:28px;height:28px;place-items:center;border-radius:8px;background:var(--green-light);color:var(--green);font-size:.78rem;font-weight:800;counter-increment:prompt}.speech-prompts ol{counter-reset:prompt}
+    .assignment-status{margin:0 0 14px;padding:11px 13px;border-radius:10px;background:var(--green-light);color:var(--green);font-size:.92rem;font-weight:700;line-height:1.5}.story-starter-main{margin:0 0 16px;color:var(--green);font:700 1.1rem Georgia,'Times New Roman',serif}.recording-panel,.answer-panel{margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fbfaf6}.panel-title{display:block;margin:0 0 8px;color:var(--green);font-size:.98rem;font-weight:800}.recording-controls{display:flex;justify-content:center;margin:0 0 10px}.btn-mic,.submit-contribution{min-height:42px;padding:10px 16px;border:0;border-radius:10px;background:var(--green);color:#fff;font:inherit;font-weight:800;cursor:pointer}.btn-mic:hover:not(:disabled),.submit-contribution:hover:not(:disabled){background:#24452d}.btn-mic.recording{background:#c93434}.btn-mic:disabled,.submit-contribution:disabled{opacity:.55;cursor:not-allowed}.mic-status{min-height:1.35em;margin:0 0 9px;color:var(--muted);font-size:.88rem}.mic-status.error{color:var(--error)}.live-transcript{min-height:100px;padding:13px 14px;border:2px dashed #b7dfc1;border-radius:12px;background:#fff;line-height:1.6;overflow-wrap:anywhere;white-space:pre-wrap}.live-transcript.placeholder{color:var(--muted);font-style:italic}.answer-input{display:block;width:100%;min-height:120px;padding:12px 14px;border:1.5px solid #d4e1d5;border-radius:11px;background:#fff;color:var(--text);font:inherit;line-height:1.55;resize:vertical}.answer-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(71,119,85,.15)}.answer-input:disabled{background:#f1f5f1;color:#5f6863}.submit-contribution{margin-top:9px}.contribution-panel{display:grid;gap:9px;margin-top:16px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#fbfaf6}.contribution-panel h2{margin:0;color:var(--green);font-size:.98rem}.contribution-list{display:grid;gap:8px}.contribution{padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;line-height:1.5}.contribution-meta{display:block;margin-bottom:4px;color:var(--muted);font-size:.82rem;font-weight:700}.contribution-text{white-space:pre-wrap;overflow-wrap:anywhere}.empty-message{margin:0;color:var(--muted);font-size:.9rem}.save-status{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--success-bg);color:var(--success);font-size:.9rem;font-weight:700}.save-status.error{background:var(--error-bg);color:var(--error)}.recording-tips{margin:0 0 20px;padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(255,254,250,.96);line-height:1.55}.recording-tips summary{color:var(--green);font-weight:700;cursor:pointer}.recording-tips ul{margin:10px 0 0;padding-left:22px}
+    @media(max-width:600px){body{padding:16px 8px}#exercise-menu{margin-left:0;flex:1 1 100%}.recording-panel,.answer-panel{padding:11px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation:none!important}}
   </style>
 </head>
 <body>
   <main>
     <nav class="top-menu" aria-label="Navigazione Unità 2">
       <select id="exercise-menu" aria-label="Vai a un esercizio">
-        <option value="002_lettura.html">Lettura</option><option value="002_es_a.html">Esercizio A</option>
-        <option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html" selected>Esercizio C</option>
-        <option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option>
-        <option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html">Esercizio G</option>
-        <option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option>
-        <option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option>
-        <option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option>
-        <option value="002_numeri.html">I numeri</option><option value="002_verbo_essere.html">Il verbo essere</option>
+        <option value="002_lettura.html">Lettura</option><option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html" selected>Esercizio C</option><option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option><option value="002_numeri.html">I numeri</option><option value="002_verbo_essere.html">Il verbo essere</option>
       </select>
     </nav>
-    <header class="hero">
-      <span class="eyebrow">Unità 2 · Produzione orale</span>
-      <h1>Un bravo ragazzo</h1>
-      <p class="hero-subtitle">Racconta il testo in italiano, aiutandoti con le domande.</p>
-      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
-    </header>
+    <header class="hero"><span class="eyebrow">Unità 2 · Produzione orale</span><h1>Un bravo ragazzo</h1><p class="hero-subtitle">Racconta il testo in italiano, aiutandoti con le domande.</p><p id="user-badge" class="hero-subtitle" aria-live="polite"></p></header>
     <div class="instruction-box">💡 <strong>Перескажите текст на итальянском языке. Используйте вопросы как подсказки.</strong></div>
-    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione del turno">
-      <label for="writer-select">✍️ Turno di racconto per la scheda corrente</label>
-      <select id="writer-select" class="assignment-select" aria-label="Scegli chi può registrare"></select>
-    </section>
+    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione del turno"><label for="writer-select">✍️ Turno di racconto</label><select id="writer-select" aria-label="Scegli chi può parlare"></select></section>
     <section class="card" aria-label="Racconto orale">
-      <section class="speech-prompts" aria-labelledby="speech-prompts-title">
-        <h2 id="speech-prompts-title">💬 Domande per il racconto</h2>
-        <p class="speech-prompts-intro">Usa le domande come guida: non è necessario ricordare ogni dettaglio.</p>
-        <p class="story-starter">Marco e la mamma sono in casa…</p>
-        <div class="speech-prompts-viewport" tabindex="0" aria-label="Domande guida"><ol id="speech-prompt-list"></ol></div>
-      </section>
-      <nav id="slide-steps" class="overall-progress" aria-label="Vai direttamente a una scheda"></nav>
-      <div id="response-slide"></div>
-      <nav class="slide-navigation" aria-label="Navigazione schede">
-        <button id="previous-slide" class="nav-btn" type="button">← Precedente</button>
-        <span id="slide-progress" class="slide-progress" aria-live="polite"></span>
-        <button id="next-slide" class="nav-btn" type="button">Successiva →</button>
-      </nav>
+      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+      <section class="speech-prompts" aria-labelledby="speech-prompts-title"><h2 id="speech-prompts-title">💬 Domande per il racconto</h2><p class="speech-prompts-intro">Usa le domande come guida: non è necessario ricordare ogni dettaglio.</p><p class="story-starter">Marco e la mamma sono in casa…</p><div class="speech-prompts-viewport" tabindex="0" aria-label="Domande guida scorrevoli"><ol>
+        <li>Dove sono Marco e sua madre?</li><li>Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?</li><li>Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?</li><li>Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?</li><li>Che cosa fa la mamma quando Marco ha sonno?</li><li>Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?</li>
+      </ol></div></section>
+      <section class="recording-panel" aria-label="Risposta vocale"><h2 class="panel-title">🎙️ Risposta speech to text</h2><p id="mic-status" class="mic-status" role="status" aria-live="polite"></p><div class="recording-controls"><button id="btn-toggle-mic" class="btn-mic" type="button" disabled>🎤 Inizia a parlare</button></div><div id="live-transcript" class="live-transcript placeholder" role="status" aria-live="polite">La trascrizione del microfono apparirà qui…</div></section>
+      <section class="answer-panel" aria-label="Risposta scritta"><label class="panel-title" for="written-answer">✍️ Risposta scritta separata</label><textarea id="written-answer" class="answer-input" rows="5" placeholder="Scrivi qui il tuo racconto in italiano…" disabled></textarea><button id="submit-written" class="submit-contribution" type="button" disabled>📤 Invia il contributo scritto</button></section>
+      <section class="contribution-panel" aria-label="Contributi del racconto"><h2>📋 Contributi degli studenti</h2><div id="contributions" class="contribution-list" aria-live="polite"></div></section>
       <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
     </section>
-    <details class="recording-tips">
-      <summary>Советы для стабильной записи микрофона</summary>
-      <ul>
-        <li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li>
-        <li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li>
-        <li>Подключите устройство к зарядке и отключите режим энергосбережения.</li>
-        <li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li>
-        <li>По возможности используйте стабильное подключение к интернету.</li>
-      </ul>
-    </details>
+    <details class="recording-tips"><summary>Советы для стабильной записи микрофона</summary><ul><li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li><li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li><li>Подключите устройство к зарядке и отключите режим энергосбережения.</li><li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li><li>По возможности используйте стабильное подключение к интернету.</li></ul></details>
   </main>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="firebase-group-scope.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="firebase-group-scope.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "INSERISCI_API_KEY", authDomain: "esercizi-parlo-italiano.firebaseapp.com",
-      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "esercizi-parlo-italiano", appId: "INSERISCI_APP_ID"
-    };
-    const prompts = [
-      "Dove sono Marco e sua madre?",
-      "Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?",
-      "Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?",
-      "Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?",
-      "Che cosa fa la mamma quando Marco ha sonno?",
-      "Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?"
-    ];
-    const session = window.parloUnit2Session || {};
-    const group = session.group && session.group !== "sconosciuto" ? session.group : "";
-    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
-    const userName = String(session.name || "").trim();
-    const isTeacher = Boolean(session.isTeacher);
-    const identity = userName ? { role: isTeacher ? "teacher" : "student", name: userName } : null;
-    const ownIdentityValue = identity ? JSON.stringify(identity) : "";
-    const presenceId = `presence_${Math.random().toString(36).slice(2,10)}`;
-    const teacherControls = document.getElementById("teacher-controls");
-    const writerSelect = document.getElementById("writer-select");
-    const responseSlide = document.getElementById("response-slide");
-    const promptList = document.getElementById("speech-prompt-list");
-    const stepsNav = document.getElementById("slide-steps");
-    const previousButton = document.getElementById("previous-slide");
-    const nextButton = document.getElementById("next-slide");
-    const progressText = document.getElementById("slide-progress");
-    const saveStatus = document.getElementById("save-status");
-    const badge = document.getElementById("user-badge");
-
-    if (group && isTeacher) badge.textContent = `👩‍🏫 Insegnante · ${group}`;
-    else if (group && userName) badge.textContent = `👤 ${group} · ${userName}`;
-    else badge.hidden = true;
-    teacherControls.hidden = !isTeacher;
-    document.getElementById("exercise-menu").addEventListener("change", event => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      if (group) target.searchParams.set("gruppo", group);
-      if (userName && !isTeacher) target.searchParams.set("nome", userName);
-      location.assign(`${target.pathname}${target.search}${target.hash}`);
-    });
-
-    let answersRef = null;
-    let groupRef = null;
-    let activeSlide = 0;
-    let roster = [];
-    let presence = {};
-    let assignments = {};
-    let sharedAnswers = {};
-    let liveTranscripts = {};
-    let contributions = {};
-    let legacyStudents = {};
-    let recording = null;
-    let recognition = null;
-    let recordingSessionId = 0;
-    const answerTimers = new Map();
-    const pendingDrafts = new Map();
-    const slideCards = [];
-    const answerPlaceholder = "Scrivi qui il tuo racconto o registra la voce…";
-
-    function setStatus(message, error = false) {
-      saveStatus.textContent = message;
-      saveStatus.hidden = !message;
-      saveStatus.classList.toggle("error", error);
-    }
-    function assignmentValue(value) {
-      return value?.role && value?.name ? JSON.stringify({ role: value.role, name: value.name }) : "";
-    }
-    function parseAssignment(value) {
-      if (!value) return null;
-      try {
-        const parsed = JSON.parse(value);
-        return parsed && ["student", "teacher"].includes(parsed.role) && parsed.name ? parsed : null;
-      } catch (_) { return null; }
-    }
-    function assignedTo(index) {
-      const target = assignments[index]?.writer;
-      return Boolean(identity && target && target.role === identity.role && target.name === identity.name);
-    }
-    function isOnline(name) {
-      return Object.values(presence || {}).some(connections => Object.values(connections || {}).some(entry => entry?.role === "student" && entry.name === name));
-    }
-    function rosterOptions() {
-      const people = new Map();
-      roster.forEach(person => {
-        const name = String(person?.nome || "").trim();
-        if (name) people.set(name, { role: "student", name, online: isOnline(name) });
-      });
-      Object.values(presence || {}).forEach(connections => Object.values(connections || {}).forEach(entry => {
-        if (entry?.role === "student" && entry.name) people.set(entry.name, { role: "student", name: entry.name, online: true });
-      }));
-      return [...people.values()].sort((a,b) => Number(b.online)-Number(a.online) || a.name.localeCompare(b.name,"it"));
-    }
-    function refreshWriterMenu() {
-      if (!isTeacher) return;
-      const selected = assignmentValue(assignments[activeSlide]?.writer);
-      writerSelect.replaceChildren(new Option("— Nessuno assegnato —", ""));
-      const people = rosterOptions();
-      [["🟢 Studenti online", people.filter(person => person.online)], ["Studenti offline", people.filter(person => !person.online)]].forEach(([label, entries]) => {
-        if (!entries.length) return;
-        const groupOption = document.createElement("optgroup");
-        groupOption.label = label;
-        entries.forEach(person => groupOption.appendChild(new Option(`${person.online ? "🟢 " : ""}${person.name}`, assignmentValue(person))));
-        writerSelect.appendChild(groupOption);
-      });
-      if (identity?.role === "teacher") {
-        const teacherGroup = document.createElement("optgroup");
-        teacherGroup.label = "👩‍🏫 Insegnante";
-        teacherGroup.appendChild(new Option(identity.name, assignmentValue(identity)));
-        writerSelect.appendChild(teacherGroup);
-      }
-      writerSelect.value = selected;
-    }
-    function formatDate(value) {
-      const date = new Date(Number(value) || 0);
-      return Number(value) && !Number.isNaN(date.getTime()) ? new Intl.DateTimeFormat("it-IT", { dateStyle:"short", timeStyle:"short" }).format(date) : "Data non disponibile";
-    }
-    function renderContributions(index) {
-      const list = slideCards[index]?.contributions;
-      if (!list) return;
-      list.replaceChildren();
-      const records = Object.entries(contributions[index] || {}).map(([id,item]) => ({ id, ...item }))
-        .filter(item => String(item.text || "").trim())
-        .sort((a,b) => (Number(a.timestamp)||0)-(Number(b.timestamp)||0) || a.id.localeCompare(b.id));
-      if (index === 0) {
-        Object.entries(legacyStudents).forEach(([id,student]) => {
-          const text = String(student?.transcription || "").trim();
-          if (text) records.push({ id:`legacy-${id}`, name:student.name || "Studente", text, timestamp:student.timestamp || 0, legacy:true });
-        });
-        records.sort((a,b) => (Number(a.timestamp)||0)-(Number(b.timestamp)||0) || a.id.localeCompare(b.id));
-      }
-      if (!records.length) {
-        const empty = document.createElement("p");
-        empty.className = "empty-message";
-        empty.textContent = "Nessun contributo per questa scheda.";
-        list.appendChild(empty);
-        return;
-      }
-      records.forEach(record => {
-        const article = document.createElement("article");
-        article.className = "contribution";
-        const meta = document.createElement("span");
-        meta.className = "contribution-meta";
-        meta.textContent = `${record.author || record.name || "Partecipante"} · ${formatDate(record.timestamp)}${record.legacy ? " · invio precedente" : ""}`;
-        const text = document.createElement("div");
-        text.className = "contribution-text";
-        text.textContent = record.text;
-        article.append(meta,text);
-        list.appendChild(article);
-      });
-    }
-    function updateSlide(index) {
-      const item = slideCards[index];
-      const canWrite = assignedTo(index) && Boolean(answersRef);
-      const writer = assignments[index]?.writer;
-      item.card.classList.toggle("active", index === activeSlide);
-      item.input.disabled = !canWrite;
-      item.mic.disabled = !canWrite || !recognition || (recording && recording.slide !== index);
-      item.submit.disabled = !canWrite || !item.input.value.trim();
-      item.writerStatus.textContent = writer
-        ? (assignedTo(index) ? "✍️ Hai il turno: puoi registrare o scrivere il racconto." : `🔒 Turno assegnato a ${writer.name}.`)
-        : "Il turno non è ancora stato assegnato dall’insegnante.";
-      const live = String(liveTranscripts[index] || "");
-      item.live.textContent = live || "La trascrizione del microfono apparirà qui…";
-      item.live.classList.toggle("placeholder", !live.trim());
-      renderContributions(index);
-    }
-    function updateUI() {
-      slideCards.forEach((_,index) => updateSlide(index));
-      refreshWriterMenu();
-      stepsNav.querySelectorAll("button").forEach((button,index) => button.setAttribute("aria-current", index === activeSlide ? "step" : "false"));
-      promptList.querySelectorAll("button").forEach((button,index) => button.setAttribute("aria-current", index === activeSlide ? "step" : "false"));
-      progressText.textContent = `Scheda ${activeSlide + 1} di ${prompts.length}`;
-      previousButton.disabled = activeSlide === 0;
-      nextButton.disabled = activeSlide === prompts.length - 1;
-    }
-    function navigate(index) {
-      if (recording) stopRecording();
-      activeSlide = Math.max(0,Math.min(prompts.length - 1,index));
-      updateUI();
-    }
-    function saveDraft(index, value) {
-      sharedAnswers[index] = value;
-      if (!answersRef || !assignedTo(index)) return;
-      clearTimeout(answerTimers.get(index));
-      answerTimers.set(index,setTimeout(() => {
-        answerTimers.delete(index);
-        answersRef.child(`sharedAnswers/${index}`).set(value).catch(() => setStatus("Impossibile sincronizzare il testo. Controlla la connessione.",true));
-      },250));
-    }
-    function flushDraft(index,value) {
-      if (!answerTimers.has(index)) return Promise.resolve();
-      clearTimeout(answerTimers.get(index));
-      answerTimers.delete(index);
-      return answersRef.child(`sharedAnswers/${index}`).set(value);
-    }
-    function saveContribution(index,text,author) {
-      if (!answersRef || !text.trim()) return Promise.resolve();
-      return answersRef.child(`contributions/${index}`).push().set({ text:text.trim(), author, role:identity?.role || "student", timestamp:Date.now() });
-    }
-    function createSlide(index) {
-      const card = document.createElement("article");
-      card.className = "response-slide";
-      const heading = document.createElement("h2");
-      heading.textContent = `${index + 1}. ${prompts[index]}`;
-      const writerStatus = document.createElement("p");
-      writerStatus.className = "writer-status";
-      writerStatus.setAttribute("aria-live","polite");
-      const recordingArea = document.createElement("div");
-      recordingArea.className = "recording-area";
-      const mic = document.createElement("button");
-      mic.type = "button";
-      mic.className = "btn-mic";
-      mic.textContent = "🎤 Inizia a parlare · Начать говорить";
-      recordingArea.appendChild(mic);
-      const liveLabel = document.createElement("span");
-      liveLabel.className = "live-transcript-label";
-      liveLabel.textContent = "Trascrizione del microfono";
-      const live = document.createElement("div");
-      live.className = "live-transcript-box placeholder";
-      live.textContent = "La trascrizione del microfono apparirà qui…";
-      const label = document.createElement("label");
-      label.className = "answer-label";
-      label.htmlFor = `response-input-${index}`;
-      label.textContent = "Risposta scritta condivisa · puoi anche correggere la trascrizione:";
-      const input = document.createElement("textarea");
-      input.id = label.htmlFor;
-      input.className = "response-input";
-      input.rows = 5;
-      input.placeholder = answerPlaceholder;
-      input.value = String(sharedAnswers[index] || "");
-      input.addEventListener("input",() => {
-        if (!assignedTo(index)) return;
-        saveDraft(index,input.value);
-        item.submit.disabled = !input.value.trim() || !answersRef;
-      });
-      input.addEventListener("blur",() => flushDraft(index,input.value).catch(() => setStatus("Impossibile sincronizzare il testo.",true)));
-      const submit = document.createElement("button");
-      submit.type = "button";
-      submit.className = "submit-contribution";
-      submit.textContent = "📤 Invia il contributo scritto";
-      submit.addEventListener("click",async () => {
-        const text = input.value.trim();
-        if (!text || !assignedTo(index) || !answersRef) return;
-        submit.disabled = true;
-        try {
-          await flushDraft(index,input.value);
-          await saveContribution(index,text,userName || "Partecipante");
-          setStatus(`Contributo della scheda ${index + 1} aggiunto allo storico.`);
-        } catch (_) { setStatus("Invio non riuscito. Controlla la connessione e riprova.",true); }
-        finally { updateSlide(index); }
-      });
-      const contributionsSection = document.createElement("section");
-      contributionsSection.className = "contributions";
-      const contributionHeading = document.createElement("h3");
-      contributionHeading.textContent = "Contributi della scheda";
-      const contributionsList = document.createElement("div");
-      contributionsList.className = "contribution-list";
-      contributionsList.setAttribute("aria-live","polite");
-      contributionsSection.append(contributionHeading,contributionsList);
-      const item = { card,writerStatus,mic,live,input,submit,contributions:contributionsList };
-      mic.addEventListener("click",() => recording ? stopRecording() : startRecording(index));
-      card.append(heading,writerStatus,recordingArea,liveLabel,live,label,input,submit,contributionsSection);
-      responseSlide.appendChild(card);
-      slideCards.push(item);
-      const listItem = document.createElement("li");
-      const promptButton = document.createElement("button");
-      promptButton.type = "button";
-      promptButton.className = "prompt-link";
-      promptButton.dataset.number = String(index + 1).padStart(2,"0");
-      promptButton.textContent = prompts[index];
-      promptButton.addEventListener("click",() => navigate(index));
-      listItem.appendChild(promptButton);
-      promptList.appendChild(listItem);
-      const step = document.createElement("button");
-      step.type = "button";
-      step.className = "progress-step";
-      step.textContent = String(index + 1);
-      step.setAttribute("aria-label",`Vai alla scheda ${index + 1}`);
-      step.addEventListener("click",() => navigate(index));
-      stepsNav.appendChild(step);
-    }
-    prompts.forEach((_,index) => createSlide(index));
-
-    function renderWriterSelect() {
-      if (!isTeacher) return;
-      const target = assignments[activeSlide]?.writer;
-      const selected = assignmentValue(target);
-      writerSelect.replaceChildren(new Option("— Nessuno assegnato —",""));
-      const people = rosterOptions();
-      [["🟢 STUDENTI ONLINE",people.filter(person => person.online)],["STUDENTI OFFLINE",people.filter(person => !person.online)]].forEach(([label,entries]) => {
-        if (!entries.length) return;
-        const groupOption = document.createElement("optgroup");
-        groupOption.label = label;
-        entries.forEach(person => groupOption.appendChild(new Option(`${person.online ? "🟢 " : ""}${person.name}`,assignmentValue(person))));
-        writerSelect.appendChild(groupOption);
-      });
-      if (identity?.role === "teacher") {
-        const teacherGroup = document.createElement("optgroup");
-        teacherGroup.label = "👩‍🏫 INSEGNANTE";
-        teacherGroup.appendChild(new Option(identity.name,ownIdentityValue));
-        writerSelect.appendChild(teacherGroup);
-      }
-      writerSelect.value = selected;
-    }
-    function saveAssignment(value) {
-      if (!isTeacher || !answersRef) return;
-      answersRef.child(`assignments/${activeSlide}/writer`).set(parseAssignment(value)).catch(() => setStatus("Impossibile salvare il turno assegnato.",true));
-    }
-    writerSelect.addEventListener("change",() => saveAssignment(writerSelect.value));
-    previousButton.addEventListener("click",() => navigate(activeSlide - 1));
-    nextButton.addEventListener("click",() => navigate(activeSlide + 1));
-    document.addEventListener("keydown",event => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,select,button,a,[tabindex]")) return;
-      if (event.key === "ArrowLeft") navigate(activeSlide - 1);
-      if (event.key === "ArrowRight") navigate(activeSlide + 1);
-    });
-
-    function setupRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        setStatus("Il browser non supporta la dettatura vocale. Puoi inserire il racconto nel box di testo.",true);
-        return;
-      }
-      recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = "it-IT";
-      recognition.onresult = event => {
-        if (!recording || recording.owner !== ownIdentityValue) return;
-        let text = "";
-        for (let index = 0; index < event.results.length; index++) text += event.results[index][0].transcript;
-        recording.text = text.trim();
-        liveTranscripts[recording.slide] = recording.text;
-        updateSlide(recording.slide);
-        if (answersRef) answersRef.child(`liveTranscripts/${recording.slide}`).set(recording.text).catch(() => {});
-      };
-      recognition.onerror = event => {
-        if (event.error !== "aborted") setStatus(`Riconoscimento vocale interrotto (${event.error}). La trascrizione rilevata è stata salvata, se presente.`,true);
-        finishRecording(recording?.id);
-      };
-      recognition.onend = () => {
-        if (recording) finishRecording(recording.id);
-      };
-    }
-    async function finishRecording(id) {
-      const current = recording;
-      if (!current || current.id !== id) return;
-      recording = null;
-      const item = slideCards[current.slide];
-      item.mic.classList.remove("recording");
-      item.mic.textContent = "🎤 Inizia a parlare · Начать говорить";
-      item.mic.disabled = true;
-      const text = String(current.text || "").trim();
-      if (!text || !answersRef) {
-        if (!text) setStatus("Non è stata riconosciuta una frase. Puoi riavviare il microfono.",true);
-        updateSlide(current.slide);
-        return;
-      }
-      const previous = String(item.input.value || sharedAnswers[current.slide] || "").trim();
-      const nextDraft = previous ? `${previous}\n${text}` : text;
-      sharedAnswers[current.slide] = nextDraft;
-      pendingDrafts.set(current.slide,nextDraft);
-      item.input.value = nextDraft;
-      try {
-        await Promise.all([
-          answersRef.child(`sharedAnswers/${current.slide}`).set(nextDraft),
-          saveContribution(current.slide,text,userName || "Partecipante"),
-          answersRef.child(`liveTranscripts/${current.slide}`).set("")
-        ]);
-        liveTranscripts[current.slide] = "";
-        pendingDrafts.delete(current.slide);
-        setStatus(`Registrazione salvata tra i contributi della scheda ${current.slide + 1}. Puoi riprendere con una nuova registrazione.`);
-      } catch (_) { setStatus("Trascrizione acquisita ma non salvata: controlla la connessione.",true); }
-      updateUI();
-    }
-    function startRecording(index) {
-      if (!recognition || !answersRef || !assignedTo(index) || recording) return;
-      const current = { id:++recordingSessionId, slide:index, text:"", owner:ownIdentityValue };
-      recording = current;
-      liveTranscripts[index] = "";
-      updateSlide(index);
-      const item = slideCards[index];
-      item.mic.classList.add("recording");
-      item.mic.textContent = "⏹️ Ferma e salva la registrazione";
-      try { recognition.start(); }
-      catch (error) {
-        recording = null;
-        item.mic.classList.remove("recording");
-        item.mic.textContent = "🎤 Inizia a parlare · Начать говорить";
-        updateSlide(index);
-        setStatus("Impossibile avviare il microfono. Verifica i permessi del browser.",true);
-      }
-    }
-    function stopRecording() {
-      if (!recording) return;
-      if (recognition) {
-        try { recognition.stop(); } catch (_) { finishRecording(recording.id); }
-      } else finishRecording(recording.id);
-    }
-
-    function registerPresence(database) {
-      if (!identity || !answersRef) return;
-      const presenceRef = answersRef.child(`presence/${safe(userName)}/${presenceId}`);
-      database.ref(".info/connected").on("value",snapshot => {
-        if (snapshot.val() !== true) return;
-        presenceRef.onDisconnect().remove().then(() => presenceRef.set({ name:userName, role:identity.role, connectedAt:Date.now() })).catch(() => {});
-      });
-    }
-    function loadRoster(database) {
-      if (!groupRef) return;
-      groupRef.on("value",snapshot => {
-        const data = snapshot.val() || {};
-        const active = Object.values(data.studenti || {}).filter(student => student?.nome);
-        const inactive = Object.values(data.studentiInattivi || {}).filter(student => student?.nome && Number(student.unitNumber ?? data.unitNumber ?? 0) >= 2);
-        roster = [...new Map([...active,...inactive].map(student => [student.nome,student])).values()];
-        roster.sort((a,b) => a.nome.localeCompare(b.nome,"it"));
-        updateUI();
-      });
-    }
-
-    if (window.firebase) {
-      try {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        if (group) {
-          const database = firebase.database();
-          answersRef = database.ref("esercizi/unita2-produzione-orale-c");
-          groupRef = database.ref(`configurazioneScuola/gruppi/${safe(group)}`);
-          registerPresence(database);
-          loadRoster(database);
-          setupRecognition();
-          answersRef.on("value",snapshot => {
-            const data = snapshot.val() || {};
-            const token = data.tokenData || {};
-            const assignedBefore = assignedTo(activeSlide);
-            const nextAssignments = data.assignments || {};
-            const nextAssigned = Boolean(identity && nextAssignments[activeSlide]?.writer?.role === identity.role && nextAssignments[activeSlide]?.writer?.name === identity.name);
-            if (recording && assignedBefore && !nextAssigned) stopRecording();
-            assignments = nextAssignments;
-            const incomingAnswers = data.sharedAnswers || {};
-            sharedAnswers = { ...incomingAnswers };
-            pendingDrafts.forEach((value,index) => {
-              if (String(incomingAnswers[index] || "") === value) pendingDrafts.delete(index);
-              else sharedAnswers[index] = value;
-            });
-            liveTranscripts = data.liveTranscripts || {};
-            if (!liveTranscripts[0] && token.liveTranscript) liveTranscripts[0] = token.liveTranscript;
-            contributions = data.contributions || {};
-            legacyStudents = data.allStudentsData?.students || {};
-            presence = data.presence || {};
-            slideCards.forEach((item,index) => {
-              if (document.activeElement !== item.input && !(recording && recording.slide === index)) item.input.value = String(sharedAnswers[index] || "");
-            });
-            updateUI();
-          },error => {
-            console.error("Errore lettura Firebase:",error);
-            setStatus("Impossibile leggere i dati condivisi del gruppo.",true);
-          });
-        } else {
-          setupRecognition();
-          setStatus("Accedi dalla pagina iniziale con un gruppo per usare l’esercizio condiviso.",true);
-        }
-      } catch (error) {
-        console.error("Errore Firebase:",error);
-        setStatus("Servizio dati condivisi non disponibile.",true);
-      }
-    } else setStatus("Servizio dati condivisi non disponibile.",true);
-
-    updateUI();
-    let backgroundUpdatePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundUpdatePending) return;
-      backgroundUpdatePending = true;
-      requestAnimationFrame(() => {
-        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .12,180);
-        document.body.style.setProperty("--background-offset",`${offset}px`);
-        backgroundUpdatePending = false;
-      });
-    }
-    window.addEventListener("scroll",updateBackgroundParallax,{ passive:true });
-    updateBackgroundParallax();
+    const firebaseConfig={apiKey:"INSERISCI_API_KEY",authDomain:"esercizi-parlo-italiano.firebaseapp.com",databaseURL:"https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",projectId:"esercizi-parlo-italiano",appId:"INSERISCI_APP_ID"};
+    const prompts=["Dove sono Marco e sua madre?","Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?","Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?","Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?","Che cosa fa la mamma quando Marco ha sonno?","Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?"];
+    const session=window.parloUnit2Session||{};const group=String(session.group||"").trim();const userName=String(session.name||"").trim();const isTeacher=Boolean(session.isTeacher);const identity=userName?{role:isTeacher?"teacher":"student",name:userName}:null;const safe=value=>String(value||"").replace(/[.#$\/\[\]]/g,"_");const presenceId=`presence_${Math.random().toString(36).slice(2,10)}`;
+    const teacherControls=document.getElementById("teacher-controls"),writerSelect=document.getElementById("writer-select"),assignmentStatus=document.getElementById("assignment-status"),micButton=document.getElementById("btn-toggle-mic"),micStatus=document.getElementById("mic-status"),liveTranscript=document.getElementById("live-transcript"),writtenAnswer=document.getElementById("written-answer"),submitWritten=document.getElementById("submit-written"),contributionsList=document.getElementById("contributions"),saveStatus=document.getElementById("save-status"),badge=document.getElementById("user-badge");
+    teacherControls.hidden=!isTeacher;badge.textContent=group?`${isTeacher?"👩‍🏫":"👤"} ${group}${userName?` · ${userName}`:""}`:"Accedi dalla pagina iniziale per associare l’attività al gruppo.";
+    document.getElementById("exercise-menu").addEventListener("change",event=>{if(!event.target.value)return;const target=new URL(event.target.value,location.href);if(group)target.searchParams.set("gruppo",group);if(userName&&!isTeacher)target.searchParams.set("nome",userName);location.assign(`${target.pathname}${target.search}${target.hash}`)});
+    let answersRef=null,groupRoster=[],presence=new Set(),assignment=null,contributions={},legacyContributions={},legacyAnswers={},legacyLive={},recognition=null,wantsRecording=false,isRecording=false,recordingText="",recordingOwner=null,restartTimer=null,isApplyingSnapshot=false;const pendingDraft={written:null,live:null};
+    function setStatus(message,error=false){saveStatus.textContent=message;saveStatus.hidden=!message;saveStatus.classList.toggle("error",error)}
+    function canWrite(){return Boolean(identity&&assignment&&assignment.role===identity.role&&assignment.name===identity.name&&answersRef)}
+    function formatDate(value){const timestamp=Number(value)||0;return timestamp?new Intl.DateTimeFormat("it-IT",{dateStyle:"short",timeStyle:"short"}).format(new Date(timestamp)):"Data non disponibile"}
+    function renderContributions(){contributionsList.replaceChildren();const entries=Object.entries(contributions||{}).map(([id,item])=>({...item,id})).filter(item=>String(item.text||"").trim()).sort((a,b)=>(Number(a.timestamp)||0)-(Number(b.timestamp)||0)||a.id.localeCompare(b.id));if(!entries.length){const empty=document.createElement("p");empty.className="empty-message";empty.textContent="Nessun contributo inviato.";contributionsList.appendChild(empty);return}entries.forEach(entry=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`${entry.kind==="speech"?"🎙️ Trascrizione":"✍️ Risposta scritta"} · ${entry.author||"Partecipante"} · ${formatDate(entry.timestamp)}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=entry.text;article.append(meta,text);contributionsList.appendChild(article)})}
+    function renderLegacy(){const entries=[];Object.entries(legacyContributions||{}).forEach(([index,items])=>Object.entries(items||{}).forEach(([id,item])=>{if(item?.text)entries.push({...item,id:`${index}-${id}`,source:Number(index)+1})}));Object.entries(legacyLive||{}).forEach(([index,item])=>{const text=typeof item==="string"?item:item?.text;if(text)entries.push({id:`live-${index}`,source:Number(index)+1,text,author:item?.author||"Partecipante",timestamp:item?.timestamp||0})});const drafts=Object.entries(legacyAnswers||{}).filter(([,text])=>typeof text==="string"&&text.trim());if(!entries.length&&!drafts.length)return;const details=document.createElement("details");const summary=document.createElement("summary");summary.textContent="Risposte e invii precedenti per singola domanda";const list=document.createElement("div");list.className="contribution-list";entries.sort((a,b)=>(Number(a.timestamp)||0)-(Number(b.timestamp)||0)||a.id.localeCompare(b.id)).forEach(entry=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`Domanda ${entry.source} · ${entry.author||"Partecipante"} · ${formatDate(entry.timestamp)}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=entry.text;article.append(meta,text);list.appendChild(article)});drafts.forEach(([index,textValue])=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`Bozza condivisa precedente · domanda ${Number(index)+1}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=textValue;article.append(meta,text);list.appendChild(article)});details.append(summary,list);contributionsList.appendChild(details)}
+    function updateUI(){const mayWrite=canWrite();writtenAnswer.disabled=!mayWrite;submitWritten.disabled=!mayWrite||!writtenAnswer.value.trim();micButton.disabled=!mayWrite||!recognition;micButton.classList.toggle("recording",wantsRecording);micButton.textContent=wantsRecording?"⏹️ Ferma e salva":"🎤 Inizia a parlare";if(!isRecording){const live=String(pendingDraft.live??"");liveTranscript.textContent=live||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!live.trim())}if(!identity)assignmentStatus.textContent="Accedi dalla pagina iniziale con il tuo nome per partecipare.";else if(!answersRef)assignmentStatus.textContent="Connessione all’esercizio non disponibile.";else if(!assignment)assignmentStatus.textContent=isTeacher?"Assegna il turno di racconto dal menu.":"L’insegnante non ha ancora assegnato il turno.";else if(mayWrite)assignmentStatus.textContent=`🎙️ È il tuo turno, ${identity.name}: puoi parlare o scrivere il racconto.`;else assignmentStatus.textContent=`🔒 Il turno è assegnato a ${assignment.name}. Puoi visualizzare la trascrizione e i contributi.`;refreshWriterMenu()}
+    function refreshWriterMenu(){if(!isTeacher)return;const options=[new Option("— Nessuno assegnato —","")];const unique=[...new Map(groupRoster.filter(item=>item?.nome).map(item=>[item.nome,item])).values()].sort((a,b)=>a.nome.localeCompare(b.nome,"it"));const online=unique.filter(person=>presence.has(person.nome)),offline=unique.filter(person=>!presence.has(person.nome));[["🟢 STUDENTI ONLINE",online],["STUDENTI OFFLINE",offline]].forEach(([label,people])=>{if(!people.length)return;const groupOption=document.createElement("optgroup");groupOption.label=label;people.forEach(person=>groupOption.appendChild(new Option(`🟢 ${person.nome}`.replace(label.includes("OFFLINE")?"🟢 ":"",""),JSON.stringify({role:"student",name:person.nome}))));options.push(groupOption)});if(assignment?.role==="student"&&!unique.some(person=>person.nome===assignment.name)){const groupOption=document.createElement("optgroup");groupOption.label="TURNO ATTUALE";groupOption.appendChild(new Option(`${assignment.name} · non presente nell’elenco`,JSON.stringify(assignment)));options.push(groupOption)}if(identity?.role==="teacher"){const groupOption=document.createElement("optgroup");groupOption.label="👩‍🏫 INSEGNANTE";groupOption.appendChild(new Option(identity.name,JSON.stringify(identity)));options.push(groupOption)}writerSelect.replaceChildren(...options);writerSelect.value=assignment?JSON.stringify(assignment):""}
+    function parseAssignment(value){if(value&&typeof value==="object"&&value.role&&value.name)return value;if(typeof value==="string"&&value){try{return JSON.parse(value)}catch(_){return{name:value,role:"student"}}}return null}
+    writerSelect.addEventListener("change",()=>{if(!isTeacher||!answersRef)return;assignment=parseAssignment(writerSelect.value);answersRef.child("assignments/story/writer").set(assignment).catch(()=>setStatus("Impossibile salvare il turno assegnato.",true));if(wantsRecording&&!canWrite())stopRecording();updateUI()});
+    writtenAnswer.addEventListener("input",()=>{if(!canWrite()||isApplyingSnapshot)return;pendingDraft.written=writtenAnswer.value;submitWritten.disabled=!writtenAnswer.value.trim();answersRef.child("sharedStoryText").set(writtenAnswer.value).catch(()=>setStatus("Impossibile sincronizzare il testo.",true))});
+    submitWritten.addEventListener("click",async()=>{const text=writtenAnswer.value.trim();if(!text||!canWrite()||!answersRef)return;submitWritten.disabled=true;try{await answersRef.child("sharedStoryText").set(writtenAnswer.value);await answersRef.child("storyContributions").push().set({text,author:identity.name,role:identity.role,kind:"written",timestamp:firebase.database.ServerValue.TIMESTAMP});pendingDraft.written=null;setStatus("✅ Risposta scritta aggiunta ai contributi.")}catch(error){setStatus("⚠️ Invio non riuscito. Controlla la connessione e riprova.",true)}finally{updateUI()}});
+    function setupRecognition(){const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SpeechRecognition){micStatus.textContent="Il riconoscimento vocale non è disponibile in questo browser.";micStatus.classList.add("error");return}recognition=new SpeechRecognition();recognition.continuous=true;recognition.interimResults=true;recognition.lang="it-IT";recognition.onstart=()=>{isRecording=true;micStatus.textContent="Microfono attivo. Puoi continuare a parlare.";updateUI()};recognition.onresult=event=>{const parts=[];for(let i=0;i<event.results.length;i++)parts.push(event.results[i][0]?.transcript||"");recordingText=parts.join(" ").trim();pendingDraft.live=recordingText;liveTranscript.textContent=recordingText||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!recordingText);if(answersRef&&canWrite())answersRef.child("liveStoryTranscript").set({text:recordingText,author:identity.name,role:identity.role,timestamp:Date.now()}).catch(()=>{})};recognition.onerror=event=>{if(["not-allowed","service-not-allowed","audio-capture"].includes(event.error)){wantsRecording=false;micStatus.textContent="Microfono non disponibile: controlla i permessi e chiudi le altre app che lo stanno usando.";micStatus.classList.add("error");updateUI()}else if(event.error!=="aborted"){micStatus.textContent="Riconoscimento interrotto; il testo rilevato verrà salvato.";micStatus.classList.add("error")}};recognition.onend=()=>{isRecording=false;const segment=recordingText.trim();recordingText="";pendingDraft.live=null;if(segment&&recordingOwner)saveSpeech(segment,recordingOwner);if(wantsRecording&&canWrite()){clearTimeout(restartTimer);restartTimer=setTimeout(()=>{if(!wantsRecording||!canWrite())return;try{recognition.start()}catch(_){micStatus.textContent="Microfono scollegato. Premi il pulsante per riprendere.";micStatus.classList.add("error");wantsRecording=false;updateUI()}},450)}else{wantsRecording=false;recordingOwner=null;micStatus.textContent=segment?"Registrazione salvata nei contributi. Puoi riprendere quando vuoi.":"Registrazione terminata.";updateUI()}}}
+    async function saveSpeech(text,owner){try{await answersRef.child("storyContributions").push().set({text,author:owner.name,role:owner.role,kind:"speech",timestamp:firebase.database.ServerValue.TIMESTAMP});await answersRef.child("liveStoryTranscript").set(null);pendingDraft.live=null;renderContributions();setStatus("✅ Trascrizione aggiunta ai contributi.")}catch(error){setStatus("⚠️ Trascrizione acquisita ma non salvata: controlla la connessione.",true);await answersRef.child("liveStoryTranscript").set({text,author:owner.name,role:owner.role,timestamp:Date.now()}).catch(()=>{})}}
+    function startRecording(){if(!recognition||!canWrite()||wantsRecording)return;wantsRecording=true;recordingText="";recordingOwner={name:identity.name,role:identity.role};micStatus.classList.remove("error");micStatus.textContent="Connessione al microfono…";try{recognition.start()}catch(error){wantsRecording=false;micStatus.textContent="Impossibile avviare il microfono. Controlla i permessi e riprova.";micStatus.classList.add("error");updateUI()}}
+    function stopRecording(){wantsRecording=false;clearTimeout(restartTimer);if(recognition&&isRecording){try{recognition.stop()}catch(_){}}else updateUI()}
+    micButton.addEventListener("click",()=>wantsRecording?stopRecording():startRecording());
+    function registerPresence(database){if(!identity||isTeacher)return;const ref=answersRef.child(`presence/${safe(userName)}/${presenceId}`);database.ref(".info/connected").on("value",snapshot=>{if(snapshot.val()!==true)return;ref.onDisconnect().remove().then(()=>ref.set({name:userName,role:"student",connectedAt:Date.now()})).catch(()=>{})})}
+    function loadRoster(database){database.ref(`configurazioneScuola/gruppi/${session.safeGroup||safe(group)}`).on("value",snapshot=>{const data=snapshot.val()||{},active=Object.values(data.studenti||{}).filter(person=>person?.nome),inactive=Object.values(data.studentiInattivi||{}).filter(person=>person?.nome&&Number(person.unitNumber??data.unitNumber??0)>=2);groupRoster=[...new Map([...active,...inactive].map(person=>[person.nome,person])).values()];updateUI()})}
+    if(window.firebase){try{if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);const database=firebase.database();answersRef=database.ref("esercizi/unita2-produzione-orale-c");if(group){loadRoster(database);registerPresence(database);setupRecognition();answersRef.child("presence").on("value",snapshot=>{presence=new Set();Object.values(snapshot.val()||{}).forEach(connections=>Object.values(connections||{}).forEach(item=>{if(item?.name&&item.role==="student")presence.add(item.name)}));refreshWriterMenu()});answersRef.on("value",snapshot=>{const data=snapshot.val()||{};assignment=parseAssignment(data.assignments?.story?.writer||data.assignments?.["0"]?.writer);const incoming=String(data.sharedStoryText||"");isApplyingSnapshot=true;if(document.activeElement!==writtenAnswer&&pendingDraft.written===null)writtenAnswer.value=incoming;if(data.sharedStoryText===pendingDraft.written)pendingDraft.written=null;contributions=data.storyContributions||{};legacyContributions=data.contributions||{};legacyAnswers=data.sharedAnswers||{};legacyLive=data.liveTranscripts||{};const live=data.liveStoryTranscript?.text||"";if(!isRecording&&pendingDraft.live===null){liveTranscript.textContent=live||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!live)}isApplyingSnapshot=false;if(wantsRecording&&!canWrite())stopRecording();renderContributions();renderLegacy();updateUI()},error=>setStatus("Impossibile leggere i dati condivisi del gruppo.",true))}else{setStatus("Accedi dalla pagina iniziale con un gruppo per usare l’attività condivisa.",true)}}catch(error){console.error("Errore Firebase:",error);setStatus("Servizio dati condivisi non disponibile.",true)}}else setStatus("Servizio dati condivisi non disponibile.",true);
+    updateUI();let backgroundUpdatePending=false;function updateBackgroundParallax(){if(backgroundUpdatePending)return;backgroundUpdatePending=true;requestAnimationFrame(()=>{const offset=window.matchMedia("(prefers-reduced-motion: reduce)").matches?0:Math.min(window.scrollY*.12,180);document.body.style.setProperty("--background-offset",`${offset}px`);backgroundUpdatePending=false})}window.addEventListener("scroll",updateBackgroundParallax,{passive:true});updateBackgroundParallax();
   </script>
 </body>
 </html>
