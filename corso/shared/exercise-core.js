@@ -1,4 +1,4 @@
-/* Utilità UI riutilizzabili per gli esercizi. */
+/* Utilità UI riutilizzabili per letture, grammatica ed esercizi. */
 (() => {
   "use strict";
 
@@ -108,10 +108,55 @@
     };
   }
 
+  function getSessionParams() {
+    const params = new URLSearchParams(location.search);
+    try {
+      const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+      if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+      if (!params.has("nome") && !session?.isTeacher && session?.name && session.name !== "Insegnante") {
+        params.set("nome", session.name);
+      }
+    } catch (_) {}
+    return params;
+  }
+
+  function withSessionParams(urlLike) {
+    const target = new URL(urlLike, location.href);
+    const params = getSessionParams();
+    ["gruppo", "nome"].forEach(key => {
+      const value = params.get(key);
+      if (value && value !== "sconosciuto" && !(key === "nome" && value === "Insegnante")) {
+        target.searchParams.set(key, value);
+      }
+    });
+    return target;
+  }
+
+  function decorateSessionLinks(selector = "a[href]") {
+    document.querySelectorAll(selector).forEach(link => {
+      const rawHref = link.getAttribute("href");
+      if (!rawHref || rawHref.startsWith("#") || /^(mailto:|tel:|https?:)/i.test(rawHref)) return;
+      const target = withSessionParams(rawHref);
+      link.href = `${target.pathname}${target.search}${target.hash}`;
+    });
+  }
+
+  function bindNavigationSelect(select) {
+    if (!select) return;
+    select.addEventListener("change", event => {
+      if (!event.target.value) return;
+      location.href = withSessionParams(event.target.value).href;
+    });
+  }
+
   window.ParloExercise = Object.freeze({
     normalizeAnswer,
     attachCharacterToolbar,
     initBackgroundParallax,
-    bindSpeechButton
+    bindSpeechButton,
+    getSessionParams,
+    withSessionParams,
+    decorateSessionLinks,
+    bindNavigationSelect
   });
 })();

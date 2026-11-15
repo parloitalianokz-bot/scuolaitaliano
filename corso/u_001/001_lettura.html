@@ -4,21 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unità 1 — Un albergo in centro</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=1" />
   <style>
     :root {
-      color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
-      --green: #2f5739;
-      --green-light: #edf4ed;
-      --accent: #bd694d;
-      --text: #292d28;
-      --muted: #6b7069;
-      --paper: #fffefa;
+      --green: var(--primary-dark);
+      --green-light: var(--primary-light);
+      --muted: var(--text-muted);
+      --paper: var(--card-bg);
     }
-
-    * { box-sizing: border-box; }
-
-    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
 
     body {
       min-height: 100vh;
@@ -39,6 +32,7 @@
     .top-exercises {
       display: flex;
       justify-content: flex-start;
+      gap: 10px;
       margin: 0 0 14px;
     }
 
@@ -61,7 +55,6 @@
       background: var(--green-light);
     }
 
-    .top-exercises { gap: 10px; }
     .top-exercises a {
       display: inline-flex;
       align-items: center;
@@ -139,8 +132,6 @@
       color: #f8f5eb;
     }
 
-    .video-card[hidden], .reading[hidden] { display: none; }
-
     .video-card h2 {
       margin: 0 0 16px;
       color: #f8f5eb;
@@ -203,7 +194,6 @@
       line-height: .8;
     }
 
-    .reading p[hidden] { display: none; }
     .reading p:last-child { margin-bottom: 0; }
 
     .reading-navigation {
@@ -218,23 +208,7 @@
       font-family: 'Segoe UI', Inter, system-ui, sans-serif;
     }
 
-    .reading-navigation button {
-      min-height: 42px;
-      padding: 8px 14px;
-      border: 1px solid #c9d8c9;
-      border-radius: 10px;
-      background: rgba(255, 254, 250, .8);
-      color: var(--green);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background .2s, border-color .2s;
-    }
-
-    .reading-navigation button:hover:not(:disabled),
-    .reading-navigation a:hover { border-color: var(--green); background: var(--green-light); }
-    .reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
-
+    .reading-navigation button,
     .reading-navigation a {
       display: inline-flex;
       align-items: center;
@@ -244,12 +218,16 @@
       border-radius: 10px;
       background: rgba(255, 254, 250, .8);
       color: var(--green);
+      font: inherit;
       font-weight: 700;
       text-decoration: none;
+      cursor: pointer;
       transition: background .2s, border-color .2s;
     }
 
-    .reading-navigation [hidden] { display: none; }
+    .reading-navigation button:hover:not(:disabled),
+    .reading-navigation a:hover { border-color: var(--green); background: var(--green-light); }
+    .reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
 
     .reading-progress {
       color: #59452f;
@@ -303,12 +281,9 @@
       .reading::before { left: 12px; }
       .reading p { text-align: left; line-height: 1.8; }
       .reading-navigation { gap: 6px; }
-      .reading-navigation button { padding: 8px 10px; font-size: .85rem; }
+      .reading-navigation button,
+      .reading-navigation a { padding: 8px 10px; font-size: .85rem; }
       .reading-progress { font-size: .82rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
@@ -382,8 +357,7 @@
     </nav>
   </main>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/exercise-core.js?v=4"></script>
   <script>
     const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
     const previousParagraphButton = document.getElementById("previous-paragraph");
@@ -416,51 +390,7 @@
     nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
     showSlide(0);
 
-    let backgroundUpdatePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundUpdatePending) return;
-      backgroundUpdatePending = true;
-      requestAnimationFrame(() => {
-        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? 0
-          : Math.min(window.scrollY * 0.12, 180);
-        document.body.style.setProperty("--background-offset", `${offset}px`);
-        backgroundUpdatePending = false;
-      });
-    }
-
-    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
-    updateBackgroundParallax();
-
-    function getLoginParams() {
-      const params = new URLSearchParams(location.search);
-      try {
-        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
-        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
-        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
-      } catch (_) {}
-      return params;
-    }
-
-    document.querySelectorAll('a[href]').forEach(link => {
-      const href = link.getAttribute("href");
-      if (!href || !/^001_es_[a-z]\.html$/i.test(href)) return;
-      const target = new URL(href, location.href);
-      getLoginParams().forEach((value, key) => target.searchParams.set(key, value));
-      link.href = `${target.pathname}${target.search}${target.hash}`;
-    });
-
-    document.getElementById("exercise-menu").addEventListener("change", (event) => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      const params = getLoginParams();
-      ["gruppo", "nome"].forEach(key => {
-        if (params.has(key)) target.searchParams.set(key, params.get(key));
-      });
-      window.location.href = target.href;
-    });
-
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", event => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
 
@@ -472,34 +402,23 @@
         showSlide(currentSlide + 1);
       }
     });
-  // ─── Badge utente dalla query string ───
-    (function() {
-      const params = getLoginParams();
-      const gruppo = params.get("gruppo");
-      const nome = params.get("nome");
-      const badge = document.getElementById("user-badge");
-      if (gruppo && nome) {
-        badge.textContent = `👤 ${gruppo} · ${nome}`;
-      } else if (gruppo) {
-        badge.textContent = `👩‍🏫 Insegnante · ${gruppo}`;
-      } else {
-        badge.hidden = true;
-      }
-    })();
-  </script>
-  <script>
-    document.getElementById("grammar-menu").addEventListener("change", event => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      const params = new URLSearchParams(location.search);
-      let session = {};
-      try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
-      const group = params.get("gruppo") || session.group || "";
-      const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
-      if (group) target.searchParams.set("gruppo", group);
-      if (name && name !== "Insegnante") target.searchParams.set("nome", name);
-      location.href = target.href;
-    });
+
+    ParloExercise.initBackgroundParallax();
+    ParloExercise.decorateSessionLinks();
+    ParloExercise.bindNavigationSelect(document.getElementById("exercise-menu"));
+    ParloExercise.bindNavigationSelect(document.getElementById("grammar-menu"));
+
+    const params = ParloExercise.getSessionParams();
+    const gruppo = params.get("gruppo");
+    const nome = params.get("nome");
+    const badge = document.getElementById("user-badge");
+    if (gruppo && nome) {
+      badge.textContent = `👤 ${gruppo} · ${nome}`;
+    } else if (gruppo) {
+      badge.textContent = `👩‍🏫 Insegnante · ${gruppo}`;
+    } else {
+      badge.hidden = true;
+    }
   </script>
   <script src="../classroom-notes.js"></script>
 </body>
