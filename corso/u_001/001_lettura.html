@@ -387,7 +387,7 @@
   </main>
 
   <script src="../shared/group-scope.js?v=1"></script>
-  <script src="../shared/exercise-core.js?v=5"></script>
+  <script src="../shared/exercise-core.js?v=6"></script>
   <script>
     const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
     const stepsNav = document.getElementById("reading-steps");
@@ -404,40 +404,15 @@
     let currentSlide = 0;
     const totalSlides = storyParagraphs.length + (hasVideo ? 1 : 0);
 
-    function stopSpeech() {
-      if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
-      listenButton.setAttribute("aria-pressed", "false");
-      listenButton.textContent = "🔊 Ascolta";
-    }
-
-    if (!("speechSynthesis" in window)) {
-      listenButton.disabled = true;
-      listenButton.title = "Sintesi vocale non disponibile in questo browser.";
-    } else {
-      listenButton.addEventListener("click", () => {
-        if (listenButton.getAttribute("aria-pressed") === "true") {
-          stopSpeech();
-          return;
-        }
-        const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
-        const activeParagraph = storyParagraphs[paragraphIndex];
-        if (!activeParagraph) return;
-
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(activeParagraph.textContent.trim());
-        utterance.lang = "it-IT";
-        utterance.rate = 0.94;
-        utterance.onstart = () => {
-          listenButton.setAttribute("aria-pressed", "true");
-          listenButton.textContent = "⏹ Ferma";
-        };
-        utterance.onend = stopSpeech;
-        utterance.onerror = stopSpeech;
-        window.speechSynthesis.speak(utterance);
-      });
-    }
+    const stopSpeech = ParloExercise.bindReadingAudio(listenButton, () => {
+      const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
+      const activeParagraph = storyParagraphs[paragraphIndex];
+      if (!activeParagraph) return null;
+      return {
+        audioSrc: `audio/p${paragraphIndex + 1}.mp3`,
+        text: activeParagraph.textContent.trim()
+      };
+    });
 
     function updateParagraphGlossary(paragraph) {
       glossaryList.replaceChildren();
