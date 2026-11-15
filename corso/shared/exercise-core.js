@@ -108,6 +108,75 @@
     };
   }
 
+  /* Gestione universale tooltip (touch/click + allineamento automatico ai bordi dello schermo) */
+  let tooltipsInitialized = false;
+  function initTooltips() {
+    if (tooltipsInitialized) return;
+    tooltipsInitialized = true;
+
+    const SELECTOR = ".vocab-tip, .has-tooltip";
+    let openTip = null;
+
+    function adjustTooltipPosition(element) {
+      if (!element) return;
+      element.style.setProperty("--tip-shift", "0px");
+      const rect = element.getBoundingClientRect();
+      const text = element.getAttribute("data-tip") || element.getAttribute("data-tooltip") || "";
+      const estimatedWidth = Math.min(Math.max(text.length * 7.5 + 28, 120), Math.min(290, window.innerWidth - 24));
+      const halfWidth = estimatedWidth / 2;
+      const centerX = rect.left + rect.width / 2;
+      const margin = 12;
+
+      let shift = 0;
+      if (centerX - halfWidth < margin) {
+        shift = margin - (centerX - halfWidth);
+      } else if (centerX + halfWidth > window.innerWidth - margin) {
+        shift = (window.innerWidth - margin) - (centerX + halfWidth);
+      }
+      element.style.setProperty("--tip-shift", `${Math.round(shift)}px`);
+    }
+
+    function closeOpenTip() {
+      if (!openTip) return;
+      openTip.classList.remove("is-open");
+      openTip = null;
+    }
+
+    document.addEventListener("pointerenter", event => {
+      const target = event.target instanceof Element ? event.target.closest(SELECTOR) : null;
+      if (target) adjustTooltipPosition(target);
+    }, true);
+
+    document.addEventListener("focusin", event => {
+      const target = event.target instanceof Element ? event.target.closest(SELECTOR) : null;
+      if (target) adjustTooltipPosition(target);
+    });
+
+    document.addEventListener("click", event => {
+      const target = event.target instanceof Element ? event.target.closest(SELECTOR) : null;
+      if (!target) {
+        closeOpenTip();
+        return;
+      }
+      if (openTip === target) {
+        closeOpenTip();
+      } else {
+        closeOpenTip();
+        adjustTooltipPosition(target);
+        target.classList.add("is-open");
+        openTip = target;
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeOpenTip();
+    });
+
+    window.addEventListener("resize", () => {
+      if (openTip) adjustTooltipPosition(openTip);
+    }, { passive: true });
+  }
+
   function getSessionParams() {
     const params = new URLSearchParams(location.search);
     try {
@@ -149,11 +218,18 @@
     });
   }
 
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTooltips, { once: true });
+  } else {
+    initTooltips();
+  }
+
   window.ParloExercise = Object.freeze({
     normalizeAnswer,
     attachCharacterToolbar,
     initBackgroundParallax,
     bindSpeechButton,
+    initTooltips,
     getSessionParams,
     withSessionParams,
     decorateSessionLinks,

@@ -20,6 +20,164 @@
 [hidden] { display: none !important; }
 :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Barra superiore condivisa (.top-menu negli esercizi, .top-exercises in letture/grammatica) */
+.top-menu,
+.top-exercises {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.top-menu a,
+.top-menu select,
+.top-exercises a,
+.top-exercises select {
+  min-height: 40px;
+  max-width: 100%;
+  padding: 7px 12px;
+  border: 1px solid #d8e5d8;
+  border-radius: 10px;
+  background: rgba(255, 254, 250, .94);
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.top-menu a,
+.top-exercises a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.top-menu a:hover,
+.top-menu select:hover,
+.top-exercises a:hover,
+.top-exercises select:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.top-exercises .home-link {
+  order: 0;
+  justify-content: center;
+  width: 40px;
+  padding: 0;
+}
+
+.top-exercises .home-link svg {
+  width: 19px;
+  height: 19px;
+}
+
+#teacher-group-switch { order: 1; }
+#exercise-menu { order: 2; }
+#grammar-menu { order: 3; }
+
+.top-exercises #exercise-menu { margin-left: auto; }
+
+#user-badge {
+  margin-left: auto;
+  color: var(--accent);
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .top-exercises #exercise-menu {
+    margin-left: 0;
+    flex: 1 1 auto;
+  }
+  .top-exercises #grammar-menu {
+    flex: 1 1 auto;
+  }
+  #user-badge {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+}
+
+/* Tooltip universali per lessico (.vocab-tip) e verbi/grammatica (.has-tooltip) */
+.vocab-tip,
+.has-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.vocab-tip {
+  color: #315b3a;
+  text-decoration: underline dotted var(--accent) 2px;
+  text-underline-offset: 3px;
+}
+
+.has-tooltip {
+  border-bottom: 2px dashed var(--accent);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.vocab-tip::after,
+.has-tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  width: max-content;
+  max-width: min(290px, calc(100vw - 24px));
+  padding: 8px 12px;
+  border-radius: 10px;
+  font: 600 .88rem/1.45 'Segoe UI', Inter, system-ui, sans-serif;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), 4px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s;
+  pointer-events: none;
+}
+
+.has-tooltip::after {
+  content: attr(data-tooltip);
+  background: #2d3748;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .22);
+}
+
+.vocab-tip::after {
+  border: 1px solid #d8ccb5;
+  background: #fffaf0;
+  color: var(--text);
+  box-shadow: 0 6px 18px rgba(43, 41, 32, .18);
+}
+
+.vocab-tip:hover::after,
+.vocab-tip:focus::after,
+.vocab-tip.is-open::after,
+.has-tooltip:hover::after,
+.has-tooltip:focus::after,
+.has-tooltip.is-open::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;
