@@ -579,7 +579,12 @@
       }
     }
 
-    // Auto-rotazione a coda quando l'insegnante apre una scheda ancora senza turni
+    /*
+     * Rotazione circolare a 3 stadi su ogni passaggio a una nuova scheda:
+     * 1) Chi aveva la scelta opzione -> passa alla domanda
+     * 2) Chi aveva la domanda -> va in fondo alla coda
+     * 3) Il primo in coda -> prende la scelta opzione (se nessun altro è in coda, prende comunque la scelta opzione)
+     */
     function autoAssignNextTurnIfNeeded(targetIndex) {
       if (!isTeacherView || !exerciseRef) return;
       const targetData = cardsState[targetIndex] || {};
@@ -597,22 +602,18 @@
         ? prevData.answerAssignee
         : "";
 
-      // Chi ha fatto la domanda nella scheda precedente va in fondo alla coda
+      // 1) Chi aveva la domanda nella scheda precedente va in fondo alla coda
       if (prevAsker) {
         turnQueue = turnQueue.filter(id => id !== prevAsker);
         turnQueue.push(prevAsker);
       }
 
-      // Chi ha risposto nella precedente passa a formulare la domanda
+      // 2) Chi aveva scelto l'opzione passa a formulare la domanda
       const nextAsker = prevAnswerer || turnQueue[0];
 
-      // Il primo in coda diverso dal nuovo formulatore viene scelto per rispondere
-      let nextAnswerer = "";
-      if (turnQueue.length === 1) {
-        nextAnswerer = turnQueue[0];
-      } else {
-        nextAnswerer = turnQueue.find(id => id !== nextAsker) || "";
-      }
+      // 3) Il primo in coda diverso dal nuovo formulatore prende la scelta opzione;
+      //    se nessun altro è in coda (1 o 2 studenti), prende comunque la scelta opzione.
+      const nextAnswerer = turnQueue.find(id => id !== nextAsker) || turnQueue[0];
 
       exerciseRef.child("cards").child(String(targetIndex)).update({
         questionAssignee: nextAsker || null,
