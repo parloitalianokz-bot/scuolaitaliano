@@ -389,7 +389,6 @@
     let presenceGroupRef = null;
     let cardsState = {};
     let rosterState = {};
-    let turnQueue = [];
     let activeQuestion = 0;
     const cardUI = [];
     const draftSyncTimers = new Map();
@@ -482,21 +481,6 @@
       return assigneeId.replace(/^student_/, "").replace(/_/g, " ");
     }
 
-    function getOnlineStudentIds() {
-      return Object.entries(rosterState)
-        .filter(([id, data]) => id !== TEACHER_ID && data && data.name && data.online)
-        .sort((a, b) => String(a[1].name).localeCompare(String(b[1].name), "it"))
-        .map(([id]) => id);
-    }
-
-    function syncTurnQueueWithOnline() {
-      const onlineIds = getOnlineStudentIds();
-      turnQueue = turnQueue.filter(id => onlineIds.includes(id));
-      onlineIds.forEach(id => {
-        if (!turnQueue.includes(id)) turnQueue.push(id);
-      });
-    }
-
     function buildTurnOptions(selectEl, selectedValue) {
       const previous = selectedValue ?? selectEl.value ?? "";
       selectEl.replaceChildren();
@@ -577,48 +561,6 @@
       } else {
         await exerciseRef.child("cards").child(String(index)).child("questionAssignee").set(nextAssigneeId || null);
       }
-    }
-
-    /*
-     * Rotazione circolare a 3 stadi su ogni passaggio a una nuova scheda:
-     * 1) Chi aveva la scelta opzione -> passa alla domanda
-     * 2) Chi aveva la domanda -> va in fondo alla coda
-     * 3) Il primo in coda -> prende la scelta opzione (se nessun altro è in coda, prende comunque la scelta opzione)
-     */
-    function autoAssignNextTurnIfNeeded(targetIndex) {
-      if (!isTeacherView || !exerciseRef) return;
-      const targetData = cardsState[targetIndex] || {};
-      if (targetData.questionAssignee || targetData.answerAssignee) return;
-
-      syncTurnQueueWithOnline();
-      if (turnQueue.length === 0) return;
-
-      const prevIndex = targetIndex > 0 ? targetIndex - 1 : -1;
-      const prevData = prevIndex >= 0 ? (cardsState[prevIndex] || {}) : {};
-      const prevAsker = prevData.questionAssignee && turnQueue.includes(prevData.questionAssignee)
-        ? prevData.questionAssignee
-        : "";
-      const prevAnswerer = prevData.answerAssignee && turnQueue.includes(prevData.answerAssignee)
-        ? prevData.answerAssignee
-        : "";
-
-      // 1) Chi aveva la domanda nella scheda precedente va in fondo alla coda
-      if (prevAsker) {
-        turnQueue = turnQueue.filter(id => id !== prevAsker);
-        turnQueue.push(prevAsker);
-      }
-
-      // 2) Chi aveva scelto l'opzione passa a formulare la domanda
-      const nextAsker = prevAnswerer || turnQueue[0];
-
-      // 3) Il primo in coda diverso dal nuovo formulatore prende la scelta opzione;
-      //    se nessun altro è in coda (1 o 2 studenti), prende comunque la scelta opzione.
-      const nextAnswerer = turnQueue.find(id => id !== nextAsker) || turnQueue[0];
-
-      exerciseRef.child("cards").child(String(targetIndex)).update({
-        questionAssignee: nextAsker || null,
-        answerAssignee: nextAnswerer || null
-      });
     }
 
     sectionsData.forEach((question, index) => {
@@ -871,7 +813,6 @@
       cardUI.forEach((ui, idx) => {
         ui.box.hidden = idx !== activeQuestion;
       });
-      autoAssignNextTurnIfNeeded(activeQuestion);
       updateNavigation();
     }
 
@@ -1038,7 +979,6 @@
         presenceGroupRef = db.ref(`esercizi/gruppi/${gruppo}/presenze`);
         presenceGroupRef.on("value", snapshot => {
           rosterState = snapshot.val() || {};
-          syncTurnQueueWithOnline();
           renderAllCards();
         });
 
