@@ -32,11 +32,14 @@
 
     let teacherBroadcast = isTeacher;
     let studentUnlocked = false;
-    let remoteAudio = null;
     let ytPlayer = null;
     let ytReady = false;
     let ignoringRemote = false;
     let lastCommandId = null;
+
+    // Singolo elemento Audio persistente (sbloccato una volta per tutta la lezione)
+    const sharedAudio = new Audio();
+    sharedAudio.preload = "auto";
 
     // ─── Banner / Controllo UI ───
     const host = options.bannerHost || document.querySelector("main") || document.body;
@@ -102,18 +105,23 @@
       const unlockAudioContext = () => {
         if (studentUnlocked) return;
         studentUnlocked = true;
-        // Sblocca sia Web Audio / HTMLAudio sia eventuale player YouTube
-        try {
-          const silent = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA");
-          silent.play().catch(() => {});
-        } catch (_) {}
+
+        // Sblocca l'elemento sharedAudio con un micro-impulso silenzioso nel gesto utente
+        sharedAudio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+        sharedAudio.play().then(() => {
+          sharedAudio.pause();
+          sharedAudio.currentTime = 0;
+        }).catch(() => {});
+
         if (ytReady && ytPlayer && typeof ytPlayer.unMute === "function") {
           try { ytPlayer.unMute(); } catch (_) {}
         }
+
         unlockBtn.textContent = "✅ Синхронный звук включён";
         unlockBtn.style.borderColor = "#2f5739";
         unlockBtn.style.background = "#edf4ed";
         unlockBtn.style.color = "#2f5739";
+        unlockBtn.style.boxShadow = "none";
       };
 
       unlockBtn.addEventListener("click", unlockAudioContext);
@@ -128,31 +136,33 @@
 
     // ─── Gestione Audio MP3 Remoto (Studenti) ───
     function stopRemoteAudio() {
-      if (remoteAudio) {
-        remoteAudio.pause();
-        remoteAudio.currentTime = 0;
-        remoteAudio = null;
-      }
+      sharedAudio.pause();
+      try { sharedAudio.currentTime = 0; } catch (_) {}
     }
 
     function playRemoteAudio(audioSrc, offsetSec = 0) {
       stopRemoteAudio();
       if (!audioSrc) return;
-      const audio = new Audio(audioSrc);
-      remoteAudio = audio;
-      if (offsetSec > 0.4) {
-        audio.addEventListener("loadedmetadata", () => {
-          if (Number.isFinite(audio.duration) && offsetSec < audio.duration) {
-            audio.currentTime = offsetSec;
-          }
-        }, { once: true });
-      }
-      audio.play().catch(() => {
-        // Se lo studente non ha ancora cliccato il pulsante russo, evidenzia il banner
-        if (!studentUnlocked && bar.firstElementChild) {
-          bar.firstElementChild.style.boxShadow = "0 0 0 3px rgba(189, 105, 77, 0.35)";
+
+      sharedAudio.src = audioSrc;
+      sharedAudio.load();
+
+      const startPlayback = () => {
+        if (offsetSec > 0.4 && Number.isFinite(sharedAudio.duration) && offsetSec < sharedAudio.duration) {
+          sharedAudio.currentTime = offsetSec;
         }
-      });
+        sharedAudio.play().catch(() => {
+          if (!studentUnlocked && bar.firstElementChild) {
+            bar.firstElementChild.style.boxShadow = "0 0 0 3px rgba(189, 105, 77, 0.4)";
+          }
+        });
+      };
+
+      if (sharedAudio.readyState >= 1) {
+        startPlayback();
+      } else {
+        sharedAudio.addEventListener("loadedmetadata", startPlayback, { once: true });
+      }
     }
 
     // ─── Integrazione YouTube IFrame API ───
@@ -213,13 +223,12 @@
         commandId,
         senderId,
         updatedAt: Date.now()
-      }).catch(() => {});
+      }).catch(err => console.warn("MediaSync write error:", err));
     }
 
     const onRemoteUpdate = snapshot => {
       const cmd = snapshot.val();
       if (!cmd || cmd.senderId === senderId || cmd.commandId === lastCommandId) return;
-      // Ignora comandi vecchi di oltre 2 ore (es. lezioni passate)
       if (cmd.updatedAt && Date.now() - cmd.updatedAt > 2 * 60 * 60 * 1000) return;
       lastCommandId = cmd.commandId;
 
