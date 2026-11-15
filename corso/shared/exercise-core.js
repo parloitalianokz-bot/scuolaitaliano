@@ -108,6 +108,114 @@
     };
   }
 
+  /* Riproduzione audio paragrafo: prova prima MP3 locale, poi TTS (con priorità voci Google locali) */
+  function bindReadingAudio(button, getPayload) {
+    if (!button) return () => {};
+
+    let currentAudio = null;
+    let italianVoice = null;
+    let isPlaying = false;
+
+    const resolveVoice = () => {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = window.speechSynthesis.getVoices();
+      const itVoices = voices.filter(v => /^it([-_]|$)/i.test(v.lang) || /italiano/i.test(v.name));
+      italianVoice =
+        itVoices.find(v => /google/i.test(v.name) && /local/i.test(v.name)) ||
+        itVoices.find(v => /google/i.test(v.name) && !/espeak/i.test(v.name)) ||
+        itVoices.find(v => !/espeak/i.test(v.name)) ||
+        itVoices[0] ||
+        null;
+      return italianVoice;
+    };
+
+    if ("speechSynthesis" in window) {
+      resolveVoice();
+      window.speechSynthesis.addEventListener("voiceschanged", resolveVoice);
+    }
+
+    const resetUI = () => {
+      isPlaying = false;
+      button.setAttribute("aria-pressed", "false");
+      button.textContent = "🔊 Ascolta";
+    };
+
+    const stop = () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+      if ("speechSynthesis" in window && (window.speechSynthesis.speaking || window.speechSynthesis.pending)) {
+        window.speechSynthesis.cancel();
+      }
+      resetUI();
+    };
+
+    const startTTS = text => {
+      if (!("speechSynthesis" in window) || !text) {
+        resetUI();
+        return;
+      }
+
+      if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+        window.speechSynthesis.cancel();
+      }
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+
+      const voice = italianVoice || resolveVoice();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = voice?.lang || "it-IT";
+      if (voice) utterance.voice = voice;
+      utterance.rate = 0.94;
+
+      isPlaying = true;
+      button.setAttribute("aria-pressed", "true");
+      button.textContent = "⏹ Ferma";
+
+      utterance.onend = resetUI;
+      utterance.onerror = event => {
+        console.warn("TTS error:", event?.error);
+        resetUI();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    };
+
+    button.addEventListener("click", () => {
+      if (isPlaying) {
+        stop();
+        return;
+      }
+      const { audioSrc, text } = getPayload() || {};
+      if (!audioSrc) {
+        startTTS(text);
+        return;
+      }
+
+      const audio = new Audio(audioSrc);
+      currentAudio = audio;
+      isPlaying = true;
+      button.setAttribute("aria-pressed", "true");
+      button.textContent = "⏹ Ferma";
+
+      audio.addEventListener("ended", resetUI, { once: true });
+      audio.addEventListener("error", () => {
+        currentAudio = null;
+        startTTS(text);
+      }, { once: true });
+
+      audio.play().catch(() => {
+        currentAudio = null;
+        startTTS(text);
+      });
+    });
+
+    return stop;
+  }
+
   /* Gestione universale tooltip (touch/click + allineamento automatico ai bordi dello schermo) */
   let tooltipsInitialized = false;
   function initTooltips() {
@@ -229,6 +337,7 @@
     attachCharacterToolbar,
     initBackgroundParallax,
     bindSpeechButton,
+    bindReadingAudio,
     initTooltips,
     getSessionParams,
     withSessionParams,
