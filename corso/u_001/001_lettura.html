@@ -386,8 +386,11 @@
     </nav>
   </main>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="../shared/group-scope.js?v=1"></script>
-  <script src="../shared/exercise-core.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=7"></script>
+  <script src="../shared/media-sync.js?v=1"></script>
   <script>
     const storyParagraphs = Array.from(document.querySelectorAll(".reading > p"));
     const stepsNav = document.getElementById("reading-steps");
@@ -404,15 +407,35 @@
     let currentSlide = 0;
     const totalSlides = storyParagraphs.length + (hasVideo ? 1 : 0);
 
-    const stopSpeech = ParloExercise.bindReadingAudio(listenButton, () => {
-      const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
-      const activeParagraph = storyParagraphs[paragraphIndex];
-      if (!activeParagraph) return null;
-      return {
-        audioSrc: `audio/p${paragraphIndex + 1}.mp3`,
-        text: activeParagraph.textContent.trim()
-      };
-    });
+    const mediaSync = window.ParloMediaSync
+      ? window.ParloMediaSync.createMediaSync({
+          pageKey: "001_lettura",
+          insertBefore: stepsNav,
+          onRemoteSlide: slideIndex => showSlide(slideIndex, { fromRemote: true })
+        })
+      : null;
+
+    const stopSpeech = ParloExercise.bindReadingAudio(
+      listenButton,
+      () => {
+        const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
+        const activeParagraph = storyParagraphs[paragraphIndex];
+        if (!activeParagraph) return null;
+        return {
+          audioSrc: `audio/p${paragraphIndex + 1}.mp3`,
+          text: activeParagraph.textContent.trim(),
+          slide: currentSlide
+        };
+      },
+      {
+        onPlay: payload => mediaSync?.publishAudio({
+          playing: true,
+          audioSrc: new URL(payload.audioSrc, location.href).href,
+          slide: payload.slide
+        }),
+        onStop: () => mediaSync?.publishAudio({ playing: false, slide: currentSlide })
+      }
+    );
 
     function updateParagraphGlossary(paragraph) {
       glossaryList.replaceChildren();
@@ -451,8 +474,8 @@
       stepsNav.appendChild(btn);
     }
 
-    function showSlide(index) {
-      stopSpeech();
+    function showSlide(index, { fromRemote = false } = {}) {
+      stopSpeech(true);
       currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
       const showingVideo = hasVideo && currentSlide === 0;
       const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
@@ -479,11 +502,15 @@
       readingProgress.textContent = showingVideo
         ? "Video introduttivo"
         : `Paragrafo ${paragraphIndex + 1} di ${storyParagraphs.length}`;
+
+      if (!fromRemote) {
+        mediaSync?.publishSlide(currentSlide);
+      }
     }
 
     previousParagraphButton.addEventListener("click", () => showSlide(currentSlide - 1));
     nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
-    showSlide(0);
+    showSlide(0, { fromRemote: true });
 
     document.addEventListener("keydown", event => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
