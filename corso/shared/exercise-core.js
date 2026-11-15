@@ -108,8 +108,8 @@
     };
   }
 
-  /* Riproduzione audio paragrafo: prova prima MP3 locale, poi TTS (con priorità voci Google locali) */
-  function bindReadingAudio(button, getPayload) {
+/* Riproduzione audio paragrafo: prova prima MP3 locale, poi TTS e notifica mediaSync */
+  function bindReadingAudio(button, getPayload, callbacks = {}) {
     if (!button) return () => {};
 
     let currentAudio = null;
@@ -121,7 +121,7 @@
       const voices = window.speechSynthesis.getVoices();
       const itVoices = voices.filter(v => /^it([-_]|$)/i.test(v.lang) || /italiano/i.test(v.name));
       italianVoice =
-        itVoices.find(v => /google/i.test(v.name) && /local/i.test(v.name)) ||
+        itVoices.find(v => /local/i.test(v.name) && !/espeak/i.test(v.name)) ||
         itVoices.find(v => /google/i.test(v.name) && !/espeak/i.test(v.name)) ||
         itVoices.find(v => !/espeak/i.test(v.name)) ||
         itVoices[0] ||
@@ -140,7 +140,8 @@
       button.textContent = "🔊 Ascolta";
     };
 
-    const stop = () => {
+    const stop = (silent = false) => {
+      const wasPlaying = isPlaying;
       if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -150,6 +151,7 @@
         window.speechSynthesis.cancel();
       }
       resetUI();
+      if (wasPlaying && !silent) callbacks.onStop?.();
     };
 
     const startTTS = text => {
@@ -157,7 +159,6 @@
         resetUI();
         return;
       }
-
       if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
         window.speechSynthesis.cancel();
       }
@@ -167,7 +168,7 @@
 
       const voice = italianVoice || resolveVoice();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = voice?.lang || "it-IT";
+      utterance.lang = "it-IT";
       if (voice) utterance.voice = voice;
       utterance.rate = 0.94;
 
@@ -175,21 +176,21 @@
       button.setAttribute("aria-pressed", "true");
       button.textContent = "⏹ Ferma";
 
-      utterance.onend = resetUI;
-      utterance.onerror = event => {
-        console.warn("TTS error:", event?.error);
-        resetUI();
-      };
+      utterance.onend = () => { resetUI(); callbacks.onStop?.(); };
+      utterance.onerror = () => { resetUI(); callbacks.onStop?.(); };
 
       window.speechSynthesis.speak(utterance);
     };
 
     button.addEventListener("click", () => {
       if (isPlaying) {
-        stop();
+        stop(false);
         return;
       }
-      const { audioSrc, text } = getPayload() || {};
+      const payload = getPayload() || {};
+      const { audioSrc, text } = payload;
+      callbacks.onPlay?.(payload);
+
       if (!audioSrc) {
         startTTS(text);
         return;
@@ -201,7 +202,7 @@
       button.setAttribute("aria-pressed", "true");
       button.textContent = "⏹ Ferma";
 
-      audio.addEventListener("ended", resetUI, { once: true });
+      audio.addEventListener("ended", () => { resetUI(); callbacks.onStop?.(); }, { once: true });
       audio.addEventListener("error", () => {
         currentAudio = null;
         startTTS(text);
