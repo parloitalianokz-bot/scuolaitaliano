@@ -97,8 +97,8 @@
   }
 
   if (!document.querySelector('script[src*="classroom-notes.js"]')) {
-    const notesScript = document.createElement("script");
-    notesScript.src = "../classroom-notes.js";
+        const notesScript = document.createElement("script");
+    notesScript.src = "../classroom-notes.js?v=5";
     document.body.appendChild(notesScript);
   }
 })();
