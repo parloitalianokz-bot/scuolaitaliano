@@ -4,103 +4,203 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unità 1 — Correggi i dati (Esercizio E)</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
-    :root {
-      color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
-      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
-      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa;
-      --text: #292d28; --text-muted: #6b7069; --success: #278253;
-      --success-bg: #e1f1e5; --border: #e7e5dc;
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
     }
-    * { box-sizing: border-box; }
-    [hidden] { display: none !important; }
-    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
-    body { min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text); background: linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)), url("img/sfondo.jpeg") center / cover fixed, radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main); }
-    .container { width: min(100%,880px); margin: 0 auto; }
-    .home-navigation { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
-    .home-navigation select { min-height: 42px; max-width: 100%; padding: 8px 14px; border: 1px solid #d8e5d8; border-radius: 10px; background: rgba(255,254,250,.94); color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; }
-    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center; border: 1px solid rgba(71,119,85,.13); border-radius: 24px; background: linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow: 0 12px 32px rgba(43,69,46,.07); }
-    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
-    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
-    .instruction-box,.top-controls { margin-bottom: 24px; padding: 16px 20px; border: 1px solid #d8e5d8; border-radius: 16px; background: rgba(255,254,250,.96); box-shadow: 0 6px 18px rgba(43,69,46,.04); }
-    .instruction-box { border-left: 5px solid var(--accent); background: #fff; }
-    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
-    .instruction-text { font-size: .98rem; line-height: 1.5; }
-    .teacher-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-    .mode-select-box { display: flex; align-items: center; gap: 8px; color: var(--primary-dark); font-size: .9rem; font-weight: 700; }
-    .mode-select-box select { padding: 7px 10px; border: 1.5px solid #d4e1d5; border-radius: 8px; color: var(--primary-dark); background: #fff; font: inherit; }
-    .reset-btn,.release-btn,.btn-token { min-height: 42px; padding: 8px 14px; border-radius: 9px; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
-    .reset-btn { border: 1px solid #fca5a5; background: #fff; color: #dc2626; }
-    .release-btn { border: 0; background: var(--accent); color: #fff; }
-    .card { margin-bottom: 28px; padding: clamp(18px,4vw,30px); border: 1px solid var(--border); border-radius: 24px; background: var(--card-bg); box-shadow: 0 18px 48px rgba(43,69,46,.1); }
-    #token-mode-section,#all-students-mode-section { display: none; }
-    #token-mode-section.active-mode,#all-students-mode-section.active-mode { display: block; }
-    .token-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding: 12px 16px; border-radius: 13px; background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
-    .btn-token { border: 0; background: var(--primary-dark); color: #fff; }
-    .btn-token.release { background: var(--accent); }
-    .btn-token.busy { background: #e8ebea; color: #5f6863; cursor: not-allowed; }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .hero {
+      position: relative; isolation: isolate; overflow: hidden; margin: 8px 0 20px; padding: 24px 20px 22px;
+      text-align: center; border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase; background: #eaf1e8; padding: 7px 14px;
+      border-radius: 20px; margin-bottom: 8px; box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.85rem, 5vw, 2.55rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 6px 0 0; color: var(--text-muted); font-size: .96rem; }
+
+    .instruction-box {
+      background: #fff; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent);
+      border-radius: 16px; padding: 14px 18px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title { font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 4px; }
+    .instruction-text { font-size: .96rem; color: var(--text); line-height: 1.45; }
+
+    .card {
+      padding: clamp(18px, 4vw, 30px); border: 1px solid var(--border); border-radius: 26px;
+      background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); margin-bottom: 32px;
+    }
+
+    .connection-banner {
+      margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px;
+      background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700;
+    }
+    .connection-banner[hidden] { display: none; }
+
+    .section-box {
+      display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border);
+      border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43, 69, 46, .03);
+    }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+      padding-bottom: 12px; border-bottom: 1px solid #eef2ee;
+    }
+    .section-title {
+      display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1;
+      font-size: 1.12rem; font-weight: 800; line-height: 1.4; color: var(--primary-dark);
+    }
+    .number {
+      display: inline-grid; flex-shrink: 0; width: 34px; height: 34px; place-items: center;
+      border-radius: 10px; background: var(--primary); color: #fff; font-size: .92rem; font-weight: 800;
+    }
+
+    .turn-pill {
+      display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px;
+      border: 1px solid #dce6dc; border-radius: 999px; background: #f7faf7;
+      color: var(--primary-dark); font-size: .82rem; font-weight: 700; white-space: nowrap;
+    }
+    .turn-pill.is-me {
+      border-color: var(--accent); background: #fff3ed; color: #9c4a30;
+      box-shadow: 0 0 0 2px rgba(189, 105, 77, .12);
+    }
+
+    .turn-assignment-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3;
+    }
+    .turn-assignment-bar[hidden] { display: none; }
+    .turn-assignment-bar label {
+      color: var(--primary-dark); font-size: .82rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .turn-assignment-bar select {
+      flex: 1; min-width: 210px; max-width: 360px; min-height: 38px; padding: 6px 10px;
+      border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff;
+      color: var(--text); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
+    }
+
+    .worksheet-card {
+      padding: 14px 16px; border: 1.5px solid #dce8dc; border-radius: 16px; background: #f8faf6;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .worksheet-card.active-turn {
+      border-color: var(--accent); background: #fffdfb; box-shadow: 0 0 0 3px rgba(189, 105, 77, .14);
+    }
+    .worksheet-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .worksheet-label { color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .turn-hint-tag { font-size: .8rem; font-weight: 700; color: var(--text-muted); }
+    .worksheet-card.active-turn .turn-hint-tag { color: var(--accent); }
+
     .worksheet { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: #fff; }
     table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; }
-    th,td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    th { background: var(--primary-light); color: var(--primary-dark); font-size: .86rem; }
-    th:first-child, td:first-child { position: sticky; left: 0; }
-    th:first-child { z-index: 2; }
-    td:first-child { z-index: 1; min-width: 115px; background: #fff; color: var(--primary-dark); font-weight: 800; box-shadow: 2px 0 4px rgba(43,69,46,.08); }
-    tbody tr:last-child td { border-bottom: 0; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    thead th { background: var(--primary-light); color: var(--primary-dark); font-size: .86rem; }
+    thead th:first-child, tbody th[scope="row"] { position: sticky; left: 0; }
+    thead th:first-child { z-index: 2; }
+    tbody th[scope="row"] {
+      z-index: 1;
+      min-width: 115px;
+      background: #fff;
+      color: var(--primary-dark);
+      font-weight: 800;
+      box-shadow: 2px 0 4px rgba(43, 69, 46, .08);
+    }
+    tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
     .table-value { min-width: 150px; font-weight: 600; }
-    .move-controls { display: flex; justify-content: center; gap: 4px; }
+    .move-controls { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .move-buttons { display: flex; justify-content: center; gap: 4px; }
     .move-btn { width: 34px; height: 34px; border: 1px solid #d8e5d8; border-radius: 8px; background: #fff; color: var(--primary-dark); font-size: 1rem; font-weight: 800; cursor: pointer; }
     .move-btn:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary); }
     .move-btn:disabled { opacity: .4; cursor: not-allowed; }
-    .submit-answer { min-height: 42px; margin-top: 16px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--primary); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
-    .submit-answer:hover { background: var(--primary-dark); }
-    .save-status { margin: 0 0 14px; padding: 10px 13px; border: 1px solid #b7dfc1; border-radius: 11px; background: var(--success-bg); color: #17623c; font-size: .9rem; font-weight: 700; }
-    .results-section h2 { margin: 0 0 14px; color: var(--primary-dark); font-size: 1.25rem; }
-    .response-list { display: grid; gap: 14px; }
-    .response-card { padding: 14px; border: 1px solid var(--border); border-radius: 13px; background: #fff; }
-    .response-card.approved { border-color: #a7f3d0; background: #f0fdf4; }
-    .response-card.rejected { border-color: #fecaca; background: #fff7f7; }
-    .response-header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 10px; color: var(--primary-dark); font-weight: 800; }
-    .response-status.approved { color: var(--success); }
-    .response-status.rejected { color: #dc2626; }
-    .response-table th,.response-table td { padding: 8px; font-size: .88rem; }
+
+    .actions-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap; margin-top: 12px;
+    }
+    .sync-feedback { font-size: .84rem; font-weight: 700; color: var(--text-muted); min-height: 1.2em; }
+    .sync-feedback.saving { color: #9a6700; }
+    .sync-feedback.saved { color: #17623c; }
+    .sync-feedback.error { color: #991b1b; }
+
+    .btn-verify {
+      margin-left: auto; min-height: 40px; padding: 8px 18px; border: 0; border-radius: 11px;
+      background: var(--primary); color: #fff; font: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(71, 119, 85, .2); transition: background .2s, opacity .2s;
+    }
+    .btn-verify:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-verify:disabled { background: #cbd5cb; color: #5f6863; box-shadow: none; cursor: not-allowed; opacity: .75; }
+
+    .verification-card {
+      padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: #fcfdfb;
+    }
+    .automatic-score { margin: 0 0 10px; color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .response-table th, .response-table td { padding: 8px; font-size: .88rem; }
     .response-table td.answer-correct { background: #f0fdf4; color: #17623c; }
     .response-table td.answer-incorrect { background: #fff7f7; color: #991b1b; }
     .cell-feedback { display: block; margin-top: 4px; font-size: .78rem; font-weight: 700; }
-    .automatic-score { margin: 0 0 10px; color: var(--primary-dark); font-size: .9rem; font-weight: 800; }
-    .teacher-review { display: grid; gap: 9px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #d5e2d5; }
-    .teacher-review label { color: var(--primary-dark); font-size: .82rem; font-weight: 800; }
-    .teacher-review textarea { width: 100%; min-height: 58px; padding: 9px 10px; border: 1px solid #d4e1d5; border-radius: 8px; font: inherit; resize: vertical; }
-    .review-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-    .review-actions button { min-height: 38px; padding: 7px 12px; border: 0; border-radius: 8px; color: #fff; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
-    .approve-btn { background: var(--success); }
-    .reject-btn { background: #dc2626; }
-    .feedback-display { margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--accent); border-radius: 8px; background: #f5f1e7; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .empty-message { color: var(--text-muted); font-size: .92rem; }
-    @media (max-width: 600px) {
-      body { padding: 16px 8px; }
-      .teacher-controls,.token-bar { align-items: stretch; flex-direction: column; }
-      .mode-select-box { align-items: flex-start; flex-direction: column; }
-      th,td { padding: 9px 7px; }
-      .table-value { min-width: 125px; }
+
+    .slide-navigation {
+      display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 20px;
+      padding-top: 14px; border-top: 1px solid var(--border);
     }
-    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    .slide-navigation a {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark);
+      font: inherit; font-weight: 700; text-decoration: none; transition: all .2s;
+    }
+    .slide-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    @media (max-width: 680px) {
+      body { padding: 16px 8px; }
+      .section-box { padding: 14px; }
+      th, td { padding: 9px 7px; }
+      .table-value { min-width: 125px; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation a { justify-content: center; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
   <main class="container">
-    <nav class="home-navigation" aria-label="Menu dell’unità 001">
-      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 001</label>
+    <nav class="top-exercises" aria-label="Menu dell’unità 1">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 1</label>
       <select id="exercise-menu">
-        <option value="001_lettura.html">Lettura</option><option value="001_es_a.html">Esercizio A</option>
-        <option value="001_es_b.html">Esercizio B</option><option value="001_es_c.html">Esercizio C</option>
-        <option value="001_es_d.html">Esercizio D</option><option value="001_es_e.html" selected>Esercizio E</option>
-        <option value="001_es_f.html">Esercizio F</option><option value="001_es_g.html">Esercizio G</option>
-        <option value="001_es_h.html">Esercizio H</option><option value="001_es_i.html">Esercizio I</option>
-        <option value="001_es_j.html">Esercizio J</option>        <option value="001_es_k.html">Esercizio K</option>
+        <option value="001_lettura.html">Lettura</option>
+        <option value="001_es_a.html">Esercizio A</option>
+        <option value="001_es_b.html">Esercizio B</option>
+        <option value="001_es_c.html">Esercizio C</option>
+        <option value="001_es_d.html">Esercizio D</option>
+        <option value="001_es_e.html" selected>Esercizio E</option>
+        <option value="001_es_f.html">Esercizio F</option>
+        <option value="001_es_g.html">Esercizio G</option>
+        <option value="001_es_h.html">Esercizio H</option>
+        <option value="001_es_i.html">Esercizio I</option>
+        <option value="001_es_j.html">Esercizio J</option>
+        <option value="001_es_k.html">Esercizio K</option>
       </select>
       <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
       <select id="grammar-menu" aria-label="Schede grammaticali">
@@ -112,489 +212,379 @@
         <option value="001_determinativi.html">Articoli determinativi</option>
       </select>
     </nav>
+
     <header class="hero">
       <span class="eyebrow">Unità 1 · Lettura e comprensione</span>
       <h1>Un albergo in centro</h1>
       <p class="hero-subtitle">Correggi i dati dei clienti dell’albergo.</p>
-      <p id="user-badge" class="hero-subtitle" style="margin-top:4px;font-size:.85rem;font-weight:700;color:var(--accent);" aria-live="polite"></p>
     </header>
+
     <div class="instruction-box">
       <div class="instruction-title">💡 Задание · Esercizio E</div>
       <div class="instruction-text" lang="ru">Используй стрелки, чтобы перемещать данные и восстановить правильные национальность, профессию и цель поездки для каждого клиента.</div>
     </div>
-    <div id="top-controls" class="top-controls" hidden>
-      <div class="teacher-controls">
-        <label class="mode-select-box" for="work-mode">Modalità di lavoro · Режим:
-          <select id="work-mode"><option value="token">Uno alla volta · По одному</option><option value="all">Tutti insieme · Все вместе</option></select>
-        </label>
-        <button id="teacher-release-token" class="release-btn" type="button" hidden>🔓 Libera il turno</button>
-        <button id="reset" class="reset-btn" type="button">⚠️ Azzera le risposte</button>
-      </div>
-    </div>
 
-    <section id="token-mode-section" class="card">
-      <div class="token-bar" id="token-bar">
-        <span id="token-status-text" aria-live="polite"></span>
-        <button id="btn-take-token" class="btn-token" type="button">✋ Prendi la parola</button>
-      </div>
-      <div id="token-table" class="worksheet" aria-label="Tabella dei dati dei clienti"></div>
-    </section>
+    <section class="card" aria-label="Tabella dell’esercizio">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
 
-    <section id="all-students-mode-section">
-      <section id="student-form-card" class="card">
-        <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
-        <div id="student-table" class="worksheet" aria-label="Tabella da completare"></div>
-        <button id="submit-answer" class="submit-answer" type="button">📤 Invia la tabella</button>
-      </section>
-      <section id="results-section" class="card results-section">
-        <h2>📋 Risposte degli studenti · Tabelle inviate</h2>
-        <div id="responses-list"></div>
-      </section>
+      <div class="section-box">
+        <div class="section-header">
+          <div class="section-title">
+            <span class="number">1</span>
+            <span>Tabella dei dati dei clienti</span>
+          </div>
+          <span id="turn-pill" class="turn-pill" aria-live="polite">✍️ Turno: Nessuno</span>
+        </div>
+
+        <div id="turn-assignment-bar" class="turn-assignment-bar" hidden>
+          <label for="assign-turn-select">✍️ Assegna turno di lavoro:</label>
+          <select id="assign-turn-select"></select>
+        </div>
+
+        <div id="worksheet-card" class="worksheet-card">
+          <div class="worksheet-header">
+            <span class="worksheet-label">📋 Tabella condivisa:</span>
+            <span id="turn-hint-tag" class="turn-hint-tag">In attesa di assegnazione</span>
+          </div>
+          <div id="table-container" class="worksheet" aria-label="Tabella dei dati dei clienti"></div>
+          <div class="actions-row">
+            <span id="sync-feedback" class="sync-feedback" role="status" aria-live="polite"></span>
+            <button id="btn-verify-table" class="btn-verify" type="button" disabled>✅ Verifica la tabella</button>
+          </div>
+        </div>
+
+        <div id="verification-area" hidden></div>
+      </div>
+
+      <nav class="slide-navigation" aria-label="Navigazione esercizi">
+        <a id="next-exercise" href="001_es_f.html">Vai all’esercizio F →</a>
+      </nav>
     </section>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=1"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=2"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "INSERISCI_API_KEY",
-      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
-      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "esercizi-parlo-italiano",
-      appId: "INSERISCI_APP_ID"
-    };
-    const clients = ["Yoko", "Karl e Klaus", "Victor", "Olga", "Mary"];
-    const columns = [
-      { key: "nat", label: "Nazionalità" },
-      { key: "prof", label: "Professione" },
-      { key: "mot", label: "Motivo del viaggio" }
-    ];
-    const initialData = {
-      nat: ["Russa", "Francese", "Inglese", "Giapponese", "Tedeschi"],
-      prof: ["Insegnante", "Studentessa", "Studenti", "Avvocatessa", "Dentista"],
-      mot: ["Per affari", "Per insegnare l’inglese", "Per una conferenza", "Per studiare l’italiano", "Per fare shopping"]
-    };
-    const correctData = {
-      nat: ["Giapponese", "Tedeschi", "Francese", "Russa", "Inglese"],
-      prof: ["Dentista", "Studenti", "Avvocatessa", "Studentessa", "Insegnante"],
-      mot: ["Per una conferenza", "Per studiare l’italiano", "Per affari", "Per fare shopping", "Per insegnare l’inglese"]
-    };
-    const normalizeAnswer = value => String(value || "").trim().toLocaleLowerCase("it")
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`]/g, "'").replace(/\s+/g, " ");
-    const cloneInitialData = () => JSON.parse(JSON.stringify(initialData));
-    const params = new URLSearchParams(location.search);
-    let session = {};
-    try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
-    const groupName = params.get("gruppo") || session.group || "";
-    const studentName = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
-    const isTeacherView = Boolean(session.isTeacher || (groupName && (!studentName || studentName === "Insegnante")));
-    const safeGroup = (groupName || "sconosciuto").replace(/[.#$\/\[\]]/g, "_");
-    const studentId = studentName.replace(/[.#$\/\[\]]/g, "_");
-    const myClientId = "user_" + Math.random().toString(36).substring(2, 9);
+    (() => {
+      "use strict";
 
-    const badge = document.getElementById("user-badge");
-    if (groupName && isTeacherView) badge.textContent = `👩‍🏫 Insegnante · ${groupName}`;
-    else if (groupName && studentName) badge.textContent = `👤 ${groupName} · ${studentName}`;
-    else if (studentName) badge.textContent = `👤 ${studentName}`;
-    else badge.hidden = true;
+      const UNIT_NUMBER = 1;
+      const EXERCISE_PATH = "001_es_e";
 
-    document.getElementById("exercise-menu").addEventListener("change", event => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      if (groupName) target.searchParams.set("gruppo", groupName);
-      if (studentName && !isTeacherView) target.searchParams.set("nome", studentName);
-      window.location.href = target.href;
-    });
+      const clients = ["Yoko", "Karl e Klaus", "Victor", "Olga", "Mary"];
+      const columns = [
+        { key: "nat", label: "Nazionalità" },
+        { key: "prof", label: "Professione" },
+        { key: "mot", label: "Motivo del viaggio" }
+      ];
+      const initialData = {
+        nat: ["Russa", "Francese", "Inglese", "Giapponese", "Tedeschi"],
+        prof: ["Insegnante", "Studentessa", "Studenti", "Avvocatessa", "Dentista"],
+        mot: ["Per affari", "Per insegnare l’inglese", "Per una conferenza", "Per studiare l’italiano", "Per fare shopping"]
+      };
+      const correctData = {
+        nat: ["Giapponese", "Tedeschi", "Francese", "Russa", "Inglese"],
+        prof: ["Dentista", "Studenti", "Avvocatessa", "Studentessa", "Insegnante"],
+        mot: ["Per una conferenza", "Per studiare l’italiano", "Per affari", "Per fare shopping", "Per insegnare l’inglese"]
+      };
 
-    const topControls = document.getElementById("top-controls");
-    const workModeSelect = document.getElementById("work-mode");
-    const resetButton = document.getElementById("reset");
-    const releaseButton = document.getElementById("teacher-release-token");
-    const tokenSection = document.getElementById("token-mode-section");
-    const allSection = document.getElementById("all-students-mode-section");
-    const tokenTable = document.getElementById("token-table");
-    const studentTable = document.getElementById("student-table");
-    const tokenBar = document.getElementById("token-bar");
-    const tokenStatusText = document.getElementById("token-status-text");
-    const takeTokenButton = document.getElementById("btn-take-token");
-    const submitButton = document.getElementById("submit-answer");
-    const saveStatus = document.getElementById("save-status");
-    const responsesList = document.getElementById("responses-list");
-    if (isTeacherView) topControls.hidden = false;
-    document.body.classList.toggle("teacher-view", isTeacherView);
+      const normalizeAnswer = value => String(value || "").trim().toLocaleLowerCase("it")
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`]/g, "'").replace(/\s+/g, " ");
+      const cloneInitialData = () => JSON.parse(JSON.stringify(initialData));
 
-    let answersRef = null;
-    let currentWorkMode = "token";
-    let currentWriter = null;
-    let currentWriterName = "";
-    let tokenDataState = cloneInitialData();
-    let studentDataState = cloneInitialData();
-    let allResponses = {};
-    let lastResetId = null;
-    const feedbackSaveTimers = new Map();
+      const session = window.ParloSession || {};
+      const isTeacherView = Boolean(session.isTeacher);
+      const safeGroup = session.safeGroup || "sconosciuto";
 
-    function makeTable(container, mode) {
-      const isToken = mode === "token";
-      const state = isToken ? tokenDataState : studentDataState;
-      const canEdit = isToken ? !isTeacherView && currentWriter === myClientId : !isTeacherView;
-      const table = document.createElement("table");
-      const head = document.createElement("thead");
-      const headerRow = document.createElement("tr");
-      ["Cliente", ...columns.map(column => column.label)].forEach(label => {
-        const cell = document.createElement("th");
-        cell.scope = "col";
-        cell.textContent = label;
-        headerRow.appendChild(cell);
-      });
-      head.appendChild(headerRow);
-      const body = document.createElement("tbody");
-      clients.forEach((client, index) => {
-        const row = document.createElement("tr");
-        const nameCell = document.createElement("td");
-        nameCell.textContent = client;
-        row.appendChild(nameCell);
-        columns.forEach(column => {
-          const cell = document.createElement("td");
-          const controls = document.createElement("div");
-          controls.className = "move-controls";
-          const value = document.createElement("span");
-          value.className = "table-value";
-          value.textContent = state[column.key]?.[index] || "—";
-          const moveButtons = document.createElement("div");
-          moveButtons.className = "move-controls";
-          [-1, 1].forEach(direction => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "move-btn";
-            button.textContent = direction < 0 ? "↑" : "↓";
-            button.setAttribute("aria-label", `Sposta il dato ${column.label.toLowerCase()} ${direction < 0 ? "in alto" : "in basso"} per ${client}`);
-            button.disabled = !canEdit || index + direction < 0 || index + direction >= clients.length;
-            button.addEventListener("click", () => moveValue(mode, column.key, index, index + direction));
-            moveButtons.appendChild(button);
+      const connectionBanner = document.getElementById("connection-banner");
+      const turnPill = document.getElementById("turn-pill");
+      const assignmentBar = document.getElementById("turn-assignment-bar");
+      const assignSelect = document.getElementById("assign-turn-select");
+      const worksheetCard = document.getElementById("worksheet-card");
+      const turnHintTag = document.getElementById("turn-hint-tag");
+      const tableContainer = document.getElementById("table-container");
+      const syncFeedback = document.getElementById("sync-feedback");
+      const verifyButton = document.getElementById("btn-verify-table");
+      const verificationArea = document.getElementById("verification-area");
+
+      if (isTeacherView) {
+        assignmentBar.hidden = false;
+      }
+
+      let sync = null;
+      let tableState = cloneInitialData();
+      let verifiedState = null;
+      let feedbackTimer = null;
+
+      function setConnectionMessage(message) {
+        if (!message) {
+          connectionBanner.hidden = true;
+          connectionBanner.textContent = "";
+        } else {
+          connectionBanner.textContent = message;
+          connectionBanner.hidden = false;
+        }
+      }
+
+      function setFeedback(type, message, autoClearMs = 0) {
+        clearTimeout(feedbackTimer);
+        feedbackTimer = null;
+        syncFeedback.className = `sync-feedback ${type || ""}`.trim();
+        syncFeedback.textContent = message || "";
+        if (autoClearMs > 0 && message) {
+          feedbackTimer = setTimeout(() => {
+            feedbackTimer = null;
+            syncFeedback.className = "sync-feedback";
+            syncFeedback.textContent = "";
+          }, autoClearMs);
+        }
+      }
+
+      function formatAssigneeLabel(person, onlineSet) {
+        if (!person) return "Nessuno";
+        if (person.role === "teacher") return `👩‍🏫 ${person.name}`;
+        const isOnline = onlineSet instanceof Set && onlineSet.has(person.name);
+        return `${isOnline ? "🟢" : "⚪"} ${person.name}`;
+      }
+
+      function restoreTable(raw) {
+        const restored = cloneInitialData();
+        if (!raw) return restored;
+        columns.forEach(col => {
+          if (Array.isArray(raw[col.key]) && raw[col.key].length === clients.length) {
+            restored[col.key] = raw[col.key].slice();
+          }
+        });
+        return restored;
+      }
+
+      function renderTable(canEdit) {
+        const table = document.createElement("table");
+        const head = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        ["Cliente", ...columns.map(col => col.label)].forEach(label => {
+          const th = document.createElement("th");
+          th.scope = "col";
+          th.textContent = label;
+          headerRow.appendChild(th);
+        });
+        head.appendChild(headerRow);
+
+        const body = document.createElement("tbody");
+        clients.forEach((client, index) => {
+          const row = document.createElement("tr");
+          const nameCell = document.createElement("th");
+          nameCell.scope = "row";
+          nameCell.textContent = client;
+          row.appendChild(nameCell);
+
+          columns.forEach(col => {
+            const cell = document.createElement("td");
+            const controls = document.createElement("div");
+            controls.className = "move-controls";
+
+            const value = document.createElement("span");
+            value.className = "table-value";
+            value.textContent = tableState[col.key]?.[index] || "—";
+
+            const moveButtons = document.createElement("div");
+            moveButtons.className = "move-buttons";
+            [-1, 1].forEach(direction => {
+              const btn = document.createElement("button");
+              btn.type = "button";
+              btn.className = "move-btn";
+              btn.textContent = direction < 0 ? "↑" : "↓";
+              btn.setAttribute(
+                "aria-label",
+                `Sposta il dato ${col.label.toLowerCase()} ${direction < 0 ? "in alto" : "in basso"} per ${client}`
+              );
+              btn.disabled = !canEdit || index + direction < 0 || index + direction >= clients.length;
+              btn.addEventListener("click", () => moveValue(col.key, index, index + direction));
+              moveButtons.appendChild(btn);
+            });
+
+            controls.append(value, moveButtons);
+            cell.appendChild(controls);
+            row.appendChild(cell);
           });
-          controls.append(value, moveButtons);
-          cell.appendChild(controls);
-          row.appendChild(cell);
+
+          body.appendChild(row);
         });
-        body.appendChild(row);
-      });
-      table.append(head, body);
-      container.replaceChildren(table);
-    }
 
-    function renderTables() {
-      makeTable(tokenTable, "token");
-      makeTable(studentTable, "student");
-    }
-
-    function moveValue(mode, column, from, to) {
-      if (to < 0 || to >= clients.length) return;
-      const state = mode === "token" ? tokenDataState : studentDataState;
-      [state[column][from], state[column][to]] = [state[column][to], state[column][from]];
-      if (mode === "token") {
-        if (answersRef && currentWriter === myClientId) answersRef.child("tokenData").child("tableState").set(tokenDataState);
-      } else saveStatus.hidden = true;
-      renderTables();
-    }
-
-    function cloneState(state) { return JSON.parse(JSON.stringify(state)); }
-    function serializeTable(state) {
-      return Object.fromEntries(clients.map((_, index) => [String(index), Object.fromEntries(columns.map(column => [column.key, state[column.key]?.[index] || ""]))]));
-    }
-    function restoreTable(answerData) {
-      if (answerData?.nat && Array.isArray(answerData.nat)) return cloneState(answerData);
-      const restored = cloneInitialData();
-      clients.forEach((_, index) => {
-        const row = answerData?.[String(index)];
-        if (row) columns.forEach(column => {
-          if (row[column.key] !== undefined) restored[column.key][index] = row[column.key];
-        });
-      });
-      return restored;
-    }
-    function setWorkMode(value) {
-      currentWorkMode = value === "all" ? "all" : "token";
-      const tokenMode = currentWorkMode === "token";
-      tokenSection.classList.toggle("active-mode", tokenMode);
-      allSection.classList.toggle("active-mode", !tokenMode);
-      tokenBar.hidden = isTeacherView;
-      releaseButton.hidden = !(isTeacherView && tokenMode && currentWriter);
-      if (!currentWriter) {
-        tokenStatusText.textContent = "Nessuno sta lavorando";
-        takeTokenButton.textContent = "✋ Prendi la parola";
-        takeTokenButton.className = "btn-token";
-        takeTokenButton.disabled = false;
-      } else if (currentWriter === myClientId) {
-        tokenStatusText.textContent = "Stai lavorando";
-        takeTokenButton.textContent = "✔ Termina il turno";
-        takeTokenButton.className = "btn-token release";
-        takeTokenButton.disabled = false;
-      } else {
-        tokenStatusText.textContent = `🔒 ${currentWriterName || "Un compagno"} sta lavorando`;
-        takeTokenButton.textContent = `🔒 ${currentWriterName || "Un compagno"} sta lavorando`;
-        takeTokenButton.className = "btn-token busy";
-        takeTokenButton.disabled = true;
+        table.append(head, body);
+        tableContainer.replaceChildren(table);
       }
-      renderTables();
-      renderResponses();
-    }
 
-    function saveStudentTable(tableState) {
-      if (!studentName) {
-        alert("Non trovo il nome della sessione. Accedi nuovamente dalla pagina iniziale.");
-        return Promise.reject(new Error("Nome studente mancante"));
-      }
-      if (!answersRef) {
-        alert("Connessione al database non disponibile.");
-        return Promise.reject(new Error("Database non disponibile"));
-      }
-      return answersRef.child("allStudentsData").child("students").child(studentId).update({
-        name: studentName,
-        answers: serializeTable(tableState),
-        submittedQuestions: Object.fromEntries(clients.map((_, index) => [String(index), true])),
-        submitted: true,
-        reviewStatus: null,
-        teacherFeedback: null,
-        timestamp: Date.now()
-      });
-    }
-
-    submitButton.addEventListener("click", async () => {
-      submitButton.disabled = true;
-      try {
-        await saveStudentTable(studentDataState);
-        saveStatus.textContent = "✅ Tabella inviata all’insegnante.";
-        saveStatus.hidden = false;
-      } catch (error) {
-        if (error.message !== "Nome studente mancante" && error.message !== "Database non disponibile") alert("Errore durante l’invio della tabella.");
-      } finally { submitButton.disabled = false; }
-    });
-
-    async function releaseStudentToken() {
-      if (!answersRef || currentWriter !== myClientId) return;
-      try {
-        await saveStudentTable(tokenDataState);
-      } catch (error) { console.error("Errore salvataggio tabella:", error); }
-      await answersRef.child("tokenData").update({ currentWriter: null, writerName: "" });
-    }
-
-    takeTokenButton.addEventListener("click", () => {
-      if (!answersRef || currentWorkMode !== "token" || isTeacherView) return;
-      if (currentWriter === myClientId) releaseStudentToken();
-      else if (!currentWriter) {
-        if (!studentName) {
-          alert("Non trovo il nome della sessione. Accedi nuovamente dalla pagina iniziale.");
+      function renderVerification() {
+        verificationArea.replaceChildren();
+        if (!verifiedState) {
+          verificationArea.hidden = true;
           return;
         }
-        answersRef.child("tokenData").update({ currentWriter: myClientId, writerName: studentName });
-      }
-    });
-    releaseButton.addEventListener("click", () => {
-      if (isTeacherView && currentWriter && answersRef) answersRef.child("tokenData").update({ currentWriter: null, writerName: "" });
-    });
-    workModeSelect.addEventListener("change", event => {
-      if (isTeacherView && answersRef) answersRef.child("workMode").set(event.target.value);
-    });
 
-    function scheduleFeedbackSave(studentKey, field, value) {
-      clearTimeout(feedbackSaveTimers.get(studentKey));
-      feedbackSaveTimers.set(studentKey, setTimeout(() => {
-        feedbackSaveTimers.delete(studentKey);
-        if (answersRef) answersRef.child("allStudentsData").child("students").child(studentKey).child("teacherFeedback").child(field).set(value.trim() || null);
-      }, 450));
-    }
-    function flushFeedbackSave(studentKey, field, value) {
-      clearTimeout(feedbackSaveTimers.get(studentKey));
-      feedbackSaveTimers.delete(studentKey);
-      if (answersRef) answersRef.child("allStudentsData").child("students").child(studentKey).child("teacherFeedback").child(field).set(value.trim() || null);
-    }
+        const checked = restoreTable(verifiedState);
+        let correctCount = 0;
+        const totalCount = clients.length * columns.length;
 
-    function appendResponseTable(card, state) {
-      const tableState = restoreTable(state);
-      let correctCount = 0;
-      const totalCount = clients.length * columns.length;
-      const score = document.createElement("p");
-      score.className = "automatic-score";
-      const wrapper = document.createElement("div");
-      wrapper.className = "worksheet";
-      const table = document.createElement("table");
-      table.className = "response-table";
-      const head = document.createElement("thead");
-      const header = document.createElement("tr");
-      ["Cliente", ...columns.map(column => column.label)].forEach(label => {
-        const cell = document.createElement("th");
-        cell.scope = "col";
-        cell.textContent = label;
-        header.appendChild(cell);
-      });
-      head.appendChild(header);
-      const body = document.createElement("tbody");
-      clients.forEach((client, index) => {
-        const row = document.createElement("tr");
-        const name = document.createElement("td");
-        name.textContent = client;
-        row.appendChild(name);
-        columns.forEach(column => {
-          const cell = document.createElement("td");
-          const value = tableState?.[column.key]?.[index] || "";
-          const isCorrect = normalizeAnswer(value) === normalizeAnswer(correctData[column.key][index]);
-          if (isCorrect) correctCount++;
-          cell.classList.add(isCorrect ? "answer-correct" : "answer-incorrect");
-          cell.append(document.createTextNode(value || "—"));
-          const feedback = document.createElement("span");
-          feedback.className = "cell-feedback";
-          feedback.textContent = isCorrect ? "✓ Corretta" : `✗ Corretto: ${correctData[column.key][index]}`;
-          cell.appendChild(feedback);
-          row.appendChild(cell);
-        });
-        body.appendChild(row);
-      });
-      table.append(head, body);
-      wrapper.appendChild(table);
-      score.textContent = `Correzione automatica: ${correctCount} di ${totalCount} dati corretti`;
-      card.append(score, wrapper);
-    }
-
-    function renderResponses() {
-      if (document.activeElement?.classList.contains("teacher-feedback-input")) return;
-      responsesList.replaceChildren();
-      const entries = Object.entries(allResponses.students || {}).filter(([, student]) =>
-        student.answers && (student.submitted === true || Object.values(student.submittedQuestions || {}).some(Boolean))
-      );
-      if (!entries.length) {
-        const empty = document.createElement("p");
-        empty.className = "empty-message";
-        empty.textContent = "Nessuna tabella inviata.";
-        responsesList.appendChild(empty);
-        return;
-      }
-      const list = document.createElement("div");
-      list.className = "response-list";
-      entries.forEach(([key, student]) => {
-        const review = student.reviewStatus || "pending";
-        const feedback = student.teacherFeedback || {};
         const card = document.createElement("article");
-        card.className = `response-card ${review === "approved" ? "approved" : review === "rejected" ? "rejected" : ""}`.trim();
-        const header = document.createElement("div");
-        header.className = "response-header";
-        const author = document.createElement("span");
-        author.textContent = student.name || "Studente";
-        const status = document.createElement("span");
-        status.className = `response-status ${review === "approved" ? "approved" : review === "rejected" ? "rejected" : ""}`;
-        status.textContent = review === "approved" ? "✓ Approvata" : review === "rejected" ? "✕ Da correggere" : "In attesa di revisione";
-        header.append(author, status);
-        card.appendChild(header);
-        appendResponseTable(card, student.answers);
+        card.className = "verification-card";
+
+        const score = document.createElement("p");
+        score.className = "automatic-score";
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "worksheet";
+        const table = document.createElement("table");
+        table.className = "response-table";
+
+        const head = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        ["Cliente", ...columns.map(col => col.label)].forEach(label => {
+          const th = document.createElement("th");
+          th.scope = "col";
+          th.textContent = label;
+          headerRow.appendChild(th);
+        });
+        head.appendChild(headerRow);
+
+        const body = document.createElement("tbody");
+        clients.forEach((client, index) => {
+          const row = document.createElement("tr");
+          const nameCell = document.createElement("th");
+          nameCell.scope = "row";
+          nameCell.textContent = client;
+          row.appendChild(nameCell);
+
+          columns.forEach(col => {
+            const cell = document.createElement("td");
+            const val = checked[col.key]?.[index] || "";
+            const isCorrect = normalizeAnswer(val) === normalizeAnswer(correctData[col.key][index]);
+            if (isCorrect) correctCount++;
+            cell.classList.add(isCorrect ? "answer-correct" : "answer-incorrect");
+            cell.append(document.createTextNode(val || "—"));
+
+            const fb = document.createElement("span");
+            fb.className = "cell-feedback";
+            fb.textContent = isCorrect ? "✓ Corretta" : `✗ Corretto: ${correctData[col.key][index]}`;
+            cell.appendChild(fb);
+            row.appendChild(cell);
+          });
+
+          body.appendChild(row);
+        });
+
+        table.append(head, body);
+        wrapper.appendChild(table);
+        score.textContent = `Correzione automatica: ${correctCount} di ${totalCount} dati corretti`;
+
+        card.append(score, wrapper);
+        verificationArea.appendChild(card);
+        verificationArea.hidden = false;
+      }
+
+      async function moveValue(colKey, from, to) {
+        if (!sync || !sync.canWrite()) return;
+        if (to < 0 || to >= clients.length) return;
+
+        [tableState[colKey][from], tableState[colKey][to]] = [tableState[colKey][to], tableState[colKey][from]];
+        verifiedState = null;
+        renderTable(true);
+        renderVerification();
+
+        setFeedback("saving", "⏳ Salvataggio in corso...");
+        try {
+          await sync.write("tableState", tableState);
+          await sync.write("verifiedState", null);
+          setFeedback("saved", "✓ Salvato", 2000);
+        } catch (error) {
+          setFeedback("error", `⚠️ Errore di salvataggio: ${error?.message || "riprova"}`);
+        }
+      }
+
+      verifyButton.addEventListener("click", async () => {
+        if (!sync || !sync.canWrite()) return;
+        verifyButton.disabled = true;
+        setFeedback("saving", "⏳ Verifica in corso...");
+        try {
+          verifiedState = JSON.parse(JSON.stringify(tableState));
+          await sync.write("verifiedState", verifiedState);
+          renderVerification();
+          setFeedback("saved", "✓ Verifica completata", 3000);
+        } catch (error) {
+          setFeedback("error", `⚠️ Errore durante la verifica: ${error?.message || "riprova"}`);
+        } finally {
+          verifyButton.disabled = !sync.canWrite();
+        }
+      });
+
+      function renderUI(onlineSet = new Set()) {
+        const assignee = sync ? sync.assignmentFor() : null;
+        const canEdit = Boolean(sync && sync.canWrite());
+
+        turnPill.textContent = `✍️ Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
+        turnPill.classList.toggle("is-me", canEdit);
+
+        worksheetCard.classList.toggle("active-turn", canEdit);
+        turnHintTag.textContent = canEdit
+          ? "È il tuo turno"
+          : assignee
+            ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
+            : "In attesa di assegnazione";
+
+        verifyButton.disabled = !canEdit;
+        renderTable(canEdit);
+        renderVerification();
+      }
+
+      const db = window.ParloModes ? ParloModes.initFirebase() : null;
+      if (!db) {
+        setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
+      } else {
+        db.ref(".info/connected").on("value", snap => {
+          if (snap.val() === false) {
+            setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
+          } else {
+            setConnectionMessage("");
+          }
+        });
+
+        const exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${EXERCISE_PATH}`);
+        sync = ParloModes.createSync({
+          mode: "single-turn",
+          ref: exerciseRef,
+          database: db,
+          session,
+          onChange(snapshotState) {
+            tableState = restoreTable(sync.read("tableState"));
+            verifiedState = sync.read("verifiedState") || null;
+            renderUI(snapshotState.onlineStudents);
+          },
+          onError(error) {
+            setConnectionMessage(`⚠️ Errore di sincronizzazione: ${error?.message || "controlla la connessione"}`);
+            setFeedback("error", `⚠️ Errore: ${error?.message || "operazione non riuscita"}`);
+          }
+        });
 
         if (isTeacherView) {
-          const reviewBox = document.createElement("div");
-          reviewBox.className = "teacher-review";
-          [
-            { field: "correction", label: "Correzione", placeholder: "Scrivi la risposta corretta o le correzioni..." },
-            { field: "comment", label: "Osservazioni per lo studente", placeholder: "Aggiungi un commento..." }
-          ].forEach(item => {
-            const label = document.createElement("label");
-            label.textContent = item.label;
-            const textarea = document.createElement("textarea");
-            textarea.className = "teacher-feedback-input";
-            textarea.rows = 2;
-            textarea.value = feedback[item.field] || "";
-            textarea.placeholder = item.placeholder;
-            textarea.setAttribute("aria-label", `${item.label} per ${student.name || "studente"}`);
-            textarea.addEventListener("input", () => scheduleFeedbackSave(key, item.field, textarea.value));
-            textarea.addEventListener("blur", () => flushFeedbackSave(key, item.field, textarea.value));
-            reviewBox.append(label, textarea);
+          sync.bindAssignmentSelect(assignSelect);
+          ParloModes.loadGroupRoster(db, safeGroup, UNIT_NUMBER, roster => {
+            sync.setRoster(roster);
           });
-          const actions = document.createElement("div");
-          actions.className = "review-actions";
-          [
-            { value: "approved", label: "✓ Approva", className: "approve-btn" },
-            { value: "rejected", label: "✕ Non approvare", className: "reject-btn" }
-          ].forEach(action => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = action.className;
-            button.textContent = action.label;
-            button.setAttribute("aria-pressed", String(review === action.value));
-            button.addEventListener("click", () => answersRef.child("allStudentsData").child("students").child(key).child("reviewStatus").set(review === action.value ? null : action.value));
-            actions.appendChild(button);
-          });
-          reviewBox.appendChild(actions);
-          card.appendChild(reviewBox);
-        } else {
-          if (feedback.correction) {
-            const correction = document.createElement("div");
-            correction.className = "feedback-display";
-            correction.textContent = `Correzione dell’insegnante: ${feedback.correction}`;
-            card.appendChild(correction);
-          }
-          if (feedback.comment) {
-            const comment = document.createElement("div");
-            comment.className = "feedback-display";
-            comment.textContent = `Osservazioni dell’insegnante: ${feedback.comment}`;
-            card.appendChild(comment);
-          }
         }
-        list.appendChild(card);
-      });
-      responsesList.appendChild(list);
-    }
+      }
 
-    if (window.firebase) {
-      try {
-        firebase.initializeApp(firebaseConfig);
-        answersRef = firebase.database().ref(`esercizi/gruppi/${safeGroup}/unita1-correggi-dati-e`);
-        answersRef.on("value", snapshot => {
-          const data = snapshot.val() || {};
-          const resetId = data.resetId || null;
-          if (resetId && resetId !== lastResetId) {
-            studentDataState = cloneInitialData();
-            saveStatus.hidden = true;
-          }
-          lastResetId = resetId;
-          currentWorkMode = data.workMode === "all" ? "all" : "token";
-          if (isTeacherView) workModeSelect.value = currentWorkMode;
-          const tokenData = data.tokenData || {};
-          currentWriter = tokenData.currentWriter || null;
-          currentWriterName = tokenData.writerName || "";
-          tokenDataState = tokenData.tableState || cloneInitialData();
-          allResponses = data.allStudentsData || {};
-          const own = allResponses.students?.[studentId];
-          if (own?.answers && studentName && !isTeacherView) studentDataState = restoreTable(own.answers);
-          setWorkMode(currentWorkMode);
-        });
-      } catch (error) { console.error("Errore Firebase:", error); }
-    }
+      if (window.ParloExercise) {
+        ParloExercise.initBackgroundParallax?.();
+        ParloExercise.decorateSessionLinks?.();
+        ParloExercise.bindNavigationSelect?.(document.getElementById("exercise-menu"));
+        ParloExercise.bindNavigationSelect?.(document.getElementById("grammar-menu"));
+      }
 
-    resetButton.addEventListener("click", () => {
-      if (!answersRef || !confirm(`Vuoi azzerare tutte le risposte del gruppo ${groupName || safeGroup}?`)) return;
-      answersRef.set({
-        resetId: `${Date.now()}_${myClientId}`,
-        workMode: currentWorkMode,
-        tokenData: { currentWriter: null, writerName: "", tableState: cloneInitialData() },
-        allStudentsData: {}
-      });
-      studentDataState = cloneInitialData();
-      saveStatus.hidden = true;
-    });
-
-    makeTable(tokenTable, "token");
-    makeTable(studentTable, "student");
-    setWorkMode("token");
-  </script>
-  <script>
-    document.getElementById("grammar-menu").addEventListener("change", event => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      const params = new URLSearchParams(location.search);
-      let session = {};
-      try { session = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
-      const group = params.get("gruppo") || session.group || "";
-      const name = params.get("nome") || (!session.isTeacher ? session.name : "") || "";
-      if (group) target.searchParams.set("gruppo", group);
-      if (name && name !== "Insegnante") target.searchParams.set("nome", name);
-      location.href = target.href;
-    });
+      renderUI();
+    })();
   </script>
   <script src="../classroom-notes.js"></script>
 </body>
