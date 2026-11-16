@@ -5,620 +5,538 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Rispondi alle domande usando i pronomi diretti, Unità 46." />
   <title>Unità 46 — I pronomi diretti (Esercizio I)</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
-    :root {
-      color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
-      --primary: #477755; --primary-light: #edf4ed; --primary-dark: #2f5739;
-      --accent: #bd694d; --bg-main: #f5f1e7; --card-bg: #fffefa;
-      --text: #292d28; --text-muted: #6b7069; --border: #e7e5dc;
-      --success: #278253; --success-bg: #e1f1e5; --error: #c43d3d; --error-bg: #fae7e5;
-    }
-    * { box-sizing: border-box; }
-    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
     body {
-      min-height: 100vh; margin: 0; padding: 32px 16px; color: var(--text);
-      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
-        url("img/sfondo-funerale-augusto.jpg") center calc(50% + var(--background-offset, 0px)) / cover fixed,
-        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%), var(--bg-main);
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo-funerale-augusto.jpg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
     }
-    .container { width: min(100%,880px); margin: 0 auto; }
-    .home-navigation { display:flex; justify-content:flex-start; margin:0 0 12px; }
-    .hero { margin:8px 0 22px; padding:28px 20px 26px; text-align:center; border:1px solid rgba(71,119,85,.13); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.94),rgba(242,247,239,.91)); box-shadow:0 12px 32px rgba(43,69,46,.07); }
-    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:#eaf1e8; color:var(--primary-dark); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
-    h1 { margin:4px 0; color:var(--primary-dark); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
-    .hero-subtitle { margin:8px 0 0; color:var(--text-muted); font-size:.98rem; }
-    .instruction-box,.top-controls { margin-bottom:20px; padding:16px 20px; border:1px solid #d8e5d8; border-radius:16px; background:#fff; box-shadow:0 6px 18px rgba(43,69,46,.04); }
-    .instruction-box { border-left:5px solid var(--accent); }
-    .instruction-title { margin-bottom:6px; color:var(--accent); font-size:.85rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
-    .instruction-text { font-size:.98rem; line-height:1.5; }
-    .grammar-tip { margin-bottom:20px; overflow:hidden; border:1px solid #d8e5d8; border-radius:16px; background:rgba(255,254,250,.97); box-shadow:0 6px 18px rgba(43,69,46,.05); }
-    .grammar-tip summary { padding:15px 20px; color:var(--primary-dark); font-weight:800; cursor:pointer; background:var(--primary-light); }
-    .grammar-content { padding:16px 20px; line-height:1.6; }
-    .grammar-content p { margin:0 0 12px; }
-    .grammar-content p:last-child { margin-bottom:0; }
-    .grammar-example { margin:8px 0; padding:10px 12px; border-radius:10px; background:#fff; }
-    .top-controls { display:flex; flex-wrap:wrap; align-items:center; gap:12px; background:rgba(255,254,250,.96); }
-    .teacher-controls { display:flex; width:100%; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; }
-    .assignment-control { display:grid; flex:1 1 260px; gap:5px; color:var(--primary-dark); font-size:.9rem; font-weight:700; }
-    .assignment-control select { min-height:42px; padding:8px 12px; border:1.5px solid #d4e1d5; border-radius:9px; background:#fff; color:var(--primary-dark); font:inherit; }
-    .teacher-hint { display:block; width:100%; min-width:0; margin-top:12px; }
-    .teacher-hint-button { min-width:36px; min-height:36px; border:1px solid #d8e5d8; border-radius:50%; background:#fff; color:var(--primary-dark); font:inherit; font-weight:800; cursor:pointer; }
-    .teacher-hint-button:hover,.teacher-hint-button[aria-expanded="true"] { border-color:var(--primary); background:var(--primary-light); }
-    .teacher-hint-text { display:block; width:100%; max-width:100%; margin-top:8px; padding:11px 13px; border:1px solid #d8e5d8; border-radius:10px; background:#fffefa; color:var(--text); box-shadow:0 4px 12px rgba(43,69,46,.1); font-size:.9rem; font-weight:600; line-height:1.55; }
-    .reset-btn { min-height:42px; padding:7px 14px; border-radius:10px; font:inherit; font-size:.85rem; font-weight:700; cursor:pointer; border:1px solid #fca5a5; background:#fff; color:#dc2626; }
-    .reset-btn:hover { background:#fef2f2; }
-    [hidden] { display:none !important; }
-    .card { margin-bottom:28px; padding:clamp(20px,4vw,32px); border:1px solid var(--border); border-radius:26px; background:var(--card-bg); box-shadow:0 22px 60px rgba(43,69,46,.11); }
-    .token-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; padding:14px 18px; border-radius:14px; background:var(--primary-light); }
-    .token-status { color:var(--primary-dark); font-weight:700; }
-    .slide-viewport { overflow:hidden; border:1px solid #d8e5d8; border-radius:18px; background:linear-gradient(145deg,#fffefa,#f2f7ef); }
-    .slides-track { display:flex; transition:transform .42s ease; will-change:transform; }
-    .slide-item { flex:0 0 100%; min-width:0; padding:clamp(18px,4vw,26px); }
-    .question-box { min-height:118px; display:flex; align-items:center; margin-bottom:16px; padding:18px 20px; border:1px solid #d0e2d2; border-radius:16px; background:var(--primary-light); color:var(--primary-dark); font-size:1.08rem; font-weight:800; line-height:1.6; }
-    .answer-input { display:block; width:100%; min-height:100px; padding:13px 15px; border:1.5px solid #d4e1d5; border-radius:12px; background:#fff; color:var(--text); font:inherit; line-height:1.55; resize:vertical; }
-    .answer-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(71,119,85,.15); }
-    .answer-input:disabled { background:#f1f5f1; color:#5f6863; }
-    .submit-contribution { display:block; min-height:42px; margin-top:12px; padding:9px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
-    .submit-contribution:hover:not(:disabled) { background:var(--primary-dark); }
-    .submit-contribution:disabled { cursor:not-allowed; opacity:.5; }
-    .shared-text-note { margin:0 0 16px; color:var(--text-muted); font-size:.88rem; line-height:1.5; }
-    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
-    .slide-navigation button { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:8px 18px; border:1px solid #d8e5d8; border-radius:10px; background:#fff; color:var(--primary-dark); font:inherit; font-weight:700; cursor:pointer; }
-    .slide-navigation button:hover:not(:disabled) { border-color:var(--primary); background:var(--primary-light); }
-    .slide-navigation button:disabled { cursor:not-allowed; opacity:.45; }
-    .slide-progress { color:var(--primary-dark); font-size:.95rem; font-weight:800; text-align:center; }
-    .field-label { display:block; margin:0 0 7px; color:var(--primary-dark); font-size:.9rem; font-weight:700; }
-    .progress-track { height:8px; margin-top:14px; overflow:hidden; border-radius:99px; background:#e8eee6; }
-    .progress-fill { height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--primary),#a8c49f); transition:width .2s ease; }
-    .progress-range { display:block; width:100%; height:28px; margin:4px 0 0; accent-color:var(--primary); cursor:pointer; }
-    .save-status { margin:0 0 16px; padding:11px 14px; border:1px solid #b7dfc1; border-radius:12px; background:var(--success-bg); color:#17623c; font-size:.9rem; font-weight:700; }
-    .save-status.error { border-color:#fca5a5; background:#fef2f2; color:#dc2626; }
-    .completion-box { margin-top:20px; padding:18px; border:1px solid #d0e2d2; border-radius:14px; background:var(--primary-light); color:var(--primary-dark); text-align:center; }
-    .completion-box[hidden] { display:none; }
-    .completion-box strong { display:block; margin-bottom:12px; font-size:1.1rem; }
-    .unit47-link { display:inline-flex; min-height:42px; align-items:center; justify-content:center; padding:9px 16px; border-radius:10px; background:var(--primary-dark); color:#fff; font-weight:800; text-decoration:none; }
-    .unit47-link.locked { background:#e7e9e5; color:#737a72; cursor:not-allowed; }
-    .unlock-unit-button { display:block; margin:12px auto 0; min-height:40px; padding:8px 14px; border:1px solid #e8c58a; border-radius:9px; background:#fffaf0; color:#8a5a12; font:inherit; font-weight:700; cursor:pointer; }
-    .results-section h2 { margin-top:0; color:var(--primary-dark); font-size:1.3rem; }
-    .question-responses details { margin-bottom:12px; border:1px solid #d8e5d8; border-radius:10px; background:#fff; padding:10px 14px; }
-    .question-responses summary { font-weight:700; color:var(--primary-dark); cursor:pointer; }
-    .answer-list { margin-top:10px; display:grid; gap:8px; }
-    .answer-row { padding:8px 12px; border-radius:8px; background:var(--primary-light); display:flex; flex-direction:column; gap:4px; }
-    .answer-author { font-weight:800; font-size:.85rem; color:var(--primary-dark); }
-    .answer-text { white-space:pre-wrap; overflow-wrap:anywhere; }
-    .empty-message { color:var(--text-muted); font-size:.92rem; font-style:italic; }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .hero {
+      position: relative; isolation: isolate; overflow: hidden; margin: 8px 0 20px; padding: 24px 20px 22px;
+      text-align: center; border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase; background: #eaf1e8; padding: 7px 14px;
+      border-radius: 20px; margin-bottom: 8px; box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.85rem, 5vw, 2.55rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 6px 0 0; color: var(--text-muted); font-size: .96rem; }
+
+    .instruction-box {
+      background: #fff; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent);
+      border-radius: 16px; padding: 14px 18px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title { font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 4px; }
+    .instruction-text { font-size: .96rem; color: var(--text); line-height: 1.5; }
+
+    .grammar-tip {
+      margin-bottom: 20px; overflow: hidden; border: 1px solid #d8e5d8; border-radius: 16px;
+      background: rgba(255, 254, 250, .97); box-shadow: 0 6px 18px rgba(43, 69, 46, .05);
+    }
+    .grammar-tip summary {
+      padding: 15px 20px; color: var(--primary-dark); font-weight: 800; cursor: pointer;
+      background: var(--primary-light); user-select: none;
+    }
+    .grammar-content { padding: 16px 20px; line-height: 1.6; font-size: .95rem; }
+    .grammar-content p { margin: 0 0 12px; }
+    .grammar-content p:last-child { margin-bottom: 0; }
+    .grammar-example {
+      margin: 8px 0 0; padding: 12px 14px; border-left: 4px solid var(--accent);
+      border-radius: 10px; background: #fffaf0; line-height: 1.65;
+    }
+
+    .card {
+      padding: clamp(18px, 4vw, 30px); border: 1px solid var(--border); border-radius: 26px;
+      background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); margin-bottom: 24px;
+    }
+
+    .connection-banner {
+      margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px;
+      background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700;
+    }
+    .connection-banner[hidden] { display: none; }
+
+    .overall-progress {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+      gap: 6px;
+      width: 100%;
+      margin: 0 0 18px;
+    }
+    .progress-step {
+      min-width: 0; min-height: 40px; padding: 4px; border: 1.5px solid #d8e5d8;
+      border-radius: 10px; background: #fff; color: var(--primary-dark);
+      font: inherit; font-size: .86rem; font-weight: 800; cursor: pointer;
+      transition: background .18s, border-color .18s, color .18s;
+    }
+    .progress-step:hover { border-color: var(--primary); background: var(--primary-light); }
+    .progress-step.done { border-color: #6ab082; background: #e5f5ea; color: #17623c; }
+    .progress-step[aria-current="step"] {
+      border-color: var(--primary-dark); background: var(--primary); color: #fff;
+      box-shadow: 0 3px 10px rgba(71, 119, 85, .25);
+    }
+
+    .section-box {
+      display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border);
+      border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43, 69, 46, .03);
+    }
+    .section-box[hidden] { display: none; }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+      padding-bottom: 12px; border-bottom: 1px solid #eef2ee;
+    }
+    .section-title {
+      display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1;
+      font-size: 1.08rem; font-weight: 800; line-height: 1.4; color: var(--primary-dark);
+    }
+    .number {
+      display: inline-grid; flex-shrink: 0; width: 34px; height: 34px; place-items: center;
+      border-radius: 10px; background: var(--primary); color: #fff; font-size: .92rem; font-weight: 800;
+    }
+
+    .turn-pill {
+      display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px;
+      border: 1px solid #dce6dc; border-radius: 999px; background: #f7faf7;
+      color: var(--primary-dark); font-size: .82rem; font-weight: 700; white-space: nowrap;
+    }
+    .turn-pill.is-me {
+      border-color: var(--accent); background: #fff3ed; color: #9c4a30;
+      box-shadow: 0 0 0 2px rgba(189, 105, 77, .12);
+    }
+
+    .turn-assignment-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3;
+    }
+    .turn-assignment-bar[hidden] { display: none; }
+    .turn-assignment-bar label {
+      color: var(--primary-dark); font-size: .82rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .turn-assignment-bar select {
+      flex: 1; min-width: 210px; max-width: 360px; min-height: 38px; padding: 6px 10px;
+      border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff;
+      color: var(--text); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
+    }
+
+    .worksheet-card {
+      padding: 16px; border: 1.5px solid #dce8dc; border-radius: 16px; background: #f8faf6;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .worksheet-card.active-turn {
+      border-color: var(--accent); background: #fffdfb; box-shadow: 0 0 0 3px rgba(189, 105, 77, .14);
+    }
+    .worksheet-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .worksheet-label { color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .turn-hint-tag { font-size: .8rem; font-weight: 700; color: var(--text-muted); }
+    .worksheet-card.active-turn .turn-hint-tag { color: var(--accent); }
+
+    .accent-toolbar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .accent-toolbar button {
+      min-width: 34px; min-height: 32px; padding: 3px 9px; border: 1px solid #d4e1d5; border-radius: 8px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer;
+    }
+    .accent-toolbar button:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary); }
+    .accent-toolbar button:disabled { cursor: not-allowed; opacity: .45; }
+
+    textarea.student-reply,
+    textarea.answer-input {
+      width: 100%; min-height: 110px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px;
+      background: #fff; color: var(--text); font: inherit; font-size: .98rem; line-height: 1.5; resize: vertical;
+    }
+    textarea.student-reply:disabled,
+    textarea.answer-input:disabled { background: #f1f4f0; color: #475569; cursor: not-allowed; }
+
+    .answer-form-card {
+      padding: 18px; border: 1px solid #d8e5d8; border-radius: 18px;
+      background: linear-gradient(145deg, #f7faf6, #fffefa);
+    }
+    .answer-form-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .answer-form-header label { color: var(--primary-dark); font-weight: 800; }
+    .answer-form-card textarea.answer-input { display: block; min-height: 120px; }
+    .answer-form-note { margin: 8px 2px 0; color: var(--text-muted); font-size: .84rem; line-height: 1.45; }
+    .answer-submit-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap; margin-top: 14px;
+    }
+    .btn-submit-contribution {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 46px; padding: 10px 20px; border: 0; border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff;
+      font: inherit; font-size: .94rem; font-weight: 800; cursor: pointer;
+      box-shadow: 0 5px 13px rgba(47, 87, 57, .2);
+      transition: transform .18s, box-shadow .18s, opacity .18s;
+    }
+    .btn-submit-contribution::before { content: "↗"; font-size: 1.1rem; }
+    .btn-submit-contribution:hover:not(:disabled) {
+      transform: translateY(-1px); box-shadow: 0 8px 17px rgba(47, 87, 57, .25);
+    }
+    .btn-submit-contribution:disabled { opacity: .48; cursor: not-allowed; box-shadow: none; }
+
+    .contributions-wrapper {
+      padding: 18px; border: 1px solid #e2e9df; border-radius: 18px; background: #fbfcf9;
+    }
+    .contributions-title { margin-bottom: 12px; color: var(--primary-dark); font-weight: 800; }
+    .contributions-empty { margin: 0; padding: 12px; border-radius: 10px; background: #f1f5ef; color: var(--text-muted); font-size: .9rem; }
+    .contributions-list { display: flex; flex-direction: column; gap: 10px; }
+    .contribution-item {
+      padding: 14px 16px; border: 1px solid #dce8dc; border-left: 4px solid var(--accent);
+      border-radius: 12px; background: #fff; box-shadow: 0 3px 10px rgba(43, 69, 46, .04);
+    }
+    .contribution-text { margin: 0 0 10px; color: var(--text); font-size: .97rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .contribution-meta {
+      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+      padding-top: 8px; border-top: 1px solid #eef2ee; color: var(--text-muted); font-size: .8rem;
+    }
+
+    .actions-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap; margin-top: 12px;
+    }
+    .submit-btn,
+    .submit-contribution {
+      min-height: 42px; padding: 9px 18px; border: 0; border-radius: 11px;
+      background: var(--primary); color: #fff; font: inherit; font-size: .92rem; font-weight: 800;
+      cursor: pointer; transition: background .2s, opacity .2s;
+    }
+    .submit-btn:hover:not(:disabled),
+    .submit-contribution:hover:not(:disabled) { background: var(--primary-dark); }
+    .submit-btn:disabled,
+    .submit-contribution:disabled { opacity: .45; cursor: not-allowed; }
+
+    .sync-feedback { font-size: .84rem; font-weight: 700; color: var(--text-muted); }
+    .sync-feedback.saving { color: #9a6700; }
+    .sync-feedback.saved { color: #17623c; }
+    .sync-feedback.error { color: #991b1b; }
+
+    .hints-box,
+    .teacher-hint {
+      margin-top: 12px; padding: 10px 14px; border: 1px solid #d8e5d8; border-radius: 12px;
+      background: #fff;
+    }
+    .hints-box summary {
+      cursor: pointer; color: var(--primary-dark); font-size: .9rem; font-weight: 800;
+      user-select: none;
+    }
+    .hints-list {
+      margin: 8px 0 2px; padding-left: 20px; color: var(--text); font-size: .92rem; line-height: 1.5;
+    }
+
+    .history-section {
+      padding-top: 14px; border-top: 1px dashed #d8e5d8;
+    }
+    .history-title {
+      margin: 0 0 10px; color: var(--primary-dark); font-size: .96rem; font-weight: 800;
+    }
+    .history-list { display: flex; flex-direction: column; gap: 9px; }
+    .history-item {
+      padding: 11px 14px; border: 1px solid #e2ebe2; border-radius: 12px; background: #fafcf9;
+    }
+    .history-meta {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 6px; font-size: .82rem; color: var(--text-muted);
+    }
+    .history-meta strong { color: var(--primary-dark); }
+    .history-text { margin: 0; font-size: .96rem; line-height: 1.55; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .empty-message { margin: 0; color: var(--text-muted); font-size: .9rem; }
+
+    .slide-navigation {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .slide-navigation button, .slide-navigation a {
+      min-height: 44px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; transition: all .2s;
+    }
+    .slide-navigation a { display: inline-flex; align-items: center; }
+    .slide-navigation a[hidden] { display: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+
+    .unit-gate {
+      margin: 18px 0 28px; padding: 18px; border: 1px solid #d8e5d8; border-radius: 18px;
+      background: var(--primary-light); text-align: center;
+    }
+    .unit-gate[hidden] { display: none; }
+    .unit-gate p { margin: 0 0 10px; color: var(--primary-dark); }
+    .unit-gate a, .unit-gate button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin: 4px;
+      padding: 9px 18px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff;
+      font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+    }
+    .unit-gate a[aria-disabled="true"] { background: #879187; cursor: not-allowed; pointer-events: none; }
+    .unit-gate button:hover:not(:disabled), .unit-gate a:not([aria-disabled="true"]):hover { background: #1e3d27; }
+    .unit-gate button:disabled { opacity: .6; cursor: wait; }
+    #unit-next-status { margin: 10px 0 0; color: var(--text-muted); font-size: .9rem; }
+
+    @media (max-width: 680px) {
+      body { padding: 16px 8px; }
+      .section-box { padding: 14px; }
+      .progress-step { min-height: 44px; }
+      .answer-form-card, .contributions-wrapper { padding: 14px; }
+      .answer-submit-row { align-items: stretch; }
+      .btn-submit-contribution { width: 100%; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button, .slide-navigation a { justify-content: center; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
   <main class="container">
-    <nav class="home-navigation" aria-label="Navigazione dell’Unità 46"></nav>
+    <nav class="top-exercises" aria-label="Menu dell’unità 46">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 46</label>
+      <select id="exercise-menu" aria-label="Esercizi dell’Unità 46">
+        <option value="lettura.html">Lettura</option>
+        <option value="es_a.html">Esercizio A</option>
+        <option value="es_b.html">Esercizio B</option>
+        <option value="es_c.html">Esercizio C</option>
+        <option value="es_d.html">Esercizio D</option>
+        <option value="es_e.html">Esercizio E</option>
+        <option value="es_f.html">Esercizio F</option>
+        <option value="es_g.html">Esercizio G</option>
+        <option value="es_h.html">Esercizio H</option>
+        <option value="es_i.html" selected>Esercizio I</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Vai a una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="pronomi_diretti.html">Pronomi diretti</option>
+        <option value="pronomi_indiretti.html">Pronomi indiretti</option>
+        <option value="pronomi_combinati.html">Pronomi combinati</option>
+        <option value="particella_ne.html">La particella ne</option>
+        <option value="particella_ci.html">La particella ci</option>
+      </select>
+    </nav>
+
     <header class="hero">
       <span class="eyebrow">Unità 46 · Grammatica</span>
       <h1>I pronomi diretti</h1>
       <p class="hero-subtitle">Rispondete alle domande usando i pronomi diretti.</p>
     </header>
+
     <section class="instruction-box" aria-labelledby="instruction-title">
       <div class="instruction-title" id="instruction-title">💡 Задание · Esercizio I</div>
       <div class="instruction-text">👉 <strong>Ответьте на вопросы, используя прямые местоимения.</strong><br>Rispondi alle domande con una frase completa e usa il pronome diretto adatto.</div>
     </section>
+
     <details class="grammar-tip">
       <summary>📘 Promemoria: pronomi diretti e pronome «ne»</summary>
       <div class="grammar-content">
         <p><strong>Lo, la, li, le</strong> precedono il verbo. Con il passato prossimo, il participio concorda con il pronome: <em>Compri la carne? — Sì, la compro.</em></p>
         <p><strong>Ne</strong> si usa per riferirsi a una parte o a una quantità. Con <em>ne</em> partitivo, il participio passato può concordare in genere e numero con il nome a cui il pronome si riferisce; la concordanza dipende dalla frase e dalla quantità espressa.</p>
-        <div class="grammar-example">«Hai comprato le pere?» — «Sì, ne ho <strong>comprate</strong> tre.» <span>(concorda con <em>pere</em>)</span><br>«Hai bevuto del vino?» — «Sì, ne ho <strong>bevuto</strong> un bicchiere.»<br>«Quanti biscotti hai mangiato?» — «Ne ho <strong>mangiati</strong> pochi.» <span>(concorda con <em>biscotti</em>)</span></div>
+        <div class="grammar-example">
+          «Hai comprato le pere?» — «Sì, ne ho <strong>comprate</strong> tre.» <span>(concorda con <em>pere</em>)</span><br>
+          «Hai bevuto del vino?» — «Sì, ne ho <strong>bevuto</strong> un bicchiere.»<br>
+          «Quanti biscotti hai mangiato?» — «Ne ho <strong>mangiati</strong> pochi.» <span>(concorda con <em>biscotti</em>)</span>
+        </div>
       </div>
     </details>
-    <div class="top-controls" hidden>
-      <div class="teacher-controls" id="teacher-controls">
-        <label class="assignment-control" for="writer-select">✍️ Assegna il turno a
-          <select id="writer-select" aria-label="Seleziona chi può rispondere"><option value="">— Nessuno selezionato —</option></select>
-        </label>
-        <button id="reset-answers" class="reset-btn" type="button" hidden>⚠️ Сбросить · Azzera</button>
-      </div>
-    </div>
 
     <section class="card" aria-label="Domande sui pronomi diretti">
-      <div class="token-bar"><span id="assignment-status" class="token-status" role="status" aria-live="polite">Caricamento dello stato...</span></div>
-      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
-      <p class="shared-text-note">La risposta di ogni domanda è condivisa con la classe e si aggiorna mentre viene scritta. Solo chi ha il turno può modificarla. Premi «Invia il contributo» per aggiungere una registrazione allo storico della domanda.</p>
-      <div class="slide-viewport"><div id="slides-track" class="slides-track"></div></div>
-      <nav class="slide-navigation" aria-label="Navigazione delle domande">
-        <button id="previous-slide" type="button">← Precedente</button><span id="slide-counter" class="slide-progress" aria-live="polite"></span><button id="next-slide" type="button">Successiva →</button>
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla domanda"></nav>
+      <div id="questions-container"></div>
+
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="../u_047/047_lettura.html" hidden>Vai all’Unità 47 →</a>
       </nav>
-      <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
-      <input id="progress-range" class="progress-range" type="range" min="0" max="11" value="0" aria-label="Vai a una domanda">
-      <div id="completion-container"></div>
     </section>
-    <section class="results-section card" id="results-section" aria-label="Contributi degli studenti">
-      <h2>📋 Contributi degli studenti · Domanda corrente</h2>
-      <div id="responses-list"></div>
+
+    <section class="unit-gate" id="unit-gate" aria-labelledby="unit-next-heading" hidden>
+      <p id="unit-next-heading"><strong>Congratulazioni, avete finito l’Unità 46!</strong></p>
+      <button id="unlock-unit-next" type="button" hidden>🔓 Sblocca l’Unità 47 per il gruppo</button>
+      <a id="unit-next-link" href="../u_047/047_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 47 →</a>
+      <p id="unit-next-status" role="status" aria-live="polite">Unità 47 bloccata: attendi l’autorizzazione dell’insegnante.</p>
     </section>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="firebase-group-scope.js"></script>
+  <script src="../shared/group-scope.js?v=1"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=2"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
   <script>
     const questions = [
-      "Quando fai la doccia, di solito?", "Da quanto tempo studi l’italiano?", "Dove compri la carne, di solito?",
-      "Usi spesso i mezzi pubblici?", "Prendi spesso la metropolitana?", "Quante lingue straniere parli?",
-      "Sai guidare la macchina?", "Sai suonare la chitarra?", "Sai usare il computer?", "Sai cucinare la pizza?",
-      "Quante sigarette hai fumato oggi?", "Quanti caffè hai bevuto oggi?"
-    ].map((text, index) => ({ id:`i${index + 1}`, number:index + 1, text,
-      hint: [
-        "Как часто ты принимаешь душ? Как сказать это полным предложением?",
-        "Как ответить, используя «lo»? К чему относится местоимение?",
-        "Как заменить «la carne» прямым местоимением? Где оно стоит?",
-        "Как заменить «i mezzi pubblici» местоимением? Как ответить полностью?",
-        "Как заменить «la metropolitana» местоимением? Где поставить «la»?",
-        "Как сказать «говорю на нескольких языках» с «ne»?",
-        "Как ответить с «lo» вместо «guidare la macchina»?",
-        "Как заменить «la chitarra» местоимением?",
-        "Как заменить «il computer» местоимением?",
-        "Как заменить «la pizza» местоимением?",
-        "Как ответить с «ne» и указать количество?",
-        "Как ответить с «ne» и указать количество?"
-      ][index]
-    }));
+      {
+        id: "i1",
+        prompt: "Quando fai la doccia, di solito?",
+        placeholder: "Di solito la faccio...",
+        hint: "Как часто ты принимаешь душ? Как сказать это полным предложением?"
+      },
+      {
+        id: "i2",
+        prompt: "Da quanto tempo studi l’italiano?",
+        placeholder: "Lo studio da...",
+        hint: "Как ответить, используя «lo»? К чему относится местоимение?"
+      },
+      {
+        id: "i3",
+        prompt: "Dove compri la carne, di solito?",
+        placeholder: "Di solito la compro...",
+        hint: "Как заменить «la carne» прямым местоимением? Где оно стоит?"
+      },
+      {
+        id: "i4",
+        prompt: "Usi spesso i mezzi pubblici?",
+        placeholder: "Sì, li uso... / No, non li uso...",
+        hint: "Как заменить «i mezzi pubblici» местоимением? Как ответить полностью?"
+      },
+      {
+        id: "i5",
+        prompt: "Prendi spesso la metropolitana?",
+        placeholder: "Sì, la prendo... / No, non la prendo...",
+        hint: "Как заменить «la metropolitana» местоимением? Где поставить «la»?"
+      },
+      {
+        id: "i6",
+        prompt: "Quante lingue straniere parli?",
+        placeholder: "Ne parlo...",
+        hint: "Как сказать «говорю на нескольких языках» с «ne»?"
+      },
+      {
+        id: "i7",
+        prompt: "Sai guidare la macchina?",
+        placeholder: "Sì, la so guidare / Sì, so guidarla...",
+        hint: "Как ответить с «la» вместо «la macchina»?"
+      },
+      {
+        id: "i8",
+        prompt: "Sai suonare la chitarra?",
+        placeholder: "Sì, la so suonare / No, non la so suonare...",
+        hint: "Как заменить «la chitarra» местоимением?"
+      },
+      {
+        id: "i9",
+        prompt: "Sai usare il computer?",
+        placeholder: "Sì, lo so usare / Sì, so usarlo...",
+        hint: "Как заменить «il computer» местоимением?"
+      },
+      {
+        id: "i10",
+        prompt: "Sai cucinare la pizza?",
+        placeholder: "Sì, la so cucinare / No, non la so cucinare...",
+        hint: "Как заменить «la pizza» местоимением?"
+      },
+      {
+        id: "i11",
+        prompt: "Quante sigarette hai fumato oggi?",
+        placeholder: "Oggi non ne ho fumata nessuna / Ne ho fumate...",
+        hint: "Как ответить с «ne» и указать количество?"
+      },
+      {
+        id: "i12",
+        prompt: "Quanti caffè hai bevuto oggi?",
+        placeholder: "Oggi ne ho bevuti...",
+        hint: "Как ответить с «ne» и указать количество?"
+      }
+    ];
 
-    const session = window.parloUnit46Session || {};
-    const groupName = session.group || "sconosciuto";
-    const isTeacher = Boolean(session.isTeacher);
-    const sessionName = session.name || (isTeacher ? "Insegnante" : "");
-    const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
-    const emptyAnswers = () => Object.fromEntries(questions.map(question => [question.id, ""]));
-    const writerSelect = document.getElementById("writer-select");
-    const teacherControls = document.getElementById("teacher-controls");
-    const assignmentStatus = document.getElementById("assignment-status");
-    const saveStatus = document.getElementById("save-status");
-    const slidesTrack = document.getElementById("slides-track");
-    const progressRange = document.getElementById("progress-range");
-    const progressFill = document.getElementById("progress-fill");
-    const responsesList = document.getElementById("responses-list");
-    const resultsSection = document.getElementById("results-section");
-    const navPrevious = document.getElementById("previous-slide");
-    const navNext = document.getElementById("next-slide");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const safeGroup = session.safeGroup || safe(groupName);
-
-    document.querySelector(".top-controls").hidden = !isTeacher;
-    document.getElementById("reset-answers").hidden = !isTeacher;
-    resultsSection.hidden = false;
-    let answersRef = null;
-    let groupRef = null;
-    let groupRoster = [];
-    let presenceData = {};
-    let allContributions = {};
-    let sharedAnswers = emptyAnswers();
-    let currentWriter = "";
-    let currentWriterRole = "";
-    let currentAnswers = emptyAnswers();
-    let activeSlide = 0;
-    let groupUnitNumber = null;
-    let writeTimer = null;
-    let pendingSave = null;
-    let snapshotPending = false;
-
-    function isAssignedToCurrentUser() {
-      return Boolean(sessionName && currentWriter === sessionName && currentWriterRole === (isTeacher ? "teacher" : "student"));
-    }
-
-    function createTeacherHint(question) {
-      if (!isTeacher) return null;
-      const wrapper = document.createElement("div");
-      wrapper.className = "teacher-hint";
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "teacher-hint-button";
-      button.textContent = "ⓘ";
-      button.setAttribute("aria-label", `Подсказка учителю к вопросу ${question.number}`);
-      button.setAttribute("aria-expanded", "false");
-      const text = document.createElement("span");
-      text.className = "teacher-hint-text";
-      text.id = `teacher-hint-${question.id}`;
-      text.setAttribute("role", "tooltip");
-      text.hidden = true;
-      text.textContent = question.hint;
-      button.setAttribute("aria-controls", text.id);
-      button.addEventListener("click", () => {
-        const expanded = button.getAttribute("aria-expanded") === "true";
-        button.setAttribute("aria-expanded", String(!expanded));
-        text.hidden = expanded;
-      });
-      wrapper.append(button, text);
-      return wrapper;
-    }
-
-    questions.forEach(question => {
-      const card = document.createElement("article");
-      card.className = "slide-item";
-      card.setAttribute("aria-label", `Domanda ${question.number} di ${questions.length}`);
-      const prompt = document.createElement("h2");
-      prompt.className = "question-box";
-      prompt.textContent = `${question.number}. ${question.text}`;
-      const label = document.createElement("label");
-      label.className = "field-label";
-      label.htmlFor = `answer-${question.id}`;
-      label.textContent = "⌨️ Scrivi una risposta completa con il pronome diretto";
-      const input = document.createElement("textarea");
-      input.id = label.htmlFor;
-      input.className = "answer-input";
-      input.rows = 4;
-      input.placeholder = "Scrivi la tua risposta qui...";
-      input.dataset.questionId = question.id;
-      input.disabled = true;
-      input.setAttribute("aria-label", `Risposta alla domanda ${question.number}`);
-      input.addEventListener("input", () => {
-        if (!isAssignedToCurrentUser() || snapshotPending) return;
-        currentAnswers[question.id] = input.value;
-        sharedAnswers[question.id] = input.value;
-        saveStatus.classList.remove("error");
-        saveStatus.textContent = "Salvataggio della risposta condivisa…";
-        saveStatus.hidden = false;
-        pendingSave = { questionId: question.id, value: input.value };
-        clearTimeout(writeTimer);
-        writeTimer = setTimeout(flushPendingSave, 350);
-      });
-      const submitButton = document.createElement("button");
-      submitButton.type = "button";
-      submitButton.className = "submit-contribution";
-      submitButton.textContent = "📤 Invia il contributo";
-      submitButton.disabled = true;
-      submitButton.addEventListener("click", () => submitContribution(question, input, submitButton));
-      card.append(prompt, label, input, submitButton);
-      const hint = createTeacherHint(question);
-      if (hint) card.appendChild(hint);
-      slidesTrack.appendChild(card);
+    ParloInboxExercise.init({
+      unitNumber: 46,
+      exercisePath: "es_i",
+      submitLabel: "Condividi risposta",
+      itemsLabel: "Domanda",
+      questions
     });
 
-    function updateSlides() {
-      slidesTrack.style.transform = `translateX(-${activeSlide * 100}%)`;
-      navPrevious.disabled = activeSlide === 0;
-      navNext.disabled = activeSlide === questions.length - 1;
-      document.getElementById("slide-counter").textContent = `Domanda ${activeSlide + 1} di ${questions.length}`;
-      progressRange.value = activeSlide;
-      progressFill.style.width = `${((activeSlide + 1) / questions.length) * 100}%`;
-      renderResponses();
-    }
+    // Gestione sblocco Unità 47 sull'ultima domanda
+    (() => {
+      const session = window.ParloSession || {};
+      const isTeacher = Boolean(session.isTeacher);
+      const safeGroup = session.safeGroup || "";
+      const unitGate = document.getElementById("unit-gate");
+      const unlockBtn = document.getElementById("unlock-unit-next");
+      const nextLink = document.getElementById("unit-next-link");
+      const statusEl = document.getElementById("unit-next-status");
+      const progressBar = document.getElementById("exercise-progress");
+      const prevBtn = document.getElementById("previous-question");
+      const nextBtn = document.getElementById("next-question");
+      const lastIndex = questions.length - 1;
+      let groupUnitNumber = 0;
 
-    function updateAssignment() {
-      if (groupName === "sconosciuto") assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
-      else if (!answersRef) assignmentStatus.textContent = "Connessione all’esercizio non disponibile. Verifica la connessione e ricarica la pagina.";
-      else if (!sessionName) assignmentStatus.textContent = "Accedi dal gruppo della classe con il tuo nome per partecipare.";
-      else if (!currentWriter) assignmentStatus.textContent = isTeacher ? "Seleziona uno studente o te stesso/a dal menu per assegnare il turno." : "L’insegnante non ha ancora assegnato il turno.";
-      else if (isAssignedToCurrentUser()) assignmentStatus.textContent = `✍️ È il tuo turno, ${sessionName}: puoi modificare la risposta condivisa e inviare il tuo contributo.`;
-      else assignmentStatus.textContent = `🔒 Il turno è assegnato a ${currentWriter}. Puoi leggere le risposte condivise e i contributi, ma non modificarli.`;
-      slidesTrack.querySelectorAll(".answer-input").forEach(input => {
-        input.disabled = !isAssignedToCurrentUser();
-        const value = currentAnswers[input.dataset.questionId] || "";
-        if (document.activeElement !== input && input.value !== value) input.value = value;
-        const submitButton = input.closest(".slide-item")?.querySelector(".submit-contribution");
-        if (submitButton) submitButton.disabled = !isAssignedToCurrentUser();
-      });
-    }
-
-    function renderWriterMenu() {
-      if (!isTeacher) return;
-      const onlineNames = new Set();
-      Object.values(presenceData).forEach(person => {
-        if (person?.name && person.role === "student") onlineNames.add(person.name);
-      });
-      const students = [...new Map(groupRoster.map(person => [person.nome, person])).values()]
-        .sort((a, b) => a.nome.localeCompare(b.nome, "it"));
-      const options = [new Option("— Nessuno selezionato —", "")];
-      if (sessionName) {
-        const teacherGroup = document.createElement("optgroup");
-        teacherGroup.label = "👩‍🏫 DOCENTE";
-        teacherGroup.appendChild(new Option(`${sessionName} · insegnante`, `teacher::${sessionName}`));
-        options.push(teacherGroup);
+      function syncGateVisibility() {
+        const steps = progressBar ? [...progressBar.querySelectorAll(".progress-step")] : [];
+        const isLast = steps[lastIndex]?.getAttribute("aria-current") === "step";
+        unitGate.hidden = !isLast;
       }
-      [["🟢 STUDENTI ONLINE · UNITÀ 46", students.filter(person => onlineNames.has(person.nome))],
-       ["ALTRI STUDENTI DEL GRUPPO", students.filter(person => !onlineNames.has(person.nome))]].forEach(([label, people]) => {
-        if (!people.length) return;
-        const group = document.createElement("optgroup");
-        group.label = label;
-        people.forEach(person => group.appendChild(new Option(person.nome, `student::${person.nome}`)));
-        options.push(group);
-      });
-      if (currentWriter && currentWriter !== sessionName && !students.some(person => person.nome === currentWriter)) {
-        const group = document.createElement("optgroup");
-        group.label = "TURNO ATTUALE";
-        group.appendChild(new Option(currentWriter, `${currentWriterRole || "student"}::${currentWriter}`));
-        options.push(group);
+
+      function renderGateState() {
+        const unlocked = groupUnitNumber >= 47;
+        nextLink.setAttribute("aria-disabled", String(!unlocked));
+        nextLink.tabIndex = unlocked ? 0 : -1;
+        unlockBtn.hidden = !isTeacher || unlocked;
+        statusEl.textContent = unlocked
+          ? "Unità 47 sbloccata per il gruppo."
+          : isTeacher
+            ? "L’Unità 47 è bloccata per il gruppo."
+            : "Unità 47 bloccata: attendi l’autorizzazione dell’insegnante.";
       }
-      writerSelect.replaceChildren(...options);
-      writerSelect.value = currentWriter ? `${currentWriterRole}::${currentWriter}` : "";
-    }
 
-    function restoreAnswersForWriter() {
-      currentAnswers = { ...emptyAnswers(), ...sharedAnswers };
-      updateAssignment();
-    }
+      prevBtn?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      nextBtn?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      progressBar?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      document.addEventListener("keydown", () => requestAnimationFrame(syncGateVisibility));
 
-    function renderResponses() {
-      responsesList.replaceChildren();
-      const question = questions[activeSlide];
-      const entries = Object.entries(allContributions[question.id] || {})
-        .map(([id, contribution]) => ({ ...contribution, id }))
-        .filter(contribution => String(contribution.text || "").trim())
-        .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0) || a.id.localeCompare(b.id));
-      const details = document.createElement("details");
-      details.className = "question-responses";
-      details.open = true;
-      const summary = document.createElement("summary");
-      summary.textContent = `${question.number}. ${question.text}`;
-      const list = document.createElement("div");
-      list.className = "answer-list";
-      if (!entries.length) {
-        const empty = document.createElement("p");
-        empty.className = "empty-message";
-        empty.textContent = "Nessun contributo per questa domanda.";
-        list.appendChild(empty);
-      }
-      entries.forEach(contribution => {
-        const row = document.createElement("div");
-        row.className = "answer-row";
-        const author = document.createElement("span");
-        author.className = "answer-author";
-        const timestamp = Number(contribution.timestamp);
-        const dateLabel = timestamp ? new Date(timestamp).toLocaleString("it-IT") : "";
-        author.textContent = `${contribution.name || "Studente"}${dateLabel ? ` · ${dateLabel}` : ""}`;
-        const answer = document.createElement("span");
-        answer.className = "answer-text";
-        answer.textContent = String(contribution.text || "");
-        row.append(author, answer);
-        list.appendChild(row);
+      nextLink.addEventListener("click", event => {
+        if (groupUnitNumber < 47) event.preventDefault();
       });
-      details.append(summary, list);
-      responsesList.appendChild(details);
-    }
 
-    function persistAnswer(questionId, value) {
-      clearTimeout(writeTimer);
-      writeTimer = null;
-      if (!answersRef || !isAssignedToCurrentUser()) return;
-      answersRef.child(`tokenData/sharedAnswers/${questionId}`).set(String(value || "")).then(() => {
-        if (isAssignedToCurrentUser()) {
-          saveStatus.classList.remove("error");
-          saveStatus.textContent = "✅ Risposta condivisa salvata.";
-          saveStatus.hidden = false;
-        }
-      }).catch(error => {
-        console.error("Errore salvataggio risposta:", error);
-        saveStatus.textContent = "⚠️ Risposta non salvata. Controlla la connessione e riprova.";
-        saveStatus.classList.add("error");
-        saveStatus.hidden = false;
-      });
-    }
-
-    function flushPendingSave() {
-      clearTimeout(writeTimer);
-      writeTimer = null;
-      const pending = pendingSave;
-      pendingSave = null;
-      if (pending) persistAnswer(pending.questionId, pending.value);
-    }
-
-    async function submitContribution(question, input, button) {
-      const text = input.value.trim();
-      if (!answersRef || !isAssignedToCurrentUser()) return;
-      if (!text) {
-        saveStatus.textContent = "Scrivi una risposta prima di inviare il contributo.";
-        saveStatus.classList.add("error");
-        saveStatus.hidden = false;
-        input.focus();
-        return;
-      }
-      clearTimeout(writeTimer);
-      writeTimer = null;
-      pendingSave = null;
-      sharedAnswers[question.id] = text;
-      currentAnswers[question.id] = text;
-      const contributionRef = answersRef.child(`allStudentsData/contributions/${question.id}`).push();
-      const timestamp = Date.now();
-      button.disabled = true;
-      saveStatus.classList.remove("error");
-      saveStatus.textContent = "Invio del contributo…";
-      saveStatus.hidden = false;
-      try {
-        await answersRef.update({
-          [`tokenData/sharedAnswers/${question.id}`]: text,
-          [`allStudentsData/contributions/${question.id}/${contributionRef.key}`]: {
-            name: sessionName,
-            role: isTeacher ? "teacher" : "student",
-            timestamp,
-            text
-          }
+      if (window.firebase && safeGroup && safeGroup !== "sconosciuto") {
+        const db = window.ParloModes ? ParloModes.initFirebase() : firebase.database();
+        const groupRef = db.ref(`configurazioneScuola/gruppi/${safeGroup}`);
+        groupRef.child("unitNumber").on("value", snapshot => {
+          groupUnitNumber = Number(snapshot.val()) || 0;
+          renderGateState();
         });
-        saveStatus.textContent = "✅ Contributo inviato e aggiunto allo storico.";
-        renderResponses();
-      } catch (error) {
-        console.error("Errore invio contributo:", error);
-        saveStatus.textContent = "⚠️ Contributo non inviato. Controlla la connessione e riprova.";
-        saveStatus.classList.add("error");
-      } finally {
-        button.disabled = !isAssignedToCurrentUser();
-      }
-    }
 
-    function loadGroupRoster() {
-      if (groupName === "sconosciuto") return;
-      firebase.database().ref(`configurazioneScuola/gruppi/${safeGroup}`).on("value", snapshot => {
-        const group = snapshot.val() || {};
-        const unitNumber = Number(group.unitNumber || 0);
-        const active = Object.values(group.studenti || {}).filter(person => person?.nome);
-        const inactive = Object.values(group.studentiInattivi || {})
-          .filter(person => person?.nome && Number(person.unitNumber ?? unitNumber) >= 46);
-        groupRoster = unitNumber >= 46 ? [...active, ...inactive] : inactive;
-        groupRoster = [...new Map(groupRoster.map(person => [person.nome, person])).values()]
-          .sort((a, b) => a.nome.localeCompare(b.nome, "it"));
-        renderWriterMenu();
-      });
-    }
-
-    function setWriter(role, name) {
-      if (!isTeacher || !answersRef) return;
-      flushPendingSave();
-      const nextName = name || "";
-      const nextRole = nextName ? role : "";
-      currentWriter = nextName;
-      currentWriterRole = nextRole;
-      restoreAnswersForWriter();
-      saveStatus.hidden = true;
-      answersRef.update({
-        "controlAssignments/writer": nextName || null,
-        "controlAssignments/role": nextRole || null,
-        "controlAssignments/writerName": nextName
-      }).catch(error => console.error("Errore assegnazione turno:", error));
-      renderWriterMenu();
-    }
-
-    function makeCompletionPanel() {
-      const panel = document.createElement("div");
-      panel.className = "completion-box";
-      panel.hidden = true;
-      const title = document.createElement("strong");
-      title.textContent = "Congratulazione, avete finito l’Unità 46!";
-      const link = document.createElement("a");
-      link.className = "unit47-link locked";
-      link.href = "../u_047/047_lettura.html";
-      link.setAttribute("aria-disabled", "true");
-      link.tabIndex = -1;
-      link.textContent = "Vai all’Unità 47 →";
-      link.addEventListener("click", event => { if (Number(groupUnitNumber) < 47) event.preventDefault(); });
-      panel.append(title, link);
-      if (isTeacher) {
-        const unlock = document.createElement("button");
-        unlock.type = "button";
-        unlock.className = "unlock-unit-button";
-        unlock.textContent = "🔓 Sblocca l’Unità 47 per il gruppo";
-        unlock.addEventListener("click", async () => {
-          if (!groupRef) return;
+        unlockBtn.addEventListener("click", async () => {
+          if (!isTeacher) return;
+          unlockBtn.disabled = true;
+          statusEl.textContent = "Salvataggio dello sblocco…";
           try {
-            const result = await groupRef.child("unitNumber").transaction(value => Math.max(47, Number(value) || 0));
-            if (result.committed) { groupUnitNumber = Number(result.snapshot.val()); updateCompletionPanel(); }
-          } catch (error) { alert("Errore durante lo sblocco dell’Unità 47."); }
-        });
-        panel.appendChild(unlock);
-        panel._unlock = unlock;
-      }
-      panel._link = link;
-      return panel;
-    }
-    const completionPanel = makeCompletionPanel();
-    document.getElementById("completion-container").appendChild(completionPanel);
-    
-    function updateCompletionPanel() {
-      const unlocked = Number(groupUnitNumber) >= 47;
-      completionPanel.hidden = activeSlide !== questions.length - 1;
-      completionPanel._link.classList.toggle("locked", !unlocked);
-      completionPanel._link.setAttribute("aria-disabled", String(!unlocked));
-      completionPanel._link.tabIndex = unlocked ? 0 : -1;
-      if (completionPanel._unlock) completionPanel._unlock.hidden = unlocked;
-    }
-
-    navPrevious.addEventListener("click", () => { activeSlide = Math.max(0, activeSlide - 1); updateSlides(); updateCompletionPanel(); });
-    navNext.addEventListener("click", () => { activeSlide = Math.min(questions.length - 1, activeSlide + 1); updateSlides(); updateCompletionPanel(); });
-    progressRange.addEventListener("input", () => { activeSlide = Number(progressRange.value); updateSlides(); updateCompletionPanel(); });
-    
-    document.addEventListener("keydown", event => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,select,button,a,[tabindex]")) return;
-      if (event.key === "ArrowRight" && activeSlide < questions.length - 1) activeSlide++;
-      else if (event.key === "ArrowLeft" && activeSlide > 0) activeSlide--;
-      else return;
-      updateSlides(); updateCompletionPanel();
-    });
-
-    writerSelect.addEventListener("change", () => {
-      const [role, ...parts] = writerSelect.value.split("::");
-      setWriter(role || "", parts.join("::"));
-    });
-    
-    document.getElementById("reset-answers").addEventListener("click", () => {
-      if (!isTeacher || !answersRef || !confirm("Сбросить все ответы? · Vuoi azzerare tutte le risposte?")) return;
-      clearTimeout(writeTimer);
-      pendingSave = null;
-      answersRef.set({
-        controlAssignments: { writer: null, role: null, writerName: "" },
-        tokenData: { sharedAnswers: emptyAnswers() },
-        allStudentsData: { contributions: {} }
-      });
-      currentWriter = "";
-      currentWriterRole = "";
-      sharedAnswers = emptyAnswers();
-      allContributions = {};
-      currentAnswers = emptyAnswers();
-      saveStatus.hidden = true;
-      renderWriterMenu();
-      updateAssignment();
-      renderResponses();
-    });
-
-    updateSlides();
-    updateAssignment();
-    updateCompletionPanel();
-    
-    if (groupName === "sconosciuto") {
-      assignmentStatus.textContent = "Accedi tramite il gruppo della classe per usare l’esercizio condiviso.";
-    } else if (window.firebase) {
-      try {
-        if (!firebase.apps.length) firebase.initializeApp({ databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app", projectId: "esercizi-parlo-italiano" });
-        answersRef = firebase.database().ref("esercizi/unita46-pronomi-diretti-i");
-        groupRef = firebase.database().ref(`configurazioneScuola/gruppi/${safeGroup}`);
-        teacherControls.hidden = !isTeacher;
-        resultsSection.hidden = false;
-        loadGroupRoster();
-        groupRef.child("unitNumber").on("value", snapshot => { groupUnitNumber = snapshot.exists() ? Number(snapshot.val()) : null; updateCompletionPanel(); });
-        firebase.database().ref("esercizi/unita46-presence").on("value", snapshot => { presenceData = snapshot.val() || {}; renderWriterMenu(); });
-        answersRef.on("value", snapshot => {
-          const data = snapshot.val() || {};
-          const assignment = data.controlAssignments || {};
-          const nextWriter = assignment.writer || "";
-          const nextRole = assignment.role || "";
-          const changed = nextWriter !== currentWriter || nextRole !== currentWriterRole;
-          snapshotPending = true;
-          currentWriter = nextWriter;
-          currentWriterRole = nextRole;
-          allContributions = data.allStudentsData?.contributions || {};
-          const storedAnswers = data.tokenData?.sharedAnswers || {};
-          sharedAnswers = emptyAnswers();
-          questions.forEach(question => { sharedAnswers[question.id] = String(storedAnswers[question.id] || ""); });
-          if (changed) {
-            clearTimeout(writeTimer);
-            writeTimer = null;
-            pendingSave = null;
-            currentAnswers = { ...emptyAnswers(), ...sharedAnswers };
-          } else {
-            questions.forEach(question => {
-              const input = slidesTrack.querySelector(`.answer-input[data-question-id="${question.id}"]`);
-              if (document.activeElement !== input) currentAnswers[question.id] = sharedAnswers[question.id];
-            });
+            await groupRef.child("unitNumber").transaction(val => Math.max(47, Number(val) || 0));
+          } catch (_) {
+            statusEl.textContent = "Errore durante lo sblocco dell’Unità 47.";
+          } finally {
+            unlockBtn.disabled = false;
           }
-          updateAssignment();
-          snapshotPending = false;
-          renderWriterMenu();
-          renderResponses();
         });
-      } catch (error) {
-        console.error("Errore Firebase:", error);
-        assignmentStatus.textContent = "Connessione all’esercizio non disponibile.";
       }
-    }
 
-    let backgroundUpdatePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundUpdatePending) return;
-      backgroundUpdatePending = true;
-      requestAnimationFrame(() => {
-        const offset = reducedMotion.matches ? 0 : Math.min(window.scrollY * .025, 60);
-        document.body.style.setProperty("--background-offset", `${offset}px`);
-        backgroundUpdatePending = false;
-      });
-    }
-    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
-    updateBackgroundParallax();
+      syncGateVisibility();
+    })();
   </script>
+  <script src="../classroom-notes.js?v=3"></script>
 </body>
 </html>
