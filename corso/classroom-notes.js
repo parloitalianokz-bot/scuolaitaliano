@@ -15,12 +15,7 @@
 
       const session = window.ParloSession || {};
       const rawGroup = session.group || params.get("gruppo") || storedSession.group || "";
-      const rawName = session.name || params.get("nome") || (!storedSession.isTeacher ? storedSession.name : "") || "";
-      const isTeacher = Boolean(
-        session.isTeacher ||
-        storedSession.isTeacher ||
-        (rawGroup && (!rawName || rawName === "Insegnante"))
-      );
+      const isTeacher = Boolean(session.isTeacher || storedSession.isTeacher);
       const safeGroup = (session.safeGroup || rawGroup || "sconosciuto").replace(/[.#$\/\[\]]/g, "_");
       const defaultExercise = String(
         location.pathname.split("/").pop().replace(/\.html$/i, "").replace(/[.#$\/\[\]]/g, "_") ||
@@ -42,6 +37,10 @@
 
       const style = document.createElement("style");
       style.textContent = `
+        .parlo-notes-fab[hidden],
+        .parlo-notes-close[hidden] {
+          display: none !important;
+        }
         .parlo-notes-fab {
           position: fixed;
           right: 18px;
@@ -248,6 +247,7 @@
       closeBtn.className = "parlo-notes-close";
       closeBtn.textContent = "✕";
       closeBtn.setAttribute("aria-label", "Chiudi gli appunti di classe");
+      closeBtn.hidden = false;
 
       header.append(titleWrap, closeBtn);
 
@@ -365,8 +365,11 @@
       }
 
       let isOpen = false;
+      let teacherPopupOpen = false;
       let currentRef = null;
       let currentListener = null;
+      let currentPopupRef = null;
+      let currentPopupListener = null;
       let saveTimer = null;
       let isDirty = false;
       let lastKnownText = "";
@@ -375,6 +378,7 @@
         isOpen = Boolean(open);
         popup.hidden = !isOpen;
         fab.setAttribute("aria-expanded", String(isOpen));
+        closeBtn.hidden = isTeacher ? !isOpen : teacherPopupOpen;
         if (isOpen) {
           fab.classList.remove("has-unread");
           const saved = loadPositions().popup;
@@ -383,8 +387,12 @@
           } else {
             const fabRect = fab.getBoundingClientRect();
             const popupRect = popup.getBoundingClientRect();
-            const initialLeft = fabRect.right - popupRect.width;
-            const initialTop = fabRect.top - popupRect.height - 10;
+            const initialLeft = isTeacher
+              ? fabRect.right - popupRect.width
+              : window.innerWidth - popupRect.width - VIEWPORT_MARGIN;
+            const initialTop = isTeacher
+              ? fabRect.top - popupRect.height - 10
+              : (window.innerHeight - popupRect.height) / 2;
             applyClampedPosition(popup, initialLeft, initialTop);
           }
           if (isTeacher) textarea.focus();
@@ -393,17 +401,34 @@
         }
       }
 
+      function requestPopupOpen(open) {
+        if (!isTeacher || !currentPopupRef) return;
+        const nextOpen = Boolean(open);
+        setPopupOpen(nextOpen);
+        currentPopupRef.set(nextOpen).catch(() => {
+          statusText.textContent = "⚠️ Impossibile aggiornare la finestra per la classe";
+        });
+      }
+
+      function togglePopupFromFab() {
+        if (isTeacher) {
+          requestPopupOpen(!isOpen);
+        } else if (!teacherPopupOpen) {
+          setPopupOpen(!isOpen);
+        }
+      }
+
       makeDraggable({
         handle: fab,
         target: fab,
         storageKey: "fab",
-        onClick: () => setPopupOpen(!isOpen)
+        onClick: togglePopupFromFab
       });
 
       fab.addEventListener("keydown", event => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          setPopupOpen(!isOpen);
+          togglePopupFromFab();
         }
       });
 
@@ -427,10 +452,20 @@
         }
       });
 
-      closeBtn.addEventListener("click", () => setPopupOpen(false));
+      closeBtn.addEventListener("click", () => {
+        if (isTeacher) {
+          requestPopupOpen(false);
+        } else if (!teacherPopupOpen) {
+          setPopupOpen(false);
+        }
+      });
 
       document.addEventListener("keydown", event => {
-        if (event.key === "Escape" && isOpen) {
+        if (event.key !== "Escape" || !isOpen) return;
+        if (isTeacher) {
+          requestPopupOpen(false);
+          fab.focus();
+        } else if (!teacherPopupOpen) {
           setPopupOpen(false);
           fab.focus();
         }
@@ -469,6 +504,9 @@
         if (currentRef && currentListener) {
           currentRef.off("value", currentListener);
         }
+        if (currentPopupRef && currentPopupListener) {
+          currentPopupRef.off("value", currentPopupListener);
+        }
 
         const { group, exercise, card, cardLabel } = resolveScope();
         scopeBadge.textContent = cardLabel ? `📌 ${cardLabel}` : `📌 ${exercise}`;
@@ -495,6 +533,20 @@
         };
         currentRef.on("value", currentListener, () => {
           statusText.textContent = "⚠️ Impossibile leggere gli appunti";
+        });
+
+        currentPopupRef = db.ref(`esercizi/gruppi/${group}/appunti/${exercise}/_popup/${card}`);
+        currentPopupListener = snapshot => {
+          teacherPopupOpen = snapshot.val() === true;
+          if (isTeacher) {
+            setPopupOpen(teacherPopupOpen);
+          } else {
+            if (teacherPopupOpen) setPopupOpen(true);
+            else if (isOpen) setPopupOpen(false);
+          }
+        };
+        currentPopupRef.on("value", currentPopupListener, () => {
+          statusText.textContent = "⚠️ Impossibile sincronizzare l’apertura degli appunti";
         });
       }
 
