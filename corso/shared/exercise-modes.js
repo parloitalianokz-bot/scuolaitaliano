@@ -83,6 +83,7 @@
     const identity = name ? { role: isTeacher ? "teacher" : "student", name } : null;
     const studentId = SAFE_KEY(session.studentId || name);
     const shareStudentsSummary = options.shareStudentsSummary !== false;
+    const uniqueAssignments = Boolean(options.uniqueAssignments);
     const slots = (options.slots || []).map(slot => typeof slot === "string"
       ? { id: slot, label: slot }
       : { ...slot, id: String(slot.id), label: slot.label || slot.id });
@@ -194,7 +195,7 @@
       if (!isTeacher) return Promise.reject(new Error("Solo l’insegnante può assegnare i turni."));
       const key = assignmentKey(slot);
       const person = parseAssignment(target);
-      if (mode === "multi-turn" && person && slots.some(item =>
+      if (uniqueAssignments && mode === "multi-turn" && person && slots.some(item =>
         item.id !== key && sameIdentity(person, state.assignments[item.id]))) {
         return Promise.reject(new Error("Assegna ogni slot a uno studente diverso."));
       }
@@ -362,7 +363,7 @@
     return {
       mode,
       identity,
-            studentId,
+      studentId,
       slots: slots.map(slot => ({ ...slot })),
       canWrite,
       read,

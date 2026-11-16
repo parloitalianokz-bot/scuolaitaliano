@@ -46,17 +46,11 @@
       background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); margin-bottom: 32px;
     }
 
-    .student-login {
-      display: none; margin-bottom: 18px; padding: 14px 16px; border-radius: 14px;
-      background: var(--primary-light); gap: 12px; align-items: center; flex-wrap: wrap;
+    .connection-banner {
+      margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px;
+      background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700;
     }
-    .student-login.visible { display: flex; }
-    .student-login label { color: var(--primary-dark); font-size: .9rem; font-weight: 700; white-space: nowrap; }
-    .student-login input { flex: 1; min-width: 180px; padding: 10px 14px; border: 1.5px solid #d4e1d5; border-radius: 10px; font: inherit; background: #fff; }
-    .student-login button {
-      min-height: 42px; padding: 8px 16px; border: 0; border-radius: 10px;
-      background: var(--primary-dark); color: #fff; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer;
-    }
+    .connection-banner[hidden] { display: none; }
 
     /* Barra di avanzamento navigabile */
     .overall-progress {
@@ -68,7 +62,7 @@
     }
     .progress-step {
       min-width: 0;
-      min-height: 36px;
+      min-height: 38px;
       padding: 4px;
       border: 1.5px solid #d8e5d8;
       border-radius: 10px;
@@ -129,7 +123,7 @@
       text-transform: uppercase; letter-spacing: .04em;
     }
     .turn-assignment-bar select {
-      flex: 1; min-width: 210px; max-width: 340px; min-height: 38px; padding: 6px 10px;
+      flex: 1; min-width: 210px; max-width: 360px; min-height: 38px; padding: 6px 10px;
       border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff;
       color: var(--text); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
     }
@@ -186,11 +180,21 @@
     }
     textarea.answer-input:disabled { background: #f1f4f0; color: #475569; cursor: not-allowed; }
 
-    .answer-submit-row { display: flex; justify-content: flex-end; align-items: center; margin-top: 10px; }
+    .answer-submit-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      margin-top: 10px; flex-wrap: wrap;
+    }
+    .sync-feedback {
+      font-size: .84rem; font-weight: 700; color: var(--text-muted); min-height: 1.2em;
+    }
+    .sync-feedback.saving { color: #9a6700; }
+    .sync-feedback.saved { color: #17623c; }
+    .sync-feedback.error { color: #991b1b; }
+
     .btn-submit-contribution {
-      min-height: 40px; padding: 8px 18px; border: 0; border-radius: 11px; background: var(--primary);
-      color: #fff; font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(71, 119, 85, .2); transition: background .2s, opacity .2s;
+      margin-left: auto; min-height: 40px; padding: 8px 18px; border: 0; border-radius: 11px;
+      background: var(--primary); color: #fff; font: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(71, 119, 85, .2); transition: background .2s, opacity .2s;
     }
     .btn-submit-contribution:hover:not(:disabled) { background: var(--primary-dark); }
     .btn-submit-contribution:disabled { background: #cbd5cb; color: #5f6863; box-shadow: none; cursor: not-allowed; opacity: .75; }
@@ -222,7 +226,7 @@
       padding-top: 14px; border-top: 1px solid var(--border);
     }
     .slide-navigation button, .slide-navigation a {
-      min-height: 42px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px;
+      min-height: 44px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px;
       background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; transition: all .2s;
     }
     .slide-navigation a { display: inline-flex; align-items: center; }
@@ -234,8 +238,8 @@
     @media (max-width: 680px) {
       body { padding: 16px 8px; }
       .section-box { padding: 14px; }
-      .overall-progress { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
-      .progress-step { min-height: 36px; font-size: .82rem; }
+      .overall-progress { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+      .progress-step { min-height: 44px; font-size: .86rem; }
       .slide-navigation { flex-direction: column; gap: 8px; }
       .slide-navigation button, .slide-navigation a { justify-content: center; width: 100%; }
     }
@@ -286,11 +290,7 @@
     </div>
 
     <section class="card" aria-label="Domande dell’esercizio">
-      <div class="student-login" id="student-login">
-        <label for="student-name">Ваше имя · Nome e cognome:</label>
-        <input id="student-name" type="text" placeholder="Inserisci il tuo nome per partecipare" />
-        <button id="confirm-student-name" type="button">Conferma</button>
-      </div>
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
 
       <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla scheda"></nav>
       <div id="questions-container"></div>
@@ -308,14 +308,11 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="../shared/group-scope.js?v=1"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=2"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "INSERISCI_API_KEY",
-      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
-      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "esercizi-parlo-italiano",
-      appId: "INSERISCI_APP_ID"
-    };
+    const UNIT_NUMBER = 1;
+    const EXERCISE_PATH = "001_es_b";
+    const SPECIAL_CHARS = ["'", "à", "è", "ì", "ò", "ù", "È"];
 
     const questionDetails = [
       {
@@ -432,29 +429,14 @@
       }
     ];
 
-    const TEACHER_ID = "__teacher__";
-    const SPECIAL_CHARS = ["'", "à", "è", "ì", "ò", "ù", "È"];
-
     const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
-    const gruppo = session.safeGroup || "sconosciuto";
-    const exerciseKey = location.pathname.split("/").pop().replace(/\.html$/i, "").replace(/[.#$\/\[\]]/g, "_") || "es_b";
+    const safeGroup = session.safeGroup || "sconosciuto";
+    const currentAuthorName = isTeacherView
+      ? String(session.teacherName || session.name || "Insegnante").trim()
+      : String(session.name || "").trim();
 
-    function sanitizeId(raw) {
-      return String(raw || "").trim().replace(/[.#$\/\[\]]/g, "_");
-    }
-
-    let currentUserName = isTeacherView
-      ? "Insegnante"
-      : ((session.name && session.name !== "Insegnante" ? session.name : "") || localStorage.getItem("parlo_student_name") || "").trim();
-
-    let currentUserId = isTeacherView
-      ? TEACHER_ID
-      : (currentUserName ? `student_${sanitizeId(currentUserName)}` : "");
-
-    const studentLogin = document.getElementById("student-login");
-    const studentNameInput = document.getElementById("student-name");
-    const confirmStudentNameBtn = document.getElementById("confirm-student-name");
+    const connectionBanner = document.getElementById("connection-banner");
     const questionsContainer = document.getElementById("questions-container");
     const previousButton = document.getElementById("previous-question");
     const nextButton = document.getElementById("next-question");
@@ -462,44 +444,44 @@
     const exerciseProgress = document.getElementById("exercise-progress");
     const nextExerciseLink = document.getElementById("next-exercise");
 
-    let exerciseRef = null;
-    let presenceGroupRef = null;
-    let cardsState = {};
-    let rosterState = {};
+    const slots = questionDetails.map((question, index) => ({
+      id: `card_${index}`,
+      label: `${index + 1}. ${question.title}`
+    }));
+
+    let sync = null;
     let activeQuestion = 0;
     const cardUI = [];
-    const draftSyncTimers = new Map();
+    const draftTimers = new Map();
+    const feedbackTimers = new Map();
 
-    function updateLoginVisibility() {
-      studentLogin.classList.toggle("visible", !isTeacherView && !currentUserId);
+    function setConnectionMessage(message) {
+      if (!message) {
+        connectionBanner.hidden = true;
+        connectionBanner.textContent = "";
+      } else {
+        connectionBanner.textContent = message;
+        connectionBanner.hidden = false;
+      }
     }
-    updateLoginVisibility();
 
-    confirmStudentNameBtn.addEventListener("click", () => {
-      const entered = studentNameInput.value.trim();
-      if (!entered) {
-        studentNameInput.focus();
-        return;
-      }
-      currentUserName = entered;
-      currentUserId = `student_${sanitizeId(entered)}`;
-      localStorage.setItem("parlo_student_name", entered);
-      const badge = document.getElementById("user-badge");
-      if (badge && session.group) {
-        badge.textContent = `👤 ${session.group} · ${entered}`;
-        badge.hidden = false;
-      }
-      updateLoginVisibility();
-      registerPresence();
-      renderAllCards();
-    });
+    function setCardFeedback(index, type, message, autoClearMs = 0) {
+      const ui = cardUI[index];
+      if (!ui) return;
+      clearTimeout(feedbackTimers.get(index));
+      feedbackTimers.delete(index);
 
-    studentNameInput.addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        confirmStudentNameBtn.click();
+      ui.syncFeedback.className = `sync-feedback ${type || ""}`.trim();
+      ui.syncFeedback.textContent = message || "";
+
+      if (autoClearMs > 0 && message) {
+        feedbackTimers.set(index, setTimeout(() => {
+          feedbackTimers.delete(index);
+          ui.syncFeedback.className = "sync-feedback";
+          ui.syncFeedback.textContent = "";
+        }, autoClearMs));
       }
-    });
+    }
 
     function createItalianCharToolbar(textarea) {
       const toolbar = document.createElement("div");
@@ -510,7 +492,7 @@
         btn.type = "button";
         btn.textContent = char;
         btn.setAttribute("aria-label", `Inserisci ${char}`);
-        btn.addEventListener("mousedown", e => e.preventDefault());
+        btn.addEventListener("mousedown", event => event.preventDefault());
         btn.addEventListener("click", () => {
           if (textarea.disabled) return;
           const start = textarea.selectionStart ?? textarea.value.length;
@@ -541,65 +523,38 @@
       }
     }
 
-    function getParticipantLabel(assigneeId) {
-      if (!assigneeId) return "Nessuno";
-      if (assigneeId === TEACHER_ID) return "👩‍🏫 Insegnante";
-      const entry = rosterState[assigneeId];
-      if (entry && entry.name) {
-        return `${entry.online ? "🟢" : "⚪"} ${entry.name}`;
-      }
-      return assigneeId.replace(/^student_/, "").replace(/_/g, " ");
+    function formatAssigneeLabel(person, onlineSet) {
+      if (!person) return "Nessuno";
+      if (person.role === "teacher") return `👩‍🏫 ${person.name}`;
+      const isOnline = onlineSet instanceof Set && onlineSet.has(person.name);
+      return `${isOnline ? "🟢" : "⚪"} ${person.name}`;
     }
 
-    function buildTurnOptions(selectEl, selectedValue) {
-      const previous = selectedValue ?? selectEl.value ?? "";
-      selectEl.replaceChildren();
-
-      const emptyOpt = document.createElement("option");
-      emptyOpt.value = "";
-      emptyOpt.textContent = "— Nessuno —";
-      selectEl.appendChild(emptyOpt);
-
-      const teacherOpt = document.createElement("option");
-      teacherOpt.value = TEACHER_ID;
-      teacherOpt.textContent = "👩‍🏫 Insegnante";
-      selectEl.appendChild(teacherOpt);
-
-      const students = Object.entries(rosterState)
-        .filter(([id, data]) => id !== TEACHER_ID && data && data.name)
-        .sort((a, b) => {
-          const onlineDiff = Number(Boolean(b[1].online)) - Number(Boolean(a[1].online));
-          if (onlineDiff !== 0) return onlineDiff;
-          return String(a[1].name).localeCompare(String(b[1].name), "it");
-        });
-
-      students.forEach(([id, data]) => {
-        const opt = document.createElement("option");
-        opt.value = id;
-        opt.textContent = `${data.online ? "🟢" : "⚪"} ${data.name}`;
-        selectEl.appendChild(opt);
-      });
-
-      if (previous && !Array.from(selectEl.options).some(o => o.value === previous)) {
-        const fallbackOpt = document.createElement("option");
-        fallbackOpt.value = previous;
-        fallbackOpt.textContent = `⚪ ${previous.replace(/^student_/, "").replace(/_/g, " ")}`;
-        selectEl.appendChild(fallbackOpt);
+    function scheduleDraftSync(index, text) {
+      if (!sync) {
+        setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile salvare.");
+        return;
       }
+      const slotId = slots[index].id;
+      if (!sync.canWrite(slotId)) return;
 
-      selectEl.value = previous;
-    }
-
-    function syncDraftToFirebase(index, text) {
-      if (!exerciseRef) return;
-      clearTimeout(draftSyncTimers.get(index));
-      draftSyncTimers.set(index, setTimeout(() => {
-        draftSyncTimers.delete(index);
-        exerciseRef.child("cards").child(String(index)).child("draftText").set(text);
-      }, 150));
+      setCardFeedback(index, "saving", "⏳ Salvataggio in corso...");
+      clearTimeout(draftTimers.get(index));
+      draftTimers.set(index, setTimeout(() => {
+        draftTimers.delete(index);
+        if (!sync.canWrite(slotId)) return;
+        sync.write("draft", text, slotId)
+          .then(() => {
+            setCardFeedback(index, "saved", "✓ Salvato", 2500);
+          })
+          .catch(error => {
+            setCardFeedback(index, "error", `⚠️ Errore di salvataggio: ${error?.message || "riprova"}`);
+          });
+      }, 250));
     }
 
     questionDetails.forEach((question, index) => {
+      const slotId = slots[index].id;
       const box = document.createElement("div");
       box.className = "section-box";
       box.hidden = index !== activeQuestion;
@@ -618,10 +573,11 @@
 
       const turnPill = document.createElement("span");
       turnPill.className = "turn-pill";
+      turnPill.textContent = "✍️ Turno: Nessuno";
 
       header.append(title, turnPill);
 
-      // Barra assegnazione turno (visibile solo all'insegnante)
+      // Controllo assegnazione turno (solo insegnante, gestito da ParloModes)
       const assignmentBar = document.createElement("div");
       assignmentBar.className = "turn-assignment-bar";
       assignmentBar.hidden = !isTeacherView;
@@ -633,10 +589,6 @@
       const assignSelect = document.createElement("select");
       assignSelect.id = `assign-turn-${index}`;
       if (isTeacherView) {
-        assignSelect.addEventListener("change", () => {
-          if (!exerciseRef) return;
-          exerciseRef.child("cards").child(String(index)).child("writerAssignee").set(assignSelect.value || null);
-        });
         assignmentBar.append(assignLabel, assignSelect);
       }
 
@@ -647,6 +599,7 @@
       hintsSummary.textContent = "💡 Suggerimenti";
       const hintsBody = document.createElement("div");
       hintsBody.className = "didactic-hints-body";
+      hintsBody.lang = "ru";
       const hintsList = document.createElement("ul");
       question.hints.forEach(hintText => {
         const li = document.createElement("li");
@@ -667,6 +620,7 @@
       answerLabel.textContent = "✍️ Risposta condivisa:";
       const turnHintTag = document.createElement("span");
       turnHintTag.className = "turn-hint-tag";
+      turnHintTag.textContent = "In attesa di assegnazione";
       answerHeader.append(answerLabel, turnHintTag);
 
       const answerInput = document.createElement("textarea");
@@ -679,13 +633,16 @@
       const accentToolbar = createItalianCharToolbar(answerInput);
 
       answerInput.addEventListener("input", () => {
-        const cardData = cardsState[index] || {};
-        if (!currentUserId || cardData.writerAssignee !== currentUserId) return;
-        syncDraftToFirebase(index, answerInput.value);
+        scheduleDraftSync(index, answerInput.value);
       });
 
       const submitRow = document.createElement("div");
       submitRow.className = "answer-submit-row";
+
+      const syncFeedback = document.createElement("span");
+      syncFeedback.className = "sync-feedback";
+      syncFeedback.setAttribute("role", "status");
+      syncFeedback.setAttribute("aria-live", "polite");
 
       const submitBtn = document.createElement("button");
       submitBtn.type = "button";
@@ -694,33 +651,46 @@
       submitBtn.disabled = true;
 
       submitBtn.addEventListener("click", async () => {
-        const cardData = cardsState[index] || {};
-        if (!exerciseRef || !currentUserId || cardData.writerAssignee !== currentUserId) return;
+        if (!sync) {
+          setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile inviare.");
+          return;
+        }
+        if (!sync.canWrite(slotId)) {
+          setCardFeedback(index, "error", "⚠️ Non hai il turno di scrittura per questa scheda.");
+          return;
+        }
         const cleaned = answerInput.value.trim();
         if (!cleaned) {
           answerInput.focus();
           return;
         }
-        clearTimeout(draftSyncTimers.get(index));
-        draftSyncTimers.delete(index);
+        clearTimeout(draftTimers.get(index));
+        draftTimers.delete(index);
 
-        const cardRef = exerciseRef.child("cards").child(String(index));
-        await cardRef.child("contributions").push().set({
-          questionKey: question.key,
-          text: cleaned,
-          authorId: currentUserId,
-          authorName: isTeacherView ? "Insegnante" : currentUserName,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-        await cardRef.child("draftText").set("");
-        answerInput.value = "";
-        answerInput.focus();
+        submitBtn.disabled = true;
+        setCardFeedback(index, "saving", "⏳ Salvataggio e invio in corso...");
+        try {
+          await sync.push("contributions", {
+            questionKey: question.key,
+            text: cleaned,
+            authorName: currentAuthorName || "Partecipante",
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+          }, slotId);
+          await sync.write("draft", "", slotId);
+          answerInput.value = "";
+          setCardFeedback(index, "saved", "✓ Contributo salvato e inviato", 3500);
+          answerInput.focus();
+        } catch (error) {
+          setCardFeedback(index, "error", `⚠️ Errore durante l’invio: ${error?.message || "riprova"}`);
+        } finally {
+          submitBtn.disabled = !sync.canWrite(slotId);
+        }
       });
 
-      submitRow.appendChild(submitBtn);
+      submitRow.append(syncFeedback, submitBtn);
       answerCard.append(answerHeader, accentToolbar, answerInput, submitRow);
 
-      // Elenco contributi della sola scheda corrente (dal più vecchio al più recente)
+      // Elenco contributi condivisi della sola scheda corrente (dal più vecchio al più recente)
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
       const contributionsTitle = document.createElement("div");
@@ -746,6 +716,7 @@
         turnHintTag,
         accentToolbar,
         answerInput,
+        syncFeedback,
         submitBtn,
         contributionsEmpty,
         contributionsList
@@ -771,8 +742,8 @@
       nextExerciseLink.hidden = !last;
 
       exerciseProgress.querySelectorAll(".progress-step").forEach((button, index) => {
-        const cardData = cardsState[index] || {};
-        const hasContribution = Boolean(cardData.contributions && Object.keys(cardData.contributions).length > 0);
+        const rawContributions = sync ? sync.read("contributions", slots[index].id) : null;
+        const hasContribution = Boolean(rawContributions && Object.keys(rawContributions).length > 0);
         button.classList.toggle("done", hasContribution);
         button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
       });
@@ -798,27 +769,23 @@
       if (event.key === "ArrowRight" && activeQuestion < questionDetails.length - 1) showQuestion(activeQuestion + 1);
     });
 
-    function renderCard(index) {
+    function renderCard(index, onlineSet) {
       const ui = cardUI[index];
-      const cardData = cardsState[index] || {};
-      const writerAssignee = cardData.writerAssignee || "";
-      const canEdit = Boolean(currentUserId && writerAssignee === currentUserId);
+      const slotId = slots[index].id;
+      const assignee = sync ? sync.assignmentFor(slotId) : null;
+      const canEdit = Boolean(sync && sync.canWrite(slotId));
 
-      if (isTeacherView) {
-        buildTurnOptions(ui.assignSelect, writerAssignee);
-      }
-
-      ui.turnPill.textContent = `✍️ Turno: ${getParticipantLabel(writerAssignee)}`;
+      ui.turnPill.textContent = `✍️ Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
       ui.turnPill.classList.toggle("is-me", canEdit);
 
       ui.answerCard.classList.toggle("active-turn", canEdit);
       ui.turnHintTag.textContent = canEdit
         ? "È il tuo turno di scrivere"
-        : writerAssignee
-          ? `In turno: ${getParticipantLabel(writerAssignee)}`
+        : assignee
+          ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
           : "In attesa di assegnazione";
 
-      const remoteDraft = cardData.draftText || "";
+      const remoteDraft = (sync && sync.read("draft", slotId)) || "";
       if (!canEdit || document.activeElement !== ui.answerInput) {
         if (ui.answerInput.value !== remoteDraft) {
           ui.answerInput.value = remoteDraft;
@@ -831,7 +798,7 @@
       ui.submitBtn.disabled = !canEdit;
 
       // Contributi della sola scheda corrente ordinati dal più vecchio al più recente
-      const rawContributions = cardData.contributions || {};
+      const rawContributions = (sync && sync.read("contributions", slotId)) || {};
       const contributions = Object.entries(rawContributions)
         .map(([id, item]) => ({ id, ...(item || {}) }))
         .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
@@ -864,51 +831,47 @@
       });
     }
 
-    function renderAllCards() {
-      questionDetails.forEach((_, index) => renderCard(index));
+    function renderAllCards(onlineSet = new Set()) {
+      questionDetails.forEach((_, index) => renderCard(index, onlineSet));
       updateNavigation();
     }
 
-    function registerPresence() {
-      if (!presenceGroupRef || isTeacherView || !currentUserId || !currentUserName) return;
-      const myPresenceRef = presenceGroupRef.child(currentUserId);
-      const connectedRef = firebase.database().ref(".info/connected");
+    const db = window.ParloModes ? ParloModes.initFirebase() : null;
+    if (!db) {
+      setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
+    } else {
+      const connectedRef = db.ref(".info/connected");
       connectedRef.on("value", snap => {
-        if (snap.val() === true) {
-          myPresenceRef.onDisconnect().update({
-            online: false,
-            lastSeen: firebase.database.ServerValue.TIMESTAMP
-          });
-          myPresenceRef.update({
-            name: currentUserName,
-            online: true,
-            lastSeen: firebase.database.ServerValue.TIMESTAMP
-          });
+        if (snap.val() === false) {
+          setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
+        } else {
+          setConnectionMessage("");
         }
       });
-    }
 
-    if (window.firebase) {
-      try {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+      const exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${EXERCISE_PATH}`);
+      sync = ParloModes.createSync({
+        mode: "multi-turn",
+        ref: exerciseRef,
+        database: db,
+        session,
+        slots,
+        onChange(snapshotState) {
+          renderAllCards(snapshotState.onlineStudents);
+        },
+        onError(error) {
+          setConnectionMessage(`⚠️ Errore di sincronizzazione: ${error?.message || "controlla la connessione"}`);
+          setCardFeedback(activeQuestion, "error", `⚠️ Errore: ${error?.message || "operazione non riuscita"}`);
+        }
+      });
 
-        presenceGroupRef = db.ref(`esercizi/gruppi/${gruppo}/presenze`);
-        presenceGroupRef.on("value", snapshot => {
-          rosterState = snapshot.val() || {};
-          renderAllCards();
+      if (isTeacherView) {
+        cardUI.forEach((ui, index) => {
+          sync.bindAssignmentSelect(ui.assignSelect, slots[index].id);
         });
-
-        exerciseRef = db.ref(`esercizi/gruppi/${gruppo}/${exerciseKey}`);
-        exerciseRef.on("value", snapshot => {
-          const data = snapshot.val() || {};
-          cardsState = data.cards || {};
-          renderAllCards();
+        ParloModes.loadGroupRoster(db, safeGroup, UNIT_NUMBER, roster => {
+          sync.setRoster(roster);
         });
-
-        registerPresence();
-      } catch (error) {
-        console.error("Errore Firebase:", error);
       }
     }
 
