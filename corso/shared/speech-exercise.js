@@ -128,6 +128,20 @@
       }
     }
 
+        function notifyClassroomNotesScope(index) {
+      const card = cards[index];
+      const scopeKey = String(card?.key || `card_${index}`).replace(/[.#$\/\[\]]/g, "_");
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: exercisePath,
+        card: scopeKey,
+        cardLabel: card?.title || `Scheda ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
+    }
+
     function setCardFeedback(index, type, message, autoClearMs = 0) {
       const ui = cardUI[index];
       if (!ui) return;
@@ -634,10 +648,11 @@
         stopSpeechRecognition(true);
       }
       activeCard = Math.max(0, Math.min(index, cards.length - 1));
-      cardUI.forEach((ui, idx) => {
+            cardUI.forEach((ui, idx) => {
         ui.box.hidden = idx !== activeCard;
       });
       updateNavigation();
+      notifyClassroomNotesScope(activeCard);
     }
 
     previousButton?.addEventListener("click", () => showCard(activeCard - 1));

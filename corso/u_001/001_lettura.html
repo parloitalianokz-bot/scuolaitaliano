@@ -388,7 +388,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="../shared/group-scope.js?v=1"></script>
+  <script src="../shared/group-scope.js?v=2"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
   <script src="../shared/media-sync.js?v=2"></script>
   <script>
@@ -479,6 +479,16 @@
       currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
       const showingVideo = hasVideo && currentSlide === 0;
       const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
+      const session = window.ParloSession || {};
+      window.ParloNotesScope = {
+        group: session.safeGroup || "sconosciuto",
+        exercise: "001_lettura",
+        card: showingVideo ? "video" : `paragrafo_${paragraphIndex + 1}`,
+        cardLabel: showingVideo ? "Video introduttivo" : `Paragrafo ${paragraphIndex + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
 
       if (videoCard) videoCard.hidden = !showingVideo;
       readingCard.hidden = showingVideo;

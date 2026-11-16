@@ -65,6 +65,20 @@
       }
     }
 
+        function notifyClassroomNotesScope(index) {
+      const dialogue = dialogues[index];
+      const scopeKey = String(dialogue?.id || `card_${index}`).replace(/[.#$\/\[\]]/g, "_");
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: exercisePath,
+        card: scopeKey,
+        cardLabel: dialogue?.title || `Scheda ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
+    }
+
     function setCardFeedback(index, type, message, autoClearMs = 0) {
       const ui = cardUI[index];
       if (!ui) return;
@@ -302,10 +316,11 @@
 
     function showCard(index) {
       activeCard = Math.max(0, Math.min(index, dialogues.length - 1));
-      cardUI.forEach((ui, idx) => {
+            cardUI.forEach((ui, idx) => {
         ui.box.hidden = idx !== activeCard;
       });
       updateNavigation();
+      notifyClassroomNotesScope(activeCard);
     }
 
     previousButton.addEventListener("click", () => showCard(activeCard - 1));

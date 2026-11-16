@@ -264,7 +264,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="../shared/group-scope.js?v=1"></script>
+  <script src="../shared/group-scope.js?v=2"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
   <script src="../shared/exercise-modes.js?v=2"></script>
   <script>
@@ -298,6 +298,15 @@
       const session = window.ParloSession || {};
       const isTeacherView = Boolean(session.isTeacher);
       const safeGroup = session.safeGroup || "sconosciuto";
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: EXERCISE_PATH,
+        card: "tabella_clienti",
+        cardLabel: "Tabella dei dati dei clienti"
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
 
       const connectionBanner = document.getElementById("connection-banner");
       const turnPill = document.getElementById("turn-pill");
@@ -586,6 +595,6 @@
       renderUI();
     })();
   </script>
-  <script src="../classroom-notes.js"></script>
+  <script src="../classroom-notes.js?v=5"></script>
 </body>
 </html>

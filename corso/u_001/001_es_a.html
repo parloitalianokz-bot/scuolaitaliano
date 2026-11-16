@@ -328,7 +328,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="../shared/group-scope.js?v=1"></script>
+  <script src="../shared/group-scope.js?v=2"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
   <script>
     const firebaseConfig = {
@@ -518,6 +518,19 @@
       }
 
       selectEl.value = previous;
+    }
+
+    function notifyClassroomNotesScope(index) {
+      const question = sectionsData[index];
+      window.ParloNotesScope = {
+        group: gruppo,
+        exercise: exerciseKey,
+        card: `card_${index}`,
+        cardLabel: question?.hint || `Scheda ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
     }
 
     function syncDraftToFirebase(index, text) {
@@ -814,6 +827,7 @@
         ui.box.hidden = idx !== activeQuestion;
       });
       updateNavigation();
+      notifyClassroomNotesScope(activeQuestion);
     }
 
     previousButton.addEventListener("click", () => showQuestion(activeQuestion - 1));
