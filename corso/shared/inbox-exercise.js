@@ -63,7 +63,9 @@
       ? config.specialChars
       : DEFAULT_SPECIAL_CHARS;
     const hintsLang = String(config.hintsLang || "ru");
-    const placeholder = String(config.placeholder || "Scrivi qui la risposta completa in italiano...");
+    const placeholder = config.placeholder == null
+      ? "Scrivi qui la risposta completa in italiano..."
+      : String(config.placeholder);
 
     if (!questions.length) {
       throw new Error("initInboxExercise richiede almeno una domanda in `questions`.");
@@ -104,6 +106,20 @@
         connectionBanner.textContent = message;
         connectionBanner.hidden = false;
       }
+    }
+
+    function notifyClassroomNotesScope(index) {
+      const question = questions[index];
+      const scopeKey = String(question?.key || `card_${index}`).replace(/[.#$\/\[\]]/g, "_");
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: exercisePath,
+        card: scopeKey,
+        cardLabel: question?.title || `Scheda ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
     }
 
     function setCardFeedback(index, type, message, autoClearMs = 0) {
@@ -225,7 +241,7 @@
       answerInput.id = `answer-input-${index}`;
       answerInput.className = "answer-input";
       answerInput.rows = 3;
-      answerInput.placeholder = question.placeholder || placeholder;
+      answerInput.placeholder = question.placeholder == null ? placeholder : question.placeholder;
       answerInput.disabled = true;
 
       const accentToolbar = createItalianCharToolbar(answerInput, specialChars);
@@ -358,6 +374,7 @@
         ui.box.hidden = idx !== activeQuestion;
       });
       updateNavigation();
+      notifyClassroomNotesScope(activeQuestion);
     }
 
     previousButton.addEventListener("click", () => showQuestion(activeQuestion - 1));
