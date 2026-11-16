@@ -4,6 +4,27 @@
 
   const SPECIAL_CHARS = ["à", "è", "é", "ì", "ò", "ù", "È"];
 
+  function bindMenuSafe(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    if (window.ParloExercise && typeof ParloExercise.bindNavigationSelect === "function") {
+      ParloExercise.bindNavigationSelect(select);
+      return;
+    }
+    select.addEventListener("change", event => {
+      if (!event.target.value) return;
+      const target = new URL(event.target.value, location.href);
+      const params = new URLSearchParams(location.search);
+      let sess = {};
+      try { sess = JSON.parse(localStorage.getItem("parlo_session") || "{}"); } catch (_) {}
+      const group = params.get("gruppo") || sess.group || "";
+      const name = params.get("nome") || (!sess.isTeacher ? sess.name : "") || "";
+      if (group) target.searchParams.set("gruppo", group);
+      if (name && name !== "Insegnante") target.searchParams.set("nome", name);
+      location.href = target.href;
+    });
+  }
+
   function formatAssigneeLabel(person, onlineSet) {
     if (!person) return "Nessuno";
     if (person.role === "teacher") return `👩‍🏫 ${person.name}`;
@@ -24,6 +45,14 @@
   }
 
   function initDialogueCompletionExercise(config = {}) {
+    // Aggancia subito i menu e le utilità di pagina
+    bindMenuSafe("exercise-menu");
+    bindMenuSafe("grammar-menu");
+    if (window.ParloExercise) {
+      ParloExercise.initBackgroundParallax?.();
+      ParloExercise.decorateSessionLinks?.();
+    }
+
     const unitNumber = Number(config.unitNumber || 1);
     const exercisePath = String(
       config.exercisePath ||
@@ -157,9 +186,6 @@
     }
 
     dialogues.forEach((dialogue, cardIndex) => {
-      const slotId = slots[cardIndex].id;
-      const questions = Array.isArray(dialogue.questions) ? dialogue.questions : [];
-
       const box = document.createElement("div");
       box.className = "section-box";
       box.hidden = cardIndex !== activeCard;
@@ -209,7 +235,6 @@
       turnHintTag.textContent = "In attesa di assegnazione";
       worksheetHeader.append(worksheetLabel, turnHintTag);
 
-      // Barra caratteri speciali condivisa per i campi della scheda
       const accentToolbar = document.createElement("div");
       accentToolbar.className = "accent-toolbar";
       accentToolbar.setAttribute("aria-label", "Caratteri speciali italiani");
@@ -233,7 +258,7 @@
       const turnsContainer = document.createElement("div");
       turnsContainer.className = "dialogue-turns-list";
 
-      const textareas = questions.map((question, qIndex) => {
+      const textareas = dialogue.questions.map((question, qIndex) => {
         const turnItem = document.createElement("div");
         turnItem.className = "dialogue-turn";
 
@@ -296,7 +321,6 @@
       });
     });
 
-    // Barra di avanzamento navigabile
     dialogues.forEach((dialogue, index) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -424,19 +448,6 @@
 
     renderAllCards();
     showCard(0);
-
-    if (window.ParloExercise) {
-      ParloExercise.initBackgroundParallax?.();
-      ParloExercise.decorateSessionLinks?.();
-      ParloExercise.bindNavigationSelect?.(document.getElementById("exercise-menu"));
-      ParloExercise.bindNavigationSelect?.(document.getElementById("grammar-menu"));
-    }
-
-    if (!document.querySelector('script[src*="classroom-notes.js"]')) {
-      const notesScript = document.createElement("script");
-      notesScript.src = "../classroom-notes.js";
-      document.body.appendChild(notesScript);
-    }
 
     return {
       showCard,
