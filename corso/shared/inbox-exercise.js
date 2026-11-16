@@ -86,9 +86,11 @@
     const exerciseProgress = document.getElementById("exercise-progress");
     const nextExerciseLink = document.getElementById("next-exercise");
 
+    const questionTitle = (question, index) =>
+      question.title || question.prompt || `${config.itemsLabel || "Scheda"} ${index + 1}`;
     const slots = questions.map((question, index) => ({
       id: `card_${index}`,
-      label: `${index + 1}. ${question.title}`
+      label: `${index + 1}. ${questionTitle(question, index)}`
     }));
 
     let sync = null;
@@ -178,7 +180,7 @@
       numSpan.className = "number";
       numSpan.textContent = String(index + 1);
       const textSpan = document.createElement("span");
-      textSpan.textContent = question.title;
+      textSpan.textContent = questionTitle(question, index);
       title.append(numSpan, textSpan);
 
       const turnPill = document.createElement("span");
@@ -245,6 +247,9 @@
       answerInput.disabled = true;
 
       const accentToolbar = createItalianCharToolbar(answerInput, specialChars);
+      const answerNote = document.createElement("p");
+      answerNote.className = "answer-form-note";
+      answerNote.textContent = "Dopo l’invio, la risposta comparirà nei contributi visibili al gruppo.";
 
       answerInput.addEventListener("input", () => {
         scheduleDraftSync(index, answerInput.value);
@@ -259,9 +264,9 @@
       syncFeedback.setAttribute("aria-live", "polite");
 
       const submitBtn = document.createElement("button");
-      submitBtn.type = "button";
+            submitBtn.type = "button";
       submitBtn.className = "btn-submit-contribution";
-      submitBtn.textContent = "Invia il contributo";
+      submitBtn.textContent = config.submitLabel || "Condividi risposta";
       submitBtn.disabled = true;
 
       submitBtn.addEventListener("click", async () => {
@@ -302,7 +307,7 @@
       });
 
       submitRow.append(syncFeedback, submitBtn);
-      answerCard.append(answerHeader, accentToolbar, answerInput, submitRow);
+      answerCard.append(answerHeader, accentToolbar, answerInput, answerNote, submitRow);
 
       // Contributi della scheda corrente
       const contributionsWrapper = document.createElement("div");
@@ -344,7 +349,7 @@
       button.type = "button";
       button.className = "progress-step";
       button.textContent = String(index + 1);
-      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}: ${question.title}`);
+      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}: ${questionTitle(question, index)}`);
       button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
       button.addEventListener("click", () => showQuestion(index));
       exerciseProgress.appendChild(button);
