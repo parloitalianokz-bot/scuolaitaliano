@@ -55,21 +55,21 @@
     /* Barra di avanzamento navigabile */
     .overall-progress {
       display: grid;
-      grid-template-columns: repeat(14, minmax(28px, 1fr));
-      gap: 5px;
+      grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+      gap: 6px;
       width: 100%;
       margin: 0 0 18px;
     }
     .progress-step {
       min-width: 0;
-      min-height: 38px;
+      min-height: 40px;
       padding: 4px;
       border: 1.5px solid #d8e5d8;
       border-radius: 10px;
       background: #fff;
       color: var(--primary-dark);
       font: inherit;
-      font-size: .84rem;
+      font-size: .86rem;
       font-weight: 800;
       cursor: pointer;
       transition: background .18s, border-color .18s, color .18s;
@@ -112,7 +112,6 @@
       box-shadow: 0 0 0 2px rgba(189, 105, 77, .12);
     }
 
-    /* Controllo assegnazione turno (solo insegnante) */
     .turn-assignment-bar {
       display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
       padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3;
@@ -128,7 +127,6 @@
       color: var(--text); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
     }
 
-    /* Suggerimenti didattici espandibili (in russo, think aloud / LAD) */
     details.didactic-hints {
       border: 1px solid #dce7dc; border-radius: 14px; background: #f9fbf8; overflow: hidden;
     }
@@ -150,7 +148,6 @@
     }
     .didactic-hints-body ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
 
-    /* Box di testo condiviso */
     .answer-form-card {
       padding: 14px 16px; border: 1.5px solid #dce8dc; border-radius: 16px; background: #f8faf6;
       transition: border-color .2s, box-shadow .2s, background .2s;
@@ -199,7 +196,6 @@
     .btn-submit-contribution:hover:not(:disabled) { background: var(--primary-dark); }
     .btn-submit-contribution:disabled { background: #cbd5cb; color: #5f6863; box-shadow: none; cursor: not-allowed; opacity: .75; }
 
-    /* Elenco contributi condivisi della scheda corrente */
     .contributions-wrapper {
       display: flex; flex-direction: column; gap: 8px;
       padding: 12px 14px; border: 1px solid #e3ebe3; border-radius: 14px; background: #fcfdfb;
@@ -238,8 +234,7 @@
     @media (max-width: 680px) {
       body { padding: 16px 8px; }
       .section-box { padding: 14px; }
-      .overall-progress { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-      .progress-step { min-height: 44px; font-size: .86rem; }
+      .progress-step { min-height: 44px; }
       .slide-navigation { flex-direction: column; gap: 8px; }
       .slide-navigation button, .slide-navigation a { justify-content: center; width: 100%; }
     }
@@ -309,585 +304,126 @@
   <script src="../shared/group-scope.js?v=1"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
   <script src="../shared/exercise-modes.js?v=2"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
   <script>
-    const UNIT_NUMBER = 1;
-    const EXERCISE_PATH = "001_es_b";
-    const SPECIAL_CHARS = ["'", "à", "è", "ì", "ò", "ù", "È"];
-
-    const questionDetails = [
-      {
-        key: "ans1",
-        title: "Dov’è l’albergo Ponte Vecchio?",
-        hints: [
-          "Посмотрите на начало вопроса: с какого глагола он начинается (è)? С какого слова стоит начать полный ответ, чтобы сохранить подлежащее?",
-          "В первом абзаце текста указаны сразу два ориентира: город и район. Какой предлог места употребляется с названиями городов, а какой — со словом «centro»?"
-        ]
-      },
-      {
-        key: "ans2",
-        title: "Perché è comodo per i turisti?",
-        hints: [
-          "Обратите внимание на структуру «Perché... ?» — какой союз обычно открывает ответ на вопрос о причине?",
-          "Найдите в первом абзаце прилагательное «comodo» и посмотрите, какие предлоги и глаголы идут сразу после него (для каких действий удобно расположение отеля?)."
-        ]
-      },
-      {
-        key: "ans3",
-        title: "Chi sono i clienti dell’albergo?",
-        hints: [
-          "Подлежащее в вопросе стоит во множественном числе (i clienti) — в какой форме должен стоять глагол essere в начале ответа?",
-          "Посмотрите, как в тексте описаны гости отеля: откуда они приехали и чем они занимаются? Можно перечислить их имена или обобщить их профессии и национальности."
-        ]
-      },
-      {
-        key: "ans4",
-        title: "Chi è Victor?",
-        hints: [
-          "Как в итальянском языке называют имя, национальность и профессию человека, используя только глагол essere?",
-          "Обратите внимание: нужен ли неопределённый артикль перед названием профессии после глагола essere, если при существительном нет прилагательного?"
-        ]
-      },
-      {
-        key: "ans5",
-        title: "Perché Victor è in Italia?",
-        hints: [
-          "Сравните предлог в вопросе («in Italia») и предлог цели в тексте рядом с именем Victor.",
-          "Какой предлог в итальянском языке вводит цель поездки («по делам» / «для работы»)? Найдите это устойчивое сочетание в абзаце о Victor."
-        ]
-      },
-      {
-        key: "ans6",
-        title: "Chi è Yoko?",
-        hints: [
-          "Вспомните модель описания человека из вопроса 4: имя + глагол essere + национальность и профессия.",
-          "Посмотрите на окончание существительного, обозначающего профессию Yoko: меняет ли оно форму в женском роде?"
-        ]
-      },
-      {
-        key: "ans7",
-        title: "Perché Yoko è in Italia?",
-        hints: [
-          "Начните ответ с союза причины («Perché...») и сохраните конструкцию «Yoko è in Italia...».",
-          "Какой предлог стоит перед словом «conferenza» в тексте и какой артикль используется с этим существительным?"
-        ]
-      },
-      {
-        key: "ans8",
-        title: "Chi sono Karl e Klaus?",
-        hints: [
-          "Речь идёт о двух людях: какую форму глагола essere нужно выбрать для множественного числа?",
-          "Проверьте окончания множественного числа у национальности и у существительного, обозначающего их род занятий."
-        ]
-      },
-      {
-        key: "ans9",
-        title: "Perché Karl e Klaus sono in Italia?",
-        hints: [
-          "Когда после глагола движения или состояния нужно назвать цель действия («чтобы учиться / изучать»), какой предлог ставится перед инфинитивом?",
-          "Посмотрите в тексте, какой артикль стоит перед названием языка («italiano») после глагола «studiare»."
-        ]
-      },
-      {
-        key: "ans10",
-        title: "Chi è Olga?",
-        hints: [
-          "Найдите в тексте абзац об Ольге: как там названы её страна и её занятие?",
-          "Сравните в тексте сочетание «studentessa di italiano» с сочетанием «studente tedesco»: почему в одном случае используется предлог «di», а в другом — прилагательное?"
-        ]
-      },
-      {
-        key: "ans11",
-        title: "Perché Olga è in Italia?",
-        hints: [
-          "В тексте указаны две цели приезда Ольги, соединённые союзом «e».",
-          "Обратите внимание на предлог перед каждым из двух инфинитивов: повторяется ли он перед вторым глаголом?"
-        ]
-      },
-      {
-        key: "ans12",
-        title: "Chi è Mary?",
-        hints: [
-          "Посмотрите на форму существительного «insegnante» в абзаце о Мэри: как мы понимаем, что речь идёт о женщине?",
-          "Обратите внимание на апостроф в неопределённом артикле перед словом «insegnante» — почему он здесь появляется?"
-        ]
-      },
-      {
-        key: "ans13",
-        title: "Perché Mary è in Italia?",
-        hints: [
-          "Сопоставьте конструкцию в абзаце о Мэри с ответами про Карла, Клауса и Ольгу: какой предлог снова вводит инфинитив цели?",
-          "Проверьте в тексте, какой язык преподаёт Мэри и стоит ли перед его названием определённый артикль."
-        ]
-      },
-      {
-        key: "ans14",
-        title: "Chi è il signor Rossi?",
-        hints: [
-          "Найдите в последнем абзаце текста упоминание синьора Росси: какую должность он занимает?",
-          "Обратите внимание на слитный предлог в сочетании «direttore dell’albergo» — из каких двух слов он образован?"
-        ]
-      }
-    ];
-
-    const session = window.ParloSession || {};
-    const isTeacherView = Boolean(session.isTeacher);
-    const safeGroup = session.safeGroup || "sconosciuto";
-    const currentAuthorName = isTeacherView
-      ? String(session.teacherName || session.name || "Insegnante").trim()
-      : String(session.name || "").trim();
-
-    const connectionBanner = document.getElementById("connection-banner");
-    const questionsContainer = document.getElementById("questions-container");
-    const previousButton = document.getElementById("previous-question");
-    const nextButton = document.getElementById("next-question");
-    const progressText = document.getElementById("question-progress");
-    const exerciseProgress = document.getElementById("exercise-progress");
-    const nextExerciseLink = document.getElementById("next-exercise");
-
-    const slots = questionDetails.map((question, index) => ({
-      id: `card_${index}`,
-      label: `${index + 1}. ${question.title}`
-    }));
-
-    let sync = null;
-    let activeQuestion = 0;
-    const cardUI = [];
-    const draftTimers = new Map();
-    const feedbackTimers = new Map();
-
-    function setConnectionMessage(message) {
-      if (!message) {
-        connectionBanner.hidden = true;
-        connectionBanner.textContent = "";
-      } else {
-        connectionBanner.textContent = message;
-        connectionBanner.hidden = false;
-      }
-    }
-
-    function setCardFeedback(index, type, message, autoClearMs = 0) {
-      const ui = cardUI[index];
-      if (!ui) return;
-      clearTimeout(feedbackTimers.get(index));
-      feedbackTimers.delete(index);
-
-      ui.syncFeedback.className = `sync-feedback ${type || ""}`.trim();
-      ui.syncFeedback.textContent = message || "";
-
-      if (autoClearMs > 0 && message) {
-        feedbackTimers.set(index, setTimeout(() => {
-          feedbackTimers.delete(index);
-          ui.syncFeedback.className = "sync-feedback";
-          ui.syncFeedback.textContent = "";
-        }, autoClearMs));
-      }
-    }
-
-    function createItalianCharToolbar(textarea) {
-      const toolbar = document.createElement("div");
-      toolbar.className = "accent-toolbar";
-      toolbar.setAttribute("aria-label", "Caratteri speciali italiani");
-      SPECIAL_CHARS.forEach(char => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = char;
-        btn.setAttribute("aria-label", `Inserisci ${char}`);
-        btn.addEventListener("mousedown", event => event.preventDefault());
-        btn.addEventListener("click", () => {
-          if (textarea.disabled) return;
-          const start = textarea.selectionStart ?? textarea.value.length;
-          const end = textarea.selectionEnd ?? textarea.value.length;
-          textarea.value = textarea.value.slice(0, start) + char + textarea.value.slice(end);
-          const nextPos = start + char.length;
-          textarea.focus();
-          textarea.setSelectionRange(nextPos, nextPos);
-          textarea.dispatchEvent(new Event("input", { bubbles: true }));
-        });
-        toolbar.appendChild(btn);
-      });
-      return toolbar;
-    }
-
-    function formatTimestamp(ts) {
-      if (!ts) return "";
-      try {
-        return new Date(ts).toLocaleString("it-IT", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-      } catch (_) {
-        return "";
-      }
-    }
-
-    function formatAssigneeLabel(person, onlineSet) {
-      if (!person) return "Nessuno";
-      if (person.role === "teacher") return `👩‍🏫 ${person.name}`;
-      const isOnline = onlineSet instanceof Set && onlineSet.has(person.name);
-      return `${isOnline ? "🟢" : "⚪"} ${person.name}`;
-    }
-
-    function scheduleDraftSync(index, text) {
-      if (!sync) {
-        setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile salvare.");
-        return;
-      }
-      const slotId = slots[index].id;
-      if (!sync.canWrite(slotId)) return;
-
-      setCardFeedback(index, "saving", "⏳ Salvataggio in corso...");
-      clearTimeout(draftTimers.get(index));
-      draftTimers.set(index, setTimeout(() => {
-        draftTimers.delete(index);
-        if (!sync.canWrite(slotId)) return;
-        sync.write("draft", text, slotId)
-          .then(() => {
-            setCardFeedback(index, "saved", "✓ Salvato", 2500);
-          })
-          .catch(error => {
-            setCardFeedback(index, "error", `⚠️ Errore di salvataggio: ${error?.message || "riprova"}`);
-          });
-      }, 250));
-    }
-
-    questionDetails.forEach((question, index) => {
-      const slotId = slots[index].id;
-      const box = document.createElement("div");
-      box.className = "section-box";
-      box.hidden = index !== activeQuestion;
-
-      const header = document.createElement("div");
-      header.className = "section-header";
-
-      const title = document.createElement("div");
-      title.className = "section-title";
-      const numSpan = document.createElement("span");
-      numSpan.className = "number";
-      numSpan.textContent = String(index + 1);
-      const textSpan = document.createElement("span");
-      textSpan.textContent = question.title;
-      title.append(numSpan, textSpan);
-
-      const turnPill = document.createElement("span");
-      turnPill.className = "turn-pill";
-      turnPill.textContent = "✍️ Turno: Nessuno";
-
-      header.append(title, turnPill);
-
-      // Controllo assegnazione turno (solo insegnante, gestito da ParloModes)
-      const assignmentBar = document.createElement("div");
-      assignmentBar.className = "turn-assignment-bar";
-      assignmentBar.hidden = !isTeacherView;
-
-      const assignLabel = document.createElement("label");
-      assignLabel.htmlFor = `assign-turn-${index}`;
-      assignLabel.textContent = "✍️ Assegna turno di scrittura:";
-
-      const assignSelect = document.createElement("select");
-      assignSelect.id = `assign-turn-${index}`;
-      if (isTeacherView) {
-        assignmentBar.append(assignLabel, assignSelect);
-      }
-
-      // Suggerimenti didattici espandibili (in russo, think aloud / LAD)
-      const hintsDetails = document.createElement("details");
-      hintsDetails.className = "didactic-hints";
-      const hintsSummary = document.createElement("summary");
-      hintsSummary.textContent = "💡 Suggerimenti";
-      const hintsBody = document.createElement("div");
-      hintsBody.className = "didactic-hints-body";
-      hintsBody.lang = "ru";
-      const hintsList = document.createElement("ul");
-      question.hints.forEach(hintText => {
-        const li = document.createElement("li");
-        li.textContent = hintText;
-        hintsList.appendChild(li);
-      });
-      hintsBody.appendChild(hintsList);
-      hintsDetails.append(hintsSummary, hintsBody);
-
-      // Box di testo condiviso per la scheda corrente
-      const answerCard = document.createElement("div");
-      answerCard.className = "answer-form-card";
-
-      const answerHeader = document.createElement("div");
-      answerHeader.className = "answer-form-header";
-      const answerLabel = document.createElement("label");
-      answerLabel.htmlFor = `answer-input-${index}`;
-      answerLabel.textContent = "✍️ Risposta condivisa:";
-      const turnHintTag = document.createElement("span");
-      turnHintTag.className = "turn-hint-tag";
-      turnHintTag.textContent = "In attesa di assegnazione";
-      answerHeader.append(answerLabel, turnHintTag);
-
-      const answerInput = document.createElement("textarea");
-      answerInput.id = `answer-input-${index}`;
-      answerInput.className = "answer-input";
-      answerInput.rows = 3;
-      answerInput.placeholder = "Scrivi qui la risposta completa in italiano...";
-      answerInput.disabled = true;
-
-      const accentToolbar = createItalianCharToolbar(answerInput);
-
-      answerInput.addEventListener("input", () => {
-        scheduleDraftSync(index, answerInput.value);
-      });
-
-      const submitRow = document.createElement("div");
-      submitRow.className = "answer-submit-row";
-
-      const syncFeedback = document.createElement("span");
-      syncFeedback.className = "sync-feedback";
-      syncFeedback.setAttribute("role", "status");
-      syncFeedback.setAttribute("aria-live", "polite");
-
-      const submitBtn = document.createElement("button");
-      submitBtn.type = "button";
-      submitBtn.className = "btn-submit-contribution";
-      submitBtn.textContent = "Invia il contributo";
-      submitBtn.disabled = true;
-
-      submitBtn.addEventListener("click", async () => {
-        if (!sync) {
-          setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile inviare.");
-          return;
-        }
-        if (!sync.canWrite(slotId)) {
-          setCardFeedback(index, "error", "⚠️ Non hai il turno di scrittura per questa scheda.");
-          return;
-        }
-        const cleaned = answerInput.value.trim();
-        if (!cleaned) {
-          answerInput.focus();
-          return;
-        }
-        clearTimeout(draftTimers.get(index));
-        draftTimers.delete(index);
-
-        submitBtn.disabled = true;
-        setCardFeedback(index, "saving", "⏳ Salvataggio e invio in corso...");
-        try {
-          await sync.push("contributions", {
-            questionKey: question.key,
-            text: cleaned,
-            authorName: currentAuthorName || "Partecipante",
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-          }, slotId);
-          await sync.write("draft", "", slotId);
-          answerInput.value = "";
-          setCardFeedback(index, "saved", "✓ Contributo salvato e inviato", 3500);
-          answerInput.focus();
-        } catch (error) {
-          setCardFeedback(index, "error", `⚠️ Errore durante l’invio: ${error?.message || "riprova"}`);
-        } finally {
-          submitBtn.disabled = !sync.canWrite(slotId);
-        }
-      });
-
-      submitRow.append(syncFeedback, submitBtn);
-      answerCard.append(answerHeader, accentToolbar, answerInput, submitRow);
-
-      // Elenco contributi condivisi della sola scheda corrente (dal più vecchio al più recente)
-      const contributionsWrapper = document.createElement("div");
-      contributionsWrapper.className = "contributions-wrapper";
-      const contributionsTitle = document.createElement("div");
-      contributionsTitle.className = "contributions-title";
-      contributionsTitle.textContent = "💬 Contributi inviati per questa scheda";
-      const contributionsEmpty = document.createElement("p");
-      contributionsEmpty.className = "contributions-empty";
-      contributionsEmpty.textContent = "Nessun contributo inviato per questa scheda.";
-      const contributionsList = document.createElement("div");
-      contributionsList.className = "contributions-list";
-      contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
-
-      box.append(header);
-      if (isTeacherView) box.append(assignmentBar);
-      box.append(hintsDetails, answerCard, contributionsWrapper);
-      questionsContainer.appendChild(box);
-
-      cardUI.push({
-        box,
-        assignSelect,
-        turnPill,
-        answerCard,
-        turnHintTag,
-        accentToolbar,
-        answerInput,
-        syncFeedback,
-        submitBtn,
-        contributionsEmpty,
-        contributionsList
-      });
-    });
-
-    // Barra di avanzamento navigabile
-    questionDetails.forEach((question, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "progress-step";
-      button.textContent = String(index + 1);
-      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}: ${question.title}`);
-      button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
-      button.addEventListener("click", () => showQuestion(index));
-      exerciseProgress.appendChild(button);
-    });
-
-    function updateNavigation() {
-      const last = activeQuestion === questionDetails.length - 1;
-      previousButton.disabled = activeQuestion === 0;
-      nextButton.hidden = last;
-      nextExerciseLink.hidden = !last;
-
-      exerciseProgress.querySelectorAll(".progress-step").forEach((button, index) => {
-        const rawContributions = sync ? sync.read("contributions", slots[index].id) : null;
-        const hasContribution = Boolean(rawContributions && Object.keys(rawContributions).length > 0);
-        button.classList.toggle("done", hasContribution);
-        button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
-      });
-
-      progressText.textContent = `Scheda ${activeQuestion + 1} di ${questionDetails.length}`;
-    }
-
-    function showQuestion(index) {
-      activeQuestion = Math.max(0, Math.min(index, questionDetails.length - 1));
-      cardUI.forEach((ui, idx) => {
-        ui.box.hidden = idx !== activeQuestion;
-      });
-      updateNavigation();
-    }
-
-    previousButton.addEventListener("click", () => showQuestion(activeQuestion - 1));
-    nextButton.addEventListener("click", () => showQuestion(activeQuestion + 1));
-
-    document.addEventListener("keydown", event => {
-      if (event.altKey || event.ctrlKey || event.metaKey) return;
-      if (event.target.closest("input, textarea, select, button, a, [tabindex]")) return;
-      if (event.key === "ArrowLeft" && activeQuestion > 0) showQuestion(activeQuestion - 1);
-      if (event.key === "ArrowRight" && activeQuestion < questionDetails.length - 1) showQuestion(activeQuestion + 1);
-    });
-
-    function renderCard(index, onlineSet) {
-      const ui = cardUI[index];
-      const slotId = slots[index].id;
-      const assignee = sync ? sync.assignmentFor(slotId) : null;
-      const canEdit = Boolean(sync && sync.canWrite(slotId));
-
-      ui.turnPill.textContent = `✍️ Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
-      ui.turnPill.classList.toggle("is-me", canEdit);
-
-      ui.answerCard.classList.toggle("active-turn", canEdit);
-      ui.turnHintTag.textContent = canEdit
-        ? "È il tuo turno di scrivere"
-        : assignee
-          ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
-          : "In attesa di assegnazione";
-
-      const remoteDraft = (sync && sync.read("draft", slotId)) || "";
-      if (!canEdit || document.activeElement !== ui.answerInput) {
-        if (ui.answerInput.value !== remoteDraft) {
-          ui.answerInput.value = remoteDraft;
-        }
-      }
-      ui.answerInput.disabled = !canEdit;
-      ui.accentToolbar.querySelectorAll("button").forEach(btn => {
-        btn.disabled = !canEdit;
-      });
-      ui.submitBtn.disabled = !canEdit;
-
-      // Contributi della sola scheda corrente ordinati dal più vecchio al più recente
-      const rawContributions = (sync && sync.read("contributions", slotId)) || {};
-      const contributions = Object.entries(rawContributions)
-        .map(([id, item]) => ({ id, ...(item || {}) }))
-        .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-
-      ui.contributionsList.replaceChildren();
-      ui.contributionsEmpty.hidden = contributions.length > 0;
-
-      contributions.forEach(item => {
-        const card = document.createElement("article");
-        card.className = "contribution-item";
-
-        const body = document.createElement("div");
-        body.className = "contribution-body";
-
-        const textEl = document.createElement("p");
-        textEl.className = "contribution-text";
-        textEl.textContent = item.text || "";
-
-        const metaEl = document.createElement("div");
-        metaEl.className = "contribution-meta";
-        const authorSpan = document.createElement("span");
-        authorSpan.textContent = `👤 ${item.authorName || "Partecipante"}`;
-        const timeSpan = document.createElement("span");
-        timeSpan.textContent = `🕒 ${formatTimestamp(item.timestamp)}`;
-        metaEl.append(authorSpan, timeSpan);
-
-        body.append(textEl, metaEl);
-        card.appendChild(body);
-        ui.contributionsList.appendChild(card);
-      });
-    }
-
-    function renderAllCards(onlineSet = new Set()) {
-      questionDetails.forEach((_, index) => renderCard(index, onlineSet));
-      updateNavigation();
-    }
-
-    const db = window.ParloModes ? ParloModes.initFirebase() : null;
-    if (!db) {
-      setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
-    } else {
-      const connectedRef = db.ref(".info/connected");
-      connectedRef.on("value", snap => {
-        if (snap.val() === false) {
-          setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
-        } else {
-          setConnectionMessage("");
-        }
-      });
-
-      const exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${EXERCISE_PATH}`);
-      sync = ParloModes.createSync({
-        mode: "multi-turn",
-        ref: exerciseRef,
-        database: db,
-        session,
-        slots,
-        onChange(snapshotState) {
-          renderAllCards(snapshotState.onlineStudents);
+    ParloInboxExercise.init({
+      unitNumber: 1,
+      exercisePath: "001_es_b",
+      questions: [
+        {
+          key: "ans1",
+          title: "Dov’è l’albergo Ponte Vecchio?",
+          hints: [
+            "Посмотрите на начало вопроса: с какого глагола он начинается (è)? С какого слова стоит начать полный ответ, чтобы сохранить подлежащее?",
+            "В первом абзаце текста указаны сразу два ориентира: город и район. Какой предлог места употребляется с названиями городов, а какой — со словом «centro»?"
+          ]
         },
-        onError(error) {
-          setConnectionMessage(`⚠️ Errore di sincronizzazione: ${error?.message || "controlla la connessione"}`);
-          setCardFeedback(activeQuestion, "error", `⚠️ Errore: ${error?.message || "operazione non riuscita"}`);
+        {
+          key: "ans2",
+          title: "Perché è comodo per i turisti?",
+          hints: [
+            "Обратите внимание на структуру «Perché... ?» — какой союз обычно открывает ответ на вопрос о причине?",
+            "Найдите в первом абзаце прилагательное «comodo» и посмотрите, какие предлоги и глаголы идут сразу после него (для каких действий удобно расположение отеля?)."
+          ]
+        },
+        {
+          key: "ans3",
+          title: "Chi sono i clienti dell’albergo?",
+          hints: [
+            "Подлежащее в вопросе стоит во множественном числе (i clienti) — в какой форме должен стоять глагол essere в начале ответа?",
+            "Посмотрите, как в тексте описаны гости отеля: откуда они приехали и чем они занимаются? Можно перечислить их имена или обобщить их профессии и национальности."
+          ]
+        },
+        {
+          key: "ans4",
+          title: "Chi è Victor?",
+          hints: [
+            "Как в итальянском языке называют имя, национальность и профессию человека, используя только глагол essere?",
+            "Обратите внимание: нужен ли неопределённый артикль перед названием профессии после глагола essere, если при существительном нет прилагательного?"
+          ]
+        },
+        {
+          key: "ans5",
+          title: "Perché Victor è in Italia?",
+          hints: [
+            "Сравните предлог в вопросе («in Italia») и предлог цели в тексте рядом с именем Victor.",
+            "Какой предлог в итальянском языке вводит цель поездки («по делам» / «для работы»)? Найдите это устойчивое сочетание в абзаце о Victor."
+          ]
+        },
+        {
+          key: "ans6",
+          title: "Chi è Yoko?",
+          hints: [
+            "Вспомните модель описания человека из вопроса 4: имя + глагол essere + национальность и профессия.",
+            "Посмотрите на окончание существительного, обозначающего профессию Yoko: меняет ли оно форму в женском роде?"
+          ]
+        },
+        {
+          key: "ans7",
+          title: "Perché Yoko è in Italia?",
+          hints: [
+            "Начните ответ с союза причины («Perché...») и сохраните конструкцию «Yoko è in Italia...».",
+            "Какой предлог стоит перед словом «conferenza» в тексте и какой артикль используется с этим существительным?"
+          ]
+        },
+        {
+          key: "ans8",
+          title: "Chi sono Karl e Klaus?",
+          hints: [
+            "Речь идёт о двух людях: какую форму глагола essere нужно выбрать для множественного числа?",
+            "Проверьте окончания множественного числа у национальности и у существительного, обозначающего их род занятий."
+          ]
+        },
+        {
+          key: "ans9",
+          title: "Perché Karl e Klaus sono in Italia?",
+          hints: [
+            "Когда после глагола движения или состояния нужно назвать цель действия («чтобы учиться / изучать»), какой предлог ставится перед инфинитивом?",
+            "Посмотрите в тексте, какой артикль стоит перед названием языка («italiano») после глагола «studiare»."
+          ]
+        },
+        {
+          key: "ans10",
+          title: "Chi è Olga?",
+          hints: [
+            "Найдите в тексте абзац об Ольге: как там названы её страна и её занятие?",
+            "Сравните в тексте сочетание «studentessa di italiano» с сочетанием «studente tedesco»: почему в одном случае используется предлог «di», а в другом — прилагательное?"
+          ]
+        },
+        {
+          key: "ans11",
+          title: "Perché Olga è in Italia?",
+          hints: [
+            "В тексте указаны две цели приезда Ольги, соединённые союзом «e».",
+            "Обратите внимание на предлог перед каждым из двух инфинитивов: повторяется ли он перед вторым глаголом?"
+          ]
+        },
+        {
+          key: "ans12",
+          title: "Chi è Mary?",
+          hints: [
+            "Посмотрите на форму существительного «insegnante» в абзаце о Мэри: как мы понимаем, что речь идёт о женщине?",
+            "Обратите внимание на апостроф в неопределённом артикле перед словом «insegnante» — почему он здесь появляется?"
+          ]
+        },
+        {
+          key: "ans13",
+          title: "Perché Mary è in Italia?",
+          hints: [
+            "Сопоставьте конструкцию в абзаце о Мэри с ответами про Карла, Клауса и Ольгу: какой предлог снова вводит инфинитив цели?",
+            "Проверьте в тексте, какой язык преподаёт Мэри и стоит ли перед его названием определённый артикль."
+          ]
+        },
+        {
+          key: "ans14",
+          title: "Chi è il signor Rossi?",
+          hints: [
+            "Найдите в последнем абзаце текста упоминание синьора Росси: какую должность он занимает?",
+            "Обратите внимание на слитный предлог в сочетании «direttore dell’albergo» — из каких двух слов он образован?"
+          ]
         }
-      });
-
-      if (isTeacherView) {
-        cardUI.forEach((ui, index) => {
-          sync.bindAssignmentSelect(ui.assignSelect, slots[index].id);
-        });
-        ParloModes.loadGroupRoster(db, safeGroup, UNIT_NUMBER, roster => {
-          sync.setRoster(roster);
-        });
-      }
-    }
-
-    renderAllCards();
-    showQuestion(0);
-
-    ParloExercise.initBackgroundParallax();
-    ParloExercise.decorateSessionLinks();
-    ParloExercise.bindNavigationSelect(document.getElementById("exercise-menu"));
-    ParloExercise.bindNavigationSelect(document.getElementById("grammar-menu"));
-
-    if (!document.querySelector('script[src*="classroom-notes.js"]')) {
-      const notesScript = document.createElement("script");
-      notesScript.src = "../classroom-notes.js";
-      document.body.appendChild(notesScript);
-    }
+      ]
+    });
   </script>
 </body>
 </html>
