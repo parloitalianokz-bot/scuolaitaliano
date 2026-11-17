@@ -4,6 +4,13 @@
       "label": "Compito 1",
       "path": "compiti/u_001/u_001_compito_1.html",
       "description": "Pronuncia, comprensione del testo, verbo essere, preposizioni e interrogativi."
+    },
+    {
+      "label": "Compito 2",
+      "path": "compiti/u_001/u_001_compito_2.html",
+      "title": "Un albergo in centro: clienti, luoghi e presentazioni",
+      "instructions": "Дорогие студенты! Выполните 4 задания по теме «Un albergo in centro»: выберите правильные ответы на вопросы об отеле и гостях, переделайте предложения из единственного числа во множественное (è → sono), вставьте формы глагола essere и предлоги места (a / in) в заметку с ресепшн и напишите 3 мини-презентации о себе и новых гостях отеля.",
+      "description": "Verbo essere al presente (è / sono), preposizioni di luogo (a / in) e presentazione dei clienti dell'albergo."
     }
   ],
   "10": [
