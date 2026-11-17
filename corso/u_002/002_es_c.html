@@ -4,70 +4,382 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Produzione orale: Un bravo ragazzo, Unità 2." />
-  <title>Unità 2 — Un bravo ragazzo · Esercizio C</title>
+  <title>Unità 2 — Racconta il testo (Esercizio C)</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
-    :root{color-scheme:light;font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif;--green:#2f5739;--green-light:#edf4ed;--accent:#bd694d;--text:#292d28;--muted:#6b7069;--border:#d8e5d8;--success:#17623c;--success-bg:#e1f1e5;--error:#991b1b;--error-bg:#fde8e7}
-    *{box-sizing:border-box}[hidden]{display:none!important}:focus-visible{outline:3px solid rgba(189,105,77,.55);outline-offset:3px}
-    body{min-height:100vh;margin:0;padding:28px 14px;color:var(--text);background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%),#e9e3d6}
-    main{width:min(100%,880px);margin:0 auto}.top-menu{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}.top-menu select,.top-menu a{min-height:40px;max-width:100%;padding:7px 12px;border:1px solid var(--border);border-radius:10px;background:#fffefa;color:var(--green);font:inherit;font-size:.9rem;font-weight:700;text-decoration:none}.top-menu a{display:inline-flex;align-items:center}.top-menu a:hover,.top-menu select:hover{border-color:var(--green);background:var(--green-light)}#exercise-menu{margin-left:auto}#user-badge{color:var(--accent);font-size:.87rem;font-weight:700}
-    .hero{margin:8px 0 20px;padding:26px 18px;border:1px solid var(--border);border-radius:24px;background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94));text-align:center;box-shadow:0 12px 32px rgba(43,69,46,.07)}.eyebrow{display:inline-block;margin-bottom:10px;padding:8px 15px;border-radius:20px;background:var(--green-light);color:var(--green);font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}h1{margin:4px 0;color:var(--green);font-size:clamp(1.9rem,5vw,2.65rem);letter-spacing:-.04em;line-height:1.12}.hero-subtitle{margin:8px 0 0;color:var(--muted)}
-    .instruction-box,.teacher-controls{margin-bottom:18px;padding:14px 18px;border:1px solid var(--border);border-radius:14px;background:rgba(255,254,250,.95);box-shadow:0 6px 18px rgba(43,69,46,.04)}.instruction-box{border-left:5px solid var(--accent);line-height:1.5}.teacher-controls[hidden]{display:none}.teacher-controls label{display:grid;gap:6px;color:var(--green);font-size:.9rem;font-weight:800}.teacher-controls select{width:100%;min-height:42px;padding:7px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit}
-    .card{margin-bottom:20px;padding:clamp(16px,4vw,30px);border:1px solid #e7e5dc;border-radius:24px;background:rgba(255,254,250,.97);box-shadow:0 18px 48px rgba(43,69,46,.1)}.speech-prompts{margin:0 0 18px;padding:clamp(16px,4vw,24px);border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,#fffefa,#f2f7ef)}.speech-prompts h2{margin:0;color:var(--green);font-size:1.25rem}.speech-prompts-intro{margin:6px 0 14px;color:var(--muted);font-size:.94rem;line-height:1.5}.story-starter{margin:0 0 12px;padding:12px 14px;border-left:4px solid var(--accent);border-radius:8px;background:#fff;color:var(--green);font:700 1.08rem Georgia,'Times New Roman',serif}.speech-prompts-viewport{max-height:280px;overflow-y:auto;padding:2px 5px 2px 2px;overscroll-behavior:contain}.speech-prompts ol{display:grid;gap:7px;margin:0;padding:0;list-style:none}.speech-prompts li{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border:1px solid rgba(71,119,85,.14);border-radius:11px;background:rgba(255,255,255,.9);font-size:.94rem;font-weight:600;line-height:1.4}.speech-prompts li::before{content:counter(prompt,decimal-leading-zero);display:grid;flex:0 0 28px;width:28px;height:28px;place-items:center;border-radius:8px;background:var(--green-light);color:var(--green);font-size:.78rem;font-weight:800;counter-increment:prompt}.speech-prompts ol{counter-reset:prompt}
-    .assignment-status{margin:0 0 14px;padding:11px 13px;border-radius:10px;background:var(--green-light);color:var(--green);font-size:.92rem;font-weight:700;line-height:1.5}.story-starter-main{margin:0 0 16px;color:var(--green);font:700 1.1rem Georgia,'Times New Roman',serif}.recording-panel,.answer-panel{margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fbfaf6}.panel-title{display:block;margin:0 0 8px;color:var(--green);font-size:.98rem;font-weight:800}.recording-controls{display:flex;justify-content:center;margin:0 0 10px}.btn-mic,.submit-contribution{min-height:42px;padding:10px 16px;border:0;border-radius:10px;background:var(--green);color:#fff;font:inherit;font-weight:800;cursor:pointer}.btn-mic:hover:not(:disabled),.submit-contribution:hover:not(:disabled){background:#24452d}.btn-mic.recording{background:#c93434}.btn-mic:disabled,.submit-contribution:disabled{opacity:.55;cursor:not-allowed}.mic-status{min-height:1.35em;margin:0 0 9px;color:var(--muted);font-size:.88rem}.mic-status.error{color:var(--error)}.live-transcript{min-height:100px;padding:13px 14px;border:2px dashed #b7dfc1;border-radius:12px;background:#fff;line-height:1.6;overflow-wrap:anywhere;white-space:pre-wrap}.live-transcript.placeholder{color:var(--muted);font-style:italic}.answer-input{display:block;width:100%;min-height:120px;padding:12px 14px;border:1.5px solid #d4e1d5;border-radius:11px;background:#fff;color:var(--text);font:inherit;line-height:1.55;resize:vertical}.answer-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(71,119,85,.15)}.answer-input:disabled{background:#f1f5f1;color:#5f6863}.submit-contribution{margin-top:9px}.contribution-panel{display:grid;gap:9px;margin-top:16px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#fbfaf6}.contribution-panel h2{margin:0;color:var(--green);font-size:.98rem}.contribution-list{display:grid;gap:8px}.contribution{padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;line-height:1.5}.contribution-meta{display:block;margin-bottom:4px;color:var(--muted);font-size:.82rem;font-weight:700}.contribution-text{white-space:pre-wrap;overflow-wrap:anywhere}.empty-message{margin:0;color:var(--muted);font-size:.9rem}.save-status{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--success-bg);color:var(--success);font-size:.9rem;font-weight:700}.save-status.error{background:var(--error-bg);color:var(--error)}.recording-tips{margin:0 0 20px;padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(255,254,250,.96);line-height:1.55}.recording-tips summary{color:var(--green);font-weight:700;cursor:pointer}.recording-tips ul{margin:10px 0 0;padding-left:22px}
-    @media(max-width:600px){body{padding:16px 8px}#exercise-menu{margin-left:0;flex:1 1 100%}.recording-panel,.answer-panel{padding:11px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation:none!important}}
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+        var(--bg-main);
+      color: var(--text);
+    }
+
+    .container { width: min(100%, 880px); margin: 0 auto; }
+
+    .hero {
+      position: relative; isolation: isolate; overflow: hidden; margin: 8px 0 20px; padding: 24px 20px 22px;
+      text-align: center; border: 1px solid rgba(71, 119, 85, .13); border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+    }
+    .eyebrow {
+      display: inline-block; color: var(--primary-dark); font-size: .78rem; font-weight: 800;
+      letter-spacing: .09em; text-transform: uppercase; background: #eaf1e8; padding: 7px 14px;
+      border-radius: 20px; margin-bottom: 8px; box-shadow: inset 0 0 0 1px rgba(71, 119, 85, .11);
+    }
+    h1 { margin: 4px 0; font-size: clamp(1.85rem, 5vw, 2.55rem); letter-spacing: -.04em; color: var(--primary-dark); line-height: 1.12; }
+    .hero-subtitle { margin: 6px 0 0; color: var(--text-muted); font-size: .96rem; }
+
+    .instruction-box {
+      background: #fff; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent);
+      border-radius: 16px; padding: 14px 18px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+    }
+    .instruction-title { font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 4px; }
+    .instruction-text { font-size: .96rem; color: var(--text); line-height: 1.45; }
+
+    .card {
+      padding: clamp(18px, 4vw, 30px); border: 1px solid var(--border); border-radius: 26px;
+      background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); margin-bottom: 32px;
+    }
+
+    .connection-banner {
+      margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px;
+      background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700;
+    }
+    .connection-banner[hidden] { display: none; }
+
+    .overall-progress {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+      gap: 6px;
+      width: 100%;
+      margin: 0 0 18px;
+    }
+    .overall-progress[hidden] { display: none; }
+    .progress-step {
+      min-width: 0; min-height: 40px; padding: 4px;
+      border: 1.5px solid #d8e5d8; border-radius: 10px; background: #fff;
+      color: var(--primary-dark); font: inherit; font-size: .86rem; font-weight: 800; cursor: pointer;
+    }
+    .progress-step:hover { border-color: var(--primary); background: var(--primary-light); }
+    .progress-step.done { border-color: #6ab082; background: #e5f5ea; color: #17623c; }
+    .progress-step[aria-current="step"] { border-color: var(--primary-dark); background: var(--primary); color: #fff; }
+
+    .section-box {
+      display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid var(--border);
+      border-radius: 20px; background: #fff; box-shadow: 0 6px 18px rgba(43, 69, 46, .03);
+    }
+    .section-box[hidden] { display: none; }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+      padding-bottom: 12px; border-bottom: 1px solid #eef2ee;
+    }
+    .section-title {
+      display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1;
+      font-size: 1.12rem; font-weight: 800; line-height: 1.4; color: var(--primary-dark);
+    }
+    .number {
+      display: inline-grid; flex-shrink: 0; width: 34px; height: 34px; place-items: center;
+      border-radius: 10px; background: var(--primary); color: #fff; font-size: .92rem; font-weight: 800;
+    }
+
+    .turn-pill {
+      display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px;
+      border: 1px solid #dce6dc; border-radius: 999px; background: #f7faf7;
+      color: var(--primary-dark); font-size: .82rem; font-weight: 700; white-space: nowrap;
+    }
+    .turn-pill.is-me {
+      border-color: var(--accent); background: #fff3ed; color: #9c4a30;
+      box-shadow: 0 0 0 2px rgba(189, 105, 77, .12);
+    }
+
+    .turn-assignment-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3;
+    }
+    .turn-assignment-bar[hidden] { display: none; }
+    .turn-assignment-bar label {
+      color: var(--primary-dark); font-size: .82rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .turn-assignment-bar select {
+      flex: 1; min-width: 210px; max-width: 360px; min-height: 38px; padding: 6px 10px;
+      border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff;
+      color: var(--text); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
+    }
+
+    .speech-prompts {
+      position: relative; padding: 16px 18px; overflow: hidden;
+      border: 1px solid #d8e5d8; border-radius: 18px;
+      background: linear-gradient(145deg, #fffefa, #f2f7ef);
+    }
+    .speech-prompts::before {
+      position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--primary), #a8c49f, var(--accent)); content: "";
+    }
+    .speech-prompts-intro { margin: 0 0 12px; color: var(--text-muted); font-size: .92rem; line-height: 1.45; }
+    .story-starter {
+      margin: 0 0 12px; padding: 11px 14px; border-left: 4px solid var(--accent); border-radius: 8px;
+      background: #fff; color: var(--primary-dark); font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.05rem; font-weight: 700;
+    }
+    .speech-prompts-viewport {
+      max-height: 230px; overflow-y: auto; padding-right: 6px;
+      scrollbar-color: #a8c49f #edf4ed; scrollbar-width: thin;
+    }
+    .speech-prompts ol {
+      display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 0;
+      list-style: none; counter-reset: prompt;
+    }
+    .speech-prompts li {
+      display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px;
+      border: 1px solid rgba(71, 119, 85, .14); border-radius: 12px;
+      background: rgba(255, 255, 255, .9); font-size: .94rem; font-weight: 600;
+      line-height: 1.35; counter-increment: prompt;
+    }
+    .speech-prompts li::before {
+      display: grid; flex: 0 0 28px; width: 28px; height: 28px; place-items: center;
+      border-radius: 8px; background: var(--primary-light); color: var(--primary-dark);
+      font-size: .8rem; font-weight: 800; content: counter(prompt, decimal-leading-zero);
+    }
+
+    details.didactic-hints {
+      border: 1px solid #dce7dc; border-radius: 14px; background: #f9fbf8; overflow: hidden;
+    }
+    details.didactic-hints summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 11px 15px; color: var(--primary-dark); font-size: .92rem; font-weight: 800;
+      cursor: pointer; list-style: none; user-select: none;
+    }
+    details.didactic-hints summary::-webkit-details-marker { display: none; }
+    details.didactic-hints summary::after {
+      content: "▸"; font-size: .9rem; color: var(--primary); transition: transform .18s ease;
+    }
+    details.didactic-hints[open] summary::after { transform: rotate(90deg); }
+    details.didactic-hints[open] summary {
+      background: var(--primary-light); border-bottom: 1px solid #dce7dc;
+    }
+    .didactic-hints-body {
+      padding: 12px 16px; color: var(--text); font-size: .93rem; line-height: 1.55;
+    }
+    .didactic-hints-body ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+
+    .answer-form-card {
+      padding: 16px; border: 1.5px solid #dce8dc; border-radius: 16px; background: #f8faf6;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .answer-form-card.active-turn {
+      border-color: var(--accent); background: #fffdfb; box-shadow: 0 0 0 3px rgba(189, 105, 77, .14);
+    }
+    .answer-form-header {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .prod-label { color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .turn-hint-tag { font-size: .8rem; font-weight: 700; color: var(--text-muted); }
+    .answer-form-card.active-turn .turn-hint-tag { color: var(--accent); }
+
+    .input-mode-switch {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    .input-mode-switch[hidden] { display: none; }
+    .mode-switch-btn {
+      min-height: 36px; padding: 6px 12px; border: 1.5px solid #d4e1d5; border-radius: 10px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-size: .84rem; font-weight: 700; cursor: pointer;
+    }
+    .mode-switch-btn.active {
+      border-color: var(--primary-dark); background: var(--primary-light); color: var(--primary-dark);
+    }
+
+    .voice-panel[hidden], .keyboard-panel[hidden] { display: none; }
+
+    .recording-controls { display: flex; justify-content: center; margin-bottom: 12px; }
+    .btn-mic {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 48px; padding: 12px 22px; border: 0; border-radius: 14px;
+      background: var(--primary); color: #fff; font: inherit; font-size: 1rem; font-weight: 800;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(71, 119, 85, .28); transition: .2s;
+    }
+    .btn-mic:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-mic:disabled { background: #cbd5cb; color: #5f6863; box-shadow: none; cursor: not-allowed; opacity: .75; }
+    .btn-mic.recording { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, .4); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { transform: scale(1.02); } }
+
+    .live-transcript-box {
+      min-height: 130px; padding: 16px; border: 2px dashed #b7dfc1; border-radius: 14px;
+      background: #fff; font-size: 1.08rem; line-height: 1.65; overflow-wrap: anywhere; white-space: pre-wrap;
+    }
+    .live-transcript-box.placeholder { color: var(--text-muted); font-style: italic; }
+
+    .accent-toolbar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+    .accent-toolbar button {
+      min-width: 34px; min-height: 32px; padding: 3px 9px; border: 1px solid #d4e1d5; border-radius: 8px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer;
+    }
+    .accent-toolbar button:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary); }
+    .accent-toolbar button:disabled { cursor: not-allowed; opacity: .45; }
+
+    textarea.answer-input {
+      width: 100%; min-height: 110px; padding: 11px 13px; border: 1.5px solid #d4e1d5; border-radius: 10px;
+      background: #fff; color: var(--text); font: inherit; font-size: .98rem; line-height: 1.55; resize: vertical;
+    }
+    textarea.answer-input:disabled { background: #f1f4f0; color: #475569; cursor: not-allowed; }
+
+    .keyboard-submit-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+    .btn-submit-contribution {
+      min-height: 40px; padding: 8px 18px; border: 0; border-radius: 11px;
+      background: var(--primary); color: #fff; font: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(71, 119, 85, .2);
+    }
+    .btn-submit-contribution:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-submit-contribution:disabled { background: #cbd5cb; color: #5f6863; box-shadow: none; cursor: not-allowed; opacity: .75; }
+
+    .sync-feedback {
+      margin-top: 10px; font-size: .85rem; font-weight: 700; color: var(--text-muted); min-height: 1.2em;
+    }
+    .sync-feedback.saving { color: #9a6700; }
+    .sync-feedback.saved { color: #17623c; }
+    .sync-feedback.error { color: #991b1b; }
+
+    .contributions-wrapper {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 12px 14px; border: 1px solid #e3ebe3; border-radius: 14px; background: #fcfdfb;
+    }
+    .contributions-title {
+      font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--primary-dark);
+    }
+    .contributions-empty { margin: 0; color: var(--text-muted); font-size: .88rem; font-style: italic; }
+    .contributions-list { display: flex; flex-direction: column; gap: 8px; }
+    .contribution-item {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+      padding: 10px 12px; border: 1px solid #dce7dc; border-left: 4px solid var(--primary);
+      border-radius: 10px; background: #fff;
+    }
+    .contribution-body { flex: 1; min-width: 0; }
+    .contribution-text {
+      margin: 0 0 6px; color: var(--text); font-size: .97rem; font-weight: 600;
+      line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere;
+    }
+    .contribution-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: .78rem; font-weight: 700; color: var(--text-muted); }
+
+    .slide-navigation {
+      display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 20px;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .slide-navigation[hidden] { display: none; }
+    .slide-navigation button, .slide-navigation a {
+      min-height: 44px; padding: 8px 18px; border: 1px solid #d8e5d8; border-radius: 10px;
+      background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+    }
+    .slide-navigation a { display: inline-flex; align-items: center; }
+    .slide-navigation a[hidden] { display: none; }
+    .slide-navigation button:hover:not(:disabled), .slide-navigation a:hover { background: var(--primary-light); border-color: var(--primary); }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-progress { margin: 0 auto; color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+
+    @media (max-width: 680px) {
+      body { padding: 16px 8px; }
+      .section-box { padding: 14px; }
+      .progress-step { min-height: 44px; }
+      .btn-mic { width: 100%; }
+      .slide-navigation { flex-direction: column; gap: 8px; }
+      .slide-navigation button, .slide-navigation a { justify-content: center; width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <nav class="top-menu" aria-label="Navigazione Unità 2">
-      <select id="exercise-menu" aria-label="Vai a un esercizio">
-        <option value="002_lettura.html">Lettura</option><option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html" selected>Esercizio C</option><option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option><option value="002_numeri.html">I numeri</option><option value="002_verbo_essere.html">Il verbo essere</option>
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’unità 2">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 2</label>
+      <select id="exercise-menu">
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option>
+        <option value="002_es_b.html">Esercizio B</option>
+        <option value="002_es_c.html" selected>Esercizio C</option>
+        <option value="002_es_d.html">Esercizio D</option>
+        <option value="002_es_e.html">Esercizio E</option>
+        <option value="002_es_f.html">Esercizio F</option>
+        <option value="002_es_g.html">Esercizio G</option>
+        <option value="002_es_h.html">Esercizio H</option>
+        <option value="002_es_i.html">Esercizio I</option>
+        <option value="002_es_j.html">Esercizio J</option>
+        <option value="002_es_k.html">Esercizio K</option>
+        <option value="002_es_l.html">Esercizio L</option>
+        <option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="002_numeri.html">I numeri</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
       </select>
     </nav>
-    <header class="hero"><span class="eyebrow">Unità 2 · Produzione orale</span><h1>Un bravo ragazzo</h1><p class="hero-subtitle">Racconta il testo in italiano, aiutandoti con le domande.</p><p id="user-badge" class="hero-subtitle" aria-live="polite"></p></header>
-    <div class="instruction-box">💡 <strong>Перескажите текст на итальянском языке. Используйте вопросы как подсказки.</strong></div>
-    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione del turno"><label for="writer-select">✍️ Turno di racconto</label><select id="writer-select" aria-label="Scegli chi può parlare"></select></section>
-    <section class="card" aria-label="Racconto orale">
-      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
-      <section class="speech-prompts" aria-labelledby="speech-prompts-title"><h2 id="speech-prompts-title">💬 Domande per il racconto</h2><p class="speech-prompts-intro">Usa le domande come guida: non è necessario ricordare ogni dettaglio.</p><p class="story-starter">Marco e la mamma sono in casa…</p><div class="speech-prompts-viewport" tabindex="0" aria-label="Domande guida scorrevoli"><ol>
-        <li>Dove sono Marco e sua madre?</li><li>Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?</li><li>Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?</li><li>Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?</li><li>Che cosa fa la mamma quando Marco ha sonno?</li><li>Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?</li>
-      </ol></div></section>
-      <section class="recording-panel" aria-label="Risposta vocale"><h2 class="panel-title">🎙️ Risposta speech to text</h2><p id="mic-status" class="mic-status" role="status" aria-live="polite"></p><div class="recording-controls"><button id="btn-toggle-mic" class="btn-mic" type="button" disabled>🎤 Inizia a parlare</button></div><div id="live-transcript" class="live-transcript placeholder" role="status" aria-live="polite">La trascrizione del microfono apparirà qui…</div></section>
-      <section class="answer-panel" aria-label="Risposta scritta"><label class="panel-title" for="written-answer">✍️ Risposta scritta separata</label><textarea id="written-answer" class="answer-input" rows="5" placeholder="Scrivi qui il tuo racconto in italiano…" disabled></textarea><button id="submit-written" class="submit-contribution" type="button" disabled>📤 Invia il contributo scritto</button></section>
-      <section class="contribution-panel" aria-label="Contributi del racconto"><h2>📋 Contributi degli studenti</h2><div id="contributions" class="contribution-list" aria-live="polite"></div></section>
-      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 2 · Produzione Orale</span>
+      <h1>Un bravo ragazzo</h1>
+      <p class="hero-subtitle">Racconta il testo in italiano, aiutandoti con le domande.</p>
+    </header>
+
+    <div class="instruction-box">
+      <div class="instruction-title">💡 Задание · Esercizio C</div>
+      <div class="instruction-text">👉 <strong>Перескажите текст на итальянском языке. Используйте вопросы как подсказки.</strong><br>
+        <small style="color:var(--text-muted);">Нажмите кнопку микрофона, чтобы начать запись; распознанный текст будет виден всей группе. Если вы занимаетесь со смартфона через Google Meet, можно переключиться на ввод с клавиатуры.</small>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Produzione orale dell’esercizio">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla scheda" hidden></nav>
+      <div id="questions-container"></div>
+
+      <nav id="slide-navigation" class="slide-navigation student-navigation" aria-label="Navigazione schede">
+        <button id="previous-question" type="button" hidden>← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite" hidden></span>
+        <button id="next-question" type="button" hidden>Successiva →</button>
+        <a id="next-exercise" href="002_es_d.html" hidden>Vai all’esercizio D →</a>
+      </nav>
     </section>
-    <details class="recording-tips"><summary>Советы для стабильной записи микрофона</summary><ul><li>Используйте обновлённый Chrome и оставьте страницу открытой на переднем плане.</li><li>Разрешите сайту доступ к микрофону и закройте другие приложения, которые могут его использовать.</li><li>Подключите устройство к зарядке и отключите режим энергосбережения.</li><li>Во время записи не блокируйте экран и не переключайтесь на другие приложения.</li><li>По возможности используйте стабильное подключение к интернету.</li></ul></details>
   </main>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="firebase-group-scope.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=2"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=2"></script>
+  <script src="../shared/speech-exercise.js?v=1"></script>
   <script>
-    const firebaseConfig={apiKey:"INSERISCI_API_KEY",authDomain:"esercizi-parlo-italiano.firebaseapp.com",databaseURL:"https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",projectId:"esercizi-parlo-italiano",appId:"INSERISCI_APP_ID"};
-    const prompts=["Dove sono Marco e sua madre?","Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?","Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?","Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?","Che cosa fa la mamma quando Marco ha sonno?","Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?"];
-    const session=window.parloUnit2Session||{};const group=String(session.group||"").trim();const userName=String(session.name||"").trim();const isTeacher=Boolean(session.isTeacher);const identity=userName?{role:isTeacher?"teacher":"student",name:userName}:null;const safe=value=>String(value||"").replace(/[.#$\/\[\]]/g,"_");const presenceId=`presence_${Math.random().toString(36).slice(2,10)}`;
-    const teacherControls=document.getElementById("teacher-controls"),writerSelect=document.getElementById("writer-select"),assignmentStatus=document.getElementById("assignment-status"),micButton=document.getElementById("btn-toggle-mic"),micStatus=document.getElementById("mic-status"),liveTranscript=document.getElementById("live-transcript"),writtenAnswer=document.getElementById("written-answer"),submitWritten=document.getElementById("submit-written"),contributionsList=document.getElementById("contributions"),saveStatus=document.getElementById("save-status"),badge=document.getElementById("user-badge");
-    teacherControls.hidden=!isTeacher;badge.textContent=group?`${isTeacher?"👩‍🏫":"👤"} ${group}${userName?` · ${userName}`:""}`:"Accedi dalla pagina iniziale per associare l’attività al gruppo.";
-    document.getElementById("exercise-menu").addEventListener("change",event=>{if(!event.target.value)return;const target=new URL(event.target.value,location.href);if(group)target.searchParams.set("gruppo",group);if(userName&&!isTeacher)target.searchParams.set("nome",userName);location.assign(`${target.pathname}${target.search}${target.hash}`)});
-    let answersRef=null,groupRoster=[],presence=new Set(),assignment=null,contributions={},legacyContributions={},legacyAnswers={},legacyLive={},recognition=null,wantsRecording=false,isRecording=false,recordingText="",recordingOwner=null,restartTimer=null,isApplyingSnapshot=false;const pendingDraft={written:null,live:null};
-    function setStatus(message,error=false){saveStatus.textContent=message;saveStatus.hidden=!message;saveStatus.classList.toggle("error",error)}
-    function canWrite(){return Boolean(identity&&assignment&&assignment.role===identity.role&&assignment.name===identity.name&&answersRef)}
-    function formatDate(value){const timestamp=Number(value)||0;return timestamp?new Intl.DateTimeFormat("it-IT",{dateStyle:"short",timeStyle:"short"}).format(new Date(timestamp)):"Data non disponibile"}
-    function renderContributions(){contributionsList.replaceChildren();const entries=Object.entries(contributions||{}).map(([id,item])=>({...item,id})).filter(item=>String(item.text||"").trim()).sort((a,b)=>(Number(a.timestamp)||0)-(Number(b.timestamp)||0)||a.id.localeCompare(b.id));if(!entries.length){const empty=document.createElement("p");empty.className="empty-message";empty.textContent="Nessun contributo inviato.";contributionsList.appendChild(empty);return}entries.forEach(entry=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`${entry.kind==="speech"?"🎙️ Trascrizione":"✍️ Risposta scritta"} · ${entry.author||"Partecipante"} · ${formatDate(entry.timestamp)}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=entry.text;article.append(meta,text);contributionsList.appendChild(article)})}
-    function renderLegacy(){const entries=[];Object.entries(legacyContributions||{}).forEach(([index,items])=>Object.entries(items||{}).forEach(([id,item])=>{if(item?.text)entries.push({...item,id:`${index}-${id}`,source:Number(index)+1})}));Object.entries(legacyLive||{}).forEach(([index,item])=>{const text=typeof item==="string"?item:item?.text;if(text)entries.push({id:`live-${index}`,source:Number(index)+1,text,author:item?.author||"Partecipante",timestamp:item?.timestamp||0})});const drafts=Object.entries(legacyAnswers||{}).filter(([,text])=>typeof text==="string"&&text.trim());if(!entries.length&&!drafts.length)return;const details=document.createElement("details");const summary=document.createElement("summary");summary.textContent="Risposte e invii precedenti per singola domanda";const list=document.createElement("div");list.className="contribution-list";entries.sort((a,b)=>(Number(a.timestamp)||0)-(Number(b.timestamp)||0)||a.id.localeCompare(b.id)).forEach(entry=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`Domanda ${entry.source} · ${entry.author||"Partecipante"} · ${formatDate(entry.timestamp)}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=entry.text;article.append(meta,text);list.appendChild(article)});drafts.forEach(([index,textValue])=>{const article=document.createElement("article");article.className="contribution";const meta=document.createElement("span");meta.className="contribution-meta";meta.textContent=`Bozza condivisa precedente · domanda ${Number(index)+1}`;const text=document.createElement("div");text.className="contribution-text";text.textContent=textValue;article.append(meta,text);list.appendChild(article)});details.append(summary,list);contributionsList.appendChild(details)}
-    function updateUI(){const mayWrite=canWrite();writtenAnswer.disabled=!mayWrite;submitWritten.disabled=!mayWrite||!writtenAnswer.value.trim();micButton.disabled=!mayWrite||!recognition;micButton.classList.toggle("recording",wantsRecording);micButton.textContent=wantsRecording?"⏹️ Ferma e salva":"🎤 Inizia a parlare";if(!isRecording){const live=String(pendingDraft.live??"");liveTranscript.textContent=live||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!live.trim())}if(!identity)assignmentStatus.textContent="Accedi dalla pagina iniziale con il tuo nome per partecipare.";else if(!answersRef)assignmentStatus.textContent="Connessione all’esercizio non disponibile.";else if(!assignment)assignmentStatus.textContent=isTeacher?"Assegna il turno di racconto dal menu.":"L’insegnante non ha ancora assegnato il turno.";else if(mayWrite)assignmentStatus.textContent=`🎙️ È il tuo turno, ${identity.name}: puoi parlare o scrivere il racconto.`;else assignmentStatus.textContent=`🔒 Il turno è assegnato a ${assignment.name}. Puoi visualizzare la trascrizione e i contributi.`;refreshWriterMenu()}
-    function refreshWriterMenu(){if(!isTeacher)return;const options=[new Option("— Nessuno assegnato —","")];const unique=[...new Map(groupRoster.filter(item=>item?.nome).map(item=>[item.nome,item])).values()].sort((a,b)=>a.nome.localeCompare(b.nome,"it"));const online=unique.filter(person=>presence.has(person.nome)),offline=unique.filter(person=>!presence.has(person.nome));[["🟢 STUDENTI ONLINE",online],["STUDENTI OFFLINE",offline]].forEach(([label,people])=>{if(!people.length)return;const groupOption=document.createElement("optgroup");groupOption.label=label;people.forEach(person=>groupOption.appendChild(new Option(`🟢 ${person.nome}`.replace(label.includes("OFFLINE")?"🟢 ":"",""),JSON.stringify({role:"student",name:person.nome}))));options.push(groupOption)});if(assignment?.role==="student"&&!unique.some(person=>person.nome===assignment.name)){const groupOption=document.createElement("optgroup");groupOption.label="TURNO ATTUALE";groupOption.appendChild(new Option(`${assignment.name} · non presente nell’elenco`,JSON.stringify(assignment)));options.push(groupOption)}if(identity?.role==="teacher"){const groupOption=document.createElement("optgroup");groupOption.label="👩‍🏫 INSEGNANTE";groupOption.appendChild(new Option(identity.name,JSON.stringify(identity)));options.push(groupOption)}writerSelect.replaceChildren(...options);writerSelect.value=assignment?JSON.stringify(assignment):""}
-    function parseAssignment(value){if(value&&typeof value==="object"&&value.role&&value.name)return value;if(typeof value==="string"&&value){try{return JSON.parse(value)}catch(_){return{name:value,role:"student"}}}return null}
-    writerSelect.addEventListener("change",()=>{if(!isTeacher||!answersRef)return;assignment=parseAssignment(writerSelect.value);answersRef.child("assignments/story/writer").set(assignment).catch(()=>setStatus("Impossibile salvare il turno assegnato.",true));if(wantsRecording&&!canWrite())stopRecording();updateUI()});
-    writtenAnswer.addEventListener("input",()=>{if(!canWrite()||isApplyingSnapshot)return;pendingDraft.written=writtenAnswer.value;submitWritten.disabled=!writtenAnswer.value.trim();answersRef.child("sharedStoryText").set(writtenAnswer.value).catch(()=>setStatus("Impossibile sincronizzare il testo.",true))});
-    submitWritten.addEventListener("click",async()=>{const text=writtenAnswer.value.trim();if(!text||!canWrite()||!answersRef)return;submitWritten.disabled=true;try{await answersRef.child("sharedStoryText").set(writtenAnswer.value);await answersRef.child("storyContributions").push().set({text,author:identity.name,role:identity.role,kind:"written",timestamp:firebase.database.ServerValue.TIMESTAMP});pendingDraft.written=null;setStatus("✅ Risposta scritta aggiunta ai contributi.")}catch(error){setStatus("⚠️ Invio non riuscito. Controlla la connessione e riprova.",true)}finally{updateUI()}});
-    function setupRecognition(){const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SpeechRecognition){micStatus.textContent="Il riconoscimento vocale non è disponibile in questo browser.";micStatus.classList.add("error");return}recognition=new SpeechRecognition();recognition.continuous=true;recognition.interimResults=true;recognition.lang="it-IT";recognition.onstart=()=>{isRecording=true;micStatus.textContent="Microfono attivo. Puoi continuare a parlare.";updateUI()};recognition.onresult=event=>{const parts=[];for(let i=0;i<event.results.length;i++)parts.push(event.results[i][0]?.transcript||"");recordingText=parts.join(" ").trim();pendingDraft.live=recordingText;liveTranscript.textContent=recordingText||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!recordingText);if(answersRef&&canWrite())answersRef.child("liveStoryTranscript").set({text:recordingText,author:identity.name,role:identity.role,timestamp:Date.now()}).catch(()=>{})};recognition.onerror=event=>{if(["not-allowed","service-not-allowed","audio-capture"].includes(event.error)){wantsRecording=false;micStatus.textContent="Microfono non disponibile: controlla i permessi e chiudi le altre app che lo stanno usando.";micStatus.classList.add("error");updateUI()}else if(event.error!=="aborted"){micStatus.textContent="Riconoscimento interrotto; il testo rilevato verrà salvato.";micStatus.classList.add("error")}};recognition.onend=()=>{isRecording=false;const segment=recordingText.trim();recordingText="";pendingDraft.live=null;if(segment&&recordingOwner)saveSpeech(segment,recordingOwner);if(wantsRecording&&canWrite()){clearTimeout(restartTimer);restartTimer=setTimeout(()=>{if(!wantsRecording||!canWrite())return;try{recognition.start()}catch(_){micStatus.textContent="Microfono scollegato. Premi il pulsante per riprendere.";micStatus.classList.add("error");wantsRecording=false;updateUI()}},450)}else{wantsRecording=false;recordingOwner=null;micStatus.textContent=segment?"Registrazione salvata nei contributi. Puoi riprendere quando vuoi.":"Registrazione terminata.";updateUI()}}}
-    async function saveSpeech(text,owner){try{await answersRef.child("storyContributions").push().set({text,author:owner.name,role:owner.role,kind:"speech",timestamp:firebase.database.ServerValue.TIMESTAMP});await answersRef.child("liveStoryTranscript").set(null);pendingDraft.live=null;renderContributions();setStatus("✅ Trascrizione aggiunta ai contributi.")}catch(error){setStatus("⚠️ Trascrizione acquisita ma non salvata: controlla la connessione.",true);await answersRef.child("liveStoryTranscript").set({text,author:owner.name,role:owner.role,timestamp:Date.now()}).catch(()=>{})}}
-    function startRecording(){if(!recognition||!canWrite()||wantsRecording)return;wantsRecording=true;recordingText="";recordingOwner={name:identity.name,role:identity.role};micStatus.classList.remove("error");micStatus.textContent="Connessione al microfono…";try{recognition.start()}catch(error){wantsRecording=false;micStatus.textContent="Impossibile avviare il microfono. Controlla i permessi e riprova.";micStatus.classList.add("error");updateUI()}}
-    function stopRecording(){wantsRecording=false;clearTimeout(restartTimer);if(recognition&&isRecording){try{recognition.stop()}catch(_){}}else updateUI()}
-    micButton.addEventListener("click",()=>wantsRecording?stopRecording():startRecording());
-    function registerPresence(database){if(!identity||isTeacher)return;const ref=answersRef.child(`presence/${safe(userName)}/${presenceId}`);database.ref(".info/connected").on("value",snapshot=>{if(snapshot.val()!==true)return;ref.onDisconnect().remove().then(()=>ref.set({name:userName,role:"student",connectedAt:Date.now()})).catch(()=>{})})}
-    function loadRoster(database){database.ref(`configurazioneScuola/gruppi/${session.safeGroup||safe(group)}`).on("value",snapshot=>{const data=snapshot.val()||{},active=Object.values(data.studenti||{}).filter(person=>person?.nome),inactive=Object.values(data.studentiInattivi||{}).filter(person=>person?.nome&&Number(person.unitNumber??data.unitNumber??0)>=2);groupRoster=[...new Map([...active,...inactive].map(person=>[person.nome,person])).values()];updateUI()})}
-    if(window.firebase){try{if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);const database=firebase.database();answersRef=database.ref("esercizi/unita2-produzione-orale-c");if(group){loadRoster(database);registerPresence(database);setupRecognition();answersRef.child("presence").on("value",snapshot=>{presence=new Set();Object.values(snapshot.val()||{}).forEach(connections=>Object.values(connections||{}).forEach(item=>{if(item?.name&&item.role==="student")presence.add(item.name)}));refreshWriterMenu()});answersRef.on("value",snapshot=>{const data=snapshot.val()||{};assignment=parseAssignment(data.assignments?.story?.writer||data.assignments?.["0"]?.writer);const incoming=String(data.sharedStoryText||"");isApplyingSnapshot=true;if(document.activeElement!==writtenAnswer&&pendingDraft.written===null)writtenAnswer.value=incoming;if(data.sharedStoryText===pendingDraft.written)pendingDraft.written=null;contributions=data.storyContributions||{};legacyContributions=data.contributions||{};legacyAnswers=data.sharedAnswers||{};legacyLive=data.liveTranscripts||{};const live=data.liveStoryTranscript?.text||"";if(!isRecording&&pendingDraft.live===null){liveTranscript.textContent=live||"La trascrizione del microfono apparirà qui…";liveTranscript.classList.toggle("placeholder",!live)}isApplyingSnapshot=false;if(wantsRecording&&!canWrite())stopRecording();renderContributions();renderLegacy();updateUI()},error=>setStatus("Impossibile leggere i dati condivisi del gruppo.",true))}else{setStatus("Accedi dalla pagina iniziale con un gruppo per usare l’attività condivisa.",true)}}catch(error){console.error("Errore Firebase:",error);setStatus("Servizio dati condivisi non disponibile.",true)}}else setStatus("Servizio dati condivisi non disponibile.",true);
-    updateUI();let backgroundUpdatePending=false;function updateBackgroundParallax(){if(backgroundUpdatePending)return;backgroundUpdatePending=true;requestAnimationFrame(()=>{const offset=window.matchMedia("(prefers-reduced-motion: reduce)").matches?0:Math.min(window.scrollY*.12,180);document.body.style.setProperty("--background-offset",`${offset}px`);backgroundUpdatePending=false})}window.addEventListener("scroll",updateBackgroundParallax,{passive:true});updateBackgroundParallax();
+    ParloSpeechExercise.init({
+      unitNumber: 2,
+      exercisePath: "002_es_c",
+      cards: [
+        {
+          key: "racconto_1",
+          title: "💬 Domande per il racconto",
+          intro: "Usa le domande come guida: non è necessario ricordare ogni dettaglio.",
+          starter: "Marco e la mamma sono in casa…",
+          prompts: [
+            "Dove sono Marco e sua madre?",
+            "Che cosa dice Marco alla mamma quando ha sete? Che cosa gli porta lei?",
+            "Che cosa vuole Marco dopo aver bevuto l’acqua? Che cosa gli porta la mamma?",
+            "Che cosa dice Marco quando ha freddo? Che cosa fa la mamma?",
+            "Che cosa fa la mamma quando Marco ha sonno?",
+            "Che cosa dice Marco dopo aver dormito un po’? Quanti anni ha?"
+          ]
+        }
+      ]
+    });
   </script>
 </body>
 </html>
