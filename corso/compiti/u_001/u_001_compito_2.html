@@ -553,6 +553,16 @@
       return options.find(opt => opt.startsWith(`${letter} ·`) || opt[0] === letter) || letter;
     }
 
+    function buildParagraphContext(paragraph, targetId) {
+      return paragraph.map(part => {
+        if (typeof part === "string") return part;
+        if (part.id === targetId) {
+          return `[ ${part.id.slice(1)} · ${part.cue} ]`;
+        }
+        return Array.isArray(part.answers) ? part.answers[0] : (part.answers || "___");
+      }).join("");
+    }
+
     function buildTeacherReviewRows(submission) {
       const saved = submission.answers || {};
       return sections.map(section => {
@@ -581,7 +591,7 @@
         } else if (section.paragraphs) {
           rows = section.paragraphs.flatMap(paragraph => paragraph.filter(part => typeof part === "object").map(part => ({
             id: part.id,
-            prompt: `Spazio ${part.id.slice(1)} (${part.cue})`,
+            prompt: buildParagraphContext(paragraph, part.id),
             answer: state[part.id] || "Nessuna risposta inserita",
             expected: part.answers,
             autoCheck: true

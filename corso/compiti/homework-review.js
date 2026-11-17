@@ -1,5 +1,6 @@
 (() => {
   const teacherPins = { Antonio: "2202", Assel: "2109" };
+
   function addStyles() {
     if (document.getElementById("homework-review-styles")) return;
     const style = document.createElement("style");
@@ -15,18 +16,24 @@
       #homework-review .review-status.error { background:#fde8e7; color:#a51d1d; }
       #homework-review details.review-section { margin:14px 0; border:1px solid #d8e5d8; border-radius:12px; background:#fff; }
       #homework-review details.review-section > summary { padding:14px 16px; background:#edf4ed; color:#2f5739; font-weight:800; cursor:pointer; }
-      #homework-review .review-row { margin:12px; padding:14px; border:1px solid #e7e5dc; border-radius:10px; background:#fffefa; }
-      #homework-review .review-label { margin:0 0 8px; font-weight:800; }
-      #homework-review .review-value { margin:6px 0; padding:9px 11px; border-radius:8px; background:#f5f5ef; white-space:pre-wrap; overflow-wrap:anywhere; }
-      #homework-review .review-model { color:#6b7069; font-size:.9rem; }
+      #homework-review .review-row { margin:12px; padding:14px; border:1px solid #e7e5dc; border-radius:10px; background:#fffefa; transition: background .15s ease, border-color .15s ease; }
+      #homework-review .review-label { margin:0 0 8px; font-weight:800; line-height:1.55; }
+      #homework-review .review-value { margin:6px 0; padding:10px 12px; border:1.5px solid #e0dfd7; border-radius:8px; background:#f5f5ef; white-space:pre-wrap; overflow-wrap:anywhere; font-weight:600; }
+      #homework-review .review-value.is-correct { border-color:#278253; background:#e1f1e5; color:#1b4d32; }
+      #homework-review .review-value.is-incorrect { border-color:#c62828; background:#fde8e7; color:#8f1919; }
+      #homework-review .review-badge { display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px; font-size:.78rem; font-weight:800; vertical-align:middle; }
+      #homework-review .review-badge.ok { background:#278253; color:#fff; }
+      #homework-review .review-badge.ko { background:#c62828; color:#fff; }
+      #homework-review .review-model { margin:8px 0 0; padding:8px 11px; border-left:3px solid #2f5739; border-radius:6px; background:#f4f8f4; color:#2f5739; font-size:.9rem; line-height:1.5; }
       #homework-review .review-row textarea { display:block; width:100%; min-height:68px; margin:10px 0; padding:9px 11px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       #homework-review .review-actions { display:flex; flex-wrap:wrap; gap:8px; }
       #homework-review .review-actions button.reject { background:#a51d1d; }
-      #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.35); }
+      #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.45); }
       #homework-review .review-row[data-grade="approved"] { border-color:#278253; background:#e1f1e5; }
       #homework-review .review-row[data-grade="rejected"] { border-color:#c62828; background:#fde8e7; }
       #homework-review .review-footer { margin-top:18px; }
       #homework-review .review-final-comment { display:block; width:100%; min-height:100px; margin:12px 0; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
+      #homework-review .review-footer button { margin-right:10px; margin-bottom:8px; }
       @media(max-width:600px) { #homework-review { margin:12px 8px; padding:17px; } }
     `;
     document.head.appendChild(style);
@@ -42,9 +49,42 @@
 
   function formatValue(value) {
     if (value === null || value === undefined || value === "") return "Nessuna risposta registrata.";
-    if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" · ");
-    if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}: ${formatValue(item)}`).join("\n");
+    if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" / ");
+    if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}:${formatValue(item)}`).join("\n");
     return String(value);
+  }
+
+  function normalizeText(str) {
+    return String(str || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[’`]/g, "'")
+      .replace(/[.!?]+$/g, "")
+      .replace(/\s+/g, " ");
+  }
+
+  function evaluateAutoMatch(row) {
+    if (row.autoCheck === false) return null;
+    if (row.expected === undefined || row.expected === null || row.expected === "") return null;
+
+    const rawAnswer = Array.isArray(row.answer) ? row.answer.join(" ") : String(row.answer ?? "");
+    const normalizedAns = normalizeText(rawAnswer);
+    const emptyPlaceholders = new Set([
+      "",
+      "nessuna risposta registrata",
+      "nessuna risposta selezionata",
+      "nessuna risposta inserita"
+    ]);
+    if (emptyPlaceholders.has(normalizedAns)) return false;
+
+    const candidates = Array.isArray(row.expected) ? row.expected : [row.expected];
+    return candidates.some(exp => {
+      const normExp = normalizeText(exp);
+      if (normalizedAns === normExp) return true;
+      // Supporta anche il confronto solo sulla lettera iniziale negli abbinamenti (es. "D" vs "D · È a Firenze...")
+      if (/^[a-z]\s*·/i.test(String(exp)) && normalizedAns === normExp[0]) return true;
+      return false;
+    });
   }
 
   window.openHomeworkTeacherReview = async function ({ taskData, buildRows }) {
@@ -113,35 +153,59 @@
     sections.forEach((section, sectionIndex) => {
       const details = document.createElement("details");
       details.className = "review-section";
-      details.open = sectionIndex === 0;
+      details.open = true;
       const summary = document.createElement("summary");
       summary.textContent = section.title || `Parte ${sectionIndex + 1}`;
       details.appendChild(summary);
+
       (section.rows || []).forEach((row, rowIndex) => {
         const reviewKey = String(row.id ?? rowIndex).replace(/[.#$\/\[\]]/g, "_");
         const rowRef = submissionRef.child(`teacherReview/answers/${section.id}/${reviewKey}`);
         const prior = savedReview[section.id]?.[reviewKey] || {};
+        const autoResult = evaluateAutoMatch(row);
+
         const card = document.createElement("article");
         card.className = "review-row";
         card.dataset.grade = prior.grade || "";
+
         const label = document.createElement("p");
         label.className = "review-label";
         label.textContent = row.prompt || `Risposta ${rowIndex + 1}`;
+
         const response = document.createElement("div");
         response.className = "review-value";
         response.textContent = formatValue(row.answer);
+
+        if (autoResult === true) {
+          response.classList.add("is-correct");
+          const badge = document.createElement("span");
+          badge.className = "review-badge ok";
+          badge.textContent = "✓ Corretta";
+          response.appendChild(badge);
+        } else if (autoResult === false) {
+          response.classList.add("is-incorrect");
+          const badge = document.createElement("span");
+          badge.className = "review-badge ko";
+          badge.textContent = "✕ Da correggere";
+          response.appendChild(badge);
+        }
+
         card.append(label, response);
+
         if (row.expected !== undefined && row.expected !== null && row.expected !== "") {
           const model = document.createElement("p");
           model.className = "review-model";
-          model.textContent = `Risposta attesa: ${formatValue(row.expected)}`;
+          const prefix = row.autoCheck === false ? "Esempio di risposta:" : "Risposta giusta:";
+          model.innerHTML = `<strong>${prefix}</strong> ${formatValue(row.expected)}`;
           card.appendChild(model);
         }
+
         const comment = document.createElement("textarea");
         comment.maxLength = 1000;
         comment.placeholder = "Commento per lo studente (facoltativo)";
         comment.value = prior.comment || "";
         comment.setAttribute("aria-label", `Commento: ${label.textContent}`);
+
         const actions = document.createElement("div");
         actions.className = "review-actions";
         const saveComment = document.createElement("button");
@@ -159,6 +223,7 @@
           } finally { saveComment.disabled = false; }
         });
         actions.appendChild(saveComment);
+
         [["approved", "✓ Approva", ""], ["rejected", "✕ Da rivedere", "reject"]].forEach(([grade, text, className]) => {
           const button = document.createElement("button");
           button.type = "button";
@@ -180,6 +245,7 @@
           });
           actions.appendChild(button);
         });
+
         card.append(comment, actions);
         details.appendChild(card);
       });
