@@ -42,14 +42,24 @@
     #workspace[hidden] { display: none; }
 
     .progress-panel { padding: 18px 22px; }
-    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--green); font-weight: 800; }
+        .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--green); font-weight: 800; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: .82rem; }
+    .progress-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .legend-dot.in-progress { background: #e0ae28; }
+    .legend-dot.completed { background: var(--success); }
     .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
     .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
     .progress-list { display: flex; flex-wrap: wrap; gap: 9px; }
     .progress-step { position: relative; width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; transition: all .15s ease; }
-    .progress-step.has-answers { border-color: #7ea882; background: var(--green-light); }
-    .progress-step.has-answers::after { content: ""; position: absolute; top: -2px; right: -2px; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; background: var(--success); }
-    .progress-step.current { border-color: var(--green); background: var(--green); color: white; }
+    .progress-step.in-progress { border-color: #d6a72c; background: #fff3c4; color: #674d00; }
+    .progress-step.completed { border-color: #7ea882; background: var(--green-light); color: var(--green); }
+    .progress-step.current { box-shadow: 0 0 0 3px rgba(47,87,57,.2); }
+    .progress-step.current.in-progress { border-color: #d6a72c; }
+    .progress-step.current.completed { border-color: var(--success); }
+    .progress-step.in-progress::after,.progress-step.completed::after { content: ""; position: absolute; top: -2px; right: -2px; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; }
+    .progress-step.in-progress::after { background: #e0ae28; }
+    .progress-step.completed::after { background: var(--success); }
 
     .accent-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 18px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: #faf9f5; }
     .accent-bar span { margin-right: 4px; color: var(--muted); font-size: .84rem; font-weight: 700; }
@@ -70,7 +80,7 @@
     .gap-input,.match-select { min-height: 40px; padding: 7px 11px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; transition: border-color .15s ease, box-shadow .15s ease; }
     .gap-input { width: min(240px, 74vw); }
     .gap-input.full-sentence { width: 100%; margin: 4px 0 0; }
-    .match-select { min-width: 96px; color: var(--green); font-weight: 800; cursor: pointer; }
+    .match-select { width: 100%; min-width: 0; max-width: 100%; color: var(--green); font-weight: 700; cursor: pointer; }
 
     .match-table { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.85fr); gap: 16px; align-items: start; }
     .match-column { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
@@ -79,7 +89,7 @@
     .match-option { margin: 0 0 11px; line-height: 1.5; font-size: .95rem; }
     .match-option:last-child { margin-bottom: 0; }
     .match-option strong { color: var(--accent); }
-    .match-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
+    .match-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(190px,.85fr); align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
     .match-row:last-child { border-bottom: 0; }
     .match-row p { margin: 0; line-height: 1.55; }
 
@@ -145,7 +155,8 @@
 
     <section id="workspace" hidden>
       <nav class="panel progress-panel" aria-label="Avanzamento del compito">
-        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+                <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-legend" aria-label="Legenda avanzamento"><span><i class="legend-dot in-progress"></i> In corso</span><span><i class="legend-dot completed"></i> Completata</span></div>
         <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
         <div id="progress-list" class="progress-list"></div>
       </nav>
@@ -352,13 +363,10 @@
       }, 350);
     }
 
-    function renderMatching(section, card) {
-      const columns = document.createElement("div");
-      columns.className = "match-table";
-
-      const left = document.createElement("div");
-      left.className = "match-column";
-      left.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna A · Domande e situazioni"}));
+        function renderMatching(section, card) {
+      const column = document.createElement("div");
+      column.className = "match-column";
+      column.appendChild(Object.assign(document.createElement("h3"), {textContent:"Scegli la risposta corretta per ogni situazione"}));
 
       section.prompts.forEach((prompt, index) => {
         const row = document.createElement("div");
@@ -367,30 +375,18 @@
         text.innerHTML = `<strong>${index + 1}.</strong> ${prompt}`;
         const select = document.createElement("select");
         select.className = "match-select";
-        select.setAttribute("aria-label", `Abbinamento ${index + 1}`);
-        select.innerHTML = '<option value="">[ — ]</option>' + section.options.map(option => `<option value="${option[0]}">${option[0]}</option>`).join("");
+        select.setAttribute("aria-label", `Risposta per la situazione ${index + 1}`);
+        select.appendChild(new Option("Scegli una risposta…", ""));
+        section.options.forEach(option => select.appendChild(new Option(option, option[0])));
         select.value = answers[section.id]?.[`q${index + 1}`] || "";
         select.addEventListener("change", () => {
           persistAnswer(section.id, `q${index + 1}`, select.value);
         });
         row.append(text, select);
-        left.appendChild(row);
+        column.appendChild(row);
       });
 
-      const right = document.createElement("div");
-      right.className = "match-column sticky-col";
-      right.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna B · Risposte e conseguenze"}));
-      section.options.forEach(option => {
-        const item = document.createElement("p");
-        item.className = "match-option";
-        const letter = document.createElement("strong");
-        letter.textContent = `${option[0]} `;
-        item.append(letter, document.createTextNode(option.slice(4)));
-        right.appendChild(item);
-      });
-
-      columns.append(left, right);
-      card.appendChild(columns);
+      card.appendChild(column);
     }
 
     function renderTransformations(section, card) {
@@ -504,10 +500,19 @@
       renderProgress();
     }
 
-    function sectionHasAnswers(sectionId) {
-      const secAns = answers[sectionId];
-      if (!secAns) return false;
-      return Object.values(secAns).some(val => String(val || "").trim().length > 0);
+        function getSectionAnswerCounts(section) {
+      if (section.type === "matching") return section.prompts.length;
+      if (section.groups) return section.groups.reduce((total, group) => total + group.items.length, 0);
+      if (section.paragraphs) return section.paragraphs.reduce((total, paragraph) => total + paragraph.filter(part => typeof part === "object").length, 0);
+      if (section.openItems) return section.openItems.length;
+      return 0;
+    }
+
+    function getSectionProgress(section) {
+      const sectionAnswers = answers[section.id] || {};
+      const total = getSectionAnswerCounts(section);
+      const answered = Object.values(sectionAnswers).filter(value => String(value || "").trim().length > 0).length;
+      return { answered, total, started: answered > 0, completed: total > 0 && answered >= total };
     }
 
     function renderProgress() {
@@ -515,10 +520,12 @@
       sections.forEach((section, index) => {
         const button = document.createElement("button");
         button.type = "button";
-        const filled = sectionHasAnswers(section.id);
-        button.className = `progress-step${index === sectionIndex ? " current" : ""}${filled ? " has-answers" : ""}`;
+        const progress = getSectionProgress(section);
+        const stateClass = progress.completed ? " completed" : progress.started ? " in-progress" : "";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}${stateClass}`;
         button.textContent = String(index + 1);
-        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title}${filled ? " (compilata)" : ""}`);
+        const stateLabel = progress.completed ? "completata" : progress.started ? "in corso" : "non iniziata";
+        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title} (${stateLabel}, ${progress.answered}/${progress.total} risposte)`);
         button.setAttribute("aria-current", index === sectionIndex ? "step" : "false");
         button.addEventListener("click", () => { sectionIndex = index; renderSection(); window.scrollTo(0,0); });
         progressList.appendChild(button);
