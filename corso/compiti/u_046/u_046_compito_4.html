@@ -12,7 +12,7 @@
       background: #f5f3ec;
       --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
       --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
-      --success: #278253; --success-bg: #e1f1e5; --error: #c43d3d; --error-bg: #fae7e5;
+      --success: #278253; --success-bg: #e1f1e5;
     }
     * { box-sizing: border-box; }
     body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.84),rgba(250,248,241,.9)), url("../../u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed, #e9e3d6; }
@@ -27,62 +27,90 @@
     .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
     h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
     header p { max-width: 720px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+
+    .grammar-hint { max-width: 720px; margin: 18px auto 0; text-align: left; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; overflow: hidden; }
+    .grammar-hint summary { padding: 11px 16px; color: var(--green); font-weight: 700; font-size: .92rem; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; }
+    .grammar-hint summary::-webkit-details-marker { display: none; }
+    .grammar-hint summary::after { content: "▾"; font-size: 1rem; transition: transform .2s ease; }
+    .grammar-hint[open] summary::after { transform: rotate(180deg); }
+    .grammar-hint-body { padding: 0 16px 14px; border-top: 1px solid #eceae2; font-size: .9rem; line-height: 1.6; color: #3a3f39; }
+    .grammar-hint-body ul { margin: 10px 0 0; padding-left: 18px; }
+    .grammar-hint-body li { margin-bottom: 6px; }
+
     #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
     #page-message:empty { display: none; }
     #workspace[hidden] { display: none; }
+
     .progress-panel { padding: 18px 22px; }
     .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--green); font-weight: 800; }
     .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
     .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
     .progress-list { display: flex; flex-wrap: wrap; gap: 9px; }
-    .progress-step { width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; }
+    .progress-step { position: relative; width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; transition: all .15s ease; }
+    .progress-step.has-answers { border-color: #7ea882; background: var(--green-light); }
+    .progress-step.has-answers::after { content: ""; position: absolute; top: -2px; right: -2px; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; background: var(--success); }
     .progress-step.current { border-color: var(--green); background: var(--green); color: white; }
+
+    .accent-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 18px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: #faf9f5; }
+    .accent-bar span { margin-right: 4px; color: var(--muted); font-size: .84rem; font-weight: 700; }
+    .accent-btn { min-width: 34px; min-height: 34px; padding: 4px 9px; border: 1px solid #c6d6c7; border-radius: 8px; background: #fff; color: var(--green); font-weight: 700; font-size: .95rem; cursor: pointer; }
+    .accent-btn:hover { background: var(--green-light); border-color: var(--green); }
+
     .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
-    .section-instructions { margin: 0 0 20px; color: var(--muted); line-height: 1.6; }
+    .section-instructions { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
     .subheading { margin: 24px 0 10px; color: var(--green); font-size: 1.08rem; }
     .question p { line-height: 1.65; }
-    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.15; }
-    .story p { margin: 0 0 14px; }
+
+    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.35; }
+    .story p { margin: 0 0 16px; }
     .story p:last-child { margin-bottom: 0; }
-    .gap-input,.match-select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; }
-    .gap-input { width: min(250px, 64vw); margin: 3px 2px; }
+    .gap-wrap { display: inline-flex; flex-direction: column; vertical-align: middle; margin: 3px 3px; max-width: 100%; }
+    .gap-cue { font-size: .74rem; font-weight: 700; color: var(--accent); line-height: 1.2; margin-bottom: 2px; padding-left: 2px; }
+
+    .gap-input,.match-select { min-height: 40px; padding: 7px 11px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; transition: border-color .15s ease, box-shadow .15s ease; }
+    .gap-input { width: min(240px, 74vw); }
     .gap-input.full-sentence { width: 100%; margin: 4px 0 0; }
-    .match-select { min-width: 105px; color: var(--green); font-weight: 800; }
-    .gap-input.correct,.match-select.correct { border-color: var(--success); background: var(--success-bg); }
-    .gap-input.incorrect,.match-select.incorrect { border-color: var(--error); background: var(--error-bg); }
-    .match-table { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 14px; }
+    .match-select { min-width: 96px; color: var(--green); font-weight: 800; cursor: pointer; }
+
+    .match-table { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.85fr); gap: 16px; align-items: start; }
     .match-column { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
+    .match-column.sticky-col { position: sticky; top: 18px; }
     .match-column h3 { margin: 0 0 12px; font-size: 1rem; }
-    .match-option { margin: 0 0 12px; line-height: 1.55; }
+    .match-option { margin: 0 0 11px; line-height: 1.5; font-size: .95rem; }
     .match-option:last-child { margin-bottom: 0; }
     .match-option strong { color: var(--accent); }
-    .match-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #e7e5dc; }
+    .match-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
     .match-row:last-child { border-bottom: 0; }
     .match-row p { margin: 0; line-height: 1.55; }
-    .item-block { margin: 18px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
-    .item-block h3 { margin: 0 0 10px; font-size: 1rem; line-height: 1.55; }
-    .item-block p { margin: 8px 0; }
+
+    .item-block { margin: 16px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
+    .item-block h3 { margin: 0 0 8px; font-size: 1rem; line-height: 1.55; }
+    .item-block p { margin: 6px 0 10px; }
     .example-line { margin: 0 0 14px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.55; }
     .open-input { display: block; width: 100%; min-height: 100px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
-    .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.12); outline: none; }
-    .answer-feedback { min-height: 1.2em; margin: 3px 2px 0; font-size: .86rem; font-weight: 700; }
-    .answer-feedback.correct { color: var(--success); }
+    .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.14); outline: none; }
+
     .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
-    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; transition: background .15s ease, transform .1s ease; }
     button:hover:not(:disabled) { background: var(--green-dark); }
     button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
+    button.secondary:hover:not(:disabled) { background: var(--green-light); }
     button:disabled { cursor: not-allowed; opacity: .5; }
     .position { color: var(--green); font-weight: 800; text-align: center; }
-    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+
+    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); transition: all .25s ease; }
+    .task-submit.submitted { border-color: var(--success); background: var(--success-bg); }
     .task-submit p { margin: 0; line-height: 1.5; }
     #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
     .note { color: var(--muted); font-size: .9rem; }
+
     @media(max-width:650px) {
       body { padding: 16px 9px 36px; }
       .slide-navigation { flex-wrap: wrap; justify-content: center; }
       .slide-navigation button { flex: 1 1 130px; }
       .position { order: -1; width: 100%; }
       .match-table { grid-template-columns: 1fr; }
+      .match-column.sticky-col { position: static; order: -1; }
       .match-row { grid-template-columns: 1fr; }
       .match-select { width: 100%; }
       .question,.panel,header { padding: 19px; }
@@ -100,27 +128,45 @@
       <h1>Imprevisti e soluzioni: raccontare al passato</h1>
       <p>Ripassa pronomi diretti e indiretti, accordo del participio passato, passato prossimo e imperfetto, verbi modali e strutture di causa e conseguenza.</p>
       <p class="note">Svolgi le quattro parti e salva il tuo lavoro automaticamente. Puoi consegnare anche se il compito è incompleto.</p>
+
+      <details class="grammar-hint">
+        <summary>💡 Promemoria rapido / Краткая памятка</summary>
+        <div class="grammar-hint-body">
+          <ul>
+            <li><strong>Pronomi diretti + Passato Prossimo:</strong> con <em>lo, la, li, le</em> il participio si accorda (es. <em>L'ho vist<strong>a</strong></em>, <em>Li ho chiamat<strong>i</strong></em>, <em>Le abbiamo incontrat<strong>e</strong></em>).</li>
+            <li><strong>Pronomi indiretti:</strong> <em>gli</em> (a lui / a loro), <em>le</em> (a lei) — il participio <strong>non</strong> si accorda (es. <em>Gli ho telefonat<strong>o</strong></em>, <em>Le abbiamo telefonat<strong>o</strong></em>).</li>
+            <li><strong>Causa e conseguenza:</strong> <em>Imperfetto (situazione/causa) + quindi + Passato Prossimo di dovere (conseguenza)</em> → es. <em>La batteria <strong>era</strong> scarica, quindi <strong>ho dovuto ricaricarla</strong></em>.</li>
+          </ul>
+        </div>
+      </details>
     </header>
+
     <p id="page-message" role="status" aria-live="polite"></p>
+
     <section id="workspace" hidden>
-      <nav class="panel" aria-label="Avanzamento del compito">
+      <nav class="panel progress-panel" aria-label="Avanzamento del compito">
         <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
         <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
         <div id="progress-list" class="progress-list"></div>
       </nav>
+
       <div id="section-content"></div>
+
       <nav class="slide-navigation" aria-label="Navigazione delle parti">
         <button id="previous-section" class="secondary" type="button">← Parte precedente</button>
         <span id="section-position" class="position" aria-live="polite"></span>
         <button id="next-section" class="secondary" type="button">Parte successiva →</button>
       </nav>
-      <section class="task-submit" aria-label="Consegna del compito">
-        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
+
+      <section id="task-submit-box" class="task-submit" aria-label="Consegna del compito">
+        <p id="submit-description"><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
         <button id="submit-task" type="button">Invia il compito all’insegnante</button>
       </section>
+
       <p id="save-status" role="status" aria-live="polite"></p>
     </section>
   </main>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="../homework-review.js"></script>
@@ -135,10 +181,11 @@
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "esercizi-parlo-italiano"
     };
+
     const sections = [
       {
         id: "sec1", title: "Esercizio 1 · Riconoscimento e abbinamento",
-        instructions: "Collega ogni situazione della Colonna A alla risposta corretta della Colonna B. Scegli la lettera da inserire nelle parentesi.",
+        instructions: "Collega ogni situazione della Colonna A alla risposta corretta della Colonna B scegliendo la lettera corrispondente.",
         type: "matching",
         prompts: [
           "Hai telefonato ai tuoi colleghi per avvisarli della riunione?",
@@ -164,7 +211,7 @@
       },
       {
         id: "sec2", title: "Esercizio 2 · Trasformazione delle frasi",
-        instructions: "Trasforma le frasi dal presente al passato seguendo i modelli. Nella Parte A usa il pronome adatto e accorda il participio; nella Parte B esprimi la causa e la conseguenza con dovere al passato. (Questo esercizio sarà revisionato dall'insegnante).",
+        instructions: "Trasforma le frasi dal presente al passato seguendo i modelli. Nella Parte A usa il pronome adatto e accorda il participio; nella Parte B esprimi la causa e la conseguenza con dovere al passato.",
         groups: [
           { title: "Parte A — Pronomi e accordo del participio passato", items: [
             {id:"q1", prompt:"Modello: Incontro la professoressa in biblioteca. → L'ho incontrata in biblioteca.", task:"Chiamo Carlo e Paolo per organizzare la cena.", answers:["Li ho chiamati per organizzare la cena."]},
@@ -187,9 +234,9 @@
         instructions: "Completa il racconto inserendo negli spazi solo le forme verbali richieste e gli eventuali pronomi. Usa il passato prossimo o l'imperfetto; fai attenzione all'accordo del participio e ai verbi modali.",
         paragraphs: [
           ["Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile ", {id:"q1", cue:"essere / sporca", answers:["era sporca"]}, " e per questo ", {id:"q2", cue:"dovere / io / lavare + la", answers:["ho dovuto lavarla","l'ho dovuta lavare"]}, " prima di uscire di casa."],
-          ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta","ho vista la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro","abbiamo telefonato a loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
-          ["Nel pomeriggio, il mio cellulare ", {id:"q7", cue:"essere / scarico", answers:["era scarico"]}, " e ", {id:"q8", cue:"dovere / io / mettere + lo", answers:["ho dovuto metterlo","l'ho dovuto mettere"]}, " subito in carica. Verso le 17:00, i nostri ospiti stranieri ", {id:"q9", cue:"arrivare / in stazione", answers:["sono arrivati in stazione","sono arrivati alla stazione"]}, ", quindi io e il direttore ", {id:"q10", cue:"dovere / andare a prendere + li", answers:["abbiamo dovuto andare a prenderli","siamo dovuti andare a prenderli","li abbiamo dovuti andare a prendere"]}, " in macchina."],
-          ["Infine, quando siamo tornati nel nostro quartiere, ", {id:"q11", cue:"incontrare / noi / i vicini", answers:["abbiamo incontrato i vicini","abbiamo incontrato i nostri vicini"]}, " e ", {id:"q12", cue:"invitare + li", answers:["li abbiamo invitati"]}, " a prendere un caffè insieme."]
+          ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
+          ["Nel pomeriggio, il mio cellulare ", {id:"q7", cue:"essere / scarico", answers:["era scarico"]}, " e ", {id:"q8", cue:"dovere / io / mettere + lo", answers:["ho dovuto metterlo","l'ho dovuto mettere"]}, " subito in carica. Verso le 17:00, i nostri ospiti stranieri ", {id:"q9", cue:"arrivare / in stazione", answers:["sono arrivati in stazione"]}, ", quindi io e il direttore ", {id:"q10", cue:"dovere / andare a prendere + li", answers:["abbiamo dovuto andare a prenderli","siamo dovuti andare a prenderli"]}, " in macchina."],
+          ["Infine, quando siamo tornati nel nostro quartiere, ", {id:"q11", cue:"incontrare / noi / i vicini", answers:["abbiamo incontrato i vicini"]}, " e ", {id:"q12", cue:"invitare + li", answers:["li abbiamo invitati"]}, " a prendere un caffè insieme."]
         ]
       },
       {
@@ -210,6 +257,9 @@
     let studentName = "";
     let submissionStatus = "in-progress";
     let saveTimer = null;
+    let hasPendingSave = false;
+    let lastFocusedField = null;
+
     const taskParams = new URLSearchParams(location.search);
     const assignmentId = taskParams.get("assignment");
     const workspace = document.getElementById("workspace");
@@ -217,41 +267,99 @@
     const pageMessage = document.getElementById("page-message");
     const saveStatus = document.getElementById("save-status");
     const progressList = document.getElementById("progress-list");
+    const submitBox = document.getElementById("task-submit-box");
+    const submitDesc = document.getElementById("submit-description");
+    const submitBtn = document.getElementById("submit-task");
     const taskTitle = "Unità 46 — Compito 4: Imprevisti e soluzioni";
 
-    function normalize(value) {
-      return String(value || "").trim().toLocaleLowerCase("it-IT").replace(/[’']/g,"'").replace(/[.!?,;:]/g,"").replace(/\s+/g," ");
+    document.addEventListener("focusin", (e) => {
+      if (e.target.matches("input.gap-input, textarea.open-input")) {
+        lastFocusedField = e.target;
+      }
+    });
+
+    window.addEventListener("beforeunload", (e) => {
+      if (hasPendingSave) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    });
+
+    function createAccentBar() {
+      const bar = document.createElement("div");
+      bar.className = "accent-bar";
+      bar.setAttribute("aria-label", "Caratteri italiani rapidi");
+      const label = document.createElement("span");
+      label.textContent = "Caratteri rapidi:";
+      bar.appendChild(label);
+
+      ["à", "è", "é", "ì", "ò", "ù", "'"].forEach(char => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "accent-btn";
+        btn.textContent = char;
+        btn.setAttribute("aria-label", `Inserisci ${char}`);
+        btn.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          if (!lastFocusedField || !document.body.contains(lastFocusedField)) return;
+          const start = lastFocusedField.selectionStart ?? lastFocusedField.value.length;
+          const end = lastFocusedField.selectionEnd ?? lastFocusedField.value.length;
+          const val = lastFocusedField.value;
+          lastFocusedField.value = val.slice(0, start) + char + val.slice(end);
+          lastFocusedField.focus();
+          lastFocusedField.setSelectionRange(start + 1, start + 1);
+          lastFocusedField.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        bar.appendChild(btn);
+      });
+      return bar;
     }
+
+    function setSubmittedVisualState(isSubmitted) {
+      submitBox.classList.toggle("submitted", isSubmitted);
+      if (isSubmitted) {
+        submitDesc.innerHTML = '<strong>✓ Compito inviato all’insegnante!</strong><br><span class="note">Puoi comunque modificare le risposte e inviare di nuovo se necessario.</span>';
+        submitBtn.textContent = "Invia di nuovo il compito";
+      } else {
+        submitDesc.innerHTML = '<strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span>';
+        submitBtn.textContent = "Invia il compito all’insegnante";
+      }
+    }
+
     function persistAnswer(sectionId, answerId, value) {
-      if (submissionStatus === "reviewed") submissionStatus = "in-progress";
+      if (submissionStatus === "reviewed" || submissionStatus === "pending") {
+        submissionStatus = "in-progress";
+        setSubmittedVisualState(false);
+      }
       if (!answers[sectionId]) answers[sectionId] = {};
       answers[sectionId][answerId] = value;
+      renderProgress();
+
+      hasPendingSave = true;
       saveStatus.textContent = "Salvataggio delle risposte…";
       clearTimeout(saveTimer);
       saveTimer = setTimeout(async () => {
-        if (!submissionRef) return;
+        if (!submissionRef) { hasPendingSave = false; return; }
         try {
           await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
           await submissionRef.update({ studentName, status: submissionStatus, updatedAt: Date.now() });
+          hasPendingSave = false;
           saveStatus.textContent = "Risposte salvate automaticamente. ✓";
         } catch (_) {
+          hasPendingSave = false;
           saveStatus.textContent = "Errore di salvataggio. Controlla la connessione.";
         }
       }, 350);
     }
-    function updateFeedback(input, feedback, accepted, value) {
-      const isCorrect = accepted.some(answer => normalize(answer) === normalize(value));
-      input.classList.toggle("correct", Boolean(value.trim()) && isCorrect);
-      input.classList.toggle("incorrect", Boolean(value.trim()) && !isCorrect);
-      feedback.textContent = value.trim() && isCorrect ? "✓ Forma attesa" : "";
-      feedback.className = `answer-feedback${value.trim() && isCorrect ? " correct" : ""}`;
-    }
+
     function renderMatching(section, card) {
       const columns = document.createElement("div");
       columns.className = "match-table";
+
       const left = document.createElement("div");
       left.className = "match-column";
       left.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna A · Domande e situazioni"}));
+
       section.prompts.forEach((prompt, index) => {
         const row = document.createElement("div");
         row.className = "match-row";
@@ -262,17 +370,15 @@
         select.setAttribute("aria-label", `Abbinamento ${index + 1}`);
         select.innerHTML = '<option value="">[ — ]</option>' + section.options.map(option => `<option value="${option[0]}">${option[0]}</option>`).join("");
         select.value = answers[section.id]?.[`q${index + 1}`] || "";
-        const check = () => {
-          select.classList.toggle("correct", Boolean(select.value) && select.value === section.answers[index]);
-          select.classList.toggle("incorrect", Boolean(select.value) && select.value !== section.answers[index]);
-        };
-        check();
-        select.addEventListener("change", () => { check(); persistAnswer(section.id, `q${index + 1}`, select.value); });
+        select.addEventListener("change", () => {
+          persistAnswer(section.id, `q${index + 1}`, select.value);
+        });
         row.append(text, select);
         left.appendChild(row);
       });
+
       const right = document.createElement("div");
-      right.className = "match-column";
+      right.className = "match-column sticky-col";
       right.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna B · Risposte e conseguenze"}));
       section.options.forEach(option => {
         const item = document.createElement("p");
@@ -282,10 +388,13 @@
         item.append(letter, document.createTextNode(option.slice(4)));
         right.appendChild(item);
       });
+
       columns.append(left, right);
       card.appendChild(columns);
     }
+
     function renderTransformations(section, card) {
+      card.appendChild(createAccentBar());
       section.groups.forEach(group => {
         card.appendChild(Object.assign(document.createElement("h3"), {className:"subheading", textContent:group.title}));
         if (group.example) {
@@ -316,7 +425,9 @@
         });
       });
     }
+
     function renderStory(section, card) {
+      card.appendChild(createAccentBar());
       const story = document.createElement("div");
       story.className = "story";
       section.paragraphs.forEach(parts => {
@@ -326,27 +437,34 @@
             paragraph.appendChild(document.createTextNode(part));
             return;
           }
+          const wrap = document.createElement("span");
+          wrap.className = "gap-wrap";
+
+          const cue = document.createElement("span");
+          cue.className = "gap-cue";
+          cue.textContent = `${part.id.slice(1)}. ${part.cue}`;
+
           const input = document.createElement("input");
           input.type = "text";
           input.className = "gap-input";
           input.autocomplete = "off";
-          input.placeholder = `${part.id.slice(1)} · ${part.cue}`;
+          input.placeholder = "Scrivi qui…";
           input.setAttribute("aria-label", `Completamento ${part.id.slice(1)}: ${part.cue}`);
           input.value = answers[section.id]?.[part.id] || "";
-          const feedback = document.createElement("span");
-          feedback.className = "answer-feedback";
-          updateFeedback(input, feedback, part.answers, input.value);
           input.addEventListener("input", () => {
-            updateFeedback(input, feedback, part.answers, input.value);
             persistAnswer(section.id, part.id, input.value);
           });
-          paragraph.append(input, feedback);
+
+          wrap.append(cue, input);
+          paragraph.appendChild(wrap);
         });
         story.appendChild(paragraph);
       });
       card.appendChild(story);
     }
+
     function renderOpenItems(section, card) {
+      card.appendChild(createAccentBar());
       section.openItems.forEach((item, index) => {
         const block = document.createElement("div");
         block.className = "item-block";
@@ -369,8 +487,10 @@
       reminder.textContent = "Controlla di aver usato almeno 3 pronomi diretti con l'accordo, 2 pronomi indiretti e 2 strutture con dovere al passato.";
       card.appendChild(reminder);
     }
+
     function renderSection() {
       content.replaceChildren();
+      lastFocusedField = null;
       const section = sections[sectionIndex];
       const card = document.createElement("article");
       card.className = "question";
@@ -383,14 +503,22 @@
       content.appendChild(card);
       renderProgress();
     }
+
+    function sectionHasAnswers(sectionId) {
+      const secAns = answers[sectionId];
+      if (!secAns) return false;
+      return Object.values(secAns).some(val => String(val || "").trim().length > 0);
+    }
+
     function renderProgress() {
       progressList.replaceChildren();
       sections.forEach((section, index) => {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = `progress-step${index === sectionIndex ? " current" : ""}`;
+        const filled = sectionHasAnswers(section.id);
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}${filled ? " has-answers" : ""}`;
         button.textContent = String(index + 1);
-        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title}`);
+        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title}${filled ? " (compilata)" : ""}`);
         button.setAttribute("aria-current", index === sectionIndex ? "step" : "false");
         button.addEventListener("click", () => { sectionIndex = index; renderSection(); window.scrollTo(0,0); });
         progressList.appendChild(button);
@@ -401,6 +529,7 @@
       document.getElementById("previous-section").disabled = sectionIndex === 0;
       document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
     }
+
     function buildTeacherReviewRows(submission) {
       const saved = submission.answers || {};
       return sections.map(section => {
@@ -434,27 +563,32 @@
         return { id: section.id, title: section.title, rows };
       });
     }
+
     document.getElementById("previous-section").addEventListener("click", () => { sectionIndex = Math.max(0, sectionIndex - 1); renderSection(); window.scrollTo(0,0); });
     document.getElementById("next-section").addEventListener("click", () => { sectionIndex = Math.min(sections.length - 1, sectionIndex + 1); renderSection(); window.scrollTo(0,0); });
-    document.getElementById("submit-task").addEventListener("click", async () => {
+
+    submitBtn.addEventListener("click", async () => {
       if (!submissionRef) return;
       clearTimeout(saveTimer);
-      const button = document.getElementById("submit-task");
+      hasPendingSave = false;
       const previousStatus = submissionStatus;
       submissionStatus = "pending";
-      button.disabled = true;
+      submitBtn.disabled = true;
       saveStatus.textContent = "Invio del compito all’insegnante…";
       try {
         const updates = { studentName, status: submissionStatus, submittedAt: Date.now() };
         Object.entries(answers).forEach(([sectionId, sectionAnswers]) => { updates[`answers/${sectionId}`] = sectionAnswers; });
         await submissionRef.update(updates);
+        setSubmittedVisualState(true);
+        submitBtn.disabled = false;
         saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
       } catch (_) {
         submissionStatus = previousStatus;
         saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova.";
-        button.disabled = false;
+        submitBtn.disabled = false;
       }
     });
+
     document.addEventListener("keydown", event => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
       if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) { sectionIndex++; renderSection(); }
@@ -502,8 +636,12 @@
         submissionStatus = submission.status || "in-progress";
         workspace.hidden = false;
         renderSection();
-        if (submission.status === "pending") saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
-        else if (submission.status === "reviewed") saveStatus.textContent = "Questo compito è già stato revisionato.";
+        if (submission.status === "pending") {
+          setSubmittedVisualState(true);
+          saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
+        } else if (submission.status === "reviewed") {
+          saveStatus.textContent = "Questo compito è già stato revisionato.";
+        }
       } catch (error) {
         pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";
       }
