@@ -61,6 +61,7 @@
     .item-block { margin: 18px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
     .item-block h3 { margin: 0 0 10px; font-size: 1rem; line-height: 1.55; }
     .item-block p { margin: 8px 0; }
+    .example-line { margin: 0 0 14px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.55; }
     .open-input { display: block; width: 100%; min-height: 100px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
     .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.12); outline: none; }
     .answer-feedback { min-height: 1.2em; margin: 3px 2px 0; font-size: .86rem; font-weight: 700; }
@@ -166,12 +167,12 @@
         groups: [
           { title: "Parte A — Pronomi e accordo del participio passato", items: [
             {id:"q1", prompt:"Modello: Incontro la professoressa in biblioteca. → L'ho incontrata in biblioteca.", task:"Chiamo Carlo e Paolo per organizzare la cena.", answers:["Li ho chiamati per organizzare la cena."]},
-            {id:"q2", prompt:"Modello: Telefono a Stefano per avvisarlo. → Gli ho telefonato per avvisarlo.", task:"Telefoniamo a Stefania per fare gli auguri di compleanno.", answers:["Le abbiamo telefonato per fare gli auguri di compleanno."]},
+            {id:"q2", prompt:"Modello: Telefono a Stefano per avvisarlo. → Gli ho telefonato per avvisarlo.", task:"Telefoniamo a Stefania per fare gli auguri di compleanno.", answers:["Le abbiamo telefonato per farle gli auguri di compleanno."]},
             {id:"q3", task:"Chiediamo un favore agli organizzatori dell'evento.", answers:["Gli abbiamo chiesto un favore.","Abbiamo chiesto loro un favore."]},
             {id:"q4", task:"Ringrazio i colleghi per il supporto ricevuto durante il progetto.", answers:["Li ho ringraziati per il supporto ricevuto durante il progetto."]},
             {id:"q5", task:"Aiutate vostra cugina a traslocare nella nuova casa?", answers:["L'avete aiutata a traslocare nella nuova casa?"]}
           ]},
-          { title: "Parte B — Causa e conseguenza con dovere al passato", items: [
+          { title: "Parte B — Causa e conseguenza con dovere al passato", example:"Modello: La macchina è sporca. (dovere / lavare) → La macchina era sporca, quindi ho dovuto lavarla.", items: [
             {id:"q6", task:"Il telefono è scarico. (dovere / caricare)", answers:["Il telefono era scarico, quindi ho dovuto caricarlo."]},
             {id:"q7", task:"Le scarpe da ginnastica sono molto sporche. (dovere / pulire)", answers:["Le scarpe da ginnastica erano molto sporche, quindi ho dovuto pulirle."]},
             {id:"q8", task:"Lo zio Augusto non sta bene. (dovere / accompagnare dal medico)", answers:["Lo zio Augusto non stava bene, quindi ho dovuto accompagnarlo dal medico."]},
@@ -182,7 +183,7 @@
       },
       {
         id: "sec3", title: "Esercizio 3 · Un martedì pieno di imprevisti",
-        instructions: "Completa il racconto trasformando le espressioni tra parentesi nel modo e nel tempo opportuni (passato prossimo o imperfetto). Fai attenzione ai pronomi, all'accordo del participio e ai verbi modali.",
+        instructions: "Completa il racconto inserendo negli spazi solo le forme verbali richieste e gli eventuali pronomi. Usa il passato prossimo o l'imperfetto; fai attenzione all'accordo del participio e ai verbi modali.",
         paragraphs: [
           ["Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile ", {id:"q1", cue:"essere / sporca", answers:["era sporca"]}, " e per questo ", {id:"q2", cue:"dovere / io / lavare + la", answers:["ho dovuto lavarla"]}, " prima di uscire di casa."],
           ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
@@ -194,10 +195,10 @@
         id: "sec4", title: "Esercizio 4 · Dialogo aperto: una giornata piena di imprevisti",
         instructions: "Completa il dialogo tra Marco e Giulia. Inserisci almeno 3 pronomi diretti con l'accordo del participio, almeno 2 pronomi indiretti e almeno 2 strutture di causa-conseguenza al passato.",
         openItems: [
-          {id:"q1", prompt:"Giulia: Ieri ti ho cercato per tutto il pomeriggio, ma il tuo telefono risultava irraggiungibile. Che cosa è successo?\nMarco: Spiega che il telefono era scarico e indica la conseguenza con dovere."},
-          {id:"q2", prompt:"Giulia: Capisco! E poi sei riuscito a contattare i parenti per organizzare la cena per lo zio Augusto?\nMarco: Spiega che hai telefonato agli zii e chiamato i cugini; usa pronomi indiretti e diretti al passato."},
-          {id:"q3", prompt:"Giulia: Perfetto! E come è andata a finire con gli ospiti che arrivavano con il treno delle sei?\nMarco: Spiega quando sono arrivati e che cosa avete fatto per andarli a prendere o accompagnarli."},
-          {id:"q4", prompt:"Giulia: Mamma mia, che giornata impegnativa! Stasera ti meriti un po' di riposo!\nMarco: Concludi la conversazione in modo naturale."}
+          {id:"q1", prompt:"Giulia: Ieri ti ho cercato per tutto il pomeriggio, ma il tuo telefono risultava irraggiungibile. Che cosa è successo?\nMarco: Объясни, что телефон разрядился, и расскажи о последствиях, используя глагол dovere в прошедшем времени."},
+          {id:"q2", prompt:"Giulia: Capisco! E poi sei riuscito a contattare i parenti per organizzare la cena per lo zio Augusto?\nMarco: Расскажи, что ты позвонил дядям и тётям, а также двоюродным братьям и сёстрам; используй косвенные и прямые местоимения в прошедшем времени."},
+          {id:"q3", prompt:"Giulia: Perfetto! E come è andata a finire con gli ospiti che arrivavano con il treno delle sei?\nMarco: Расскажи, во сколько приехали гости и что вы сделали, чтобы встретить их или проводить."},
+          {id:"q4", prompt:"Giulia: Mamma mia, che giornata impegnativa! Stasera ti meriti un po' di riposo!\nMarco: Естественно заверши разговор."}
         ]
       }
     ];
@@ -206,6 +207,7 @@
     let answers = {};
     let submissionRef = null;
     let studentName = "";
+    let submissionStatus = "in-progress";
     let saveTimer = null;
     const taskParams = new URLSearchParams(location.search);
     const assignmentId = taskParams.get("assignment");
@@ -220,6 +222,7 @@
       return String(value || "").trim().toLocaleLowerCase("it-IT").replace(/[’']/g,"'").replace(/[.!?,;:]/g,"").replace(/\s+/g," ");
     }
     function persistAnswer(sectionId, answerId, value) {
+      if (submissionStatus === "reviewed") submissionStatus = "in-progress";
       if (!answers[sectionId]) answers[sectionId] = {};
       answers[sectionId][answerId] = value;
       saveStatus.textContent = "Salvataggio delle risposte…";
@@ -228,7 +231,7 @@
         if (!submissionRef) return;
         try {
           await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
-          await submissionRef.update({ studentName, status: "in-progress", updatedAt: Date.now() });
+          await submissionRef.update({ studentName, status: submissionStatus, updatedAt: Date.now() });
           saveStatus.textContent = "Risposte salvate automaticamente. ✓";
         } catch (_) {
           saveStatus.textContent = "Errore di salvataggio. Controlla la connessione.";
@@ -284,6 +287,12 @@
     function renderTransformations(section, card) {
       section.groups.forEach(group => {
         card.appendChild(Object.assign(document.createElement("h3"), {className:"subheading", textContent:group.title}));
+        if (group.example) {
+          const example = document.createElement("p");
+          example.className = "example-line";
+          example.textContent = group.example;
+          card.appendChild(example);
+        }
         group.items.forEach(item => {
           const block = document.createElement("div");
           block.className = "item-block";
@@ -434,14 +443,17 @@
       if (!submissionRef) return;
       clearTimeout(saveTimer);
       const button = document.getElementById("submit-task");
+      const previousStatus = submissionStatus;
+      submissionStatus = "pending";
       button.disabled = true;
       saveStatus.textContent = "Invio del compito all’insegnante…";
       try {
-        const updates = { studentName, status: "pending", submittedAt: Date.now() };
+        const updates = { studentName, status: submissionStatus, submittedAt: Date.now() };
         Object.entries(answers).forEach(([sectionId, sectionAnswers]) => { updates[`answers/${sectionId}`] = sectionAnswers; });
         await submissionRef.update(updates);
         saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
       } catch (_) {
+        submissionStatus = previousStatus;
         saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova.";
         button.disabled = false;
       }
@@ -490,6 +502,7 @@
         studentName = session.name;
         const submission = (await submissionRef.once("value")).val() || {};
         answers = submission.answers || {};
+        submissionStatus = submission.status || "in-progress";
         workspace.hidden = false;
         renderSection();
         if (submission.status === "pending") saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
