@@ -46,6 +46,7 @@
     .story p:last-child { margin-bottom: 0; }
     .gap-input,.match-select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; }
     .gap-input { width: min(250px, 64vw); margin: 3px 2px; }
+    .gap-input.full-sentence { width: 100%; margin: 4px 0 0; }
     .match-select { min-width: 105px; color: var(--green); font-weight: 800; }
     .gap-input.correct,.match-select.correct { border-color: var(--success); background: var(--success-bg); }
     .gap-input.incorrect,.match-select.incorrect { border-color: var(--error); background: var(--error-bg); }
@@ -163,7 +164,7 @@
       },
       {
         id: "sec2", title: "Esercizio 2 · Trasformazione delle frasi",
-        instructions: "Trasforma le frasi dal presente al passato seguendo i modelli. Nella Parte A usa il pronome adatto e accorda il participio; nella Parte B esprimi la causa e la conseguenza con dovere al passato.",
+        instructions: "Trasforma le frasi dal presente al passato seguendo i modelli. Nella Parte A usa il pronome adatto e accorda il participio; nella Parte B esprimi la causa e la conseguenza con dovere al passato. (Questo esercizio sarà revisionato dall'insegnante).",
         groups: [
           { title: "Parte A — Pronomi e accordo del participio passato", items: [
             {id:"q1", prompt:"Modello: Incontro la professoressa in biblioteca. → L'ho incontrata in biblioteca.", task:"Chiamo Carlo e Paolo per organizzare la cena.", answers:["Li ho chiamati per organizzare la cena."]},
@@ -185,10 +186,10 @@
         id: "sec3", title: "Esercizio 3 · Un martedì pieno di imprevisti",
         instructions: "Completa il racconto inserendo negli spazi solo le forme verbali richieste e gli eventuali pronomi. Usa il passato prossimo o l'imperfetto; fai attenzione all'accordo del participio e ai verbi modali.",
         paragraphs: [
-          ["Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile ", {id:"q1", cue:"essere / sporca", answers:["era sporca"]}, " e per questo ", {id:"q2", cue:"dovere / io / lavare + la", answers:["ho dovuto lavarla"]}, " prima di uscire di casa."],
-          ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
-          ["Nel pomeriggio, il mio cellulare ", {id:"q7", cue:"essere / scarico", answers:["era scarico"]}, " e ", {id:"q8", cue:"dovere / io / mettere + lo", answers:["ho dovuto metterlo"]}, " subito in carica. Verso le 17:00, i nostri ospiti stranieri ", {id:"q9", cue:"arrivare / in stazione", answers:["sono arrivati in stazione"]}, ", quindi io e il direttore ", {id:"q10", cue:"dovere / andare a prendere + li", answers:["abbiamo dovuto andare a prenderli"]}, " in macchina."],
-          ["Infine, quando siamo tornati nel nostro quartiere, ", {id:"q11", cue:"incontrare / noi / i vicini", answers:["abbiamo incontrato i vicini"]}, " e ", {id:"q12", cue:"invitare + li", answers:["li abbiamo invitati"]}, " a prendere un caffè insieme."]
+          ["Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile ", {id:"q1", cue:"essere / sporca", answers:["era sporca"]}, " e per questo ", {id:"q2", cue:"dovere / io / lavare + la", answers:["ho dovuto lavarla","l'ho dovuta lavare"]}, " prima di uscire di casa."],
+          ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta","ho vista la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro","abbiamo telefonato a loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
+          ["Nel pomeriggio, il mio cellulare ", {id:"q7", cue:"essere / scarico", answers:["era scarico"]}, " e ", {id:"q8", cue:"dovere / io / mettere + lo", answers:["ho dovuto metterlo","l'ho dovuto mettere"]}, " subito in carica. Verso le 17:00, i nostri ospiti stranieri ", {id:"q9", cue:"arrivare / in stazione", answers:["sono arrivati in stazione","sono arrivati alla stazione"]}, ", quindi io e il direttore ", {id:"q10", cue:"dovere / andare a prendere + li", answers:["abbiamo dovuto andare a prenderli","siamo dovuti andare a prenderli","li abbiamo dovuti andare a prendere"]}, " in macchina."],
+          ["Infine, quando siamo tornati nel nostro quartiere, ", {id:"q11", cue:"incontrare / noi / i vicini", answers:["abbiamo incontrato i vicini","abbiamo incontrato i nostri vicini"]}, " e ", {id:"q12", cue:"invitare + li", answers:["li abbiamo invitati"]}, " a prendere un caffè insieme."]
         ]
       },
       {
@@ -302,19 +303,15 @@
           if (item.prompt) block.appendChild(Object.assign(document.createElement("p"), {textContent:item.task}));
           const input = document.createElement("input");
           input.type = "text";
-          input.className = "gap-input";
+          input.className = "gap-input full-sentence";
           input.autocomplete = "off";
           input.placeholder = "Scrivi la frase trasformata…";
           input.setAttribute("aria-label", `Risposta ${item.id.slice(1)}`);
           input.value = answers[section.id]?.[item.id] || "";
-          const feedback = document.createElement("div");
-          feedback.className = "answer-feedback";
-          updateFeedback(input, feedback, item.answers, input.value);
           input.addEventListener("input", () => {
-            updateFeedback(input, feedback, item.answers, input.value);
             persistAnswer(section.id, item.id, input.value);
           });
-          block.append(input, feedback);
+          block.appendChild(input);
           card.appendChild(block);
         });
       });
