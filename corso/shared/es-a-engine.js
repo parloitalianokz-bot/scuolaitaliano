@@ -21,27 +21,6 @@
     rootStyle.setProperty("--es-a-bg", bgUrl);
   }
 
-  function populateUnitMenus() {
-    const nav = window.PARLO_UNIT_NAV;
-    if (!nav) return;
-
-    const currentFile = location.pathname.split("/").pop() || "";
-
-    const fillSelect = (selectEl, items) => {
-      if (!selectEl || !Array.isArray(items) || selectEl.options.length > 1) return;
-      items.forEach(item => {
-        const opt = document.createElement("option");
-        opt.value = item.value;
-        opt.textContent = item.label;
-        if (item.value === currentFile) opt.selected = true;
-        selectEl.appendChild(opt);
-      });
-    };
-
-    fillSelect(document.getElementById("exercise-menu"), nav.exercises);
-    fillSelect(document.getElementById("grammar-menu"), nav.grammar);
-  }
-
   function ensureCardChrome(card, exerciseKey) {
     let studentLogin = document.getElementById("student-login");
     if (!studentLogin) {
@@ -768,7 +747,6 @@
     showQuestion(0);
 
     if (window.ParloExercise) {
-      populateUnitMenus();
       ParloExercise.initBackgroundParallax();
       ParloExercise.decorateSessionLinks();
       const exMenu = document.getElementById("exercise-menu");
@@ -780,6 +758,7 @@
 
   window.ParloEsA = Object.freeze({ init: initEsA });
 
+  // Avvio automatico se l'HTML espone window.ES_A_DATA
   function autoBoot() {
     if (Array.isArray(window.ES_A_DATA)) {
       initEsA(window.ES_A_DATA);
