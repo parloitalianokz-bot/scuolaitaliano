@@ -18,6 +18,23 @@
     }
   }
 
+  function applyUnitImages() {
+    const rootStyle = document.documentElement.style;
+    const customBg = rootStyle.getPropertyValue("--reading-bg").trim();
+    const customBanner = rootStyle.getPropertyValue("--reading-banner").trim();
+
+    const bgUrl = customBg || `url("${new URL("img/sfondo.jpeg", location.href).href}")`;
+    const bannerUrl = customBanner || `url("${new URL("img/banner.png", location.href).href}")`;
+
+    rootStyle.setProperty("--reading-bg", bgUrl);
+    rootStyle.setProperty("--reading-banner", bannerUrl);
+
+    const bannerEl = document.querySelector(".banner");
+    if (bannerEl && !bannerEl.style.backgroundImage) {
+      bannerEl.style.backgroundImage = bannerUrl;
+    }
+  }
+
   function inferPageKey() {
     const bodyKey = document.body?.dataset?.pageKey;
     if (bodyKey) return bodyKey;
@@ -27,7 +44,6 @@
   }
 
   function ensureReadingChrome(readingCard, pageKey) {
-    // 1. Barra dei passi sopra video/lettura
     let stepsNav = document.getElementById("reading-steps");
     if (!stepsNav) {
       stepsNav = document.createElement("nav");
@@ -38,7 +54,6 @@
       anchor.parentNode.insertBefore(stepsNav, anchor);
     }
 
-    // 2. Pulsante audio dentro .reading
     let listenButton = document.getElementById("listen-paragraph");
     if (!listenButton) {
       const tools = document.createElement("div");
@@ -53,7 +68,6 @@
       readingCard.prepend(tools);
     }
 
-    // 3. Box glossario automatico in fondo a .reading
     let glossaryBox = document.getElementById("paragraph-glossary");
     let glossaryList = document.getElementById("glossary-list");
     if (!glossaryBox) {
@@ -70,7 +84,6 @@
       readingCard.appendChild(glossaryBox);
     }
 
-    // 4. Navigazione inferiore (Precedente / Progresso / Successivo / Vai all'esercizio A)
     let nav = document.querySelector(".reading-navigation");
     if (!nav) {
       nav = document.createElement("nav");
@@ -122,7 +135,7 @@
     const readingCard = document.querySelector(".reading");
     if (!readingCard) return;
 
-    // Assicura che Firebase sia già inizializzato sia per media-sync.js sia per classroom-notes.js
+    applyUnitImages();
     ensureFirebaseReady();
 
     const pageKey = inferPageKey();
@@ -222,7 +235,6 @@
       const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
       const session = window.ParloSession || {};
 
-      // Aggiorna lo scope isolato per classroom-notes.js (gruppo / nnn_lettura / video o paragrafo_N)
       window.ParloNotesScope = {
         group: session.safeGroup || "sconosciuto",
         exercise: pageKey,
@@ -288,8 +300,6 @@
     }
   }
 
-  // Esegue subito in sincrono se il DOM è già stato parsato (script in fondo al body),
-  // così ParloNotesScope è già pronto prima che classroom-notes.js (caricato async da group-scope.js) esegua boot().
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initReadingPage, { once: true });
   } else {
