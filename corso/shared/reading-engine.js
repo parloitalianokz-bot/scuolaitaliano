@@ -35,6 +35,27 @@
     }
   }
 
+  function populateUnitMenus() {
+    const nav = window.PARLO_UNIT_NAV;
+    if (!nav) return;
+
+    const currentFile = location.pathname.split("/").pop() || "";
+
+    const fillSelect = (selectEl, items) => {
+      if (!selectEl || !Array.isArray(items) || selectEl.options.length > 1) return;
+      items.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item.value;
+        opt.textContent = item.label;
+        if (item.value === currentFile) opt.selected = true;
+        selectEl.appendChild(opt);
+      });
+    };
+
+    fillSelect(document.getElementById("exercise-menu"), nav.exercises);
+    fillSelect(document.getElementById("grammar-menu"), nav.grammar);
+  }
+
   function inferPageKey() {
     const bodyKey = document.body?.dataset?.pageKey;
     if (bodyKey) return bodyKey;
@@ -141,7 +162,9 @@
     const pageKey = inferPageKey();
     const storyParagraphs = Array.from(readingCard.querySelectorAll(":scope > p"));
     const videoCard = document.querySelector(".video-card");
-    const hasVideo = Boolean(videoCard && videoCard.querySelector("iframe"));
+    const iframe = videoCard ? videoCard.querySelector("iframe") : null;
+    const hasVideo = Boolean(iframe && /^https?:\/\//i.test(iframe.getAttribute("src") || ""));
+    if (videoCard && !hasVideo) videoCard.remove();
 
     const {
       stepsNav,
@@ -245,7 +268,7 @@
         detail: window.ParloNotesScope
       }));
 
-      if (videoCard) videoCard.hidden = !showingVideo;
+      if (videoCard && hasVideo) videoCard.hidden = !showingVideo;
       readingCard.hidden = showingVideo;
 
       storyParagraphs.forEach((paragraph, idx) => {
@@ -291,6 +314,7 @@
     });
 
     if (window.ParloExercise) {
+      populateUnitMenus();
       ParloExercise.initBackgroundParallax();
       ParloExercise.decorateSessionLinks();
       const exMenu = document.getElementById("exercise-menu");
