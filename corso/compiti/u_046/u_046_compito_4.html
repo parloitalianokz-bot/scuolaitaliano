@@ -1,129 +1,504 @@
-Esercizio 1: Riconoscimento e Abbinamento (Livello Base)
-Tipologia scelta: Accoppiamento (Matching)
-Consegna per lo studente: Collega la situazione o domanda della Colonna A con la risposta o conseguenza corretta della Colonna B. Inserisci la lettera corrispondente all'interno delle parentesi quadre.
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 46 — Compito 4: Imprevisti, pronomi e passato</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5; --error: #c43d3d; --error-bg: #fae7e5;
+    }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.84),rgba(250,248,241,.9)), url("../../u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed, #e9e3d6; }
+    main { width: min(100%, 900px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1,h2,h3 { color: var(--green); }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    header,.panel,.question { margin-bottom: 22px; padding: clamp(22px,4vw,36px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 12px 34px rgba(43,69,46,.08); }
+    header { padding: clamp(26px,5vw,44px); border-top: 4px solid var(--green); text-align: center; }
+    header > a { display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 18px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
+    header p { max-width: 720px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+    #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
+    #page-message:empty { display: none; }
+    #workspace[hidden] { display: none; }
+    .progress-panel { padding: 18px 22px; }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--green); font-weight: 800; }
+    .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .progress-step { width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; }
+    .progress-step.current { border-color: var(--green); background: var(--green); color: white; }
+    .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
+    .section-instructions { margin: 0 0 20px; color: var(--muted); line-height: 1.6; }
+    .subheading { margin: 24px 0 10px; color: var(--green); font-size: 1.08rem; }
+    .question p { line-height: 1.65; }
+    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.15; }
+    .story p { margin: 0 0 14px; }
+    .story p:last-child { margin-bottom: 0; }
+    .gap-input,.match-select { min-height: 40px; padding: 7px 10px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; }
+    .gap-input { width: min(250px, 64vw); margin: 3px 2px; }
+    .match-select { min-width: 105px; color: var(--green); font-weight: 800; }
+    .gap-input.correct,.match-select.correct { border-color: var(--success); background: var(--success-bg); }
+    .gap-input.incorrect,.match-select.incorrect { border-color: var(--error); background: var(--error-bg); }
+    .match-table { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 14px; }
+    .match-column { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
+    .match-column h3 { margin: 0 0 12px; font-size: 1rem; }
+    .match-option { margin: 0 0 12px; line-height: 1.55; }
+    .match-option:last-child { margin-bottom: 0; }
+    .match-option strong { color: var(--accent); }
+    .match-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #e7e5dc; }
+    .match-row:last-child { border-bottom: 0; }
+    .match-row p { margin: 0; line-height: 1.55; }
+    .item-block { margin: 18px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
+    .item-block h3 { margin: 0 0 10px; font-size: 1rem; line-height: 1.55; }
+    .item-block p { margin: 8px 0; }
+    .open-input { display: block; width: 100%; min-height: 100px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
+    .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.12); outline: none; }
+    .answer-feedback { min-height: 1.2em; margin: 3px 2px 0; font-size: .86rem; font-weight: 700; }
+    .answer-feedback.correct { color: var(--success); }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
+    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover:not(:disabled) { background: var(--green-dark); }
+    button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    .position { color: var(--green); font-weight: 800; text-align: center; }
+    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit p { margin: 0; line-height: 1.5; }
+    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
+    .note { color: var(--muted); font-size: .9rem; }
+    @media(max-width:650px) {
+      body { padding: 16px 9px 36px; }
+      .slide-navigation { flex-wrap: wrap; justify-content: center; }
+      .slide-navigation button { flex: 1 1 130px; }
+      .position { order: -1; width: 100%; }
+      .match-table { grid-template-columns: 1fr; }
+      .match-row { grid-template-columns: 1fr; }
+      .match-select { width: 100%; }
+      .question,.panel,header { padding: 19px; }
+      .progress-step { width: 38px; height: 38px; }
+      .task-submit button { width: 100%; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../../compiti.html">← Torna ai compiti a casa</a>
+      <span class="eyebrow">Italiano · Unità 46 · Compito 4</span>
+      <h1>Imprevisti e soluzioni: raccontare al passato</h1>
+      <p>Ripassa pronomi diretti e indiretti, accordo del participio passato, passato prossimo e imperfetto, verbi modali e strutture di causa e conseguenza.</p>
+      <p class="note">Svolgi le quattro parti e salva il tuo lavoro automaticamente. Puoi consegnare anche se il compito è incompleto.</p>
+    </header>
+    <p id="page-message" role="status" aria-live="polite"></p>
+    <section id="workspace" hidden>
+      <nav class="panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="progress-list" class="progress-list"></div>
+      </nav>
+      <div id="section-content"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti">
+        <button id="previous-section" class="secondary" type="button">← Parte precedente</button>
+        <span id="section-position" class="position" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Parte successiva →</button>
+      </nav>
+      <section class="task-submit" aria-label="Consegna del compito">
+        <p><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante</button>
+      </section>
+      <p id="save-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
+  <script id="homework-task-data" type="application/json">
+  {
+    "title": "Unità 46 — Compito 4: Imprevisti e soluzioni",
+    "instructions": "Svolgi i quattro esercizi sui pronomi diretti e indiretti, l'accordo del participio passato, passato prossimo e imperfetto, verbi modali e causa-conseguenza."
+  }
+  </script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const sections = [
+      {
+        id: "sec1", title: "Esercizio 1 · Riconoscimento e abbinamento",
+        instructions: "Collega ogni situazione della Colonna A alla risposta corretta della Colonna B. Scegli la lettera da inserire nelle parentesi.",
+        type: "matching",
+        prompts: [
+          "Hai telefonato ai tuoi colleghi per avvisarli della riunione?",
+          "Perché ieri la tua macchina non partiva?",
+          "Avete incontrato le nuove vicine di casa al piano di sopra?",
+          "Hai chiesto spiegazioni al direttore sull'orario di lavoro?",
+          "Avete visto la cugina di Marco che cercava aiuto?",
+          "Come mai sei arrivato in ritardo all'incontro di lavoro?",
+          "Hai spedito gli inviti ufficiali per la commemorazione dello zio Augusto?",
+          "Il computer in ufficio era rimasto acceso per tutta la notte?"
+        ],
+        options: [
+          "A · Sì, l'abbiamo aiutata a portare le valigie fino a casa.",
+          "B · Perché i miei amici sono arrivati in stazione e ho dovuto andare a prenderli.",
+          "C · Sì, gli ho chiesto tutte le informazioni necessarie per il modulo.",
+          "D · Sì, li ho spediti tutti ieri mattina per posta prioritaria.",
+          "E · Sì, gli ho telefonato stamattina, ma non hanno risposto.",
+          "F · Perché la batteria era scarica e ho dovuto ricaricarla.",
+          "G · Sì, era acceso da ore e ho dovuto spegnerlo subito.",
+          "H · Sì, le abbiamo incontrate ieri sera in ascensore."
+        ],
+        answers: ["E", "F", "H", "C", "A", "B", "D", "G"]
+      },
+      {
+        id: "sec2", title: "Esercizio 2 · Trasformazione delle frasi",
+        instructions: "Trasforma le frasi dal presente al passato seguendo i modelli. Nella Parte A usa il pronome adatto e accorda il participio; nella Parte B esprimi la causa e la conseguenza con dovere al passato.",
+        groups: [
+          { title: "Parte A — Pronomi e accordo del participio passato", items: [
+            {id:"q1", prompt:"Modello: Incontro la professoressa in biblioteca. → L'ho incontrata in biblioteca.", task:"Chiamo Carlo e Paolo per organizzare la cena.", answers:["Li ho chiamati per organizzare la cena."]},
+            {id:"q2", prompt:"Modello: Telefono a Stefano per avvisarlo. → Gli ho telefonato per avvisarlo.", task:"Telefoniamo a Stefania per fare gli auguri di compleanno.", answers:["Le abbiamo telefonato per fare gli auguri di compleanno."]},
+            {id:"q3", task:"Chiediamo un favore agli organizzatori dell'evento.", answers:["Gli abbiamo chiesto un favore.","Abbiamo chiesto loro un favore."]},
+            {id:"q4", task:"Ringrazio i colleghi per il supporto ricevuto durante il progetto.", answers:["Li ho ringraziati per il supporto ricevuto durante il progetto."]},
+            {id:"q5", task:"Aiutate vostra cugina a traslocare nella nuova casa?", answers:["L'avete aiutata a traslocare nella nuova casa?"]}
+          ]},
+          { title: "Parte B — Causa e conseguenza con dovere al passato", items: [
+            {id:"q6", task:"Il telefono è scarico. (dovere / caricare)", answers:["Il telefono era scarico, quindi ho dovuto caricarlo."]},
+            {id:"q7", task:"Le scarpe da ginnastica sono molto sporche. (dovere / pulire)", answers:["Le scarpe da ginnastica erano molto sporche, quindi ho dovuto pulirle."]},
+            {id:"q8", task:"Lo zio Augusto non sta bene. (dovere / accompagnare dal medico)", answers:["Lo zio Augusto non stava bene, quindi ho dovuto accompagnarlo dal medico."]},
+            {id:"q9", task:"I nostri amici arrivano in aeroporto. (dovere / andare a prendere)", answers:["I nostri amici sono arrivati in aeroporto, quindi abbiamo dovuto andare a prenderli."]},
+            {id:"q10", task:"La luce della cucina è accesa. (dovere / spegnere)", answers:["La luce della cucina era accesa, quindi ho dovuto spegnerla."]}
+          ]}
+        ]
+      },
+      {
+        id: "sec3", title: "Esercizio 3 · Un martedì pieno di imprevisti",
+        instructions: "Completa il racconto trasformando le espressioni tra parentesi nel modo e nel tempo opportuni (passato prossimo o imperfetto). Fai attenzione ai pronomi, all'accordo del participio e ai verbi modali.",
+        paragraphs: [
+          ["Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile ", {id:"q1", cue:"essere / sporca", answers:["era sporca"]}, " e per questo ", {id:"q2", cue:"dovere / io / lavare + la", answers:["ho dovuto lavarla"]}, " prima di uscire di casa."],
+          ["Appena arrivato in ufficio, ", {id:"q3", cue:"vedere / io / la mia collega Marta", answers:["ho visto Marta","ho visto la mia collega Marta"]}, " e ", {id:"q4", cue:"salutare + la", answers:["l'ho salutata"]}, " subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, ", {id:"q5", cue:"telefonare / noi / a loro", answers:["gli abbiamo telefonato","abbiamo telefonato loro"]}, " per confermare l'orario. Marta non sapeva come completare la presentazione, così io ", {id:"q6", cue:"aiutare + la", answers:["l'ho aiutata"]}, " per più di un'ora."],
+          ["Nel pomeriggio, il mio cellulare ", {id:"q7", cue:"essere / scarico", answers:["era scarico"]}, " e ", {id:"q8", cue:"dovere / io / mettere + lo", answers:["ho dovuto metterlo"]}, " subito in carica. Verso le 17:00, i nostri ospiti stranieri ", {id:"q9", cue:"arrivare / in stazione", answers:["sono arrivati in stazione"]}, ", quindi io e il direttore ", {id:"q10", cue:"dovere / andare a prendere + li", answers:["abbiamo dovuto andare a prenderli"]}, " in macchina."],
+          ["Infine, quando siamo tornati nel nostro quartiere, ", {id:"q11", cue:"incontrare / noi / i vicini", answers:["abbiamo incontrato i vicini"]}, " e ", {id:"q12", cue:"invitare + li", answers:["li abbiamo invitati"]}, " a prendere un caffè insieme."]
+        ]
+      },
+      {
+        id: "sec4", title: "Esercizio 4 · Dialogo aperto: una giornata piena di imprevisti",
+        instructions: "Completa il dialogo tra Marco e Giulia. Inserisci almeno 3 pronomi diretti con l'accordo del participio, almeno 2 pronomi indiretti e almeno 2 strutture di causa-conseguenza al passato.",
+        openItems: [
+          {id:"q1", prompt:"Giulia: Ieri ti ho cercato per tutto il pomeriggio, ma il tuo telefono risultava irraggiungibile. Che cosa è successo?\nMarco: Spiega che il telefono era scarico e indica la conseguenza con dovere."},
+          {id:"q2", prompt:"Giulia: Capisco! E poi sei riuscito a contattare i parenti per organizzare la cena per lo zio Augusto?\nMarco: Spiega che hai telefonato agli zii e chiamato i cugini; usa pronomi indiretti e diretti al passato."},
+          {id:"q3", prompt:"Giulia: Perfetto! E come è andata a finire con gli ospiti che arrivavano con il treno delle sei?\nMarco: Spiega quando sono arrivati e che cosa avete fatto per andarli a prendere o accompagnarli."},
+          {id:"q4", prompt:"Giulia: Mamma mia, che giornata impegnativa! Stasera ti meriti un po' di riposo!\nMarco: Concludi la conversazione in modo naturale."}
+        ]
+      }
+    ];
 
-N.	Colonna A (Domanda / Situazione)	Risposta	Colonna B (Risposta / Conseguenza)
-1	Hai telefonato ai tuoi colleghi per avvisarli della riunione?	[   ]	A Sì, l'abbiamo aiutata a portare le valigie fino a casa.
-2	Perché ieri la tua macchina non partiva?	[   ]	B Perché i miei amici sono arrivati in stazione e ho dovuto andare a prenderli.
-3	Avete incontrato le nuove vicine di casa al piano di sopra?	[   ]	C Sì, gli ho chiesto tutte le informazioni necessarie per il modulo.
-4	Hai chiesto spiegazioni al direttore sull'orario di lavoro?	[   ]	D Sì, li ho spediti tutti ieri mattina per posta prioritaria.
-5	Avete visto la cugina di Marco che cercava aiuto?	[   ]	E Sì, gli ho telefonato stamattina, ma non hanno risposto.
-6	Come mai sei arrivato in ritardo all'incontro di lavoro?	[   ]	F Perché la batteria era scarica e ho dovuto ricaricarla.
-7	Hai spedito gli inviti ufficiali per la commemorazione dello zio Augusto?	[   ]	G Sì, era acceso da ore e ho dovuto spegnerlo subito.
-8	Il computer in ufficio era rimasto acceso per tutta la notte?	[   ]	H Sì, le abbiamo incontrate ieri sera in ascensore.
-Esercizio 2: Manipolazione e Riordino (Livello Elementare)
-Tipologia scelta: Pattern Drill (Esercizio Strutturale)
-Consegna per lo studente: Trasforma le seguenti frasi dal presente al passato seguendo l'esempio modello.
+    let sectionIndex = 0;
+    let answers = {};
+    let submissionRef = null;
+    let studentName = "";
+    let saveTimer = null;
+    const taskParams = new URLSearchParams(location.search);
+    const assignmentId = taskParams.get("assignment");
+    const workspace = document.getElementById("workspace");
+    const content = document.getElementById("section-content");
+    const pageMessage = document.getElementById("page-message");
+    const saveStatus = document.getElementById("save-status");
+    const progressList = document.getElementById("progress-list");
+    const taskTitle = "Unità 46 — Compito 4: Imprevisti e soluzioni";
 
-Parte A — Pronomi e accordo del participio passato
-Modelli di riferimento:
+    function normalize(value) {
+      return String(value || "").trim().toLocaleLowerCase("it-IT").replace(/[’']/g,"'").replace(/[.!?,;:]/g,"").replace(/\s+/g," ");
+    }
+    function persistAnswer(sectionId, answerId, value) {
+      if (!answers[sectionId]) answers[sectionId] = {};
+      answers[sectionId][answerId] = value;
+      saveStatus.textContent = "Salvataggio delle risposte…";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(async () => {
+        if (!submissionRef) return;
+        try {
+          await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
+          await submissionRef.update({ studentName, status: "in-progress", updatedAt: Date.now() });
+          saveStatus.textContent = "Risposte salvate automaticamente. ✓";
+        } catch (_) {
+          saveStatus.textContent = "Errore di salvataggio. Controlla la connessione.";
+        }
+      }, 350);
+    }
+    function updateFeedback(input, feedback, accepted, value) {
+      const isCorrect = accepted.some(answer => normalize(answer) === normalize(value));
+      input.classList.toggle("correct", Boolean(value.trim()) && isCorrect);
+      input.classList.toggle("incorrect", Boolean(value.trim()) && !isCorrect);
+      feedback.textContent = value.trim() && isCorrect ? "✓ Forma attesa" : "";
+      feedback.className = `answer-feedback${value.trim() && isCorrect ? " correct" : ""}`;
+    }
+    function renderMatching(section, card) {
+      const columns = document.createElement("div");
+      columns.className = "match-table";
+      const left = document.createElement("div");
+      left.className = "match-column";
+      left.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna A · Domande e situazioni"}));
+      section.prompts.forEach((prompt, index) => {
+        const row = document.createElement("div");
+        row.className = "match-row";
+        const text = document.createElement("p");
+        text.innerHTML = `<strong>${index + 1}.</strong> ${prompt}`;
+        const select = document.createElement("select");
+        select.className = "match-select";
+        select.setAttribute("aria-label", `Abbinamento ${index + 1}`);
+        select.innerHTML = '<option value="">[ — ]</option>' + section.options.map(option => `<option value="${option[0]}">${option[0]}</option>`).join("");
+        select.value = answers[section.id]?.[`q${index + 1}`] || "";
+        const check = () => {
+          select.classList.toggle("correct", Boolean(select.value) && select.value === section.answers[index]);
+          select.classList.toggle("incorrect", Boolean(select.value) && select.value !== section.answers[index]);
+        };
+        check();
+        select.addEventListener("change", () => { check(); persistAnswer(section.id, `q${index + 1}`, select.value); });
+        row.append(text, select);
+        left.appendChild(row);
+      });
+      const right = document.createElement("div");
+      right.className = "match-column";
+      right.appendChild(Object.assign(document.createElement("h3"), {textContent:"Colonna B · Risposte e conseguenze"}));
+      section.options.forEach(option => {
+        const item = document.createElement("p");
+        item.className = "match-option";
+        const letter = document.createElement("strong");
+        letter.textContent = `${option[0]} `;
+        item.append(letter, document.createTextNode(option.slice(4)));
+        right.appendChild(item);
+      });
+      columns.append(left, right);
+      card.appendChild(columns);
+    }
+    function renderTransformations(section, card) {
+      section.groups.forEach(group => {
+        card.appendChild(Object.assign(document.createElement("h3"), {className:"subheading", textContent:group.title}));
+        group.items.forEach(item => {
+          const block = document.createElement("div");
+          block.className = "item-block";
+          const prompt = document.createElement("h3");
+          prompt.textContent = item.prompt || item.task;
+          block.appendChild(prompt);
+          if (item.prompt) block.appendChild(Object.assign(document.createElement("p"), {textContent:item.task}));
+          const input = document.createElement("input");
+          input.type = "text";
+          input.className = "gap-input";
+          input.autocomplete = "off";
+          input.placeholder = "Scrivi la frase trasformata…";
+          input.setAttribute("aria-label", `Risposta ${item.id.slice(1)}`);
+          input.value = answers[section.id]?.[item.id] || "";
+          const feedback = document.createElement("div");
+          feedback.className = "answer-feedback";
+          updateFeedback(input, feedback, item.answers, input.value);
+          input.addEventListener("input", () => {
+            updateFeedback(input, feedback, item.answers, input.value);
+            persistAnswer(section.id, item.id, input.value);
+          });
+          block.append(input, feedback);
+          card.appendChild(block);
+        });
+      });
+    }
+    function renderStory(section, card) {
+      const story = document.createElement("div");
+      story.className = "story";
+      section.paragraphs.forEach(parts => {
+        const paragraph = document.createElement("p");
+        parts.forEach(part => {
+          if (typeof part === "string") {
+            paragraph.appendChild(document.createTextNode(part));
+            return;
+          }
+          const input = document.createElement("input");
+          input.type = "text";
+          input.className = "gap-input";
+          input.autocomplete = "off";
+          input.placeholder = `${part.id.slice(1)} · ${part.cue}`;
+          input.setAttribute("aria-label", `Completamento ${part.id.slice(1)}: ${part.cue}`);
+          input.value = answers[section.id]?.[part.id] || "";
+          const feedback = document.createElement("span");
+          feedback.className = "answer-feedback";
+          updateFeedback(input, feedback, part.answers, input.value);
+          input.addEventListener("input", () => {
+            updateFeedback(input, feedback, part.answers, input.value);
+            persistAnswer(section.id, part.id, input.value);
+          });
+          paragraph.append(input, feedback);
+        });
+        story.appendChild(paragraph);
+      });
+      card.appendChild(story);
+    }
+    function renderOpenItems(section, card) {
+      section.openItems.forEach((item, index) => {
+        const block = document.createElement("div");
+        block.className = "item-block";
+        block.appendChild(Object.assign(document.createElement("h3"), {textContent:`Scambio ${index + 1}`}));
+        const prompt = document.createElement("p");
+        prompt.style.whiteSpace = "pre-line";
+        prompt.textContent = item.prompt;
+        const textarea = document.createElement("textarea");
+        textarea.className = "open-input";
+        textarea.rows = 4;
+        textarea.placeholder = "Scrivi la risposta di Marco…";
+        textarea.setAttribute("aria-label", `Risposta al dialogo ${index + 1}`);
+        textarea.value = answers[section.id]?.[item.id] || "";
+        textarea.addEventListener("input", () => persistAnswer(section.id, item.id, textarea.value));
+        block.append(prompt, textarea);
+        card.appendChild(block);
+      });
+      const reminder = document.createElement("p");
+      reminder.className = "note";
+      reminder.textContent = "Controlla di aver usato almeno 3 pronomi diretti con l'accordo, 2 pronomi indiretti e 2 strutture con dovere al passato.";
+      card.appendChild(reminder);
+    }
+    function renderSection() {
+      content.replaceChildren();
+      const section = sections[sectionIndex];
+      const card = document.createElement("article");
+      card.className = "question";
+      card.appendChild(Object.assign(document.createElement("h2"), {className:"section-heading", textContent:section.title}));
+      card.appendChild(Object.assign(document.createElement("p"), {className:"section-instructions", textContent:section.instructions}));
+      if (section.type === "matching") renderMatching(section, card);
+      else if (section.groups) renderTransformations(section, card);
+      else if (section.paragraphs) renderStory(section, card);
+      else if (section.openItems) renderOpenItems(section, card);
+      content.appendChild(card);
+      renderProgress();
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      sections.forEach((section, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}`;
+        button.textContent = String(index + 1);
+        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title}`);
+        button.setAttribute("aria-current", index === sectionIndex ? "step" : "false");
+        button.addEventListener("click", () => { sectionIndex = index; renderSection(); window.scrollTo(0,0); });
+        progressList.appendChild(button);
+      });
+      document.getElementById("progress-count").textContent = `${sectionIndex + 1} / ${sections.length}`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / sections.length) * 100}%`;
+      document.getElementById("section-position").textContent = `Parte ${sectionIndex + 1} di ${sections.length}`;
+      document.getElementById("previous-section").disabled = sectionIndex === 0;
+      document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
+    }
+    function buildTeacherReviewRows(submission) {
+      const saved = submission.answers || {};
+      return sections.map(section => {
+        const state = saved[section.id] || {};
+        let rows = [];
+        if (section.type === "matching") {
+          rows = section.prompts.map((prompt, index) => ({
+            id: `q${index + 1}`, prompt: `${index + 1}. ${prompt}`,
+            answer: state[`q${index + 1}`] || "Nessuna risposta selezionata",
+            expected: section.answers[index]
+          }));
+        } else if (section.groups) {
+          rows = section.groups.flatMap(group => group.items.map(item => ({
+            id: item.id, prompt: item.task, answer: state[item.id] || "Nessuna risposta inserita", expected: item.answers
+          })));
+        } else if (section.paragraphs) {
+          rows = section.paragraphs.flatMap(paragraph => paragraph.filter(part => typeof part === "object").map(part => ({
+            id: part.id, prompt: `Completa con la forma corretta: ${part.cue}.`, answer: state[part.id] || "Nessuna risposta inserita", expected: part.answers
+          })));
+        } else if (section.openItems) {
+          rows = section.openItems.map((item, index) => ({
+            id: item.id, prompt: item.prompt, answer: state[item.id] || "Nessuna risposta inserita",
+            expected: [
+              "Il cellulare era scarico, quindi ho dovuto metterlo subito in carica.",
+              "Gli ho telefonato per confermare il luogo dell'incontro e gli ho chiesto di avvisare gli altri parenti; poi ho chiamato i cugini e li ho avvisati tutti in tempo.",
+              "I nostri ospiti sono arrivati in stazione verso le sei; siccome il treno era in ritardo e avevano bagagli pesanti, abbiamo dovuto andare a prenderli in macchina e li abbiamo accompagnati all'albergo.",
+              "Hai proprio ragione! Finalmente stasera posso rilassarmi sul divano."
+            ][index]
+          }));
+        }
+        return { id: section.id, title: section.title, rows };
+      });
+    }
+    document.getElementById("previous-section").addEventListener("click", () => { sectionIndex = Math.max(0, sectionIndex - 1); renderSection(); window.scrollTo(0,0); });
+    document.getElementById("next-section").addEventListener("click", () => { sectionIndex = Math.min(sections.length - 1, sectionIndex + 1); renderSection(); window.scrollTo(0,0); });
+    document.getElementById("submit-task").addEventListener("click", async () => {
+      if (!submissionRef) return;
+      clearTimeout(saveTimer);
+      const button = document.getElementById("submit-task");
+      button.disabled = true;
+      saveStatus.textContent = "Invio del compito all’insegnante…";
+      try {
+        const updates = { studentName, status: "pending", submittedAt: Date.now() };
+        Object.entries(answers).forEach(([sectionId, sectionAnswers]) => { updates[`answers/${sectionId}`] = sectionAnswers; });
+        await submissionRef.update(updates);
+        saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
+      } catch (_) {
+        saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova.";
+        button.disabled = false;
+      }
+    });
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
+      if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) { sectionIndex++; renderSection(); }
+      else if (event.key === "ArrowLeft" && sectionIndex > 0) { sectionIndex--; renderSection(); }
+    });
 
-Incontro la professoressa in biblioteca. $ ightarrow$ L'ho incontrata in biblioteca.
-Telefono a Stefano per avvisarlo. $ ightarrow$ Gli ho telefonato per avvisarlo.
-Chiamo Carlo e Paolo per organizzare la cena.
-$ ightarrow$ __________________________________________________________________
-Telefoniamo a Stefania per fare gli auguri di compleanno.
-$ ightarrow$ __________________________________________________________________
-Chiediamo un favore agli organizzatori dell'evento.
-$ ightarrow$ __________________________________________________________________
-Ringrazio i colleghi per il supporto ricevuto durante il progetto.
-$ ightarrow$ __________________________________________________________________
-Aiutate vostra cugina a traslocare nella nuova casa?
-$ ightarrow$ __________________________________________________________________
-Parte B — Causa e Conseguenza con verbi modali al passato
-Modello di riferimento:
-
-La macchina è sporca. (dovere / lavare) $ ightarrow$ La macchina era sporca, quindi ho dovuto lavarla.
-Il telefono è scarico. (dovere / caricare)
-$ ightarrow$ __________________________________________________________________
-Le scarpe da ginnastica sono molto sporche. (dovere / pulire)
-$ ightarrow$ __________________________________________________________________
-Lo zio Augusto non sta bene. (dovere / accompagnare dal medico)
-$ ightarrow$ __________________________________________________________________
-I nostri amici arrivano in aeroporto. (dovere / andare a prendere)
-$ ightarrow$ __________________________________________________________________
-La luce della cucina è accesa. (dovere / spegnere)
-$ ightarrow$ __________________________________________________________________
-Esercizio 3: Completamento e Trasformazione (Livello Intermedio)
-Tipologia scelta: Cloze mirato e Riformulazione contestuale
-Consegna per lo studente: Leggi il racconto della giornata di ieri. Completa gli spazi vuoti trasformando le espressioni tra parentesi nel modo e tempo opportuni (Passato Prossimo o Imperfetto), prestando attenzione ai pronomi diretti/indiretti, all'accordo del participio passato e all'uso dei verbi modali.
-
-Un martedì pieno di imprevisti
-Ieri è stata una giornata davvero caotica. Di mattina presto, la mia automobile (1. essere / sporca) ____________________ e per questo (2. dovere / io / lavare + la) ____________________ prima di uscire di casa.
-
-Appena arrivato in ufficio, (3. vedere / io / la mia collega Marta) ____________________ e (4. salutare + la) ____________________ subito. Poi, siccome avevamo una riunione urgente con i clienti italiani, (5. telefonare / noi / a loro) ____________________ per confermare l'orario. Marta non sapeva come completare la presentazione, così io (6. aiutare + la) ____________________ per più di un'ora.
-
-Nel pomeriggio, il mio cellulare (7. essere / scarico) ____________________ e (8. dovere / io / mettere + lo) ____________________ subito in carica. Verso le 17:00, i nostri ospiti stranieri (9. arrivare / in stazione) ____________________, quindi io e il direttore (10. dovere / andare a prendere + li) ____________________ in macchina. Infine, quando siamo tornati nel nostro quartiere, (11. incontrare / noi / i vicini) ____________________ e (12. invitare + li) ____________________ a prendere un caffè insieme.
-
-Esercizio 4: Produzione e Interazione Libera (Livello Avanzato)
-Tipologia scelta: Dialogo aperto basato su un canovaccio
-Consegna per lo studente: Completa il dialogo seguente tra due amici, Marco e Giulia. Marco deve spiegare a Giulia le ragioni dei suoi ritardi e dei suoi imprevisti durante la giornata di ieri.
-
-Requisiti grammaticali per lo studente:
-
-Inserisci almeno 3 pronomi diretti con l'opportuno accordo del participio passato (es. l'ho vista, li ho chiamati).
-Inserisci almeno 2 pronomi indiretti (es. gli ho telefonato, le ho chiesto).
-Inserisci almeno 2 strutture di causa-conseguenza al passato (es. il computer era rotto, quindi ho dovuto ripararlo).
-Traccia del Dialogo
-Giulia: Ciao Marco! Ieri ti ho cercato per tutto il pomeriggio, ma il tuo telefono risultava irraggiungibile. Che cosa è successo?
-Marco: (Spiega che il telefono era scarico e indica la conseguenza con il verbo dovere)
-$ ightarrow$ _______________________________________________________________________________
-$ ightarrow$ _______________________________________________________________________________
-
-Giulia: Capisco! E poi sei riuscito a contattare i parenti per organizzare la cena per lo zio Augusto?
-Marco: (Spiega di aver telefonato agli zii e di aver chiamato i cugini, usando pronomi diretti e indiretti al passato)
-$ ightarrow$ _______________________________________________________________________________
-$ ightarrow$ _______________________________________________________________________________
-
-Giulia: Perfetto! E come è andata a finire con gli ospiti che arrivavano con il treno delle sei?
-Marco: (Spiega l'ora di arrivo degli ospiti e l'azione svolta per andarli a prendere o accompagnarli)
-$ ightarrow$ _______________________________________________________________________________
-$ ightarrow$ _______________________________________________________________________________
-
-Giulia: Mamma mia, che giornata impegnativa! Stasera ti meriti un po' di riposo!
-Marco: (Conclude la conversazione in modo naturale)
-$ ightarrow$ _______________________________________________________________________________
-
-Chiave di Risoluzione (Answer Key per Docente e Sviluppatore HTML)
-Soluzioni Esercizio 1 (Riconoscimento e Abbinamento)
-1 $ ightarrow$ E: Hai telefonato ai tuoi colleghi...? $ ightarrow$ Sì, gli ho telefonato stamattina, ma non hanno risposto.
-2 $ ightarrow$ F: Perché ieri la tua macchina non partiva? $ ightarrow$ Perché la batteria era scarica e ho dovuto ricaricarla.
-3 $ ightarrow$ H: Avete incontrato le nuove vicine...? $ ightarrow$ Sì, le abbiamo incontrate ieri sera in ascensore.
-4 $ ightarrow$ C: Hai chiesto spiegazioni al direttore...? $ ightarrow$ Sì, gli ho chiesto tutte le informazioni necessarie per il modulo.
-5 $ ightarrow$ A: Avete visto la cugina di Marco...? $ ightarrow$ Sì, l'abbiamo aiutata a portare le valigie fino a casa.
-6 $ ightarrow$ B: Come mai sei arrivato in ritardo...? $ ightarrow$ Perché i miei amici sono arrivati in stazione e ho dovuto andare a prenderli.
-7 $ ightarrow$ D: Hai spedito gli inviti ufficiali...? $ ightarrow$ Sì, li ho spediti tutti ieri mattina per posta prioritaria.
-8 $ ightarrow$ G: Il computer era rimasto acceso...? $ ightarrow$ Sì, era acceso da ore e ho dovuto spegnerlo subito.
-Soluzioni Esercizio 2 (Manipolazione e Riordino - Pattern Drill)
-Parte A (Pronomi e accordo):
-
-Li ho chiamati per organizzare la cena.
-Le abbiamo telefonato per fare gli auguri di compleanno.
-Gli abbiamo chiesto un favore.
-Li ho ringraziati per il supporto ricevuto durante il progetto.
-L'avete aiutata a traslocare nella nuova casa?
-Parte B (Causa e conseguenza con modali):
-
-Il telefono era scarico, quindi ho dovuto caricarlo.
-Le scarpe da ginnastica erano molto sporche, quindi ho dovuto pulirle.
-Lo zio Augusto non stava bene, quindi ho dovuto accompagnarlo dal medico.
-I nostri amici sono arrivati in aeroporto, quindi abbiamo dovuto andare a prenderli.
-La luce della cucina era accesa, quindi ho dovuto spegnerla.
-Soluzioni Esercizio 3 (Completamento e Trasformazione)
-era sporca
-ho dovuto lavarla
-ho visto Marta (oppure: ho visto la mia collega Marta)
-l'ho salutata
-gli abbiamo telefonato (forma d'uso parlato / oppure abbiamo telefonato loro in forma letteraria)
-l'ho aiutata
-era scarico
-ho dovuto metterlo
-sono arrivati in stazione
-abbiamo dovuto andare a prenderli
-abbiamo incontrato i vicini
-li abbiamo invitati
-Esempio Svolto Esercizio 4 (Produzione Libera - Possibile Modello)
-Marco: Eh sì! Il cellulare era totalmente scarico, quindi ho dovuto metterlo subito in carica e per qualche ora sono rimasto isolato.
-Marco: Sì! Ho telefonato agli zii per confermare il luogo dell'incontro e poi ho chiamato i cugini: li ho avvisati tutti in tempo.
-Marco: I nostri ospiti sono arrivati in stazione verso le sei; siccome il treno era in ritardo e avevano bagagli pesanti, abbiamo dovuto andare a prenderli in macchina e li abbiamo accompagnati all'albergo.
-Marco: Hai proprio ragione! Finalmente stasera posso rilassarmi sul divano.
+    async function initializeTask() {
+      let session;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
+      try {
+        const openedForReview = await window.openHomeworkTeacherReview({ taskData: { title: taskTitle }, buildRows: buildTeacherReviewRows });
+        if (openedForReview) return;
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
+        return;
+      }
+      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
+      if (!assignmentId) { pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return; }
+      if (!isStudent) { pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return; }
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+          assignmentRef.once("value"),
+          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]);
+        const assignment = assignmentSnapshot.val();
+        const group = groupSnapshot.val();
+        if (!assignment || !group || (assignment.taskPath && !location.pathname.endsWith(assignment.taskPath))) {
+          throw new Error("Compito non disponibile per questo gruppo.");
+        }
+        const active = (group.studenti || []).some(student => student.nome === session.name);
+        const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+        const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+        if ((!active && !inactive) || (assignment.unitNumber != null && Number(assignment.unitNumber) > limit)) {
+          throw new Error("Non sei abilitato a svolgere questo compito.");
+        }
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+        studentName = session.name;
+        const submission = (await submissionRef.once("value")).val() || {};
+        answers = submission.answers || {};
+        workspace.hidden = false;
+        renderSection();
+        if (submission.status === "pending") saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
+        else if (submission.status === "reviewed") saveStatus.textContent = "Questo compito è già stato revisionato.";
+      } catch (error) {
+        pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";
+      }
+    }
+    initializeTask();
+  </script>
+</body>
+</html>
