@@ -1,290 +1,308 @@
-/* Stili specifici per le pagine di lettura (nnn_lettura.html).
-   Richiede ../shared/theme.css caricato prima. */
+(() => {
+  "use strict";
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 32px 16px;
-  color: var(--text);
-  background:
-    linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
-    var(--reading-bg, none) center calc(50% - var(--background-offset, 0px)) / cover fixed,
-    radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .72), transparent 55%),
-    #e9e3d6;
-}
+  const FIREBASE_CONFIG = {
+    authDomain: "esercizi-parlo-italiano.firebaseapp.com",
+    databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "esercizi-parlo-italiano"
+  };
 
-main { width: min(100%, 880px); margin: 0 auto; }
+  function ensureFirebaseReady() {
+    if (!window.firebase) return;
+    if (window.ParloModes && typeof window.ParloModes.initFirebase === "function") {
+      window.ParloModes.initFirebase();
+      return;
+    }
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+    }
+  }
 
-.page-heading { margin: 8px 0 14px; text-align: center; }
+  function applyUnitImages() {
+    const rootStyle = document.documentElement.style;
+    const customBg = rootStyle.getPropertyValue("--reading-bg").trim();
+    const customBanner = rootStyle.getPropertyValue("--reading-banner").trim();
 
-.eyebrow {
-  display: inline-block;
-  margin-bottom: 12px;
-  padding: 8px 15px;
-  border-radius: 20px;
-  background: rgba(255, 254, 250, .9);
-  color: var(--primary-dark);
-  font-size: .78rem;
-  font-weight: 800;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
+    const bgUrl = customBg || `url("${new URL("img/sfondo.jpeg", location.href).href}")`;
+    const bannerUrl = customBanner || `url("${new URL("img/banner.png", location.href).href}")`;
 
-.banner {
-  aspect-ratio: 4 / 1;
-  position: relative;
-  overflow: hidden;
-  margin: 0 0 22px;
-  border: 1px solid rgba(71, 119, 85, .15);
-  border-radius: 26px;
-  background: var(--reading-banner, none) center / cover no-repeat;
-  box-shadow: 0 14px 36px rgba(43, 69, 46, .09);
-}
+    rootStyle.setProperty("--reading-bg", bgUrl);
+    rootStyle.setProperty("--reading-banner", bannerUrl);
 
-.page-heading h1 {
-  margin: 0;
-  color: var(--primary-dark);
-  font-size: clamp(2rem, 6vw, 3.2rem);
-  letter-spacing: -.045em;
-  line-height: 1.1;
-}
+    const bannerEl = document.querySelector(".banner");
+    if (bannerEl && !bannerEl.style.backgroundImage) {
+      bannerEl.style.backgroundImage = bannerUrl;
+    }
+  }
 
-.subtitle { margin: 12px 0 0; color: var(--text-muted); font-size: 1.05rem; }
+  function inferPageKey() {
+    const bodyKey = document.body?.dataset?.pageKey;
+    if (bodyKey) return bodyKey;
+    const file = location.pathname.split("/").pop() || "";
+    const clean = file.replace(/\.html?$/i, "");
+    return clean || "lettura";
+  }
 
-.reading-steps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 7px;
-  max-width: 820px;
-  margin: 0 auto 18px;
-}
+  function ensureReadingChrome(readingCard, pageKey) {
+    let stepsNav = document.getElementById("reading-steps");
+    if (!stepsNav) {
+      stepsNav = document.createElement("nav");
+      stepsNav.id = "reading-steps";
+      stepsNav.className = "reading-steps";
+      stepsNav.setAttribute("aria-label", "Vai direttamente a una parte della lettura");
+      const anchor = document.querySelector(".video-card") || readingCard;
+      anchor.parentNode.insertBefore(stepsNav, anchor);
+    }
 
-.reading-step {
-  min-width: 38px;
-  min-height: 36px;
-  padding: 5px 10px;
-  border: 1px solid #c9d8c9;
-  border-radius: 10px;
-  background: rgba(255, 254, 250, .92);
-  color: var(--primary-dark);
-  font: inherit;
-  font-size: .88rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background .18s, border-color .18s, color .18s;
-}
+    let listenButton = document.getElementById("listen-paragraph");
+    if (!listenButton) {
+      const tools = document.createElement("div");
+      tools.className = "reading-tools";
+      listenButton = document.createElement("button");
+      listenButton.id = "listen-paragraph";
+      listenButton.className = "audio-btn";
+      listenButton.type = "button";
+      listenButton.setAttribute("aria-pressed", "false");
+      listenButton.textContent = "🔊 Ascolta";
+      tools.appendChild(listenButton);
+      readingCard.prepend(tools);
+    }
 
-.reading-step:hover {
-  border-color: var(--primary-dark);
-  background: var(--primary-light);
-}
+    let glossaryBox = document.getElementById("paragraph-glossary");
+    let glossaryList = document.getElementById("glossary-list");
+    if (!glossaryBox) {
+      glossaryBox = document.createElement("details");
+      glossaryBox.id = "paragraph-glossary";
+      glossaryBox.className = "glossary-box";
+      glossaryBox.hidden = true;
+      const summary = document.createElement("summary");
+      summary.textContent = "📖 Parole nuove di questo paragrafo";
+      glossaryList = document.createElement("ul");
+      glossaryList.id = "glossary-list";
+      glossaryList.className = "glossary-list";
+      glossaryBox.append(summary, glossaryList);
+      readingCard.appendChild(glossaryBox);
+    }
 
-.reading-step[aria-current="step"] {
-  border-color: var(--primary-dark);
-  background: var(--primary-dark);
-  color: #fff;
-}
+    let nav = document.querySelector(".reading-navigation");
+    if (!nav) {
+      nav = document.createElement("nav");
+      nav.className = "reading-navigation";
+      nav.setAttribute("aria-label", "Navigazione del racconto");
 
-.video-card {
-  max-width: 820px;
-  margin: 0 auto 24px;
-  padding: clamp(18px, 4vw, 30px);
-  border: 1px solid #4a5149;
-  border-radius: 22px;
-  background: linear-gradient(145deg, #30352f, #171b18 72%);
-  box-shadow: 0 18px 40px rgba(26, 30, 26, .25), inset 0 1px rgba(255, 255, 255, .08);
-  color: #f8f5eb;
-}
+      const prevBtn = document.createElement("button");
+      prevBtn.id = "previous-paragraph";
+      prevBtn.type = "button";
+      prevBtn.textContent = "← Precedente";
 
-.video-card h2 {
-  margin: 0 0 16px;
-  color: #f8f5eb;
-  font-size: clamp(1.1rem, 3vw, 1.35rem);
-  letter-spacing: .02em;
-}
+      const progress = document.createElement("span");
+      progress.id = "reading-progress";
+      progress.className = "reading-progress";
+      progress.setAttribute("role", "status");
+      progress.setAttribute("aria-live", "polite");
 
-.video-frame {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  padding: 7px;
-  border: 1px solid rgba(231, 208, 160, .45);
-  border-radius: 14px;
-  background: #090b0a;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .05);
-}
+      const nextBtn = document.createElement("button");
+      nextBtn.id = "next-paragraph";
+      nextBtn.type = "button";
+      nextBtn.textContent = "Successivo →";
 
-.video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+      const unitPrefix = pageKey.replace(/_lettura$/i, "");
+      const nextHref = document.body?.dataset?.nextHref || `${unitPrefix}_es_a.html`;
+      const nextLabel = document.body?.dataset?.nextLabel || "Vai all’esercizio A →";
+      const exLink = document.createElement("a");
+      exLink.id = "exercise-a-link";
+      exLink.href = nextHref;
+      exLink.hidden = true;
+      exLink.textContent = nextLabel;
 
-.reading {
-  position: relative;
-  max-width: 820px;
-  margin: 0 auto;
-  padding: clamp(24px, 5vw, 48px) clamp(24px, 8vw, 82px) clamp(30px, 6vw, 56px);
-  border: 1px solid #d8ccb5;
-  border-radius: 4px 12px 12px 4px;
-  background:
-    repeating-linear-gradient(0deg, rgba(112, 83, 48, .018) 0, rgba(112, 83, 48, .018) 1px, transparent 1px, transparent 4px),
-    linear-gradient(90deg, #f0e7d4 0, #fbf6e9 5%, #fffaf0 18%, #fffaf0 100%);
-  box-shadow: 0 18px 42px rgba(68, 53, 34, .18), inset 12px 0 18px rgba(111, 78, 42, .07);
-  color: #2b261f;
-  font-family: Georgia, 'Times New Roman', serif;
-}
+      nav.append(prevBtn, progress, nextBtn, exLink);
+      readingCard.after(nav);
+    }
 
-.reading::before {
-  content: "";
-  position: absolute;
-  top: 18px;
-  bottom: 18px;
-  left: 17px;
-  width: 1px;
-  background: rgba(154, 103, 66, .18);
-}
+    return {
+      stepsNav,
+      listenButton,
+      glossaryBox,
+      glossaryList,
+      previousParagraphButton: document.getElementById("previous-paragraph"),
+      nextParagraphButton: document.getElementById("next-paragraph"),
+      exerciseALink: document.getElementById("exercise-a-link"),
+      readingProgress: document.getElementById("reading-progress")
+    };
+  }
 
-.reading-tools {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0 0 18px;
-  font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-}
+  function initReadingPage() {
+    const readingCard = document.querySelector(".reading");
+    if (!readingCard) return;
 
-.audio-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 6px 13px;
-  border: 1px solid #c9d8c9;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--primary-dark);
-  font: inherit;
-  font-size: .86rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background .18s, border-color .18s;
-}
+    applyUnitImages();
+    ensureFirebaseReady();
 
-.audio-btn:hover:not(:disabled) {
-  border-color: var(--primary-dark);
-  background: var(--primary-light);
-}
+    const pageKey = inferPageKey();
+    const storyParagraphs = Array.from(readingCard.querySelectorAll(":scope > p"));
+    const videoCard = document.querySelector(".video-card");
+    const hasVideo = Boolean(videoCard && videoCard.querySelector("iframe"));
 
-.audio-btn[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: #fff3ed;
-  color: var(--accent);
-}
+    const {
+      stepsNav,
+      listenButton,
+      glossaryBox,
+      glossaryList,
+      previousParagraphButton,
+      nextParagraphButton,
+      exerciseALink,
+      readingProgress
+    } = ensureReadingChrome(readingCard, pageKey);
 
-.audio-btn:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
+    let currentSlide = 0;
+    const totalSlides = storyParagraphs.length + (hasVideo ? 1 : 0);
 
-.reading p {
-  margin: 0 0 18px;
-  font-size: clamp(1.12rem, 2.1vw, 1.22rem);
-  line-height: 1.8;
-  text-align: left;
-  text-indent: 1.2em;
-  hyphens: auto;
-}
+    const mediaSync = window.ParloMediaSync
+      ? window.ParloMediaSync.createMediaSync({
+          pageKey,
+          insertBefore: stepsNav,
+          onRemoteSlide: slideIndex => showSlide(slideIndex, { fromRemote: true })
+        })
+      : null;
 
-.reading p:first-of-type::first-letter {
-  float: left;
-  margin: .08em .12em 0 0;
-  color: #8b5c3d;
-  font-size: 3.2em;
-  font-weight: 700;
-  line-height: .8;
-}
+    const stopSpeech = window.ParloExercise?.bindReadingAudio
+      ? ParloExercise.bindReadingAudio(
+          listenButton,
+          () => {
+            const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
+            const activeParagraph = storyParagraphs[paragraphIndex];
+            if (!activeParagraph) return null;
+            const customAudio = activeParagraph.dataset.audio;
+            return {
+              audioSrc: customAudio || `audio/p${paragraphIndex + 1}.mp3`,
+              text: activeParagraph.textContent.trim(),
+              slide: currentSlide
+            };
+          },
+          {
+            onPlay: payload => mediaSync?.publishAudio({
+              playing: true,
+              audioSrc: new URL(payload.audioSrc, location.href).href,
+              slide: payload.slide
+            }),
+            onStop: () => mediaSync?.publishAudio({ playing: false, slide: currentSlide })
+          }
+        )
+      : () => {};
 
-.reading p:last-of-type { margin-bottom: 0; }
+    function updateParagraphGlossary(paragraph) {
+      glossaryList.replaceChildren();
+      if (!paragraph) {
+        glossaryBox.hidden = true;
+        return;
+      }
+      const tips = Array.from(paragraph.querySelectorAll(".vocab-tip"));
+      if (!tips.length) {
+        glossaryBox.hidden = true;
+        return;
+      }
+      tips.forEach(tip => {
+        const li = document.createElement("li");
+        const strong = document.createElement("strong");
+        strong.textContent = tip.textContent.trim();
+        li.append(strong, ` — ${tip.getAttribute("data-tip") || ""}`);
+        glossaryList.appendChild(li);
+      });
+      glossaryBox.hidden = false;
+    }
 
-.glossary-box {
-  margin-top: 24px;
-  padding: 10px 14px;
-  border: 1px solid #dfd3bc;
-  border-radius: 10px;
-  background: rgba(255, 252, 244, .85);
-  font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-  font-size: .9rem;
-}
+    stepsNav.replaceChildren();
+    for (let i = 0; i < totalSlides; i++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "reading-step";
+      if (hasVideo && i === 0) {
+        btn.textContent = "🎬";
+        btn.setAttribute("aria-label", "Vai al video introduttivo");
+      } else {
+        const num = hasVideo ? i : i + 1;
+        btn.textContent = String(num);
+        btn.setAttribute("aria-label", `Vai al paragrafo ${num}`);
+      }
+      btn.addEventListener("click", () => showSlide(i));
+      stepsNav.appendChild(btn);
+    }
 
-.glossary-box summary {
-  color: var(--primary-dark);
-  font-weight: 700;
-  cursor: pointer;
-}
+    function showSlide(index, { fromRemote = false } = {}) {
+      stopSpeech(true);
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      const showingVideo = hasVideo && currentSlide === 0;
+      const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
+      const session = window.ParloSession || {};
 
-.glossary-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 6px 16px;
-  margin: 10px 0 2px;
-  padding: 0;
-  list-style: none;
-}
+      window.ParloNotesScope = {
+        group: session.safeGroup || "sconosciuto",
+        exercise: pageKey,
+        card: showingVideo ? "video" : `paragrafo_${paragraphIndex + 1}`,
+        cardLabel: showingVideo ? "Video introduttivo" : `Paragrafo ${paragraphIndex + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
 
-.glossary-list li {
-  padding: 4px 0;
-  border-bottom: 1px dashed #e6dcc8;
-  color: var(--text);
-}
+      if (videoCard) videoCard.hidden = !showingVideo;
+      readingCard.hidden = showingVideo;
 
-.glossary-list strong {
-  color: var(--primary-dark);
-}
+      storyParagraphs.forEach((paragraph, idx) => {
+        paragraph.hidden = idx !== paragraphIndex;
+      });
 
-.reading-navigation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  max-width: 820px;
-  margin: 24px auto 0;
-  padding: 16px 0 0;
-  border-top: 1px solid #d9cbb2;
-  font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-}
+      updateParagraphGlossary(showingVideo ? null : storyParagraphs[paragraphIndex]);
 
-.reading-navigation button,
-.reading-navigation a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 42px;
-  padding: 8px 14px;
-  border: 1px solid #c9d8c9;
-  border-radius: 10px;
-  background: rgba(255, 254, 250, .88);
-  color: var(--primary-dark);
-  font: inherit;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background .2s, border-color .2s;
-}
+      stepsNav.querySelectorAll("button").forEach((btn, idx) => {
+        btn.setAttribute("aria-current", idx === currentSlide ? "step" : "false");
+      });
 
-.reading-navigation button:hover:not(:disabled),
-.reading-navigation a:hover { border-color: var(--primary-dark); background: var(--primary-light); }
-.reading-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+      previousParagraphButton.disabled = currentSlide === 0;
+      const isLastParagraph = currentSlide === totalSlides - 1;
+      nextParagraphButton.hidden = isLastParagraph;
+      nextParagraphButton.disabled = isLastParagraph;
+      if (exerciseALink) exerciseALink.hidden = !isLastParagraph;
 
-.reading-progress {
-  color: #59452f;
-  font-size: .92rem;
-  font-weight: 800;
-  text-align: center;
-  white-space: nowrap;
-}
+      readingProgress.textContent = showingVideo
+        ? "Video introduttivo"
+        : `Paragrafo ${paragraphIndex + 1} di ${storyParagraphs.length}`;
 
-@media (max-width: 600px) {
-  body { padding: 16px 10px; }
-  .banner { aspect-ratio: 2.6 / 1; border-radius: 18px; }
-  .reading { padding: 24px 20px 28px 28px; }
-  .reading::before { left: 12px; }
-  .reading p { text-align: left; line-height: 1.8; }
-  .reading-navigation { gap: 6px; }
-  .reading-navigation button,
-  .reading-navigation a { padding: 8px 10px; font-size: .85rem; }
-  .reading-progress { font-size: .82rem; }
-}
+      if (!fromRemote) {
+        mediaSync?.publishSlide(currentSlide);
+      }
+    }
+
+    previousParagraphButton.addEventListener("click", () => showSlide(currentSlide - 1));
+    nextParagraphButton.addEventListener("click", () => showSlide(currentSlide + 1));
+    showSlide(0, { fromRemote: true });
+
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
+
+      if (event.key === "ArrowLeft" && currentSlide > 0) {
+        event.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (event.key === "ArrowRight" && currentSlide < totalSlides - 1) {
+        event.preventDefault();
+        showSlide(currentSlide + 1);
+      }
+    });
+
+    if (window.ParloExercise) {
+      ParloExercise.initBackgroundParallax();
+      ParloExercise.decorateSessionLinks();
+      const exMenu = document.getElementById("exercise-menu");
+      const grMenu = document.getElementById("grammar-menu");
+      if (exMenu) ParloExercise.bindNavigationSelect(exMenu);
+      if (grMenu) ParloExercise.bindNavigationSelect(grMenu);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initReadingPage, { once: true });
+  } else {
+    initReadingPage();
+  }
+})();
