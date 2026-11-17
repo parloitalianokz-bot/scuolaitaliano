@@ -107,7 +107,8 @@
     .task-answer.approved, .task-answer.rejected { padding: 16px; border: 2px solid; font-size: 1.08rem; font-weight: 800; line-height: 1.5; }
     .task-answer.approved { border-color: #278253; background: #e1f1e5; color: #17623c; }
     .task-answer.rejected { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
-    .task-feedback { margin-top: 10px; padding: 12px; border-left: 3px solid var(--accent); background: #fff8f2; white-space: pre-wrap; }
+    .task-feedback { margin-top: 12px; padding: 12px 14px; border-left: 4px solid var(--accent); border-radius: 8px; background: #fff8f2; white-space: pre-wrap; line-height: 1.55; }
+    .task-actions-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
     .question-strip { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; }
     .question-card { flex: 0 0 min(320px, 85vw); padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; scroll-snap-align: start; }
     .question-card p { margin: 0 0 12px; }
@@ -123,7 +124,8 @@
     .grade-buttons .selected { box-shadow: 0 0 0 3px rgba(189,105,77,.35); }
     .empty { margin: 0; color: var(--muted); }
     .hidden { display: none !important; }
-    .status { display: inline-block; margin-top: 3px; padding: 3px 8px; border-radius: 20px; background: #fff0e8; color: #87452f; font-size: .78rem; font-weight: 800; }
+    .status { display: inline-block; padding: 4px 10px; border-radius: 20px; background: #fff0e8; color: #87452f; font-size: .78rem; font-weight: 800; }
+    .status.reviewed { background: #e1f1e5; color: #17623c; }
     @media (max-width: 600px) {
       body { padding: 18px 12px; }
       .card { padding: 18px; }
@@ -199,9 +201,9 @@
           <div class="field">
             <label for="review-status">Mostra</label>
             <select id="review-status">
-                          <option value="pending">In attesa di correzione</option>
-            <option value="reviewed">Archivio — corretti</option>
-            <option value="unsubmitted">Non consegnati</option>
+              <option value="pending">In attesa di correzione</option>
+              <option value="reviewed">Archivio — corretti</option>
+              <option value="unsubmitted">Non consegnati</option>
             </select>
           </div>
         </div>
@@ -233,7 +235,6 @@
       46: "Il funerale dello zio Augusto",
       53: "Il viale del tramonto"
     };
-    // Catalogo statico: elenca i compiti pubblicati nelle cartelle compiti/u_XXX.
     let TASK_CATALOG = {};
     function unitOptionLabel(unit) {
       const title = UNIT_TITLES[unit];
@@ -334,27 +335,16 @@
     function noTasks(container, text) {
       container.replaceChildren(makeElement("p", "empty", text));
     }
-    function appendTeacherReviewToStudentCard(card, submission) {
-      const review = submission?.teacherReview;
-      if (review?.finalComment) {
-        card.appendChild(makeElement("div", "task-feedback", `Giudizio finale dell’insegnante: ${review.finalComment}`));
-      }
-      const notes = Object.entries(review?.answers || {}).flatMap(([sectionId, rows]) =>
-        Object.entries(rows || {}).flatMap(([rowId, item]) => {
-          if (!item || (!item.grade && !item.comment)) return [];
-          const grade = item.grade === "approved" ? "Approvata" : item.grade === "rejected" ? "Non approvata" : "";
-          const detail = [grade, item.comment ? `Commento: ${item.comment}` : ""].filter(Boolean).join(" · ");
-          return [`${sectionId} · ${rowId}: ${detail}`];
-        })
-      );
-      if (notes.length) {
-        const details = document.createElement("details");
-        details.className = "task-feedback";
-        details.appendChild(makeElement("summary", "", "Valutazioni e commenti dell’insegnante"));
-        notes.forEach(note => details.appendChild(makeElement("p", "", note)));
-        card.appendChild(details);
+    function appendFinalReviewToStudentCard(card, submission) {
+      const finalComment = submission?.teacherReview?.finalComment || submission?.feedback;
+      if (finalComment) {
+        const box = makeElement("div", "task-feedback");
+        const strong = makeElement("strong", "", "Giudizio finale dell’insegnante: ");
+        box.append(strong, document.createTextNode(finalComment));
+        card.appendChild(box);
       }
     }
+
     const taskCache = new Map();
     function loadTaskDefinition(path) {
       if (!taskCache.has(path)) {
@@ -369,150 +359,6 @@
         }));
       }
       return taskCache.get(path);
-    }
-    function taskQuestions(task) {
-      return (task.sections || []).flatMap(section => (section.questions || []).map(question => ({
-        ...question, sectionTitle: section.title, sectionInstructions: section.instructions
-      })));
-    }
-    function addQuestionPrompt(card, question, index) {
-      if (question.sectionTitle) card.appendChild(makeElement("h4", "", question.sectionTitle));
-      if (question.sectionInstructions) card.appendChild(makeElement("p", "", question.sectionInstructions));
-      card.appendChild(makeElement("div", "question-number", `Domanda ${index + 1}`));
-      card.appendChild(makeElement("p", "", question.prompt));
-    }
-
-    async function renderStructuredTeacherTask(card, assignmentId, studentKey, assignment, submission, wanted, studentName) {
-      try {
-        const task = await loadTaskDefinition(assignment.taskPath);
-        const questions = taskQuestions(task);
-        const strip = makeElement("div", "question-strip");
-        questions.forEach((question, index) => {
-          const questionCard = makeElement("div", "question-card");
-          addQuestionPrompt(questionCard, question, index);
-          const response = submission.answers?.[question.id] || {};
-          let answerText = response.answer || "Nessuna risposta registrata.";
-          if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
-          questionCard.appendChild(makeElement("div", "task-answer", answerText));
-          if (question.modelAnswer) {
-            const details = document.createElement("details");
-            details.append(makeElement("summary", "", "Risposta attesa"), makeElement("p", "", question.modelAnswer));
-            questionCard.appendChild(details);
-          }
-          if (wanted === "pending") {
-            const controls = makeElement("div", "grading-controls");
-            const comment = makeElement("textarea");
-            comment.maxLength = 1000;
-            comment.placeholder = "Commento per questa risposta (facoltativo)";
-            comment.value = response.comment || "";
-            comment.setAttribute("aria-label", `Commento per la domanda ${index + 1}`);
-            const buttons = makeElement("div", "grade-buttons");
-            [["approved", "Approva", ""], ["rejected", "Non approva", "reject"]].forEach(([grade, label, className]) => {
-              const button = makeElement("button", className, label);
-              button.type = "button";
-              if (response.grade === grade) button.classList.add("selected");
-              button.addEventListener("click", async () => {
-                button.disabled = true;
-                const updatedAnswers = { ...(submission.answers || {}), [question.id]: { ...response, grade, comment: comment.value.trim() } };
-                const complete = questions.every(item => updatedAnswers[item.id]?.grade === "approved" || updatedAnswers[item.id]?.grade === "rejected");
-                const update = { answers: updatedAnswers };
-                if (complete) Object.assign(update, { status: "reviewed", reviewedAt: Date.now(), reviewedBy: session.teacher });
-                try {
-                  await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update(update);
-                  showMessage(complete ? `Tutte le risposte di ${studentName} sono state corrette e archiviate.` : `Esito salvato per la risposta di ${studentName}.`, "success");
-                } catch (_) {
-                  showMessage("Impossibile salvare la correzione. Controlla la connessione.");
-                  button.disabled = false;
-                }
-              });
-              buttons.appendChild(button);
-            });
-            controls.append(comment, buttons);
-            questionCard.appendChild(controls);
-          } else {
-            questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
-            if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
-          }
-          strip.appendChild(questionCard);
-        });
-        card.appendChild(strip);
-      } catch (_) {
-        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
-      }
-    }
-
-    async function renderStructuredStudentTask(card, assignmentId, assignment, submission, wanted) {
-      const strip = makeElement("div", "question-strip");
-      const form = makeElement("form", "task-form");
-      try {
-        const task = await loadTaskDefinition(assignment.taskPath);
-        const questions = taskQuestions(task);
-        if (wanted === "assigned") {
-          const controls = {};
-          questions.forEach((question, index) => {
-            const questionCard = makeElement("div", "question-card");
-            addQuestionPrompt(questionCard, question, index);
-            if (question.options) {
-              const options = makeElement("div", "question-options");
-              question.options.forEach((option, optionIndex) => {
-                const label = makeElement("label");
-                const input = document.createElement("input");
-                input.type = "radio";
-                input.name = `answer-${assignmentId}-${question.id}`;
-                input.value = String(optionIndex);
-                input.required = true;
-                label.append(input, document.createTextNode(option));
-                options.appendChild(label);
-              });
-              questionCard.appendChild(options);
-              controls[question.id] = () => form.querySelector(`input[name="answer-${assignmentId}-${question.id}"]:checked`)?.value || "";
-            } else {
-              const input = makeElement("textarea");
-              input.required = true;
-              input.maxLength = 2000;
-              input.setAttribute("aria-label", `Risposta ${index + 1}`);
-              questionCard.appendChild(input);
-              controls[question.id] = () => input.value.trim();
-            }
-            strip.appendChild(questionCard);
-          });
-          const submit = makeElement("button", "", "Invia tutte le risposte");
-          form.append(strip, submit);
-          form.addEventListener("submit", async event => {
-            event.preventDefault();
-            submit.disabled = true;
-            const answers = Object.fromEntries(Object.entries(controls).map(([key, getValue]) => [key, { answer: getValue() }]));
-            try {
-              await homeworkRef.child(`${assignmentId}/consegne/${safeNameKey(session.name)}`).set({
-                studentName: session.name, status: "pending", answers, submittedAt: Date.now()
-              });
-              showMessage("Risposte inviate: l’insegnante le vedrà in attesa di correzione.", "success");
-            } catch (_) {
-              showMessage("Impossibile inviare le risposte. Controlla la connessione e riprova.");
-              submit.disabled = false;
-            }
-          });
-          card.appendChild(form);
-        } else {
-          questions.forEach((question, index) => {
-            const questionCard = makeElement("div", "question-card");
-            addQuestionPrompt(questionCard, question, index);
-            const response = submission?.answers?.[question.id] || {};
-            let answerText = response.answer || "Nessuna risposta registrata.";
-            if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
-            questionCard.appendChild(makeElement("div", `task-answer${response.grade ? ` ${response.grade}` : ""}`, answerText));
-            if (wanted === "reviewed") {
-              questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
-              if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
-            }
-            strip.appendChild(questionCard);
-          });
-          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
-          card.appendChild(strip);
-        }
-      } catch (_) {
-        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
-      }
     }
 
     function renderStudentTasks() {
@@ -534,22 +380,37 @@
         const submission = assignment.consegne?.[safeNameKey(session.name)];
         const card = makeElement("article", "task");
         card.appendChild(makeElement("h3", "", assignment.title || `Unità ${assignment.unitNumber}`));
-        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+        const metaParts = [`Unità ${assignment.unitNumber}`, `assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`];
+        if (wanted === "reviewed" && submission?.reviewedAt) {
+          metaParts.push(`corretto il ${formatDate(submission.reviewedAt)}`);
+        }
+        card.appendChild(makeElement("div", "task-meta", metaParts.join(" · ")));
         if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+
         if (assignment.taskPath) {
-          const taskLink = makeElement("a", "button-link", wanted === "assigned" ? "Svolgi il compito ↗" : "Riapri il compito ↗");
+          const actionsRow = makeElement("div", "task-actions-row");
+          const buttonText = wanted === "assigned"
+            ? "Svolgi il compito ↗"
+            : wanted === "reviewed"
+              ? "Vedi la correzione ↗"
+              : "Riapri il compito ↗";
+          const taskLink = makeElement("a", "button-link", buttonText);
           const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
           taskUrl.searchParams.set("assignment", id);
           taskLink.href = taskUrl.href;
-          card.appendChild(taskLink);
+          actionsRow.appendChild(taskLink);
+
           if (wanted === "assigned" && submission?.status === "in-progress") {
-            card.appendChild(makeElement("span", "status", "In corso · risposte salvate"));
+            actionsRow.appendChild(makeElement("span", "status", "In corso · risposte salvate"));
+          } else if (wanted === "pending") {
+            actionsRow.appendChild(makeElement("span", "status", "In attesa di correzione"));
+          } else if (wanted === "reviewed") {
+            actionsRow.appendChild(makeElement("span", "status reviewed", "✓ Revisionato"));
           }
-          if (wanted !== "assigned") {
-            card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
-            if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
-            if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
-            appendTeacherReviewToStudentCard(card, submission);
+          card.appendChild(actionsRow);
+
+          if (wanted === "reviewed") {
+            appendFinalReviewToStudentCard(card, submission);
           }
         } else if (wanted === "assigned") {
           const form = makeElement("form", "task-form");
@@ -578,10 +439,11 @@
           });
           card.appendChild(form);
         } else {
-          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+          card.appendChild(makeElement("span", wanted === "reviewed" ? "status reviewed" : "status", wanted === "reviewed" ? "✓ Revisionato" : "In attesa di correzione"));
           card.appendChild(makeElement("div", "task-answer", submission?.answer || "Nessuna risposta registrata."));
-          if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
-          if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
+          if (wanted === "reviewed") {
+            appendFinalReviewToStudentCard(card, submission);
+          }
         }
         studentTasks.appendChild(card);
       });
@@ -683,7 +545,7 @@
           });
           card.appendChild(form);
         } else if (!assignment.taskPath) {
-          card.appendChild(makeElement("span", "status", `Corretto il ${formatDate(submission.reviewedAt) || ""}`));
+          card.appendChild(makeElement("span", "status reviewed", `Corretto il ${formatDate(submission.reviewedAt) || ""}`));
           if (submission.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback: ${submission.feedback}`));
         }
         teacherTasks.appendChild(card);

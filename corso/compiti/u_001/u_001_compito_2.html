@@ -274,6 +274,7 @@
 
     let sectionIndex = 0;
     let answers = {};
+    let teacherReviewData = null;
     let submissionRef = null;
     let studentName = "";
     let submissionStatus = "in-progress";
@@ -348,7 +349,8 @@
     }
 
     function persistAnswer(sectionId, answerId, value) {
-      if (submissionStatus === "reviewed" || submissionStatus === "pending") {
+      if (submissionStatus === "reviewed") return;
+      if (submissionStatus === "pending") {
         submissionStatus = "in-progress";
         setSubmittedVisualState(false);
       }
@@ -385,6 +387,7 @@
         text.innerHTML = `<strong>${index + 1}.</strong> ${prompt}`;
         const select = document.createElement("select");
         select.className = "match-select";
+        select.dataset.answerId = `q${index + 1}`;
         select.setAttribute("aria-label", `Risposta per la domanda ${index + 1}`);
         select.appendChild(new Option("Scegli una risposta…", ""));
         section.options.forEach(option => select.appendChild(new Option(option, option[0])));
@@ -400,7 +403,7 @@
     }
 
     function renderTransformations(section, card) {
-      card.appendChild(createAccentBar());
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
       section.groups.forEach(group => {
         card.appendChild(Object.assign(document.createElement("h3"), {className:"subheading", textContent:group.title}));
         if (group.example) {
@@ -418,6 +421,7 @@
           const input = document.createElement("input");
           input.type = "text";
           input.className = "gap-input full-sentence";
+          input.dataset.answerId = item.id;
           input.autocomplete = "off";
           input.placeholder = "Scrivi la frase completa al plurale…";
           input.setAttribute("aria-label", `Risposta ${idx + 1}`);
@@ -432,7 +436,7 @@
     }
 
     function renderStory(section, card) {
-      card.appendChild(createAccentBar());
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
       const story = document.createElement("div");
       story.className = "story";
       section.paragraphs.forEach(parts => {
@@ -452,6 +456,7 @@
           const input = document.createElement("input");
           input.type = "text";
           input.className = "gap-input";
+          input.dataset.answerId = part.id;
           input.autocomplete = "off";
           input.placeholder = "…";
           input.setAttribute("aria-label", `Spazio ${part.id.slice(1)}: ${part.cue}`);
@@ -469,7 +474,7 @@
     }
 
     function renderOpenItems(section, card) {
-      card.appendChild(createAccentBar());
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
       if (section.example) {
         const example = document.createElement("p");
         example.className = "example-line";
@@ -485,6 +490,7 @@
         prompt.textContent = item.prompt;
         const textarea = document.createElement("textarea");
         textarea.className = "open-input";
+        textarea.dataset.answerId = item.id;
         textarea.rows = 3;
         textarea.placeholder = "Scrivi qui la presentazione in italiano…";
         textarea.setAttribute("aria-label", `Presentazione ${index + 1}`);
@@ -507,6 +513,16 @@
       else if (section.groups) renderTransformations(section, card);
       else if (section.paragraphs) renderStory(section, card);
       else if (section.openItems) renderOpenItems(section, card);
+
+      if (submissionStatus === "reviewed" && window.applyStudentReviewedFeedback) {
+        window.applyStudentReviewedFeedback({
+          container: card,
+          sectionId: section.id,
+          teacherReview: teacherReviewData,
+          isGapStory: Boolean(section.paragraphs)
+        });
+      }
+
       content.appendChild(card);
       renderProgress();
     }
@@ -617,7 +633,7 @@
     document.getElementById("next-section").addEventListener("click", () => { sectionIndex = Math.min(sections.length - 1, sectionIndex + 1); renderSection(); window.scrollTo(0,0); });
 
     submitBtn.addEventListener("click", async () => {
-      if (!submissionRef) return;
+      if (!submissionRef || submissionStatus === "reviewed") return;
       clearTimeout(saveTimer);
       hasPendingSave = false;
       const previousStatus = submissionStatus;
@@ -682,15 +698,25 @@
         studentName = session.name;
         const submission = (await submissionRef.once("value")).val() || {};
         answers = submission.answers || {};
+        teacherReviewData = submission.teacherReview || null;
         submissionStatus = submission.status || "in-progress";
         workspace.hidden = false;
-        renderSection();
-        if (submission.status === "pending") {
+
+        if (submissionStatus === "reviewed") {
+          submitBox.hidden = true;
+          if (window.renderStudentReviewedBanner) {
+            window.renderStudentReviewedBanner({
+              targetParent: workspace,
+              teacherReview: teacherReviewData
+            });
+          }
+          saveStatus.textContent = "Questo compito è stato revisionato dall’insegnante (modalità sola lettura).";
+        } else if (submissionStatus === "pending") {
           setSubmittedVisualState(true);
           saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
-        } else if (submission.status === "reviewed") {
-          saveStatus.textContent = "Questo compito è già stato revisionato.";
         }
+
+        renderSection();
       } catch (error) {
         pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";
       }

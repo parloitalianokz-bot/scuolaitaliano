@@ -34,6 +34,20 @@
       #homework-review .review-footer { margin-top:18px; }
       #homework-review .review-final-comment { display:block; width:100%; min-height:100px; margin:12px 0; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       #homework-review .review-footer button { margin-right:10px; margin-bottom:8px; }
+
+      /* Stili per la vista revisionata dello studente */
+      .student-reviewed-banner { margin: 0 0 20px; padding: 18px 20px; border: 2px solid #278253; border-radius: 16px; background: #e1f1e5; color: #174c30; line-height: 1.6; }
+      .student-reviewed-banner h3 { margin: 0 0 6px; color: #174c30; font-size: 1.08rem; }
+      .student-reviewed-banner p { margin: 0; }
+      .student-reviewed-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: .85rem; font-weight: 700; }
+      .student-reviewed-legend span { display: inline-flex; align-items: center; gap: 6px; }
+      .student-reviewed-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+      .student-reviewed-legend i.ok { background: #e1f1e5; border: 1.5px solid #278253; }
+      .student-reviewed-legend i.ko { background: #fde8e7; border: 1.5px solid #c62828; }
+      .reviewed-field-approved { border-color: #278253 !important; background: #e1f1e5 !important; color: #174c30 !important; font-weight: 700 !important; }
+      .reviewed-field-rejected { border-color: #c62828 !important; background: #fde8e7 !important; color: #8f1919 !important; font-weight: 700 !important; }
+      .student-item-comment { margin-top: 8px; padding: 9px 12px; border-left: 3px solid #bd694d; border-radius: 8px; background: #fff8f2; color: #4a2a1d; font-size: .9rem; line-height: 1.5; }
+      .student-gap-comments { margin-top: 14px; display: grid; gap: 8px; }
       @media(max-width:600px) { #homework-review { margin:12px 8px; padding:17px; } }
     `;
     document.head.appendChild(style);
@@ -50,7 +64,7 @@
   function formatValue(value) {
     if (value === null || value === undefined || value === "") return "Nessuna risposta registrata.";
     if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" / ");
-    if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}:${formatValue(item)}`).join("\n");
+    if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}: ${formatValue(item)}`).join("\n");
     return String(value);
   }
 
@@ -81,11 +95,86 @@
     return candidates.some(exp => {
       const normExp = normalizeText(exp);
       if (normalizedAns === normExp) return true;
-      // Supporta anche il confronto solo sulla lettera iniziale negli abbinamenti (es. "D" vs "D · È a Firenze...")
       if (/^[a-z]\s*·/i.test(String(exp)) && normalizedAns === normExp[0]) return true;
       return false;
     });
   }
+
+  // Helper chiamato dalle pagine degli esercizi quando lo studente apre un compito già revisionato
+  window.applyStudentReviewedFeedback = function ({ container, sectionId, teacherReview, isGapStory = false }) {
+    addStyles();
+    const sectionReviews = teacherReview?.answers?.[sectionId] || {};
+
+    container.querySelectorAll("input, select, textarea").forEach(el => {
+      el.disabled = true;
+    });
+
+    const gapCommentsBox = isGapStory ? document.createElement("div") : null;
+    if (gapCommentsBox) gapCommentsBox.className = "student-gap-comments";
+
+    Object.entries(sectionReviews).forEach(([answerId, reviewItem]) => {
+      if (!reviewItem) return;
+      const field = container.querySelector(`[data-answer-id="${answerId}"]`);
+      if (!field) return;
+
+      if (reviewItem.grade === "approved") {
+        field.classList.add("reviewed-field-approved");
+      } else if (reviewItem.grade === "rejected") {
+        field.classList.add("reviewed-field-rejected");
+      }
+
+      if (reviewItem.comment) {
+        const commentBox = document.createElement("div");
+        commentBox.className = "student-item-comment";
+        const num = answerId.replace(/^q/, "");
+        const prefix = isGapStory ? `Spazio ${num} — Commento dell’insegnante: ` : "Commento dell’insegnante: ";
+        const strong = document.createElement("strong");
+        strong.textContent = prefix;
+        commentBox.append(strong, document.createTextNode(reviewItem.comment));
+
+        if (isGapStory && gapCommentsBox) {
+          gapCommentsBox.appendChild(commentBox);
+        } else {
+          const host = field.closest(".match-row, .item-block") || field.parentElement;
+          if (host) host.appendChild(commentBox);
+        }
+      }
+    });
+
+    if (gapCommentsBox && gapCommentsBox.children.length > 0) {
+      container.appendChild(gapCommentsBox);
+    }
+  };
+
+  window.renderStudentReviewedBanner = function ({ targetParent, teacherReview }) {
+    addStyles();
+    const existing = document.getElementById("student-reviewed-banner");
+    if (existing) existing.remove();
+
+    const banner = document.createElement("section");
+    banner.id = "student-reviewed-banner";
+    banner.className = "student-reviewed-banner";
+    banner.setAttribute("aria-label", "Esito della correzione");
+
+    const title = document.createElement("h3");
+    title.textContent = "✓ Compito revisionato dall’insegnante";
+    banner.appendChild(title);
+
+    if (teacherReview?.finalComment) {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = "Giudizio finale: ";
+      p.append(strong, document.createTextNode(teacherReview.finalComment));
+      banner.appendChild(p);
+    }
+
+    const legend = document.createElement("div");
+    legend.className = "student-reviewed-legend";
+    legend.innerHTML = '<span><i class="ok"></i> Risposta corretta</span><span><i class="ko"></i> Risposta da rivedere</span>';
+    banner.appendChild(legend);
+
+    targetParent.prepend(banner);
+  };
 
   window.openHomeworkTeacherReview = async function ({ taskData, buildRows }) {
     const params = new URLSearchParams(location.search);
