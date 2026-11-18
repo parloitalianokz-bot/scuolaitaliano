@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sostituisci le parole sottolineate con i pronomi indiretti, Unità 47." />
+  <title>Unità 47 — I mostri · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <style>
+    body {
+      background:
+        linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111,151,116,.18), transparent 42%),
+        var(--bg-main);
+    }
+  </style>
+</head>
+<body data-page-key="047_es_e" data-next-href="047_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 47">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’Unità 47</label>
+      <select id="exercise-menu">
+        <option value="047_lettura.html">Lettura</option>
+        <option value="047_es_a.html">Esercizio A</option>
+        <option value="047_es_b.html">Esercizio B</option>
+        <option value="047_es_c.html">Esercizio C</option>
+        <option value="047_es_d.html">Esercizio D</option>
+        <option value="047_es_e.html" selected>Esercizio E</option>
+        <option value="047_es_f.html">Esercizio F</option>
+        <option value="047_es_g.html">Esercizio G</option>
+        <option value="047_es_h.html">Esercizio H</option>
+        <option value="047_es_i.html">Esercizio I</option>
+        <option value="047_es_j.html">Esercizio J</option>
+        <option value="047_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 47 · Grammatica</span>
+      <h1>I mostri</h1>
+      <p class="hero-subtitle">Sostituisci le parole sottolineate con i pronomi indiretti.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio E</div>
+      <div class="instruction-text">👉 <strong>Замените подчеркнутые слова косвенными местоимениями.</strong><br /><span lang="it">Riscrivi tutta la frase sostituendo la parte sottolineata con il pronome indiretto corretto. In modalità online i contributi sono condivisi; a distanza e in allenamento puoi esercitarti individualmente.</span></div>
+    </div>
+
+    <section class="card" aria-label="Sostituisci le parole con i pronomi indiretti">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="047_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 47,
+      exercisePath: "047_es_e",
+      questions: [
+        { key: "telefono-marco", title: "Se mi dai il numero di telefono di Marco, stasera telefono ⟦a Marco⟧." },
+        { key: "sorella-vegetariana", title: "Mia sorella è vegetariana e ⟦a mia sorella⟧ non piace la carne." },
+        { key: "padre-pensione", title: "Mio padre è in pensione, e ⟦a mio padre⟧ piace molto leggere." },
+        { key: "rivista-amiche", title: "Anna e Cristina vogliono leggere qualcosa, e io presto una rivista ⟦a Anna e Cristina⟧." },
+        { key: "conto-clienti", title: "Quando i clienti hanno finito di cenare, il cameriere ha portato il conto ⟦ai clienti⟧." },
+        { key: "buongiorno-professore", title: "Il professore è entrato in classe e noi abbiamo detto buongiorno ⟦al professore⟧." },
+        { key: "aperitivo-colleghi", title: "Dopo il lavoro vado al bar con i colleghi e offro un aperitivo ⟦ai colleghi⟧." },
+        { key: "telefono-madre", title: "Se tua madre stasera è in casa, forse telefono ⟦a tua madre⟧." },
+        { key: "figlio-signora", title: "Suo figlio è intelligente, Signora, ma ⟦a Suo figlio⟧ non piace studiare." },
+        { key: "domande-cristina", title: "Cristina mi ha fatto molte domande, ma io non ho detto niente ⟦a Cristina⟧." },
+        { key: "restituisco-libro", title: "Se oggi incontro il professore, restituisco il suo libro ⟦al professore⟧." },
+        { key: "informazione-passante", title: "I turisti hanno fermato un passante e hanno chiesto un’informazione ⟦al passante⟧." },
+        { key: "regalo-giovanna", title: "Domani è il compleanno di Giovanna: perché non regaliamo una pianta o un mazzo di fiori ⟦a Giovanna⟧?" },
+        { key: "favori-silvio", title: "Silvio non mi aiuta mai, io invece faccio molti favori ⟦a Silvio⟧." },
+        { key: "caffe-ragazzi", title: "I ragazzi vanno in salotto: prepari un caffè ⟦ai ragazzi⟧?" },
+        { key: "telefono-idraulico", title: "Quando telefoni all’idraulico? — Telefono ⟦all’idraulico⟧ stasera." },
+        { key: "documenti-segretaria", title: "Il dottor Melani chiama la segretaria e dà i documenti ⟦alla segretaria⟧." },
+        { key: "telefona-nonno", title: "Il nonno è triste perché nessuno telefona ⟦al nonno⟧." },
+        { key: "rispondi-professore", title: "Il professore ti ha fatto una domanda: perché non rispondi ⟦al professore⟧?" },
+        { key: "ali-struzzi", title: "Gli struzzi hanno le ali, ma ⟦agli struzzi⟧ non servono perché non sanno volare." }
+      ]
+    });
+  </script>
+</body>
+</html>

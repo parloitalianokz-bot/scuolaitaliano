@@ -38,18 +38,40 @@
   }
 
   function initBackgroundParallax() {
+    const body = document.body;
+    if (!body || body.dataset.parallaxInitialized === "true") return;
+
+    // Preserve pages that already provide their own parallax layer.
+    if (getComputedStyle(body, "::before").content !== "none") return;
+
+    const bodyStyle = getComputedStyle(body);
+    if (!bodyStyle.backgroundImage || bodyStyle.backgroundImage === "none") return;
+
+    const layer = document.createElement("div");
+    layer.className = "parlo-parallax-background";
+    layer.setAttribute("aria-hidden", "true");
+    ["backgroundImage", "backgroundPosition", "backgroundSize", "backgroundRepeat", "backgroundColor", "backgroundOrigin", "backgroundClip"].forEach(property => {
+      layer.style[property] = bodyStyle[property];
+    });
+    body.appendChild(layer);
+    body.dataset.parallaxInitialized = "true";
+    body.style.position ||= "relative";
+    body.style.isolation ||= "isolate";
+    body.style.backgroundImage = "none";
+
     let pending = false;
     const update = () => {
       if (pending) return;
       pending = true;
       window.requestAnimationFrame(() => {
         const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-        const offset = reducedMotion ? 0 : Math.min(window.scrollY * 0.12, 180);
-        document.body.style.setProperty("--background-offset", `${offset}px`);
+        const offset = reducedMotion ? 0 : -Math.min(window.scrollY * 0.12, 180);
+        layer.style.transform = `translate3d(0, ${offset}px, 0)`;
         pending = false;
       });
     };
     window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
     update();
   }
 
@@ -328,9 +350,13 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initTooltips, { once: true });
+    document.addEventListener("DOMContentLoaded", () => {
+      initTooltips();
+      initBackgroundParallax();
+    }, { once: true });
   } else {
     initTooltips();
+    initBackgroundParallax();
   }
 
   window.ParloExercise = Object.freeze({

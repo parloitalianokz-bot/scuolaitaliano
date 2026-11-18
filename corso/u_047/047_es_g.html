@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con le preposizioni, Unità 47." />
+  <title>Unità 47 — I mostri · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <style>
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      position: relative; isolation: isolate;
+      min-height: 100vh; margin: 0; padding: 28px 16px; color: var(--text);
+      background: radial-gradient(ellipse at 50% -12%, rgba(111,151,116,.18), transparent 42%), var(--bg-main);
+    }
+    body::before {
+      content: ""; position: fixed; z-index: -1; top: -25vh; right: 0; bottom: -25vh; left: 0;
+      background: linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)), url("img/sfondo.jpeg") center / cover no-repeat;
+      transform: translate3d(0, var(--parallax-y, 0), 0); will-change: transform; pointer-events: none;
+    }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .hero { margin: 8px 0 22px; padding: 28px 20px 26px; text-align: center; border: 1px solid rgba(71,119,85,.13); border-radius: 24px; background: linear-gradient(135deg, rgba(255,254,250,.94), rgba(242,247,239,.91)); box-shadow: 0 12px 32px rgba(43,69,46,.07); }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: #eaf1e8; color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem, 5vw, 2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .98rem; }
+    .instruction-box { margin-bottom: 20px; padding: 16px 20px; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent); border-radius: 16px; background: rgba(255,254,250,.96); box-shadow: 0 6px 18px rgba(43,69,46,.04); line-height: 1.55; }
+    .instruction-title { margin-bottom: 6px; color: var(--accent); font-size: .85rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .card { margin-bottom: 24px; padding: clamp(20px, 4vw, 32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43,69,46,.11); }
+    .connection-banner { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px; background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700; }
+    .progress-label { margin: 0 0 9px; color: var(--primary-dark); font-size: .9rem; font-weight: 800; }
+    .overall-progress { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 7px; margin: 0 0 18px; }
+    .progress-step { min-height: 40px; border: 1px solid #d8e5d8; border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; cursor: pointer; }
+    .progress-step:hover, .progress-step[aria-current="step"] { border-color: var(--primary); background: var(--primary-light); }
+    .progress-step.done { border-color: #9ac9a5; background: var(--success-bg); color: var(--success); }
+    .section-box { display: flex; flex-direction: column; gap: 16px; padding: clamp(16px, 4vw, 24px); border: 1px solid var(--border); border-radius: 20px; background: linear-gradient(145deg, #fffefa, #f2f7ef); }
+    .section-header, .worksheet-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .section-header { padding-bottom: 12px; border-bottom: 1px solid #eef2ee; }
+    .section-title { display: flex; align-items: center; gap: 11px; color: var(--primary-dark); font-weight: 800; }
+    .number { display: inline-grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border-radius: 10px; background: var(--primary); color: #fff; }
+    .turn-pill { padding: 5px 12px; border: 1px solid #dce6dc; border-radius: 999px; background: #f7faf7; color: var(--primary-dark); font-size: .82rem; font-weight: 700; }
+    .turn-pill.is-me { border-color: var(--accent); background: #fff3ed; color: #9c4a30; }
+    .turn-assignment-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3; }
+    .turn-assignment-bar[hidden] { display: none; }
+    .turn-assignment-bar label { color: var(--primary-dark); font-size: .85rem; font-weight: 800; }
+    .turn-assignment-bar select { flex: 1; min-width: 210px; min-height: 38px; padding: 6px 10px; border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff; color: var(--text); font: inherit; }
+    .worksheet-card { display: flex; flex-direction: column; gap: 14px; padding: 16px; border: 1.5px solid #dce8dc; border-radius: 16px; background: #f8faf6; }
+    .worksheet-card.active-turn { border-color: var(--accent); background: #fffdfb; box-shadow: 0 0 0 3px rgba(189,105,77,.12); }
+    .worksheet-label { color: var(--primary-dark); font-weight: 800; }
+    .turn-hint-tag { color: var(--text-muted); font-size: .84rem; }
+    .accent-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+    .accent-toolbar::before { content: "Caratteri:"; margin-right: 3px; color: var(--text-muted); font-size: .78rem; font-weight: 700; }
+    .accent-toolbar button { min-width: 32px; min-height: 32px; padding: 4px 7px; border: 1px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; }
+    .accent-toolbar button:disabled { opacity: .45; cursor: not-allowed; }
+    .sentence-content { display: block; margin: 0; color: var(--primary-dark); font-size: clamp(1.05rem, 2.8vw, 1.22rem); font-weight: 700; line-height: 2.2; }
+    .blank-wrap { display: inline-flex; align-items: center; vertical-align: middle; }
+    .blank-input { width: clamp(58px, 8vw, 82px); min-height: 42px; margin: 0 4px; padding: 6px 8px; border: 1.5px solid #d4e1d5; border-radius: 9px; background: #fff; color: var(--text); font: inherit; font-size: .9em; text-align: center; }
+    .blank-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(71,119,85,.15); }
+    .blank-input:disabled { background: #f1f4f0; color: #5f6863; cursor: not-allowed; }
+    .blank-mark { display: none; }
+    .actions-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .btn-check { min-height: 42px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--primary); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .btn-check:disabled { cursor: not-allowed; opacity: .5; }
+    .sync-feedback { color: var(--text-muted); font-size: .88rem; font-weight: 700; }
+    .sync-feedback.saving { color: #9a6700; } .sync-feedback.saved { color: #17623c; } .sync-feedback.error { color: #991b1b; }
+    .history-section { display: grid; gap: 10px; padding: 14px; border-radius: 12px; background: #f8f8f3; }
+    .history-title { margin: 0; color: var(--primary-dark); font-size: .98rem; }
+    .history-list { display: grid; gap: 8px; }
+    .history-item { padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; background: #fff; }
+    /* Ombre a più livelli per dare profondità alle schede. */
+    .hero, .instruction-box, .card, .section-box, .worksheet-card, .history-item {
+      box-shadow: 0 2px 4px rgba(35, 58, 39, .05), 0 12px 28px rgba(35, 58, 39, .09), inset 0 1px 0 rgba(255, 255, 255, .8);
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .card { box-shadow: 0 4px 8px rgba(35, 58, 39, .06), 0 20px 42px rgba(35, 58, 39, .14), inset 0 1px 0 rgba(255, 255, 255, .85); }
+    .progress-step { box-shadow: 0 2px 5px rgba(35, 58, 39, .08), inset 0 1px 0 rgba(255, 255, 255, .9); transition: transform .18s ease, box-shadow .18s ease; }
+    @media (hover: hover) and (pointer: fine) {
+      .hero:hover, .instruction-box:hover, .card:hover, .section-box:hover, .worksheet-card:hover, .history-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(35, 58, 39, .07), 0 18px 34px rgba(35, 58, 39, .14), inset 0 1px 0 rgba(255, 255, 255, .85);
+      }
+      .progress-step:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(35, 58, 39, .14); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero, .instruction-box, .card, .section-box, .worksheet-card, .history-item, .progress-step { transition: none; }
+    }
+    .history-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 12px; margin-bottom: 5px; color: var(--text-muted); font-size: .82rem; }
+    .history-sentence { margin: 0; color: var(--text); line-height: 1.7; }
+    .history-blank { font-weight: 800; } .history-blank.ok { color: var(--success); } .history-blank.err { color: var(--error); }
+    .empty-message { margin: 0; color: var(--text-muted); font-size: .92rem; font-style: italic; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .slide-navigation button, .slide-navigation a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 15px; border: 1px solid #d8e5d8; border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .slide-navigation button:disabled { cursor: not-allowed; opacity: .45; }
+    .slide-navigation a[hidden] { display: none; }
+    .slide-progress { color: var(--primary-dark); font-size: .95rem; font-weight: 800; text-align: center; }
+    @media (max-width: 640px) { body { padding: 16px 8px; } .overall-progress { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; } .progress-step { min-height: 36px; } .slide-navigation { flex-wrap: wrap; } .slide-navigation > * { flex: 1; } .blank-input { width: 60px; margin: 0 2px; padding: 5px; } .turn-assignment-bar select { min-width: 0; } }
+  </style>
+</head>
+<body data-page-key="047_es_g" data-next-href="047_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 47">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’Unità 47</label>
+      <select id="exercise-menu">
+        <option value="047_lettura.html">Lettura</option>
+        <option value="047_es_a.html">Esercizio A</option>
+        <option value="047_es_b.html">Esercizio B</option>
+        <option value="047_es_c.html">Esercizio C</option>
+        <option value="047_es_d.html">Esercizio D</option>
+        <option value="047_es_e.html">Esercizio E</option>
+        <option value="047_es_f.html">Esercizio F</option>
+        <option value="047_es_g.html" selected>Esercizio G</option>
+        <option value="047_es_h.html">Esercizio H</option>
+        <option value="047_es_i.html">Esercizio I</option>
+        <option value="047_es_j.html">Esercizio J</option>
+        <option value="047_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 47 · Grammatica</span>
+      <h1>I mostri</h1>
+      <p class="hero-subtitle">Completa le frasi con le preposizioni.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div>👉 <strong>Дополните фразы предлогами.</strong><br /><span lang="it">Completa gli spazi con le preposizioni corrette.</span></div>
+    </div>
+
+    <section class="card" aria-label="Completa le frasi con le preposizioni">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="047_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 47,
+      exercisePath: "047_es_g",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        { id: "barbiere", parts: ["Io e Giorgio andiamo ", { id: "dal-barbiere", input: true, correct: "dallo" }, " stesso barbiere, ", { id: "dal-benzinaio", input: true, correct: "dallo" }, " stesso benzinaio e ", { id: "al-supermercato", input: true, correct: "allo" }, " stesso supermercato."] },
+        { id: "chiavi", parts: ["Le chiavi ", { id: "della-macchina", input: true, correct: "della" }, " macchina sono ", { id: "all-ingresso", input: true, correct: "all'" }, " ingresso, vicino ", { id: "alla-porta", input: true, correct: "alla" }, " porta. Le sigarette invece sono ", { id: "sul-tavolino", input: true, correct: "sul" }, " tavolino ", { id: "in-salotto", input: true, correct: "in" }, " salotto, accanto ", { id: "al-telefono", input: true, correct: "al" }, " telefono."] },
+        { id: "ferie", parts: ["Il negozio sarà chiuso per ferie ", { id: "dal-7", input: true, correct: "dal" }, " 7 ", { id: "al-18", input: true, correct: "al" }, " 18 agosto."] },
+        { id: "orario", parts: ["L’orario di apertura del negozio è ", { id: "dalle-9", input: true, correct: "dalle" }, " 9.00 ", { id: "alle-19", input: true, correct: "alle" }, " 19.00."] },
+        { id: "appuntamento", parts: ["— Ciao, ci vediamo domani ", { id: "nello-stesso-posto", input: true, correct: "nello" }, " stesso posto e ", { id: "alla-stessa-ora", input: true, correct: "alla" }, " stessa ora. — Va bene, ", { id: "a-domani", input: true, correct: "a" }, " domani!"] },
+        { id: "irlandesi", parts: ["Patrick e Diane sono irlandesi: lui è ", { id: "di-dublino", input: true, correct: "di" }, " Dublino, lei invece viene ", { id: "da-cork", input: true, correct: "da" }, " Cork."] },
+        { id: "mangiare", parts: ["Dove preferisci mangiare, ", { id: "in-trattoria", input: true, correct: "in" }, " trattoria o ", { id: "al-ristorante", input: true, correct: "al" }, " ristorante?"] },
+        { id: "negozio", parts: [" ", { id: "nel-negozio", input: true, correct: "Nel" }, " negozio ", { id: "di-abbigliamento", input: true, correct: "di" }, " abbigliamento ho comprato una sciarpa grigia e un cappello ", { id: "dello-stesso-colore", input: true, correct: "dello" }, " stesso colore."] },
+        { id: "gita", parts: ["Ieri abbiamo fatto una gita ", { id: "in-montagna", input: true, correct: "in" }, " montagna, ", { id: "dalla-mattina", input: true, correct: "dalla" }, " mattina ", { id: "alla-sera", input: true, correct: "alla" }, " sera; siamo partiti ", { id: "alle-8", input: true, correct: "alle" }, " 8.00 e siamo tornati ", { id: "a-casa", input: true, correct: "a" }, " casa prima ", { id: "di-cena", input: true, correct: "di" }, " cena."] },
+        { id: "cibo", parts: ["Il cibo ", { id: "per-cani", input: true, correct: "per" }, " cani costa quattro euro ", { id: "al-chilo", input: true, correct: "al" }, " chilo."] },
+        { id: "bicchiere", parts: ["Perché hai messo il vino e l’acqua ", { id: "nello-bicchiere", input: true, correct: "nello" }, " stesso bicchiere?"] },
+        { id: "giornale", parts: ["Ho letto questa notizia ", { id: "sul-giornale", input: true, correct: "sul" }, " giornale ", { id: "di-ieri", input: true, correct: "di" }, " ieri."] }
+      ]
+    });
+  </script>
+  <script>
+    (() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      let framePending = false;
+      const updateParallax = () => {
+        if (framePending) return;
+        framePending = true;
+        window.requestAnimationFrame(() => {
+          const offset = -Math.min(window.scrollY * 0.18, window.innerHeight * 0.28);
+          document.body.style.setProperty("--parallax-y", `${offset}px`);
+          framePending = false;
+        });
+      };
+      window.addEventListener("scroll", updateParallax, { passive: true });
+      window.addEventListener("resize", updateParallax);
+      updateParallax();
+    })();
+  </script>
+</body>
+</html>

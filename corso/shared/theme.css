@@ -20,6 +20,58 @@
 [hidden] { display: none !important; }
 :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
 
+/* Profondità condivisa per le schede e i pannelli degli esercizi. */
+body .hero,
+body .instruction-box,
+body .card,
+body .section-box,
+body .worksheet-card,
+body .history-item,
+body .video-card,
+body .exercise-card,
+body .question-card {
+  box-shadow: 0 3px 7px rgba(35, 58, 39, .07), 0 15px 34px rgba(35, 58, 39, .11), inset 0 1px 0 rgba(255, 255, 255, .82);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+body .card { box-shadow: 0 5px 10px rgba(35, 58, 39, .08), 0 22px 46px rgba(35, 58, 39, .15), inset 0 1px 0 rgba(255, 255, 255, .86); }
+body .progress-step { box-shadow: 0 2px 5px rgba(35, 58, 39, .09), inset 0 1px 0 rgba(255, 255, 255, .9); transition: transform .18s ease, box-shadow .18s ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  body .hero:hover,
+  body .instruction-box:hover,
+  body .card:hover,
+  body .section-box:hover,
+  body .worksheet-card:hover,
+  body .history-item:hover,
+  body .video-card:hover,
+  body .exercise-card:hover,
+  body .question-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(35, 58, 39, .09), 0 20px 40px rgba(35, 58, 39, .16), inset 0 1px 0 rgba(255, 255, 255, .86);
+  }
+  body .progress-step:hover { transform: translateY(-2px); box-shadow: 0 5px 11px rgba(35, 58, 39, .15); }
+}
+
+.parlo-parallax-background {
+  position: fixed;
+  z-index: -1;
+  top: -25vh;
+  right: 0;
+  bottom: -25vh;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .hero, body .instruction-box, body .card, body .section-box,
+  body .worksheet-card, body .history-item, body .video-card,
+  body .exercise-card, body .question-card, body .progress-step {
+    transition: none;
+  }
+}
+
+
 .visually-hidden {
   position: absolute;
   width: 1px;

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi alle domande usando i pronomi, Unità 47." />
+  <title>Unità 47 — I mostri · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <style>
+    body {
+      position: relative;
+      isolation: isolate;
+      background: radial-gradient(ellipse at 50% -12%, rgba(111,151,116,.18), transparent 42%), var(--bg-main);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      top: -25vh;
+      right: 0;
+      bottom: -25vh;
+      left: 0;
+      background: linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)), url("img/sfondo.jpeg") center / cover no-repeat;
+      transform: translate3d(0, var(--parallax-y, 0), 0);
+      will-change: transform;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body data-page-key="047_es_j" data-next-href="047_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 47">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’Unità 47</label>
+      <select id="exercise-menu">
+        <option value="047_lettura.html">Lettura</option>
+        <option value="047_es_a.html">Esercizio A</option>
+        <option value="047_es_b.html">Esercizio B</option>
+        <option value="047_es_c.html">Esercizio C</option>
+        <option value="047_es_d.html">Esercizio D</option>
+        <option value="047_es_e.html">Esercizio E</option>
+        <option value="047_es_f.html">Esercizio F</option>
+        <option value="047_es_g.html">Esercizio G</option>
+        <option value="047_es_h.html">Esercizio H</option>
+        <option value="047_es_i.html">Esercizio I</option>
+        <option value="047_es_j.html" selected>Esercizio J</option>
+        <option value="047_es_k.html">Esercizio K</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 47 · Grammatica</span>
+      <h1>I mostri</h1>
+      <p class="hero-subtitle">Rispondi alle domande usando i pronomi.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio J</div>
+      <div class="instruction-text">👉 <strong>Ответьте на вопросы, используя местоимения.</strong><br /><span lang="it">Scrivi una risposta completa usando il pronome adatto. In modalità online i contributi sono condivisi; a distanza e in allenamento puoi esercitarti individualmente.</span></div>
+    </div>
+
+    <section class="card" aria-label="Rispondi alle domande usando i pronomi">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una domanda:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="047_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 47,
+      exercisePath: "047_es_j",
+      questions: [
+        { key: "offri-ospiti", title: "Cosa offri ai tuoi ospiti, di solito?" },
+        { key: "colazione", title: "A che ora fai colazione, di solito?" },
+        { key: "amico-email", title: "Cosa fai se un amico ti scrive un’e-mail?" },
+        { key: "venezia", title: "Hai visitato Venezia?" },
+        { key: "cinema", title: "Vai spesso al cinema?" },
+        { key: "parenti", title: "Telefoni spesso ai tuoi parenti?" },
+        { key: "vicini", title: "Parli spesso con i tuoi vicini?" },
+        { key: "piano", title: "Sai suonare il piano?" },
+        { key: "eta", title: "Quanti anni hai?" },
+        { key: "cucinare-pasta", title: "Sai cucinare la pasta?" },
+        { key: "animali", title: "Quanti animali domestici hai a casa?" },
+        { key: "regalo-amici", title: "Cosa hai regalato ai tuoi amici per il loro compleanno?" },
+        { key: "leggere", title: "Ti piace leggere i libri?" },
+        { key: "sport", title: "Fai spesso sport?" },
+        { key: "autobus", title: "Prendi spesso l’autobus?" },
+        { key: "televisione", title: "La sera, guardi la televisione?" },
+        { key: "caffe", title: "Bevi il caffè la mattina?" },
+        { key: "amici", title: "Hai molti amici?" }
+      ]
+    });
+  </script>
+  <script>
+    (() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      let framePending = false;
+      const updateParallax = () => {
+        if (framePending) return;
+        framePending = true;
+        window.requestAnimationFrame(() => {
+          const offset = Math.min(window.scrollY * 0.12, window.innerHeight * 0.2);
+          document.body.style.setProperty("--parallax-y", `${offset}px`);
+          framePending = false;
+        });
+      };
+      window.addEventListener("scroll", updateParallax, { passive: true });
+      window.addEventListener("resize", updateParallax);
+      updateParallax();
+    })();
+  </script>
+</body>
+</html>

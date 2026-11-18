@@ -88,11 +88,27 @@
     const exerciseProgress = document.getElementById("exercise-progress");
     const nextExerciseLink = document.getElementById("next-exercise");
 
-    const questionTitle = (question, index) =>
+        const questionTitle = (question, index) =>
       question.title || question.prompt || `${config.itemsLabel || "Scheda"} ${index + 1}`;
+    const plainQuestionTitle = (question, index) =>
+      String(questionTitle(question, index)).replace(/⟦([^⟧]+)⟧/g, "$1");
+    const renderQuestionTitle = (element, question, index) => {
+      const text = String(questionTitle(question, index));
+      const marker = /⟦([^⟧]+)⟧/g;
+      let lastIndex = 0;
+      let match;
+      while ((match = marker.exec(text))) {
+        element.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        const underline = document.createElement("u");
+        underline.textContent = match[1];
+        element.appendChild(underline);
+        lastIndex = marker.lastIndex;
+      }
+      element.appendChild(document.createTextNode(text.slice(lastIndex)));
+    };
     const slots = questions.map((question, index) => ({
       id: `card_${index}`,
-      label: `${index + 1}. ${questionTitle(question, index)}`
+      label: `${index + 1}. ${plainQuestionTitle(question, index)}`
     }));
 
     let sync = null;
@@ -120,7 +136,7 @@
         exercise: exercisePath,
                 card: scopeKey,
         reviewCard: slots[index].id,
-        cardLabel: question?.title || `Scheda ${index + 1}`
+        cardLabel: question ? plainQuestionTitle(question, index) : `Scheda ${index + 1}`
 
       };
       window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
@@ -183,8 +199,8 @@
       const numSpan = document.createElement("span");
       numSpan.className = "number";
       numSpan.textContent = String(index + 1);
-      const textSpan = document.createElement("span");
-      textSpan.textContent = questionTitle(question, index);
+            const textSpan = document.createElement("span");
+      renderQuestionTitle(textSpan, question, index);
       title.append(numSpan, textSpan);
 
             const turnPill = document.createElement("span");
@@ -384,7 +400,7 @@
       button.type = "button";
       button.className = "progress-step";
       button.textContent = String(index + 1);
-      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}: ${questionTitle(question, index)}`);
+      button.setAttribute("aria-label", `Vai alla scheda ${index + 1}: ${plainQuestionTitle(question, index)}`);
       button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
       button.addEventListener("click", () => showQuestion(index));
       exerciseProgress.appendChild(button);
