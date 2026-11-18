@@ -32,8 +32,9 @@
       throw new Error("initDialogueOrderExercise richiede almeno un dialogo in `dialogues`.");
     }
 
-    const session = window.ParloSession || {};
+        const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
     const safeGroup = session.safeGroup || "sconosciuto";
 
     const connectionBanner = document.getElementById("connection-banner");
@@ -63,20 +64,6 @@
         connectionBanner.textContent = message;
         connectionBanner.hidden = false;
       }
-    }
-
-        function notifyClassroomNotesScope(index) {
-      const dialogue = dialogues[index];
-      const scopeKey = String(dialogue?.id || `card_${index}`).replace(/[.#$\/\[\]]/g, "_");
-      window.ParloNotesScope = {
-        group: safeGroup,
-        exercise: exercisePath,
-        card: scopeKey,
-        cardLabel: dialogue?.title || `Scheda ${index + 1}`
-      };
-      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
-        detail: window.ParloNotesScope
-      }));
     }
 
     function setCardFeedback(index, type, message, autoClearMs = 0) {
@@ -149,9 +136,10 @@
       textSpan.textContent = dialogue.title;
       title.append(numSpan, textSpan);
 
-      const turnPill = document.createElement("span");
+            const turnPill = document.createElement("span");
       turnPill.className = "turn-pill";
       turnPill.textContent = "✍️ Turno: Nessuno";
+      turnPill.hidden = isPersonalPractice;
 
       header.append(title, turnPill);
 
@@ -177,9 +165,10 @@
       const worksheetLabel = document.createElement("span");
       worksheetLabel.className = "worksheet-label";
       worksheetLabel.textContent = "💬 Battute del dialogo:";
-      const turnHintTag = document.createElement("span");
+            const turnHintTag = document.createElement("span");
       turnHintTag.className = "turn-hint-tag";
       turnHintTag.textContent = "In attesa di assegnazione";
+      turnHintTag.hidden = isPersonalPractice;
       worksheetHeader.append(worksheetLabel, turnHintTag);
 
       // Layout con eventuale immagine verticale 9:16 a sinistra
@@ -238,7 +227,7 @@
         verifyBtn = document.createElement("button");
         verifyBtn.type = "button";
         verifyBtn.className = "btn-verify";
-        verifyBtn.textContent = "✅ Verifica l’ordine";
+        verifyBtn.textContent = isPersonalPractice ? "✅ Verifica il tuo ordine" : "✅ Verifica l’ordine";
         verifyBtn.disabled = true;
 
         verifyBtn.addEventListener("click", async () => {
@@ -314,9 +303,22 @@
       progressText.textContent = `Dialogo ${activeCard + 1} di ${dialogues.length}`;
     }
 
+        function notifyClassroomNotesScope(index) {
+      const dialogue = dialogues[index];
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: exercisePath,
+        card: String(dialogue?.id || `card_${index}`).replace(/[.#$\/\[\]]/g, "_"),
+        cardLabel: dialogue?.title || `Dialogo ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
+    }
+
     function showCard(index) {
       activeCard = Math.max(0, Math.min(index, dialogues.length - 1));
-            cardUI.forEach((ui, idx) => {
+      cardUI.forEach((ui, idx) => {
         ui.box.hidden = idx !== activeCard;
       });
       updateNavigation();
@@ -366,8 +368,8 @@
       ui.turnPill.classList.toggle("is-me", canEdit);
 
       ui.worksheetCard.classList.toggle("active-turn", canEdit);
-      ui.turnHintTag.textContent = canEdit
-        ? "È il tuo turno"
+            ui.turnHintTag.textContent = canEdit
+        ? (isPersonalPractice ? "Puoi riordinare le battute della tua risposta" : "È il tuo turno")
         : assignee
           ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
           : "In attesa di assegnazione";

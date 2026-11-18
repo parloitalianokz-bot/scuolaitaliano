@@ -103,6 +103,7 @@ h1 { margin: 4px 0; font-size: clamp(1.85rem, 5vw, 2.55rem); letter-spacing: -.0
 .turn-status-row {
   display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
 }
+.turn-status-row[hidden] { display: none; }
 .turn-pill {
   display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px;
   border: 1px solid #dce6dc; border-radius: 999px; background: #f7faf7;

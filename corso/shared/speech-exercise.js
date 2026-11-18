@@ -75,8 +75,9 @@
       throw new Error("initSpeechExercise richiede almeno una scheda in `cards`.");
     }
 
-    const session = window.ParloSession || {};
+        const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
     const safeGroup = session.safeGroup || "sconosciuto";
     const currentAuthorName = isTeacherView
       ? String(session.teacherName || session.name || "Insegnante").trim()
@@ -128,20 +129,6 @@
       }
     }
 
-        function notifyClassroomNotesScope(index) {
-      const card = cards[index];
-      const scopeKey = String(card?.key || `card_${index}`).replace(/[.#$\/\[\]]/g, "_");
-      window.ParloNotesScope = {
-        group: safeGroup,
-        exercise: exercisePath,
-        card: scopeKey,
-        cardLabel: card?.title || `Scheda ${index + 1}`
-      };
-      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
-        detail: window.ParloNotesScope
-      }));
-    }
-
     function setCardFeedback(index, type, message, autoClearMs = 0) {
       const ui = cardUI[index];
       if (!ui) return;
@@ -184,14 +171,18 @@
         return false;
       }
       const slotId = slots[index].id;
-      if (!sync.canWrite(slotId)) {
-        setCardFeedback(index, "error", "⚠️ Non hai il turno attivo per questa scheda.");
+            if (!sync.canWrite(slotId)) {
+        setCardFeedback(index, "error", isPersonalPractice
+          ? "⚠️ Non puoi salvare la risposta in questo momento."
+          : "⚠️ Non hai il turno attivo per questa scheda.");
         return false;
       }
 
       clearTimeout(draftTimers.get(index));
       draftTimers.delete(index);
-      setCardFeedback(index, "saving", "⏳ Salvataggio contributo in corso...");
+      setCardFeedback(index, "saving", isPersonalPractice
+        ? "⏳ Salvataggio della risposta in corso..."
+        : "⏳ Salvataggio contributo in corso...");
 
       try {
         await sync.push("contributions", {
@@ -208,7 +199,7 @@
           ui.liveBox.classList.add("placeholder");
           ui.keyboardInput.value = "";
         }
-        setCardFeedback(index, "saved", "✓ Contributo salvato", 3500);
+        setCardFeedback(index, "saved", isPersonalPractice ? "✓ Risposta salvata" : "✓ Contributo salvato", 3500);
         return true;
       } catch (error) {
         setCardFeedback(index, "error", `⚠️ Errore durante il salvataggio: ${error?.message || "riprova"}`);
@@ -283,8 +274,10 @@
 
     function startSpeechRecognition(index) {
       const slotId = slots[index].id;
-      if (!sync || !sync.canWrite(slotId)) {
-        setCardFeedback(index, "error", "⚠️ Non hai il turno attivo per parlare.");
+            if (!sync || !sync.canWrite(slotId)) {
+        setCardFeedback(index, "error", isPersonalPractice
+          ? "⚠️ Non puoi avviare la registrazione in questo momento."
+          : "⚠️ Non hai il turno attivo per parlare.");
         return;
       }
       if (!SpeechRecognition) {
@@ -390,16 +383,17 @@
       textSpan.textContent = card.title;
       title.append(numSpan, textSpan);
 
-      const turnPill = document.createElement("span");
+            const turnPill = document.createElement("span");
       turnPill.className = "turn-pill";
       turnPill.textContent = "🎤 Turno: Nessuno";
+      turnPill.hidden = isPersonalPractice;
 
       header.append(title, turnPill);
 
       // Assegnazione turno (solo insegnante)
       const assignmentBar = document.createElement("div");
-      assignmentBar.className = "turn-assignment-bar";
-      assignmentBar.hidden = !isTeacherView;
+            assignmentBar.className = "turn-assignment-bar";
+      assignmentBar.hidden = !isTeacherView || isPersonalPractice;
 
       const assignLabel = document.createElement("label");
       assignLabel.htmlFor = `assign-turn-${index}`;
@@ -469,11 +463,14 @@
       const prodHeader = document.createElement("div");
       prodHeader.className = "answer-form-header";
       const prodLabel = document.createElement("span");
-      prodLabel.className = "prod-label";
-      prodLabel.textContent = "🗣️ Trascrizione in tempo reale:";
+            prodLabel.className = "prod-label";
+      prodLabel.textContent = isPersonalPractice
+        ? "🗣️ La tua trascrizione in tempo reale:"
+        : "🗣️ Trascrizione in tempo reale:";
       const turnHintTag = document.createElement("span");
       turnHintTag.className = "turn-hint-tag";
       turnHintTag.textContent = "In attesa di assegnazione";
+      turnHintTag.hidden = isPersonalPractice;
       prodHeader.append(prodLabel, turnHintTag);
 
       // Selettore modalità input (visibile a chi ha il turno, utile su smartphone con Google Meet)
@@ -546,7 +543,7 @@
       const keyboardSubmitBtn = document.createElement("button");
       keyboardSubmitBtn.type = "button";
       keyboardSubmitBtn.className = "btn-submit-contribution";
-      keyboardSubmitBtn.textContent = "Invia il contributo";
+      keyboardSubmitBtn.textContent = isPersonalPractice ? "Invia la tua risposta" : "Invia il contributo";
       keyboardSubmitBtn.disabled = true;
 
       keyboardSubmitBtn.addEventListener("click", async () => {
@@ -571,11 +568,15 @@
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
       const contributionsTitle = document.createElement("div");
-      contributionsTitle.className = "contributions-title";
-      contributionsTitle.textContent = "💬 Contributi registrati per questa scheda";
+            contributionsTitle.className = "contributions-title";
+      contributionsTitle.textContent = isPersonalPractice
+        ? "💬 Le tue risposte inviate per questa scheda"
+        : "💬 Contributi registrati per questa scheda";
       const contributionsEmpty = document.createElement("p");
       contributionsEmpty.className = "contributions-empty";
-      contributionsEmpty.textContent = "Nessun contributo registrato per questa scheda.";
+      contributionsEmpty.textContent = isPersonalPractice
+        ? "Non hai ancora inviato risposte per questa scheda."
+        : "Nessun contributo registrato per questa scheda.";
       const contributionsList = document.createElement("div");
       contributionsList.className = "contributions-list";
       contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
@@ -643,12 +644,25 @@
       }
     }
 
+        function notifyClassroomNotesScope(index) {
+      const card = cards[index];
+      window.ParloNotesScope = {
+        group: safeGroup,
+        exercise: exercisePath,
+        card: String(card?.key || `card_${index}`).replace(/[.#$\/\[\]]/g, "_"),
+        cardLabel: card?.title || `Scheda ${index + 1}`
+      };
+      window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
+        detail: window.ParloNotesScope
+      }));
+    }
+
     function showCard(index) {
       if (recordingCardIndex !== null && recordingCardIndex !== index) {
         stopSpeechRecognition(true);
       }
       activeCard = Math.max(0, Math.min(index, cards.length - 1));
-            cardUI.forEach((ui, idx) => {
+      cardUI.forEach((ui, idx) => {
         ui.box.hidden = idx !== activeCard;
       });
       updateNavigation();
@@ -677,12 +691,12 @@
         stopSpeechRecognition(true);
       }
 
-      ui.turnPill.textContent = `🎤 Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
+                  ui.turnPill.textContent = `🎤 Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
       ui.turnPill.classList.toggle("is-me", canEdit);
 
       ui.productionCard.classList.toggle("active-turn", canEdit);
       ui.turnHintTag.textContent = canEdit
-        ? "È il tuo turno"
+        ? (isPersonalPractice ? "Puoi registrare o scrivere la tua risposta" : "È il tuo turno")
         : assignee
           ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
           : "In attesa di assegnazione";

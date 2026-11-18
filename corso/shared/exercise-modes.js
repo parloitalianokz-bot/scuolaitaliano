@@ -68,7 +68,13 @@
   }
 
   function createSync(options = {}) {
-    const mode = options.mode || "single-turn";
+        const requestedMode = options.mode || "single-turn";
+    const session = options.session || {};
+    const isTeacher = Boolean(session.isTeacher);
+    const activityMode = ["distance", "individual"].includes(session.activityMode)
+      ? session.activityMode
+      : "online";
+    const mode = !isTeacher && activityMode !== "online" ? "individual" : requestedMode;
     if (!MODES.has(mode)) throw new Error(`Modalità non supportata: ${mode}`);
     if (!options.ref || typeof options.ref.child !== "function") {
       throw new Error("Passa a createSync un riferimento Firebase Realtime Database.");
@@ -76,13 +82,14 @@
 
     const ref = options.ref;
     const database = options.database || ref.database || (window.firebase?.database ? window.firebase.database() : null);
-    const session = options.session || {};
-    const isTeacher = Boolean(session.isTeacher);
     const teacherName = String(session.teacherName || session.name || "Insegnante").trim();
     const name = String(isTeacher ? teacherName : (session.name || "")).trim();
     const identity = name ? { role: isTeacher ? "teacher" : "student", name } : null;
-    const studentId = SAFE_KEY(session.studentId || name);
-    const shareStudentsSummary = options.shareStudentsSummary !== false;
+        const studentId = SAFE_KEY(session.studentId || name);
+    const dataCollection = activityMode === "distance" ? "distanceData" : "individualData";
+    const studentDataCollection = activityMode === "online" ? "allStudentsData" : dataCollection;
+    const shareStudentsSummary = isTeacher || options.shareStudentsSummary === true ||
+      (activityMode === "online" && options.shareStudentsSummary !== false);
     const uniqueAssignments = Boolean(options.uniqueAssignments);
     const slots = (options.slots || []).map(slot => typeof slot === "string"
       ? { id: slot, label: slot }
@@ -92,13 +99,19 @@
       throw new Error('La modalità "multi-turn" richiede almeno uno slot.');
     }
 
-    const state = { assignments: {}, root: {}, student: {}, students: {} };
+        const state = { assignments: {}, root: {}, student: {}, students: {}, viewStudent: {} };
     const listeners = [];
     const assignmentMenus = new Set();
+    let reviewStudentId = isTeacher && activityMode === "distance"
+      ? SAFE_KEY(window.ParloReviewStudentId || "")
+      : "";
+
     let roster = [];
-    let onlineStudents = new Set();
+        let onlineStudents = new Set();
     let closed = false;
+    let reviewChangeHandler = null;
     const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+
 
     function assignmentKey(slot) {
       if (mode === "single-turn") return "writer";
@@ -108,15 +121,22 @@
       return slot;
     }
 
-    function canWrite(slot) {
-      if (!identity || closed) return false;
+        function canWrite(slot) {
+      if (!identity || closed || reviewStudentId) return false;
       if (mode === "individual") return !isTeacher && Boolean(studentId);
+
       const key = assignmentKey(mode === "single-turn" ? undefined : slot);
       return sameIdentity(identity, state.assignments[key]);
     }
 
-    function valuePath(path, slot) {
-      if (mode === "individual") return ["allStudentsData", "students", studentId, ...cleanPath(path)];
+        function valuePath(path, slot) {
+      if (mode === "individual") return [
+        studentDataCollection,
+        "students",
+        studentId,
+        ...(requestedMode === "multi-turn" && slot ? ["slots", String(slot)] : []),
+        ...cleanPath(path)
+      ];
       if (mode === "multi-turn") {
         const configured = slots.find(item => item.id === slot);
         if (!configured) throw new Error(`Slot non configurato: ${slot}`);
@@ -126,17 +146,31 @@
       return ["tokenData", ...cleanPath(path)];
     }
 
-    function read(path, slot) {
+        function read(path, slot) {
+      if (reviewStudentId) {
+        const reviewPath = requestedMode === "multi-turn" && slot
+          ? ["slots", String(slot), ...cleanPath(path)]
+          : cleanPath(path);
+        const reviewedValue = reviewPath.reduce((value, key) => value == null ? undefined : value[key], state.viewStudent);
+        if (reviewedValue !== undefined) return reviewedValue;
+        if (requestedMode === "multi-turn" && slot) {
+          return cleanPath(path).reduce((value, key) => value == null ? undefined : value[key], state.viewStudent);
+        }
+        return reviewedValue;
+      }
       const parts = valuePath(path, slot);
       const source = mode === "individual" ? state.student : state.root;
       const relative = mode === "individual" ? parts.slice(3) : parts;
       return relative.reduce((value, key) => value == null ? undefined : value[key], source);
     }
 
+
     function emit() {
       if (closed || typeof options.onChange !== "function") return;
-      options.onChange({
+            options.onChange({
         mode,
+        activityMode,
+        isIndependentPractice: activityMode !== "online",
         assignments: { ...state.assignments },
         data: mode === "individual" ? undefined : (state.root.tokenData || {}),
         root: mode === "individual" ? undefined : state.root,
@@ -191,8 +225,9 @@
       return ref.child("controlAssignments").child(assignmentKey(slot));
     }
 
-    function setAssignment(slot, target) {
-      if (!isTeacher) return Promise.reject(new Error("Solo l’insegnante può assegnare i turni."));
+        function setAssignment(slot, target) {
+      if (!isTeacher || reviewStudentId) return Promise.reject(new Error("L’assegnazione dei turni non è disponibile durante la revisione."));
+
       const key = assignmentKey(slot);
       const person = parseAssignment(target);
       if (uniqueAssignments && mode === "multi-turn" && person && slots.some(item =>
@@ -202,8 +237,9 @@
       return assignmentRef(mode === "single-turn" ? undefined : key).set(person);
     }
 
-    function setMode() {
-      if (!isTeacher) return Promise.reject(new Error("Solo l’insegnante può configurare la modalità."));
+        function setMode() {
+      if (!isTeacher || reviewStudentId) return Promise.reject(new Error("La modalità non è modificabile durante la revisione."));
+
       return ref.child("controlAssignments").child("mode").set(mode);
     }
 
@@ -222,7 +258,8 @@
       return pathRef(ref, valuePath(path, slot)).push().set(value);
     }
 
-    function assignmentFor(slot) {
+        function assignmentFor(slot) {
+      if (mode === "individual") return null;
       return state.assignments[assignmentKey(mode === "single-turn" ? undefined : slot)] || null;
     }
 
@@ -275,9 +312,11 @@
       select.value = selected;
     }
 
-    function renderAssignmentMenu(menu) {
+        function renderAssignmentMenu(menu) {
       assignmentOptions(menu.select, menu.slot);
+      menu.select.disabled = Boolean(reviewStudentId);
     }
+
 
     function bindAssignmentSelect(select, slot, initialRoster = []) {
       if (!isTeacher) {
@@ -318,9 +357,27 @@
       registerPresence();
     }
 
+        if (isTeacher && activityMode === "distance") {
+      const reviewedStudentsRef = ref.child(dataCollection).child("students");
+      listen(reviewedStudentsRef, snapshot => {
+        state.students = snapshot.val() || {};
+        state.viewStudent = reviewStudentId ? (state.students[reviewStudentId] || {}) : {};
+        emit();
+      });
+      reviewChangeHandler = event => {
+        const nextId = SAFE_KEY(event.detail?.studentId || "");
+        if (nextId === reviewStudentId) return;
+        reviewStudentId = nextId;
+        state.viewStudent = reviewStudentId ? (state.students[reviewStudentId] || {}) : {};
+        emit();
+      };
+      window.addEventListener("parlo:review-student-changed", reviewChangeHandler);
+    }
+
     if (mode === "individual") {
-      const assignmentsRef = ref.child("controlAssignments");
-      const studentsRef = ref.child("allStudentsData").child("students");
+            const assignmentsRef = ref.child("controlAssignments");
+
+      const studentsRef = ref.child(studentDataCollection).child("students");
       listen(assignmentsRef, snapshot => {
         state.assignments = snapshot.val() || {};
         emit();
@@ -360,8 +417,10 @@
       });
     }
 
-    return {
+        return {
       mode,
+      activityMode,
+      isIndependentPractice: activityMode !== "online",
       identity,
       studentId,
       slots: slots.map(slot => ({ ...slot })),
@@ -376,12 +435,17 @@
       bindAssignmentSelect,
       setRoster,
       setOnlineNames,
-      close() {
+            close() {
         closed = true;
         listeners.forEach(([target, handler]) => target.off("value", handler));
         listeners.length = 0;
+        if (reviewChangeHandler) {
+          window.removeEventListener("parlo:review-student-changed", reviewChangeHandler);
+          reviewChangeHandler = null;
+        }
         assignmentMenus.clear();
       }
+
     };
   }
 

@@ -1,0 +1,568 @@
+/* Stili condivisi per tutti gli esercizi inbox (001_es_b ... 046_es_x) */
+:root {
+  --inbox-bg: url("img/sfondo.jpeg");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(189, 105, 77, .55);
+  outline-offset: 3px;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px 16px;
+  color: var(--text);
+  background:
+    linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+    var(--inbox-bg) center calc(50% - var(--background-offset, 0px)) / cover fixed,
+    radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+    var(--bg-main);
+}
+
+main,
+.container {
+  width: min(100%, 880px);
+  margin: 0 auto;
+}
+
+/* Intestazione unità */
+.hero {
+  margin: 8px 0 20px;
+  padding: 24px 20px 22px;
+  text-align: center;
+  border: 1px solid rgba(71, 119, 85, .13);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+  box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #eaf1e8;
+  color: var(--primary-dark);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 4px 0;
+  color: var(--primary-dark);
+  font-size: clamp(1.85rem, 5vw, 2.55rem);
+  letter-spacing: -.04em;
+  line-height: 1.12;
+}
+
+.hero-subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: .96rem;
+}
+
+/* Box consegna */
+.instruction-box {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border: 1px solid #d8e5d8;
+  border-left: 5px solid var(--accent);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
+}
+
+.instruction-title {
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.instruction-text {
+  color: var(--text);
+  font-size: .96rem;
+  line-height: 1.45;
+}
+
+/* Banner connessione */
+.connection-banner {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid #f3c6c3;
+  border-left: 5px solid #b42318;
+  border-radius: 14px;
+  background: #fef3f2;
+  color: #912018;
+  font-size: .92rem;
+  font-weight: 700;
+}
+
+/* Contenitore principale scheda */
+.card {
+  margin-bottom: 32px;
+  padding: clamp(18px, 4vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  background: var(--card-bg);
+  box-shadow: 0 22px 60px rgba(43, 69, 46, .11);
+}
+
+/* Barra numerata schede */
+.overall-progress {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  margin: 0 0 16px;
+  padding: 2px 1px 10px;
+  scrollbar-width: thin;
+}
+
+.progress-step {
+  flex: 0 0 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid #d8e5d8;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s;
+}
+
+.progress-step:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.progress-step.done {
+  border-color: #9bc4a6;
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.progress-step[aria-current="step"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Singola scheda */
+.section-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(16px, 3vw, 24px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.section-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--primary-dark);
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.section-title .number {
+  display: inline-grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: .95rem;
+}
+
+/* Pillola turno */
+.turn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #d8e5d8;
+  border-radius: 999px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: .84rem;
+  font-weight: 700;
+}
+
+.turn-pill.is-me {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Barra assegnazione insegnante */
+.turn-assignment-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid #d8e5d8;
+  border-radius: 14px;
+  background: #f7faf6;
+}
+
+.turn-assignment-bar label {
+  color: var(--primary-dark);
+  font-size: .88rem;
+  font-weight: 800;
+}
+
+.turn-assignment-bar select {
+  flex: 1 1 220px;
+  min-height: 38px;
+  padding: 6px 12px;
+  border: 1px solid #c9d8c9;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Suggerimenti didattici */
+.didactic-hints {
+  padding: 10px 14px;
+  border: 1px solid #d8e5d8;
+  border-radius: 12px;
+  background: #fbfdf9;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.didactic-hints summary {
+  color: var(--primary-dark);
+  font-size: .92rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.didactic-hints-body ul {
+  margin: 8px 0 2px;
+  padding-left: 20px;
+}
+
+.didactic-hints-body li {
+  margin-bottom: 4px;
+  font-size: .92rem;
+}
+
+/* Area di scrittura condivisa */
+.answer-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1.5px solid #dfe8df;
+  border-radius: 16px;
+  background: #fcfdfb;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.answer-form-card.active-turn {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(71, 119, 85, .1);
+}
+
+.answer-form-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.answer-form-header label {
+  color: var(--primary-dark);
+  font-size: .92rem;
+  font-weight: 800;
+}
+
+.turn-hint-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef3ee;
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.answer-form-card.active-turn .turn-hint-tag {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+/* Barra accenti italiani */
+.accent-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.accent-toolbar button {
+  min-width: 36px;
+  min-height: 32px;
+  padding: 3px 8px;
+  border: 1px solid #d8e5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--primary-dark);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.accent-toolbar button:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.accent-toolbar button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.answer-input {
+  width: 100%;
+  min-height: 96px;
+  padding: 12px 14px;
+  border: 1.5px solid #d4e1d5;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.answer-input:focus {
+  border-color: var(--primary);
+}
+
+.answer-input:disabled {
+  background: #f2f5f1;
+  color: #475569;
+  cursor: not-allowed;
+}
+
+.answer-form-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .82rem;
+}
+
+.answer-submit-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sync-feedback {
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.sync-feedback.saving {
+  color: var(--text-muted);
+}
+
+.sync-feedback.saved {
+  color: var(--success);
+}
+
+.sync-feedback.error {
+  color: #991b1b;
+}
+
+.btn-submit-contribution {
+  margin-left: auto;
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-size: .94rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s;
+}
+
+.btn-submit-contribution:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.btn-submit-contribution:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* Contributi inviati */
+.contributions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+}
+
+.contributions-title {
+  color: var(--primary-dark);
+  font-size: .96rem;
+  font-weight: 800;
+}
+
+.contributions-empty {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .9rem;
+}
+
+.contributions-list {
+  display: grid;
+  gap: 8px;
+}
+
+.contribution-item {
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fbfaf6;
+}
+
+.contribution-text {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: .98rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.contribution-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+/* Navigazione tra schede */
+.slide-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.slide-navigation button,
+.slide-navigation a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 15px;
+  border: 1px solid #d8e5d8;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+}
+
+.slide-navigation button:hover:not(:disabled),
+.slide-navigation a:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.slide-navigation button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.slide-progress {
+  color: var(--primary-dark);
+  font-size: .92rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 16px 8px;
+  }
+  .slide-navigation {
+    flex-wrap: wrap;
+  }
+  .slide-navigation button,
+  .slide-navigation a {
+    flex: 1 1 auto;
+  }
+  .slide-progress {
+    order: -1;
+    flex: 1 0 100%;
+    margin-bottom: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -108,8 +108,9 @@
       return null;
     }
 
-    const session = window.ParloSession || {};
+        const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
     const safeGroup = session.safeGroup || "sconosciuto";
     const groupName = session.group || "";
     const myIdentityName = isTeacherView ? "Insegnante" : String(session.name || "").trim();
@@ -325,13 +326,14 @@
       title.append(numSpan, textSpan);
 
       const turnPill = document.createElement("span");
-      turnPill.className = "turn-pill";
+            turnPill.className = "turn-pill";
       turnPill.textContent = "✍️ Turno: Nessuno";
+      turnPill.hidden = isPersonalPractice;
       header.append(title, turnPill);
 
       const assignmentBar = document.createElement("div");
-      assignmentBar.className = "turn-assignment-bar";
-      assignmentBar.hidden = !isTeacherView;
+            assignmentBar.className = "turn-assignment-bar";
+      assignmentBar.hidden = !isTeacherView || isPersonalPractice;
 
       const assignLabel = document.createElement("label");
       assignLabel.htmlFor = `assign-turn-${cardIndex}`;
@@ -352,8 +354,9 @@
       worksheetLabel.className = "worksheet-label";
       worksheetLabel.textContent = "✏️ Completa negli spazi della frase:";
       const turnHintTag = document.createElement("span");
-      turnHintTag.className = "turn-hint-tag";
+            turnHintTag.className = "turn-hint-tag";
       turnHintTag.textContent = "In attesa di assegnazione";
+      turnHintTag.hidden = isPersonalPractice;
       worksheetHeader.append(worksheetLabel, turnHintTag);
 
       const accentToolbar = document.createElement("div");
@@ -449,8 +452,8 @@
 
       const checkBtn = document.createElement("button");
       checkBtn.type = "button";
-      checkBtn.className = "btn-check";
-      checkBtn.textContent = "✓ Controlla le risposte";
+            checkBtn.className = "btn-check";
+      checkBtn.textContent = isPersonalPractice ? "✓ Invia le tue risposte" : "✓ Controlla le risposte";
       checkBtn.disabled = true;
 
       const syncFeedback = document.createElement("span");
@@ -468,7 +471,9 @@
           await flushCardSaves(cardIndex);
           await sync.write("checked", true, slotId);
           await appendContribution(cardIndex, myIdentityName || "Studente", submittedValues);
-          setCardFeedback(cardIndex, "saved", "✓ Contributo registrato", 2500);
+          setCardFeedback(cardIndex, "saved", isPersonalPractice
+            ? "✓ Risposte salvate"
+            : "✓ Contributo registrato", 2500);
         } catch (error) {
           setCardFeedback(cardIndex, "error", `⚠️ Errore di invio: ${error?.message || "riprova"}`);
         }
@@ -481,8 +486,10 @@
       const historySection = document.createElement("div");
       historySection.className = "history-section";
       const historyTitle = document.createElement("h3");
-      historyTitle.className = "history-title";
-      historyTitle.textContent = `📜 Contributi inviati · Frase ${cardIndex + 1}`;
+            historyTitle.className = "history-title";
+      historyTitle.textContent = isPersonalPractice
+        ? `📜 Le tue risposte inviate · Frase ${cardIndex + 1}`
+        : `📜 Contributi inviati · Frase ${cardIndex + 1}`;
       const historyList = document.createElement("div");
       historyList.className = "history-list";
       historySection.append(historyTitle, historyList);
@@ -532,8 +539,10 @@
       ui.historyList.replaceChildren();
       if (!items.length) {
         const empty = document.createElement("p");
-        empty.className = "empty-message";
-        empty.textContent = "Nessun contributo registrato per questa frase.";
+                empty.className = "empty-message";
+        empty.textContent = isPersonalPractice
+          ? "Non hai ancora inviato risposte per questa frase."
+          : "Nessun contributo registrato per questa frase.";
         ui.historyList.appendChild(empty);
         return;
       }

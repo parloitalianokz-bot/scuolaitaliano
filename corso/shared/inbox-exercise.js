@@ -71,8 +71,10 @@
       throw new Error("initInboxExercise richiede almeno una domanda in `questions`.");
     }
 
-    const session = window.ParloSession || {};
+        const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const isDistanceMode = session.activityMode === "distance";
+    const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
     const safeGroup = session.safeGroup || "sconosciuto";
     const currentAuthorName = isTeacherView
       ? String(session.teacherName || session.name || "Insegnante").trim()
@@ -116,8 +118,10 @@
       window.ParloNotesScope = {
         group: safeGroup,
         exercise: exercisePath,
-        card: scopeKey,
+                card: scopeKey,
+        reviewCard: slots[index].id,
         cardLabel: question?.title || `Scheda ${index + 1}`
+
       };
       window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
         detail: window.ParloNotesScope
@@ -183,16 +187,18 @@
       textSpan.textContent = questionTitle(question, index);
       title.append(numSpan, textSpan);
 
-      const turnPill = document.createElement("span");
+            const turnPill = document.createElement("span");
       turnPill.className = "turn-pill";
       turnPill.textContent = "✍️ Turno: Nessuno";
+      turnPill.hidden = isPersonalPractice || isDistanceMode;
 
       header.append(title, turnPill);
 
       // Assegnazione turno (solo insegnante)
       const assignmentBar = document.createElement("div");
-      assignmentBar.className = "turn-assignment-bar";
-      assignmentBar.hidden = !isTeacherView;
+            assignmentBar.className = "turn-assignment-bar";
+            assignmentBar.hidden = !isTeacherView || isPersonalPractice || isDistanceMode;
+
 
       const assignLabel = document.createElement("label");
       assignLabel.htmlFor = `assign-turn-${index}`;
@@ -232,11 +238,15 @@
       const answerHeader = document.createElement("div");
       answerHeader.className = "answer-form-header";
       const answerLabel = document.createElement("label");
-      answerLabel.htmlFor = `answer-input-${index}`;
-      answerLabel.textContent = "✍️ Risposta condivisa:";
+            answerLabel.htmlFor = `answer-input-${index}`;
+      answerLabel.textContent = isDistanceMode
+        ? (isTeacherView ? "✍️ Risposta dello studente:" : "✍️ La tua risposta:")
+        : isPersonalPractice ? "✍️ La tua risposta:" : "✍️ Risposta condivisa:";
       const turnHintTag = document.createElement("span");
       turnHintTag.className = "turn-hint-tag";
       turnHintTag.textContent = "In attesa di assegnazione";
+            turnHintTag.hidden = isPersonalPractice || isDistanceMode;
+
       answerHeader.append(answerLabel, turnHintTag);
 
       const answerInput = document.createElement("textarea");
@@ -248,8 +258,19 @@
 
       const accentToolbar = createItalianCharToolbar(answerInput, specialChars);
       const answerNote = document.createElement("p");
-      answerNote.className = "answer-form-note";
-      answerNote.textContent = "Dopo l’invio, la risposta comparirà nei contributi visibili al gruppo.";
+            answerNote.className = "answer-form-note";
+            answerNote.textContent = isDistanceMode
+        ? isTeacherView
+          ? "Risposta dello studente, sincronizzata in tempo reale."
+          : "La risposta viene salvata automaticamente e condivisa in tempo reale con l’insegnante."
+        : config.liveDraftOnly
+          ? "La risposta viene salvata e condivisa in tempo reale con l’insegnante."
+          : isPersonalPractice
+            ? session.activityMode === "individual"
+              ? "Le tue risposte vengono salvate in uno spazio personale visibile solo a te."
+              : "La risposta viene salvata nel tuo spazio personale per la revisione dell’insegnante."
+            : "Dopo l’invio, la risposta comparirà nei contributi visibili al gruppo.";
+
 
       answerInput.addEventListener("input", () => {
         scheduleDraftSync(index, answerInput.value);
@@ -263,10 +284,10 @@
       syncFeedback.setAttribute("role", "status");
       syncFeedback.setAttribute("aria-live", "polite");
 
-      const submitBtn = document.createElement("button");
-            submitBtn.type = "button";
+            const submitBtn = document.createElement("button");
+      submitBtn.type = "button";
       submitBtn.className = "btn-submit-contribution";
-      submitBtn.textContent = config.submitLabel || "Condividi risposta";
+      submitBtn.textContent = isPersonalPractice ? "Invia risposta" : (config.submitLabel || "Condividi risposta");
       submitBtn.disabled = true;
 
       submitBtn.addEventListener("click", async () => {
@@ -274,8 +295,10 @@
           setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile inviare.");
           return;
         }
-        if (!sync.canWrite(slotId)) {
-          setCardFeedback(index, "error", "⚠️ Non hai il turno di scrittura per questa scheda.");
+                if (!sync.canWrite(slotId)) {
+          setCardFeedback(index, "error", isPersonalPractice
+            ? "⚠️ Non puoi salvare la risposta in questo momento."
+            : "⚠️ Non hai il turno di scrittura per questa scheda.");
           return;
         }
         const cleaned = answerInput.value.trim();
@@ -297,7 +320,9 @@
           }, slotId);
           await sync.write("draft", "", slotId);
           answerInput.value = "";
-          setCardFeedback(index, "saved", "✓ Contributo salvato e inviato", 3500);
+          setCardFeedback(index, "saved", isPersonalPractice
+            ? "✓ Risposta salvata"
+            : "✓ Contributo salvato e inviato", 3500);
           answerInput.focus();
         } catch (error) {
           setCardFeedback(index, "error", `⚠️ Errore durante l’invio: ${error?.message || "riprova"}`);
@@ -306,21 +331,31 @@
         }
       });
 
+            submitBtn.hidden = isDistanceMode || Boolean(config.liveDraftOnly);
       submitRow.append(syncFeedback, submitBtn);
-      answerCard.append(answerHeader, accentToolbar, answerInput, answerNote, submitRow);
+      answerCard.append(answerHeader, accentToolbar, answerInput);
+      if (!config.liveDraftOnly) answerCard.append(answerNote);
+      answerCard.append(submitRow);
+
 
       // Contributi della scheda corrente
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
       const contributionsTitle = document.createElement("div");
-      contributionsTitle.className = "contributions-title";
-      contributionsTitle.textContent = "💬 Contributi inviati per questa scheda";
+            contributionsTitle.className = "contributions-title";
+      contributionsTitle.textContent = isPersonalPractice
+        ? "💬 Le tue risposte inviate"
+        : "💬 Contributi inviati per questa scheda";
       const contributionsEmpty = document.createElement("p");
       contributionsEmpty.className = "contributions-empty";
-      contributionsEmpty.textContent = "Nessun contributo inviato per questa scheda.";
+      contributionsEmpty.textContent = isPersonalPractice
+        ? "Non hai ancora inviato risposte per questa scheda."
+        : "Nessun contributo inviato per questa scheda.";
       const contributionsList = document.createElement("div");
       contributionsList.className = "contributions-list";
-      contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
+            contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
+      contributionsWrapper.hidden = isDistanceMode || Boolean(config.liveDraftOnly);
+
 
       box.append(header);
       if (isTeacherView) box.append(assignmentBar);
@@ -364,9 +399,13 @@
       }
 
       exerciseProgress.querySelectorAll(".progress-step").forEach((button, index) => {
-        const rawContributions = sync ? sync.read("contributions", slots[index].id) : null;
-        const hasContribution = Boolean(rawContributions && Object.keys(rawContributions).length > 0);
+                const rawContributions = sync ? sync.read("contributions", slots[index].id) : null;
+        const savedDraft = sync ? sync.read("draft", slots[index].id) : "";
+        const hasContribution = isDistanceMode
+          ? Boolean(String(savedDraft || "").trim())
+          : Boolean(rawContributions && Object.keys(rawContributions).length > 0);
         button.classList.toggle("done", hasContribution);
+
         button.setAttribute("aria-current", index === activeQuestion ? "step" : "false");
       });
 
@@ -414,10 +453,12 @@
           ui.answerInput.value = remoteDraft;
         }
       }
-      ui.answerInput.disabled = !canEdit;
+            ui.answerInput.readOnly = isDistanceMode && isTeacherView;
+      ui.answerInput.disabled = isDistanceMode ? false : !canEdit;
       ui.accentToolbar.querySelectorAll("button").forEach(btn => {
-        btn.disabled = !canEdit;
+        btn.disabled = !canEdit || (isDistanceMode && isTeacherView);
       });
+
       ui.submitBtn.disabled = !canEdit;
 
       const rawContributions = (sync && sync.read("contributions", slotId)) || {};

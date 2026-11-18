@@ -10,7 +10,10 @@
 
   const group = storedSession.group || params.get("gruppo") || "sconosciuto";
   const isTeacher = Boolean(storedSession.isTeacher);
-  const teacherName = storedSession.teacherName || storedSession.teacher || "Insegnante";
+    const teacherName = storedSession.teacherName || storedSession.teacher || "Insegnante";
+  const activityMode = ["online", "distance", "individual"].includes(storedSession.activityMode)
+    ? storedSession.activityMode
+    : "online";
   const name = isTeacher
     ? (storedSession.teacher || storedSession.name || "Insegnante")
     : (storedSession.name || params.get("nome") || localStorage.getItem("parlo_student_name") || "");
@@ -19,9 +22,11 @@
   const sessionData = Object.freeze({
     group,
     name,
-    teacherName,
+        teacherName,
     safeGroup,
-    isTeacher
+    isTeacher,
+    activityMode,
+    studentId: String(name || "").trim().replace(/[.#$\/\[\]]/g, "_")
   });
 
   // Espone sia il nuovo oggetto unificato sia gli alias storici delle singole unità
@@ -96,9 +101,23 @@
     }
   }
 
-  if (!document.querySelector('script[src*="classroom-notes.js"]')) {
+    if (!document.querySelector('script[src*="classroom-notes.js"]')) {
         const notesScript = document.createElement("script");
     notesScript.src = "../classroom-notes.js?v=5";
     document.body.appendChild(notesScript);
+  }
+
+  if (isTeacher && activityMode === "distance") {
+    try {
+      window.ParloReviewStudentId = sessionStorage.getItem(`parlo_review_student_${safeGroup}`) || "";
+    } catch (_) {
+      window.ParloReviewStudentId = "";
+    }
+  }
+
+  if (activityMode === "distance" && !document.querySelector('script[src*="distance-review.js"]')) {
+    const reviewScript = document.createElement("script");
+    reviewScript.src = "../shared/distance-review.js?v=10";
+    document.body.appendChild(reviewScript);
   }
 })();

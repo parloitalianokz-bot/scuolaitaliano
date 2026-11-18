@@ -152,12 +152,15 @@
     };
   }
 
-  function initReadingPage() {
+    function initReadingPage() {
     const readingCard = document.querySelector(".reading");
     if (!readingCard) return;
 
+    const session = window.ParloSession || {};
+    const isPersonalPractice = !session.isTeacher && ["distance", "individual"].includes(session.activityMode);
+
     applyUnitImages();
-    ensureFirebaseReady();
+    if (!isPersonalPractice) ensureFirebaseReady();
 
     const pageKey = inferPageKey();
     const storyParagraphs = Array.from(readingCard.querySelectorAll(":scope > p"));
@@ -180,7 +183,7 @@
     let currentSlide = 0;
     const totalSlides = storyParagraphs.length + (hasVideo ? 1 : 0);
 
-    const mediaSync = window.ParloMediaSync
+        const mediaSync = !isPersonalPractice && window.ParloMediaSync
       ? window.ParloMediaSync.createMediaSync({
           pageKey,
           insertBefore: stepsNav,
@@ -255,8 +258,7 @@
       stopSpeech(true);
       currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
       const showingVideo = hasVideo && currentSlide === 0;
-      const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
-      const session = window.ParloSession || {};
+            const paragraphIndex = hasVideo ? currentSlide - 1 : currentSlide;
 
       window.ParloNotesScope = {
         group: session.safeGroup || "sconosciuto",

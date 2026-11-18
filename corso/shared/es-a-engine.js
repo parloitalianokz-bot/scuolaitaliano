@@ -86,8 +86,12 @@
 
     applyUnitBackground();
 
-    const session = window.ParloSession || {};
+        const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const activityMode = ["online", "distance", "individual"].includes(session.activityMode)
+      ? session.activityMode
+      : "online";
+    const independentPractice = activityMode !== "online" && !isTeacherView;
     const gruppo = session.safeGroup || "sconosciuto";
     const rawPageKey = document.body?.dataset?.pageKey
       || location.pathname.split("/").pop()?.replace(/\.html?$/i, "")
@@ -114,7 +118,12 @@
       nextExerciseLink
     } = ensureCardChrome(card, exerciseKey);
 
-    let exerciseRef = null;
+        let exerciseRef = null;
+    let exerciseDataHandler = null;
+    let databaseRef = null;
+    let reviewStudentId = isTeacherView && activityMode === "distance"
+      ? sanitizeId(window.ParloReviewStudentId || "").replace(/^student_/, "")
+      : "";
     let presenceGroupRef = null;
     let cardsState = {};
     let rosterState = {};
@@ -141,8 +150,9 @@
         badge.textContent = `👤 ${session.group} · ${entered}`;
         badge.hidden = false;
       }
-      updateLoginVisibility();
+            updateLoginVisibility();
       registerPresence();
+      connectExerciseData();
       renderAllCards();
     });
 
@@ -322,8 +332,9 @@
       hintTitleSpan.textContent = `${question.hint}...`;
       title.append(numSpan, hintTitleSpan);
 
-      const turnStatusRow = document.createElement("div");
+            const turnStatusRow = document.createElement("div");
       turnStatusRow.className = "turn-status-row";
+      turnStatusRow.hidden = independentPractice;
       const askPill = document.createElement("span");
       askPill.className = "turn-pill";
       const answerPill = document.createElement("span");
@@ -332,9 +343,9 @@
 
       header.append(title, turnStatusRow);
 
-      const assignmentBar = document.createElement("div");
+            const assignmentBar = document.createElement("div");
       assignmentBar.className = "turn-assignment-bar";
-      assignmentBar.hidden = !isTeacherView;
+      assignmentBar.hidden = !isTeacherView || independentPractice;
 
       const askGroup = document.createElement("div");
       askGroup.className = "turn-select-group";
@@ -344,9 +355,11 @@
       const askSelect = document.createElement("select");
       askSelect.id = `assign-ask-${index}`;
       if (isTeacherView) {
-        askSelect.addEventListener("change", () => {
+                askSelect.addEventListener("change", () => {
+          if (reviewStudentId) return;
           commitPendingDraftAndChangeAssignee(index, askSelect.value);
         });
+
       }
       askGroup.append(askLabel, askSelect);
 
@@ -358,8 +371,9 @@
       const answerSelect = document.createElement("select");
       answerSelect.id = `assign-answer-${index}`;
       if (isTeacherView) {
-        answerSelect.addEventListener("change", () => {
-          if (!exerciseRef) return;
+                answerSelect.addEventListener("change", () => {
+          if (!exerciseRef || reviewStudentId) return;
+
           exerciseRef.child("cards").child(String(index)).child("answerAssignee").set(answerSelect.value || null);
         });
       }
@@ -375,8 +389,10 @@
       const questionHeader = document.createElement("div");
       questionHeader.className = "question-form-header";
       const questionLabel = document.createElement("label");
-      questionLabel.htmlFor = `question-input-${index}`;
-      questionLabel.textContent = "✍️ Formula una domanda:";
+            questionLabel.htmlFor = `question-input-${index}`;
+      questionLabel.textContent = activityMode === "distance"
+        ? (isTeacherView ? "✍️ Domanda dello studente:" : "✍️ La tua domanda:")
+        : "✍️ Formula una domanda:";
       const questionTurnHint = document.createElement("span");
       questionTurnHint.className = "turn-hint-tag";
       questionHeader.append(questionLabel, questionTurnHint);
@@ -390,9 +406,10 @@
 
       const accentToolbar = createItalianCharToolbar(questionInput);
 
-      questionInput.addEventListener("input", () => {
+            questionInput.addEventListener("input", () => {
         const cardData = cardsState[index] || {};
-        if (!currentUserId || cardData.questionAssignee !== currentUserId) return;
+        if (reviewStudentId || !currentUserId || (!independentPractice && cardData.questionAssignee !== currentUserId)) return;
+
         syncDraftToFirebase(index, questionInput.value);
       });
 
@@ -405,9 +422,10 @@
       submitBtn.textContent = "📤 Invia domanda";
       submitBtn.disabled = true;
 
-      submitBtn.addEventListener("click", async () => {
+            submitBtn.addEventListener("click", async () => {
         const cardData = cardsState[index] || {};
-        if (!exerciseRef || !currentUserId || cardData.questionAssignee !== currentUserId) return;
+        if (reviewStudentId || !exerciseRef || !currentUserId || (!independentPractice && cardData.questionAssignee !== currentUserId)) return;
+
         const formatted = ensureQuestionMark(questionInput.value);
         if (!formatted) {
           questionInput.focus();
@@ -428,20 +446,24 @@
         questionInput.focus();
       });
 
-      submitRow.appendChild(submitBtn);
+            submitBtn.hidden = activityMode === "distance";
+      submitRow.hidden = activityMode === "distance";
       questionCard.append(questionHeader, accentToolbar, questionInput, submitRow);
 
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
       const contributionsTitle = document.createElement("div");
       contributionsTitle.className = "contributions-title";
-      contributionsTitle.textContent = "💬 Domande inviate";
+      contributionsTitle.textContent = independentPractice
+        ? "💬 Le mie domande"
+        : "💬 Domande inviate";
       const contributionsEmpty = document.createElement("p");
       contributionsEmpty.className = "contributions-empty";
       contributionsEmpty.textContent = "Nessuna domanda inviata per questa scheda.";
       const contributionsList = document.createElement("div");
       contributionsList.className = "contributions-list";
-      contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
+            contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
+      contributionsWrapper.hidden = activityMode === "distance";
 
       const optionsSection = document.createElement("div");
       optionsSection.className = "options-section";
@@ -471,9 +493,10 @@
         badgeSpan.className = "option-feedback-badge";
         button.append(mainSpan, badgeSpan);
 
-        button.addEventListener("click", () => {
-          const cardData = cardsState[index] || {};
-          if (!exerciseRef || !currentUserId || cardData.answerAssignee !== currentUserId) return;
+                button.addEventListener("click", () => {
+                    const cardData = cardsState[index] || {};
+          if (reviewStudentId || !exerciseRef || !currentUserId || (!independentPractice && cardData.answerAssignee !== currentUserId)) return;
+
           exerciseRef.child("cards").child(String(index)).update({
             selectedOption: optionIndex,
             answeredBy: isTeacherView ? "Insegnante" : currentUserName,
@@ -498,9 +521,11 @@
       questionsContainer.appendChild(box);
 
       cardUI.push({
-        box,
+                box,
+        assignmentBar,
         askSelect,
         answerSelect,
+
         askPill,
         answerPill,
         questionCard,
@@ -536,7 +561,9 @@
 
       exerciseProgress.querySelectorAll(".progress-step").forEach((button, index) => {
         const cardData = cardsState[index] || {};
-        const hasContribution = Boolean(cardData.contributions && Object.keys(cardData.contributions).length > 0);
+                const hasContribution = activityMode === "distance"
+          ? Boolean(String(cardData.draftQuestion || "").trim())
+          : Boolean(cardData.contributions && Object.keys(cardData.contributions).length > 0);
         const hasAnswer = cardData.selectedOption !== undefined && cardData.selectedOption !== null;
         const isAnswerCorrect = hasAnswer && Number(cardData.selectedOption) === sectionsData[index].correctOption;
 
@@ -575,15 +602,23 @@
       const question = sectionsData[index];
       const cardData = cardsState[index] || {};
 
-      const questionAssignee = cardData.questionAssignee || "";
+            const questionAssignee = cardData.questionAssignee || "";
       const answerAssignee = cardData.answerAssignee || "";
-      const canEditQuestion = Boolean(currentUserId && questionAssignee === currentUserId);
-      const canChooseAnswer = Boolean(currentUserId && answerAssignee === currentUserId);
+                  const canEditQuestion = !reviewStudentId && (independentPractice
+        ? Boolean(currentUserId)
+        : Boolean(currentUserId && questionAssignee === currentUserId));
+      const canChooseAnswer = !reviewStudentId && (independentPractice
+        ? Boolean(currentUserId)
+        : Boolean(currentUserId && answerAssignee === currentUserId));
 
       if (isTeacherView) {
+        ui.assignmentBar.hidden = Boolean(independentPractice || reviewStudentId);
+        ui.askSelect.disabled = Boolean(reviewStudentId);
+        ui.answerSelect.disabled = Boolean(reviewStudentId);
         buildTurnOptions(ui.askSelect, questionAssignee);
         buildTurnOptions(ui.answerSelect, answerAssignee);
       }
+
 
       ui.askPill.textContent = `✍️ Domanda: ${getParticipantLabel(questionAssignee)}`;
       ui.askPill.classList.toggle("is-me", canEditQuestion);
@@ -594,11 +629,13 @@
       ui.questionCard.classList.toggle("active-turn", canEditQuestion);
       ui.optionsSection.classList.toggle("active-turn", canChooseAnswer);
 
-      ui.questionTurnHint.textContent = canEditQuestion
-        ? "È il tuo turno di scrivere"
-        : questionAssignee
-          ? `In turno: ${getParticipantLabel(questionAssignee)}`
-          : "In attesa di assegnazione";
+            ui.questionTurnHint.textContent = independentPractice
+        ? "Esercizio personale"
+        : canEditQuestion
+          ? "È il tuo turno di scrivere"
+          : questionAssignee
+            ? `In turno: ${getParticipantLabel(questionAssignee)}`
+            : "In attesa di assegnazione";
 
       const remoteDraft = cardData.draftQuestion || "";
       if (!canEditQuestion || document.activeElement !== ui.questionInput) {
@@ -642,8 +679,9 @@
         body.append(textEl, metaEl);
         contributionCard.appendChild(body);
 
-        if (isTeacherView) {
+                if (isTeacherView && !reviewStudentId) {
           const delBtn = document.createElement("button");
+
           delBtn.type = "button";
           delBtn.className = "btn-delete-contribution";
           delBtn.textContent = "✕";
@@ -696,6 +734,34 @@
       updateNavigation();
     }
 
+        function connectExerciseData() {
+      if (!databaseRef || (independentPractice && !currentUserId)) return;
+      if (exerciseRef && exerciseDataHandler) {
+        exerciseRef.off("value", exerciseDataHandler);
+      }
+      const sharedExercisePath = `esercizi/gruppi/${gruppo}/${exerciseKey}`;
+      const studentExercisePath = isTeacherView && activityMode === "distance" && reviewStudentId
+        ? `${sharedExercisePath}/distance/students/student_${reviewStudentId}`
+        : independentPractice
+          ? `${sharedExercisePath}/${activityMode}/students/${currentUserId}`
+          : sharedExercisePath;
+      exerciseRef = databaseRef.ref(studentExercisePath);
+      exerciseDataHandler = snapshot => {
+        const data = snapshot.val() || {};
+        cardsState = data.cards || {};
+        renderAllCards();
+      };
+      exerciseRef.on("value", exerciseDataHandler);
+    }
+
+    if (isTeacherView && activityMode === "distance") {
+      window.addEventListener("parlo:review-student-changed", event => {
+        reviewStudentId = sanitizeId(event.detail?.studentId || "").replace(/^student_/, "");
+        connectExerciseData();
+        renderAllCards();
+      });
+    }
+
     function registerPresence() {
       if (!presenceGroupRef || isTeacherView || !currentUserId || !currentUserName) return;
       const myPresenceRef = presenceGroupRef.child(currentUserId);
@@ -722,21 +788,17 @@
         } else if (!firebase.apps.length) {
           firebase.initializeApp(FIREBASE_CONFIG);
         }
-        const db = firebase.database();
+                databaseRef = firebase.database();
 
-        presenceGroupRef = db.ref(`esercizi/gruppi/${gruppo}/presenze`);
-        presenceGroupRef.on("value", snapshot => {
-          rosterState = snapshot.val() || {};
-          renderAllCards();
-        });
+        if (activityMode === "online") {
+          presenceGroupRef = databaseRef.ref(`esercizi/gruppi/${gruppo}/presenze`);
+          presenceGroupRef.on("value", snapshot => {
+            rosterState = snapshot.val() || {};
+            renderAllCards();
+          });
+        }
 
-        exerciseRef = db.ref(`esercizi/gruppi/${gruppo}/${exerciseKey}`);
-        exerciseRef.on("value", snapshot => {
-          const data = snapshot.val() || {};
-          cardsState = data.cards || {};
-          renderAllCards();
-        });
-
+        connectExerciseData();
         registerPresence();
       } catch (error) {
         console.error("Errore Firebase:", error);

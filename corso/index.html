@@ -155,6 +155,7 @@
 
     .user-info {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
@@ -518,13 +519,25 @@
       </div>
 
       <div class="form-group">
-        <label for="name-select">Nome</label>
+        <label for="name-select">Имя · Nome</label>
         <select id="name-select" disabled>
-          <option value="">— Prima scegli il gruppo —</option>
+          <option value="">— Сначала выберите группу · Prima scegli il gruppo —</option>
         </select>
       </div>
 
-      <button type="button" id="btn-login" class="btn-primary" disabled>Entra</button>
+      <div class="form-group">
+        <label for="activity-mode">Режим занятий · Modalità di esercitazione</label>
+        <select id="activity-mode" aria-describedby="activity-mode-help">
+          <option value="online">Онлайн-урок · Lezione online (по умолчанию · predefinita)</option>
+          <option value="distance">Занятия на расстоянии · Esercitazione a distanza (преподаватель видит ответы · l’insegnante vede le risposte)</option>
+          <option value="individual">Самостоятельная практика · Esercitazione individuale (только для вас · solo tu vedi le risposte)</option>
+        </select>
+        <small id="activity-mode-help" style="display:block;margin-top:6px;color:var(--muted);line-height:1.45;">
+          Выберите, как заниматься. · Scegli come esercitarti.
+        </small>
+      </div>
+
+      <button type="button" id="btn-login" class="btn-primary" disabled>Войти · Entra</button>
 
       <p id="login-message" class="message" hidden></p>
 
@@ -551,6 +564,13 @@
         </select>
       </div>
       <div class="form-group">
+        <label for="teacher-activity-mode">Accesso insegnante</label>
+        <select id="teacher-activity-mode">
+          <option value="online">Lezione online · pagine condivise (predefinita)</option>
+          <option value="distance">Controllo lavoro a distanza · revisione per studente</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="teacher-pin">PIN</label>
         <input type="password" id="teacher-pin" inputmode="numeric" autocomplete="off" maxlength="6">
       </div>
@@ -567,6 +587,19 @@
       <label id="teacher-group-switch-wrap" class="teacher-group-switch" hidden>
         Gruppo
         <select id="teacher-group-switch" aria-label="Cambia gruppo insegnante"></select>
+      </label>
+      <label id="teacher-activity-switch-wrap" class="teacher-group-switch" hidden>
+        Modalità
+        <select id="teacher-activity-switch" aria-label="Cambia modalità insegnante">
+          <option value="online">Lezione online</option>
+          <option value="distance">Controllo a distanza</option>
+        </select>
+      </label>
+      <label id="teacher-review-student-wrap" class="teacher-group-switch" hidden>
+        Studente da revisionare
+        <select id="teacher-review-student" aria-label="Seleziona lo studente da revisionare">
+          <option value="">— Scegli uno studente —</option>
+        </select>
       </label>
       <button type="button" id="btn-logout">Esci</button>
     </div>
@@ -765,13 +798,19 @@
 
     const groupSelect = document.getElementById("group-select");
     const nameSelect = document.getElementById("name-select");
+    const activityModeSelect = document.getElementById("activity-mode");
     const btnLogin = document.getElementById("btn-login");
     const loginMessage = document.getElementById("login-message");
 
     const teacherNameSelect = document.getElementById("teacher-name-select");
     const teacherGroupSelect = document.getElementById("teacher-group-select");
+    const teacherActivityModeSelect = document.getElementById("teacher-activity-mode");
     const teacherGroupSwitchWrap = document.getElementById("teacher-group-switch-wrap");
     const teacherGroupSwitch = document.getElementById("teacher-group-switch");
+    const teacherActivitySwitchWrap = document.getElementById("teacher-activity-switch-wrap");
+    const teacherActivitySwitch = document.getElementById("teacher-activity-switch");
+    const teacherReviewStudentWrap = document.getElementById("teacher-review-student-wrap");
+    const teacherReviewStudentSelect = document.getElementById("teacher-review-student");
     const teacherPinInput = document.getElementById("teacher-pin");
     const btnTeacherLogin = document.getElementById("btn-teacher-login");
     const teacherMessage = document.getElementById("teacher-message");
@@ -803,6 +842,7 @@
     let currentTeacher = null;
     let currentGroup = null;
     let currentName = null;
+    let currentActivityMode = "online";
     let groupsRef = null;
     let groupsReady = false;
     let sessionInitialized = false;
@@ -964,7 +1004,8 @@
           isTeacher,
           teacher: currentTeacher,
           group: currentGroup,
-          name: currentName
+          name: currentName,
+          activityMode: currentActivityMode
         }));
       } catch (e) { /* ignore */ }
     }
@@ -990,6 +1031,8 @@
           currentTeacher = data.teacher;
           currentGroup = storedGroup;
           currentName = currentTeacher;
+          currentActivityMode = ["online", "distance"].includes(data.activityMode) ? data.activityMode : "online";
+          teacherActivityModeSelect.value = currentActivityMode;
           showTeacherUI();
           renderUnits(null);
           buildTeacherEditor();
@@ -1000,6 +1043,10 @@
           isTeacher = false;
           currentGroup = storedGroup;
           currentName = data.name;
+          currentActivityMode = ["online", "distance", "individual"].includes(data.activityMode)
+            ? data.activityMode
+            : "online";
+          activityModeSelect.value = currentActivityMode;
           showStudentUI();
           renderUnits(getStudentMaxUnit(storedGroup, data.name));
           return true;
@@ -1016,11 +1063,46 @@
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       teacherGroupSwitchWrap.hidden = true;
+      teacherActivitySwitchWrap.hidden = true;
+      teacherReviewStudentWrap.hidden = true;
       teacherEditor.classList.add("hidden");
       userInfoDiv.classList.remove("hidden");
       const maxUnit = getStudentMaxUnit(currentGroup, currentName);
-      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} (Unità ${maxUnit})`;
+      const activityModeLabel = {
+        online: "Онлайн-урок · Lezione online",
+        distance: "Занятия на расстоянии · A distanza",
+        individual: "Самостоятельная практика · Individuale"
+      }[currentActivityMode] || "Онлайн-урок · Lezione online";
+      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} · ${activityModeLabel} (Unità ${maxUnit})`;
     }
+
+    function syncTeacherReviewStudentSelector() {
+      const group = GROUPS[currentGroup];
+      const safeGroup = String(currentGroup || "").replace(/[.#$\/\[\]]/g, "_");
+      let selectedId = "";
+      try { selectedId = (sessionStorage.getItem(`parlo_review_student_${safeGroup}`) || "").replace(/^student_/, ""); } catch (_) {}
+
+      teacherReviewStudentSelect.replaceChildren(new Option("— Scegli uno studente —", ""));
+      [...(group?.studenti || []), ...(group?.studentiInattivi || [])]
+        .slice()
+        .sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "it"))
+        .forEach(student => {
+          const id = String(student.nome || "").trim().replace(/[.#$\/\[\]]/g, "_");
+          if (id) teacherReviewStudentSelect.add(new Option(student.nome, id));
+        });
+      teacherReviewStudentSelect.value = selectedId;
+      if (selectedId && !teacherReviewStudentSelect.value) {
+        try { sessionStorage.removeItem(`parlo_review_student_${safeGroup}`); } catch (_) {}
+      }
+    }
+
+    teacherReviewStudentSelect.addEventListener("change", () => {
+      const safeGroup = String(currentGroup || "").replace(/[.#$\/\[\]]/g, "_");
+      try {
+        if (teacherReviewStudentSelect.value) sessionStorage.setItem(`parlo_review_student_${safeGroup}`, teacherReviewStudentSelect.value);
+        else sessionStorage.removeItem(`parlo_review_student_${safeGroup}`);
+      } catch (_) {}
+    });
 
     function showTeacherUI() {
       homeworkEntry.classList.remove("hidden");
@@ -1030,8 +1112,15 @@
       userInfoDiv.classList.remove("hidden");
       teacherGroupSwitchWrap.hidden = false;
       teacherGroupSwitch.value = currentGroup || "";
+      teacherActivitySwitchWrap.hidden = false;
+      teacherActivitySwitch.value = currentActivityMode;
+      teacherReviewStudentWrap.hidden = currentActivityMode !== "distance";
+      syncTeacherReviewStudentSelector();
       teacherEditor.classList.remove("hidden");
-      userInfoText.textContent = `👩‍🏫 ${currentTeacher} · Gruppo ${groupLabel(currentGroup)}`;
+      const teacherModeLabel = currentActivityMode === "distance"
+        ? "Controllo lavoro a distanza"
+        : "Lezione online · pagine condivise";
+      userInfoText.textContent = `👩‍🏫 ${currentTeacher} · Gruppo ${groupLabel(currentGroup)} · ${teacherModeLabel}`;
     }
 
     function resetToLogin() {
@@ -1041,6 +1130,9 @@
       featuredContainer.replaceChildren();
       featuredContainer.classList.add("hidden");
       userInfoDiv.classList.add("hidden");
+      teacherGroupSwitchWrap.hidden = true;
+      teacherActivitySwitchWrap.hidden = true;
+      teacherReviewStudentWrap.hidden = true;
       teacherEditor.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       loginPanel.classList.remove("hidden");
@@ -1058,6 +1150,9 @@
       currentTeacher = null;
       currentGroup = null;
       currentName = null;
+      currentActivityMode = "online";
+      activityModeSelect.value = "online";
+      teacherActivityModeSelect.value = "online";
     }
 
     // Ricava la radice del progetto prima della prima cartella u_XXX nel percorso.
@@ -1491,6 +1586,19 @@
     });
 
     nameSelect.addEventListener("change", updateLoginButton);
+    teacherActivityModeSelect.addEventListener("change", () => {
+      currentActivityMode = teacherActivityModeSelect.value === "distance" ? "distance" : "online";
+      if (isTeacher) {
+        saveSession();
+        showTeacherUI();
+      }
+    });
+    teacherActivitySwitch.addEventListener("change", () => {
+      currentActivityMode = teacherActivitySwitch.value === "distance" ? "distance" : "online";
+      teacherActivityModeSelect.value = currentActivityMode;
+      saveSession();
+      showTeacherUI();
+    });
 
     btnLogin.addEventListener("click", () => {
       hideMessage(loginMessage);
@@ -1515,6 +1623,9 @@
       currentTeacher = null;
       currentGroup = group;
       currentName = name;
+      currentActivityMode = ["online", "distance", "individual"].includes(activityModeSelect.value)
+        ? activityModeSelect.value
+        : "online";
       saveSession();
 
       showStudentUI();
@@ -1549,6 +1660,7 @@
       currentTeacher = teacher;
       currentGroup = group;
       currentName = teacher;
+      currentActivityMode = "online";
       saveSession();
 
       showTeacherUI();
