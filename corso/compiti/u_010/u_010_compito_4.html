@@ -91,6 +91,9 @@
     .item-block { margin: 16px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
     .item-block h3 { margin: 0 0 8px; font-size: 1rem; line-height: 1.55; }
     .item-block p { margin: 6px 0 10px; }
+    .word-order-prompt { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 0; }
+    .word-order-number { margin-right: 3px; color: var(--accent); font-weight: 800; }
+    .word-chip { padding: 5px 10px; border: 1px solid #d8e5d8; border-radius: 8px; background: #f4f8f2; color: var(--green); font-weight: 700; }
     .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
     .open-input { display: block; width: 100%; min-height: 92px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
     .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.14); outline: none; }
@@ -139,8 +142,8 @@
       <a href="../../compiti.html">← Torna ai compiti a casa</a>
       <span class="eyebrow">Italiano · Unità 10 · Compito 4</span>
       <h1>Verbi irregolari, modali e pronomi indiretti</h1>
-      <p>Esercitati con i verbi irregolari (<strong>stare</strong>, <strong>dare</strong>, <strong>fare</strong>), il modale <strong>potere</strong>, il verbo <strong>piacere</strong>, i pronomi indiretti e le locuzioni idiomatiche.</p>
-      <p class="note">Svolgi le cinque parti e salva il tuo lavoro automaticamente. Puoi consegnare anche se il compito è incompleto.</p>
+            <p>Esercitati con i verbi irregolari (<strong>stare</strong>, <strong>dare</strong>, <strong>fare</strong>), il modale <strong>potere</strong>, il verbo <strong>piacere</strong> e i pronomi indiretti. / Потренируйся использовать неправильные глаголы <strong>stare</strong>, <strong>dare</strong>, <strong>fare</strong>, модальный глагол <strong>potere</strong>, глагол <strong>piacere</strong> и косвенные местоимения.</p>
+      <p class="note">Svolgi le cinque parti e salva il tuo lavoro automaticamente. Puoi inviarlo anche se è incompleto. / Выполни пять частей; ответы сохраняются автоматически. Можно отправить работу, даже если она не завершена.</p>
 
       <details class="grammar-hint">
         <summary>💡 Краткая памятка / Promemoria grammaticale</summary>
@@ -205,7 +208,7 @@
       {
         id: "sec1",
         title: "GRUPPO 1 · Riconoscimento e abbinamento (Livello base)",
-        instructions: "Collega ogni inizio di frase nella Colonna A con la sua conclusione corretta nella Colonna B.",
+        instructions: "Collega ogni inizio di frase nella Colonna A con la conclusione corretta nella Colonna B. / Соедини начало каждого предложения в колонке A с подходящим окончанием из колонки B.",
         type: "matching",
         prompts: [
           "La mattina Marco e Sofia fanno...",
@@ -222,7 +225,7 @@
           "B · ...sempre la colazione al bar.",
           "C · ...un'aspirina prima di dormire.",
           "D · ...sta oggi? Si sente meglio?",
-          "E · ...la stessa età! Hanno 20 anni.",
+          "E · ...la stessa età! Abbiamo 20 anni.",
           "F · ...un esame di lingua italiana?",
           "G · ...una domanda sulla lezione?",
           "H · ...in casa a guardare un film."
@@ -232,18 +235,18 @@
       {
         id: "sec2",
         title: "GRUPPO 2 · Manipolazione e riordino (Livello elementare)",
-        instructions: "Riordina gli elementi tra parentesi quadre per formare frasi grammaticalmente corrette. Fai attenzione alla posizione dei pronomi e alla coniugazione dei verbi.",
+        instructions: "Riordina le parole separate da trattini per formare frasi grammaticalmente corrette. Fai attenzione alla posizione dei pronomi e alla coniugazione dei verbi. / Расставь слова, разделённые дефисами, чтобы составить грамматически правильные предложения. Обрати внимание на местоимения и формы глаголов.",
         groups: [
           {
-            title: "Riordina gli elementi della frase",
-                        example: "Пример / Modello:\n[giorno] [Io] [scrivo] [lettera] [ogni] [gli] [una] → Io gli scrivo una lettera ogni giorno.",
+                         title: "Riordina gli elementi della frase / Расставь слова в предложении",
+                                                example: "Пример / Modello: sera - Maria - legge - un libro → Maria legge un libro la sera.",
             items: [
-                            {id:"q1", task:"1. [giorno] [Io] [scrivo] [lettera] [ogni] [gli] [una]", answers:["Io gli scrivo una lettera ogni giorno.", "Io gli scrivo ogni giorno una lettera."]},
-              {id:"q2", task:"2. [posso] [Scusi,] [una] [domanda?] [fare] [Le]", answers:["Scusi, Le posso fare una domanda?"]},
-                            {id:"q3", task:"3. [non] [supermercato] [la] [spesa] [mai] [fanno] [Loro] [al]", answers:["Loro non fanno mai la spesa al supermercato."]},
-              {id:"q4", task:"4. [professoressa] [studenti] [fiori] [Gli] [danno] [alla] [dei]", answers:["Gli studenti danno dei fiori alla professoressa."]},
-              {id:"q5", task:"5. [domenica] [Noi] [in] [facciamo] [una] [montagna] [gita]", answers:["Noi facciamo una gita in montagna domenica.", "Domenica facciamo una gita in montagna."]},
-              {id:"q6", task:"6. [molto] [il] [piacciono] [gelato] [ci] [i] [ma] [dolci] [non] [ci]", answers:["Ci piace molto il gelato, ma non ci piacciono i dolci."]}
+                            {id:"q1", task:"1. giorno - Io - scrivo - lettera - ogni - gli - una", answers:["Io gli scrivo una lettera ogni giorno.", "Io gli scrivo ogni giorno una lettera."]},
+              {id:"q2", task:"2. posso - Scusi, - una - domanda? - fare - Le", answers:["Scusi, Le posso fare una domanda?"]},
+                            {id:"q3", task:"3. non - supermercato - la - spesa - mai - fanno - Loro - al", answers:["Loro non fanno mai la spesa al supermercato."]},
+              {id:"q4", task:"4. professoressa - studenti - fiori - Gli - danno - alla - dei", answers:["Gli studenti danno dei fiori alla professoressa."]},
+                            {id:"q5", task:"5. domenica - Noi - in - facciamo - una - montagna - gita", answers:["Noi facciamo una gita in montagna domenica.", "Domenica facciamo una gita in montagna."]},
+              {id:"q6", task:"6. molto - il - piace - gelato - ci - i - ma - dolci - non - ci", answers:["Ci piace molto il gelato, ma non ci piacciono i dolci."]}
             ]
           }
         ]
@@ -251,7 +254,7 @@
       {
         id: "sec3",
         title: "GRUPPO 3 · Completamento e trasformazione",
-        instructions: "Completa il brano inserendo i verbi tra parentesi alla forma corretta del presente indicativo (stare, dare, fare, potere, piacere).",
+        instructions: "Completa il brano con la forma corretta al presente indicativo dei verbi tra parentesi (stare, dare, fare, potere, piacere). / Заполни текст, поставив глаголы в скобках (stare, dare, fare, potere, piacere) в правильную форму настоящего времени.",
         paragraphs: [
           ["Oggi è una giornata speciale a Venezia. Io e i miei compagni di classe ", {id:"q1", cue:"fare", answers:["facciamo"]}, " una passeggiata in centro. Il tempo ", {id:"q2", cue:"fare", answers:["fa"]}, " bello e non piove. Noi ", {id:"q3", cue:"stare", answers:["stiamo"]}, " molto bene insieme!"],
           ["Durante il percorso, la nostra professoressa ci ", {id:"q4", cue:"dare", answers:["dà"]}, " alcune informazioni sulla città. All'ora di pranzo andiamo al bar: a me ", {id:"q5", cue:"piacere", answers:["piace"]}, " molto il caffè espresso, mentre a Marco non ", {id:"q6", cue:"piacere", answers:["piacciono"]}, " le bevande calde."],
@@ -261,10 +264,10 @@
       {
         id: "sec3_b",
         title: "GRUPPO 3 (Parte B) · Trasformazione con pronomi indiretti",
-        instructions: "Riscrivi la frase sostituendo l'espressione tra parentesi con il pronome indiretto corretto (mi, ti, gli, le, ci, vi).",
+        instructions: "Riscrivi la frase sostituendo l'espressione tra parentesi con il pronome indiretto corretto (mi, ti, gli, le, ci, vi). / Перепиши предложение, заменив выражение в скобках подходящим косвенным местоимением (mi, ti, gli, le, ci, vi).",
         groups: [
           {
-            title: "Sostituisci con il pronome indiretto",
+                         title: "Sostituisci con il pronome indiretto / Замени косвенным местоимением",
             items: [
               {id:"t1", task:"1. Scrivo una mail (a Paolo) per chiarire i compiti. → Io ... scrivo una mail.", answers:["gli"]},
               {id:"t2", task:"2. Il professore dà un bel voto (a me e a te / a noi) dopo l'esame. → Il professore ... dà un bel voto.", answers:["ci"]},
@@ -278,28 +281,27 @@
       {
         id: "sec4",
         title: "GRUPPO 4 · Produzione e interazione libera (Dialogo guidato)",
-        instructions: "Completa il dialogo inserendo le battute del Personaggio B sulla base delle indicazioni date tra parentesi.",
+                instructions: "Rispondi alle domande in italiano. / Ответь на вопросы по-итальянски.",
         openItems: [
           {
             id: "q1",
-            title: "1. Rispondi dicendo come stai e spiega che sei stanca/o perché stamattina hai fatto la spesa",
-                        prompt: "• Personaggio A: Ciao! Come stai oggi? Sei pronta per fare i compiti insieme?\n• Personaggio B: (Rispondi dicendo come stai e spiega che sei stanca/o perché stamattina hai fatto la spesa)"
+            title: "1. Rispondi alla domanda / Ответь на вопрос",
+            prompt: "• Personaggio A: Ciao! Come stai oggi?\n• Personaggio B:"
           },
           {
             id: "q2",
-                        title: '2. Esprimi i tuoi gusti sul caffè/dolci e chiedi con rispetto se ti può dare un consiglio usando il verbo "potere"',
-            prompt: '• Personaggio A: Capisco! Ti va di fare una pausa al bar dopo lo studio? A me piace prendere un caffè.\n• Personaggio B: (Esprimi i tuoi gusti sul caffè/dolci e chiedi con rispetto se ti può dare un consiglio usando il verbo "potere")'
-
+            title: "2. Rispondi alla domanda / Ответь на вопрос",
+            prompt: "• Personaggio A: Facciamo una pausa al bar dopo la lezione? Mi piace prendere un caffè; e a te? Cosa ti piace prendere al bar?\n• Personaggio B:"
           },
           {
             id: "q3",
-            title: "3. Spiega che stasera stai in casa a ripassare i verbi irregolari e che gli dai i compiti domani",
-                        prompt: "• Personaggio A: Certo! Ti consiglio la cioccolata calda. A proposito, hai già dato gli esercizi al professore?\n• Personaggio B: (Spiega che stasera stai in casa a ripassare i verbi irregolari e che gli dai i compiti domani)"
+            title: "3. Rispondi alla domanda / Ответь на вопрос",
+            prompt: "• Personaggio A: Che cosa fai la sera, stai a casa o passeggi con gli amici?\n• Personaggio B:"
           },
           {
             id: "q4",
-            title: "4. Saluta in modo adeguato e proponi di incontrarvi di nuovo domani",
-                        prompt: "• Personaggio A: Ottimo lavoro! Allora ci vediamo domani a lezione. Buono studio!\n• Personaggio B: (Saluta in modo adeguato e proponi di incontrarvi di nuovo domani)"
+            title: "4. Saluta in modo adeguato / Попрощайся вежливо",
+            prompt: "• Personaggio A: Allora ci vediamo domani a lezione. Buono studio!\n• Personaggio B:"
           }
         ]
       }
@@ -448,15 +450,30 @@
         group.items.forEach((item, idx) => {
           const block = document.createElement("div");
           block.className = "item-block";
-          const prompt = document.createElement("h3");
-          prompt.textContent = item.task;
+                    const prompt = document.createElement("div");
+          prompt.className = "word-order-prompt";
+          const taskMatch = item.task.match(/^(\d+)\.\s*(.*)$/);
+          if (taskMatch) {
+            const number = document.createElement("span");
+            number.className = "word-order-number";
+            number.textContent = `${taskMatch[1]}.`;
+            prompt.appendChild(number);
+            taskMatch[2].split(" - ").forEach(word => {
+              const chip = document.createElement("span");
+              chip.className = "word-chip";
+              chip.textContent = word;
+              prompt.appendChild(chip);
+            });
+          } else {
+            prompt.textContent = item.task;
+          }
           block.appendChild(prompt);
           const input = document.createElement("input");
           input.type = "text";
           input.className = "gap-input full-sentence";
           input.dataset.answerId = item.id;
           input.autocomplete = "off";
-          input.placeholder = "Scrivi la frase corretta…";
+          input.placeholder = "Scrivi la frase corretta… / Составь правильное предложение…";
           input.setAttribute("aria-label", `Risposta ${idx + 1}`);
           input.value = answers[section.id]?.[item.id] || "";
           input.addEventListener("input", () => {
@@ -484,7 +501,7 @@
 
           const cue = document.createElement("span");
           cue.className = "gap-cue";
-          cue.textContent = `${part.id} · ${part.cue}`;
+          cue.textContent = part.cue;
 
           const input = document.createElement("input");
           input.type = "text";
@@ -519,7 +536,7 @@
         textarea.className = "open-input";
         textarea.dataset.answerId = item.id;
         textarea.rows = 3;
-        textarea.placeholder = "Scrivi qui la tua risposta in italiano…";
+        textarea.placeholder = "Scrivi qui la tua risposta in italiano… / Напиши здесь свой ответ по-итальянски…";
         textarea.setAttribute("aria-label", `Risposta ${index + 1}`);
         textarea.value = answers[section.id]?.[item.id] || "";
         textarea.addEventListener("input", () => persistAnswer(section.id, item.id, textarea.value));
