@@ -242,7 +242,12 @@
         <option value="es_o.html">Esercizio O</option>
         <option value="es_p.html">Esercizio P</option>
       </select>
-      <a class="home-link" href="../index.html" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+            <a class="home-link" href="../index.html" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
+      <label for="grammar-menu" class="visually-hidden">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="verbi_servili.html">Verbi Servili</option>
+      </select>
     </nav>
     <div class="banner" role="img" aria-label="Immagine introduttiva del racconto Il grande scrittore"></div>
     <header>
@@ -328,14 +333,16 @@
       link.href = `${target.pathname}${target.search}${target.hash}`;
     });
 
-    document.getElementById("exercise-menu").addEventListener("change", event => {
-      if (!event.target.value) return;
-      const target = new URL(event.target.value, location.href);
-      const params = getLoginParams();
-      ["gruppo", "nome"].forEach(key => {
-        if (params.has(key)) target.searchParams.set(key, params.get(key));
+        ["exercise-menu", "grammar-menu"].forEach(menuId => {
+      document.getElementById(menuId).addEventListener("change", event => {
+        if (!event.target.value) return;
+        const target = new URL(event.target.value, location.href);
+        const params = getLoginParams();
+        ["gruppo", "nome"].forEach(key => {
+          if (params.has(key)) target.searchParams.set(key, params.get(key));
+        });
+        window.location.href = target.href;
       });
-      window.location.href = target.href;
     });
     document.addEventListener("keydown", event => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input, textarea, select, a, button, [tabindex]")) return;
