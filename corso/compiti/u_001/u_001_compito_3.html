@@ -749,6 +749,11 @@ Traccia d'esempio / Пример:
         pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
         return;
       }
+            workspace.hidden = false;
+      submitBox.hidden = true;
+      renderSection();
+      content.querySelectorAll("input, select, textarea, .accent-btn").forEach(control => { control.disabled = true; });
+
       const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
       if (!assignmentId) { pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return; }
       if (!isStudent) { pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return; }
@@ -785,8 +790,9 @@ Traccia d'esempio / Пример:
         answers = submission.answers || {};
         teacherReviewData = submission.teacherReview || null;
         submissionStatus = submission.status || "in-progress";
-        pageMessage.textContent = "";
+                pageMessage.textContent = "";
         workspace.hidden = false;
+        submitBox.hidden = false;
 
         if (submissionStatus === "reviewed") {
           submitBox.hidden = true;
