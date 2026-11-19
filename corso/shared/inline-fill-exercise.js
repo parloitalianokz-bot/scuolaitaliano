@@ -405,8 +405,9 @@
           input.className = "blank-input";
           input.autocomplete = "off";
           input.autocapitalize = "off";
-          input.spellcheck = false;
-          input.disabled = true;
+                     input.spellcheck = false;
+           input.placeholder = part.placeholder || "";
+           input.disabled = true;
           input.setAttribute("aria-label", `Spazio ${blankCounter} nella frase ${cardIndex + 1}`);
 
           const mark = document.createElement("span");
@@ -438,7 +439,7 @@
         summary.textContent = "💡 Suggerimenti";
         const ul = document.createElement("ul");
         ul.className = "hints-list";
-        ul.setAttribute("lang", "ru");
+                   ul.setAttribute("lang", sentence.hintsLang || "ru");
         sentence.hints.forEach(hintText => {
           const li = document.createElement("li");
           li.textContent = hintText;
