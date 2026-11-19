@@ -730,7 +730,16 @@ Traccia d'esempio / Пример:
       else if (event.key === "ArrowLeft" && sectionIndex > 0) { sectionIndex--; renderSection(); }
     });
 
+        function withTimeout(promise, milliseconds, message) {
+      let timeoutId;
+      const timeout = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(message)), milliseconds);
+      });
+      return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
+    }
+
     async function initializeTask() {
+      pageMessage.textContent = "Caricamento del compito… / Загрузка задания…";
       let session;
       try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
       try {
@@ -748,14 +757,16 @@ Traccia d'esempio / Пример:
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
-        const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+                const [assignmentSnapshot, groupSnapshot] = await withTimeout(Promise.all([
           assignmentRef.once("value"),
           db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
-        ]);
+        ]), 15000, "Il caricamento dei dati è scaduto. Controlla la connessione e riprova.");
         const assignment = assignmentSnapshot.val();
         const group = groupSnapshot.val();
-        if (!assignment || !group || !assignment.taskPath || !location.pathname.endsWith(assignment.taskPath)) {
-          throw new Error("Compito non disponibile per questo gruppo.");
+        const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname.replace(/\/+$/, "") : "";
+        const currentPath = location.pathname.replace(/\/+$/, "");
+        if (!assignment || !group || !expectedPath || !(currentPath === expectedPath || currentPath.endsWith(expectedPath))) {
+          throw new Error("Compito non disponibile per questo gruppo o percorso. Verifica l’assegnazione nella gestione compiti.");
         }
         const active = (group.studenti || []).some(student => student.nome === session.name);
         const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
@@ -766,10 +777,15 @@ Traccia d'esempio / Пример:
         const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
         submissionRef = assignmentRef.child(`consegne/${studentKey}`);
         studentName = session.name;
-        const submission = (await submissionRef.once("value")).val() || {};
+                const submission = (await withTimeout(
+          submissionRef.once("value"),
+          15000,
+          "Il caricamento delle risposte è scaduto. Controlla la connessione e riprova."
+        )).val() || {};
         answers = submission.answers || {};
         teacherReviewData = submission.teacherReview || null;
         submissionStatus = submission.status || "in-progress";
+        pageMessage.textContent = "";
         workspace.hidden = false;
 
         if (submissionStatus === "reviewed") {
