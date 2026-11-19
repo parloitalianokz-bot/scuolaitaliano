@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Forma frasi con il comparativo di minoranza in italiano, Unità 53." />
+  <title>Unità 53 — Il comparativo di minoranza · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <style>
+    body {
+      background:
+        linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111,151,116,.18), transparent 42%),
+        var(--bg-main);
+    }
+  </style>
+</head>
+<body data-page-key="053_es_f" data-next-href="053_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 53">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label for="exercise-menu" class="visually-hidden">Seleziona una pagina dell’Unità 53</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 53">
+        <option value="">Esercizi</option>
+        <option value="053_lettura.html">Lettura</option>
+        <option value="053_es_a.html">Esercizio A</option>
+        <option value="053_es_b.html">Esercizio B</option>
+        <option value="053_es_c.html">Esercizio C</option>
+        <option value="053_es_d.html">Esercizio D</option>
+        <option value="053_es_e.html">Esercizio E</option>
+        <option value="053_es_f.html" selected>Esercizio F</option>
+        <option value="053_es_g.html">Esercizio G</option>
+        <option value="053_es_h.html">Esercizio H</option>
+        <option value="053_es_i.html">Esercizio I</option>
+        <option value="053_es_j.html">Esercizio J</option>
+        <option value="053_es_k.html">Esercizio K</option>
+      </select>
+      <label for="grammar-menu" class="visually-hidden">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 53 · Grammatica</span>
+      <h1>Il comparativo di minoranza</h1>
+      <p class="hero-subtitle">Forma frasi complete confrontando i due elementi.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">
+        👉 <strong>Составьте полные предложения по образцу, сравнивая два элемента.</strong><br />
+        <span lang="it">Usa <strong>meno + aggettivo + di</strong>, scegli la forma corretta di <em>essere</em> e concorda l’aggettivo (per esempio: <em>La Svizzera è meno grande dell’Italia.</em>).</span><br />
+        <span lang="it">In modalità online i contributi sono condivisi; in modalità distanza e allenamento puoi esercitarti individualmente.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Frasi con il comparativo di minoranza">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una coppia:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle coppie"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle coppie">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="053_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 53,
+      exercisePath: "053_es_f",
+      hintsLang: "it",
+      placeholder: "Scrivi una frase completa: … è meno … di …",
+      submitLabel: "📤 Invia la frase",
+      questions: [
+        { key: "f1", title: "Confronta: La Svizzera — l’Italia", hints: ["Scegli un aggettivo riferito a entrambi i Paesi e completa: La Svizzera è meno … dell’Italia.", "Ricorda di usare è e di concordare l’aggettivo con La Svizzera."] },
+        { key: "f2", title: "Confronta: Le gonne — i pantaloni", hints: ["Scegli un aggettivo che possa descrivere entrambi gli indumenti.", "Il soggetto è plurale: usa sono e concorda l’aggettivo con Le gonne."] },
+        { key: "f3", title: "Confronta: Il cotone — la lana", hints: ["Pensa a una caratteristica comune ai due materiali.", "Il soggetto è singolare: usa è e concorda l’aggettivo con Il cotone."] },
+        { key: "f4", title: "Confronta: La luna — la terra", hints: ["Scegli una caratteristica che si possa attribuire a entrambi i corpi celesti.", "Usa è; la forma dell’aggettivo concorda con La luna."] },
+        { key: "f5", title: "Confronta: La sedia — il divano", hints: ["Pensa a una caratteristica comune ai due mobili.", "Usa è e concorda l’aggettivo con La sedia."] },
+        { key: "f6", title: "Confronta: Il Monte Rosa — il Monte Bianco", hints: ["Puoi confrontare i due monti per altezza o difficoltà di salita.", "Usa è e concorda l’aggettivo con Il Monte Rosa."] },
+        { key: "f7", title: "Confronta: La dieta — la cucina gourmet", hints: ["Scegli un aggettivo adatto a entrambe le esperienze alimentari.", "Usa è e concorda l’aggettivo con La dieta."] },
+        { key: "f8", title: "Confronta: Il mare — la piscina", hints: ["Pensa a una caratteristica comune ai due luoghi in cui si nuota.", "Usa è e concorda l’aggettivo con Il mare."] },
+        { key: "f9", title: "Confronta: Il pesce — la carne", hints: ["Puoi confrontare i due alimenti per gusto, leggerezza o costo.", "Usa è e concorda l’aggettivo con Il pesce."] },
+        { key: "f10", title: "Confronta: Il caffè espresso — il caffè americano", hints: ["Pensa a una caratteristica comune ai due tipi di caffè, per esempio l’intensità.", "Usa è e concorda l’aggettivo con Il caffè espresso."] },
+        { key: "f11", title: "Confronta: Il cappuccino — il caffè macchiato", hints: ["Puoi confrontarli per quantità di latte o intensità del gusto.", "Usa è e concorda l’aggettivo con Il cappuccino."] },
+        { key: "f12", title: "Confronta: Il riso — la pasta", hints: ["Scegli un aggettivo adatto a entrambi gli alimenti.", "Usa è e concorda l’aggettivo con Il riso."] }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con di o che nei comparativi, Unità 53." />
+  <title>Unità 53 — I comparativi: di o che · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <style>
+    body {
+      background:
+        linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center / cover fixed,
+        radial-gradient(ellipse at 50% -12%, rgba(111,151,116,.18), transparent 42%),
+        var(--bg-main);
+    }
+  </style>
+</head>
+<body data-page-key="053_es_i" data-next-href="053_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 53">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label for="exercise-menu" class="visually-hidden">Seleziona una pagina dell’Unità 53</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 53">
+        <option value="">Esercizi</option>
+        <option value="053_lettura.html">Lettura</option>
+        <option value="053_es_a.html">Esercizio A</option>
+        <option value="053_es_b.html">Esercizio B</option>
+        <option value="053_es_c.html">Esercizio C</option>
+        <option value="053_es_d.html">Esercizio D</option>
+        <option value="053_es_e.html">Esercizio E</option>
+        <option value="053_es_f.html">Esercizio F</option>
+        <option value="053_es_g.html">Esercizio G</option>
+        <option value="053_es_h.html">Esercizio H</option>
+        <option value="053_es_i.html" selected>Esercizio I</option>
+        <option value="053_es_j.html">Esercizio J</option>
+        <option value="053_es_k.html">Esercizio K</option>
+      </select>
+      <label for="grammar-menu" class="visually-hidden">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 53 · Grammatica</span>
+      <h1>I comparativi: di o che</h1>
+      <p class="hero-subtitle">Completa le frasi scegliendo la forma corretta.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">
+        👉 <strong>Дополните фразы, используя правильную форму di или che.</strong><br />
+        <span lang="it">Completa ogni frase con <strong>di</strong> o <strong>che</strong>. Quando <em>di</em> si unisce all’articolo, scrivi la forma articolata corretta: <em>del, della, dei, degli, delle</em>. Per esempio: <em>Il pesce costa meno della carne.</em> · <em>È più facile parlare che scrivere.</em></span><br />
+        <span lang="it">In modalità online i contributi sono condivisi; in modalità distanza e allenamento puoi esercitarti individualmente.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Frasi con i comparativi di e che">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="053_es_j.html" hidden>Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 53,
+      exercisePath: "053_es_i",
+      hintsLang: "it",
+      placeholder: "Scrivi la forma corretta: di, che o una forma articolata…",
+      submitLabel: "📤 Invia la risposta",
+      questions: [
+        { key: "i1", title: "Gli zucchini costano meno ___ patate, ma più ___ insalata.", hints: ["Confronta gli zucchini con due alimenti diversi: scegli la preposizione adatta e uniscila all’articolo quando serve."] },
+        { key: "i2", title: "Quest’estate ha fatto più caldo in luglio ___ in agosto.", hints: ["Si confrontano due momenti espressi con la preposizione in."] },
+        { key: "i3", title: "Il pesce mi piace più ___ carne.", hints: ["Confronta due alimenti; davanti a carne serve la preposizione articolata."] },
+        { key: "i4", title: "Gianni è alto meno ___ me, e pesa più ___ me.", hints: ["Dopo il comparativo, davanti al pronome me si usa la preposizione semplice."] },
+        { key: "i5", title: "Milano è più antica ___ Venezia, ma a Venezia ci sono più monumenti ___ a Milano.", hints: ["Nel primo confronto ci sono due città; nel secondo si confrontano due complementi introdotti da a."] },
+        { key: "i6", title: "Mi piace più mangiare a casa ___ andare al ristorante.", hints: ["Si confrontano due verbi all’infinito."] },
+        { key: "i7", title: "In città c’è meno traffico di pomeriggio ___ di mattina.", hints: ["Si confrontano due momenti della giornata introdotti da di."] },
+        { key: "i8", title: "Il mio struzzo è più intelligente ___ tuo.", hints: ["Si confrontano due animali; prima di tuo si usa la preposizione semplice."] },
+        { key: "i9", title: "Il russo è più difficile ___ inglese, ma è meno difficile ___ cinese.", hints: ["Si confrontano lingue diverse: completa entrambe le preposizioni articolate."] },
+        { key: "i10", title: "Oggi gli idraulici e gli elettricisti guadagnano più ___ avvocati e ___ professori.", hints: ["Dopo più si confrontano due gruppi di persone; considera gli articoli plurali."] },
+        { key: "i11", title: "Gli Appennini sono meno alti ___ Alpi.", hints: ["Confronta due catene montuose; davanti ad Alpi serve l’articolo."] },
+        { key: "i12", title: "Oggi fa più freddo ___ ieri.", hints: ["Confronta due momenti: oggi e ieri."] },
+        { key: "i13", title: "Il libro che sto leggendo è più interessante ___ quello che ho letto.", hints: ["Confronta due libri indicati da quello."] },
+        { key: "i14", title: "Maria è più brava in matematica ___ Paolo.", hints: ["Si confrontano Maria e Paolo, due persone diverse."] },
+        { key: "i15", title: "Maria è più brava in matematica ___ in chimica.", hints: ["Si confrontano due materie riferite alla stessa persona."] },
+        { key: "i16", title: "Il soggiorno è più grande ___ cucina, ma la cucina è più moderna ___ soggiorno.", hints: ["Confronta due stanze: usa la forma articolata di di con i nomi delle stanze."] },
+        { key: "i17", title: "Quest’anno abbiamo avuto più pioggia ___ l’anno scorso.", hints: ["Confronta due anni diversi."] },
+        { key: "i18", title: "La mia nuova casa è più vicina al lavoro ___ la vecchia.", hints: ["Confronta la casa nuova con quella vecchia."] },
+        { key: "i19", title: "I dolci fatti in casa sono più freschi ___ quelli comprati in negozio.", hints: ["Confronta due tipi di dolci, indicati da quelli."] },
+        { key: "i20", title: "Il film di ieri era più divertente ___ quello di oggi.", hints: ["Confronta due film indicati da quello."] },
+        { key: "i21", title: "Il tempo di viaggio è più breve in treno ___ in macchina.", hints: ["Si confrontano due mezzi di trasporto, entrambi introdotti da in."] },
+        { key: "i22", title: "Il mio frigo è più vuoto ___ la mia agenda di sabato sera.", hints: ["Confronta due elementi diversi: il frigorifero e l’agenda."] },
+        { key: "i23", title: "Mia moglie è più imprevedibile ___ del tempo a marzo.", hints: ["Confronta due elementi diversi; il secondo è introdotto da del tempo."] },
+        { key: "i24", title: "Ho più probabilità di vincere alla lotteria ___ di convincere il mio cane a fare il bagno.", hints: ["Si confrontano due azioni espresse con verbi all’infinito."] },
+        { key: "i25", title: "Il mio armadio è più affollato ___ un concerto, ma meno organizzato ___ il mio garage.", hints: ["Confronta l’armadio con due elementi diversi; prima del secondo nome c’è già l’articolo il."] }
+      ]
+    });
+  </script>
+</body>
+</html>

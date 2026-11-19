@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa Il viale del tramonto con passato prossimo, imperfetto e condizionale composto, Unità 53." />
+  <title>Unità 53 — Il viale del tramonto · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <style>:root { --inbox-bg: url("img/sfondo.jpeg"); }</style>
+</head>
+<body data-page-key="053_es_b" data-next-href="053_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 53">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label for="exercise-menu" class="visually-hidden">Seleziona una pagina dell’Unità 53</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 53">
+        <option value="">Esercizi</option>
+        <option value="053_lettura.html">Lettura</option>
+        <option value="053_es_a.html">Esercizio A</option>
+        <option value="053_es_b.html" selected>Esercizio B</option>
+        <option value="053_es_c.html">Esercizio C</option>
+        <option value="053_es_d.html">Esercizio D</option>
+        <option value="053_es_e.html">Esercizio E</option>
+        <option value="053_es_f.html">Esercizio F</option>
+        <option value="053_es_g.html">Esercizio G</option>
+        <option value="053_es_h.html">Esercizio H</option>
+        <option value="053_es_i.html">Esercizio I</option>
+        <option value="053_es_j.html">Esercizio J</option>
+        <option value="053_es_k.html">Esercizio K</option>
+      </select>
+      <label for="grammar-menu" class="visually-hidden">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 53 · Grammatica</span>
+      <h1>Il viale del tramonto</h1>
+      <p class="hero-subtitle">Completa il racconto con la forma corretta dei verbi.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio B</div>
+      <div class="instruction-text">
+        👉 <strong>Поставьте глаголы в нужную форму: passato prossimo, imperfetto o condizionale composto.</strong><br />
+        <span lang="it">Completa gli spazi e invia le risposte. In modalità online turni e contributi sono condivisi; in modalità distanza e allenamento puoi esercitarti individualmente.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Racconto da completare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del racconto:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="053_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const passages = [
+      { id: "b1", text: "Un giorno, la contessa Prosciuttoni {{0}} in una pellicceria, insieme al suo autista. La contessa, che ormai non {{1}} più giovanissima, {{2}} dei vestiti che {{3}} di moda vent’anni prima; l’autista, più giovane di lei, {{4}} un completo nero e un berretto dello stesso colore.", keys: ["è entrata", "era", "portava", "andavano", "indossava"], infinitives: ["entrare", "essere", "portare", "andare", "indossare"], hint: "Chi compie ogni azione? Individua gli eventi conclusi e descrivi invece lo stato o l’abitudine nel passato. Quali verbi usano essere e avere nel passato prossimo?" },
+      { id: "b2", text: "La contessa {{0}} due pellicce che le {{1}}, e {{2}} informazioni al commesso. Il commesso {{3}} che lo zibellino è più caro del visone, ma che è molto più elegante; il visone però è più leggero dello zibellino, perché lo zibellino ha il pelo più lungo.", keys: ["ha visto", "piacevano", "ha chiesto", "ha detto"], infinitives: ["vedere", "piacere", "chiedere", "dire"], hint: "Quali azioni fanno avanzare la storia e quale verbo descrive un’impressione o un gusto? Motiva la scelta tra passato prossimo e imperfetto." },
+      { id: "b3", text: "La contessa {{0}} le due pellicce e {{1}} che in effetti il visone {{2}} più morbido e più leggero dello zibellino. Lei {{3}} volentieri tutte e due le pellicce, ma l’autista {{4}} di non prendere né l’una né l’altra.", keys: ["ha provato", "ha detto", "era", "avrebbe comprato", "ha consigliato"], infinitives: ["provare", "dire", "essere", "comprare", "consigliare"], hint: "Quale tempo serve per l’azione di provare? Quale forma esprime un acquisto ipotetico nel passato? Quali indizi nel contesto ti aiutano?" },
+      { id: "b4", text: "Poi la contessa Prosciuttoni e il suo autista {{0}} in una gioielleria. La contessa {{1}} due anelli che le {{2}} interessanti, e {{3}} consiglio al gioielliere. Il gioielliere {{4}} che il diamante ha più luce del rubino, mentre il rubino è più caldo. A parte questo, il diamante è più classico del rubino e sta bene con tutto. La contessa {{5}} tutti e due gli anelli, ma il suo autista {{6}} di parere contrario e l’{{7}} a uscire dal negozio senza comprare niente.", keys: ["sono andati", "ha visto", "sembravano", "ha chiesto", "ha spiegato", "avrebbe preso", "era", "ha convinta"], infinitives: ["andare", "vedere", "sembrare", "chiedere", "spiegare", "prendere", "essere", "convincere"], hint: "Riconosci il soggetto plurale nella prima frase: quale ausiliare richiede andare? Quali verbi raccontano eventi e quale descrive un’impressione? Che cosa indica «avrebbe preso»?" },
+      { id: "b5", text: "Dopo {{0}} in un negozio di abbigliamento. Anche qui la contessa {{1}} indecisa: non {{2}} se prendere un paio di pantaloni di pelle o un paio di jeans strappati con i brillantini. Secondo lei i pantaloni {{3}} più eleganti dei jeans, ma anche meno pratici.", keys: ["sono andati", "era", "sapeva", "erano"], infinitives: ["andare", "essere", "sapere", "essere"], hint: "A chi si riferisce il soggetto sottinteso di «sono andati»? Perché «era», «sapeva» ed «erano» descrivono situazioni di sfondo?" },
+      { id: "b6", text: "La commessa {{0}} di andare in un altro negozio, e Germano {{1}} di tornare a casa. La contessa {{2}} che la commessa {{3}} una maleducata; il commesso della pellicceria {{4}} molto più gentile di lei.", keys: ["ha consigliato", "ha consigliato", "pensava", "era", "era"], infinitives: ["consigliare", "consigliare", "pensare", "essere", "essere"], hint: "Chi dà i consigli? Individua i due eventi conclusi e poi le descrizioni e le opinioni al passato. Quale forma di consigliare si accorda con ciascun soggetto?" },
+      { id: "b7", text: "Tornando a casa, {{0}} davanti alla vetrina di un autosalone. La contessa {{1}} a guardare. Secondo lei, {{2}} bisogno di una macchina nuova; Germano {{3}}, ma non {{4}} niente. La contessa {{5}} una Lamborghini e un’Alfa Romeo. La Lamborghini {{6}} più piccola dell’Alfa Romeo, ma secondo lei {{7}} anche più prestigiosa e più chic. L’Alfa Romeo, invece, {{8}} più comoda e più spaziosa della Lamborghini. La contessa comunque {{9}} che per lo zibellino {{10}} più adatta la Lamborghini.", keys: ["sono passati", "si è fermata", "aveva", "ha sospirato", "ha detto", "ha visto", "era", "era", "sembrava", "pensava", "era"], infinitives: ["passare", "fermarsi", "avere", "sospirare", "dire", "vedere", "essere", "essere", "sembrare", "pensare", "essere"], hint: "Segui il racconto in ordine: chi è il soggetto di «sono passati»? Quali azioni sono concluse? Quali forme descrivono necessità, caratteristiche e opinioni?" },
+      { id: "b8", text: "La contessa e l’autista {{0}} alla fermata dell’autobus. Dopo un po’ {{1}} anche l’autobus, e loro {{2}}. {{3}} due posti liberi e {{4}}. Però la contessa non {{5}} i soldi per comprare i biglietti, così {{6}} pagare Germano.", keys: ["sono arrivati", "è arrivato", "sono saliti", "hanno trovato", "si sono seduti", "aveva", "ha dovuto"], infinitives: ["arrivare", "arrivare", "salire", "trovare", "sedersi", "avere", "dovere"], hint: "Individua quando cambia il soggetto: la contessa e l’autista, l’autobus, loro. Quale ausiliare usano arrivare e salire? Chi non aveva i soldi e chi ha dovuto pagare?" }
+    ];
+
+    const sentences = passages.map(passage => ({
+      id: passage.id,
+      hints: [passage.hint],
+      hintsLang: "it",
+      parts: passage.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${passage.id}-${index}`,
+          input: true,
+          correct: passage.keys[index],
+          placeholder: passage.infinitives[index]
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 53,
+      exercisePath: "053_es_b",
+      sentences
+    });
+  </script>
+</body>
+</html>
