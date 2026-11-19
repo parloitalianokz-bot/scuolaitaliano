@@ -738,18 +738,22 @@ Traccia d'esempio / Пример:
       return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
     }
 
-    async function initializeTask() {
+        async function initializeTask() {
       pageMessage.textContent = "Caricamento del compito… / Загрузка задания…";
       let session;
       try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
-      try {
-        const openedForReview = await window.openHomeworkTeacherReview({ taskData: { title: taskTitle }, buildRows: buildTeacherReviewRows });
-        if (openedForReview) return;
-      } catch (error) {
-        pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
-        return;
+
+      if (session?.isTeacher) {
+        try {
+          const openedForReview = await window.openHomeworkTeacherReview({ taskData: { title: taskTitle }, buildRows: buildTeacherReviewRows });
+          if (openedForReview) return;
+        } catch (error) {
+          pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
+          return;
+        }
       }
-            workspace.hidden = false;
+
+      workspace.hidden = false;
       submitBox.hidden = true;
       renderSection();
       content.querySelectorAll("input, select, textarea, .accent-btn").forEach(control => { control.disabled = true; });
@@ -762,7 +766,7 @@ Traccia d'esempio / Пример:
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
-                const [assignmentSnapshot, groupSnapshot] = await withTimeout(Promise.all([
+        const [assignmentSnapshot, groupSnapshot] = await withTimeout(Promise.all([
           assignmentRef.once("value"),
           db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
         ]), 15000, "Il caricamento dei dati è scaduto. Controlla la connessione e riprova.");
@@ -782,7 +786,7 @@ Traccia d'esempio / Пример:
         const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
         submissionRef = assignmentRef.child(`consegne/${studentKey}`);
         studentName = session.name;
-                const submission = (await withTimeout(
+        const submission = (await withTimeout(
           submissionRef.once("value"),
           15000,
           "Il caricamento delle risposte è scaduto. Controlla la connessione e riprova."
@@ -790,8 +794,7 @@ Traccia d'esempio / Пример:
         answers = submission.answers || {};
         teacherReviewData = submission.teacherReview || null;
         submissionStatus = submission.status || "in-progress";
-                pageMessage.textContent = "";
-        workspace.hidden = false;
+        pageMessage.textContent = "";
         submitBox.hidden = false;
 
         if (submissionStatus === "reviewed") {
