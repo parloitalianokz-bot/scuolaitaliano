@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il racconto Il funerale dello zio Augusto con i pronomi diretti e l’accordo del participio passato, Unità 46." />
+  <title>Unità 46 — Il funerale dello zio Augusto · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <style>:root { --inbox-bg: url("img/sfondo-funerale-augusto.jpg"); }</style>
+</head>
+<body data-page-key="046_es_b" data-next-href="046_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 46">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’Unità 46</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 46">
+        <option value="">Esercizi</option>
+        <option value="046_lettura.html">Lettura</option>
+        <option value="046_es_a.html">Esercizio A</option>
+        <option value="046_es_b.html" selected>Esercizio B</option>
+        <option value="046_es_c.html">Esercizio C</option>
+        <option value="046_es_d.html">Esercizio D</option>
+        <option value="046_es_e.html">Esercizio E</option>
+        <option value="046_es_f.html">Esercizio F</option>
+        <option value="046_es_g.html">Esercizio G</option>
+        <option value="046_es_h.html">Esercizio H</option>
+        <option value="046_es_i.html">Esercizio I</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 46 · Grammatica</span>
+      <h1>Il funerale dello zio Augusto</h1>
+      <p class="hero-subtitle">Completa il racconto con i pronomi diretti e le forme corrette del participio passato.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio B</div>
+      <div class="instruction-text">
+        👉 <strong>Вставьте прямые местоимения и согласуйте причастие прошедшего времени.</strong><br />
+        <span lang="it">Completa gli spazi e invia le risposte. In modalità online turni e contributi sono condivisi; in modalità distanza e allenamento individuale puoi esercitarti da solo. Apri “Suggerimenti” se ti serve un aiuto.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Completa il racconto con i pronomi diretti e il participio passato">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del racconto:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="046_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 46,
+      exercisePath: "046_es_b",
+      sentences: [
+        {
+          id: "funerale",
+          hintsLang: "it",
+          hints: ["Con il verbo essere, il participio passato si accorda con il soggetto: lo zio è mancato, i parenti sono venuti, le zie sono arrivate.", "Controlla il genere e il numero di ogni soggetto."],
+          parts: [
+            "Quando è mancat", { id: "funerale-mancato", input: true, correct: "o" }, " il povero zio Augusto, al suo funerale sono venut", { id: "parenti-venuti", input: true, correct: "i" }, " tutti i parenti. Sono venut", { id: "zie-venute", input: true, correct: "e" }, " perfino la zia Berta da Bergamo, la zia Gemma da Genova e la zia Camilla da Canicattì. Naturalmente è venut", { id: "albina-venuta", input: true, correct: "a" }, " anche la zia Albina."
+          ]
+        },
+        {
+          id: "accompagnare-zie",
+          hintsLang: "it",
+          hints: ["Le zie sono femminili e plurali: riprendi il gruppo con il pronome diretto corretto.", "Con infinito e verbo modale, il pronome può unirsi all’infinito: accompagnar…; riportar… ."],
+          parts: [
+            "Le zie si sono incontrat", { id: "zie-incontrate", input: true, correct: "e" }, " al funerale ed erano allegre. Dopo la cerimonia, siccome avevo la macchina, gli altri mi hanno chiesto di accompagnar", { id: "accompagnarle", input: true, correct: "le" }, ". Carlo era andato a prender", { id: "prenderle", input: true, correct: "le" }, " il giorno prima; ora dovevo riportar", { id: "riportarle", input: true, correct: "le" }, " a casa."
+          ]
+        },
+        {
+          id: "destinazioni",
+          hintsLang: "it",
+          hints: ["Sostituisci una zia con la e due zie con le.", "I pronomi si uniscono all’infinito: portar… e accompagnar… ."],
+          parts: [
+            "La zia Camilla doveva prendere l’aereo per la Sicilia, quindi dovevo portar", { id: "portarla-aeroporto", input: true, correct: "la" }, " all’aeroporto. La zia Gemma e la zia Berta dovevano tornare in treno, così dovevo portar", { id: "portarle-stazione", input: true, correct: "le" }, " alla stazione. La zia Albina poteva tornare a piedi, ma era stanca e mi ha chiesto di accompagnar", { id: "accompagnarla-casa", input: true, correct: "la" }, " a casa."
+          ]
+        },
+        {
+          id: "biglietti",
+          hintsLang: "it",
+          hints: ["Il biglietto è maschile singolare: lo aveva comprato.", "Glieli significa “a loro + li”: il participio con li si accorda al maschile plurale.", "Con essere, arrivati si accorda con il soggetto sottinteso noi."],
+          parts: [
+            "Quando siamo arrivat", { id: "arrivati-stazione", input: true, correct: "i" }, " alla stazione, la zia Gemma ha dett", { id: "detto-biglietto", input: true, correct: "o" }, " che doveva fare il biglietto, perché non ", { id: "lo-biglietto", input: true, correct: "lo" }, " aveva comprat", { id: "comprato-biglietto", input: true, correct: "o" }, ". Ho comprato i biglietti e ", { id: "glieli-biglietti", input: true, correct: "glieli" }, " ho portat", { id: "portati-biglietti", input: true, correct: "i" }, "."
+          ]
+        },
+        {
+          id: "confusione-treni",
+          hintsLang: "it",
+          hints: ["Il narratore è un uomo: mi sono confuso.", "Il pronome la riprende la zia; con il participio passato concorda al femminile singolare."],
+          parts: [
+            "I due treni partivano quasi contemporaneamente e c’è stat", { id: "stata-confusione", input: true, correct: "a" }, " un po’ di confusione. Mi sono confus", { id: "confuso", input: true, correct: "o" }, ". La zia Berta doveva andare a Bologna, ma ", { id: "messa-berta", input: true, correct: "l’ho messa" }, " sul treno per Genova; la zia Gemma doveva andare a Genova, ma ", { id: "messa-gemma", input: true, correct: "l’ho messa" }, " sul treno per Bologna."
+          ]
+        },
+        {
+          id: "valigie",
+          hintsLang: "it",
+          hints: ["Le valigie è femminile plurale: le ho messe.", "Con essere, andata concorda con quella (la valigia); addormentate concorda con le due zie."],
+          parts: [
+            "Le valigie, invece, ", { id: "le-valigie", input: true, correct: "le" }, " ho mess", { id: "messe-valigie", input: true, correct: "e" }, " sui treni giusti: quella della zia Gemma è andat", { id: "andata-gemma", input: true, correct: "a" }, " a Genova con la zia Berta, e quella della zia Berta è andat", { id: "andata-berta", input: true, correct: "a" }, " a Bologna con la zia Gemma. Intanto la zia Camilla e la zia Albina si sono addormentat", { id: "addormentate", input: true, correct: "e" }, " in macchina."
+          ]
+        },
+        {
+          id: "aeroporto",
+          hintsLang: "it",
+          hints: ["L’aereo è maschile singolare: l’abbiamo perso.", "Con i pronomi la e le davanti al participio, controlla l’accordo: l’ho messa, l’ho riportata.", "Gliel’ho data riprende la valigia: il participio è femminile singolare."],
+          parts: [
+            "Poi siamo andat", { id: "andati-aeroporto", input: true, correct: "i" }, " all’aeroporto: l’aereo partiva proprio in quel momento e per un pelo non ", { id: "perso-aereo", input: true, correct: "l’abbiamo" }, " pers", { id: "perso-participio", input: true, correct: "o" }, ". Nella fretta ho di nuovo scambiat", { id: "scambiato-zie", input: true, correct: "o" }, " le zie: ho svegliat", { id: "svegliato-albina", input: true, correct: "o" }, " la zia Albina e ", { id: "messa-aereo", input: true, correct: "l’ho messa" }, " sull’aereo; invece ho lasciato dormire la zia Camilla e ", { id: "riportata-camilla", input: true, correct: "l’ho riportata" }, " in città. La sua valigia però non c’era più: ", { id: "data-valigia", input: true, correct: "gliel’ho data" }, " alla zia Albina, che ormai stava volando verso la Sicilia."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

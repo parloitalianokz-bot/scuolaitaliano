@@ -69,7 +69,8 @@
     const specialChars = Array.isArray(config.specialChars) && config.specialChars.length
       ? config.specialChars
       : DEFAULT_SPECIAL_CHARS;
-    const lang = String(config.lang || "it-IT");
+        const lang = String(config.lang || "it-IT");
+    const teacherCanWriteKeyboard = config.teacherCanWriteKeyboard === true;
 
     if (!cards.length) {
       throw new Error("initSpeechExercise richiede almeno una scheda in `cards`.");
@@ -108,7 +109,7 @@
     let sync = null;
     let activeCard = 0;
     let recordingCardIndex = null;
-    let recognition = null;
+        let recognition = null;
     let finalizedText = "";
     let latestFullTranscript = "";
     let manualStopRequested = false;
@@ -163,15 +164,19 @@
       }, 150));
     }
 
-    async function commitContribution(index, rawText, sourceMode = "voice") {
+        async function commitContribution(index, rawText, sourceMode = "voice", allowTurnRevokedSave = false) {
       const cleaned = String(rawText || "").trim();
       if (!cleaned) return false;
       if (!sync) {
         setCardFeedback(index, "error", "⚠️ Connessione al database non disponibile: impossibile salvare.");
         return false;
       }
-      const slotId = slots[index].id;
-            if (!sync.canWrite(slotId)) {
+            const slotId = slots[index].id;
+      const canWriteNormally = sync.canWrite(slotId);
+      const canTeacherWriteByKeyboard = teacherCanWriteKeyboard && isTeacherView &&
+        !isPersonalPractice && sourceMode === "keyboard";
+      const canSaveAfterTurnChange = allowTurnRevokedSave && sourceMode === "voice";
+      if (!canWriteNormally && !canTeacherWriteByKeyboard && !canSaveAfterTurnChange) {
         setCardFeedback(index, "error", isPersonalPractice
           ? "⚠️ Non puoi salvare la risposta in questo momento."
           : "⚠️ Non hai il turno attivo per questa scheda.");
@@ -185,14 +190,22 @@
         : "⏳ Salvataggio contributo in corso...");
 
       try {
-        await sync.push("contributions", {
+                const contribution = {
           questionKey: cards[index].key || `card_${index + 1}`,
           text: cleaned,
           inputMode: sourceMode,
           authorName: currentAuthorName || "Partecipante",
           timestamp: firebase.database.ServerValue.TIMESTAMP
-        }, slotId);
-        await sync.write("draft", "", slotId);
+        };
+        if (canWriteNormally) {
+          await sync.push("contributions", contribution, slotId);
+          await sync.write("draft", "", slotId);
+        } else {
+          await exerciseRef.child("tokenData").child("slots").child(slotId)
+            .child("contributions").push().set(contribution);
+          await exerciseRef.child("tokenData").child("slots").child(slotId)
+            .child("draft").set("");
+        }
         const ui = cardUI[index];
         if (ui) {
           ui.liveBox.textContent = "Здесь появится распознанный текст...";
@@ -216,7 +229,7 @@
         : "🎤 Начать говорить · Parla col microfono";
     }
 
-    async function handleRecordingEnded(index, reasonMessage = "") {
+        async function handleRecordingEnded(index, reasonMessage = "") {
       if (savingAutoContribution) return;
       savingAutoContribution = true;
 
@@ -241,13 +254,54 @@
       if (ui) ui.micBtn.disabled = !(sync && sync.canWrite(slots[index].id));
     }
 
-    function stopSpeechRecognition(manual = true) {
+        function stopSpeechRecognition(manual = true) {
       manualStopRequested = manual;
       if (recognition) {
-        try { recognition.stop(); } catch (_) {}
+        const currentRecognition = recognition;
+        // La chiusura normale attende onend e conserva gli ultimi risultati del browser.
+        try { currentRecognition.stop(); } catch (_) {}
       } else if (recordingCardIndex !== null) {
         handleRecordingEnded(recordingCardIndex);
       }
+    }
+
+    function cancelSpeechRecognition(index) {
+      if (recordingCardIndex !== index) return;
+      const currentRecognition = recognition;
+      const ui = cardUI[index];
+      const textToSave = (latestFullTranscript ||
+        (ui && !ui.liveBox.classList.contains("placeholder") ? ui.liveBox.textContent : "")).trim();
+
+      recognition = null;
+      recordingCardIndex = null;
+      finalizedText = "";
+      latestFullTranscript = "";
+      manualStopRequested = true;
+      updateMicButtonUI(index, false);
+      if (ui) {
+        ui.liveBox.textContent = "Здесь появится распознанный текст...";
+        ui.liveBox.classList.add("placeholder");
+      }
+      setCardFeedback(index, "saving", "⏳ Cambio turno: salvo la trascrizione raccolta...");
+
+      // Interrompe subito il riconoscimento, ma conserva e salva il testo già ricevuto.
+      try { currentRecognition?.abort(); } catch (_) {}
+      savingAutoContribution = true;
+      (async () => {
+        try {
+          if (textToSave) {
+            await commitContribution(index, textToSave, "voice", true);
+          } else if (exerciseRef) {
+            await exerciseRef.child("tokenData").child("slots").child(slots[index].id)
+              .child("draft").set("");
+          }
+        } catch (error) {
+          setCardFeedback(index, "error", `⚠️ Errore durante il salvataggio: ${error?.message || "riprova"}`);
+        } finally {
+          savingAutoContribution = false;
+          if (ui) ui.micBtn.disabled = !(sync && sync.canWrite(slots[index].id));
+        }
+      })();
     }
 
     function setKeyboardMode(index, enabled) {
@@ -272,9 +326,13 @@
       }
     }
 
-    function startSpeechRecognition(index) {
+        function startSpeechRecognition(index) {
       const slotId = slots[index].id;
-            if (!sync || !sync.canWrite(slotId)) {
+      if (recognition || recordingCardIndex !== null || savingAutoContribution) {
+        setCardFeedback(index, "saving", "⏳ Attendi che la registrazione o il salvataggio precedente siano terminati.");
+        return;
+      }
+      if (!sync || !sync.canWrite(slotId)) {
         setCardFeedback(index, "error", isPersonalPractice
           ? "⚠️ Non puoi avviare la registrazione in questo momento."
           : "⚠️ Non hai il turno attivo per parlare.");
@@ -289,11 +347,7 @@
         setKeyboardMode(index, true);
         return;
       }
-      if (recordingCardIndex !== null && recordingCardIndex !== index) {
-        stopSpeechRecognition(true);
-      }
-
-      const existingDraft = String((sync && sync.read("draft", slotId)) || "").trim();
+            const existingDraft = String((sync && sync.read("draft", slotId)) || "").trim();
       finalizedText = existingDraft ? `${existingDraft} ` : "";
       latestFullTranscript = finalizedText.trim();
       manualStopRequested = false;
@@ -307,8 +361,8 @@
       updateMicButtonUI(index, true);
       setCardFeedback(index, "saving", "🎙️ Registrazione attiva: parla in italiano...");
 
-      rec.onresult = event => {
-        if (recordingCardIndex !== index) return;
+            rec.onresult = event => {
+        if (recognition !== rec || recordingCardIndex !== index) return;
         let interim = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const piece = event.results[i][0].transcript;
@@ -329,7 +383,8 @@
         scheduleDraftSync(index, combined);
       };
 
-      rec.onerror = event => {
+            rec.onerror = event => {
+        if (recognition !== rec || recordingCardIndex !== index) return;
         const errCode = event?.error || "unknown";
         if (errCode === "no-speech") return;
 
@@ -347,15 +402,16 @@
         handleRecordingEnded(index, `microfono scollegato: ${errCode}`);
       };
 
-      rec.onend = () => {
+            rec.onend = () => {
+        if (recognition !== rec) return;
+        recognition = null;
         if (recordingCardIndex !== index) return;
         // Se il microfono si scollega o si interrompe, salva subito ciò che è stato registrato come nuova voce
         const reason = manualStopRequested ? "" : "microfono scollegato";
-        recognition = null;
         handleRecordingEnded(index, reason);
       };
 
-      try {
+            try {
         rec.start();
       } catch (error) {
         recordingCardIndex = null;
@@ -474,7 +530,7 @@
       prodHeader.append(prodLabel, turnHintTag);
 
       // Selettore modalità input (visibile a chi ha il turno, utile su smartphone con Google Meet)
-      const modeSwitch = document.createElement("div");
+            const modeSwitch = document.createElement("div");
       modeSwitch.className = "input-mode-switch";
       modeSwitch.hidden = true;
 
@@ -521,11 +577,13 @@
       voicePanel.append(micControls, liveBox);
 
       // Pannello tastiera alternativo
-      const keyboardPanel = document.createElement("div");
+            const keyboardPanel = document.createElement("div");
       keyboardPanel.className = "keyboard-panel";
-      keyboardPanel.hidden = true;
+      const keyboardOnlyTeacher = teacherCanWriteKeyboard && isTeacherView && !isPersonalPractice;
+      keyboardPanel.hidden = !keyboardOnlyTeacher;
+      voicePanel.hidden = keyboardOnlyTeacher;
 
-      const keyboardInput = document.createElement("textarea");
+            const keyboardInput = document.createElement("textarea");
       keyboardInput.id = `keyboard-input-${index}`;
       keyboardInput.className = "answer-input";
       keyboardInput.rows = 4;
@@ -534,8 +592,8 @@
 
       const accentToolbar = createItalianCharToolbar(keyboardInput, specialChars);
 
-      keyboardInput.addEventListener("input", () => {
-        scheduleDraftSync(index, keyboardInput.value);
+            keyboardInput.addEventListener("input", () => {
+        if (!keyboardOnlyTeacher) scheduleDraftSync(index, keyboardInput.value);
       });
 
       const keyboardSubmitRow = document.createElement("div");
@@ -606,7 +664,7 @@
         syncFeedback,
         contributionsEmpty,
         contributionsList,
-        isKeyboardMode: false
+                isKeyboardMode: keyboardOnlyTeacher
       });
     });
 
@@ -681,14 +739,17 @@
       });
     }
 
-    function renderCard(index, onlineSet) {
+        function renderCard(index, onlineSet) {
       const ui = cardUI[index];
       const slotId = slots[index].id;
       const assignee = sync ? sync.assignmentFor(slotId) : null;
+      const keyboardOnlyTeacher = teacherCanWriteKeyboard && isTeacherView && !isPersonalPractice;
       const canEdit = Boolean(sync && sync.canWrite(slotId));
+      const canKeyboardEdit = canEdit || keyboardOnlyTeacher;
 
-      if (!canEdit && recordingCardIndex === index) {
-        stopSpeechRecognition(true);
+
+            if (!canEdit && recordingCardIndex === index) {
+        cancelSpeechRecognition(index);
       }
 
                   ui.turnPill.textContent = `🎤 Turno: ${formatAssigneeLabel(assignee, onlineSet)}`;
@@ -701,24 +762,24 @@
           ? `In turno: ${formatAssigneeLabel(assignee, onlineSet)}`
           : "In attesa di assegnazione";
 
-      ui.modeSwitch.hidden = !canEdit;
-      if (!canEdit && ui.isKeyboardMode) {
+            ui.modeSwitch.hidden = !canEdit;
+      if (!canKeyboardEdit && ui.isKeyboardMode) {
         setKeyboardMode(index, false);
       }
 
       ui.micBtn.disabled = !canEdit;
-      ui.keyboardInput.disabled = !canEdit;
+      ui.keyboardInput.disabled = !canKeyboardEdit;
       ui.accentToolbar.querySelectorAll("button").forEach(btn => {
-        btn.disabled = !canEdit;
+        btn.disabled = !canKeyboardEdit;
       });
-      ui.keyboardSubmitBtn.disabled = !canEdit;
+      ui.keyboardSubmitBtn.disabled = !canKeyboardEdit;
 
       const remoteDraft = String((sync && sync.read("draft", slotId)) || "");
       if (recordingCardIndex !== index) {
         ui.liveBox.textContent = remoteDraft || "Здесь появится распознанный текст...";
         ui.liveBox.classList.toggle("placeholder", !remoteDraft);
       }
-      if (!canEdit || document.activeElement !== ui.keyboardInput) {
+            if (!canKeyboardEdit || (!keyboardOnlyTeacher && document.activeElement !== ui.keyboardInput)) {
         if (ui.keyboardInput.value !== remoteDraft) {
           ui.keyboardInput.value = remoteDraft;
         }

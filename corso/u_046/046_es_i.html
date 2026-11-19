@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi alle domande usando i pronomi diretti, Unità 46." />
+  <title>Unità 46 — I pronomi diretti · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <style>
+    :root { --inbox-bg: url("img/sfondo-funerale-augusto.jpg"); }
+    .unit-gate { margin: 18px 0 28px; padding: 18px; border: 1px solid #d8e5d8; border-radius: 18px; background: var(--primary-light); text-align: center; }
+    .unit-gate p { margin: 0 0 10px; color: var(--primary-dark); }
+    .unit-gate a, .unit-gate button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin: 4px; padding: 9px 18px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .unit-gate a[aria-disabled="true"] { background: #879187; cursor: not-allowed; pointer-events: none; }
+    .unit-gate button:disabled { opacity: .6; cursor: wait; }
+    #unit-next-status { margin: 10px 0 0; color: var(--text-muted); font-size: .9rem; }
+  </style>
+</head>
+<body data-page-key="046_es_i">
+  <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’Unità 46">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’Unità 46</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 46"><option value="">Esercizi</option></select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option></select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 46 · Grammatica</span>
+      <h1>I pronomi diretti</h1>
+      <p class="hero-subtitle">Rispondi alle domande usando i pronomi diretti.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">
+        👉 <strong>Ответьте на вопросы, используя прямые местоимения.</strong><br />
+        <span lang="it">Scrivi una risposta completa in italiano. In modalità online turni e contributi sono condivisi; in modalità distanza e allenamento individuale puoi esercitarti da solo. Apri “Suggerimenti” se ti serve un aiuto.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Domande sui pronomi diretti">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una domanda:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="#unit-gate" hidden>Vai allo sblocco dell’Unità 47 ↓</a>
+      </nav>
+    </section>
+
+    <section class="unit-gate" id="unit-gate" aria-labelledby="unit-next-heading" hidden>
+      <p id="unit-next-heading"><strong>Congratulazioni, avete finito l’Unità 46!</strong></p>
+      <button id="unlock-unit-next" type="button" hidden>🔓 Sblocca l’Unità 47 per il gruppo</button>
+      <a id="unit-next-link" href="../u_047/047_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 47 →</a>
+      <p id="unit-next-status" role="status" aria-live="polite">Unità 47 bloccata: attendi l’autorizzazione dell’insegnante.</p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    (function populateUnitMenus() {
+      const nav = window.PARLO_UNIT_NAV;
+      if (!nav) return;
+      const currentFile = location.pathname.split("/").pop() || "";
+      const fillSelect = (select, items) => {
+        if (!select || !Array.isArray(items)) return;
+        items.forEach(item => {
+          const option = document.createElement("option");
+          option.value = item.value;
+          option.textContent = item.label;
+          option.selected = item.value === currentFile;
+          select.appendChild(option);
+        });
+      };
+      fillSelect(document.getElementById("exercise-menu"), nav.exercises);
+      fillSelect(document.getElementById("grammar-menu"), nav.grammar);
+    })();
+
+    const questions = [
+      { key: "i1", title: "Quando fai la doccia, di solito?", hints: ["Rispondi con una frase completa e riprendi «la doccia» con il pronome diretto adatto.", "Puoi indicare il momento della giornata o la frequenza."] },
+      { key: "i2", title: "Da quanto tempo studi l’italiano?", hints: ["Nella risposta sostituisci «l’italiano» con il pronome diretto.", "Per esprimere la durata, usa «da» seguito da un periodo di tempo."] },
+      { key: "i3", title: "Dove compri la carne, di solito?", hints: ["Individua il genere e il numero di «la carne» e scegli il pronome corrispondente.", "Completa la risposta indicando un luogo in cui fai la spesa."] },
+      { key: "i4", title: "Usi spesso i mezzi pubblici?", hints: ["«I mezzi pubblici» è maschile plurale: usa il pronome diretto corrispondente.", "Puoi rispondere in modo affermativo o negativo e aggiungere una spiegazione."] },
+      { key: "i5", title: "Prendi spesso la metropolitana?", hints: ["Sostituisci «la metropolitana» con il pronome diretto femminile singolare.", "Nella risposta negativa, colloca il pronome dopo «non» e prima del verbo."] },
+      { key: "i6", title: "Quante lingue straniere parli?", hints: ["Per riferirti a una quantità non precisata del nome, puoi usare la particella «ne».", "Rispondi indicando un numero o una quantità."] },
+      { key: "i7", title: "Sai guidare la macchina?", hints: ["Sostituisci «la macchina» con il pronome diretto e abbinalo al verbo «sapere».", "Con un infinito, il pronome può precedere il verbo coniugato oppure unirsi all’infinito."] },
+      { key: "i8", title: "Sai suonare la chitarra?", hints: ["Individua genere e numero di «la chitarra» e scegli il pronome diretto.", "Puoi usare il pronome prima di «so» oppure unirlo all’infinito."] },
+      { key: "i9", title: "Sai usare il computer?", hints: ["Sostituisci «il computer» con il pronome diretto maschile singolare.", "Con «sapere» più infinito sono possibili due posizioni del pronome."] },
+      { key: "i10", title: "Sai cucinare la pizza?", hints: ["Sostituisci «la pizza» con il pronome diretto femminile singolare.", "Formula una risposta completa, affermativa o negativa."] },
+      { key: "i11", title: "Quante sigarette hai fumato oggi?", hints: ["Usa «ne» per riprendere il nome e indica la quantità fumata.", "Con il passato prossimo, considera l’accordo del participio con il nome a cui «ne» si riferisce."] },
+      { key: "i12", title: "Quanti caffè hai bevuto oggi?", hints: ["Usa «ne» per riferirti ai caffè e indica una quantità.", "Il nome è maschile plurale: tienine conto nella costruzione della risposta al passato prossimo."] }
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 46,
+      exercisePath: "046_es_i",
+      hintsLang: "ru",
+      placeholder: "Scrivi qui la tua risposta completa in italiano...",
+      questions
+    });
+
+    // Sblocco dell’Unità 47 controllato dallo stato del gruppo.
+    (() => {
+      const session = window.ParloSession || {};
+      const isTeacher = Boolean(session.isTeacher);
+      const safeGroup = session.safeGroup || "";
+      const unitGate = document.getElementById("unit-gate");
+      const unlockBtn = document.getElementById("unlock-unit-next");
+      const nextLink = document.getElementById("unit-next-link");
+      const statusEl = document.getElementById("unit-next-status");
+      const progressBar = document.getElementById("exercise-progress");
+      const previousButton = document.getElementById("previous-question");
+      const nextButton = document.getElementById("next-question");
+      const lastIndex = questions.length - 1;
+      let groupUnitNumber = 0;
+
+      function syncGateVisibility() {
+        const steps = progressBar ? [...progressBar.querySelectorAll(".progress-step")] : [];
+        unitGate.hidden = steps[lastIndex]?.getAttribute("aria-current") !== "step";
+      }
+
+      function renderGateState() {
+        const unlocked = groupUnitNumber >= 47;
+        nextLink.setAttribute("aria-disabled", String(!unlocked));
+        nextLink.tabIndex = unlocked ? 0 : -1;
+        unlockBtn.hidden = !isTeacher || unlocked;
+        statusEl.textContent = unlocked
+          ? "Unità 47 sbloccata per il gruppo."
+          : isTeacher
+            ? "L’Unità 47 è bloccata per il gruppo."
+            : "Unità 47 bloccata: attendi l’autorizzazione dell’insegnante.";
+      }
+
+      previousButton?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      nextButton?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      progressBar?.addEventListener("click", () => requestAnimationFrame(syncGateVisibility));
+      document.addEventListener("keydown", () => requestAnimationFrame(syncGateVisibility));
+      new MutationObserver(syncGateVisibility).observe(progressBar, { subtree: true, attributes: true, attributeFilter: ["aria-current"] });
+
+      nextLink.addEventListener("click", event => {
+        if (groupUnitNumber < 47) event.preventDefault();
+      });
+
+      if (window.firebase && safeGroup && safeGroup !== "sconosciuto") {
+        const db = window.ParloModes ? ParloModes.initFirebase() : firebase.database();
+        const groupRef = db.ref(`configurazioneScuola/gruppi/${safeGroup}`);
+        groupRef.child("unitNumber").on("value", snapshot => {
+          groupUnitNumber = Number(snapshot.val()) || 0;
+          renderGateState();
+        });
+
+        unlockBtn.addEventListener("click", async () => {
+          if (!isTeacher) return;
+          unlockBtn.disabled = true;
+          statusEl.textContent = "Salvataggio dello sblocco…";
+          try {
+            await groupRef.child("unitNumber").transaction(value => Math.max(47, Number(value) || 0));
+          } catch (_) {
+            statusEl.textContent = "Errore durante lo sblocco dell’Unità 47.";
+          } finally {
+            unlockBtn.disabled = false;
+          }
+        });
+      }
+
+      renderGateState();
+      syncGateVisibility();
+    })();
+  </script>
+</body>
+</html>
