@@ -3,838 +3,838 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unità 47 — Compito 1: Fare e prendere, espressioni idiomatiche e pronomi</title>
+  <meta name="description" content="Compiti a casa di italiano: assegnazioni, consegne e correzioni">
+  <title>Compiti a casa — Italiano</title>
   <style>
     :root {
       color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-      color: #292d28;
-      background: #f5f3ec;
-      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
-      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
-      --success: #278253; --success-bg: #e1f1e5;
+      font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --line: #d8e5d8;
     }
     * { box-sizing: border-box; }
-    body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.86),rgba(250,248,241,.92)), url("../../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6; }
-    main { width: min(100%, 900px); margin: auto; }
-    a { color: var(--green); font-weight: 700; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    h1,h2,h3 { color: var(--green); }
-    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
-    header,.panel,.question { margin-bottom: 22px; padding: clamp(22px,4vw,36px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 12px 34px rgba(43,69,46,.08); }
-    header { padding: clamp(26px,5vw,44px); border-top: 4px solid var(--green); text-align: center; }
-    header > a { display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 18px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
-    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
-    header p { max-width: 720px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
-
-    .grammar-hint { max-width: 720px; margin: 18px auto 0; text-align: left; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; overflow: hidden; }
-    .grammar-hint summary { padding: 11px 16px; color: var(--green); font-weight: 700; font-size: .92rem; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; }
-    .grammar-hint summary::-webkit-details-marker { display: none; }
-    .grammar-hint summary::after { content: "▾"; font-size: 1rem; transition: transform .2s ease; }
-    .grammar-hint[open] summary::after { transform: rotate(180deg); }
-    .grammar-hint-body { padding: 0 16px 14px; border-top: 1px solid #eceae2; font-size: .9rem; line-height: 1.6; color: #3a3f39; }
-    .grammar-hint-body ul { margin: 10px 0 0; padding-left: 18px; }
-    .grammar-hint-body li { margin-bottom: 6px; }
-
-    #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
-    #page-message:empty { display: none; }
-    #workspace[hidden] { display: none; }
-
-    .progress-panel { padding: 18px 22px; }
-    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--green); font-weight: 800; }
-    .progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: .82rem; }
-    .progress-legend span { display: inline-flex; align-items: center; gap: 5px; }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .legend-dot.in-progress { background: #e0ae28; }
-    .legend-dot.completed { background: var(--success); }
-    .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
-    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
-    .progress-list { display: flex; flex-wrap: wrap; gap: 9px; }
-    .progress-step { position: relative; width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; transition: all .15s ease; }
-    .progress-step.in-progress { border-color: #d6a72c; background: #fff3c4; color: #674d00; }
-    .progress-step.completed { border-color: #7ea882; background: var(--green-light); color: var(--green); }
-    .progress-step.current { box-shadow: 0 0 0 3px rgba(47,87,57,.2); }
-    .progress-step.current.in-progress { border-color: #d6a72c; }
-    .progress-step.current.completed { border-color: var(--success); }
-    .progress-step.in-progress::after,.progress-step.completed::after { content: ""; position: absolute; top: -2px; right: -2px; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; }
-    .progress-step.in-progress::after { background: #e0ae28; }
-    .progress-step.completed::after { background: var(--success); }
-
-    .accent-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 18px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: #faf9f5; }
-    .accent-bar span { margin-right: 4px; color: var(--muted); font-size: .84rem; font-weight: 700; }
-    .accent-btn { min-width: 34px; min-height: 34px; padding: 4px 9px; border: 1px solid #c6d6c7; border-radius: 8px; background: #fff; color: var(--green); font-weight: 700; font-size: .95rem; cursor: pointer; }
-    .accent-btn:hover { background: var(--green-light); border-color: var(--green); }
-
-    .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
-    .section-instructions { margin: 0 0 18px; color: var(--muted); line-height: 1.6; white-space: pre-line; }
-    .subheading { margin: 24px 0 10px; color: var(--green); font-size: 1.08rem; }
-    .question p { line-height: 1.65; }
-
-    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.35; }
-    .story p { margin: 0 0 16px; }
-    .story p:last-child { margin-bottom: 0; }
-    .gap-wrap { display: inline-flex; flex-direction: column; vertical-align: middle; margin: 3px 3px; max-width: 100%; }
-    .gap-cue { font-size: .74rem; font-weight: 700; color: var(--accent); line-height: 1.2; margin-bottom: 2px; padding-left: 2px; }
-
-    .gap-input,.match-select { min-height: 40px; padding: 7px 11px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; transition: border-color .15s ease, box-shadow .15s ease; }
-    .gap-input { width: min(175px, 65vw); }
-    .gap-input.inline-small { width: min(145px, 55vw); margin: 0 4px; }
-    .gap-input.full-sentence { width: 100%; margin: 4px 0 0; }
-    .match-select { width: 100%; min-width: 0; max-width: 100%; color: var(--green); font-weight: 700; cursor: pointer; }
-
-    .match-column { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
-    .match-column h3 { margin: 0 0 12px; font-size: 1rem; }
-    .match-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,1.05fr); align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
-    .match-row:last-child { border-bottom: 0; }
-    .match-row p { margin: 0; line-height: 1.55; }
-
-    .item-block { margin: 16px 0; padding: 16px 18px; border: 1px solid #e7e5dc; border-radius: 14px; background: #fff; }
-    .item-block h3 { margin: 0 0 8px; font-size: 1rem; line-height: 1.55; }
-    .item-block p { margin: 6px 0 10px; line-height: 1.7; }
-    .cue-badge { display: inline-block; padding: 2px 9px; border-radius: 8px; background: #f4f8f2; border: 1px solid #d8e5d8; color: var(--green); font-weight: 700; font-size: .92rem; }
-    .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
-    .open-input { display: block; width: 100%; min-height: 92px; padding: 12px 14px; border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; line-height: 1.6; resize: vertical; }
-    .gap-input:focus,.match-select:focus,.open-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(71,119,85,.14); outline: none; }
-
-    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
-    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; transition: background .15s ease, transform .1s ease; }
-    button:hover:not(:disabled) { background: var(--green-dark); }
-    button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
-    button.secondary:hover:not(:disabled) { background: var(--green-light); }
-    button:disabled { cursor: not-allowed; opacity: .5; }
-    .position { color: var(--green); font-weight: 800; text-align: center; }
-
-    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); transition: all .25s ease; }
-    .task-submit.submitted { border-color: var(--success); background: var(--success-bg); }
-    .task-submit p { margin: 0; line-height: 1.5; }
-    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
-    .note { color: var(--muted); font-size: .9rem; }
-    .student-review-feedback { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; background: #fff8f2; }
-    .student-review-feedback h3 { margin: 0 0 10px; font-size: 1rem; }
-    .student-review-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eadfd5; }
-    .student-review-row p { margin: 4px 0; white-space: pre-wrap; }
-    .student-review-grade { color: var(--green); font-weight: 800; }
-    .student-final-comment { margin-bottom: 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--green-light); white-space: pre-wrap; }
-    header, .panel, .question, .item-block, .match-column, .story, .task-submit { box-shadow: 0 4px 10px rgba(35,58,39,.07), 0 16px 32px rgba(35,58,39,.10), inset 0 1px 0 rgba(255,255,255,.8); transition: transform .2s ease, box-shadow .2s ease; }
-    @media (hover:hover) and (pointer:fine) {
-      header:hover, .panel:hover, .question:hover, .item-block:hover, .match-column:hover, .story:hover, .task-submit:hover { transform: translateY(-2px); box-shadow: 0 7px 14px rgba(35,58,39,.1), 0 22px 42px rgba(35,58,39,.14), inset 0 1px 0 rgba(255,255,255,.85); }
+    :focus-visible { outline: 3px solid rgba(189, 105, 77, .55); outline-offset: 3px; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 30px 16px;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(250,248,241,.78), rgba(250,248,241,.78)),
+        url("u_046/img/sfondo-funerale-augusto.jpg") center / cover fixed,
+        #e9e3d6;
     }
-
-    @media(max-width:650px) {
-      body { padding: 16px 9px 36px; }
-      .slide-navigation { flex-wrap: wrap; justify-content: center; }
-      .slide-navigation button { flex: 1 1 130px; }
-      .position { order: -1; width: 100%; }
-      .match-row { grid-template-columns: 1fr; }
-      .match-select { width: 100%; }
-      .question,.panel,header { padding: 19px; }
-      .progress-step { width: 38px; height: 38px; }
-      .task-submit button { width: 100%; }
+    main { width: min(100%, 900px); margin: 0 auto; }
+    header { margin: 26px 0 24px; text-align: center; }
+    header a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .eyebrow { color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    h1 { margin: 8px 0; color: var(--green); font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: -.04em; }
+    header p { margin: 0; color: var(--muted); }
+    .card {
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 8px 26px rgba(43,69,46,.07);
     }
-    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+    .card h2 { margin: 0 0 16px; color: var(--green); font-size: 1.2rem; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+    .field { flex: 1; min-width: 180px; }
+    label { display: block; margin-bottom: 5px; color: var(--green); font-size: .9rem; font-weight: 700; }
+    select, input, textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }
+    textarea { min-height: 105px; resize: vertical; }
+    button, .button-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button:hover, .button-link:hover { background: #1e3d27; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .secondary { border: 1px solid var(--green); background: white; color: var(--green); }
+    .secondary:hover { background: var(--green-light); }
+    .message { margin: 0 0 16px; padding: 11px 14px; border-radius: 10px; font-weight: 700; }
+    .message[hidden] { display: none; }
+    .message.error { background: #fde8e7; color: #a51d1d; }
+    .message.success { background: #e1f1e5; color: #17623c; }
+    .task-list { display: grid; gap: 12px; }
+    .task {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfcf8;
+    }
+    .task h3 { margin: 0 0 5px; color: var(--green); font-size: 1.05rem; }
+    .task-meta { margin-bottom: 10px; color: var(--muted); font-size: .85rem; }
+    .task-description { margin: 0 0 12px; white-space: pre-wrap; }
+    .task-picker { display: flex; align-items: center; gap: 8px; }
+    .task-picker select { flex: 1; min-width: 0; }
+    .task-info-button { flex: 0 0 42px; width: 42px; min-height: 42px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--green); font-size: 1.1rem; }
+    .task-info-button:hover:not(:disabled) { background: var(--green-light); }
+    .task-info-button:disabled { cursor: not-allowed; opacity: .45; }
+    .task-description-dialog { width: min(92vw, 480px); max-height: min(80vh, 600px); padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); color: var(--text); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    .task-description-dialog::backdrop { background: rgba(28,38,29,.5); }
+    .task-description-dialog h2 { margin: 0 0 12px; color: var(--green); font-size: 1.2rem; }
+    .task-description-text { margin: 0; color: var(--muted); line-height: 1.6; white-space: pre-wrap; }
+    .task-description-dialog button { margin-top: 20px; }
+    @media (max-width: 600px) { .task-description-dialog { padding: 20px; } }
+    .task-form { display: grid; gap: 9px; }
+    .task-answer { margin: 8px 0; padding: 12px; border-radius: 9px; background: #fff; white-space: pre-wrap; }
+    .task-answer.approved, .task-answer.rejected { padding: 16px; border: 2px solid; font-size: 1.08rem; font-weight: 800; line-height: 1.5; }
+    .task-answer.approved { border-color: #278253; background: #e1f1e5; color: #17623c; }
+    .task-answer.rejected { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
+    .task-feedback { margin-top: 10px; padding: 12px; border-left: 3px solid var(--accent); background: #fff8f2; white-space: pre-wrap; }
+    .question-strip { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; }
+    .question-card { flex: 0 0 min(320px, 85vw); padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; scroll-snap-align: start; }
+    .question-card p { margin: 0 0 12px; }
+    .question-number { color: var(--accent); font-size: .82rem; font-weight: 800; }
+    .question-card textarea { min-height: 82px; }
+    .question-options { display: grid; gap: 8px; }
+    .question-options label { display: flex; align-items: flex-start; gap: 8px; color: var(--text); font-weight: 500; }
+    .question-options input { width: auto; min-height: auto; margin-top: 4px; }
+    .grading-controls { display: grid; gap: 9px; margin-top: 12px; }
+    .grade-buttons { display: flex; gap: 8px; }
+    .grade-buttons button { flex: 1; }
+    .grade-buttons .reject { background: #a51d1d; }
+    .grade-buttons .selected { box-shadow: 0 0 0 3px rgba(189,105,77,.35); }
+    .empty { margin: 0; color: var(--muted); }
+    .hidden { display: none !important; }
+    .status { display: inline-block; margin-top: 3px; padding: 3px 8px; border-radius: 20px; background: #fff0e8; color: #87452f; font-size: .78rem; font-weight: 800; }
+    @media (max-width: 600px) {
+      body { padding: 18px 12px; }
+      .card { padding: 18px; }
+      .toolbar { align-items: stretch; }
+      .toolbar > button { width: 100%; }
+    }
   </style>
 </head>
 <body>
   <main>
     <header>
-      <a href="../../compiti.html">← Torna ai compiti a casa</a>
-      <span class="eyebrow">Italiano · Unità 47 · Compito 1</span>
-      <h1>Fare e prendere, espressioni idiomatiche e pronomi</h1>
-      <p>Esercitati con le espressioni idiomatiche, l'uso corretto di <strong>fare</strong> vs <strong>prendere</strong>, i pronomi diretti, indiretti e il partitivo <strong>ne</strong> al passato prossimo, e il dialogo sui vicini del palazzo. / Потренируйся в использовании идиом, глаголов <strong>fare</strong> и <strong>prendere</strong>, прямых и косвенных местоимений и частицы <strong>ne</strong> в passato prossimo, а также в диалоге о соседях по дому.</p>
-      <p class="note">Svolgi le quattro parti e salva il tuo lavoro automaticamente. Puoi inviarlo anche se è incompleto. / Выполни четыре части; ответы сохраняются автоматически. Можно отправить работу, даже если она не завершена.</p>
-
-      <details class="grammar-hint">
-        <summary>💡 Краткая памятка / Promemoria grammaticale</summary>
-        <div class="grammar-hint-body">
-          <ul>
-            <li><strong>Collocazioni con <em>fare</em> e <em>prendere</em>:</strong><br>
-              • <em>fare</em>: fare la doccia, fare ginnastica, fare le valigie, fare un giro, fare ritardo, fare lo sconto, fare finta di...<br>
-              • <em>prendere</em>: prendere l'autobus, prendere un caffè, prendere un raffreddore</li>
-            <li><strong>Concordanza del participio passato al Passato Prossimo:</strong><br>
-              • Con i pronomi diretti <em>lo, la, li, le</em> (davanti ad <em>avere</em>): il participio concorda per genere e numero → <em>l'ho incontrata, le ho comprate, l'ho saputa</em>.<br>
-              • Con il partitivo <em>ne</em>: il participio concorda con il nome sostituito → <em>ne ho bevuti due (caffè), ne ho prese sei (scatolette)</em>.<br>
-              • Con i pronomi indiretti <em>mi, ti, gli, le, ci, vi</em>: il participio resta invariato al maschile singolare → <em>mi ha offerto, gli abbiamo regalato</em>.</li>
-          </ul>
-        </div>
-      </details>
+      <a href="index.html">← Torna alle unità</a>
+      <div class="eyebrow" style="margin-top:18px">Italiano · attività</div>
+      <h1>Compiti a casa</h1>
+      <p id="identity">Caricamento della sessione…</p>
     </header>
 
-    <p id="page-message" role="status" aria-live="polite"></p>
-
-    <section id="workspace" hidden>
-      <nav class="panel progress-panel" aria-label="Avanzamento del compito">
-        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
-        <div class="progress-legend" aria-label="Legenda avanzamento"><span><i class="legend-dot in-progress"></i> In corso</span><span><i class="legend-dot completed"></i> Completata</span></div>
-        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-        <div id="progress-list" class="progress-list"></div>
-      </nav>
-
-      <div id="section-content"></div>
-
-      <nav class="slide-navigation" aria-label="Navigazione delle parti">
-        <button id="previous-section" class="secondary" type="button">← Parte precedente</button>
-        <span id="section-position" class="position" aria-live="polite"></span>
-        <button id="next-section" class="secondary" type="button">Parte successiva →</button>
-      </nav>
-
-      <section id="task-submit-box" class="task-submit" aria-label="Consegna del compito">
-        <p id="submit-description"><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
-        <button id="submit-task" type="button">Invia il compito all’insegnante</button>
-      </section>
-
-      <p id="save-status" role="status" aria-live="polite"></p>
+    <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
+    <section id="student-view" class="hidden">
+      <div class="card">
+        <h2>I miei compiti</h2>
+        <div class="field">
+          <label for="student-status">Mostra</label>
+          <select id="student-status">
+            <option value="assigned">Da svolgere</option>
+            <option value="pending">In attesa di correzione</option>
+            <option value="reviewed">Archivio — revisionati</option>
+          </select>
+        </div>
+      </div>
+      <div id="student-tasks" class="task-list" aria-live="polite"></div>
     </section>
+
+    <section id="teacher-view" class="hidden">
+      <div class="card">
+        <h2>Assegna un compito</h2>
+        <form id="assignment-form">
+          <div class="toolbar">
+            <div class="field">
+              <label for="assignment-group">Gruppo</label>
+              <select id="assignment-group" required></select>
+            </div>
+            <div class="field">
+              <label for="assignment-unit">Unità</label>
+              <select id="assignment-unit" required></select>
+            </div>
+            <div class="field">
+              <label for="assignment-task">Compito</label>
+              <div class="task-picker">
+                <select id="assignment-task" required></select>
+                <button id="task-info-button" class="task-info-button" type="button" aria-label="Mostra la descrizione del compito" aria-haspopup="dialog" aria-controls="task-description-dialog" disabled>?</button>
+              </div>
+            </div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label for="assignment-title">Titolo (facoltativo)</label>
+            <input id="assignment-title" type="text" maxlength="120" placeholder="Es. Completa gli esercizi">
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label for="assignment-description">Indicazioni per gli studenti / Инструкция для учеников (facoltative / необязательно)</label>
+            <textarea id="assignment-description" maxlength="2000" placeholder="Scrivi qui cosa devono fare… / Напишите здесь, что нужно сделать…"></textarea>
+          </div>
+          <button type="submit" style="margin-top:12px">Assegna al gruppo</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Correzione e archivio</h2>
+        <div class="toolbar">
+          <div class="field">
+            <label for="review-group">Gruppo</label>
+            <select id="review-group"></select>
+          </div>
+          <div class="field">
+            <label for="review-status">Mostra</label>
+            <select id="review-status">
+                          <option value="pending">In attesa di correzione</option>
+            <option value="reviewed">Archivio — corretti</option>
+            <option value="unsubmitted">Non consegnati</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="teacher-tasks" class="task-list" aria-live="polite"></div>
+    </section>
+    <dialog id="task-description-dialog" class="task-description-dialog" aria-labelledby="task-description-title">
+      <h2 id="task-description-title">Descrizione del compito</h2>
+      <p id="task-description-text" class="task-description-text"></p>
+      <button id="close-task-description" type="button">Chiudi</button>
+    </dialog>
   </main>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="../homework-review.js"></script>
-  <script id="homework-task-data" type="application/json">
-  {
-    "title": "Unità 47 — Compito 1: Fare e prendere, espressioni idiomatiche e pronomi",
-    "instructions": "Svolgi le quattro parti sulle espressioni idiomatiche, sui verbi fare/prendere, sui pronomi al passato prossimo e sul dialogo con i vicini del palazzo."
-  }
-  </script>
   <script>
     const firebaseConfig = {
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "esercizi-parlo-italiano"
     };
-
-    const sections = [
-      {
-        id: "sec1",
-        title: "1 · Riconoscimento e abbinamento (Livello Base)",
-        instructions: "Associa ogni espressione nella Colonna A (1–7) al suo significato o alla sua continuazione logica nella Colonna B (A–G). / Соотнеси каждое выражение из столбца A (1–7) с его значением из столбца B (A–G).",
-        type: "matching",
-        prompts: [
-          "Essere alla mano",
-          "Essere in gamba",
-          "Dare un passaggio",
-          "Prendere un raffreddore",
-          "Fare finta di non vedere",
-          "Fare le valigie",
-          "Fare lo sconto"
-        ],
-        options: [
-          "A · Offrire un trasporto in auto a qualcuno che non guida.",
-          "B · Farsi coinvolgere da un virus stagionale o dal freddo.",
-          "C · Far finta di niente o ignorare volutamente qualcuno quando lo si incontra.",
-          "D · Essere una persona semplice, informale e facile da approcciare.",
-          "E · Preparare le borse prima di partire per un viaggio.",
-          "F · Essere capaci, abili, in salute ed efficienti.",
-          "G · Ridurre il prezzo originale di un prodotto o servizio."
-        ],
-        answers: ["D", "F", "A", "B", "C", "E", "G"]
-      },
-      {
-        id: "sec2",
-        title: "2 · Manipolazione e trasformazione (Livello Elementare)",
-        instructions: "Trasforma la frase modello cambiando l'elemento indicato tra parentesi. Presta attenzione a scegliere il verbo corretto tra fare e prendere e a coniugarlo al tempo e alla persona adeguati. / Преобразуй фразу по образцу, используя словосочетание в скобках. Правильно выбери глагол fare или prendere и поставь его в нужное время и лицо.",
-        type: "pattern_drill",
-        example: `Modello: La mattina Gianni si fa la doccia e prende l'autobus.`,
-        items: [
-          {
-            id: "q1",
-            cue: "(il caffè al bar)",
-            parts: ["1. La mattina Gianni ", { key: "a", placeholder: "…" }, " e ", { key: "b", placeholder: "…" }, "."],
-            expectedSummary: "si fa la doccia / prende un caffè al bar (oppure: prende un caffè al bar / fa un caffè)",
-            answers: ["si fa la doccia / prende un caffè al bar", "prende un caffè al bar / fa un caffè"]
-          },
-          {
-            id: "q2",
-            cue: "(ginnastica)",
-            parts: ["2. La mattina Gianni ", { key: "a", placeholder: "…" }, "."],
-            expectedSummary: "fa ginnastica",
-            answers: ["fa ginnastica"]
-          },
-          {
-            id: "q3",
-            cue: "(le valigie per il viaggio)",
-            parts: ["3. La mattina Gianni e Marco ", { key: "a", placeholder: "…" }, "."],
-            expectedSummary: "fanno le valigie per il viaggio",
-            answers: ["fanno le valigie per il viaggio", "fanno le valigie"]
-          },
-          {
-            id: "q4",
-            cue: "(un brutto raffreddore)",
-            parts: ["4. Ieri Gianni ", { key: "a", placeholder: "…" }, "."],
-            expectedSummary: "ha preso un brutto raffreddore",
-            answers: ["ha preso un brutto raffreddore"]
-          },
-          {
-            id: "q5",
-            cue: "(un giro in bicicletta)",
-            parts: ["5. Se domani non fa freddo, noi ", { key: "a", placeholder: "…" }, "."],
-            expectedSummary: "faremo / facciamo un giro in bicicletta",
-            answers: ["faremo un giro in bicicletta", "facciamo un giro in bicicletta"]
-          },
-          {
-            id: "q6",
-            cue: "(ritardo all'appuntamento)",
-            parts: ["6. Scusa, io non posso parlare perché ", { key: "a", placeholder: "…" }, "."],
-            expectedSummary: "faccio ritardo (all'appuntamento)",
-            answers: ["faccio ritardo", "faccio ritardo all'appuntamento"]
-          }
-        ]
-      },
-      {
-        id: "sec3",
-        title: "3 · Completamento e trasformazione (Livello Intermedio)",
-        instructions: "Completa le frasi inserendo il pronome adatto (lo / la / li / le / gli / mi / ne) e il verbo al passato prossimo con la corretta terminazione del participio. / Дополни фразы подходящим местоимением (lo / la / li / le / gli / mi / ne) и глаголом в passato prossimo с правильным окончанием причастия.",
-        paragraphs: [
-          ["1. — Quanti caffè hai bevuto oggi al bar con il licantropo? — Oggi ne ho bevuti due, perché lui ", {id:"q1", cue:"offrire - a me", answers:["mi ha offerto"]}, " uno a metà mattina."],
-          ["2. — Hai visto la mummia in ascensore stamattina? — Sì, ", {id:"q2", cue:"incontrare - lei", answers:["l'ho incontrata", "la ho incontrata"]}, " al terzo piano, ma non capisco bene la sua lingua!"],
-          ["3. — Hai comprato le scatolette di cibo per il lupo nero? — Sì, ", {id:"q3", cue:"comprare - esse", answers:["le ho comprate"]}, " ieri al supermercato: ", {id:"q4", cue:"prendere - di esse", answers:["ne ho prese"]}, " ben sei!"],
-          ["4. — Avete fatto gli auguri di Natale alla famiglia di zombie? — Certamente, ", {id:"q5", cue:"regalare - a loro", answers:["gli abbiamo regalato", "abbiamo regalato loro"]}, " un panettone e loro ci hanno dato delle bambole fatte a mano."],
-          ["5. — Sai usare la macchina da scrivere antica della mummia? — No, non ", {id:"q6", cue:"sapere - essa", answers:["l'ho saputa", "l'ho mai saputa", "la ho saputa", "la ho mai saputa"]}, " mai usare."]
-        ]
-      },
-      {
-        id: "sec4",
-        title: "4 · Produzione e interazione libera (Livello Avanzato)",
-                instructions: "Immagina di incontrare il tuo vicino licantropo o la tua vicina mummia nel bar del quartiere. Completa la conversazione scrivendo le battute di B (Tu).\n\nVincoli da rispettare nella produzione:\n• Inserire almeno un'espressione tra: alla mano, in gamba, dare un passaggio o fare finta di.\n• Usare correttamente almeno un pronome con il partitivo ne o con il verbo fare/prendere.",
-        openItems: [
-          {
-            id: "q1",
-            title: "1. Incontro al bar di mattina presto",
-                        prompt: "A (Il Licantropo / La Mummia): «Ciao! Che sorpresa incontrarti qui al bar di mattina presto. Prendi un caffè con me?»\nB (Tu — Accetta l'invito e chiedi qualcosa sul suo animale domestico o sul suo lavoro):"
-          },
-          {
-            id: "q2",
-            title: "2. Al supermercato per il cane",
-                        prompt: "A: «Il mio cane ha sempre molta fame! Oggi devo proprio andare al supermercato a fare la spesa per lui, ma la mia macchina è dal meccanico.»\nB (Tu — Offri aiuto usando l'espressione adatta per il trasporto):"
-          },
-          {
-            id: "q3",
-            title: "3. I vicini del terzo piano",
-                        prompt: "A: «Grazie mille, sei davvero molto gentile! Ma dimmi, come vanno le cose nel nostro palazzo? Gli altri vicini come sono?»\nB (Tu — Commenta i vicini del terzo piano, gli impiegati, spiegando perché secondo te sono \"veri mostri\" rispetto agli altri):"
-          }
-        ]
-      }
-    ];
-
-    let sectionIndex = 0;
-    let answers = {};
-    let teacherReviewData = null;
-    let submissionRef = null;
-    let studentName = "";
-    let submissionStatus = "in-progress";
-    let saveTimer = null;
-    let hasPendingSave = false;
-    let lastFocusedField = null;
-
-    const taskParams = new URLSearchParams(location.search);
-    const assignmentId = taskParams.get("assignment");
-    const workspace = document.getElementById("workspace");
-    const content = document.getElementById("section-content");
+    const TEACHER_PINS = { Antonio: "2202", Assel: "2109" };
+    const UNIT_TITLES = {
+      0: "Percorso preliminare · L'alfabeto italiano",
+      1: "Un albergo in centro",
+      2: "Un bravo ragazzo",
+      10: "La borsa rossa",
+      13: "Il grande scrittore",
+      43: "Unità 43",
+      46: "Il funerale dello zio Augusto",
+      47: "I mostri",
+      53: "Il viale del tramonto"
+    };
+    // Catalogo statico: elenca i compiti pubblicati nelle cartelle compiti/u_XXX.
+    let TASK_CATALOG = {};
+    function unitOptionLabel(unit) {
+      const title = UNIT_TITLES[unit];
+      return title && title !== `Unità ${unit}` ? `Unità ${unit} — ${title}` : `Unità ${unit}`;
+    }
     const pageMessage = document.getElementById("page-message");
-    const saveStatus = document.getElementById("save-status");
-    const progressList = document.getElementById("progress-list");
-    const submitBox = document.getElementById("task-submit-box");
-    const submitDesc = document.getElementById("submit-description");
-    const submitBtn = document.getElementById("submit-task");
-    const taskTitle = "Unità 47 — Compito 1: Fare e prendere, espressioni idiomatiche e pronomi";
+    const identity = document.getElementById("identity");
+    const studentView = document.getElementById("student-view");
+    const teacherView = document.getElementById("teacher-view");
+    const studentStatus = document.getElementById("student-status");
+    const studentTasks = document.getElementById("student-tasks");
+    const assignmentForm = document.getElementById("assignment-form");
+    const assignmentGroup = document.getElementById("assignment-group");
+    const assignmentUnit = document.getElementById("assignment-unit");
+    const assignmentTask = document.getElementById("assignment-task");
+    const taskInfoButton = document.getElementById("task-info-button");
+    const taskDescriptionDialog = document.getElementById("task-description-dialog");
+    const taskDescriptionText = document.getElementById("task-description-text");
+    const assignmentTitle = document.getElementById("assignment-title");
+    const assignmentDescription = document.getElementById("assignment-description");
+    const reviewGroup = document.getElementById("review-group");
+    const reviewStatus = document.getElementById("review-status");
+    const teacherTasks = document.getElementById("teacher-tasks");
 
-    document.addEventListener("focusin", (e) => {
-      if (e.target.matches("input.gap-input, textarea.open-input")) {
-        lastFocusedField = e.target;
-      }
-    });
+    let session = null;
+    let groupData = {};
+    let homeworkRef = null;
+    let listeningRef = null;
+    let currentAssignments = {};
 
-    window.addEventListener("beforeunload", (e) => {
-      if (hasPendingSave) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    });
-
-    function createAccentBar() {
-      const bar = document.createElement("div");
-      bar.className = "accent-bar";
-      bar.setAttribute("aria-label", "Caratteri italiani rapidi");
-      const label = document.createElement("span");
-      label.textContent = "Caratteri rapidi:";
-      bar.appendChild(label);
-
-      ["à", "è", "é", "ì", "ò", "ù", "'"].forEach(char => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "accent-btn";
-        btn.textContent = char;
-        btn.setAttribute("aria-label", `Inserisci ${char}`);
-        btn.addEventListener("mousedown", (e) => {
-          e.preventDefault();
-          if (!lastFocusedField || !document.body.contains(lastFocusedField)) return;
-          const start = lastFocusedField.selectionStart ?? lastFocusedField.value.length;
-          const end = lastFocusedField.selectionEnd ?? lastFocusedField.value.length;
-          const val = lastFocusedField.value;
-          lastFocusedField.value = val.slice(0, start) + char + val.slice(end);
-          lastFocusedField.focus();
-          lastFocusedField.setSelectionRange(start + 1, start + 1);
-          lastFocusedField.dispatchEvent(new Event("input", { bubbles: true }));
-        });
-        bar.appendChild(btn);
-      });
-      return bar;
+    function showMessage(text, type = "error") {
+      pageMessage.textContent = text;
+      pageMessage.className = `message ${type}`;
+      pageMessage.hidden = false;
     }
-
-    function setSubmittedVisualState(isSubmitted) {
-      submitBox.classList.toggle("submitted", isSubmitted);
-      if (isSubmitted) {
-        submitDesc.innerHTML = '<strong>✓ Compito inviato all’insegnante!</strong><br><span class="note">Puoi comunque modificare le risposte e inviare di nuovo se necessario.</span>';
-        submitBtn.textContent = "Invia di nuovo il compito";
+    function hideMessage() { pageMessage.hidden = true; }
+    function safeNameKey(name) {
+      return Array.from(name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+    }
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "" : new Intl.DateTimeFormat("it-IT", { dateStyle: "short", timeStyle: "short" }).format(date);
+    }
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text != null) element.textContent = text;
+      return element;
+    }
+    function groupLabel(id) { return `${groupData[id]?.nome || id} · ${id}`; }
+    function refreshTaskChoices() {
+      const tasks = (TASK_CATALOG[String(assignmentUnit.value)] || [])
+        .slice()
+        .sort((a, b) => {
+          const numberA = Number(a.label.match(/\d+/)?.[0] || 0);
+          const numberB = Number(b.label.match(/\d+/)?.[0] || 0);
+          return numberA - numberB || a.label.localeCompare(b.label, "it");
+        });
+      assignmentTask.replaceChildren();
+      if (!tasks.length) {
+        assignmentTask.add(new Option("Nessun compito disponibile", ""));
+        assignmentTask.disabled = true;
       } else {
-        submitDesc.innerHTML = '<strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span>';
-        submitBtn.textContent = "Invia il compito all’insegnante";
+        tasks.forEach(task => assignmentTask.add(new Option(task.label, task.path)));
+        assignmentTask.disabled = false;
+        assignmentTask.selectedIndex = tasks.length - 1;
+      }
+      assignmentTitle.value = "";
+      assignmentDescription.value = "";
+      if (assignmentTask.value) assignmentTask.dispatchEvent(new Event("change"));
+      else {
+        taskDescriptionText.textContent = "";
+        taskInfoButton.disabled = true;
       }
     }
 
-    function persistAnswer(sectionId, answerId, value) {
-      if (submissionStatus === "reviewed") return;
-      if (submissionStatus === "pending") {
-        submissionStatus = "in-progress";
-        setSubmittedVisualState(false);
+    function selectLatestGroupUnit() {
+      const group = groupData[assignmentGroup.value];
+      if (!group) return;
+      const unit = Number(group.unitNumber);
+      if (Number.isInteger(unit) && unit >= 0 && unit <= 77) assignmentUnit.value = String(unit);
+      refreshTaskChoices();
+    }
+    function studentLimit(groupId, studentName) {
+      const group = groupData[groupId];
+      if (!group) return -1;
+      const active = (group.studenti || []).some(student => student.nome === studentName);
+      const inactive = (group.studentiInattivi || []).find(student => student.nome === studentName);
+      if (!active && !inactive) return -1;
+      const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+      return Number.isInteger(limit) ? limit : 1;
+    }
+    function sortedAssignments(data = currentAssignments) {
+      return Object.entries(data || {}).filter(([, item]) => item && typeof item === "object")
+        .sort((a, b) => Number(b[1].createdAt || 0) - Number(a[1].createdAt || 0));
+    }
+    function noTasks(container, text) {
+      container.replaceChildren(makeElement("p", "empty", text));
+    }
+    function appendTeacherReviewToStudentCard(card, submission) {
+      const review = submission?.teacherReview;
+      if (review?.finalComment) {
+        card.appendChild(makeElement("div", "task-feedback", `Giudizio finale dell’insegnante: ${review.finalComment}`));
       }
-      if (!answers[sectionId]) answers[sectionId] = {};
-      answers[sectionId][answerId] = value;
-      renderProgress();
-
-      hasPendingSave = true;
-      saveStatus.textContent = "Salvataggio delle risposte…";
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(async () => {
-        if (!submissionRef) { hasPendingSave = false; return; }
-        try {
-          await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
-          await submissionRef.update({ studentName, status: submissionStatus, updatedAt: Date.now() });
-          hasPendingSave = false;
-          saveStatus.textContent = "Risposte salvate automaticamente. ✓";
-        } catch (_) {
-          hasPendingSave = false;
-          saveStatus.textContent = "Errore di salvataggio. Controlla la connessione.";
-        }
-      }, 350);
-    }
-
-    function renderMatching(section, card) {
-      const column = document.createElement("div");
-      column.className = "match-column";
-      column.appendChild(Object.assign(document.createElement("h3"), {textContent:"Scegli il significato corrispondente per ogni espressione"}));
-
-      section.prompts.forEach((prompt, index) => {
-        const row = document.createElement("div");
-        row.className = "match-row";
-        const text = document.createElement("p");
-        text.innerHTML = `<strong>${index + 1}.</strong> ${prompt}`;
-        const select = document.createElement("select");
-        select.className = "match-select";
-        select.dataset.answerId = `q${index + 1}`;
-        select.setAttribute("aria-label", `Risposta per l'espressione ${index + 1}`);
-        select.appendChild(new Option("Scegli una risposta…", ""));
-        section.options.forEach(option => select.appendChild(new Option(option, option[0])));
-        select.value = answers[section.id]?.[`q${index + 1}`] || "";
-        select.addEventListener("change", () => {
-          persistAnswer(section.id, `q${index + 1}`, select.value);
-        });
-        row.append(text, select);
-        column.appendChild(row);
-      });
-
-      card.appendChild(column);
-    }
-
-    function renderPatternDrill(section, card) {
-      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
-      if (section.example) {
-        const example = document.createElement("p");
-        example.className = "example-line";
-        example.textContent = section.example;
-        card.appendChild(example);
+      const notes = Object.entries(review?.answers || {}).flatMap(([sectionId, rows]) =>
+        Object.entries(rows || {}).flatMap(([rowId, item]) => {
+          if (!item || (!item.grade && !item.comment)) return [];
+          const grade = item.grade === "approved" ? "Approvata" : item.grade === "rejected" ? "Non approvata" : "";
+          const detail = [grade, item.comment ? `Commento: ${item.comment}` : ""].filter(Boolean).join(" · ");
+          return [`${sectionId} · ${rowId}: ${detail}`];
+        })
+      );
+      if (notes.length) {
+        const details = document.createElement("details");
+        details.className = "task-feedback";
+        details.appendChild(makeElement("summary", "", "Valutazioni e commenti dell’insegnante"));
+        notes.forEach(note => details.appendChild(makeElement("p", "", note)));
+        card.appendChild(details);
       }
-
-      section.items.forEach((item, index) => {
-        const block = document.createElement("div");
-        block.className = "item-block";
-
-        const badge = document.createElement("span");
-        badge.className = "cue-badge";
-        badge.textContent = item.cue;
-        block.appendChild(badge);
-
-        const line = document.createElement("p");
-        const inputKeys = item.parts.filter(p => typeof p === "object").map(p => p.key);
-
-        item.parts.forEach((part, pIdx) => {
-          if (typeof part === "string") {
-            line.appendChild(document.createTextNode(part));
-            return;
-          }
-          const fieldId = inputKeys.length === 1 ? item.id : `${item.id}_${part.key}`;
-          const input = document.createElement("input");
-          input.type = "text";
-          input.className = "gap-input inline-small";
-          input.dataset.answerId = fieldId;
-          input.autocomplete = "off";
-          input.placeholder = part.placeholder || "…";
-          input.setAttribute("aria-label", `Frase ${index + 1}, campo ${pIdx + 1}`);
-          input.value = answers[section.id]?.[fieldId] || "";
-          input.addEventListener("input", () => {
-            persistAnswer(section.id, fieldId, input.value);
-          });
-          line.appendChild(input);
-        });
-
-        block.appendChild(line);
-        card.appendChild(block);
-      });
     }
-
-    function renderStory(section, card) {
-      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
-      const story = document.createElement("div");
-      story.className = "story";
-      section.paragraphs.forEach(parts => {
-        const paragraph = document.createElement("p");
-        parts.forEach(part => {
-          if (typeof part === "string") {
-            paragraph.appendChild(document.createTextNode(part));
-            return;
-          }
-          const wrap = document.createElement("span");
-          wrap.className = "gap-wrap";
-
-          const cue = document.createElement("span");
-          cue.className = "gap-cue";
-          cue.textContent = part.cue;
-
-          const input = document.createElement("input");
-          input.type = "text";
-          input.className = "gap-input";
-          input.dataset.answerId = part.id;
-          input.autocomplete = "off";
-          input.placeholder = "…";
-          input.setAttribute("aria-label", `Spazio ${part.id.slice(1)}: ${part.cue}`);
-          input.value = answers[section.id]?.[part.id] || "";
-          input.addEventListener("input", () => {
-            persistAnswer(section.id, part.id, input.value);
-          });
-
-          wrap.append(cue, input);
-          paragraph.appendChild(wrap);
-        });
-        story.appendChild(paragraph);
-      });
-      card.appendChild(story);
-    }
-
-    function renderOpenItems(section, card) {
-      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
-      section.openItems.forEach((item, index) => {
-        const block = document.createElement("div");
-        block.className = "item-block";
-        block.appendChild(Object.assign(document.createElement("h3"), {textContent: item.title}));
-        const prompt = document.createElement("p");
-        prompt.style.whiteSpace = "pre-line";
-        prompt.textContent = item.prompt;
-        const textarea = document.createElement("textarea");
-        textarea.className = "open-input";
-        textarea.dataset.answerId = item.id;
-        textarea.rows = 3;
-        textarea.placeholder = "Scrivi qui la tua battuta in italiano… / Напиши здесь свою реплику по-итальянски…";
-        textarea.setAttribute("aria-label", `Battuta ${index + 1}`);
-        textarea.value = answers[section.id]?.[item.id] || "";
-        textarea.addEventListener("input", () => persistAnswer(section.id, item.id, textarea.value));
-        block.append(prompt, textarea);
-        card.appendChild(block);
-      });
-    }
-
-    function appendStudentReviewFeedback(card, section) {
-      const reviewedRows = teacherReviewData?.answers?.[section.id] || {};
-      const sectionRows = buildTeacherReviewRows({ answers: { [section.id]: answers[section.id] || {} } })
-        .find(item => item.id === section.id)?.rows || [];
-      const notes = sectionRows.flatMap(row => {
-        const key = String(row.id).replace(/[.#$\/\[\]]/g, "_");
-        const review = reviewedRows[key];
-        if (!review || (!review.grade && !review.comment)) return [];
-        return [{ row, review }];
-      });
-      if (sectionIndex === 0 && teacherReviewData?.finalComment) {
-        const finalComment = document.createElement("div");
-        finalComment.className = "student-final-comment";
-        finalComment.textContent = `Giudizio finale dell’insegnante: ${teacherReviewData.finalComment}`;
-        card.appendChild(finalComment);
+    const taskCache = new Map();
+    function loadTaskDefinition(path) {
+      if (!taskCache.has(path)) {
+        taskCache.set(path, fetch(path).then(response => {
+          if (!response.ok) throw new Error("Compito non disponibile");
+          return response.text();
+        }).then(html => {
+          const document = new DOMParser().parseFromString(html, "text/html");
+          const data = document.getElementById("homework-task-data");
+          if (!data) throw new Error("Dati del compito mancanti");
+          return JSON.parse(data.textContent);
+        }));
       }
-      if (!notes.length) return;
-      const panel = document.createElement("section");
-      panel.className = "student-review-feedback";
-      panel.appendChild(Object.assign(document.createElement("h3"), { textContent: "Feedback dell’insegnante" }));
-      notes.forEach(({ row, review }) => {
-        const item = document.createElement("div");
-        item.className = "student-review-row";
-        item.appendChild(Object.assign(document.createElement("p"), { textContent: row.prompt }));
-        if (review.grade) {
-          const grade = document.createElement("p");
-          grade.className = "student-review-grade";
-          grade.textContent = review.grade === "approved" ? "✓ Approvata" : "Da rivedere";
-          item.appendChild(grade);
-        }
-        if (review.comment) item.appendChild(Object.assign(document.createElement("p"), { textContent: `Commento: ${review.comment}` }));
-        panel.appendChild(item);
-      });
-      card.appendChild(panel);
+      return taskCache.get(path);
+    }
+    function taskQuestions(task) {
+      return (task.sections || []).flatMap(section => (section.questions || []).map(question => ({
+        ...question, sectionTitle: section.title, sectionInstructions: section.instructions
+      })));
+    }
+    function addQuestionPrompt(card, question, index) {
+      if (question.sectionTitle) card.appendChild(makeElement("h4", "", question.sectionTitle));
+      if (question.sectionInstructions) card.appendChild(makeElement("p", "", question.sectionInstructions));
+      card.appendChild(makeElement("div", "question-number", `Domanda ${index + 1}`));
+      card.appendChild(makeElement("p", "", question.prompt));
     }
 
-    function renderSection() {
-      content.replaceChildren();
-      lastFocusedField = null;
-      const section = sections[sectionIndex];
-      const card = document.createElement("article");
-      card.className = "question";
-      card.appendChild(Object.assign(document.createElement("h2"), {className:"section-heading", textContent:section.title}));
-      card.appendChild(Object.assign(document.createElement("p"), {className:"section-instructions", textContent:section.instructions}));
-      if (section.type === "matching") renderMatching(section, card);
-      else if (section.type === "pattern_drill") renderPatternDrill(section, card);
-      else if (section.paragraphs) renderStory(section, card);
-      else if (section.openItems) renderOpenItems(section, card);
-
-      if (submissionStatus === "reviewed") {
-        appendStudentReviewFeedback(card, section);
-        card.querySelectorAll("input, select, textarea, button").forEach(control => { control.disabled = true; });
-      }
-
-      content.appendChild(card);
-      renderProgress();
-    }
-
-    function getSectionAnswerCounts(section) {
-      if (section.type === "matching") return section.prompts.length;
-      if (section.type === "pattern_drill") {
-        return section.items.reduce((sum, item) => sum + item.parts.filter(p => typeof p === "object").length, 0);
-      }
-      if (section.paragraphs) return section.paragraphs.reduce((total, paragraph) => total + paragraph.filter(part => typeof part === "object").length, 0);
-      if (section.openItems) return section.openItems.length;
-      return 0;
-    }
-
-    function getSectionProgress(section) {
-      const sectionAnswers = answers[section.id] || {};
-      const total = getSectionAnswerCounts(section);
-      const answered = Object.values(sectionAnswers).filter(value => String(value || "").trim().length > 0).length;
-      return { answered, total, started: answered > 0, completed: total > 0 && answered >= total };
-    }
-
-    function renderProgress() {
-      progressList.replaceChildren();
-      sections.forEach((section, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        const progress = getSectionProgress(section);
-        const stateClass = progress.completed ? " completed" : progress.started ? " in-progress" : "";
-        button.className = `progress-step${index === sectionIndex ? " current" : ""}${stateClass}`;
-        button.textContent = String(index + 1);
-        const stateLabel = progress.completed ? "completata" : progress.started ? "in corso" : "non iniziata";
-        button.setAttribute("aria-label", `Vai alla parte ${index + 1}: ${section.title} (${stateLabel}, ${progress.answered}/${progress.total} risposte)`);
-        button.setAttribute("aria-current", index === sectionIndex ? "step" : "false");
-        button.addEventListener("click", () => { sectionIndex = index; renderSection(); window.scrollTo(0,0); });
-        progressList.appendChild(button);
-      });
-      document.getElementById("progress-count").textContent = `${sectionIndex + 1} / ${sections.length}`;
-      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / sections.length) * 100}%`;
-      document.getElementById("section-position").textContent = `Parte ${sectionIndex + 1} di ${sections.length}`;
-      document.getElementById("previous-section").disabled = sectionIndex === 0;
-      document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
-    }
-
-    function resolveOptionText(options, letter) {
-      if (!letter) return "";
-      return options.find(opt => opt.startsWith(`${letter} ·`) || opt[0] === letter) || letter;
-    }
-
-    function buildParagraphContext(paragraph, targetId) {
-      return paragraph.map(part => {
-        if (typeof part === "string") return part;
-        if (part.id === targetId) {
-          return `[ ${part.cue} ]`;
-        }
-        return Array.isArray(part.answers) ? part.answers[0] : (part.answers || "___");
-      }).join("");
-    }
-
-    function buildTeacherReviewRows(submission) {
-      const saved = submission.answers || {};
-      return sections.map(section => {
-        const state = saved[section.id] || {};
-        let rows = [];
-        if (section.type === "matching") {
-          rows = section.prompts.map((prompt, index) => {
-            const chosenLetter = state[`q${index + 1}`] || "";
-            const expectedLetter = section.answers[index];
-            return {
-              id: `q${index + 1}`,
-              prompt: `${index + 1}. ${prompt}`,
-              answer: chosenLetter ? resolveOptionText(section.options, chosenLetter) : "Nessuna risposta selezionata",
-              expected: resolveOptionText(section.options, expectedLetter),
-              autoCheck: true
-            };
-          });
-        } else if (section.type === "pattern_drill") {
-          rows = section.items.map(item => {
-            const inputKeys = item.parts.filter(p => typeof p === "object").map(p => p.key);
-            const promptText = item.parts.map(p => typeof p === "string" ? p : "___").join("") + ` ${item.cue}`;
-            if (inputKeys.length === 1) {
-              return {
-                id: item.id,
-                prompt: promptText,
-                answer: state[item.id] || "Nessuna risposta inserita",
-                expected: item.answers,
-                autoCheck: true
-              };
-            }
-            const combined = inputKeys.map(k => state[`${item.id}_${k}`] || "___").join(" / ");
-            return {
-              id: item.id,
-              prompt: promptText,
-              answer: combined,
-              expected: item.answers,
-              autoCheck: false
-            };
-          });
-        } else if (section.paragraphs) {
-          rows = section.paragraphs.flatMap(paragraph => paragraph.filter(part => typeof part === "object").map(part => ({
-            id: part.id,
-            prompt: buildParagraphContext(paragraph, part.id),
-            answer: state[part.id] || "Nessuna risposta inserita",
-            expected: part.answers,
-            autoCheck: true
-          })));
-        } else if (section.openItems) {
-          rows = section.openItems.map(item => ({
-            id: item.id,
-            prompt: item.title,
-            answer: state[item.id] || "Nessuna risposta inserita",
-            expected: "Produzione libera valutata dal docente (vincoli: espressione idiomatica + pronome ne / fare / prendere)",
-            autoCheck: false
-          }));
-        }
-        return { id: section.id, title: section.title, rows };
-      });
-    }
-
-    document.getElementById("previous-section").addEventListener("click", () => { sectionIndex = Math.max(0, sectionIndex - 1); renderSection(); window.scrollTo(0,0); });
-    document.getElementById("next-section").addEventListener("click", () => { sectionIndex = Math.min(sections.length - 1, sectionIndex + 1); renderSection(); window.scrollTo(0,0); });
-
-    submitBtn.addEventListener("click", async () => {
-      if (!submissionRef || submissionStatus === "reviewed") return;
-      clearTimeout(saveTimer);
-      hasPendingSave = false;
-      const previousStatus = submissionStatus;
-      submissionStatus = "pending";
-      submitBtn.disabled = true;
-      saveStatus.textContent = "Invio del compito all’insegnante…";
+    async function renderStructuredTeacherTask(card, assignmentId, studentKey, assignment, submission, wanted, studentName) {
       try {
-        const updates = { studentName, status: submissionStatus, submittedAt: Date.now() };
-        Object.entries(answers).forEach(([sectionId, sectionAnswers]) => { updates[`answers/${sectionId}`] = sectionAnswers; });
-        await submissionRef.update(updates);
-        setSubmittedVisualState(true);
-        submitBtn.disabled = false;
-        saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
+        const task = await loadTaskDefinition(assignment.taskPath);
+        const questions = taskQuestions(task);
+        const strip = makeElement("div", "question-strip");
+        questions.forEach((question, index) => {
+          const questionCard = makeElement("div", "question-card");
+          addQuestionPrompt(questionCard, question, index);
+          const response = submission.answers?.[question.id] || {};
+          let answerText = response.answer || "Nessuna risposta registrata.";
+          if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
+          questionCard.appendChild(makeElement("div", "task-answer", answerText));
+          if (question.modelAnswer) {
+            const details = document.createElement("details");
+            details.append(makeElement("summary", "", "Risposta attesa"), makeElement("p", "", question.modelAnswer));
+            questionCard.appendChild(details);
+          }
+          if (wanted === "pending") {
+            const controls = makeElement("div", "grading-controls");
+            const comment = makeElement("textarea");
+            comment.maxLength = 1000;
+            comment.placeholder = "Commento per questa risposta (facoltativo)";
+            comment.value = response.comment || "";
+            comment.setAttribute("aria-label", `Commento per la domanda ${index + 1}`);
+            const buttons = makeElement("div", "grade-buttons");
+            [["approved", "Approva", ""], ["rejected", "Non approva", "reject"]].forEach(([grade, label, className]) => {
+              const button = makeElement("button", className, label);
+              button.type = "button";
+              if (response.grade === grade) button.classList.add("selected");
+              button.addEventListener("click", async () => {
+                button.disabled = true;
+                const updatedAnswers = { ...(submission.answers || {}), [question.id]: { ...response, grade, comment: comment.value.trim() } };
+                const complete = questions.every(item => updatedAnswers[item.id]?.grade === "approved" || updatedAnswers[item.id]?.grade === "rejected");
+                const update = { answers: updatedAnswers };
+                if (complete) Object.assign(update, { status: "reviewed", reviewedAt: Date.now(), reviewedBy: session.teacher });
+                try {
+                  await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update(update);
+                  showMessage(complete ? `Tutte le risposte di ${studentName} sono state corrette e archiviate.` : `Esito salvato per la risposta di ${studentName}.`, "success");
+                } catch (_) {
+                  showMessage("Impossibile salvare la correzione. Controlla la connessione.");
+                  button.disabled = false;
+                }
+              });
+              buttons.appendChild(button);
+            });
+            controls.append(comment, buttons);
+            questionCard.appendChild(controls);
+          } else {
+            questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
+            if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
+          }
+          strip.appendChild(questionCard);
+        });
+        card.appendChild(strip);
       } catch (_) {
-        submissionStatus = previousStatus;
-        saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova.";
-        submitBtn.disabled = false;
+        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
       }
-    });
-
-    document.addEventListener("keydown", event => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
-      if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) { sectionIndex++; renderSection(); }
-      else if (event.key === "ArrowLeft" && sectionIndex > 0) { sectionIndex--; renderSection(); }
-    });
-
-    function withTimeout(promise, milliseconds, message) {
-      let timeoutId;
-      const timeout = new Promise((_, reject) => {
-        timeoutId = setTimeout(() => reject(new Error(message)), milliseconds);
-      });
-      return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
     }
 
-    async function initializeTask() {
-      pageMessage.textContent = "Caricamento del compito… / Загрузка задания…";
-      let session;
-      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) { session = null; }
-
-      if (session?.isTeacher) {
-        try {
-          const openedForReview = await window.openHomeworkTeacherReview({ taskData: { title: taskTitle }, buildRows: buildTeacherReviewRows });
-          if (openedForReview) return;
-        } catch (error) {
-          pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere.";
-          return;
+    async function renderStructuredStudentTask(card, assignmentId, assignment, submission, wanted) {
+      const strip = makeElement("div", "question-strip");
+      const form = makeElement("form", "task-form");
+      try {
+        const task = await loadTaskDefinition(assignment.taskPath);
+        const questions = taskQuestions(task);
+        if (wanted === "assigned") {
+          const controls = {};
+          questions.forEach((question, index) => {
+            const questionCard = makeElement("div", "question-card");
+            addQuestionPrompt(questionCard, question, index);
+            if (question.options) {
+              const options = makeElement("div", "question-options");
+              question.options.forEach((option, optionIndex) => {
+                const label = makeElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `answer-${assignmentId}-${question.id}`;
+                input.value = String(optionIndex);
+                input.required = true;
+                label.append(input, document.createTextNode(option));
+                options.appendChild(label);
+              });
+              questionCard.appendChild(options);
+              controls[question.id] = () => form.querySelector(`input[name="answer-${assignmentId}-${question.id}"]:checked`)?.value || "";
+            } else {
+              const input = makeElement("textarea");
+              input.required = true;
+              input.maxLength = 2000;
+              input.setAttribute("aria-label", `Risposta ${index + 1}`);
+              questionCard.appendChild(input);
+              controls[question.id] = () => input.value.trim();
+            }
+            strip.appendChild(questionCard);
+          });
+          const submit = makeElement("button", "", "Invia tutte le risposte");
+          form.append(strip, submit);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            submit.disabled = true;
+            const answers = Object.fromEntries(Object.entries(controls).map(([key, getValue]) => [key, { answer: getValue() }]));
+            try {
+              await homeworkRef.child(`${assignmentId}/consegne/${safeNameKey(session.name)}`).set({
+                studentName: session.name, status: "pending", answers, submittedAt: Date.now()
+              });
+              showMessage("Risposte inviate: l’insegnante le vedrà in attesa di correzione.", "success");
+            } catch (_) {
+              showMessage("Impossibile inviare le risposte. Controlla la connessione e riprova.");
+              submit.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else {
+          questions.forEach((question, index) => {
+            const questionCard = makeElement("div", "question-card");
+            addQuestionPrompt(questionCard, question, index);
+            const response = submission?.answers?.[question.id] || {};
+            let answerText = response.answer || "Nessuna risposta registrata.";
+            if (question.options && response.answer !== undefined) answerText = question.options[Number(response.answer)] || answerText;
+            questionCard.appendChild(makeElement("div", `task-answer${response.grade ? ` ${response.grade}` : ""}`, answerText));
+            if (wanted === "reviewed") {
+              questionCard.appendChild(makeElement("span", "status", response.grade === "approved" ? "Approvata" : "Non approvata"));
+              if (response.comment) questionCard.appendChild(makeElement("div", "task-feedback", `Commento: ${response.comment}`));
+            }
+            strip.appendChild(questionCard);
+          });
+          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+          card.appendChild(strip);
         }
+      } catch (_) {
+        card.appendChild(makeElement("p", "empty", "Impossibile caricare il contenuto di questo compito."));
       }
+    }
 
-      workspace.hidden = false;
-      submitBox.hidden = true;
-      renderSection();
-      content.querySelectorAll("input, select, textarea, .accent-btn").forEach(control => { control.disabled = true; });
+    function renderStudentTasks() {
+      const wanted = studentStatus.value;
+      const visible = sortedAssignments().filter(([, assignment]) => {
+        if (Number(assignment.unitNumber) > studentLimit(session.group, session.name)) return false;
+        const submission = assignment.consegne?.[safeNameKey(session.name)];
+        if (wanted === "assigned") return !submission || submission.status === "in-progress";
+        if (wanted === "pending") return submission?.status === "pending";
+        return submission?.status === "reviewed";
+      });
+      studentTasks.replaceChildren();
+      if (!visible.length) {
+        const labels = { assigned: "Non hai compiti da svolgere.", pending: "Non ci sono compiti in attesa di correzione.", reviewed: "Non hai ancora compiti revisionati." };
+        noTasks(studentTasks, labels[wanted]);
+        return;
+      }
+      visible.forEach(([id, assignment]) => {
+        const submission = assignment.consegne?.[safeNameKey(session.name)];
+        const card = makeElement("article", "task");
+        card.appendChild(makeElement("h3", "", assignment.title || `Unità ${assignment.unitNumber}`));
+        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+        if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+        if (assignment.taskPath) {
+          const taskLink = makeElement("a", "button-link", wanted === "assigned" ? "Svolgi il compito ↗" : "Riapri il compito ↗");
+          const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
+          taskUrl.searchParams.set("assignment", id);
+          taskLink.href = taskUrl.href;
+          card.appendChild(taskLink);
+          if (wanted === "assigned" && submission?.status === "in-progress") {
+            card.appendChild(makeElement("span", "status", "In corso · risposte salvate"));
+          }
+          if (wanted !== "assigned") {
+            card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+            if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
+            if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
+            appendTeacherReviewToStudentCard(card, submission);
+          }
+        } else if (wanted === "assigned") {
+          const form = makeElement("form", "task-form");
+          const label = makeElement("label", "", "La tua risposta");
+          const answer = makeElement("textarea");
+          answer.required = true;
+          answer.maxLength = 10000;
+          answer.setAttribute("aria-label", `Risposta per ${assignment.title || `Unità ${assignment.unitNumber}`}`);
+          const submit = makeElement("button", "", "Invia per la correzione");
+          form.append(label, answer, submit);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            submit.disabled = true;
+            try {
+              await homeworkRef.child(`${id}/consegne/${safeNameKey(session.name)}`).set({
+                studentName: session.name,
+                status: "pending",
+                answer: answer.value.trim(),
+                submittedAt: Date.now()
+              });
+              showMessage("Compito inviato: l’insegnante lo vedrà in attesa di correzione.", "success");
+            } catch (_) {
+              showMessage("Impossibile inviare il compito. Controlla la connessione e riprova.");
+              submit.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else {
+          card.appendChild(makeElement("span", "status", wanted === "reviewed" ? "Revisionato" : "In attesa di correzione"));
+          card.appendChild(makeElement("div", "task-answer", submission?.answer || "Nessuna risposta registrata."));
+          if (submission?.reviewedAt) card.appendChild(makeElement("div", "task-meta", `Corretto il ${formatDate(submission.reviewedAt)}`));
+          if (submission?.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback dell’insegnante: ${submission.feedback}`));
+        }
+        studentTasks.appendChild(card);
+      });
+    }
 
-      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
-      if (!assignmentId) { pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return; }
-      if (!isStudent) { pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return; }
+    function renderTeacherTasks() {
+      const wanted = reviewStatus.value;
+      const rows = [];
+      const assignments = sortedAssignments();
+      if (wanted === "unsubmitted") {
+        const group = groupData[reviewGroup.value] || {};
+        const students = [...(group.studenti || []), ...(group.studentiInattivi || [])]
+          .filter(student => student?.nome)
+          .filter((student, index, all) => all.findIndex(item => item.nome === student.nome) === index);
+        assignments.forEach(([assignmentId, assignment]) => {
+          const submissions = assignment.consegne || {};
+          students.forEach(student => {
+            const studentName = student.nome;
+            if (Number(assignment.unitNumber) > studentLimit(reviewGroup.value, studentName)) return;
+            const studentKey = safeNameKey(studentName);
+            const submission = submissions[studentKey];
+            if (!submission || submission.status === "in-progress") {
+              rows.push({ assignmentId, assignment, studentKey, studentName, submission });
+            }
+          });
+        });
+        rows.sort((a, b) => Number(b.assignment.createdAt || 0) - Number(a.assignment.createdAt || 0)
+          || a.studentName.localeCompare(b.studentName, "it"));
+      } else {
+        assignments.forEach(([assignmentId, assignment]) => {
+          Object.entries(assignment.consegne || {}).forEach(([studentKey, submission]) => {
+            if (submission?.status === wanted) rows.push({ assignmentId, assignment, studentKey, submission });
+          });
+        });
+        rows.sort((a, b) => Number(b.submission.submittedAt || 0) - Number(a.submission.submittedAt || 0));
+      }
+      teacherTasks.replaceChildren();
+      if (!rows.length) {
+        const emptyLabels = {
+          pending: "Nessun compito in attesa di correzione per questo gruppo.",
+          reviewed: "Nessun compito corretto nell’archivio di questo gruppo.",
+          unsubmitted: "Tutti gli studenti abilitati hanno consegnato i compiti assegnati."
+        };
+        noTasks(teacherTasks, emptyLabels[wanted]);
+        return;
+      }
+      if (wanted === "unsubmitted") {
+        rows.forEach(({ assignment, studentName, submission }) => {
+          const card = makeElement("article", "task");
+          card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
+          card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+          if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+          card.appendChild(makeElement("span", "status", submission?.status === "in-progress" ? "In corso · non consegnato" : "Non consegnato"));
+          teacherTasks.appendChild(card);
+        });
+        return;
+      }
+      rows.forEach(({ assignmentId, assignment, studentKey, submission }) => {
+        const card = makeElement("article", "task");
+        const studentName = submission.studentName || studentKey;
+        card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
+        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · inviato il ${formatDate(submission.submittedAt) || "data non disponibile"}`));
+        if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
+        if (assignment.taskPath) {
+          const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
+          taskUrl.searchParams.set("assignment", assignmentId);
+          taskUrl.searchParams.set("teacherReview", "1");
+          taskUrl.searchParams.set("group", reviewGroup.value);
+          taskUrl.searchParams.set("student", studentKey);
+          const taskLink = makeElement("a", "button-link", wanted === "pending" ? "Apri il compito da correggere →" : "Apri il compito →");
+          taskLink.href = taskUrl.href;
+          card.appendChild(taskLink);
+        } else {
+          card.appendChild(makeElement("div", "task-answer", submission.answer || "Nessuna risposta registrata."));
+        }
+        if (!assignment.taskPath && wanted === "pending") {
+          const form = makeElement("form", "task-form");
+          const label = makeElement("label", "", "Feedback per lo studente (facoltativo)");
+          const feedback = makeElement("textarea");
+          feedback.maxLength = 3000;
+          feedback.value = submission.feedback || "";
+          const button = makeElement("button", "", "Segna come corretto");
+          form.append(label, feedback, button);
+          form.addEventListener("submit", async event => {
+            event.preventDefault();
+            button.disabled = true;
+            try {
+              await homeworkRef.child(`${assignmentId}/consegne/${studentKey}`).update({
+                status: "reviewed",
+                feedback: feedback.value.trim(),
+                reviewedAt: Date.now(),
+                reviewedBy: session.teacher
+              });
+              showMessage(`Compito di ${studentName} corretto e archiviato.`, "success");
+            } catch (_) {
+              showMessage("Impossibile salvare la correzione. Controlla la connessione.");
+              button.disabled = false;
+            }
+          });
+          card.appendChild(form);
+        } else if (!assignment.taskPath) {
+          card.appendChild(makeElement("span", "status", `Corretto il ${formatDate(submission.reviewedAt) || ""}`));
+          if (submission.feedback) card.appendChild(makeElement("div", "task-feedback", `Feedback: ${submission.feedback}`));
+        }
+        teacherTasks.appendChild(card);
+      });
+    }
+
+    function listenToGroup(groupId, renderer) {
+      if (listeningRef) listeningRef.off("value");
+      currentAssignments = {};
+      homeworkRef = firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni`);
+      listeningRef = homeworkRef;
+      listeningRef.on("value", handleAssignments, () => showMessage("Errore nel caricamento dei compiti. Verifica le regole Firebase."));
+      function handleAssignments(snapshot) {
+        currentAssignments = snapshot.val() || {};
+        renderer();
+      }
+    }
+
+    async function initializePage() {
+      try {
+        session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+      } catch (_) { session = null; }
+      if (!session || (!session.isTeacher && (!session.group || !session.name)) || (session.isTeacher && !TEACHER_PINS[session.teacher])) {
+        identity.textContent = "Accedi dalla pagina principale per visualizzare i compiti.";
+        showMessage("Sessione non valida o scaduta. Torna alla pagina principale ed effettua l’accesso.");
+        return;
+      }
       try {
         if (!window.firebase) throw new Error("Firebase non disponibile");
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
-        const [assignmentSnapshot, groupSnapshot] = await withTimeout(Promise.all([
-          assignmentRef.once("value"),
-          db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
-        ]), 15000, "Il caricamento dei dati è scaduto. Controlla la connessione e riprova.");
-        const assignment = assignmentSnapshot.val();
-        const group = groupSnapshot.val();
-        const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath, location.origin).pathname.replace(/\/+$/, "") : "";
-        const currentPath = location.pathname.replace(/\/+$/, "");
-        if (!assignment || !group || !expectedPath || !(currentPath === expectedPath || currentPath.endsWith(expectedPath))) {
-          throw new Error("Compito non disponibile per questo gruppo o percorso. Verifica l’assegnazione nella gestione compiti.");
-        }
-        const active = (group.studenti || []).some(student => student.nome === session.name);
-        const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
-        const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
-        if ((!active && !inactive) || (assignment.unitNumber != null && Number(assignment.unitNumber) > limit)) {
-          throw new Error("Non sei abilitato a svolgere questo compito.");
-        }
-        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
-        submissionRef = assignmentRef.child(`consegne/${studentKey}`);
-        studentName = session.name;
-        const submission = (await withTimeout(
-          submissionRef.once("value"),
-          15000,
-          "Il caricamento delle risposte è scaduto. Controlla la connessione e riprova."
-        )).val() || {};
-        answers = submission.answers || {};
-        teacherReviewData = submission.teacherReview || null;
-        submissionStatus = submission.status || "in-progress";
-        pageMessage.textContent = "";
-        submitBox.hidden = false;
-
-        if (submissionStatus === "reviewed") {
-          submitBox.hidden = true;
-          saveStatus.textContent = "Questo compito è stato revisionato dall’insegnante (modalità sola lettura).";
-        } else if (submissionStatus === "pending") {
-          setSubmittedVisualState(true);
-          saveStatus.textContent = "Compito inviato: è in attesa di correzione.";
-        }
-
-        renderSection();
-      } catch (error) {
-        pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";
+        firebase.initializeApp(firebaseConfig);
+        const groupsSnapshot = await firebase.database().ref("configurazioneScuola/gruppi").once("value");
+        groupData = groupsSnapshot.val() || {};
+        const catalogResponse = await fetch("compiti/catalogo.json", { cache: "no-store" });
+        if (!catalogResponse.ok) throw new Error("Catalogo compiti non disponibile");
+        TASK_CATALOG = await catalogResponse.json();
+        if (session.isTeacher) initializeTeacher();
+        else initializeStudent();
+      } catch (_) {
+        showMessage("Impossibile caricare i dati condivisi. Controlla la connessione e le regole Firebase.");
       }
     }
-    initializeTask();
+
+    function initializeStudent() {
+      const group = groupData[session.group];
+      const limit = studentLimit(session.group, session.name);
+      if (!group || limit < 0) {
+        identity.textContent = "Studente o gruppo non trovato.";
+        showMessage("Il tuo account non risulta più attivo in questo gruppo. Torna alla pagina principale.");
+        return;
+      }
+      identity.textContent = `${session.name} · ${group.nome || session.group} · accesso fino all’unità ${limit}`;
+      studentView.classList.remove("hidden");
+      studentStatus.addEventListener("change", renderStudentTasks);
+      listenToGroup(session.group, renderStudentTasks);
+    }
+
+    function initializeTeacher() {
+      const activeGroups = Object.entries(groupData).filter(([, group]) => group && group.attivo !== false)
+        .sort((a, b) => String(a[1].nome || a[0]).localeCompare(String(b[1].nome || b[0]), "it"));
+      if (!activeGroups.length) {
+        showMessage("Non ci sono gruppi attivi da gestire.");
+        return;
+      }
+      identity.textContent = `Insegnante: ${session.teacher}`;
+      teacherView.classList.remove("hidden");
+      [assignmentGroup, reviewGroup].forEach(select => {
+        select.replaceChildren(...activeGroups.map(([id, group]) => new Option(`${group.nome || id} · ${id}`, id)));
+      });
+      for (let unit = 0; unit <= 77; unit++) assignmentUnit.add(new Option(unitOptionLabel(unit), unit));
+      assignmentUnit.addEventListener("change", refreshTaskChoices);
+      assignmentGroup.addEventListener("change", selectLatestGroupUnit);
+      assignmentTask.addEventListener("change", async () => {
+        const selectedTask = (TASK_CATALOG[String(assignmentUnit.value)] || [])
+          .find(task => task.path === assignmentTask.value);
+        taskDescriptionText.textContent = selectedTask?.description || "Descrizione non disponibile per questo compito.";
+        taskInfoButton.disabled = !selectedTask?.description;
+        if (!assignmentTask.value) {
+          assignmentTitle.value = "";
+          assignmentDescription.value = "";
+          return;
+        }
+        try {
+          const task = await loadTaskDefinition(assignmentTask.value);
+          assignmentTitle.value = selectedTask?.title || task.title || assignmentTask.options[assignmentTask.selectedIndex].text;
+          assignmentDescription.value = selectedTask?.instructions || task.instructions || "";
+        } catch (_) {
+          if (selectedTask?.title || selectedTask?.instructions) {
+            assignmentTitle.value = selectedTask.title || assignmentTask.options[assignmentTask.selectedIndex].text;
+            assignmentDescription.value = selectedTask.instructions || "";
+          } else {
+            showMessage("Non è possibile caricare il compito selezionato.");
+          }
+        }
+      });
+      taskInfoButton.addEventListener("click", () => {
+        if (!taskInfoButton.disabled) taskDescriptionDialog.showModal();
+      });
+      document.getElementById("close-task-description").addEventListener("click", () => taskDescriptionDialog.close());
+      taskDescriptionDialog.addEventListener("click", event => {
+        if (event.target === taskDescriptionDialog) taskDescriptionDialog.close();
+      });
+      const initialGroup = groupData[session.group] && groupData[session.group].attivo !== false ? session.group : activeGroups[0][0];
+      assignmentGroup.value = initialGroup;
+      selectLatestGroupUnit();
+      reviewGroup.value = initialGroup;
+      reviewGroup.addEventListener("change", () => listenToGroup(reviewGroup.value, renderTeacherTasks));
+      reviewStatus.addEventListener("change", renderTeacherTasks);
+      assignmentForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        hideMessage();
+        const groupId = assignmentGroup.value;
+        const unitNumber = Number(assignmentUnit.value);
+        if (!groupData[groupId] || !Number.isInteger(unitNumber) || unitNumber < 0 || unitNumber > 77) {
+          showMessage("Seleziona un gruppo e un’unità validi.");
+          return;
+        }
+        if (!assignmentTask.value) {
+          showMessage("Non ci sono compiti disponibili per l’unità selezionata.");
+          return;
+        }
+        const button = assignmentForm.querySelector('button[type="submit"]');
+        button.disabled = true;
+        try {
+          const newAssignment = homeworkRefFor(groupId).push();
+          await newAssignment.set({
+            unitNumber,
+            title: assignmentTitle.value.trim() || `Compito — Unità ${unitNumber}`,
+            description: assignmentDescription.value.trim(),
+            taskPath: assignmentTask.value || null,
+            createdAt: Date.now(),
+            createdBy: session.teacher,
+            consegne: {}
+          });
+          assignmentTitle.value = "";
+          assignmentDescription.value = "";
+          showMessage(`Compito assegnato al gruppo ${groupData[groupId].nome || groupId}. Gli studenti lo vedranno se abilitati all’unità ${unitNumber}.`, "success");
+        } catch (_) {
+          showMessage("Impossibile assegnare il compito. Verifica le regole Firebase.");
+        } finally {
+          button.disabled = false;
+        }
+      });
+      listenToGroup(initialGroup, renderTeacherTasks);
+    }
+
+    function homeworkRefFor(groupId) {
+      return firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni`);
+    }
+
+    initializePage();
   </script>
 </body>
 </html>
