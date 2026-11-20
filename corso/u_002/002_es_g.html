@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Ascolta e abbina le persone alle immagini — Unità 2." />
-  <title>Unità 2 — Ascolta e abbina (Esercizio G)</title>
+    <title>Unità 2 — Ascolta e abbina (Esercizio G)</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
     :root {
       color-scheme:light; font-family:'Segoe UI',Inter,system-ui,sans-serif;
@@ -17,10 +18,7 @@
     :focus-visible{outline:3px solid rgba(189,105,77,.55);outline-offset:3px}
     body{min-height:100vh;margin:0;padding:28px 14px;color:var(--text);background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.jpg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%),#f5f1e7}
     main{width:min(100%,880px);margin:0 auto}
-    .top-menu{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
-    .top-menu select,.top-menu a{min-height:42px;padding:8px 13px;border:1px solid var(--border);border-radius:10px;background:var(--paper);color:var(--primary-dark);font:inherit;font-weight:700;text-decoration:none}
-    .top-menu select{flex:1 1 240px;min-width:0}.top-menu a{display:inline-flex;align-items:center}
-    .top-menu a:hover{background:var(--primary-light);border-color:var(--primary)}
+    
     .hero,.teacher-controls,.card{border:1px solid var(--border);border-radius:22px;background:rgba(255,254,250,.97);box-shadow:0 14px 36px rgba(43,69,46,.09)}
     .hero{margin:8px 0 18px;padding:24px 16px;text-align:center}
     .eyebrow{display:inline-block;margin-bottom:9px;padding:7px 14px;border-radius:20px;background:var(--primary-light);color:var(--primary-dark);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
@@ -64,26 +62,38 @@
     @media(max-width:430px){body{padding:14px 7px}.hero{padding:19px 11px}.card{padding:9px}.slide-item{gap:8px;padding:9px}.image-grid{gap:5px}.image-choice{padding:3px;font-size:.7rem}.image-choice img{height:clamp(108px,36vw,152px)}.audio-row{padding:7px;font-size:.88rem}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
+  <link rel="stylesheet" href="fondo.css?v=1" />
 </head>
 <body>
   <main>
-    <nav class="top-menu" aria-label="Navigazione Unità 2">
-      <select id="exercise-menu" aria-label="Vai a un esercizio">
-        <option value="002_lettura.html">Lettura</option><option value="002_es_a.html">Esercizio A</option>
-        <option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html">Esercizio C</option>
-        <option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option>
-        <option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html" selected>Esercizio G</option>
-        <option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option>
-        <option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option>
-        <option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option>
-        <option value="002_numeri.html">I numeri</option><option value="002_verbo_essere.html">Il verbo essere</option>
+        <nav class="top-exercises" aria-label="Menu dell’unità 2">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 2</label>
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’unità 2">
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option>
+        <option value="002_es_c.html">Esercizio C</option><option value="002_es_d.html">Esercizio D</option>
+        <option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option>
+        <option value="002_es_g.html" selected>Esercizio G</option><option value="002_es_h.html">Esercizio H</option>
+        <option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option>
+        <option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option>
+        <option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="002_numeri.html">I numeri</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
       </select>
     </nav>
     <header class="hero">
       <span class="eyebrow">Unità 2 · Ascolto</span>
       <h1>Ascolta e abbina</h1>
       <p class="hero-subtitle">Ascolta la traccia e scegli l’immagine della persona corrispondente.</p>
-      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
+      
     </header>
     <section class="instruction">🎧 Ascolta la descrizione e seleziona l’immagine corretta. La risposta viene corretta automaticamente.</section>
     <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione del turno">
@@ -162,13 +172,15 @@
     if (group && userName) document.getElementById("user-badge").textContent = `${isTeacher ? "👩‍🏫" : "👤"} ${group} · ${userName}`;
     else document.getElementById("user-badge").textContent = "Accedi dalla pagina iniziale per usare l’attività condivisa.";
 
-    document.getElementById("exercise-menu").addEventListener("change", event => {
+        function navigateFromMenu(event) {
       if (!event.target.value) return;
       const target = new URL(event.target.value,location.href);
       if (group) target.searchParams.set("gruppo",group);
       if (!isTeacher && userName) target.searchParams.set("nome",userName);
       location.assign(`${target.pathname}${target.search}${target.hash}`);
-    });
+    }
+    document.getElementById("exercise-menu").addEventListener("change",navigateFromMenu);
+    document.getElementById("grammar-menu").addEventListener("change",navigateFromMenu);
 
     function setSaveStatus(message,isError=false) {
       saveStatus.textContent = message;

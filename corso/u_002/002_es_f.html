@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unità 2 — L'ordine delle parole (Esercizio F)</title>
+    <title>Unità 2 — L'ordine delle parole (Esercizio F)</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
     :root {
       color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, sans-serif;
@@ -15,22 +16,18 @@
     * { box-sizing:border-box; }
     [hidden] { display:none !important; }
     :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
-    body {
-      min-height:100vh; margin:0; padding:28px 14px; color:var(--text);
-      background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
-        url("img/sfondo.jpg") center calc(50% - var(--background-offset,0px)) / cover fixed,
-        radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%),var(--bg-main);
-    }
-    main { width:min(100%,900px); margin:0 auto; }
-    .top-menu { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
-    .top-menu select { flex:1 1 230px; min-height:42px; max-width:100%; padding:8px 14px; border:1px solid var(--border); border-radius:10px; background:var(--card-bg); color:var(--primary-dark); font:inherit; font-weight:700; }
+        body { min-height:100vh; margin:0; padding:28px 14px; color:var(--text); }
+    main.container { width:min(100%,900px); margin:0 auto; }
+
     .hero,.card,.teacher-controls,.results-section { border:1px solid var(--border); border-radius:22px; background:rgba(255,254,250,.97); box-shadow:0 14px 36px rgba(43,69,46,.09); }
     .hero { margin:8px 0 18px; padding:26px 18px; text-align:center; }
     .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--primary-light); color:var(--primary-dark); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
     h1 { margin:4px 0; color:var(--primary-dark); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
     .hero-subtitle { margin:8px 0 0; color:var(--text-muted); line-height:1.5; }
     #user-badge { color:var(--accent); font-size:.88rem; font-weight:700; }
-    .instruction-box { margin-bottom:16px; padding:16px 20px; border:1px solid #d8e5d8; border-left:5px solid var(--accent); border-radius:16px; background:#fff; box-shadow:0 6px 18px rgba(43,69,46,.04); line-height:1.55; }
+        .instruction-box { margin-bottom:16px; padding:16px 20px; border:1px solid #d8e5d8; border-left:5px solid var(--accent); border-radius:16px; background:#fff; box-shadow:0 6px 18px rgba(43,69,46,.04); line-height:1.55; }
+    .study-mode { margin:0 0 16px; padding:12px 15px; border:1px solid #d8e5d8; border-radius:12px; background:var(--primary-light); color:var(--primary-dark); line-height:1.55; }
+
     .instruction-title { margin-bottom:8px; color:var(--accent); font-size:.85rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
     .grammar-legend { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
     .legend-tag { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:8px; color:#fff; font-size:.82rem; font-weight:700; }
@@ -95,11 +92,17 @@
     @media(max-width:600px) { body{padding:16px 8px;} .token-bar{align-items:stretch;flex-direction:column;} .token-bar .btn-token{width:100%;} .slide-navigation{flex-wrap:wrap;} .nav-btn{flex:1;} .teacher-controls{justify-content:stretch;} .teacher-controls>*{flex:1 1 auto;} .student-header{flex-direction:column;gap:4px;} }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation:none!important;} }
   </style>
+  <link rel="stylesheet" href="fondo.css?v=1" />
 </head>
 <body>
-  <main>
-    <nav class="top-menu" aria-label="Navigazione Unità 2">
-      <select id="exercise-menu" aria-label="Vai a un esercizio">
+    <main class="container">
+    <nav class="top-exercises" aria-label="Menu dell’unità 2">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 2</label>
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’unità 2">
         <option value="002_lettura.html">Lettura</option>
         <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option>
         <option value="002_es_c.html">Esercizio C</option><option value="002_es_d.html">Esercizio D</option>
@@ -108,17 +111,22 @@
         <option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option>
         <option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option>
         <option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
         <option value="002_numeri.html">I numeri</option>
-        <option value="002_verbo_essere.html">Il verbo essere</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
       </select>
     </nav>
+
     <header class="hero">
       <span class="eyebrow">Unità 2 · Grammatica</span>
       <h1>L'ordine delle parole</h1>
       <p class="hero-subtitle">Расставьте слова в правильном порядке, используя цветовую схему!</p>
-      <p id="user-badge" class="hero-subtitle" aria-live="polite"></p>
+      
     </header>
-    <section class="instruction-box">
+        <section class="instruction-box">
       <div class="instruction-title">💡 Цветовая схема · Legenda:</div>
       <div class="grammar-legend">
         <span class="legend-tag bg-soggetto">🔵 Soggetto</span>
@@ -130,8 +138,10 @@
       <div>👉 <strong>Нажимайте на слова, чтобы составить предложение в правильном порядке:</strong>
         <div class="example-card">📌 <em>Пример:</em> <span class="legend-tag bg-soggetto">Gianni</span> <span class="legend-tag bg-verbo">è</span> <span class="legend-tag bg-articolo">un</span> <span class="legend-tag bg-sostantivo">ragazzo</span> <span class="legend-tag bg-aggettivo">italiano</span></div>
       </div>
-    </section>
+        </section>
+    <p id="study-mode-note" class="study-mode" role="status" aria-live="polite"></p>
     <div id="teacher-controls" class="teacher-controls" hidden>
+
       <label class="writer-assignment" for="writer-select">✍️ Assegna il turno per la frase corrente
         <select id="writer-select" aria-label="Seleziona chi può comporre la frase"><option value="">— Nessuno assegnato —</option></select>
       </label>
@@ -169,8 +179,10 @@
   </main>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="firebase-group-scope.js"></script>
+    <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
   <script>
+
     const firebaseConfig = {
       apiKey:"INSERISCI_API_KEY", authDomain:"esercizi-parlo-italiano.firebaseapp.com",
       databaseURL:"https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
@@ -205,10 +217,13 @@
       s16:[1,4,0,2,3],s17:[4,2,3,0,1],s18:[0,2,4,3,1],s19:[0,1,3,4,2],s20:[2,0,1,3,4]
     };
 
-    const session = window.parloUnit2Session || {};
+        const session = window.ParloSession || {};
     const group = session.group && session.group !== "sconosciuto" ? session.group : "";
     const studentName = session.isTeacher ? "" : String(session.name || "").trim();
     const teacherView = Boolean(session.isTeacher);
+    const activityMode = ["online", "distance", "individual"].includes(session.activityMode) ? session.activityMode : "online";
+    const currentWorkMode = activityMode === "online" ? "token" : "all";
+
     const safe = value => String(value || "").replace(/[.#$\/\[\]]/g,"_");
     const safeGroup = safe(group || "sconosciuto");
     const studentId = (studentName || "anonimo").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[.#$\/\[\]]/g,"_").trim().replace(/\s+/g,"_");
@@ -217,8 +232,9 @@
       ? { role:"teacher", name:session.name || "Insegnante" }
       : studentName ? { role:"student", name:studentName } : null;
     const presenceId = `presence_${Math.random().toString(36).slice(2,10)}`;
-    const badge = document.getElementById("user-badge");
+        const badge = document.getElementById("user-badge");
     const teacherControls = document.getElementById("teacher-controls");
+
     const writerAssignment = document.querySelector(".writer-assignment");
     const writerSelect = document.getElementById("writer-select");
     const tokenSection = document.getElementById("token-mode-section");
@@ -232,11 +248,24 @@
       saveStatus.classList.toggle("error", isError);
     }
 
-    if (group && teacherView) badge.textContent = `👩‍🏫 Insegnante · ${group}`;
+        if (group && teacherView) badge.textContent = `👩‍🏫 Insegnante · ${group}`;
     else if (group && studentName) badge.textContent = `👤 ${group} · ${studentName}`;
-    else badge.textContent = "Accedi dalla pagina iniziale per associare le risposte al gruppo.";
-    teacherControls.hidden = !teacherView;
-    document.getElementById("results-section").hidden = !teacherView;
+    else badge.textContent = activityMode === "individual" ? "Allenamento individuale · nessuna risposta viene salvata." : "Accedi dalla pagina iniziale per associare le risposte al gruppo.";
+    const modeMessages = {
+      online: teacherView
+        ? "💬 Modalità online · assegna il turno a uno studente per comporre insieme le frasi."
+        : "💬 Modalità online · componi la frase quando l’insegnante ti assegna il turno; il contributo sarà condiviso.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza · consulta le risposte inviate dagli studenti e lascia una correzione."
+        : "🎙️ Modalità a distanza · componi ogni frase e inviala all’insegnante per la revisione.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento · esercizio individuale, senza raccolta di risposte."
+        : "🏋️ Modalità allenamento · componi le frasi autonomamente; le risposte restano sul dispositivo e non vengono inviate."
+    };
+    document.getElementById("study-mode-note").textContent = modeMessages[activityMode];
+    teacherControls.hidden = !(teacherView && activityMode === "online");
+    document.getElementById("results-section").hidden = !(teacherView && activityMode === "distance");
+
 
     function addLoginParams(url) {
       if (group) url.searchParams.set("gruppo",group);
@@ -407,11 +436,13 @@
         if (!chosen.includes(wordIndex)) pool.appendChild(wordButton(word,teacherView,() => { studentState[sentence.id].push(wordIndex); dirtySlides.add(sentence.id); saveStatus.hidden = true; renderStudentSlides(); }));
       });
       card.append(title,answerBox,pool);
-      if (!teacherView) {
+            if (!teacherView && activityMode === "distance") {
         const submit = document.createElement("button"); submit.type = "button"; submit.className = "btn-submit";
-        submit.textContent = "📤 Invia questa frase · Отправить ответ"; submit.disabled = !answersRef || !studentName || !group;
+        submit.textContent = "📤 Invia questa frase · Отправить ответ";
+        submit.disabled = !answersRef || !studentName || !group || chosen.length !== sentence.words.length;
         submit.addEventListener("click",() => submitCurrentAnswer(sentence)); card.appendChild(submit);
         const correction = allResponses.students?.[studentId]?.feedback?.[sentence.id];
+
         if (correction) { const note = document.createElement("p"); note.className = "teacher-feedback-display"; note.textContent = `Correzione dell’insegnante: ${correction}`; card.appendChild(note); }
       }
       card.appendChild(createContributionSection(sentence.id));
@@ -434,13 +465,14 @@
         if (!chosen.includes(wordIndex)) pool.appendChild(wordButton(word,!editable,() => { tokenState[sentence.id].push(wordIndex); saveTokenState(); }));
       });
       card.append(title,answerBox,pool);
-      const submit = document.createElement("button");
+            const submit = document.createElement("button");
       submit.type = "button";
       submit.className = "btn-submit";
       submit.textContent = "📤 Invia il contributo";
       submit.disabled = !editable || chosen.length !== sentence.words.length;
       submit.addEventListener("click", () => submitTokenContribution(sentence));
-      card.appendChild(submit);
+      if (activityMode === "online") card.appendChild(submit);
+
       card.appendChild(createContributionSection(sentence.id));
       container.appendChild(card); updateProgress("token");
     }
@@ -520,16 +552,24 @@
         card.append(header,answer,feedback,actions); responsesList.appendChild(card);
       });
     }
-    function updateUI() {
-      tokenSection.classList.add("active-mode");
+        function updateUI() {
+      const tokenMode = activityMode === "online";
+      const studentModeSection = document.getElementById("all-students-mode-section");
+      tokenSection.hidden = !tokenMode;
+      studentModeSection.classList.toggle("active-mode", !tokenMode);
       const writer = assignments[sentencesData[activeTokenSlide]?.id]?.writer;
       const status = document.getElementById("token-status-text");
       if (!writer) status.textContent = teacherView ? "Assegna il turno per consentire la composizione condivisa." : "L’insegnante non ha ancora assegnato il turno per questa frase.";
       else if (assignedTo(activeTokenSlide)) status.textContent = "✍️ È il tuo turno: puoi comporre la frase e inviare il contributo.";
       else status.textContent = `🔒 Turno assegnato a ${writer.name}.`;
       refreshWriterMenu();
-      renderTokenSlides();
+      if (tokenMode) renderTokenSlides();
+      else {
+        renderStudentSlides();
+        if (teacherView && activityMode === "distance") renderResponsesAllMode();
+      }
     }
+
 
     writerSelect.addEventListener("change",() => {
       if (!teacherView || !answersRef) return;
@@ -567,9 +607,10 @@
       },error => console.error("Errore caricamento gruppo:",error));
     }
 
-    if (!group) { connectionStatus.textContent = "Gruppo non trovato: accedi dalla pagina iniziale per usare l’esercizio nel gruppo corretto."; connectionStatus.hidden = false; }
-    else if (!teacherView && !studentName) { connectionStatus.textContent = "Nome studente non trovato: accedi dalla pagina iniziale."; connectionStatus.hidden = false; }
-    if (window.firebase && group) {
+        if (activityMode !== "individual" && !group) { connectionStatus.textContent = "Gruppo non trovato: accedi dalla pagina iniziale per usare l’esercizio nel gruppo corretto."; connectionStatus.hidden = false; }
+    else if (activityMode !== "individual" && !teacherView && !studentName) { connectionStatus.textContent = "Nome studente non trovato: accedi dalla pagina iniziale."; connectionStatus.hidden = false; }
+    if (activityMode !== "individual" && window.firebase && group) {
+
       try {
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -590,18 +631,13 @@
           connectionStatus.hidden = true; updateUI();
         },() => { connectionStatus.textContent = "Impossibile leggere i dati condivisi del gruppo."; connectionStatus.hidden = false; });
       } catch (error) { console.error("Errore Firebase:",error); connectionStatus.textContent = "Impossibile collegarsi al database."; connectionStatus.hidden = false; }
-    } else if (!window.firebase) { connectionStatus.textContent = "Servizio dati condivisi non disponibile."; connectionStatus.hidden = false; }
+        } else if (activityMode !== "individual" && !window.firebase) { connectionStatus.textContent = "Servizio dati condivisi non disponibile."; connectionStatus.hidden = false; }
 
     buildProgress("token"); buildProgress("student"); updateUI();
-    let backgroundFramePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundFramePending) return; backgroundFramePending = true;
-      requestAnimationFrame(() => {
-        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .04,180);
-        document.body.style.setProperty("--background-offset",`${offset}px`); backgroundFramePending = false;
-      });
-    }
-    window.addEventListener("scroll",updateBackgroundParallax,{passive:true}); updateBackgroundParallax();
+    window.ParloExercise?.bindNavigationSelect(document.getElementById("exercise-menu"));
+    window.ParloExercise?.bindNavigationSelect(document.getElementById("grammar-menu"));
+    window.ParloExercise?.initBackgroundParallax();
+
   </script>
 </body>
 </html>

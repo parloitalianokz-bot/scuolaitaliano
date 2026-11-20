@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Mini dialoghi: nazionalità ed età, Unità 2." />
   <title>Unità 2 — I mini dialoghi · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
   <style>
     :root { color-scheme:light; font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif; --green:#2f5739; --green-light:#edf4ed; --accent:#bd694d; --text:#292d28; --muted:#6b7069; --paper:#fffefa; --border:#d8e5d8; --success-bg:#e1f1e5; --error-bg:#fde8e7; }
     * { box-sizing:border-box; }
@@ -12,12 +13,7 @@
     :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
     body { min-height:100vh; margin:0; padding:28px 14px; color:var(--text); background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%),#e9e3d6; }
     main { width:min(100%,900px); margin:0 auto; }
-    .top-menu { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:14px; }
-    .top-menu select,.top-menu a,.assignment-select { min-height:40px; max-width:100%; padding:7px 12px; border:1px solid var(--border); border-radius:10px; background:var(--paper); color:var(--green); font:inherit; font-size:.9rem; font-weight:700; }
-    .top-menu a { display:inline-flex; align-items:center; text-decoration:none; }
-    .top-menu a:hover,.top-menu select:hover { border-color:var(--green); background:var(--green-light); }
-    #exercise-menu { margin-left:auto; }
-    #user-badge { color:var(--accent); font-size:.87rem; font-weight:700; }
+    .assignment-select { min-height:40px; max-width:100%; padding:7px 12px; border:1px solid var(--border); border-radius:10px; background:var(--paper); color:var(--green); font:inherit; font-size:.9rem; font-weight:700; }
     .hero { margin:8px 0 20px; padding:26px 18px; border:1px solid var(--border); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.96),rgba(242,247,239,.94)); text-align:center; box-shadow:0 12px 32px rgba(43,69,46,.07); }
     .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; }
     h1 { margin:4px 0; color:var(--green); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
@@ -75,11 +71,17 @@
     @media(max-width:600px) { body { padding:16px 8px; } .top-menu select { flex:1 1 auto; } .slide-navigation { flex-wrap:wrap; } .nav-btn { flex:1; } .person-header { align-items:flex-start; } .person-image { width:60px; height:60px; flex-basis:60px; } }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation:none!important; } }
   </style>
+  <link rel="stylesheet" href="fondo.css?v=1" />
 </head>
 <body data-review-answer-selector=".answer-review-group" data-review-comment-placement="section">
   <main>
-    <nav class="top-menu" aria-label="Navigazione Unità 2">
-      <select id="exercise-menu" aria-label="Vai a un esercizio">
+    <nav class="top-exercises" aria-label="Menu dell’unità 2">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
+      <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Vai a una pagina dell’unità 2</label>
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’unità 2">
         <option value="002_lettura.html">Lettura</option>
         <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option>
         <option value="002_es_c.html">Esercizio C</option><option value="002_es_d.html" selected>Esercizio D</option>
@@ -88,11 +90,12 @@
         <option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option>
         <option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option>
         <option value="002_es_m.html">Esercizio M</option>
-        <optgroup label="Schede grammaticali">
-          <option value="002_numeri.html">I numeri cardinali</option>
-          <option value="002_verbo_essere.html">Il verbo essere</option>
-          <option value="002_verbo_avere.html">Il verbo avere</option>
-        </optgroup>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="002_numeri.html">I numeri</option>
+        <option value="002_verbo_avere.html">Il verbo avere</option>
       </select>
     </nav>
 
@@ -163,6 +166,8 @@
         { id:"p20", name:"Io e Giovanni", country:"Italia 🇮🇹", age:"28 e 32", img:"img/io_giovanni.jpg" }
       ]
     });
+    window.ParloExercise?.bindNavigationSelect(document.getElementById("grammar-menu"));
+    window.ParloExercise?.initBackgroundParallax();
   </script>
 </body>
 </html>

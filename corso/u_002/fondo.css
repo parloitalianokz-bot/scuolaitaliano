@@ -1,0 +1,13 @@
+:root {
+  --reading-bg: url("img/sfondo.jpeg");
+  --es-a-bg: url("img/sfondo.jpeg");
+  --inbox-bg: url("img/sfondo.jpeg");
+}
+
+body {
+  background:
+    linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+    url("img/sfondo.jpeg") center calc(50% - var(--background-offset, 0px)) / cover fixed,
+    radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%),
+    var(--bg-main, #f5f1e7);
+}

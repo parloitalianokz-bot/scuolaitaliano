@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 2 — Числительные · I numeri cardinali</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      --green: #2f5739;
+      --green-light: #edf4ed;
+      --accent: #bd694d;
+      --text: #292d28;
+      --muted: #6b7069;
+      --paper: #fffefa;
+      --border: #d8e5d8;
+      --success: #17623c;
+      --success-bg: #e1f1e5;
+      --error: #991b1b;
+      --error-bg: #fde8e7;
+    }
+    * { box-sizing: border-box; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    body {
+      min-height: 100vh; margin: 0; padding: 28px 14px; color: var(--text);
+      background: linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),
+        url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px))/cover fixed,
+        radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%), #e9e3d6;
+    }
+    main { width: min(100%, 940px); margin: 0 auto; }
+    .top-menu { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .top-menu select { min-height: 42px; max-width: 100%; padding: 8px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--paper); color: var(--green); font: inherit; font-weight: 700; }
+    .hero, .card { border: 1px solid var(--border); border-radius: 24px; background: rgba(255,254,250,.96); box-shadow: 0 14px 36px rgba(43,69,46,.09); }
+    .hero { margin: 8px 0 20px; padding: 30px 20px; text-align: center; }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: var(--green-light); color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 4px 0; color: var(--green); font-size: clamp(2rem,6vw,3rem); letter-spacing: -.04em; }
+    .hero p { margin: 8px 0 0; color: var(--muted); line-height: 1.55; }
+    .lesson-path { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+    .lesson-path span { padding: 7px 11px; border-radius: 99px; background: #f4f1e7; color: #655644; font-size: .86rem; font-weight: 700; }
+    .card { margin: 0 0 18px; padding: clamp(18px,4vw,28px); }
+    h2 { margin: 0 0 12px; color: var(--green); font-size: 1.35rem; }
+    h3 { margin: 0 0 10px; color: var(--green); font-size: 1.05rem; }
+    .lead { margin: 0 0 16px; color: var(--muted); line-height: 1.6; }
+    .example-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 10px; }
+    .example { padding: 15px; border: 1px solid #e8e6dc; border-radius: 14px; background: #faf9f5; text-align: center; }
+    .example strong { display: block; margin-bottom: 5px; color: var(--green); font-size: 1.15rem; }
+    .example span { color: var(--muted); font-size: .92rem; }
+    .question-prompt { margin-top: 16px; padding: 14px 16px; border-left: 4px solid var(--accent); border-radius: 10px; background: #fff7f1; line-height: 1.6; }
+    .reveal-button, .check-button, .reset-button { min-height: 42px; padding: 9px 15px; border: 0; border-radius: 10px; background: var(--green); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .reveal-button { margin-top: 12px; }
+    .reveal-answer { margin-top: 10px; padding: 12px 14px; border-radius: 10px; background: var(--green-light); color: var(--green); line-height: 1.6; }
+    .number-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); gap: 8px; }
+    .number-card { padding: 11px 13px; border: 1px solid var(--border); border-radius: 11px; background: #fff; }
+    .number-card b { display: inline-block; min-width: 32px; color: var(--accent); }
+    .rule-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap: 11px; }
+    .rule { padding: 15px; border: 1px solid var(--border); border-radius: 13px; background: #f7faf5; line-height: 1.55; }
+    .rule strong { display: block; margin-bottom: 5px; color: var(--green); }
+    .interactive-task { margin-top: 14px; padding: 18px; border-radius: 16px; background: #f7faf5; }
+    .quiz-item { margin: 0 0 15px; padding: 0 0 14px; border: 0; border-bottom: 1px solid var(--border); }
+    .quiz-item legend { margin-bottom: 8px; font-weight: 800; line-height: 1.5; }
+    .quiz-item label { display: inline-flex; align-items: center; gap: 6px; margin: 4px 10px 4px 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px; background: white; cursor: pointer; }
+    .quiz-item input { accent-color: var(--green); }
+    .quiz-feedback { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; font-weight: 800; line-height: 1.5; }
+    .quiz-feedback.correct { background: var(--success-bg); color: var(--success); }
+    .quiz-feedback.incorrect { background: var(--error-bg); color: var(--error); }
+    .quiz-feedback[hidden] { display: none; }
+    .wordwall-frame { display: block; width: 100%; max-width: 600px; height: 430px; margin: 16px auto 0; border: 0; border-radius: 12px; background: #fff; }
+    footer { padding: 8px 4px 24px; color: var(--muted); text-align: center; font-size: .9rem; }
+    @media(max-width:620px) { body { padding: 16px 8px; } .card { border-radius: 18px; } .wordwall-frame { height: 380px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body>
+  <main>
+    <nav class="top-menu" aria-label="Menu Unità 2">
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’Unità 2">
+        <option value="">Esercizi e lettura</option>
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html">Esercizio C</option>
+        <option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option><option value="002_verbo_avere.html">Il verbo avere</option><option value="002_numeri.html" selected>I numeri cardinali</option>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Грамматика · Unità 2</span>
+      <h1>Итальянские числительные</h1>
+      <p>Числа вокруг нас: сначала найдите закономерность в примерах, затем сформулируйте правило и потренируйтесь.</p>
+      <p><em>I numeri cardinali</em> · Числа, которые отвечают на вопрос «сколько?»</p>
+      <div class="lesson-path" aria-label="Этапы урока"><span>1 · Наблюдаем</span><span>2 · Открываем правило</span><span>3 · Практикуемся</span></div>
+    </header>
+
+    <section class="card" aria-labelledby="discover-title">
+      <h2 id="discover-title">🔎 1. Сначала наблюдаем</h2>
+      <p class="lead">Посмотрите на итальянские числа и их написание. Что повторяется? Как образуются числа между десятками?</p>
+      <div class="example-grid">
+        <div class="example"><strong>uno · due · tre</strong><span>1 · 2 · 3</span></div>
+        <div class="example"><strong>sette · otto · nove</strong><span>7 · 8 · 9</span></div>
+        <div class="example"><strong>dieci · undici · dodici</strong><span>10 · 11 · 12</span></div>
+        <div class="example"><strong>venti · ventuno · ventidue</strong><span>20 · 21 · 22</span></div>
+        <div class="example"><strong>ventotto · ventinove</strong><span>28 · 29</span></div>
+        <div class="example"><strong>trenta · trentatré</strong><span>30 · 33</span></div>
+      </div>
+      <div class="question-prompt"><strong>Подумайте:</strong> число 21 пишется в одно или два слова? Что происходит с последней гласной в <em>venti</em> перед <em>uno</em> и <em>otto</em>?</div>
+      <button class="reveal-button" type="button" aria-expanded="false" aria-controls="discovery-answer">Показать подсказку</button>
+      <div class="reveal-answer" id="discovery-answer" hidden>Большинство составных чисел пишется слитно: <strong>venti + due → ventidue</strong>. Перед <strong>uno</strong> и <strong>otto</strong> десяток теряет последнюю гласную: <em>venti + uno → ventuno</em>, <em>venti + otto → ventotto</em>.</div>
+    </section>
+
+    <section class="card" aria-labelledby="range-title">
+      <h2 id="range-title">🧩 2. Scheda 1 · Числа от 0 до 10</h2>
+      <p class="lead">Начинаем с самых важных чисел. Прочитайте их вслух и найдите знакомые слова.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>0</b> zero</div><div class="number-card"><b>1</b> uno</div><div class="number-card"><b>2</b> due</div><div class="number-card"><b>3</b> tre</div><div class="number-card"><b>4</b> quattro</div>
+        <div class="number-card"><b>5</b> cinque</div><div class="number-card"><b>6</b> sei</div><div class="number-card"><b>7</b> sette</div><div class="number-card"><b>8</b> otto</div><div class="number-card"><b>9</b> nove</div><div class="number-card"><b>10</b> dieci</div>
+      </div>
+      <div class="question-prompt"><strong>Osservate · Наблюдаем:</strong> <em>uno, due, tre</em> — запомните эти короткие формы: они понадобятся при составлении больших чисел.</div>
+    </section>
+
+    <section class="card" aria-labelledby="teens-title">
+      <h2 id="teens-title">🔎 3. Scheda 2 · Числа от 10 до 20</h2>
+      <p class="lead">Посмотрите, как называются числа между десятью и двадцатью. Многие формы нужно запомнить отдельно.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>10</b> dieci</div><div class="number-card"><b>11</b> undici</div><div class="number-card"><b>12</b> dodici</div><div class="number-card"><b>13</b> tredici</div><div class="number-card"><b>14</b> quattordici</div>
+        <div class="number-card"><b>15</b> quindici</div><div class="number-card"><b>16</b> sedici</div><div class="number-card"><b>17</b> diciassette</div><div class="number-card"><b>18</b> diciotto</div><div class="number-card"><b>19</b> diciannove</div><div class="number-card"><b>20</b> venti</div>
+      </div>
+      <div class="question-prompt"><strong>Provate · Попробуйте:</strong> найдите в <em>diciassette</em> и <em>diciotto</em> знакомые части <em>dieci</em> и <em>sette / otto</em>.</div>
+    </section>
+
+    <section class="card" aria-labelledby="tens-title">
+      <h2 id="tens-title">🔟 4. Scheda 3 · Десятки: от 20 до 90</h2>
+      <p class="lead">Это «опорные» слова: к ним мы будем присоединять единицы.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>20</b> venti</div>
+        <div class="number-card"><b>30</b> trenta</div>
+        <div class="number-card"><b>40</b> quaranta</div>
+        <div class="number-card"><b>50</b> cinquanta</div>
+        <div class="number-card"><b>60</b> sessanta</div>
+        <div class="number-card"><b>70</b> settanta</div>
+        <div class="number-card"><b>80</b> ottanta</div>
+        <div class="number-card"><b>90</b> novanta</div>
+      </div>
+      <div class="question-prompt"><strong>Наблюдаем:</strong> по-итальянски десятки и единицы в составных числах обычно пишутся <strong>слитно</strong>, одним словом.</div>
+    </section>
+
+    <section class="card" aria-labelledby="combine-title">
+      <h2 id="combine-title">🧠 5. Scheda 4 · Как соединять десятки и единицы</h2>
+      <p class="lead">Поставьте сначала десяток, затем единицу: <em>venti + due → ventidue</em>.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>21</b> ventuno</div><div class="number-card"><b>22</b> ventidue</div><div class="number-card"><b>24</b> ventiquattro</div>
+        <div class="number-card"><b>28</b> ventotto</div><div class="number-card"><b>31</b> trentuno</div><div class="number-card"><b>35</b> trentacinque</div>
+        <div class="number-card"><b>38</b> trentotto</div><div class="number-card"><b>43</b> quarantatré</div><div class="number-card"><b>44</b> quarantaquattro</div>
+      </div>
+      <div class="rule-grid" style="margin-top:14px;">
+        <div class="rule"><strong>Слитно · Tutto attaccato</strong><em>venti + due → ventidue</em>; <em>trenta + cinque → trentacinque</em>.</div>
+        <div class="rule"><strong>Перед uno и otto исчезает последняя гласная десятка</strong><em>venti + uno → ventuno</em>; <em>venti + otto → ventotto</em>.</div>
+        <div class="rule"><strong>В числах на tre нужен акцент</strong><em>23 ventitré</em>; <em>33 trentatré</em>; <em>43 quarantatré</em>.</div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="hundred-title">
+      <h2 id="hundred-title">💯 6. Scheda 5 · 100: cento не изменяется</h2>
+      <p class="lead"><em>Cento</em> означает «сто». Форма <strong>cento</strong> не меняется из-за рода или числа существительного.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>100</b> cento</div><div class="number-card"><b>200</b> duecento</div><div class="number-card"><b>300</b> trecento</div>
+      </div>
+      <div class="question-prompt"><strong>Esempi · Примеры:</strong> <em>cento libri</em> — сто книг; <em>cento ragazze</em> — сто девушек. Говорим <em>duecento</em>, а не *<em>duecenti</em>.</div>
+    </section>
+
+    <section class="card" aria-labelledby="thousand-title">
+      <h2 id="thousand-title">🏙️ 7. Scheda 6 · Mille и mila</h2>
+      <p class="lead"><strong>Mille</strong> — одна тысяча. Для нескольких тысяч используем форму <strong>mila</strong> и пишем число слитно.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>1 000</b> mille</div><div class="number-card"><b>2 000</b> duemila</div><div class="number-card"><b>3 000</b> tremila</div><div class="number-card"><b>4 000</b> quattromila</div>
+      </div>
+      <div class="question-prompt"><strong>Confrontate · Сравните:</strong> <em>mille studenti</em> — тысяча студентов; <em>duemila studenti</em> — две тысячи студентов. Не говорим *<em>due mille</em>.</div>
+    </section>
+
+    <section class="card" aria-labelledby="million-title">
+      <h2 id="million-title">🌍 8. Scheda 7 · Миллион и миллиард</h2>
+      <p class="lead"><em>Milione</em> и <em>miliardo</em> — существительные: у них есть форма единственного и множественного числа.</p>
+      <div class="number-grid">
+        <div class="number-card"><b>1 000 000</b> un milione</div><div class="number-card"><b>2 000 000</b> due milioni</div>
+        <div class="number-card"><b>1 000 000 000</b> un miliardo</div><div class="number-card"><b>2 000 000 000</b> due miliardi</div>
+      </div>
+      <div class="question-prompt"><strong>Attenzione · Важно:</strong> один миллион — <em>un milione</em>, несколько миллионов — <em>due milioni</em>; один миллиард — <em>un miliardo</em>, два миллиарда — <em>due miliardi</em>. Перед существительным используем <em>di</em>: <em>un milione di abitanti</em>, <em>due miliardi di euro</em>.</div>
+    </section>
+
+    <section class="card" aria-labelledby="quiz-title">
+      <h2 id="quiz-title">🎯 9. Проверяем себя · Verifica</h2>
+      <p class="lead">Выберите правильную форму. Нажмите «Проверить ответы» после заполнения.</p>
+      <form id="quiz" class="interactive-task">
+        <fieldset class="quiz-item"><legend>1. Как пишется число 21?</legend><label><input type="radio" name="q1" value="ventiuno"> ventiuno</label><label><input type="radio" name="q1" value="ventuno"> ventuno</label><label><input type="radio" name="q1" value="venti uno"> venti uno</label></fieldset>
+        <fieldset class="quiz-item"><legend>2. Как пишется число 28?</legend><label><input type="radio" name="q2" value="ventotto"> ventotto</label><label><input type="radio" name="q2" value="ventiotto"> ventiotto</label><label><input type="radio" name="q2" value="venti otto"> venti otto</label></fieldset>
+        <fieldset class="quiz-item"><legend>3. Выберите правильное написание числа 33.</legend><label><input type="radio" name="q3" value="trentatre"> trentatre</label><label><input type="radio" name="q3" value="trentatré"> trentatré</label><label><input type="radio" name="q3" value="trenta tre"> trenta tre</label></fieldset>
+        <fieldset class="quiz-item"><legend>4. Что означает <em>quarantasei</em>?</legend><label><input type="radio" name="q4" value="46"> 46</label><label><input type="radio" name="q4" value="48"> 48</label><label><input type="radio" name="q4" value="64"> 64</label></fieldset>
+        <fieldset class="quiz-item"><legend>5. Дополните: Ho ___ libri. (У меня три книги.)</legend><label><input type="radio" name="q5" value="tre"> tre</label><label><input type="radio" name="q5" value="tria"> tria</label><label><input type="radio" name="q5" value="tre libri"> tre libri</label></fieldset>
+        <button class="check-button" type="submit">Проверить ответы</button>
+        <button class="reset-button" id="reset-quiz" type="button">Начать заново</button>
+        <p class="quiz-feedback" id="quiz-feedback" role="status" aria-live="polite" hidden></p>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="game-title">
+      <h2 id="game-title">🎮 10. Играем и закрепляем</h2>
+      <p class="lead">Потренируйте итальянские количественные числительные в игре. <em>Buon divertimento!</em></p>
+      <iframe class="wordwall-frame" src="https://wordwall.net/it/embed/ddb8e956b5ad402c8d11bdb6df16b3cc?themeId=1&amp;templateId=46&amp;fontStackId=0" title="Игра Wordwall: итальянские числительные" loading="lazy" allowfullscreen></iframe>
+    </section>
+    <footer>Bravissimi! Теперь попробуйте посчитать предметы вокруг себя по-итальянски: <em>uno, due, tre…</em></footer>
+  </main>
+  <script>
+    function getLoginParams() {
+      const params = new URLSearchParams(location.search);
+      try {
+        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
+      } catch (_) {}
+      return params;
+    }
+    document.querySelectorAll("#exercise-menu, #grammar-menu").forEach(menu => {
+      menu.addEventListener("change", event => {
+        if (!event.target.value) return;
+        const target = new URL(event.target.value, location.href);
+        const params = getLoginParams();
+        ["gruppo", "nome"].forEach(key => { if (params.has(key)) target.searchParams.set(key, params.get(key)); });
+        location.href = target.href;
+      });
+    });
+    document.querySelectorAll(".reveal-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const answer = document.getElementById(button.getAttribute("aria-controls"));
+        answer.hidden = !answer.hidden;
+        button.setAttribute("aria-expanded", String(!answer.hidden));
+        button.textContent = answer.hidden ? "Показать подсказку" : "Скрыть подсказку";
+      });
+    });
+    const correctAnswers = { q1: "ventuno", q2: "ventotto", q3: "trentatré", q4: "46", q5: "tre" };
+    const quiz = document.getElementById("quiz");
+    const feedback = document.getElementById("quiz-feedback");
+    quiz.addEventListener("submit", event => {
+      event.preventDefault();
+      let score = 0;
+      let unanswered = 0;
+      Object.entries(correctAnswers).forEach(([question, answer]) => {
+        const selected = quiz.querySelector(`input[name="${question}"]:checked`);
+        if (!selected) unanswered++;
+        else if (selected.value === answer) score++;
+      });
+      feedback.textContent = unanswered
+        ? `Вы ответили на ${Object.keys(correctAnswers).length - unanswered} из 5 вопросов. Заполните все пункты и проверьте ещё раз.`
+        : score === 5 ? `Прекрасно! ${score}/5 — вы нашли закономерности и правильно написали числа.` : `Результат: ${score}/5. Повторите правила о слитном написании, uno/otto и ударении в -tré.`;
+      feedback.className = `quiz-feedback ${score === 5 && !unanswered ? "correct" : "incorrect"}`;
+      feedback.hidden = false;
+    });
+    document.getElementById("reset-quiz").addEventListener("click", () => { quiz.reset(); feedback.hidden = true; });
+
+    let pending = false;
+    function updateBackground() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const offset = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .04, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        pending = false;
+      });
+    }
+    addEventListener("scroll", updateBackground, { passive: true });
+    updateBackground();
+  </script>
+</body>
+</html>

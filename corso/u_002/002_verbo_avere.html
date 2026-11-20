@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unità 2 — Глагол avere</title>
+  <style>
+    :root { color-scheme: light; font-family: 'Segoe UI', Inter, system-ui, sans-serif; --green:#2f5739; --green-light:#edf4ed; --accent:#bd694d; --text:#292d28; --muted:#6b7069; --paper:#fffefa; --border:#d8e5d8; --success:#17623c; --success-bg:#e1f1e5; --error:#991b1b; --error-bg:#fde8e7; }
+    * { box-sizing:border-box; }
+    :focus-visible { outline:3px solid rgba(189,105,77,.55); outline-offset:3px; }
+    [hidden] { display:none !important; }
+    body { min-height:100vh; margin:0; padding:28px 14px; color:var(--text); background:linear-gradient(rgba(250,248,241,.78),rgba(250,248,241,.78)),url("img/sfondo.jpeg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% 0,rgba(255,255,255,.72),transparent 55%),#e9e3d6; }
+    main { width:min(100%,900px); margin:0 auto; }
+    .top-menu { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+    .top-menu select { min-height:42px; max-width:100%; padding:8px 14px; border:1px solid var(--border); border-radius:10px; background:var(--paper); color:var(--green); font:inherit; font-weight:700; }
+    .hero,.card { border:1px solid var(--border); border-radius:24px; background:rgba(255,254,250,.96); box-shadow:0 14px 36px rgba(43,69,46,.09); }
+    .hero { margin:8px 0 20px; padding:28px 20px; text-align:center; }
+    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--green-light); color:var(--green); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    h1 { margin:4px 0; color:var(--green); font-size:clamp(2rem,6vw,3rem); letter-spacing:-.04em; }
+    .hero p { margin:8px 0 0; color:var(--muted); }
+    .lesson-path { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:18px; }
+    .lesson-path span { padding:7px 11px; border-radius:99px; background:#f4f1e7; color:#655644; font-size:.86rem; font-weight:700; }
+    .card { margin:0 0 18px; padding:clamp(18px,4vw,28px); }
+    h2 { margin:0 0 12px; color:var(--green); font-size:1.35rem; }
+    .lead { margin:0 0 16px; color:var(--muted); line-height:1.55; }
+    .discovery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .example { padding:16px; border:1px solid #e8e6dc; border-radius:15px; background:#faf9f5; }
+    .example .italian { display:block; margin-bottom:6px; color:var(--green); font-size:1.12rem; font-weight:800; }
+    .example .russian { color:var(--muted); }
+    .focus-word { padding:2px 5px; border-radius:6px; background:#f8e8df; color:#944d35; }
+    .question-prompt { margin-top:16px; padding:14px 16px; border-left:4px solid var(--accent); border-radius:10px; background:#fff7f1; line-height:1.55; }
+    .reveal-button,.check-button,.reset-button { min-height:42px; padding:9px 15px; border:0; border-radius:10px; background:var(--green); color:white; font:inherit; font-weight:800; cursor:pointer; }
+    .reveal-button { margin-top:12px; }
+    .reveal-answer { margin-top:10px; padding:12px 14px; border-radius:10px; background:var(--green-light); color:var(--green); line-height:1.5; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; text-align:left; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--border); }
+    th { color:var(--green); background:var(--green-light); }
+    td strong { color:var(--green); font-size:1.05rem; }
+    .pattern-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .pattern { padding:14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .pattern strong { display:block; margin-bottom:5px; color:var(--green); }
+    .pattern small { color:var(--muted); }
+    .interactive-task { margin-top:14px; padding:18px; border-radius:16px; background:#f7faf5; }
+    .quiz-item { margin:0 0 15px; padding:0 0 14px; border:0; border-bottom:1px solid var(--border); }
+    .quiz-item legend { margin-bottom:8px; font-weight:800; line-height:1.5; }
+    .quiz-item label { display:inline-flex; align-items:center; gap:6px; margin:4px 12px 4px 0; padding:8px 10px; border:1px solid var(--border); border-radius:9px; background:white; cursor:pointer; }
+    .quiz-item input { accent-color:var(--green); }
+    .quiz-feedback { margin:14px 0 0; padding:12px 14px; border-radius:10px; font-weight:800; }
+    .quiz-feedback.correct { background:var(--success-bg); color:var(--success); }
+    .quiz-feedback.incorrect { background:var(--error-bg); color:var(--error); }
+    .quiz-feedback[hidden] { display:none; }
+    .compare { padding:14px 16px; border-radius:12px; background:#f4f1e7; line-height:1.6; }
+    .compare strong { color:var(--green); }
+    .wordwall-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .wordwall-game { min-width:0; padding:14px; border:1px solid var(--border); border-radius:14px; background:#faf9f5; }
+    .wordwall-game h3 { margin:0 0 12px; color:var(--green); font-size:1rem; }
+    .wordwall-game iframe { display:block; width:100%; max-width:500px; height:380px; margin:0 auto; border:0; border-radius:10px; background:#fff; }
+    footer { padding:10px 4px 24px; color:var(--muted); text-align:center; font-size:.9rem; }
+    @media(max-width:620px) { body{padding:16px 8px}.discovery-grid,.wordwall-grid{grid-template-columns:1fr}.pattern-grid{grid-template-columns:1fr}.card{border-radius:18px}th,td{padding:9px 8px} }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important} }
+  </style>
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body>
+  <main>
+    <nav class="top-menu" aria-label="Menu Unità 2">
+      <select id="exercise-menu" aria-label="Vai a una pagina dell’Unità 2">
+        <option value="">Esercizi e lettura</option>
+        <option value="002_lettura.html">Lettura</option>
+        <option value="002_es_a.html">Esercizio A</option><option value="002_es_b.html">Esercizio B</option><option value="002_es_c.html">Esercizio C</option>
+        <option value="002_es_d.html">Esercizio D</option><option value="002_es_e.html">Esercizio E</option><option value="002_es_f.html">Esercizio F</option><option value="002_es_g.html">Esercizio G</option><option value="002_es_h.html">Esercizio H</option><option value="002_es_i.html">Esercizio I</option><option value="002_es_j.html">Esercizio J</option><option value="002_es_k.html">Esercizio K</option><option value="002_es_l.html">Esercizio L</option><option value="002_es_m.html">Esercizio M</option>
+      </select>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option><option value="002_verbo_avere.html" selected>Il verbo avere</option><option value="002_numeri.html">I numeri</option>
+      </select>
+    </nav>
+
+    <header class="hero">
+      <span class="eyebrow">Грамматика · Unità 2</span>
+      <h1>Глагол <em>avere</em></h1>
+      <p>Откройте правило по примерам из рассказа о Марко — затем проверьте себя.</p>
+      <div class="lesson-path" aria-label="Этапы урока"><span>1 · Наблюдаем</span><span>2 · Формулируем правило</span><span>3 · Практикуемся</span></div>
+    </header>
+
+    <section class="card" aria-labelledby="discover-title">
+      <h2 id="discover-title">🔎 1. Сначала наблюдаем</h2>
+      <p class="lead">Прочитайте примеры из текста. Обратите внимание на выделенные слова и попробуйте понять, что они выражают.</p>
+      <div class="discovery-grid">
+        <div class="example"><span class="italian">Marco <span class="focus-word">ha</span> sete.</span><span class="russian">Марко хочет пить. (буквально: у Марко есть жажда.)</span></div>
+        <div class="example"><span class="italian">Io <span class="focus-word">ho</span> fame.</span><span class="russian">Я хочу есть. (буквально: у меня есть голод.)</span></div>
+        <div class="example"><span class="italian">La mamma <span class="focus-word">ha</span> sonno?</span><span class="russian">Мама хочет спать?</span></div>
+        <div class="example"><span class="italian">Tu <span class="focus-word">hai</span> paura?</span><span class="russian">Ты боишься? (буквально: у тебя есть страх.)</span></div>
+        <div class="example"><span class="italian">Marco <span class="focus-word">ha</span> trentacinque anni.</span><span class="russian">Марко тридцать пять лет.</span></div>
+        <div class="example"><span class="italian">Noi <span class="focus-word">abbiamo</span> una coperta.</span><span class="russian">У нас есть одеяло.</span></div>
+      </div>
+      <div class="question-prompt"><strong>Подумайте:</strong> как меняется выделенная форма? Что общего у выражений <em>avere sete</em>, <em>avere fame</em> и <em>avere sonno</em>?</div>
+      <button class="reveal-button" type="button" aria-expanded="false" aria-controls="discovery-answer">Показать подсказку</button>
+      <div class="reveal-answer" id="discovery-answer" hidden>В итальянском чувство часто выражается конструкцией <strong>avere + существительное</strong> («иметь жажду/голод/сон»), а не глаголом «быть». Форма глагола меняется в зависимости от того, кто испытывает чувство или чем владеет.</div>
+    </section>
+
+    <section class="card" aria-labelledby="forms-title">
+      <h2 id="forms-title">🧩 2. Формулируем правило: настоящее время</h2>
+      <p class="lead"><em>Avere</em> — неправильный глагол. Сопоставьте местоимение и форму, затем прочитайте примеры вслух.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Кто?</th><th>Форма avere</th><th>Пример</th><th>Перевод</th></tr></thead>
+        <tbody>
+          <tr><td>io — я</td><td><strong>ho</strong></td><td>Ho fame.</td><td>Я хочу есть.</td></tr>
+          <tr><td>tu — ты</td><td><strong>hai</strong></td><td>Hai sete?</td><td>Ты хочешь пить?</td></tr>
+          <tr><td>lui / lei — он / она</td><td><strong>ha</strong></td><td>Marco ha sonno.</td><td>Марко хочет спать.</td></tr>
+          <tr><td>noi — мы</td><td><strong>abbiamo</strong></td><td>Abbiamo una casa.</td><td>У нас есть дом.</td></tr>
+          <tr><td>voi — вы</td><td><strong>avete</strong></td><td>Avete freddo?</td><td>Вам холодно?</td></tr>
+          <tr><td>loro — они</td><td><strong>hanno</strong></td><td>Hanno paura.</td><td>Они боятся.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="question-prompt"><strong>Обратите внимание:</strong> буква <strong>h</strong> в формах <em>ho, hai, ha, hanno</em> не произносится. Она помогает отличить формы глагола от других слов.</div>
+    </section>
+
+    <section class="card" aria-labelledby="uses-title">
+      <h2 id="uses-title">💡 3. Где ещё употребляется <em>avere</em>?</h2>
+      <p class="lead">В итальянском возраст, некоторые состояния и потребности выражаются с помощью <em>avere</em>.</p>
+      <div class="pattern-grid">
+        <div class="pattern"><strong>avere … anni</strong><span>Hai 20 anni.</span><br><small>Тебе 20 лет.</small></div>
+        <div class="pattern"><strong>avere fame / sete</strong><span>Ho fame.</span><br><small>Я хочу есть / пить.</small></div>
+        <div class="pattern"><strong>avere freddo / caldo</strong><span>Abbiamo freddo.</span><br><small>Нам холодно / жарко.</small></div>
+        <div class="pattern"><strong>avere sonno</strong><span>Ho sonno.</span><br><small>Я хочу спать.</small></div>
+        <div class="pattern"><strong>avere paura</strong><span>Il bambino ha paura.</span><br><small>Ребёнку страшно.</small></div>
+        <div class="pattern"><strong>avere …</strong><span>Ho una domanda.</span><br><small>У меня есть вопрос.</small></div>
+      </div>
+      <p class="compare"><strong>Сравните:</strong> по-русски мы говорим «мне холодно», а по-итальянски — <em>ho freddo</em> («у меня есть холод»). Поэтому не говорим <em class="focus-word">sono freddo</em>, если хотим сказать «мне холодно».</p>
+    </section>
+
+    <section class="card" aria-labelledby="quiz-title">
+      <h2 id="quiz-title">🎯 4. Проверяем гипотезу</h2>
+      <p class="lead">Выберите подходящую форму. После ответа нажмите «Проверить».</p>
+      <form id="quiz" class="interactive-task">
+        <fieldset class="quiz-item"><legend>1. Io ___ sete. (Я хочу пить.)</legend><label><input type="radio" name="q1" value="ho"> ho</label><label><input type="radio" name="q1" value="hai"> hai</label><label><input type="radio" name="q1" value="ha"> ha</label></fieldset>
+        <fieldset class="quiz-item"><legend>2. Marco ___ dieci anni. (Марко десять лет.)</legend><label><input type="radio" name="q2" value="avete"> avete</label><label><input type="radio" name="q2" value="ha"> ha</label><label><input type="radio" name="q2" value="hanno"> hanno</label></fieldset>
+        <fieldset class="quiz-item"><legend>3. Noi ___ una domanda. (У нас есть вопрос.)</legend><label><input type="radio" name="q3" value="abbiamo"> abbiamo</label><label><input type="radio" name="q3" value="avete"> avete</label><label><input type="radio" name="q3" value="ho"> ho</label></fieldset>
+        <fieldset class="quiz-item"><legend>4. Tu ___ fame? (Ты хочешь есть?)</legend><label><input type="radio" name="q4" value="hanno"> hanno</label><label><input type="radio" name="q4" value="hai"> hai</label><label><input type="radio" name="q4" value="abbiamo"> abbiamo</label></fieldset>
+        <fieldset class="quiz-item"><legend>5. I bambini ___ sonno. (Дети хотят спать.)</legend><label><input type="radio" name="q5" value="ha"> ha</label><label><input type="radio" name="q5" value="avete"> avete</label><label><input type="radio" name="q5" value="hanno"> hanno</label></fieldset>
+        <button class="check-button" type="submit">Проверить ответы</button>
+        <button class="reset-button" id="reset-quiz" type="button">Начать заново</button>
+        <p class="quiz-feedback" id="quiz-feedback" role="status" aria-live="polite" hidden></p>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="wordwall-title">
+      <h2 id="wordwall-title">🎮 5. Практикуемся в игре</h2>
+      <p class="lead">Выберите одну из игр и потренируйте формы глагола <em>avere</em>.</p>
+      <div class="wordwall-grid">
+        <article class="wordwall-game">
+          <h3>Игра 1 · Формы глагола avere</h3>
+          <iframe src="https://wordwall.net/it/embed/81b9a9b096ce43f58a3c2a5b7e5c9040?themeId=1&amp;templateId=3&amp;fontStackId=0" title="Игра Wordwall: глагол avere, упражнение 1" loading="lazy" allowfullscreen></iframe>
+        </article>
+        <article class="wordwall-game">
+          <h3>Игра 2 · Практика avere</h3>
+          <iframe src="https://wordwall.net/it/embed/1d4b96d3db4c4892b42096dd8a0e6624?themeId=1&amp;templateId=5&amp;fontStackId=0" title="Игра Wordwall: глагол avere, упражнение 2" loading="lazy" allowfullscreen></iframe>
+        </article>
+      </div>
+    </section>
+    <footer>Отлично! Теперь попробуйте найти другие формы <em>avere</em> в рассказе «Un bravo ragazzo».</footer>
+  </main>
+  <script>
+    function getLoginParams() {
+      const params = new URLSearchParams(location.search);
+      try {
+        const session = JSON.parse(localStorage.getItem("parlo_session") || "null");
+        if (!params.has("gruppo") && session?.group) params.set("gruppo", session.group);
+        if (!params.has("nome") && !session?.isTeacher && session?.name) params.set("nome", session.name);
+      } catch (_) {}
+      return params;
+    }
+    document.querySelectorAll("#exercise-menu, #grammar-menu").forEach(menu => {
+      menu.addEventListener("change", event => {
+        if (!event.target.value) return;
+        const target = new URL(event.target.value, location.href);
+        ["gruppo", "nome"].forEach(key => { if (getLoginParams().has(key)) target.searchParams.set(key, getLoginParams().get(key)); });
+        location.href = target.href;
+      });
+    });
+    document.querySelectorAll(".reveal-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const answer = document.getElementById(button.getAttribute("aria-controls"));
+        answer.hidden = !answer.hidden;
+        button.setAttribute("aria-expanded", String(!answer.hidden));
+        button.textContent = answer.hidden ? "Показать подсказку" : "Скрыть подсказку";
+      });
+    });
+    const correctAnswers = { q1:"ho", q2:"ha", q3:"abbiamo", q4:"hai", q5:"hanno" };
+    const quiz = document.getElementById("quiz");
+    const feedback = document.getElementById("quiz-feedback");
+    quiz.addEventListener("submit", event => {
+      event.preventDefault();
+      let score = 0;
+      let unanswered = 0;
+      Object.entries(correctAnswers).forEach(([question, answer]) => {
+        const selected = quiz.querySelector(`input[name="${question}"]:checked`);
+        if (!selected) unanswered++;
+        else if (selected.value === answer) score++;
+      });
+      feedback.textContent = unanswered
+        ? `Вы ответили на ${Object.keys(correctAnswers).length - unanswered} из 5 вопросов. Заполните все пункты и проверьте ещё раз.`
+        : score === 5 ? `Прекрасно! ${score}/5 — вы верно определили формы avere.` : `Результат: ${score}/5. Подумайте, кто выполняет действие, и сверьтесь с таблицей.`;
+      feedback.className = `quiz-feedback ${score === 5 && !unanswered ? "correct" : "incorrect"}`;
+      feedback.hidden = false;
+    });
+    document.getElementById("reset-quiz").addEventListener("click", () => { quiz.reset(); feedback.hidden = true; });
+
+    let pending = false;
+    function updateBackground() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const offset = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .04, 180);
+        document.body.style.setProperty("--background-offset", `${offset}px`);
+        pending = false;
+      });
+    }
+    addEventListener("scroll", updateBackground, { passive:true });
+    updateBackground();
+  </script>
+</body>
+</html>
