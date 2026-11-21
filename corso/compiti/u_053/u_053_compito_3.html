@@ -63,6 +63,12 @@
     .item-block { margin: 14px 0; background: #fff; }
     .item-block p { line-height: 1.7; }
     .cue-badge { display: inline-block; padding: 2px 9px; border: 1px solid var(--line); border-radius: 8px; background: #f4f8f2; color: var(--green); font-size: .9rem; font-weight: 700; }
+    .word-sort-label { display: block; margin: 14px 0 7px; color: var(--green); font-size: .9rem; font-weight: 700; }
+    .word-bank { display: flex; min-height: 58px; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #faf9f5; }
+    .word-bank.answer { min-height: 112px; align-content: flex-start; background: #fff; border: 2px dashed #b9cdb9; }
+    .word-tile { min-height: 40px; padding: 7px 12px; border: 1px solid #b9cdb9; border-radius: 9px; background: var(--green-light); color: var(--green); font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .word-bank.answer .word-tile { background: #fff8f2; border-color: #e5c4b5; color: #87452f; }
+    .word-bank-empty { align-self: center; color: var(--muted); font-size: .9rem; }
     .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
     .gap-input { width: min(190px,65vw); }
     .gap-input.inline-small { width: min(175px,65vw); margin: 3px 4px; }
@@ -181,10 +187,10 @@
         instructions: "Riordina gli elementi e scrivi una frase comparativa completa. Fai attenzione agli articoli e all'accordo. / Расставь слова по порядку и составь полное предложение со сравнением.",
         type: "pattern_drill",
         items: [
-          { id: "q1", cue: "[eleganti / I / dei / erano / pantaloni / jeans / più]", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["I jeans erano più eleganti dei pantaloni.", "I jeans erano più eleganti dei pantaloni"] },
-          { id: "q2", cue: "[il / del / brilla / diamante / rubino / più]", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il diamante brilla più del rubino.", "Il diamante brilla più del rubino"] },
-          { id: "q3", cue: "[visone / il / dello / pesante / era / più / zibellino]", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il visone era più pesante dello zibellino.", "Il visone era più pesante dello zibellino"] },
-          { id: "q4", cue: "[comoda / l'Alfa Romeo / della / è / Lamborghini / più]", parts: ["4. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["La Lamborghini è più comoda dell'Alfa Romeo.", "La Lamborghini è più comoda della Alfa Romeo."] }
+          { id: "q1", cue: "Parole disponibili", wordTiles: ["eleganti", "I", "dei", "erano", "pantaloni", "jeans", "più"], parts: ["1. ", {key:"a",placeholder:"Componi qui la frase…"}], answers: ["I jeans erano più eleganti dei pantaloni.", "I jeans erano più eleganti dei pantaloni"] },
+          { id: "q2", cue: "Parole disponibili", wordTiles: ["il", "del", "brilla", "diamante", "rubino", "più"], parts: ["2. ", {key:"a",placeholder:"Componi qui la frase…"}], answers: ["Il diamante brilla più del rubino.", "Il diamante brilla più del rubino"] },
+          { id: "q3", cue: "Parole disponibili", wordTiles: ["visone", "il", "dello", "pesante", "era", "più", "zibellino"], parts: ["3. ", {key:"a",placeholder:"Componi qui la frase…"}], answers: ["Il visone era più pesante dello zibellino.", "Il visone era più pesante dello zibellino"] },
+          { id: "q4", cue: "Parole disponibili", wordTiles: ["comoda", "l'Alfa Romeo", "della", "è", "Lamborghini", "più", "La"], parts: ["4. ", {key:"a",placeholder:"Componi qui la frase…"}], answers: ["La Lamborghini è più comoda dell'Alfa Romeo.", "La Lamborghini è più comoda della Alfa Romeo."] }
         ]
       },
       {
@@ -335,14 +341,53 @@
       section.items.forEach((item,index) => {
         const block = document.createElement("div"); block.className = "item-block";
         const cue = document.createElement("span"); cue.className = "cue-badge"; cue.textContent = item.cue; block.appendChild(cue);
-        const line = document.createElement("p");
-        item.parts.forEach((part,partIndex) => {
-          if (typeof part === "string") { line.appendChild(document.createTextNode(part)); return; }
-          const inputKeys = item.parts.filter(piece => typeof piece === "object").map(piece => piece.key);
-          const id = inputKeys.length === 1 ? item.id : `${item.id}_${part.key}`;
-          line.appendChild(makeTextInput(section,id,`Frase ${index + 1}`,part.placeholder || "…","gap-input inline-small"));
-        });
-        block.appendChild(line); card.appendChild(block);
+        if (Array.isArray(item.wordTiles)) {
+          const answerId = item.id;
+          const savedText = String(answers[section.id]?.[answerId] || "").replace(/[.!?]+$/, "").trim();
+          let selectedWords = savedText ? savedText.split(/\s+/) : [];
+          const sourceLabel = document.createElement("span"); sourceLabel.className = "word-sort-label"; sourceLabel.textContent = "Parole disponibili · clicca per inserirle:";
+          const source = document.createElement("div"); source.className = "word-bank";
+          source.setAttribute("aria-label", `Parole disponibili per la frase ${index + 1}`);
+          const answerLabel = document.createElement("span"); answerLabel.className = "word-sort-label"; answerLabel.textContent = "La tua frase · clicca una parola per rimetterla indietro:";
+          const answer = document.createElement("div"); answer.className = "word-bank answer";
+          answer.setAttribute("aria-label", `Parole inserite nella frase ${index + 1}`);
+          const renderWordBanks = () => {
+            source.replaceChildren(); answer.replaceChildren();
+            const remaining = item.wordTiles.map((word, wordIndex) => ({word, wordIndex}))
+              .filter(entry => !selectedWords.includes(entry.word));
+            if (!remaining.length) {
+              const empty = document.createElement("span"); empty.className = "word-bank-empty"; empty.textContent = "Tutte le parole sono state inserite."; source.appendChild(empty);
+            }
+            remaining.forEach(({word}) => {
+              const button = document.createElement("button"); button.type = "button"; button.className = "word-tile"; button.textContent = word;
+              button.setAttribute("aria-label", `Aggiungi la parola ${word}`);
+              button.addEventListener("click", () => { selectedWords.push(word); renderWordBanks(); saveSelection(); });
+              source.appendChild(button);
+            });
+            if (!selectedWords.length) {
+              const empty = document.createElement("span"); empty.className = "word-bank-empty"; empty.textContent = "Clicca le parole sopra per comporre la frase."; answer.appendChild(empty);
+            }
+            selectedWords.forEach((word, wordIndex) => {
+              const button = document.createElement("button"); button.type = "button"; button.className = "word-tile"; button.textContent = word;
+              button.setAttribute("aria-label", `Rimetti la parola ${word} tra quelle disponibili`);
+              button.addEventListener("click", () => { selectedWords.splice(wordIndex, 1); renderWordBanks(); saveSelection(); });
+              answer.appendChild(button);
+            });
+          };
+          const saveSelection = () => persistAnswer(section.id, answerId, selectedWords.length ? `${selectedWords.join(" ")}.` : "");
+          renderWordBanks();
+          block.append(sourceLabel, source, answerLabel, answer);
+        } else {
+          const line = document.createElement("p");
+          item.parts.forEach((part,partIndex) => {
+            if (typeof part === "string") { line.appendChild(document.createTextNode(part)); return; }
+            const inputKeys = item.parts.filter(piece => typeof piece === "object").map(piece => piece.key);
+            const id = inputKeys.length === 1 ? item.id : `${item.id}_${part.key}`;
+            line.appendChild(makeTextInput(section,id,`Frase ${index + 1}`,part.placeholder || "…","gap-input inline-small"));
+          });
+          block.appendChild(line);
+        }
+        card.appendChild(block);
       });
     }
     function renderStory(section, card) {
