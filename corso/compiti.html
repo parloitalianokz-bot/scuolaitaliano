@@ -227,6 +227,7 @@
       0: "Percorso preliminare · L'alfabeto italiano",
       1: "Un albergo in centro",
       2: "Un bravo ragazzo",
+      3: "Un genovese ad Almaty",
       10: "La borsa rossa",
       13: "Il grande scrittore",
       43: "Unità 43",
@@ -535,7 +536,7 @@
         const submission = assignment.consegne?.[safeNameKey(session.name)];
         const card = makeElement("article", "task");
         card.appendChild(makeElement("h3", "", assignment.title || `Unità ${assignment.unitNumber}`));
-        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+        card.appendChild(makeElement("div", "task-meta", `${unitOptionLabel(Number(assignment.unitNumber))} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
         if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
         if (assignment.taskPath) {
           const taskLink = makeElement("a", "button-link", wanted === "assigned" ? "Svolgi il compito ↗" : "Riapri il compito ↗");
@@ -633,7 +634,7 @@
         rows.forEach(({ assignment, studentName, submission }) => {
           const card = makeElement("article", "task");
           card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
-          card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
+          card.appendChild(makeElement("div", "task-meta", `${unitOptionLabel(Number(assignment.unitNumber))} · assegnato il ${formatDate(assignment.createdAt) || "data non disponibile"}`));
           if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
           card.appendChild(makeElement("span", "status", submission?.status === "in-progress" ? "In corso · non consegnato" : "Non consegnato"));
           teacherTasks.appendChild(card);
@@ -644,7 +645,7 @@
         const card = makeElement("article", "task");
         const studentName = submission.studentName || studentKey;
         card.appendChild(makeElement("h3", "", `${studentName} · ${assignment.title || `Unità ${assignment.unitNumber}`}`));
-        card.appendChild(makeElement("div", "task-meta", `Unità ${assignment.unitNumber} · inviato il ${formatDate(submission.submittedAt) || "data non disponibile"}`));
+        card.appendChild(makeElement("div", "task-meta", `${unitOptionLabel(Number(assignment.unitNumber))} · inviato il ${formatDate(submission.submittedAt) || "data non disponibile"}`));
         if (assignment.description) card.appendChild(makeElement("p", "task-description", assignment.description));
         if (assignment.taskPath) {
           const taskUrl = new URL(assignment.taskPath, new URL(".", location.href));
