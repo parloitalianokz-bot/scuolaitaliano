@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 53 — Compito 3: Negozi, prodotti e comparativi</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28; background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5;
+    }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.86),rgba(250,248,241,.92)), url("../../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6; }
+    main { width: min(100%, 900px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1,h2,h3 { color: var(--green); }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    header,.panel,.question { margin-bottom: 22px; padding: clamp(22px,4vw,36px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 12px 34px rgba(43,69,46,.08); }
+    header { padding: clamp(26px,5vw,44px); border-top: 4px solid var(--green); text-align: center; }
+    header > a { display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 18px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
+    header p { max-width: 720px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+    .note { color: var(--muted); font-size: .9rem; }
+    .grammar-hint { max-width: 720px; margin: 18px auto 0; text-align: left; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; overflow: hidden; }
+    .grammar-hint summary { padding: 11px 16px; color: var(--green); font-weight: 700; font-size: .92rem; cursor: pointer; }
+    .grammar-hint-body { padding: 0 16px 14px; border-top: 1px solid #eceae2; font-size: .9rem; line-height: 1.6; color: #3a3f39; }
+    .grammar-hint-body ul { margin: 10px 0 0; padding-left: 18px; }
+    .grammar-hint-body li { margin-bottom: 6px; }
+    #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
+    #workspace[hidden] { display: none; }
+    .progress-panel { padding: 18px 22px; }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--green); font-weight: 800; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: .82rem; }
+    .progress-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .legend-dot.in-progress { background: #e0ae28; }
+    .legend-dot.completed { background: var(--success); }
+    .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .progress-step { position: relative; width: 38px; height: 38px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; }
+    .progress-step.in-progress { border-color: #d6a72c; background: #fff3c4; color: #674d00; }
+    .progress-step.completed { border-color: #7ea882; background: var(--green-light); color: var(--green); }
+    .progress-step.current { box-shadow: 0 0 0 3px rgba(47,87,57,.2); }
+    .accent-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 18px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: #faf9f5; }
+    .accent-bar span { margin-right: 4px; color: var(--muted); font-size: .84rem; font-weight: 700; }
+    .accent-btn { min-width: 34px; min-height: 34px; padding: 4px 9px; border: 1px solid #c6d6c7; border-radius: 8px; background: #fff; color: var(--green); font-weight: 700; font-size: .95rem; cursor: pointer; }
+    .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
+    .section-instructions { margin: 0 0 18px; color: var(--muted); line-height: 1.6; white-space: pre-line; }
+    .group-tag { display: inline-block; margin-bottom: 10px; padding: 5px 10px; border-radius: 999px; background: var(--green-light); color: var(--green); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+    .match-column,.item-block { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
+    .match-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,1.05fr); align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
+    .match-row:last-child { border-bottom: 0; }
+    .match-row p { margin: 0; line-height: 1.55; }
+    .match-select,.gap-input,.open-input { min-height: 42px; padding: 8px 11px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; }
+    .match-select { width: 100%; min-width: 0; color: var(--green); font-weight: 700; cursor: pointer; }
+    .item-block { margin: 14px 0; background: #fff; }
+    .item-block p { line-height: 1.7; }
+    .cue-badge { display: inline-block; padding: 2px 9px; border: 1px solid var(--line); border-radius: 8px; background: #f4f8f2; color: var(--green); font-size: .9rem; font-weight: 700; }
+    .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
+    .gap-input { width: min(190px,65vw); }
+    .gap-input.inline-small { width: min(175px,65vw); margin: 3px 4px; }
+    .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.3; }
+    .story p { margin: 0 0 15px; }
+    .story p:last-child { margin-bottom: 0; }
+    .gap-wrap { display: inline-flex; flex-direction: column; vertical-align: middle; margin: 3px; max-width: 100%; }
+    .gap-cue { margin-bottom: 2px; padding-left: 2px; color: var(--accent); font-size: .74rem; font-weight: 700; line-height: 1.2; }
+    .open-input { display: block; width: 100%; min-height: 100px; margin-top: 8px; line-height: 1.6; resize: vertical; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
+    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover:not(:disabled) { background: var(--green-dark); }
+    button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
+    button.secondary:hover:not(:disabled) { background: var(--green-light); }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    .position { color: var(--green); font-weight: 800; text-align: center; }
+    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit.submitted { border-color: var(--success); background: var(--success-bg); }
+    .task-submit p { margin: 0; line-height: 1.5; }
+    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
+    .student-review-feedback { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; background: #fff8f2; }
+    .student-review-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eadfd5; }
+    .student-review-row p { margin: 4px 0; white-space: pre-wrap; }
+    .student-review-grade { color: var(--green); font-weight: 800; }
+    @media(max-width:650px) {
+      body { padding: 16px 9px 36px; }
+      .slide-navigation { flex-wrap: wrap; justify-content: center; }
+      .slide-navigation button { flex: 1 1 130px; }
+      .position { order: -1; width: 100%; }
+      .match-row { grid-template-columns: 1fr; }
+      header,.panel,.question { padding: 19px; }
+      .task-submit button { width: 100%; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../../compiti.html">← Torna ai compiti a casa</a>
+      <span class="eyebrow">Italiano · Unità 53 · Compito 3</span>
+      <h1>Negozi, prodotti e comparativi</h1>
+      <p>Ripassa i negozi e i prodotti di lusso e usa i comparativi di maggioranza e minoranza. Segui la storia della Contessa e di Germano e confronta gioielli, vestiti, pellicce e automobili.</p>
+      <p class="note">Svolgi gli otto esercizi, organizzati in quattro gruppi progressivi. Le risposte si salvano automaticamente; puoi inviare il compito anche se incompleto.</p>
+      <details class="grammar-hint">
+        <summary>💡 Promemoria grammaticale / Краткая памятка</summary>
+        <div class="grammar-hint-body"><ul>
+          <li><strong>Comparativo di maggioranza:</strong> più + aggettivo/avverbio + di (o articolato) → <em>Il diamante è più luminoso del rubino.</em></li>
+          <li><strong>Comparativo di minoranza:</strong> meno + aggettivo/avverbio + di → <em>Il rubino è meno luminoso del diamante.</em></li>
+          <li><strong>Di + articolo:</strong> del, dello, della, dei, degli, delle; davanti a vocale si usa <em>dell’</em>. Confrontando due aggettivi della stessa cosa, si usa spesso <em>che</em>.</li>
+          <li><strong>Attenzione:</strong> l’aggettivo concorda con il nome: <em>una macchina comoda</em>, <em>i jeans moderni</em>.</li>
+        </ul></div>
+      </details>
+    </header>
+
+    <p id="page-message" role="status" aria-live="polite"></p>
+    <section id="workspace" hidden>
+      <nav class="panel progress-panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-legend" aria-label="Legenda avanzamento"><span><i class="legend-dot in-progress"></i> In corso</span><span><i class="legend-dot completed"></i> Completata</span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="progress-list" class="progress-list"></div>
+      </nav>
+      <div id="section-content"></div>
+      <nav class="slide-navigation" aria-label="Navigazione degli esercizi">
+        <button id="previous-section" class="secondary" type="button">← Esercizio precedente</button>
+        <span id="section-position" class="position" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Esercizio successivo →</button>
+      </nav>
+      <section id="task-submit-box" class="task-submit" aria-label="Consegna del compito">
+        <p id="submit-description"><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante</button>
+      </section>
+      <p id="save-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
+  <script id="homework-task-data" type="application/json">
+    {"title":"Unità 53 — Compito 3: Negozi, prodotti e comparativi","instructions":"Otto esercizi in quattro gruppi: abbinamento e comparativi, riordino e trasformazione, completamento e parafrasi, dialogo e produzione libera."}
+  </script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const taskTitle = "Unità 53 — Compito 3: Negozi, prodotti e comparativi";
+    const sections = [
+      {
+        id: "sec1", group: "Gruppo 1 · Riconoscimento e abbinamento (Livello base)",
+        title: "Esercizio 1 · Negozi, prodotti e caratteristiche",
+        instructions: "Collega ogni negozio al gruppo di prodotti e alle caratteristiche corrispondenti. / Соедини каждый магазин с товарами и их характеристиками.",
+        type: "matching",
+        prompts: ["Gioielleria", "Pellicceria", "Negozio di abbigliamento", "Autosalone"],
+        options: ["A · Jeans e pantaloni — moderni / eleganti", "B · Diamante e rubino — brillanti / caldi", "C · Lamborghini e Alfa Romeo — prestigiose / economiche", "D · Visone e zibellino — pesanti / leggeri"],
+        answers: ["B", "D", "A", "C"]
+      },
+      {
+        id: "sec2", group: "Gruppo 1 · Riconoscimento e abbinamento (Livello base)",
+        title: "Esercizio 2 · Scegli il confronto corretto",
+        instructions: "Per ogni domanda seleziona l'affermazione corretta in base ai dialoghi della lezione. / Для каждого вопроса выбери верное утверждение по диалогам урока.",
+        type: "matching",
+        prompts: [
+          "Il diamante ha più luce; il rubino è ritenuto un gioiello più…",
+          "Rispetto ai pantaloni classici, i jeans descritti nel negozio erano più…",
+          "Lo zibellino è stato preferito al visone perché era più…",
+          "La Lamborghini era considerata più… dell'Alfa Romeo."
+        ],
+        options: ["A · caldo", "B · moderni", "C · pesante", "D · prestigiosa"],
+        answers: ["A", "B", "C", "D"]
+      },
+      {
+        id: "sec3", group: "Gruppo 2 · Manipolazione e riordino (Livello elementare)",
+        title: "Esercizio 3 · Riordina le parole",
+        instructions: "Riordina gli elementi e scrivi una frase comparativa completa. Fai attenzione agli articoli e all'accordo. / Расставь слова по порядку и составь полное предложение со сравнением.",
+        type: "pattern_drill",
+        items: [
+          { id: "q1", cue: "[eleganti / I / dei / erano / pantaloni / jeans / più]", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["I jeans erano più eleganti dei pantaloni.", "I jeans erano più eleganti dei pantaloni"] },
+          { id: "q2", cue: "[il / del / brilla / diamante / rubino / più]", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il diamante brilla più del rubino.", "Il diamante brilla più del rubino"] },
+          { id: "q3", cue: "[visone / il / dello / pesante / era / più / zibellino]", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il visone era più pesante dello zibellino.", "Il visone era più pesante dello zibellino"] },
+          { id: "q4", cue: "[comoda / l'Alfa Romeo / della / è / Lamborghini / più]", parts: ["4. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["La Lamborghini è più comoda dell'Alfa Romeo.", "La Lamborghini è più comoda della Alfa Romeo."] }
+        ]
+      },
+      {
+        id: "sec4", group: "Gruppo 2 · Manipolazione e riordino (Livello elementare)",
+        title: "Esercizio 4 · Forma il comparativo di maggioranza",
+        instructions: "Unisci le informazioni con più + aggettivo + di/del/della/dei. Segui l'esempio. / Объедини информацию, используя più + прилагательное + di/del/della/dei.",
+        type: "pattern_drill",
+        example: "Modello: Il visone è pesante. Lo zibellino è leggero. → Il visone è più pesante dello zibellino.",
+        items: [
+          { id: "q1", cue: "diamante: luminoso · rubino: meno luminoso", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il diamante è più luminoso del rubino.", "Il diamante è più luminoso del rubino"] },
+          { id: "q2", cue: "pantaloni: eleganti · jeans: sportivi", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["I pantaloni sono più eleganti dei jeans.", "I pantaloni sono più eleganti dei jeans"] },
+          { id: "q3", cue: "Lamborghini: prestigiosa · Alfa Romeo: comune", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["La Lamborghini è più prestigiosa dell'Alfa Romeo.", "La Lamborghini è più prestigiosa della Alfa Romeo."] }
+        ]
+      },
+      {
+        id: "sec5", group: "Gruppo 3 · Completamento e trasformazione (Livello intermedio)",
+        title: "Esercizio 5 · Completa il testo",
+        instructions: "Inserisci le forme corrette del comparativo: più di / del / della / dei / delle. / Заполни текст подходящими формами сравнения.",
+        paragraphs: [[
+          "La Contessa e Germano hanno visitato diversi negozi. Nella gioielleria, il gioielliere ha spiegato che il diamante aveva più luce ",
+          {id:"q1",cue:"(il rubino)",answers:["del rubino"]},
+          ", ma il colore del rubino era più caldo ",
+          {id:"q2",cue:"(quello del diamante)",answers:["di quello del diamante"]},
+          ". Successivamente, nel negozio di abbigliamento, la Contessa ha notato che i pantaloni erano più eleganti ",
+          {id:"q3",cue:"(i jeans)",answers:["dei jeans"]},
+          ", ma i jeans apparivano più moderni ",
+          {id:"q4",cue:"(pantaloni tradizionali)",answers:["dei pantaloni tradizionali"]},
+          ". Infine, all'autosalone, la Lamborghini è risultata essere più prestigiosa ",
+          {id:"q5",cue:"(l'Alfa Romeo)",answers:["dell'Alfa Romeo", "della Alfa Romeo"]}, "."
+        ]]
+      },
+      {
+        id: "sec6", group: "Gruppo 3 · Completamento e trasformazione (Livello intermedio)",
+        title: "Esercizio 6 · Trasforma in comparativo di minoranza",
+        instructions: "Riscrivi ogni frase usando meno… di e invertendo i termini di confronto senza cambiare il significato. / Перепиши каждое предложение, используя meno… di и поменяв объекты сравнения местами.",
+        type: "pattern_drill",
+        example: "I jeans erano più moderni dei pantaloni. → I pantaloni erano meno moderni dei jeans.",
+        items: [
+          { id: "q1", cue: "Lo zibellino era più leggero del visone.", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["Il visone era meno leggero dello zibellino.", "Il visone era meno leggero dello zibellino"] },
+          { id: "q2", cue: "La Lamborghini era più prestigiosa dell'Alfa Romeo.", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["L'Alfa Romeo era meno prestigiosa della Lamborghini.", "Alfa Romeo era meno prestigiosa della Lamborghini"] },
+          { id: "q3", cue: "Il diamante era più luminoso del rubino.", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["Il rubino era meno luminoso del diamante.", "Il rubino era meno luminoso del diamante"] }
+        ]
+      },
+      {
+        id: "sec7", group: "Gruppo 4 · Produzione e interazione libera (Livello avanzato)",
+        title: "Esercizio 7 · Dialogo in negozio",
+        instructions: "Completa le battute della Contessa. Esprimi le tue preferenze e usa almeno due comparativi (più… di / meno… di). / Заполни реплики Графини: вырази предпочтения, используй не менее двух сравнительных конструкций.",
+        openItems: [
+          { id:"q1", title:"1. La scelta della pelliccia", prompt:"Commesso: «Buongiorno, Signora Contessa! Vuole vedere le nostre pellicce di visone o preferisce lo zibellino?»\nContessa: (esprimi una preferenza basata sulla leggerezza o sul peso)" },
+          { id:"q2", title:"2. La scelta del gioiello", prompt:"Commesso: «E per quanto riguarda i gioielli, desidera abbinare un diamante o un rubino?»\nContessa: (confronta la luminosità del diamante con il calore del rubino)\nCommesso: «Perfetto! Le preparo subito la confezione.»" }
+        ]
+      },
+      {
+        id: "sec8", group: "Gruppo 4 · Produzione e interazione libera (Livello avanzato)",
+        title: "Esercizio 8 · Un breve testo comparativo",
+        instructions: "Scrivi un testo di 80–100 parole. Immagina di acquistare un mezzo di trasporto o un capo d'abbigliamento insieme al tuo autista o accompagnatore. Confronta due possibilità (per esempio un'auto sportiva e un'utilitaria, oppure due abiti) e spiega quale è più comoda, economica o adatta alle tue esigenze. Usa più… di e/o meno… di. / Напиши текст из 80–100 слов: сравни два варианта транспорта или одежды и объясни, какой больше подходит твоим потребностям.",
+        openItems: [ { id:"q1", title:"Il tuo testo (80–100 parole)", prompt:"Scrivi qui il tuo testo comparativo. Ricorda di usare frasi complete e almeno due comparativi." } ]
+      }
+    ];
+
+    let sectionIndex = 0, answers = {}, teacherReviewData = null, submissionRef = null;
+    let studentName = "", submissionStatus = "in-progress", saveTimer = null, hasPendingSave = false, lastFocusedField = null;
+    const assignmentId = new URLSearchParams(location.search).get("assignment");
+    const workspace = document.getElementById("workspace");
+    const content = document.getElementById("section-content");
+    const pageMessage = document.getElementById("page-message");
+    const saveStatus = document.getElementById("save-status");
+    const progressList = document.getElementById("progress-list");
+    const submitBox = document.getElementById("task-submit-box");
+    const submitDesc = document.getElementById("submit-description");
+    const submitBtn = document.getElementById("submit-task");
+
+    document.addEventListener("focusin", event => {
+      if (event.target.matches("input.gap-input, textarea.open-input")) lastFocusedField = event.target;
+    });
+    window.addEventListener("beforeunload", event => {
+      if (hasPendingSave) { event.preventDefault(); event.returnValue = ""; }
+    });
+
+    function createAccentBar() {
+      const bar = document.createElement("div"); bar.className = "accent-bar"; bar.setAttribute("aria-label", "Caratteri italiani rapidi");
+      const label = document.createElement("span"); label.textContent = "Caratteri rapidi:"; bar.appendChild(label);
+      ["à", "è", "é", "ì", "ò", "ù", "'"].forEach(char => {
+        const button = document.createElement("button"); button.type = "button"; button.className = "accent-btn"; button.textContent = char;
+        button.setAttribute("aria-label", `Inserisci ${char}`);
+        button.addEventListener("mousedown", event => {
+          event.preventDefault();
+          if (!lastFocusedField || !document.body.contains(lastFocusedField)) return;
+          const start = lastFocusedField.selectionStart ?? lastFocusedField.value.length;
+          const end = lastFocusedField.selectionEnd ?? lastFocusedField.value.length;
+          lastFocusedField.value = lastFocusedField.value.slice(0,start) + char + lastFocusedField.value.slice(end);
+          lastFocusedField.focus(); lastFocusedField.setSelectionRange(start + char.length,start + char.length);
+          lastFocusedField.dispatchEvent(new Event("input",{bubbles:true}));
+        });
+        bar.appendChild(button);
+      });
+      return bar;
+    }
+    function persistAnswer(sectionId, answerId, value) {
+      if (submissionStatus === "reviewed") return;
+      if (submissionStatus === "pending") { submissionStatus = "in-progress"; setSubmittedVisualState(false); }
+      answers[sectionId] ||= {}; answers[sectionId][answerId] = value; renderProgress();
+      hasPendingSave = true; saveStatus.textContent = "Salvataggio delle risposte…";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(async () => {
+        if (!submissionRef) { hasPendingSave = false; return; }
+        try {
+          await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
+          await submissionRef.update({studentName,status:submissionStatus,updatedAt:Date.now()});
+          hasPendingSave = false; saveStatus.textContent = "Risposte salvate automaticamente. ✓";
+        } catch (_) { hasPendingSave = false; saveStatus.textContent = "Errore di salvataggio. Controlla la connessione."; }
+      },350);
+    }
+    function setSubmittedVisualState(isSubmitted) {
+      submitBox.classList.toggle("submitted",isSubmitted);
+      if (isSubmitted) {
+        submitDesc.innerHTML = "<strong>✓ Compito inviato all’insegnante!</strong><br><span class=\"note\">Puoi comunque modificare le risposte e inviare di nuovo se necessario.</span>";
+        submitBtn.textContent = "Invia di nuovo il compito";
+      } else {
+        submitDesc.innerHTML = "<strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class=\"note\">Можно отправить работу, даже если она не завершена.</span>";
+        submitBtn.textContent = "Invia il compito all’insegnante";
+      }
+    }
+    function makeTextInput(section, answerId, label, placeholder = "…", className = "gap-input") {
+      const input = document.createElement("input"); input.type = "text"; input.className = className;
+      input.dataset.answerId = answerId; input.autocomplete = "off"; input.placeholder = placeholder;
+      input.setAttribute("aria-label",label); input.value = answers[section.id]?.[answerId] || "";
+      input.addEventListener("input",() => persistAnswer(section.id,answerId,input.value));
+      return input;
+    }
+    function renderMatching(section, card) {
+      const column = document.createElement("div"); column.className = "match-column";
+      section.prompts.forEach((prompt,index) => {
+        const row = document.createElement("div"); row.className = "match-row";
+        const text = document.createElement("p"); text.textContent = `${index + 1}. ${prompt}`;
+        const select = document.createElement("select"); select.className = "match-select"; select.dataset.answerId = `q${index + 1}`;
+        select.setAttribute("aria-label",`Risposta per la domanda ${index + 1}`); select.appendChild(new Option("Scegli una risposta…",""));
+        section.options.forEach(option => select.appendChild(new Option(option,option[0])));
+        select.value = answers[section.id]?.[`q${index + 1}`] || "";
+        select.addEventListener("change",() => persistAnswer(section.id,`q${index + 1}`,select.value));
+        row.append(text,select); column.appendChild(row);
+      });
+      card.appendChild(column);
+    }
+    function renderPatternDrill(section, card) {
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
+      if (section.example) { const example = document.createElement("p"); example.className = "example-line"; example.textContent = section.example; card.appendChild(example); }
+      section.items.forEach((item,index) => {
+        const block = document.createElement("div"); block.className = "item-block";
+        const cue = document.createElement("span"); cue.className = "cue-badge"; cue.textContent = item.cue; block.appendChild(cue);
+        const line = document.createElement("p");
+        item.parts.forEach((part,partIndex) => {
+          if (typeof part === "string") { line.appendChild(document.createTextNode(part)); return; }
+          const inputKeys = item.parts.filter(piece => typeof piece === "object").map(piece => piece.key);
+          const id = inputKeys.length === 1 ? item.id : `${item.id}_${part.key}`;
+          line.appendChild(makeTextInput(section,id,`Frase ${index + 1}`,part.placeholder || "…","gap-input inline-small"));
+        });
+        block.appendChild(line); card.appendChild(block);
+      });
+    }
+    function renderStory(section, card) {
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
+      const story = document.createElement("div"); story.className = "story";
+      section.paragraphs.forEach(parts => {
+        const paragraph = document.createElement("p");
+        parts.forEach(part => {
+          if (typeof part === "string") { paragraph.appendChild(document.createTextNode(part)); return; }
+          const wrap = document.createElement("span"); wrap.className = "gap-wrap";
+          const cue = document.createElement("span"); cue.className = "gap-cue"; cue.textContent = part.cue;
+          const input = makeTextInput(section,part.id,`Spazio ${part.id.slice(1)}: ${part.cue}`);
+          wrap.append(cue,input); paragraph.appendChild(wrap);
+        });
+        story.appendChild(paragraph);
+      });
+      card.appendChild(story);
+    }
+    function renderOpenItems(section, card) {
+      if (submissionStatus !== "reviewed") card.appendChild(createAccentBar());
+      section.openItems.forEach((item,index) => {
+        const block = document.createElement("div"); block.className = "item-block";
+        const title = document.createElement("h3"); title.textContent = item.title;
+        const prompt = document.createElement("p"); prompt.style.whiteSpace = "pre-line"; prompt.textContent = item.prompt;
+        const textarea = document.createElement("textarea"); textarea.className = "open-input"; textarea.dataset.answerId = item.id;
+        textarea.rows = item.id === "q1" && section.id === "sec8" ? 8 : 4;
+        textarea.placeholder = "Scrivi qui la tua risposta in italiano…"; textarea.setAttribute("aria-label",item.title);
+        textarea.value = answers[section.id]?.[item.id] || "";
+        textarea.addEventListener("input",() => persistAnswer(section.id,item.id,textarea.value));
+        block.append(title,prompt,textarea); card.appendChild(block);
+      });
+    }
+    function getAnswerCount(section) {
+      if (section.type === "matching") return section.prompts.length;
+      if (section.type === "pattern_drill") return section.items.reduce((count,item) => count + item.parts.filter(part => typeof part === "object").length,0);
+      if (section.paragraphs) return section.paragraphs.reduce((count,paragraph) => count + paragraph.filter(part => typeof part === "object").length,0);
+      return section.openItems?.length || 0;
+    }
+    function progressFor(section) {
+      const values = Object.values(answers[section.id] || {}).filter(value => String(value || "").trim());
+      const total = getAnswerCount(section);
+      return {answered:values.length,total,started:values.length > 0,completed:total > 0 && values.length >= total};
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      sections.forEach((section,index) => {
+        const progress = progressFor(section); const button = document.createElement("button"); button.type = "button";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}${progress.completed ? " completed" : progress.started ? " in-progress" : ""}`;
+        button.textContent = String(index + 1); button.setAttribute("aria-current",index === sectionIndex ? "step" : "false");
+        button.setAttribute("aria-label",`Vai all'esercizio ${index + 1}: ${section.title} (${progress.answered}/${progress.total} risposte)`);
+        button.addEventListener("click",() => {sectionIndex = index; renderSection(); window.scrollTo(0,0);}); progressList.appendChild(button);
+      });
+      document.getElementById("progress-count").textContent = `${sectionIndex + 1} / ${sections.length}`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / sections.length) * 100}%`;
+      document.getElementById("section-position").textContent = `Esercizio ${sectionIndex + 1} di ${sections.length}`;
+      document.getElementById("previous-section").disabled = sectionIndex === 0;
+      document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
+    }
+    function appendReviewFeedback(card,section) {
+      const reviewed = teacherReviewData?.answers?.[section.id] || {};
+      const rows = buildTeacherReviewRows({answers:{[section.id]:answers[section.id] || {}}}).find(item => item.id === section.id)?.rows || [];
+      const feedback = rows.flatMap((row,index) => {
+        const key = String(row.id ?? index).replace(/[.#$\/\[\]]/g,"_"); const review = reviewed[key];
+        return review && (review.grade || review.comment) ? [{row,review}] : [];
+      });
+      if (!feedback.length) return;
+      const panel = document.createElement("section"); panel.className = "student-review-feedback";
+      const heading = document.createElement("h3"); heading.textContent = "Feedback dell’insegnante"; panel.appendChild(heading);
+      feedback.forEach(({row,review}) => {
+        const item = document.createElement("div"); item.className = "student-review-row";
+        const prompt = document.createElement("p"); prompt.textContent = row.prompt; item.appendChild(prompt);
+        if (review.grade) { const grade = document.createElement("p"); grade.className = "student-review-grade"; grade.textContent = review.grade === "approved" ? "✓ Approvata" : "Da rivedere"; item.appendChild(grade); }
+        if (review.comment) { const comment = document.createElement("p"); comment.textContent = `Commento: ${review.comment}`; item.appendChild(comment); }
+        panel.appendChild(item);
+      });
+      card.appendChild(panel);
+    }
+    function renderSection() {
+      content.replaceChildren(); lastFocusedField = null;
+      const section = sections[sectionIndex]; const card = document.createElement("article"); card.className = "question";
+      const group = document.createElement("span"); group.className = "group-tag"; group.textContent = section.group;
+      const heading = document.createElement("h2"); heading.className = "section-heading"; heading.textContent = section.title;
+      const instruction = document.createElement("p"); instruction.className = "section-instructions"; instruction.textContent = section.instructions;
+      card.append(group,heading,instruction);
+      if (section.type === "matching") renderMatching(section,card);
+      else if (section.type === "pattern_drill") renderPatternDrill(section,card);
+      else if (section.paragraphs) renderStory(section,card);
+      else if (section.openItems) renderOpenItems(section,card);
+      if (submissionStatus === "reviewed") { appendReviewFeedback(card,section); card.querySelectorAll("input,select,textarea,button").forEach(control => {control.disabled = true;}); }
+      content.appendChild(card); renderProgress();
+    }
+    function resolveOption(options,letter) { return options.find(option => option.startsWith(`${letter} ·`) || option[0] === letter) || letter || "Nessuna risposta selezionata"; }
+    function paragraphContext(paragraph,targetId) {
+      return paragraph.map(part => typeof part === "string" ? part : part.id === targetId ? `[${part.cue}]` : (part.answers?.[0] || "___")).join("");
+    }
+    function buildTeacherReviewRows(submission) {
+      const saved = submission.answers || {};
+      return sections.map(section => {
+        const state = saved[section.id] || {}; let rows = [];
+        if (section.type === "matching") rows = section.prompts.map((prompt,index) => ({
+          id:`q${index + 1}`, prompt:`${index + 1}. ${prompt}`,
+          answer:state[`q${index + 1}`] ? resolveOption(section.options,state[`q${index + 1}`]) : "Nessuna risposta selezionata",
+          expected:resolveOption(section.options,section.answers[index]), autoCheck:true
+        }));
+        else if (section.type === "pattern_drill") rows = section.items.map((item,index) => ({
+          id:item.id, prompt:`${index + 1}. ${item.cue}`, answer:state[item.id] || "Nessuna risposta inserita", expected:item.answers, autoCheck:true
+        }));
+        else if (section.paragraphs) rows = section.paragraphs.flatMap(paragraph => paragraph.filter(part => typeof part === "object").map(part => ({
+          id:part.id, prompt:paragraphContext(paragraph,part.id), answer:state[part.id] || "Nessuna risposta inserita", expected:part.answers, autoCheck:true
+        })));
+        else if (section.openItems) rows = section.openItems.map(item => ({
+          id:item.id, prompt:`${item.title}\n${item.prompt}`, answer:state[item.id] || "Nessuna risposta inserita",
+          expected:section.id === "sec8" ? "Produzione libera di 80–100 parole con comparativi." : "Produzione libera: usa almeno due comparativi.", autoCheck:false
+        }));
+        return {id:section.id,title:section.title,rows};
+      });
+    }
+    document.getElementById("previous-section").addEventListener("click",() => {sectionIndex = Math.max(0,sectionIndex - 1); renderSection(); window.scrollTo(0,0);});
+    document.getElementById("next-section").addEventListener("click",() => {sectionIndex = Math.min(sections.length - 1,sectionIndex + 1); renderSection(); window.scrollTo(0,0);});
+    submitBtn.addEventListener("click",async () => {
+      if (!submissionRef || submissionStatus === "reviewed") return;
+      clearTimeout(saveTimer); hasPendingSave = false; const previousStatus = submissionStatus;
+      submissionStatus = "pending"; submitBtn.disabled = true; saveStatus.textContent = "Invio del compito all’insegnante…";
+      try {
+        const updates = {studentName,status:submissionStatus,submittedAt:Date.now()};
+        Object.entries(answers).forEach(([sectionId,sectionAnswers]) => {updates[`answers/${sectionId}`] = sectionAnswers;});
+        await submissionRef.update(updates); setSubmittedVisualState(true); submitBtn.disabled = false;
+        saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
+      } catch (_) { submissionStatus = previousStatus; saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova."; submitBtn.disabled = false; }
+    });
+    document.addEventListener("keydown",event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
+      if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) {sectionIndex++; renderSection();}
+      else if (event.key === "ArrowLeft" && sectionIndex > 0) {sectionIndex--; renderSection();}
+    });
+    function withTimeout(promise,milliseconds,message) {
+      let timer; const timeout = new Promise((_,reject) => {timer = setTimeout(() => reject(new Error(message)),milliseconds);});
+      return Promise.race([promise,timeout]).finally(() => clearTimeout(timer));
+    }
+    async function initializeTask() {
+      pageMessage.textContent = "Caricamento del compito… / Загрузка задания…";
+      let session; try {session = JSON.parse(localStorage.getItem("parlo_session") || "null");} catch (_) {session = null;}
+      if (session?.isTeacher) {
+        try { if (await window.openHomeworkTeacherReview({taskData:{title:taskTitle},buildRows:buildTeacherReviewRows})) return; }
+        catch (error) {pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere."; return;}
+      }
+      workspace.hidden = false; submitBox.hidden = true; renderSection();
+      content.querySelectorAll("input,select,textarea,.accent-btn").forEach(control => {control.disabled = true;});
+      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
+      if (!assignmentId) {pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return;}
+      if (!isStudent) {pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return;}
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database(); const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot,groupSnapshot] = await withTimeout(Promise.all([
+          assignmentRef.once("value"),db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")
+        ]),15000,"Il caricamento dei dati è scaduto. Controlla la connessione e riprova.");
+        const assignment = assignmentSnapshot.val(); const group = groupSnapshot.val();
+        const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath,location.origin).pathname.replace(/\/+$/,"") : "";
+        const currentPath = location.pathname.replace(/\/+$/,"");
+        if (!assignment || !group || !expectedPath || !(currentPath === expectedPath || currentPath.endsWith(expectedPath))) throw new Error("Compito non disponibile per questo gruppo o percorso. Verifica l’assegnazione nella gestione compiti.");
+        const active = (group.studenti || []).some(student => student.nome === session.name);
+        const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+        const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+        if ((!active && !inactive) || (assignment.unitNumber != null && Number(assignment.unitNumber) > limit)) throw new Error("Non sei abilitato a svolgere questo compito.");
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`); studentName = session.name;
+        const submission = (await withTimeout(submissionRef.once("value"),15000,"Il caricamento delle risposte è scaduto. Controlla la connessione e riprova.")).val() || {};
+        answers = submission.answers || {}; teacherReviewData = submission.teacherReview || null; submissionStatus = submission.status || "in-progress";
+        pageMessage.textContent = ""; submitBox.hidden = false;
+        if (submissionStatus === "reviewed") {submitBox.hidden = true; saveStatus.textContent = "Questo compito è stato revisionato dall’insegnante (modalità sola lettura).";}
+        else if (submissionStatus === "pending") {setSubmittedVisualState(true); saveStatus.textContent = "Compito inviato: è in attesa di correzione.";}
+        renderSection();
+      } catch (error) {pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";}
+    }
+    initializeTask();
+  </script>
+</body>
+</html>
