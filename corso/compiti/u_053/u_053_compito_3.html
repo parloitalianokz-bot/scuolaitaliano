@@ -71,7 +71,7 @@
     .word-bank-empty { align-self: center; color: var(--muted); font-size: .9rem; }
     .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
     .gap-input { width: min(190px,65vw); }
-    .gap-input.inline-small { width: min(175px,65vw); margin: 3px 4px; }
+    .gap-input.inline-small { width: min(360px,85vw); margin: 3px 4px; }
     .story { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; line-height: 2.3; }
     .story p { margin: 0 0 15px; }
     .story p:last-child { margin-bottom: 0; }
@@ -202,7 +202,9 @@
         items: [
           { id: "q1", cue: "diamante: luminoso · rubino: meno luminoso", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il diamante è più luminoso del rubino.", "Il diamante è più luminoso del rubino"] },
           { id: "q2", cue: "pantaloni: eleganti · jeans: sportivi", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["I pantaloni sono più eleganti dei jeans.", "I pantaloni sono più eleganti dei jeans"] },
-          { id: "q3", cue: "Lamborghini: prestigiosa · Alfa Romeo: comune", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["La Lamborghini è più prestigiosa dell'Alfa Romeo.", "La Lamborghini è più prestigiosa della Alfa Romeo."] }
+          { id: "q3", cue: "Lamborghini: prestigiosa · Alfa Romeo: comune", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["La Lamborghini è più prestigiosa dell'Alfa Romeo.", "La Lamborghini è più prestigiosa della Alfa Romeo."] },
+          { id: "q4", cue: "rubino: caldo · diamante: meno caldo", parts: ["4. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["Il rubino è più caldo del diamante.", "Il rubino è più caldo del diamante"] },
+          { id: "q5", cue: "jeans: moderni · pantaloni: meno moderni", parts: ["5. ", {key:"a",placeholder:"Scrivi la frase completa…"}], answers: ["I jeans sono più moderni dei pantaloni.", "I jeans sono più moderni dei pantaloni"] }
         ]
       },
       {
@@ -231,7 +233,9 @@
         items: [
           { id: "q1", cue: "Lo zibellino era più leggero del visone.", parts: ["1. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["Il visone era meno leggero dello zibellino.", "Il visone era meno leggero dello zibellino"] },
           { id: "q2", cue: "La Lamborghini era più prestigiosa dell'Alfa Romeo.", parts: ["2. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["L'Alfa Romeo era meno prestigiosa della Lamborghini.", "Alfa Romeo era meno prestigiosa della Lamborghini"] },
-          { id: "q3", cue: "Il diamante era più luminoso del rubino.", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["Il rubino era meno luminoso del diamante.", "Il rubino era meno luminoso del diamante"] }
+          { id: "q3", cue: "Il diamante era più luminoso del rubino.", parts: ["3. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["Il rubino era meno luminoso del diamante.", "Il rubino era meno luminoso del diamante"] },
+          { id: "q4", cue: "I pantaloni erano più eleganti dei jeans.", parts: ["4. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["I jeans erano meno eleganti dei pantaloni.", "I jeans erano meno eleganti dei pantaloni"] },
+          { id: "q5", cue: "La Lamborghini era più comoda dell'Alfa Romeo.", parts: ["5. ", {key:"a",placeholder:"Scrivi la frase trasformata…"}], answers: ["L'Alfa Romeo era meno comoda della Lamborghini.", "Alfa Romeo era meno comoda della Lamborghini"] }
         ]
       },
       {
