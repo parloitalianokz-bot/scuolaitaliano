@@ -175,13 +175,13 @@
       },
       {
         id: "sec3", title: "Gruppo 2 · Esercizio 3 — Tempo e ordine delle parole", kind: "wordOrder",
-        instructions: "Clicca sulle parole nel box di partenza per inserirle nella risposta. Clicca una parola nella risposta per riportarla indietro. / Нажимай на слова в исходном блоке, чтобы добавить их в ответ. Нажми на слово в ответе, чтобы вернуть его обратно.",
-        example: "Ordine cronologico: passato → presente → futuro.",
+        instructions: "Нажимай на слова в исходном блоке, чтобы добавить их в ответ. Нажми на слово в ответе, чтобы вернуть его обратно. / Clicca sulle parole nel box di partenza per inserirle nella risposta. Clicca una parola nella risposta per riportarla indietro.",
+        example: "Хронологический порядок: прошлое → настоящее → будущее. / Ordine cronologico: passato → presente → futuro.",
         fields: [
-          {id:"q1",prompt:"Parte A · Metti in ordine cronologico le espressioni temporali.",format:"sequence",tokens:["Domani","L'altro ieri","Dopodomani","Oggi","Ieri"],expected:["L'altro ieri, ieri, oggi, domani, dopodomani","L'altro ieri - ieri - oggi - domani - dopodomani"]},
-          {id:"q2",prompt:"Parte B · Forma la domanda.",tokens:["borsa","di","è","la","che","colore","tua","?"],expected:["Di che colore è la tua borsa?","Di che colore è la tua borsa"]},
-          {id:"q3",prompt:"Parte B · Forma la domanda.",tokens:["indirizzo","tuo","qual","è","il","?"],expected:["Qual è il tuo indirizzo?","Qual è il tuo indirizzo"]},
-          {id:"q4",prompt:"Parte B · Forma la frase.",tokens:["stessi","porta","Paolo","occhiali","gli","sempre"],expected:["Paolo porta sempre gli stessi occhiali.","Paolo porta sempre gli stessi occhiali"]}
+          {id:"q1",prompt:"Часть А · Расположи выражения времени в хронологическом порядке. / Parte A · Metti in ordine cronologico le espressioni temporali.",format:"sequence",tokens:["Domani","L'altro ieri","Dopodomani","Oggi","Ieri"],expected:["L'altro ieri, ieri, oggi, domani, dopodomani","L'altro ieri - ieri - oggi - domani - dopodomani"]},
+          {id:"q2",prompt:"Часть Б · Составь вопрос. / Parte B · Forma la domanda.",tokens:["borsa","di","è","la","che","colore","tua","?"],expected:["Di che colore è la tua borsa?","Di che colore è la tua borsa"]},
+          {id:"q3",prompt:"Часть Б · Составь вопрос. / Parte B · Forma la domanda.",tokens:["indirizzo","tuo","qual","è","il","?"],expected:["Qual è il tuo indirizzo?","Qual è il tuo indirizzo"]},
+          {id:"q4",prompt:"Часть Б · Составь предложение. / Parte B · Forma la frase.",tokens:["stessi","porta","Paolo","occhiali","gli","sempre"],expected:["Paolo porta sempre gli stessi occhiali.","Paolo porta sempre gli stessi occhiali"]}
         ]
       },
       {
@@ -304,9 +304,9 @@
         const prompt = document.createElement("p"); prompt.textContent = `${index + 1}. ${field.prompt}`; block.appendChild(prompt);
         const areas = document.createElement("div"); areas.className = "word-order";
         const bank = document.createElement("div"); bank.className = "word-order-area";
-        const bankLabel = document.createElement("span"); bankLabel.className = "word-order-label"; bankLabel.textContent = "Parole da riordinare · Слова";
+        const bankLabel = document.createElement("span"); bankLabel.className = "word-order-label"; bankLabel.textContent = "Слова для упорядочивания / Parole da riordinare";
         const answer = document.createElement("div"); answer.className = "word-order-area";
-        const answerLabel = document.createElement("span"); answerLabel.className = "word-order-label"; answerLabel.textContent = "Risposta · Ответ (clicca una parola per restituirla)";
+        const answerLabel = document.createElement("span"); answerLabel.className = "word-order-label"; answerLabel.textContent = "Ответ (нажми на слово, чтобы вернуть его) / Risposta (clicca una parola per restituirla)";
         bank.appendChild(bankLabel); answer.appendChild(answerLabel); areas.append(bank,answer); block.appendChild(areas); card.appendChild(block);
         let order = Array.isArray(answers[section.id]?.[field.id]) ? [...answers[section.id][field.id]] : [];
         const draw = () => {
