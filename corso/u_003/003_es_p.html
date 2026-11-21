@@ -90,72 +90,72 @@
     .status-message.error{color:var(--error)}
     @media(max-width:600px){body{padding:16px 8px}.card{padding:14px}.sentence-box{font-size:1rem;padding:14px}input.inline-input{width:95px!important}.slide-navigation{flex-wrap:wrap}.nav-btn{flex:1}#user-badge{flex-basis:100%;margin-left:0}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
-  </style>
+    </style>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
 </head>
-<body>
+<body data-page-key="003_es_p" data-next-href="003_es_q.html" data-next-label="Vai all’esercizio Q →">
   <main class="container">
-    <nav class="top-menu" aria-label="Navigazione Unità 3">
-      <a id="home-link" href="../index.html">← Torna all’inizio</a>
-      <select id="exercise-menu" aria-label="Vai a una pagina dell’Unità 3"></select>
+        <nav class="top-exercises" aria-label="Menu dell’Unità 3">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg>
+      </a>
       <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Seleziona una pagina dell’Unità 3</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 3">
+        <option value="003_lettura.html">Lettura</option>
+        <option value="003_es_a.html">Esercizio A</option><option value="003_es_b.html">Esercizio B</option>
+        <option value="003_es_c.html">Esercizio C</option><option value="003_es_d.html">Esercizio D</option>
+        <option value="003_es_e.html">Esercizio E</option><option value="003_es_f.html">Esercizio F</option>
+        <option value="003_es_g.html">Esercizio G</option><option value="003_es_h.html">Esercizio H</option>
+        <option value="003_es_i.html">Esercizio I</option><option value="003_es_j.html">Esercizio J</option>
+        <option value="003_es_k.html">Esercizio K</option><option value="003_es_l.html">Esercizio L</option>
+        <option value="003_es_m.html">Esercizio M</option><option value="003_es_n.html">Esercizio N</option>
+        <option value="003_es_o.html">Esercizio O</option><option value="003_es_p.html" selected>Esercizio P</option>
+        <option value="003_es_q.html">Esercizio Q</option><option value="003_es_r.html">Esercizio R</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali">
+        <option value="">Grammatica</option>
+        <option value="003_verbi_riflessivi.html">I verbi riflessivi</option>
+      </select>
     </nav>
 
     <header class="hero">
       <span class="eyebrow">Unità 3 · Grammatica e Verbi</span>
       <h1>Il Presente Indicativo</h1>
-      <p class="hero-subtitle">Поставьте глаголы в скобках в нужную форму (Presente)! Используйте ← e → для перехода между предложениями.</p>
+      <p class="hero-subtitle">Поставьте глаголы в скобках в нужную форму настоящего времени.</p>
     </header>
 
-    <div class="instruction-box">
-      💡 <strong>Come funziona:</strong> Coniuga i verbi tra parentesi al presente indicativo negli spazi previsti. L’insegnante assegna il turno di scrittura dal menu in alto; tutti gli altri possono seguire le risposte in tempo reale.
-    </div>
-
-    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione del turno">
-      <label class="assignment-field" for="writer-select">
-        Chi scrive adesso (turno di modifica)
-        <select id="writer-select"><option value="">— Nessuno assegnato —</option></select>
-      </label>
+        <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio P</div>
+      <div class="instruction-text">👉 <strong>Поставьте глаголы в скобках в настоящее время.</strong> В онлайн-режиме преподаватель назначает очередь; при дистанционной работе и тренировке ответы сохраняются в личном пространстве.</div>
     </section>
 
-    <section class="card" aria-label="Frasi al Presente Indicativo">
-      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
-      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla frase"></nav>
-      <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
-
-      <div id="char-toolbar" class="char-toolbar" role="toolbar" aria-label="Caratteri speciali italiani">
-        <span class="char-toolbar-label">Caratteri:</span>
-        <button type="button" class="char-btn" data-char="'">'</button>
-        <button type="button" class="char-btn" data-char="à">à</button>
-        <button type="button" class="char-btn" data-char="è">è</button>
-        <button type="button" class="char-btn" data-char="ì">ì</button>
-        <button type="button" class="char-btn" data-char="ò">ò</button>
-        <button type="button" class="char-btn" data-char="ù">ù</button>
-        <button type="button" class="char-btn" data-char="È">È</button>
-      </div>
-
+    <section class="card" aria-label="Frasi al presente indicativo">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
       <div id="questions-container"></div>
-
-      <nav class="slide-navigation" aria-label="Navigazione delle schede">
-        <button id="previous-question" class="nav-btn" type="button">← Precedente</button>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
         <span id="question-progress" class="slide-progress" aria-live="polite"></span>
-        <button id="next-question" class="nav-btn" type="button">Successiva →</button>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="003_es_q.html" hidden>Vai all’esercizio Q →</a>
       </nav>
-      <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
     </section>
   </main>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="firebase-group-scope.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "INSERISCI_API_KEY",
-      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
-      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "esercizi-parlo-italiano",
-      appId: "INSERISCI_APP_ID"
-    };
-
     const sentencesData = [
       {
         id: "p1",
@@ -499,8 +499,51 @@
           "Chiedi allo studente di analizzare il numero del sintagma «molti turisti» e di applicare la desinenza corrispondente di «visitare»."
         ]
       }
-    ];
+        ];
 
+    const session = window.ParloSession || {};
+    const isTeacher = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: isTeacher
+        ? "💬 Modalità online: assegna i turni; risposte e contributi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il turno assegnato; le risposte sono condivise con il gruppo.",
+      distance: isTeacher
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente e le risposte sono disponibili per la revisione."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono salvate per la revisione dell’insegnante.",
+      individual: isTeacher
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente; le risposte restano nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const sentences = sentencesData.map(item => {
+      let answerIndex = 0;
+      const parts = item.template.split(/(\{\{\d+:\d+\}\}|<br\s*\/?\s*>)/gi).flatMap(part => {
+        if (!part) return [];
+        if (/^<br\s*\/?\s*>$/i.test(part)) return ["<br>"];
+        const match = part.match(/^\{\{(\d+):\d+\}\}$/);
+        if (match) {
+          const index = Number(match[1]);
+          return [{ id: `${item.id}-${++answerIndex}`, input: true, correct: item.keys[index], placeholder: "…" }];
+        }
+        return [part];
+      });
+      const image = `<img class="inline-fill-illustration" src="${item.img}" alt="Illustrazione della frase ${item.num.replace(".", "")}">`;
+      return { id: item.id, parts: [image, ...parts], hints: item.studentHints, hintsLang: "ru" };
+    });
+
+    document.addEventListener("error", event => {
+      if (event.target instanceof HTMLImageElement && event.target.classList.contains("inline-fill-illustration")) event.target.remove();
+    }, true);
+
+    window.ParloInlineFillExercise.init({
+      unitNumber: 3,
+      exercisePath: "003_es_p",
+      nextUnitNumber: 4,
+      sentences
+    });
+
+    if (false) {
     function normalizeAnswer(value) {
       return String(value || "")
         .toLocaleLowerCase("it")
@@ -540,7 +583,7 @@
     const nextButton = document.getElementById("next-question");
     const progressText = document.getElementById("question-progress");
 
-    teacherControls.hidden = !isTeacher;
+    if (teacherControls) teacherControls.hidden = !isTeacher;
     badge.textContent = group && group !== "sconosciuto"
       ? `${isTeacher ? "👩‍🏫" : "👤"} ${userName || "Utente"} · ${group}`
       : "Accedi dalla pagina iniziale per associare l’attività al gruppo.";
@@ -1040,7 +1083,8 @@
       });
     }
     window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
-    updateBackgroundParallax();
+        updateBackgroundParallax();
+    }
   </script>
   <script src="../classroom-notes.js"></script>
 </body>

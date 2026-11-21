@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Completa i dialoghi in coppia (Personaggio A e Personaggio B), Unità 3." />
   <title>Unità 3 — Completa i Dialoghi (Esercizio I)</title>
+    <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
   <style>
+
     :root{color-scheme:light;font-family:'Segoe UI',Inter,system-ui,-apple-system,sans-serif;--primary:#477755;--primary-light:#edf4ed;--primary-dark:#2f5739;--accent:#bd694d;--bg-main:#f5f1e7;--card-bg:#fffefa;--text:#292d28;--text-muted:#6b7069;--success:#278253;--success-bg:#e1f1e5;--error:#b42318;--error-bg:#fde8e7;--border:#e7e5dc}
     *{box-sizing:border-box}[hidden]{display:none!important}:focus-visible{outline:3px solid rgba(189,105,77,.55);outline-offset:3px}
     body{min-height:100vh;margin:0;padding:32px 16px;color:var(--text);background:linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.88)),url("img/sfondo.jpg") center calc(50% - var(--background-offset,0px))/cover fixed,radial-gradient(ellipse at 50% -12%,rgba(111,151,116,.18),transparent 42%),var(--bg-main)}
@@ -88,15 +92,22 @@
     .status-message{min-height:1.2em;margin:10px 0 0;color:var(--primary-dark);font-size:.9rem;font-weight:700}
     .status-message.error{color:var(--error)}
     @media(max-width:720px){body{padding:16px 8px}.card{padding:14px}.assignment-grid{grid-template-columns:1fr}.slide-content-grid{grid-template-columns:1fr}.slide-img{width:100%;max-width:320px}input.inline-input{width:88px!important}.slide-navigation{flex-wrap:wrap}.nav-btn{flex:1}#user-badge{flex-basis:100%;margin-left:0}}
+        .mode-note,.exercise-tips{margin:0 0 16px;padding:12px 15px;border:1px solid #d8e5d8;border-radius:12px;background:rgba(255,254,250,.96);color:var(--primary-dark);line-height:1.55}
+    .exercise-tips{padding:0}.exercise-tips summary{padding:12px 15px;font-weight:800;cursor:pointer}.exercise-tips-body{padding:0 16px 13px;line-height:1.55}.exercise-tips-body ul{margin:0;padding-left:22px}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
 </head>
-<body>
+<body data-page-key="003_es_i" data-next-href="003_es_j.html" data-next-label="Vai all’esercizio J →">
   <main class="container">
-    <nav class="top-menu" aria-label="Navigazione Unità 3">
-      <a id="home-link" href="../index.html">← Torna all’inizio</a>
-      <select id="exercise-menu" aria-label="Vai a una pagina dell’Unità 3"></select>
+    <nav class="top-exercises" aria-label="Menu dell’Unità 3">
+      <a id="home-link" class="home-link" href="../index.html" aria-label="Torna alla pagina iniziale" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></a>
       <span id="user-badge" aria-live="polite"></span>
+      <label class="visually-hidden" for="exercise-menu">Seleziona una pagina dell’Unità 3</label>
+      <select id="exercise-menu" aria-label="Pagine dell’Unità 3">
+        <option value="003_lettura.html">Lettura</option><option value="003_es_a.html">Esercizio A</option><option value="003_es_b.html">Esercizio B</option><option value="003_es_c.html">Esercizio C</option><option value="003_es_d.html">Esercizio D</option><option value="003_es_e.html">Esercizio E</option><option value="003_es_f.html">Esercizio F</option><option value="003_es_g.html">Esercizio G</option><option value="003_es_h.html">Esercizio H</option><option value="003_es_i.html" selected>Esercizio I</option><option value="003_es_j.html">Esercizio J</option><option value="003_es_k.html">Esercizio K</option><option value="003_es_l.html">Esercizio L</option><option value="003_es_m.html">Esercizio M</option><option value="003_es_n.html">Esercizio N</option><option value="003_es_o.html">Esercizio O</option><option value="003_es_p.html">Esercizio P</option><option value="003_es_q.html">Esercizio Q</option><option value="003_es_r.html">Esercizio R</option>
+      </select>
+      <label class="visually-hidden" for="grammar-menu">Seleziona una scheda grammaticale</label>
+      <select id="grammar-menu" aria-label="Schede grammaticali"><option value="">Grammatica</option><option value="003_verbi_riflessivi.html">I verbi riflessivi</option></select>
     </nav>
 
     <header class="hero">
@@ -105,9 +116,20 @@
       <p class="hero-subtitle">Впишите пропущенные слова в диалог по ролям (Персонаж A и Персонаж B).</p>
     </header>
 
+        <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
     <div class="instruction-box">
-      💡 <strong>Come funziona:</strong> L’insegnante assegna i due ruoli (<strong>Personaggio A</strong> e <strong>Personaggio B</strong>). Ciascun partecipante completa esclusivamente le battute del proprio personaggio, mentre tutta la classe vede il dialogo completarsi in tempo reale.
+      💡 <strong>Come funziona:</strong> In modalità online l’insegnante assegna i ruoli (<strong>Personaggio A</strong> e <strong>Personaggio B</strong>) e la classe vede i dialoghi completarsi in tempo reale. In modalità a distanza e allenamento, completa entrambi i ruoli nel tuo spazio personale.
     </div>
+    <details class="exercise-tips">
+      <summary>📌 Suggerimenti per completare i dialoghi</summary>
+      <div class="exercise-tips-body" lang="ru"><ul>
+        <li>Прочитайте реплику целиком и определите, какое слово или выражение подходит по смыслу.</li>
+        <li>Обращайте внимание на формы обращения <em>tu</em> и <em>Lei</em>, а также на согласование слов.</li>
+        <li>Проверьте заглавные буквы, апострофы и ударения; кнопки над заданием помогут ввести специальные символы.</li>
+        <li>В онлайн-режиме заполнение распределено между персонажами A и B; в режимах «на расстоянии» и «тренировка» доступны оба персонажа.</li>
+      </ul></div>
+    </details>
 
     <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione dei ruoli">
       <div class="assignment-grid">
@@ -140,10 +162,11 @@
 
       <div id="questions-container"></div>
 
-      <nav class="slide-navigation" aria-label="Navigazione delle schede">
+            <nav class="slide-navigation" aria-label="Navigazione delle schede">
         <button id="previous-question" class="nav-btn" type="button">← Precedente</button>
         <span id="question-progress" class="slide-progress" aria-live="polite"></span>
         <button id="next-question" class="nav-btn" type="button">Successiva →</button>
+        <a id="next-exercise" class="nav-btn" href="003_es_j.html" hidden>Vai all’esercizio J →</a>
       </nav>
       <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
     </section>
@@ -151,16 +174,11 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="firebase-group-scope.js"></script>
+    <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-s2s.js?v=1"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "INSERISCI_API_KEY",
-      authDomain: "esercizi-parlo-italiano.firebaseapp.com",
-      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "esercizi-parlo-italiano",
-      appId: "INSERISCI_APP_ID"
-    };
-
     const itemsData = [
       {
         id: "i1",
@@ -267,8 +285,12 @@
       }
     ];
 
-    function normalizeAnswer(value) {
+        if (window.ParloInlineS2S) {
+      window.ParloInlineS2S.init({ dialogues: itemsData, exercisePath: "003_es_i", unitNumber: 3 });
+    } else {
+      function normalizeAnswer(value) {
       return String(value || "")
+
         .toLocaleLowerCase("it")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -282,24 +304,21 @@
       return accepted.some(answer => normalizeAnswer(answer) === normalizedValue);
     }
 
-    const session = window.parloUnit3Session || {};
-    const params = new URLSearchParams(location.search);
-    const group = String(session.group || params.get("gruppo") || "").trim();
+        const session = window.ParloSession || {};
     const isTeacher = Boolean(session.isTeacher);
-    const teacherName = String(session.teacherName || session.name || "Insegnante").trim();
-    const userName = isTeacher ? teacherName : String(session.name || params.get("nome") || localStorage.getItem("parlo_student_name") || "").trim();
+    const activityMode = ["online", "distance", "individual"].includes(session.activityMode) ? session.activityMode : "online";
+    const independent = activityMode !== "online";
+    const group = String(session.group || "").trim();
+    const safeGroup = session.safeGroup || "sconosciuto";
+    const userName = isTeacher ? String(session.teacherName || session.name || "Insegnante") : String(session.name || "");
     const identity = userName ? { role: isTeacher ? "teacher" : "student", name: userName } : null;
     const safe = value => String(value || "").replace(/[.#$\/\[\]]/g, "_");
-    const safeGroup = session.safeGroup || safe(group);
-
     const teacherControls = document.getElementById("teacher-controls");
     const writerASelect = document.getElementById("writer-a-select");
     const writerBSelect = document.getElementById("writer-b-select");
     const assignmentStatus = document.getElementById("assignment-status");
     const statusMessage = document.getElementById("status-message");
     const badge = document.getElementById("user-badge");
-    const homeLink = document.getElementById("home-link");
-    const exerciseMenu = document.getElementById("exercise-menu");
     const charToolbar = document.getElementById("char-toolbar");
     const questionsContainer = document.getElementById("questions-container");
     const progressNav = document.getElementById("exercise-progress");
@@ -307,53 +326,34 @@
     const previousButton = document.getElementById("previous-question");
     const nextButton = document.getElementById("next-question");
     const progressText = document.getElementById("question-progress");
-
-    teacherControls.hidden = !isTeacher;
-    badge.textContent = group && group !== "sconosciuto"
-      ? `${isTeacher ? "👩‍🏫" : "👤"} ${userName || "Utente"} · ${group}`
-      : "Accedi dalla pagina iniziale per associare l’attività al gruppo.";
-
-    const withSession = url => {
-      if (group && group !== "sconosciuto") url.searchParams.set("gruppo", group);
-      if (!isTeacher && userName) url.searchParams.set("nome", userName);
-      return url;
+    const nextExerciseLink = document.getElementById("next-exercise");
+    const modeNote = document.getElementById("mode-note");
+    const modeDescriptions = {
+      online: isTeacher ? "💬 Modalità online: assegna Personaggio A e B; risposte e contributi sono condivisi in tempo reale." : "💬 Modalità online: completa le battute del personaggio assegnato; il dialogo è condiviso in tempo reale.",
+      distance: isTeacher ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente e i progressi sono disponibili per la revisione." : "🎙️ Modalità a distanza: completa entrambi i ruoli; i progressi sono salvati per la revisione dell’insegnante.",
+      individual: isTeacher ? "🏋️ Modalità allenamento: lo studente lavora nel proprio spazio personale." : "🏋️ Modalità allenamento: esercitati con entrambi i ruoli nel tuo spazio personale."
     };
-
-    homeLink.href = withSession(new URL("../index.html", location.href)).href;
-    exerciseMenu.addEventListener("change", () => {
-      if (exerciseMenu.value) location.assign(withSession(new URL(exerciseMenu.value, location.href)).href);
-    });
+    modeNote.textContent = modeDescriptions[activityMode];
+    badge.textContent = group && group !== "sconosciuto" ? `${isTeacher ? "👩‍🏫" : "👤"} ${userName || "Utente"} · ${group}` : "Accedi dalla pagina iniziale per associare l’attività al gruppo.";
+    teacherControls.hidden = !isTeacher || independent;
+    if (window.ParloExercise) {
+      ParloExercise.initBackgroundParallax?.();
+      ParloExercise.decorateSessionLinks?.();
+      ParloExercise.bindNavigationSelect?.(document.getElementById("exercise-menu"));
+      ParloExercise.bindNavigationSelect?.(document.getElementById("grammar-menu"));
+    }
 
     const emptyAnswers = () => Object.fromEntries(itemsData.map(item => [item.id, new Array(item.keys.length).fill("")]));
-
-    let answersRef = null, groupRoster = [], onlineStudents = new Set(), sharedAnswers = emptyAnswers(), contributions = {}, writerA = null, writerB = null, activeQuestion = 0, isApplyingSnapshot = false;
+    const roleSlots = { A: "personaggio-a", B: "personaggio-b" };
+    const slots = Object.entries(roleSlots).map(([role, id]) => ({ id, label: `Personaggio ${role}` }));
+    let sync = null, onlineStudents = new Set(), sharedAnswers = emptyAnswers(), writerA = null, writerB = null, activeQuestion = 0, isApplyingSnapshot = false;
     let lastActiveInput = null;
     const cards = [];
-    const presenceId = `presence_${Math.random().toString(36).slice(2, 11)}`;
+    const slotFor = role => roleSlots[role];
+    const currentIdentity = () => sync?.identity || identity;
 
-    function parseAssignment(value) {
-      if (value && typeof value === "object" && ["student", "teacher"].includes(value.role) && value.name) return value;
-      if (typeof value === "string" && value) {
-        try {
-          const parsed = JSON.parse(value);
-          if (parsed?.role && parsed?.name) return parsed;
-        } catch (_) {}
-        return { role: "student", name: value };
-      }
-      return null;
-    }
-
-    function assignmentValue(person) {
-      return person?.role && person?.name ? JSON.stringify({ role: person.role, name: person.name }) : "";
-    }
-
-    function matchesIdentity(person) {
-      return Boolean(identity && person && identity.role === person.role && identity.name === person.name);
-    }
-
-    function canWriteRole(roleCode) {
-      if (!answersRef || !identity) return false;
-      return roleCode === "A" ? matchesIdentity(writerA) : matchesIdentity(writerB);
+        function canWriteRole(roleCode) {
+      return Boolean(sync?.canWrite(slotFor(roleCode)));
     }
 
     function canWriteAny() {
@@ -431,42 +431,34 @@
       return options;
     }
 
-    function renderWriterMenus() {
-      if (!isTeacher) return;
-      writerASelect.replaceChildren(...buildWriterOptions(writerA));
-      writerASelect.value = assignmentValue(writerA);
-
-      writerBSelect.replaceChildren(...buildWriterOptions(writerB));
-      writerBSelect.value = assignmentValue(writerB);
-    }
-
-    function updateAssignment() {
+        function updateAssignment() {
       const currentItem = itemsData[activeQuestion];
       const nameA = writerA?.name || "non assegnato";
       const nameB = writerB?.name || "non assegnato";
+      const viewer = currentIdentity();
 
-      if (!group || group === "sconosciuto") {
-        assignmentStatus.textContent = "Accedi tramite il gruppo della classe per utilizzare l’esercizio condiviso.";
-      } else if (!answersRef) {
+      if (!group || safeGroup === "sconosciuto") {
+        assignmentStatus.textContent = "Accedi tramite il gruppo della classe per utilizzare l’esercizio.";
+      } else if (!sync) {
         assignmentStatus.textContent = "Connessione all’esercizio non disponibile. Verifica la connessione e ricarica la pagina.";
-      } else if (!identity) {
+      } else if (independent && isTeacher) {
+        assignmentStatus.textContent = activityMode === "distance" ? "Modalità a distanza: seleziona uno studente per rivedere i suoi progressi." : "Modalità allenamento: lo studente lavora nel proprio spazio personale.";
+      } else if (independent) {
+        assignmentStatus.textContent = `✍️ Modalità individuale: completa entrambi i ruoli (${currentItem.speakerA} e ${currentItem.speakerB}). Le risposte sono salvate nel tuo spazio personale.`;
+      } else if (!viewer) {
         assignmentStatus.textContent = "Accedi dal gruppo della classe con il tuo nome per partecipare.";
       } else if (!writerA && !writerB) {
-        assignmentStatus.textContent = isTeacher
-          ? "Assegna i turni per Personaggio A e Personaggio B dai menu qui sopra."
-          : "L’insegnante non ha ancora assegnato i turni per Personaggio A e Personaggio B.";
+        assignmentStatus.textContent = isTeacher ? "Assegna i turni per Personaggio A e Personaggio B dai menu qui sopra." : "L’insegnante non ha ancora assegnato i turni per Personaggio A e Personaggio B.";
       } else if (canWriteRole("A") && canWriteRole("B")) {
-        assignmentStatus.textContent = `✍️ Hai entrambi i ruoli (${currentItem.speakerA} e ${currentItem.speakerB}), ${identity.name}.`;
+        assignmentStatus.textContent = `✍️ Hai entrambi i ruoli (${currentItem.speakerA} e ${currentItem.speakerB}), ${viewer.name}.`;
       } else if (canWriteRole("A")) {
-        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio A (${currentItem.speakerA}), ${identity.name}. Personaggio B (${currentItem.speakerB}): ${nameB}.`;
+        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio A (${currentItem.speakerA}), ${viewer.name}. Personaggio B (${currentItem.speakerB}): ${nameB}.`;
       } else if (canWriteRole("B")) {
-        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio B (${currentItem.speakerB}), ${identity.name}. Personaggio A (${currentItem.speakerA}): ${nameA}.`;
+        assignmentStatus.textContent = `✍️ È il tuo turno come Personaggio B (${currentItem.speakerB}), ${viewer.name}. Personaggio A (${currentItem.speakerA}): ${nameA}.`;
       } else {
         assignmentStatus.textContent = `🔒 Personaggio A (${currentItem.speakerA}): ${nameA} · Personaggio B (${currentItem.speakerB}): ${nameB}. Puoi seguire il dialogo in tempo reale.`;
       }
-
       cards.forEach((_, index) => syncCard(index));
-      renderWriterMenus();
     }
 
     function updateFeedback(index) {
@@ -491,10 +483,10 @@
         : `Completa gli ${total} spazi del dialogo secondo il ruolo assegnato.`;
     }
 
-    function renderContributions(index) {
+        function renderContributions(index) {
       const item = itemsData[index], card = cards[index];
-      const entries = Object.entries(contributions[item.id] || {})
-        .map(([id, entry]) => ({ ...entry, id }))
+      const entries = ["A", "B"].flatMap(role => Object.entries(sync?.read("contributions", slotFor(role)) || {})
+        .map(([id, entry]) => ({ ...entry, id })))
         .filter(entry => Array.isArray(entry.answers) && entry.answers.some(v => String(v || "").trim()))
         .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0) || a.id.localeCompare(b.id));
 
@@ -542,9 +534,9 @@
       renderContributions(index);
     }
 
-    async function submitContribution(index) {
+        async function submitContribution(index) {
       const item = itemsData[index], card = cards[index];
-      if (!answersRef || !canWriteAny()) return;
+      if (!sync || !canWriteAny()) return;
       const values = (sharedAnswers[item.id] || []).map(v => String(v || "").trim());
       if (!values.some(Boolean)) {
         setStatus("Inserisci almeno una parola prima di inviare il contributo.", true);
@@ -552,14 +544,15 @@
       }
       card.submit.disabled = true;
       setStatus("Invio del contributo…");
-      const record = answersRef.child(`tokenData/contributions/${item.id}`).push();
+            const author = currentIdentity();
+      const role = canWriteRole("A") ? "A" : "B";
       try {
-        await record.set({
+        await sync.push("contributions", {
           answers: values,
-          author: identity.name,
-          role: identity.role,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+          author: author?.name || "Partecipante",
+          role: author?.role || "student",
+          timestamp: Date.now()
+        }, slotFor(role));
         setStatus("✅ Dialogo aggiunto allo storico della scheda.");
       } catch (error) {
         console.error("Errore invio contributo:", error);
@@ -671,7 +664,7 @@
           updateFeedback(index);
           card.submit.disabled = !canWriteAny() || !values.some(v => String(v || "").trim());
           setStatus("");
-          answersRef.child(`tokenData/answers/${item.id}/${kIdx}`).set(input.value).catch(error => {
+                    sync?.write(`answers/${item.id}/${kIdx}`, input.value, slotFor(roleCode)).catch(error => {
             console.error("Errore salvataggio parola:", error);
             setStatus("⚠️ Risposta non sincronizzata. Controlla la connessione.", true);
           });
@@ -717,10 +710,11 @@
     function updateNavigation() {
       cards.forEach((card, index) => card.classList.toggle("active", index === activeQuestion));
       progressNav.querySelectorAll("button").forEach((btn, index) => btn.setAttribute("aria-current", index === activeQuestion ? "step" : "false"));
-      progressText.textContent = `Dialogo ${activeQuestion + 1} di ${itemsData.length}`;
+            progressText.textContent = `Dialogo ${activeQuestion + 1} di ${itemsData.length}`;
       progressFill.style.width = `${((activeQuestion + 1) / itemsData.length) * 100}%`;
       previousButton.disabled = activeQuestion === 0;
       nextButton.disabled = activeQuestion === itemsData.length - 1;
+      nextExerciseLink.hidden = activeQuestion !== itemsData.length - 1;
       updateAssignment();
     }
 
@@ -738,121 +732,62 @@
       else if (event.key === "ArrowRight") navigateTo(activeQuestion + 1);
     });
 
-    function loadRoster(database) {
-      if (!group || group === "sconosciuto") return;
-      database.ref(`configurazioneScuola/gruppi/${safeGroup}`).on("value", snapshot => {
-        const data = snapshot.val() || {}, unit = Number(data.unitNumber || 0);
-        const active = Object.values(data.studenti || {}).filter(p => p?.nome);
-        const inactive = Object.values(data.studentiInattivi || {}).filter(p => p?.nome && Number(p.unitNumber ?? unit) >= 3);
-        groupRoster = [...new Map([...active, ...inactive].map(p => [p.nome, p])).values()].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
-        renderWriterMenus();
-      });
-    }
-
-    function registerPresence(database) {
-      if (!userName || isTeacher || !answersRef) return;
-      const ref = answersRef.child(`presence/${safe(userName)}/${presenceId}`);
-      database.ref(".info/connected").on("value", snapshot => {
-        if (snapshot.val() !== true) return;
-        ref.onDisconnect().remove().then(() => ref.set({ name: userName, role: "student", connectedAt: Date.now() })).catch(e => console.error(e));
-      });
-    }
-
-    function updateOnline(value) {
-      onlineStudents = new Set();
-      const visit = node => {
-        if (!node || typeof node !== "object") return;
-        if (node.name && (!node.role || node.role === "student")) onlineStudents.add(node.name);
-        Object.values(node).forEach(child => { if (child && typeof child === "object") visit(child); });
-      };
-      visit(value);
-      renderWriterMenus();
-    }
-
-    writerASelect.addEventListener("change", () => {
-      if (!isTeacher || !answersRef) return;
-      let assignment = null;
-      try { assignment = writerASelect.value ? JSON.parse(writerASelect.value) : null; } catch (_) {}
-      writerA = assignment;
-      updateAssignment();
-      answersRef.child("controlAssignments/writerA").set(assignment).catch(error => {
-        console.error("Errore assegnazione Personaggio A:", error);
-        setStatus("Impossibile salvare il turno assegnato per Personaggio A.", true);
-      });
-    });
-
-    writerBSelect.addEventListener("change", () => {
-      if (!isTeacher || !answersRef) return;
-      let assignment = null;
-      try { assignment = writerBSelect.value ? JSON.parse(writerBSelect.value) : null; } catch (_) {}
-      writerB = assignment;
-      updateAssignment();
-      answersRef.child("controlAssignments/writerB").set(assignment).catch(error => {
-        console.error("Errore assegnazione Personaggio B:", error);
-        setStatus("Impossibile salvare il turno assegnato per Personaggio B.", true);
-      });
-    });
-
-    if (group && group !== "sconosciuto" && window.firebase) {
-      try {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        answersRef = database.ref("esercizi/unita3-dialoghi-i");
-        loadRoster(database);
-        registerPresence(database);
-        answersRef.child("presence").on("value", snapshot => updateOnline(snapshot.val() || {}));
-        answersRef.on("value", snapshot => {
-          const data = snapshot.val() || {}, token = data.tokenData || {}, assignments = data.controlAssignments || {};
-          writerA = parseAssignment(assignments.writerA ?? assignments.writer ?? token.currentWriter);
-          writerB = parseAssignment(assignments.writerB);
-          const saved = token.answers || {};
-          sharedAnswers = emptyAnswers();
-          itemsData.forEach(item => {
-            const values = saved[item.id];
-            if (Array.isArray(values)) {
-              sharedAnswers[item.id] = item.keys.map((_, idx) => String(values[idx] ?? values[String(idx)] ?? ""));
-            } else if (values && typeof values === "object") {
-              sharedAnswers[item.id] = item.keys.map((_, idx) => String(values[idx] ?? values[String(idx)] ?? ""));
-            }
-          });
-          contributions = token.contributions || {};
-          isApplyingSnapshot = true;
-          cards.forEach((card, index) => card.inputs.forEach((input, field) => {
-            if (document.activeElement !== input) {
-              input.value = String(sharedAnswers[itemsData[index].id][field] || "");
-            }
-          }));
-          isApplyingSnapshot = false;
-          updateNavigation();
-        }, error => {
-          console.error("Errore dati esercizio:", error);
-          setStatus("Impossibile leggere i dati condivisi del gruppo.", true);
-          updateAssignment();
+        function loadAnswersFromSync() {
+      sharedAnswers = emptyAnswers();
+      itemsData.forEach(item => {
+        const roleAnswers = {};
+        ["A", "B"].forEach(role => {
+          roleAnswers[role] = sync?.read(`answers/${item.id}`, slotFor(role)) || {};
         });
-      } catch (error) {
-        console.error("Errore inizializzazione Firebase:", error);
-        setStatus("Servizio dati condivisi non disponibile.", true);
-      }
-    } else {
-      setStatus("Accedi dalla pagina iniziale tramite il gruppo della classe per usare l’esercizio condiviso.", true);
-      updateAssignment();
+        sharedAnswers[item.id] = item.keys.map((_, idx) => String(roleAnswers[item.keyRoles[idx] || "A"]?.[idx] ?? roleAnswers[item.keyRoles[idx] || "A"]?.[String(idx)] ?? ""));
+      });
+      isApplyingSnapshot = true;
+      cards.forEach((card, index) => card.inputs.forEach((input, field) => {
+        if (document.activeElement !== input) input.value = String(sharedAnswers[itemsData[index].id][field] || "");
+      }));
+      isApplyingSnapshot = false;
     }
 
-    updateNavigation();
-
-    let backgroundUpdatePending = false;
-    function updateBackgroundParallax() {
-      if (backgroundUpdatePending) return;
-      backgroundUpdatePending = true;
-      requestAnimationFrame(() => {
-        const offset = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : Math.min(window.scrollY * .12, 180);
-        document.body.style.setProperty("--background-offset", `${offset}px`);
-        backgroundUpdatePending = false;
+    function initializeSync() {
+      if (!group || safeGroup === "sconosciuto") {
+        setStatus("Accedi dalla pagina iniziale tramite il gruppo della classe per usare l’esercizio.", true);
+        updateAssignment();
+        return;
+      }
+      const database = window.ParloModes?.initFirebase?.();
+      if (!database) {
+        setStatus("Servizio dati condivisi non disponibile. Verifica la connessione e ricarica la pagina.", true);
+        updateAssignment();
+        return;
+      }
+      const exerciseRef = database.ref(`esercizi/gruppi/${safeGroup}/003_es_i`);
+      sync = window.ParloModes.createSync({
+        mode: "multi-turn", ref: exerciseRef, database, session, slots,
+        onChange(state) {
+          onlineStudents = state?.onlineStudents || new Set();
+          writerA = sync.assignmentFor(slotFor("A"));
+          writerB = sync.assignmentFor(slotFor("B"));
+          loadAnswersFromSync();
+          updateNavigation();
+        },
+        onError(error) { setStatus(`⚠️ Errore di sincronizzazione: ${error?.message || "controlla la connessione"}`, true); }
+      });
+      if (isTeacher && !independent) {
+        sync.bindAssignmentSelect(writerASelect, slotFor("A"));
+        sync.bindAssignmentSelect(writerBSelect, slotFor("B"));
+        window.ParloModes.loadGroupRoster(database, safeGroup, 3, roster => sync.setRoster(roster));
+      }
+      database.ref(".info/connected").on("value", snapshot => {
+        if (snapshot.val() === false) setStatus("⚠️ Connessione interrotta: i salvataggi potrebbero non riuscire.", true);
+        else if (!statusMessage.classList.contains("error")) setStatus("");
       });
     }
-    window.addEventListener("scroll", updateBackgroundParallax, { passive: true });
-    updateBackgroundParallax();
+
+        initializeSync();
+    updateNavigation();
+    }
   </script>
+
   <script src="../classroom-notes.js"></script>
 </body>
 </html>
