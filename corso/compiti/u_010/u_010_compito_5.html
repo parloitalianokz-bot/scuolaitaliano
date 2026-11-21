@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 10 — Compito 5: Tempo, interrogativi, colori e sapere</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28; background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5;
+    }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 32px 16px 56px; background: linear-gradient(rgba(250,248,241,.86),rgba(250,248,241,.92)), url("../../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6; }
+    main { width: min(100%, 900px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1,h2,h3 { color: var(--green); }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+    header,.panel,.question { margin-bottom: 22px; padding: clamp(22px,4vw,36px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); box-shadow: 0 12px 34px rgba(43,69,46,.08); }
+    header { padding: clamp(26px,5vw,44px); border-top: 4px solid var(--green); text-align: center; }
+    header > a { display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 18px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem,5vw,2.55rem); letter-spacing: -.04em; line-height: 1.15; }
+    header p { max-width: 720px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+    .note { color: var(--muted); font-size: .9rem; }
+    .grammar-hint { max-width: 720px; margin: 18px auto 0; text-align: left; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; overflow: hidden; }
+    .grammar-hint summary { padding: 11px 16px; color: var(--green); font-weight: 700; font-size: .92rem; cursor: pointer; }
+    .grammar-hint-body { padding: 0 16px 14px; border-top: 1px solid #eceae2; font-size: .9rem; line-height: 1.6; color: #3a3f39; }
+    .grammar-hint-body ul { margin: 10px 0 0; padding-left: 18px; }
+    .grammar-hint-body li { margin-bottom: 6px; }
+    #page-message:not(:empty) { margin: 0 0 20px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 13px; background: var(--green-light); color: var(--green); font-weight: 700; }
+    #workspace[hidden] { display: none; }
+    .progress-panel { padding: 18px 22px; }
+    .progress-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--green); font-weight: 800; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: .82rem; }
+    .progress-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .legend-dot.in-progress { background: #e0ae28; }
+    .legend-dot.completed { background: var(--success); }
+    .progress-track { height: 8px; margin-bottom: 15px; overflow: hidden; border-radius: 99px; background: var(--green-light); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green),#8db68c); transition: width .2s ease; }
+    .progress-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .progress-step { width: 38px; height: 38px; border: 2px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-weight: 800; cursor: pointer; }
+    .progress-step.in-progress { border-color: #d6a72c; background: #fff3c4; color: #674d00; }
+    .progress-step.completed { border-color: #7ea882; background: var(--green-light); color: var(--green); }
+    .progress-step.current { box-shadow: 0 0 0 3px rgba(47,87,57,.2); }
+    .section-heading { margin: 0 0 8px; font-size: clamp(1.2rem,3vw,1.5rem); }
+    .section-instructions { margin: 0 0 18px; color: var(--muted); line-height: 1.6; white-space: pre-line; }
+    .match-column,.item-block { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #faf9f5; }
+    .match-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,1.05fr); align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid #e7e5dc; }
+    .match-row:last-child { border-bottom: 0; }
+    .match-row p { margin: 0; line-height: 1.55; }
+    .match-select,.answer-input,.open-input { min-height: 42px; padding: 9px 11px; border: 1.5px solid #b9cdb9; border-radius: 9px; background: #fff; color: inherit; font: inherit; }
+    .match-select { width: 100%; min-width: 0; color: var(--green); font-weight: 700; cursor: pointer; }
+    .item-block { margin: 14px 0; background: #fff; }
+    .item-block p { margin: 0 0 10px; line-height: 1.65; }
+    .answer-input { display: block; width: 100%; }
+    .open-input { display: block; width: 100%; min-height: 140px; margin-top: 10px; line-height: 1.6; resize: vertical; }
+    .example-line { margin: 0 0 16px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; line-height: 1.6; white-space: pre-line; }
+    .slide-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,254,250,.94); }
+    button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--green); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover:not(:disabled) { background: var(--green-dark); }
+    button.secondary { border: 1.5px solid var(--green); background: #fff; color: var(--green); }
+    button.secondary:hover:not(:disabled) { background: var(--green-light); }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    .position { color: var(--green); font-weight: 800; text-align: center; }
+    .task-submit { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green); border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%); }
+    .task-submit.submitted { border-color: var(--success); background: var(--success-bg); }
+    .task-submit p { margin: 0; line-height: 1.5; }
+    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
+    .student-review-feedback { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; background: #fff8f2; }
+    .student-review-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eadfd5; }
+    .student-review-row p { margin: 4px 0; white-space: pre-wrap; }
+    .student-review-grade { color: var(--green); font-weight: 800; }
+    @media(max-width:650px) {
+      body { padding: 16px 9px 36px; }
+      .slide-navigation { flex-wrap: wrap; justify-content: center; }
+      .slide-navigation button { flex: 1 1 130px; }
+      .position { order: -1; width: 100%; }
+      .match-row { grid-template-columns: 1fr; }
+      header,.panel,.question { padding: 19px; }
+      .task-submit button { width: 100%; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../../compiti.html">← Torna ai compiti a casa</a>
+      <span class="eyebrow">Italiano · Unità 10 · Compito 5</span>
+      <h1>Tempo, interrogativi, colori e sapere</h1>
+      <p>Ripassa le espressioni temporali, gli interrogativi <em>che</em> e <em>quale/quali</em>, le forme di <em>lo stesso</em>, il presente di <em>sapere</em> e i colori con la concordanza.</p>
+      <p class="note">Le risposte si salvano automaticamente. Puoi inviare il compito anche se incompleto. / Ответы сохраняются автоматически. Можно отправить работу, даже если она не завершена.</p>
+      <details class="grammar-hint">
+        <summary>💡 Краткая памятка / Promemoria</summary>
+        <div class="grammar-hint-body"><ul>
+          <li><strong>Время:</strong> l'altro ieri · ieri · oggi · domani · dopodomani.</li>
+          <li><strong>Один и тот же:</strong> lo stesso, la stessa, gli stessi, le stesse — согласуются с существительным.</li>
+          <li><strong>Вопросительные слова:</strong> che для общих вопросов; quale/quali — для выбора и конкретных предметов.</li>
+          <li><strong>Sapere:</strong> so, sai, sa, sappiamo, sapete, sanno.</li>
+          <li><strong>Цвет:</strong> Di che colore è/sono…? Прилагательное согласуется с существительным; <em>blu</em> не изменяется.</li>
+        </ul></div>
+      </details>
+    </header>
+
+    <p id="page-message" role="status" aria-live="polite"></p>
+    <section id="workspace" hidden>
+      <nav class="panel progress-panel" aria-label="Avanzamento del compito">
+        <div class="progress-label"><span>Avanzamento / Прогресс</span><span id="progress-count"></span></div>
+        <div class="progress-legend" aria-label="Legenda avanzamento"><span><i class="legend-dot in-progress"></i> In corso</span><span><i class="legend-dot completed"></i> Completata</span></div>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <div id="progress-list" class="progress-list"></div>
+      </nav>
+      <div id="section-content"></div>
+      <nav class="slide-navigation" aria-label="Navigazione degli esercizi">
+        <button id="previous-section" class="secondary" type="button">← Esercizio precedente</button>
+        <span id="section-position" class="position" aria-live="polite"></span>
+        <button id="next-section" class="secondary" type="button">Esercizio successivo →</button>
+      </nav>
+      <section id="task-submit-box" class="task-submit" aria-label="Consegna del compito">
+        <p id="submit-description"><strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span></p>
+        <button id="submit-task" type="button">Invia il compito all’insegnante</button>
+      </section>
+      <p id="save-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../homework-review.js"></script>
+  <script id="homework-task-data" type="application/json">
+    {"title":"Unità 10 — Compito 5: Tempo, interrogativi, colori e sapere","instructions":"Espressioni temporali; interrogativi che/quale/quali; lo stesso e le sue forme; sapere al presente; colori e concordanza."}
+  </script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const taskTitle = "Unità 10 — Compito 5: Tempo, interrogativi, colori e sapere";
+    const sections = [
+      {
+        id: "sec1", title: "Gruppo 1 · Esercizio 1 — Domande e risposte", kind: "matching",
+        instructions: "Abbina ogni domanda alla risposta corretta. / Соедини каждый вопрос с подходящим ответом.",
+        rows: [
+          {id:"q1",prompt:"Che cosa studi di bello stasera?",choices:[["E","Ripasso la coniugazione del verbo sapere e la grammatica."]],expected:"E"},
+          {id:"q2",prompt:"Quale macchina preferisci comprare tra queste due?",choices:[["C","Quella rossa nell'autosalone."]],expected:"C"},
+          {id:"q3",prompt:"Che ore sono?",choices:[["B","Sono le 8:00 in punto."]],expected:"B"},
+          {id:"q4",prompt:"Quali sono i tuoi cantanti italiani preferiti?",choices:[["F","Sono Marco Mengoni e Laura Pausini."]],expected:"F"},
+          {id:"q5",prompt:"Di che colore è il tuo cappotto nuovo?",choices:[["A","È marrone, mentre le scarpe sono nere."]],expected:"A"},
+          {id:"q6",prompt:"A che ora comincia la lezione online?",choices:[["D","Comincia esattamente alle nove."]],expected:"D"}
+        ], options:[["A","È marrone, mentre le scarpe sono nere."],["B","Sono le 8:00 in punto."],["C","Quella rossa nell'autosalone."],["D","Comincia esattamente alle nove."],["E","Ripasso la coniugazione del verbo sapere e la grammatica."],["F","Sono Marco Mengoni e Laura Pausini."]]
+      },
+      {
+        id: "sec2", title: "Gruppo 1 · Esercizio 2 — Lo stesso e la concordanza", kind: "matching",
+        instructions: "Scegli la forma corretta di lo stesso. / Выбери правильную форму выражения lo stesso.",
+        rows: [
+          {id:"q1",prompt:"Marco e suo fratello hanno ___ colore di capelli.",choices:[["A","lo stesso"],["B","la stessa"],["C","gli stessi"]],expected:"A"},
+          {id:"q2",prompt:"Maria legge sempre ___ cose ai suoi nipoti.",choices:[["A","gli stessi"],["B","le stesse"],["C","la stessa"]],expected:"B"},
+          {id:"q3",prompt:"Io e il mio amico ordiniamo ___ piatto al ristorante.",choices:[["A","lo stesso"],["B","la stessa"],["C","le stesse"]],expected:"A"},
+          {id:"q4",prompt:"Paolo porta sempre ___ camicia bianca.",choices:[["A","le stesse"],["B","la stessa"],["C","gli stessi"]],expected:"B"},
+          {id:"q5",prompt:"Noi abbiamo ___ gusti musicali.",choices:[["A","lo stesso"],["B","la stessa"],["C","gli stessi"]],expected:"C"},
+          {id:"q6",prompt:"Queste due borse in vetrina hanno ___ prezzo.",choices:[["A","la stessa"],["B","lo stesso"],["C","le stesse"]],expected:"B"}
+        ]
+      },
+      {
+        id: "sec3", title: "Gruppo 2 · Esercizio 3 — Tempo e ordine delle parole", kind: "fields",
+        instructions: "Scrivi le espressioni in ordine cronologico e riordina le parole per formare le frasi. / Расположи выражения времени по порядку и составь предложения из слов.",
+        example: "Ordine cronologico: passato → presente → futuro.",
+        fields: [
+          {id:"q1",prompt:"Parte A · Domani – L'altro ieri – Dopodomani – Oggi – Ieri",expected:["L'altro ieri, ieri, oggi, domani, dopodomani","L'altro ieri - ieri - oggi - domani - dopodomani"]},
+          {id:"q2",prompt:"Parte B · borsa / di / è / la / che / colore / tua / ?",expected:["Di che colore è la tua borsa?","Di che colore è la tua borsa"]},
+          {id:"q3",prompt:"Parte B · indirizzo / tuo / qual / è / il / ?",expected:["Qual è il tuo indirizzo?","Qual è il tuo indirizzo"]},
+          {id:"q4",prompt:"Parte B · stessi / porta / Paolo / occhiali / gli / sempre",expected:["Paolo porta sempre gli stessi occhiali.","Paolo porta sempre gli stessi occhiali"]}
+        ]
+      },
+      {
+        id: "sec4", title: "Gruppo 2 · Esercizio 4 — Dal singolare al plurale", kind: "fields",
+        instructions: "Trasforma le frasi dal singolare al plurale. Fai attenzione ad articoli, nomi, colori e forme di lo stesso. / Преобразуй предложения из единственного числа во множественное. Следи за артиклями, существительными, цветами и формами lo stesso.",
+        example: "Modello: La borsa è rossa. → Le borse sono rosse.",
+        fields: [
+          {id:"q1",prompt:"Ho comprato lo stesso stivale marrone.",expected:["Ho comprato gli stessi stivali marroni.","Ho comprato gli stessi stivali marroni"]},
+          {id:"q2",prompt:"Il pantalone è blu.",expected:["I pantaloni sono blu.","I pantaloni sono blu"]},
+          {id:"q3",prompt:"La poltrona della casa è grigia.",expected:["Le poltrone della casa sono grigie.","Le poltrone della casa sono grigie"]},
+          {id:"q4",prompt:"Lui indossa lo stesso vestito.",expected:["Lui indossa gli stessi vestiti.","Lui indossa gli stessi vestiti"]}
+        ]
+      },
+      {
+        id: "sec5", title: "Gruppo 3 · Esercizio 5 — Sapere e interrogativi", kind: "fields",
+        instructions: "Completa il testo con la forma corretta di sapere e con che, quale o quali. / Заполни текст правильной формой sapere и словами che, quale или quali.",
+        fields: [
+          {id:"q1",prompt:"Oggi io non ___ (sapere)",expected:["so"]},
+          {id:"q2",prompt:"___ (che / quale) vestito indossare per la festa.",expected:["quale"]},
+          {id:"q3",prompt:"E tu, ___ (sapere)",expected:["sai"]},
+          {id:"q4",prompt:"___ (che / quale) sono i tuoi piatti preferiti nel menu?",expected:["quali"]},
+          {id:"q5",prompt:"La mia amica Assel ___ (sapere) sempre tutto sulla grammatica.",expected:["sa"]},
+          {id:"q6",prompt:"Noi ___ (sapere) che",expected:["sappiamo"]},
+          {id:"q7",prompt:"___ (che / quale) genere di film vi piace di più.",expected:["che"]},
+          {id:"q8",prompt:"Voi ___ (sapere) a",expected:["sapete"]},
+          {id:"q9",prompt:"___ (che / quale) ora comincia il corso?",expected:["che"]},
+          {id:"q10",prompt:"Infine, i ragazzi ___ (sapere)",expected:["sanno"]},
+          {id:"q11",prompt:"___ (che / quale) problemi ci sono.",expected:["quali"]}
+        ]
+      },
+      {
+        id: "sec6", title: "Gruppo 3 · Esercizio 6 — Preferenze e coincidenze", kind: "open",
+        instructions: "Trasforma la tabella in un breve testo completo. Usa lo stesso / la stessa / gli stessi / le stesse quando due elementi coincidono. / Составь связный текст по таблице. Используй lo stesso / la stessa / gli stessi / le stesse, если элементы совпадают.",
+        example: "Orlan ha comprato un cappotto marrone. Yaru ha comprato una borsa rossa, ma Orlan e Yaru frequentano…",
+        prompt: "Orlan: cappotto marrone · ristorante Venezia\nYaru: borsa rossa · ristorante Venezia\nElena: scarpe nere · ristorante Roma\n\nScrivi 3–5 frasi e indica quali persone frequentano lo stesso ristorante. / Напиши 3–5 предложений и укажи, кто ходит в один и тот же ресторан."
+      },
+      {
+        id: "sec7", title: "Gruppo 4 · Esercizio 7 — Dialogo: programma e colori", kind: "openItems",
+        instructions: "Completa le battute di B in modo coerente. Usa sapere, un interrogativo e un'espressione temporale. / Закончи реплики B по смыслу. Используй sapere, вопросительное слово и выражение времени.",
+        items: [
+          {id:"q1",title:"1. Che ore sono?",prompt:"A: Ciao! Sai per caso che ore sono?\nB:"},
+          {id:"q2",title:"2. Quale vestito?",prompt:"A: Grazie! Quale vestito pensi di mettere per uscire stasera?\nB:"},
+          {id:"q3",title:"3. Di che colore?",prompt:"A: Bello! E di che colore sono le scarpe che vuoi abbinare?\nB:"},
+          {id:"q4",title:"4. Quando studiare?",prompt:"A: Capito. Ci vediamo domani o dopodomani per studiare insieme?\nB:"}
+        ]
+      },
+      {
+        id: "sec8", title: "Gruppo 4 · Esercizio 8 — Role-play in negozio", kind: "open",
+        instructions: "Scrivi un breve dialogo tra cliente e commesso/a in un negozio di abbigliamento a Venezia. Usa tutte le indicazioni. / Напиши короткий диалог покупателя и продавца в магазине одежды в Венеции. Используй все пункты.",
+        prompt: "Nel dialogo: chiedi quale capo scegliere tra due; parla del colore desiderato; dì che un amico ha comprato lo stesso/la stessa capo/a la settimana scorsa; chiedi il prezzo e conferma l'acquisto.\n\nНапиши 6–8 реплик. Используй quale/quali, di che colore, lo stesso/la stessa, а также вопрос о цене.",
+        placeholder: "Cliente: …\nCommesso/a: …"
+      }
+    ];
+
+    let sectionIndex = 0, answers = {}, teacherReviewData = null, submissionRef = null;
+    let studentName = "", submissionStatus = "in-progress", saveTimer = null, hasPendingSave = false;
+    const assignmentId = new URLSearchParams(location.search).get("assignment");
+    const workspace = document.getElementById("workspace");
+    const content = document.getElementById("section-content");
+    const pageMessage = document.getElementById("page-message");
+    const saveStatus = document.getElementById("save-status");
+    const progressList = document.getElementById("progress-list");
+    const submitBox = document.getElementById("task-submit-box");
+    const submitDesc = document.getElementById("submit-description");
+    const submitBtn = document.getElementById("submit-task");
+
+    window.addEventListener("beforeunload", event => {
+      if (hasPendingSave) { event.preventDefault(); event.returnValue = ""; }
+    });
+    function persistAnswer(sectionId, answerId, value) {
+      if (submissionStatus === "reviewed") return;
+      if (submissionStatus === "pending") { submissionStatus = "in-progress"; setSubmittedVisualState(false); }
+      answers[sectionId] ||= {}; answers[sectionId][answerId] = value;
+      renderProgress(); hasPendingSave = true; saveStatus.textContent = "Salvataggio delle risposte…";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(async () => {
+        if (!submissionRef) { hasPendingSave = false; return; }
+        try {
+          await submissionRef.child(`answers/${sectionId}`).set(answers[sectionId]);
+          await submissionRef.update({studentName,status:submissionStatus,updatedAt:Date.now()});
+          hasPendingSave = false; saveStatus.textContent = "Risposte salvate automaticamente. ✓";
+        } catch (_) { hasPendingSave = false; saveStatus.textContent = "Errore di salvataggio. Controlla la connessione."; }
+      }, 350);
+    }
+    function setSubmittedVisualState(isSubmitted) {
+      submitBox.classList.toggle("submitted",isSubmitted);
+      if (isSubmitted) {
+        submitDesc.innerHTML = "<strong>✓ Compito inviato all’insegnante!</strong><br><span class=\"note\">Puoi comunque modificare le risposte e inviare di nuovo se necessario.</span>";
+        submitBtn.textContent = "Invia di nuovo il compito";
+      } else {
+        submitDesc.innerHTML = "<strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class=\"note\">Можно отправить работу, даже если она не завершена.</span>";
+        submitBtn.textContent = "Invia il compito all’insegnante";
+      }
+    }
+    function makeInput(section, field, index) {
+      const input = document.createElement("input"); input.type = "text"; input.className = "answer-input";
+      input.autocomplete = "off"; input.placeholder = "Scrivi qui… / Напиши здесь…";
+      input.setAttribute("aria-label",`Risposta ${index + 1}: ${field.prompt}`);
+      input.value = answers[section.id]?.[field.id] || "";
+      input.addEventListener("input",() => persistAnswer(section.id,field.id,input.value));
+      return input;
+    }
+    function renderMatching(section, card) {
+      const column = document.createElement("div"); column.className = "match-column";
+      section.rows.forEach((row,index) => {
+        const wrapper = document.createElement("div"); wrapper.className = "match-row";
+        const prompt = document.createElement("p"); prompt.textContent = `${index + 1}. ${row.prompt}`;
+        const select = document.createElement("select"); select.className = "match-select";
+        select.setAttribute("aria-label",`Risposta ${index + 1}: ${row.prompt}`);
+        select.add(new Option("Scegli una risposta…",""));
+        (row.choices || section.options).forEach(([value,label]) => select.add(new Option(`${value} · ${label}`,value)));
+        select.value = answers[section.id]?.[row.id] || "";
+        select.addEventListener("change",() => persistAnswer(section.id,row.id,select.value));
+        wrapper.append(prompt,select); column.appendChild(wrapper);
+      });
+      card.appendChild(column);
+    }
+    function renderFields(section, card) {
+      if (section.example) card.appendChild(Object.assign(document.createElement("p"),{className:"example-line",textContent:section.example}));
+      section.fields.forEach((field,index) => {
+        const block = document.createElement("div"); block.className = "item-block";
+        const prompt = document.createElement("p"); prompt.textContent = `${index + 1}. ${field.prompt}`;
+        block.append(prompt,makeInput(section,field,index)); card.appendChild(block);
+      });
+    }
+    function renderOpen(section, card) {
+      if (section.example) card.appendChild(Object.assign(document.createElement("p"),{className:"example-line",textContent:section.example}));
+      const block = document.createElement("div"); block.className = "item-block";
+      const prompt = document.createElement("p"); prompt.style.whiteSpace = "pre-line"; prompt.textContent = section.prompt;
+      const textarea = document.createElement("textarea"); textarea.className = "open-input"; textarea.rows = 7;
+      textarea.placeholder = section.placeholder || "Scrivi qui la tua risposta in italiano… / Напиши ответ по-итальянски…";
+      textarea.setAttribute("aria-label",section.title); textarea.value = answers[section.id]?.q1 || "";
+      textarea.addEventListener("input",() => persistAnswer(section.id,"q1",textarea.value));
+      block.append(prompt,textarea); card.appendChild(block);
+    }
+    function renderOpenItems(section, card) {
+      section.items.forEach((item,index) => {
+        const block = document.createElement("div"); block.className = "item-block";
+        const heading = document.createElement("h3"); heading.textContent = item.title;
+        const prompt = document.createElement("p"); prompt.style.whiteSpace = "pre-line"; prompt.textContent = item.prompt;
+        const textarea = document.createElement("textarea"); textarea.className = "open-input"; textarea.rows = 3;
+        textarea.placeholder = "Scrivi qui la tua battuta… / Напиши свою реплику…";
+        textarea.setAttribute("aria-label",item.title); textarea.value = answers[section.id]?.[item.id] || "";
+        textarea.addEventListener("input",() => persistAnswer(section.id,item.id,textarea.value));
+        block.append(heading,prompt,textarea); card.appendChild(block);
+      });
+    }
+    function sectionRows(section, state) {
+      if (section.kind === "matching") return section.rows.map(row => {
+        const selected = state[row.id] || "";
+        const choices = row.choices || section.options;
+        const chosenText = choices.find(([value]) => value === selected)?.[1];
+        return {id:row.id,prompt:row.prompt,answer:chosenText ? `${selected} · ${chosenText}` : "Nessuna risposta selezionata",expected:`${row.expected} · ${(choices.find(([value]) => value === row.expected) || ["",""])[1]}`,autoCheck:true};
+      });
+      if (section.kind === "fields") return section.fields.map(field => ({id:field.id,prompt:field.prompt,answer:state[field.id] || "Nessuna risposta inserita",expected:field.expected,autoCheck:true}));
+      if (section.kind === "openItems") return section.items.map(item => ({id:item.id,prompt:`${item.title}\n${item.prompt}`,answer:state[item.id] || "Nessuna risposta inserita",expected:"Risposta aperta valutata dal docente",autoCheck:false}));
+      return [{id:"q1",prompt:section.prompt || section.title,answer:state.q1 || "Nessuna risposta inserita",expected:"Risposta aperta valutata dal docente",autoCheck:false}];
+    }
+    function buildTeacherReviewRows(submission) {
+      const saved = submission.answers || {};
+      return sections.map(section => ({id:section.id,title:section.title,rows:sectionRows(section,saved[section.id] || {})}));
+    }
+    function appendReviewFeedback(card,section) {
+      const reviewed = teacherReviewData?.answers?.[section.id] || {};
+      const feedbackRows = sectionRows(section,answers[section.id] || {}).flatMap(row => {
+        const key = String(row.id).replace(/[.#$\/\[\]]/g,"_"); const review = reviewed[key];
+        return review && (review.grade || review.comment) ? [{row,review}] : [];
+      });
+      if (!feedbackRows.length) return;
+      const panel = document.createElement("section"); panel.className = "student-review-feedback";
+      panel.appendChild(Object.assign(document.createElement("h3"),{textContent:"Feedback dell’insegnante"}));
+      feedbackRows.forEach(({row,review}) => {
+        const item = document.createElement("div"); item.className = "student-review-row";
+        item.appendChild(Object.assign(document.createElement("p"),{textContent:row.prompt}));
+        if (review.grade) item.appendChild(Object.assign(document.createElement("p"),{className:"student-review-grade",textContent:review.grade === "approved" ? "✓ Approvata" : "Da rivedere"}));
+        if (review.comment) item.appendChild(Object.assign(document.createElement("p"),{textContent:`Commento: ${review.comment}`}));
+        panel.appendChild(item);
+      });
+      card.appendChild(panel);
+    }
+    function answerCount(section) {
+      if (section.kind === "matching") return section.rows.length;
+      if (section.kind === "fields") return section.fields.length;
+      if (section.kind === "openItems") return section.items.length;
+      return 1;
+    }
+    function renderProgress() {
+      progressList.replaceChildren();
+      sections.forEach((section,index) => {
+        const total = answerCount(section);
+        const count = Object.values(answers[section.id] || {}).filter(value => String(value || "").trim()).length;
+        const button = document.createElement("button"); button.type = "button";
+        button.className = `progress-step${index === sectionIndex ? " current" : ""}${count >= total ? " completed" : count ? " in-progress" : ""}`;
+        button.textContent = String(index + 1); button.setAttribute("aria-current",index === sectionIndex ? "step" : "false");
+        button.setAttribute("aria-label",`Vai all'esercizio ${index + 1}: ${section.title} (${count}/${total} risposte)`);
+        button.addEventListener("click",() => {sectionIndex = index; renderSection(); window.scrollTo(0,0);}); progressList.appendChild(button);
+      });
+      document.getElementById("progress-count").textContent = `${sectionIndex + 1} / ${sections.length}`;
+      document.getElementById("progress-bar").style.width = `${((sectionIndex + 1) / sections.length) * 100}%`;
+      document.getElementById("section-position").textContent = `Esercizio ${sectionIndex + 1} di ${sections.length}`;
+      document.getElementById("previous-section").disabled = sectionIndex === 0;
+      document.getElementById("next-section").disabled = sectionIndex === sections.length - 1;
+    }
+    function renderSection() {
+      content.replaceChildren();
+      const section = sections[sectionIndex]; const card = document.createElement("article"); card.className = "question";
+      card.appendChild(Object.assign(document.createElement("h2"),{className:"section-heading",textContent:section.title}));
+      card.appendChild(Object.assign(document.createElement("p"),{className:"section-instructions",textContent:section.instructions}));
+      if (section.kind === "matching") renderMatching(section,card);
+      else if (section.kind === "fields") renderFields(section,card);
+      else if (section.kind === "openItems") renderOpenItems(section,card);
+      else renderOpen(section,card);
+      if (submissionStatus === "reviewed") {
+        appendReviewFeedback(card,section);
+        card.querySelectorAll("input,select,textarea,button").forEach(control => {control.disabled = true;});
+      }
+      content.appendChild(card); renderProgress();
+    }
+    document.getElementById("previous-section").addEventListener("click",() => {sectionIndex = Math.max(0,sectionIndex - 1); renderSection(); window.scrollTo(0,0);});
+    document.getElementById("next-section").addEventListener("click",() => {sectionIndex = Math.min(sections.length - 1,sectionIndex + 1); renderSection(); window.scrollTo(0,0);});
+    submitBtn.addEventListener("click",async () => {
+      if (!submissionRef || submissionStatus === "reviewed") return;
+      clearTimeout(saveTimer); hasPendingSave = false; const previousStatus = submissionStatus;
+      submissionStatus = "pending"; submitBtn.disabled = true; saveStatus.textContent = "Invio del compito all’insegnante…";
+      try {
+        const updates = {studentName,status:submissionStatus,submittedAt:Date.now()};
+        Object.entries(answers).forEach(([sectionId,sectionAnswers]) => {updates[`answers/${sectionId}`] = sectionAnswers;});
+        await submissionRef.update(updates); setSubmittedVisualState(true); submitBtn.disabled = false;
+        saveStatus.textContent = "Compito inviato con successo all’insegnante! 🎉";
+      } catch (_) { submissionStatus = previousStatus; saveStatus.textContent = "Impossibile inviare il compito. Controlla la connessione e riprova."; submitBtn.disabled = false; }
+    });
+    document.addEventListener("keydown",event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest("input,textarea,button,a,[tabindex]")) return;
+      if (event.key === "ArrowRight" && sectionIndex < sections.length - 1) {sectionIndex++; renderSection();}
+      else if (event.key === "ArrowLeft" && sectionIndex > 0) {sectionIndex--; renderSection();}
+    });
+    async function initializeTask() {
+      pageMessage.textContent = "Caricamento del compito… / Загрузка задания…";
+      let session; try {session = JSON.parse(localStorage.getItem("parlo_session") || "null");} catch (_) {session = null;}
+      if (session?.isTeacher) {
+        try { if (await window.openHomeworkTeacherReview({taskData:{title:taskTitle},buildRows:buildTeacherReviewRows})) return; }
+        catch (error) {pageMessage.textContent = error.message || "Impossibile caricare la consegna da correggere."; return;}
+      }
+      workspace.hidden = false; submitBox.hidden = true; renderSection();
+      content.querySelectorAll("input,select,textarea").forEach(control => {control.disabled = true;});
+      const isStudent = Boolean(session && !session.isTeacher && session.group && session.name);
+      if (!assignmentId) {pageMessage.textContent = "Apri il compito dal tuo elenco studenti per poterlo svolgere."; return;}
+      if (!isStudent) {pageMessage.textContent = "Accedi come studente dalla pagina principale per svolgere questo compito."; return;}
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database(); const assignmentRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`);
+        const [assignmentSnapshot,groupSnapshot] = await Promise.all([assignmentRef.once("value"),db.ref(`configurazioneScuola/gruppi/${session.group}`).once("value")]);
+        const assignment = assignmentSnapshot.val(); const group = groupSnapshot.val();
+        const expectedPath = assignment?.taskPath ? new URL(assignment.taskPath,location.origin).pathname.replace(/\/+$/,"") : "";
+        const currentPath = location.pathname.replace(/\/+$/,"");
+        if (!assignment || !group || !expectedPath || !(currentPath === expectedPath || currentPath.endsWith(expectedPath))) throw new Error("Compito non disponibile per questo gruppo o percorso. Verifica l’assegnazione nella gestione compiti.");
+        const active = (group.studenti || []).some(student => student.nome === session.name);
+        const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
+        const limit = inactive?.unitNumber != null ? Number(inactive.unitNumber) : Number(group.unitNumber);
+        if ((!active && !inactive) || (assignment.unitNumber != null && Number(assignment.unitNumber) > limit)) throw new Error("Non sei abilitato a svolgere questo compito.");
+        const studentKey = Array.from(session.name).map(char => char.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = assignmentRef.child(`consegne/${studentKey}`); studentName = session.name;
+        const submission = (await submissionRef.once("value")).val() || {};
+        answers = submission.answers || {}; teacherReviewData = submission.teacherReview || null; submissionStatus = submission.status || "in-progress";
+        pageMessage.textContent = ""; submitBox.hidden = false;
+        if (submissionStatus === "reviewed") {submitBox.hidden = true; saveStatus.textContent = "Questo compito è stato revisionato dall’insegnante (modalità sola lettura).";}
+        else if (submissionStatus === "pending") {setSubmittedVisualState(true); saveStatus.textContent = "Compito inviato: è in attesa di correzione.";}
+        renderSection();
+      } catch (error) {pageMessage.textContent = error.message || "Impossibile caricare il compito. Controlla la connessione.";}
+    }
+    initializeTask();
+  </script>
+</body>
+</html>
