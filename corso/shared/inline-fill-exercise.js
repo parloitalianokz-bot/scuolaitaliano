@@ -116,7 +116,8 @@
     const myIdentityName = isTeacherView ? "Insegnante" : String(session.name || "").trim();
 
     const connectionBanner = document.getElementById("connection-banner");
-    const exerciseProgress = document.getElementById("exercise-progress");
+        const exerciseProgress = document.getElementById("exercise-progress");
+    exerciseProgress?.classList.add("inline-fill-progress");
     const questionsContainer = document.getElementById("questions-container");
     const previousButton = document.getElementById("previous-question");
     const nextButton = document.getElementById("next-question");

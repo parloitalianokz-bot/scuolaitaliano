@@ -1,4 +1,21 @@
 /* Presentazione specifica del motore inline; la base condivisa è inbox-exercise.css. */
+.inline-fill-progress.overall-progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 32px);
+  gap: 4px;
+  margin-bottom: 12px;
+  padding: 2px 1px 6px;
+  overflow: visible;
+}
+.inline-fill-progress .progress-step {
+  width: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 2px;
+  border-radius: 8px;
+  font-size: .78rem;
+}
+
 .worksheet-card {
   display: flex;
   flex-direction: column;
@@ -31,6 +48,16 @@
   font-weight: 600;
   line-height: 2.45;
   overflow-wrap: anywhere;
+}
+.inline-fill-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  margin: 0 0 12px;
+  border: 1px solid #d0e2d2;
+  border-radius: 12px;
+  object-fit: contain;
 }
 .blank-wrap { display: inline-flex; align-items: center; vertical-align: middle; }
 .blank-input {
