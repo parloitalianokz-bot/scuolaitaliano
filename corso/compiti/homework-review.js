@@ -112,6 +112,7 @@
           const savedReview = submission.teacherReview?.answers || {};
       const exerciseComments = submission.teacherReview?.exerciseComments || {};
       sections.forEach((section, sectionIndex) => {
+        try {
       const details = document.createElement("details");
       details.className = "review-section";
       details.open = sectionIndex === 0;
@@ -119,6 +120,11 @@
         summary.textContent = section.title || `Parte ${sectionIndex + 1}`;
         details.appendChild(summary);
         const safeSectionId = String(section.id || sectionIndex).replace(/[.#$\/\[\]]/g, "_");
+        const exerciseComment = document.createElement("textarea");
+        exerciseComment.maxLength = 1000;
+        exerciseComment.placeholder = "Commento per lo studente (facoltativo)";
+        exerciseComment.value = exerciseComments[safeSectionId]?.comment || "";
+        exerciseComment.setAttribute("aria-label", `Commento complessivo: ${summary.textContent}`);
         (section.rows || []).forEach((row, rowIndex) => {
         const reviewKey = String(row.id ?? rowIndex).replace(/[.#$\/\[\]]/g, "_");
         const rowRef = submissionRef.child(`teacherReview/answers/${safeSectionId}/${reviewKey}`);
@@ -205,7 +211,7 @@
             saveExerciseComment.disabled = true;
             try {
               await submissionRef.child(`teacherReview/exerciseComments/${safeSectionId}`).set({
-                comment: comment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now()
+                comment: exerciseComment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now()
               });
               status.className = "review-status";
               status.textContent = "Commento dell’esercizio salvato e visibile allo studente.";
@@ -214,11 +220,17 @@
               status.textContent = "Impossibile salvare il commento. Controlla la connessione e riprova.";
             } finally { saveExerciseComment.disabled = false; }
           });
-          commentBox.append(commentLabel, comment, saveExerciseComment);
+          commentBox.append(commentLabel, exerciseComment, saveExerciseComment);
           details.appendChild(commentBox);
         }
         root.appendChild(details);
-    });
+        } catch (error) {
+          const warning = document.createElement("p");
+          warning.className = "review-status error";
+          warning.textContent = `Impossibile caricare la sezione “${section.title || `Parte ${sectionIndex + 1}`}”: ${error.message || "errore imprevisto"}`;
+          root.appendChild(warning);
+        }
+      });
 
     const footer = document.createElement("div");
     footer.className = "review-footer";

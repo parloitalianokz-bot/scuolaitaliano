@@ -738,7 +738,16 @@
           container.appendChild(feedback);
         }
       } catch (err) {
-        pageMessage.textContent = err.message || "Errore durante il caricamento del compito.";
+        const message = err.message || "Errore durante il caricamento del compito.";
+        const reviewRoot = document.getElementById("homework-review");
+        if (reviewRoot) {
+          const errorNotice = document.createElement("p");
+          errorNotice.className = "review-status error";
+          errorNotice.textContent = message;
+          reviewRoot.appendChild(errorNotice);
+        } else {
+          pageMessage.textContent = message;
+        }
       }
     }
 
