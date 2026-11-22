@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compito personalizzato · Parlo Italiano</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px 64px;
+      background: linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.94)), url("u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6;
+    }
+    main { width: min(100%, 920px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3 { color: var(--green); margin-top: 0; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+
+    header, .panel, .ex-card {
+      margin-bottom: 22px;
+      padding: clamp(20px, 3.5vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(43,69,46,.08);
+    }
+    header { padding: clamp(24px, 4.5vw, 40px); border-top: 4px solid var(--green); text-align: center; }
+    header > a {
+      display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 16px;
+      padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff;
+    }
+    .eyebrow { display: block; margin-bottom: 8px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.7rem, 4.5vw, 2.35rem); letter-spacing: -.03em; line-height: 1.15; }
+    header p { max-width: 740px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+
+    #page-message:not(:empty) {
+      margin: 0 0 20px; padding: 14px 18px; border: 1px solid var(--line);
+      border-radius: 14px; background: var(--green-light); color: var(--green); font-weight: 700;
+    }
+    #page-message:empty { display: none; }
+    #workspace[hidden] { display: none; }
+
+    .tier-badge {
+      display: inline-block; padding: 4px 10px; border-radius: 999px;
+      background: var(--green-light); color: var(--green); font-size: .78rem; font-weight: 800; margin-bottom: 8px;
+    }
+    .instructions { color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+    .example-box {
+      margin: 0 0 14px; padding: 10px 14px; border-left: 3px solid var(--accent);
+      border-radius: 8px; background: #fff8f2; font-size: .92rem; line-height: 1.5;
+    }
+    .item-block {
+      padding: 12px 14px; margin-bottom: 10px; border: 1px solid #e7e5dc;
+      border-radius: 12px; background: #faf9f5;
+    }
+    .item-block:last-child { margin-bottom: 0; }
+    .mc-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .mc-label {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+      border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; cursor: pointer;
+    }
+    .mc-label input { width: 17px; height: 17px; accent-color: var(--green); cursor: pointer; }
+    .gap-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; line-height: 1.7; }
+    .gap-cue { font-size: .8rem; font-weight: 700; color: var(--accent); }
+    input.gap-input {
+      min-height: 38px; padding: 6px 10px; border: 1.5px solid #b9cdb9;
+      border-radius: 9px; background: #fff; color: inherit; font: inherit; width: min(170px, 60vw);
+    }
+    textarea.open-input {
+      display: block; width: 100%; min-height: 92px; margin-top: 8px; padding: 12px 14px;
+      border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; resize: vertical;
+    }
+
+    .task-submit {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 14px; margin: 22px 0; padding: 20px 22px; border: 2px solid var(--green);
+      border-radius: 18px; background: linear-gradient(135deg,var(--green-light),#fffefa 75%);
+    }
+    .task-submit.submitted { border-color: var(--success); background: var(--success-bg); }
+    button.primary {
+      min-height: 44px; padding: 9px 18px; border: 0; border-radius: 10px;
+      background: var(--green); color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+    }
+    button.primary:hover:not(:disabled) { background: var(--green-dark); }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
+    .note { color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../compiti.html">← Torna ai compiti a casa / Назад к заданиям</a>
+      <span class="eyebrow">Compito personalizzato · Parlo Italiano</span>
+      <h1 id="task-title">Caricamento compito…</h1>
+      <p id="task-subtitle">Esercizi selezionati dal docente per il tuo gruppo. / Задания, выбранные преподавателем для твоей группы.</p>
+    </header>
+
+    <p id="page-message" role="status" aria-live="polite"></p>
+
+    <section id="workspace" hidden>
+      <div id="exercises-container"></div>
+
+      <section id="task-submit-box" class="task-submit" aria-label="Consegna del compito">
+        <p id="submit-description" style="margin:0">
+          <strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br>
+          <span class="note">Можно отправить работу, даже если она не завершена.</span>
+        </p>
+        <button id="submit-task" class="primary" type="button">Invia il compito all’insegnante</button>
+      </section>
+
+      <p id="save-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="homework-review.js"></script>
+  <script src="u_000/unit_000_exercises.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+
+    const params = new URLSearchParams(location.search);
+    const assignmentId = params.get("assignment");
+    const pageMessage = document.getElementById("page-message");
+    const workspace = document.getElementById("workspace");
+    const container = document.getElementById("exercises-container");
+    const submitBox = document.getElementById("task-submit-box");
+    const submitDesc = document.getElementById("submit-description");
+    const submitBtn = document.getElementById("submit-task");
+    const saveStatus = document.getElementById("save-status");
+
+    let answers = {};
+    let submissionRef = null;
+    let studentName = "";
+    let submissionStatus = "in-progress";
+    let saveTimer = null;
+    let resolvedExercises = [];
+
+    function findExercisesByIds(ids) {
+      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      const map = new Map();
+      Object.keys(catalog).forEach(uKey => {
+        (catalog[uKey].exercises || []).forEach(ex => {
+          map.set(String(ex.id), { ...ex, unitTitle: catalog[uKey].unitTitle || `Unità ${uKey}` });
+        });
+      });
+      return (ids || []).map(id => map.get(String(id))).filter(Boolean);
+    }
+
+    function setSubmittedVisualState(isSubmitted) {
+      submitBox.classList.toggle("submitted", isSubmitted);
+      if (isSubmitted) {
+        submitDesc.innerHTML = '<strong>✓ Compito inviato all’insegnante!</strong><br><span class="note">Puoi modificare le risposte e inviare di nuovo se necessario.</span>';
+        submitBtn.textContent = "Invia di nuovo il compito";
+      } else {
+        submitDesc.innerHTML = '<strong>Puoi inviare il compito all’insegnante anche se incompleto.</strong><br><span class="note">Можно отправить работу, даже если она не завершена.</span>';
+        submitBtn.textContent = "Invia il compito all’insegnante";
+      }
+    }
+
+    function persistAnswer(exId, itemId, val) {
+      if (submissionStatus === "reviewed") return;
+      if (submissionStatus === "pending") {
+        submissionStatus = "in-progress";
+        setSubmittedVisualState(false);
+      }
+      if (!answers[exId]) answers[exId] = {};
+      answers[exId][itemId] = val;
+
+      saveStatus.textContent = "Salvataggio…";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(async () => {
+        if (!submissionRef) return;
+        try {
+          await submissionRef.child(`answers/${exId}`).set(answers[exId]);
+          await submissionRef.update({ studentName, status: submissionStatus, updatedAt: Date.now() });
+          saveStatus.textContent = "Risposte salvate automaticamente. ✓";
+        } catch (_) {
+          saveStatus.textContent = "Errore di salvataggio.";
+        }
+      }, 350);
+    }
+
+    function renderExercises() {
+      container.replaceChildren();
+      resolvedExercises.forEach((ex, exIdx) => {
+        const card = document.createElement("article");
+        card.className = "ex-card";
+
+        const badge = document.createElement("span");
+        badge.className = "tier-badge";
+        badge.textContent = `${ex.unitTitle} · ${ex.tierLabel}`;
+        card.appendChild(badge);
+
+        const h2 = document.createElement("h2");
+        h2.textContent = `${exIdx + 1}. ${ex.title}`;
+        card.appendChild(h2);
+
+        const instr = document.createElement("p");
+        instr.className = "instructions";
+        instr.textContent = ex.instructions;
+        card.appendChild(instr);
+
+        if (ex.example) {
+          const exBox = document.createElement("div");
+          exBox.className = "example-box";
+          exBox.textContent = ex.example;
+          card.appendChild(exBox);
+        }
+
+        (ex.items || []).forEach((item, idx) => {
+          const block = document.createElement("div");
+          block.className = "item-block";
+          const savedVal = answers[ex.id]?.[item.id] || "";
+
+          if (ex.type === "multiple_choice") {
+            const q = document.createElement("div");
+            q.innerHTML = `<strong>${idx + 1}.</strong> ${item.prompt}`;
+            block.appendChild(q);
+
+            const opts = document.createElement("div");
+            opts.className = "mc-options";
+            const radioName = `${ex.id}_${item.id}`;
+            item.options.forEach(opt => {
+              const lbl = document.createElement("label");
+              lbl.className = "mc-label";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = radioName;
+              radio.value = opt.value;
+              radio.checked = savedVal === opt.value;
+              radio.disabled = submissionStatus === "reviewed";
+              radio.addEventListener("change", () => persistAnswer(ex.id, item.id, opt.value));
+              lbl.append(radio, document.createTextNode(opt.label));
+              opts.appendChild(lbl);
+            });
+            block.appendChild(opts);
+          } else if (ex.type === "gap_fill") {
+            const line = document.createElement("div");
+            line.className = "gap-line";
+            line.appendChild(Object.assign(document.createElement("strong"), { textContent: `${idx + 1}.` }));
+            if (item.before) line.appendChild(document.createTextNode(item.before));
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "gap-input";
+            input.value = savedVal;
+            input.disabled = submissionStatus === "reviewed";
+            input.addEventListener("input", () => persistAnswer(ex.id, item.id, input.value));
+            line.appendChild(input);
+            if (item.after) line.appendChild(document.createTextNode(item.after));
+            if (item.cue) {
+              const cue = document.createElement("span");
+              cue.className = "gap-cue";
+              cue.textContent = `(${item.cue})`;
+              line.appendChild(cue);
+            }
+            block.appendChild(line);
+          } else if (ex.type === "open_response") {
+            const h3 = document.createElement("h3");
+            h3.style.fontSize = "1rem";
+            h3.textContent = item.title;
+            const p = document.createElement("p");
+            p.style.margin = "4px 0";
+            p.textContent = item.prompt;
+            const ta = document.createElement("textarea");
+            ta.className = "open-input";
+            ta.value = savedVal;
+            ta.disabled = submissionStatus === "reviewed";
+            ta.addEventListener("input", () => persistAnswer(ex.id, item.id, ta.value));
+            block.append(h3, p, ta);
+          }
+
+          card.appendChild(block);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    submitBtn.addEventListener("click", async () => {
+      if (!submissionRef || submissionStatus === "reviewed") return;
+      clearTimeout(saveTimer);
+      submissionStatus = "pending";
+      submitBtn.disabled = true;
+      saveStatus.textContent = "Invio in corso…";
+      try {
+        await submissionRef.update({ studentName, status: submissionStatus, submittedAt: Date.now(), answers });
+        setSubmittedVisualState(true);
+        submitBtn.disabled = false;
+        saveStatus.textContent = "Compito inviato all’insegnante! ✓";
+      } catch (_) {
+        submitBtn.disabled = false;
+        saveStatus.textContent = "Errore durante l’invio.";
+      }
+    });
+
+    async function init() {
+      if (!assignmentId) {
+        pageMessage.textContent = "Manca il parametro ?assignment= nell'URL.";
+        return;
+      }
+      let session = null;
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+
+      if (!session || !session.group || !session.name) {
+        pageMessage.textContent = "Accedi dalla pagina principale per aprire questo compito.";
+        return;
+      }
+
+      try {
+        if (!window.firebase) throw new Error("Firebase non disponibile");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const assignSnap = await db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`).once("value");
+        const assignment = assignSnap.val();
+        if (!assignment) {
+          throw new Error("Assegnazione non trovata su Firebase per questo gruppo.");
+        }
+
+        document.getElementById("task-title").textContent = assignment.title || "Compito personalizzato";
+        resolvedExercises = findExercisesByIds(assignment.selectedExerciseIds || []);
+        if (!resolvedExercises.length) {
+          throw new Error("Nessun esercizio del catalogo corrisponde agli ID selezionati. Verifica che i file unit_XXX_exercises.js siano caricati.");
+        }
+
+        const studentKey = Array.from(session.name).map(ch => ch.codePointAt(0).toString(16)).join("_") || "studente";
+        submissionRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}/consegne/${studentKey}`);
+        studentName = session.name;
+
+        const subSnap = await submissionRef.once("value");
+        const sub = subSnap.val() || {};
+        answers = sub.answers || {};
+        submissionStatus = sub.status || "in-progress";
+
+        pageMessage.textContent = "";
+        workspace.hidden = false;
+        if (submissionStatus === "pending") setSubmittedVisualState(true);
+        if (submissionStatus === "reviewed") {
+          submitBox.hidden = true;
+          saveStatus.textContent = "Compito già revisionato dall’insegnante.";
+        }
+        renderExercises();
+      } catch (err) {
+        pageMessage.textContent = err.message || "Errore durante il caricamento del compito.";
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

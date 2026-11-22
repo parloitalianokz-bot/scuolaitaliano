@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unità 0 · Alfabeto Italiano — Elenco esercizi e selezione compiti</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px 64px;
+      background: linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.94)), url("../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6;
+    }
+    main { width: min(100%, 960px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3 { color: var(--green); margin-top: 0; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+
+    header, .panel, .exercise-card {
+      margin-bottom: 22px;
+      padding: clamp(20px, 3.5vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(43,69,46,.08);
+    }
+    header {
+      padding: clamp(24px, 4.5vw, 40px);
+      border-top: 4px solid var(--green);
+      text-align: center;
+    }
+    header > a {
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 7px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+    }
+    .eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing: -.03em; line-height: 1.15; }
+    header p { max-width: 740px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-btn {
+      min-height: 38px;
+      padding: 6px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .exercise-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .tier-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+    .select-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border: 1.5px solid #c6d6c7;
+      border-radius: 10px;
+      background: #faf9f5;
+      color: var(--green);
+      font-weight: 700;
+      font-size: .88rem;
+      cursor: pointer;
+    }
+    .select-toggle input { width: 17px; height: 17px; accent-color: var(--green); cursor: pointer; }
+
+    .instructions { color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+    .example-box {
+      margin: 0 0 14px;
+      padding: 10px 14px;
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      background: #fff8f2;
+      font-size: .92rem;
+      line-height: 1.5;
+    }
+
+    .item-row {
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border: 1px solid #e7e5dc;
+      border-radius: 12px;
+      background: #faf9f5;
+    }
+    .item-row:last-child { margin-bottom: 0; }
+    .mc-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .mc-chip {
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid #d8e5d8;
+      font-size: .88rem;
+    }
+    .mc-chip.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+    .answer-tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+
+    .builder-bar {
+      position: sticky;
+      bottom: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 22px;
+      border: 2px solid var(--green);
+      border-radius: 18px;
+      background: #fffefa;
+      box-shadow: 0 14px 36px rgba(30,61,39,.18);
+    }
+    button.primary {
+      min-height: 42px;
+      padding: 8px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.primary:hover { background: var(--green-dark); }
+    button.secondary {
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--green);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .draft-preview {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f4f7f4;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .8rem;
+      white-space: pre-wrap;
+      max-height: 220px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../compiti.html">← Torna ai compiti a casa / Назад к заданиям</a>
+      <span class="eyebrow">Catalogo Unità · Livello A0 · IT / RU</span>
+      <h1 id="unit-title">Unità 0 · Alfabeto Italiano</h1>
+      <p id="unit-description"></p>
+    </header>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="filter-group" role="group" aria-label="Filtra per livello">
+          <button type="button" class="filter-btn active" data-tier="all">Tutti / Все</button>
+          <button type="button" class="filter-btn" data-tier="Base">1 · Base</button>
+          <button type="button" class="filter-btn" data-tier="Elementare">2 · Elementare</button>
+          <button type="button" class="filter-btn" data-tier="Intermedio">3 · Intermedio</button>
+          <button type="button" class="filter-btn" data-tier="Avanzato">4 · Avanzato</button>
+        </div>
+        <button type="button" id="toggle-keys-btn" class="secondary">Mostra / Nascondi soluzioni</button>
+      </div>
+      <p id="selection-summary" class="instructions" style="margin:0"></p>
+    </section>
+
+    <div id="exercises-list"></div>
+
+    <section class="builder-bar" aria-label="Compositore compito per il gruppo">
+      <div>
+        <strong id="selected-count">0 esercizi selezionati per il compito</strong><br>
+        <span class="instructions" style="margin:0">Spunta gli esercizi di questa unità (o aggiungi ID da altre unità) per comporre un compito da assegnare al gruppo.</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="button" id="clear-selection-btn" class="secondary">Svuota</button>
+        <button type="button" id="export-draft-btn" class="primary">Genera bozza compito (JSON)</button>
+      </div>
+      <div id="draft-output" class="draft-preview" hidden></div>
+    </section>
+  </main>
+
+  <script src="unit_000_exercises.js"></script>
+  <script>
+    const unitData = window.UNIT_EXERCISES_CATALOG["0"];
+    const STORAGE_KEY = "parlo_selected_exercises_draft";
+    let activeTier = "all";
+    let showKeys = true;
+    let selectedIds = [];
+
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (Array.isArray(saved)) selectedIds = saved;
+    } catch (_) {}
+
+    document.getElementById("unit-title").textContent = unitData.unitTitle;
+    document.getElementById("unit-description").textContent = unitData.description;
+
+    function saveSelection() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedIds));
+      updateSummary();
+    }
+
+    function updateSummary() {
+      document.getElementById("selected-count").textContent =
+        `${selectedIds.length} ${selectedIds.length === 1 ? "esercizio selezionato" : "esercizi selezionati"} in bozza compito`;
+      document.getElementById("selection-summary").textContent =
+        `Esercizi disponibili nell'Unità 0: ${unitData.exercises.length} · Selezionati per il compito: ${selectedIds.length}`;
+    }
+
+    function renderExercises() {
+      const list = document.getElementById("exercises-list");
+      list.replaceChildren();
+
+      const filtered = unitData.exercises.filter(ex => activeTier === "all" || ex.tier === activeTier);
+
+      filtered.forEach(ex => {
+        const card = document.createElement("article");
+        card.className = "exercise-card";
+
+        const head = document.createElement("div");
+        head.className = "exercise-header";
+
+        const titleWrap = document.createElement("div");
+        const badge = document.createElement("span");
+        badge.className = "tier-badge";
+        badge.textContent = `${ex.tierLabel} · ID: ${ex.id}`;
+        const h2 = document.createElement("h2");
+        h2.style.margin = "8px 0 0";
+        h2.style.fontSize = "1.2rem";
+        h2.textContent = ex.title;
+        titleWrap.append(badge, h2);
+
+        const labelToggle = document.createElement("label");
+        labelToggle.className = "select-toggle";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = selectedIds.includes(ex.id);
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            if (!selectedIds.includes(ex.id)) selectedIds.push(ex.id);
+          } else {
+            selectedIds = selectedIds.filter(id => id !== ex.id);
+          }
+          saveSelection();
+        });
+        labelToggle.append(checkbox, document.createTextNode("Includi nel compito"));
+
+        head.append(titleWrap, labelToggle);
+        card.appendChild(head);
+
+        const instr = document.createElement("p");
+        instr.className = "instructions";
+        instr.textContent = ex.instructions;
+        card.appendChild(instr);
+
+        if (ex.example) {
+          const exBox = document.createElement("div");
+          exBox.className = "example-box";
+          exBox.textContent = ex.example;
+          card.appendChild(exBox);
+        }
+
+        ex.items.forEach((item, idx) => {
+          const row = document.createElement("div");
+          row.className = "item-row";
+
+          if (ex.type === "multiple_choice") {
+            const p = document.createElement("div");
+            p.innerHTML = `<strong>${idx + 1}.</strong> ${item.prompt}`;
+            row.appendChild(p);
+
+            const opts = document.createElement("div");
+            opts.className = "mc-options";
+            item.options.forEach(opt => {
+              const chip = document.createElement("span");
+              const isCorrect = showKeys && item.answers.includes(opt.value);
+              chip.className = `mc-chip${isCorrect ? " correct" : ""}`;
+              chip.textContent = opt.label + (isCorrect ? " ✓" : "");
+              opts.appendChild(chip);
+            });
+            row.appendChild(opts);
+          } else if (ex.type === "gap_fill") {
+            const line = document.createElement("div");
+            line.innerHTML = `<strong>${idx + 1}.</strong> ${item.before}<strong>[____]</strong>${item.after} <em>(${item.cue})</em>`;
+            row.appendChild(line);
+            if (showKeys) {
+              const ans = document.createElement("span");
+              ans.className = "answer-tag";
+              ans.textContent = `Soluzione: ${item.answers.join(" / ")}`;
+              row.appendChild(ans);
+            }
+          } else if (ex.type === "open_response") {
+            const h3 = document.createElement("h3");
+            h3.style.fontSize = "1rem";
+            h3.style.marginBottom = "4px";
+            h3.textContent = item.title;
+            const p = document.createElement("div");
+            p.textContent = item.prompt;
+            row.append(h3, p);
+          }
+
+          card.appendChild(row);
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeTier = btn.dataset.tier;
+        renderExercises();
+      });
+    });
+
+    document.getElementById("toggle-keys-btn").addEventListener("click", () => {
+      showKeys = !showKeys;
+      renderExercises();
+    });
+
+    document.getElementById("clear-selection-btn").addEventListener("click", () => {
+      selectedIds = [];
+      saveSelection();
+      renderExercises();
+    });
+
+    document.getElementById("export-draft-btn").addEventListener("click", () => {
+      const out = document.getElementById("draft-output");
+      const draft = {
+        assignmentTitle: "Compito personalizzato · Unità 0 (Alfabeto Italiano)",
+        selectedExerciseIds: selectedIds,
+        createdAt: new Date().toISOString()
+      };
+      out.hidden = false;
+      out.textContent = JSON.stringify(draft, null, 2);
+    });
+
+    updateSummary();
+    renderExercises();
+  </script>
+</body>
+</html>

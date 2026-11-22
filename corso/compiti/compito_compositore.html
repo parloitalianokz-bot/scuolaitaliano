@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compositore compiti personalizzati · Assegnazione al gruppo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+      color: #292d28;
+      background: #f5f3ec;
+      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
+      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
+      --success: #278253; --success-bg: #e1f1e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 32px 16px 64px;
+      background: linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.94)), url("../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6;
+    }
+    main { width: min(100%, 960px); margin: auto; }
+    a { color: var(--green); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3 { color: var(--green); margin-top: 0; }
+    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
+
+    header, .panel {
+      margin-bottom: 22px;
+      padding: clamp(20px, 3.5vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(43,69,46,.08);
+    }
+    header { padding: clamp(24px, 4.5vw, 40px); border-top: 4px solid var(--green); text-align: center; }
+    header > a {
+      display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 16px;
+      padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff;
+    }
+    .eyebrow { display: block; margin-bottom: 8px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing: -.03em; line-height: 1.15; }
+    header p { max-width: 740px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 16px; }
+    label.field { display: flex; flex-direction: column; gap: 6px; font-weight: 700; color: var(--green); font-size: .92rem; }
+    input, select, textarea {
+      padding: 10px 12px;
+      border: 1.5px solid #b9cdb9;
+      border-radius: 10px;
+      background: #fff;
+      color: inherit;
+      font: inherit;
+    }
+    textarea.json-box {
+      width: 100%;
+      min-height: 145px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .84rem;
+      line-height: 1.45;
+    }
+
+    .ex-pick-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .ex-pick-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid #e2e8e2;
+      border-radius: 12px;
+      background: #faf9f5;
+    }
+    .ex-pick-item.selected { border-color: var(--green); background: var(--green-light); }
+    .ex-meta { font-size: .82rem; color: var(--muted); }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button.primary {
+      min-height: 44px; padding: 9px 18px; border: 0; border-radius: 10px;
+      background: var(--green); color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+    }
+    button.primary:hover { background: var(--green-dark); }
+    button.secondary {
+      min-height: 44px; padding: 9px 16px; border: 1.5px solid var(--green); border-radius: 10px;
+      background: #fff; color: var(--green); font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .status-msg { margin-top: 12px; font-weight: 700; color: var(--green); }
+    .status-msg.error { color: #a33226; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../compiti.html">← Torna ai compiti a casa</a>
+      <span class="eyebrow">Docente · Assegnazione Compiti Composti</span>
+      <h1>Assegna un compito personalizzato al gruppo</h1>
+      <p>Importa il JSON generato (anche con esercizi presi da unità diverse), scegli il gruppo su Firebase e pubblica l'assegnazione con un link univoco per gli studenti.</p>
+    </header>
+
+    <section class="panel">
+      <h2>1. Importa o modifica la bozza JSON</h2>
+      <div class="actions" style="margin-top:0;margin-bottom:12px;">
+        <button type="button" id="load-draft-btn" class="secondary">Carica bozza salvata da pagina unità</button>
+        <button type="button" id="apply-json-btn" class="secondary">Applica JSON alla selezione</button>
+      </div>
+      <textarea id="json-input" class="json-box" spellcheck="false"></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>2. Seleziona esercizi (stessa unità o altre unità)</h2>
+      <div class="grid-2">
+        <label class="field">
+          Filtra per unità
+          <select id="unit-filter"></select>
+        </label>
+        <label class="field">
+          Titolo assegnazione
+          <input type="text" id="assignment-title" placeholder="Es. Compito misto · Alfabeto + Ripasso">
+        </label>
+      </div>
+      <div id="catalog-picker" class="ex-pick-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>3. Assegna al gruppo su Firebase</h2>
+      <div class="grid-2">
+        <label class="field">
+          Gruppo di destinazione
+          <select id="target-group">
+            <option value="">Caricamento gruppi…</option>
+          </select>
+        </label>
+        <label class="field">
+          Unità di riferimento (per soglia studente)
+          <input type="number" id="assignment-unit" min="0" value="0">
+        </label>
+      </div>
+      <div class="grid-2">
+        <label class="field">
+          Percorso pagina compito dinamico (taskPath)
+          <input type="text" id="task-path" value="compiti/compito_dinamico.html">
+        </label>
+        <label class="field">
+          Data di scadenza (opzionale)
+          <input type="date" id="due-date">
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" id="publish-btn" class="primary">Pubblica assegnazione sul gruppo</button>
+      </div>
+      <div id="publish-status" class="status-msg" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="unit_000_exercises.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    };
+    const DRAFT_STORAGE_KEY = "parlo_selected_exercises_draft";
+
+    const defaultJson = {
+      assignmentTitle: "Compito personalizzato · Unità 0 (Alfabeto Italiano)",
+      selectedExerciseIds: ["u000_es1_mc", "u000_es2_incastro"],
+      createdAt: new Date().toISOString()
+    };
+
+    let selectedIds = [...defaultJson.selectedExerciseIds];
+    let activeUnitFilter = "all";
+    let db = null;
+
+    function getAllCatalogExercises() {
+      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      const list = [];
+      Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(unitKey => {
+        const unitObj = catalog[unitKey];
+        (unitObj.exercises || []).forEach(ex => {
+          list.push({
+            ...ex,
+            unitNumber: unitObj.unitNumber ?? Number(unitKey),
+            unitTitle: unitObj.unitTitle || `Unità ${unitKey}`
+          });
+        });
+      });
+      return list;
+    }
+
+    function syncTextareaFromState() {
+      const payload = {
+        assignmentTitle: document.getElementById("assignment-title").value.trim() || "Compito personalizzato",
+        selectedExerciseIds: selectedIds,
+        createdAt: new Date().toISOString()
+      };
+      document.getElementById("json-input").value = JSON.stringify(payload, null, 2);
+    }
+
+    function populateUnitFilter() {
+      const select = document.getElementById("unit-filter");
+      select.replaceChildren();
+      select.appendChild(new Option("Tutte le unità caricate", "all"));
+      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(key => {
+        select.appendChild(new Option(catalog[key].unitTitle || `Unità ${key}`, key));
+      });
+      select.value = activeUnitFilter;
+    }
+
+    function renderCatalogPicker() {
+      const container = document.getElementById("catalog-picker");
+      container.replaceChildren();
+      const all = getAllCatalogExercises().filter(ex =>
+        activeUnitFilter === "all" || String(ex.unitNumber) === String(activeUnitFilter)
+      );
+
+      all.forEach(ex => {
+        const isSelected = selectedIds.includes(ex.id);
+        const row = document.createElement("label");
+        row.className = `ex-pick-item${isSelected ? " selected" : ""}`;
+
+        const left = document.createElement("div");
+        const title = document.createElement("div");
+        title.innerHTML = `<strong>${ex.title}</strong>`;
+        const meta = document.createElement("div");
+        meta.className = "ex-meta";
+        meta.textContent = `${ex.unitTitle} · ${ex.tierLabel} · ID: ${ex.id}`;
+        left.append(title, meta);
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = isSelected;
+        cb.addEventListener("change", () => {
+          if (cb.checked) {
+            if (!selectedIds.includes(ex.id)) selectedIds.push(ex.id);
+          } else {
+            selectedIds = selectedIds.filter(id => id !== ex.id);
+          }
+          renderCatalogPicker();
+          syncTextareaFromState();
+        });
+
+        row.append(left, cb);
+        container.appendChild(row);
+      });
+    }
+
+    function loadDraftFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed.assignmentTitle) document.getElementById("assignment-title").value = parsed.assignmentTitle;
+        if (Array.isArray(parsed.selectedExerciseIds)) selectedIds = parsed.selectedExerciseIds;
+        renderCatalogPicker();
+        syncTextareaFromState();
+      } catch (_) {}
+    }
+
+    document.getElementById("load-draft-btn").addEventListener("click", () => {
+      loadDraftFromLocalStorage();
+      const st = document.getElementById("publish-status");
+      st.className = "status-msg";
+      st.textContent = "Bozza caricata da localStorage.";
+    });
+
+    document.getElementById("apply-json-btn").addEventListener("click", () => {
+      const st = document.getElementById("publish-status");
+      try {
+        const parsed = JSON.parse(document.getElementById("json-input").value);
+        if (!Array.isArray(parsed.selectedExerciseIds)) {
+          throw new Error("Il campo selectedExerciseIds deve essere un array.");
+        }
+        selectedIds = parsed.selectedExerciseIds.map(String);
+        if (parsed.assignmentTitle) {
+          document.getElementById("assignment-title").value = parsed.assignmentTitle;
+        }
+        renderCatalogPicker();
+        syncTextareaFromState();
+        st.className = "status-msg";
+        st.textContent = `JSON applicato: ${selectedIds.length} esercizi selezionati.`;
+      } catch (err) {
+        st.className = "status-msg error";
+        st.textContent = `JSON non valido: ${err.message}`;
+      }
+    });
+
+    document.getElementById("unit-filter").addEventListener("change", (e) => {
+      activeUnitFilter = e.target.value;
+      renderCatalogPicker();
+    });
+
+    document.getElementById("assignment-title").addEventListener("input", syncTextareaFromState);
+
+    async function initGroups() {
+      const select = document.getElementById("target-group");
+      try {
+        if (!window.firebase) throw new Error("Firebase non caricato");
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        const snap = await db.ref("configurazioneScuola/gruppi").once("value");
+        const groups = snap.val() || {};
+        select.replaceChildren();
+        const keys = Object.keys(groups);
+        if (!keys.length) {
+          select.appendChild(new Option("Nessun gruppo trovato su Firebase", ""));
+          return;
+        }
+        keys.forEach(gKey => {
+          const g = groups[gKey];
+          select.appendChild(new Option(`${g.nome || gKey} (${gKey})`, gKey));
+        });
+      } catch (err) {
+        select.replaceChildren();
+        select.appendChild(new Option("Errore caricamento gruppi", ""));
+      }
+    }
+
+    document.getElementById("publish-btn").addEventListener("click", async () => {
+      const st = document.getElementById("publish-status");
+      const groupKey = document.getElementById("target-group").value;
+      const title = document.getElementById("assignment-title").value.trim() || "Compito personalizzato";
+      const unitNumber = Number(document.getElementById("assignment-unit").value || 0);
+      const taskPath = document.getElementById("task-path").value.trim() || "compiti/compito_dinamico.html";
+      const dueDate = document.getElementById("due-date").value || null;
+
+      if (!db) {
+        st.className = "status-msg error";
+        st.textContent = "Connessione a Firebase non disponibile.";
+        return;
+      }
+      if (!groupKey) {
+        st.className = "status-msg error";
+        st.textContent = "Seleziona un gruppo prima di assegnare il compito.";
+        return;
+      }
+      if (!selectedIds.length) {
+        st.className = "status-msg error";
+        st.textContent = "Seleziona almeno un esercizio (selectedExerciseIds vuoto).";
+        return;
+      }
+
+      try {
+        const assignRef = db.ref(`compiti/gruppi/${groupKey}/assegnazioni`).push();
+        const assignmentData = {
+          id: assignRef.key,
+          title,
+          unitNumber,
+          taskPath,
+          selectedExerciseIds: selectedIds,
+          dueDate,
+          createdAt: Date.now(),
+          status: "active"
+        };
+        await assignRef.set(assignmentData);
+        const studentLink = `${taskPath}?assignment=${encodeURIComponent(assignRef.key)}`;
+        st.className = "status-msg";
+        st.textContent = `Compito assegnato al gruppo "${groupKey}"! ID: ${assignRef.key} · Link studente: ${studentLink}`;
+      } catch (err) {
+        st.className = "status-msg error";
+        st.textContent = `Errore durante il salvataggio: ${err.message}`;
+      }
+    });
+
+    document.getElementById("assignment-title").value = defaultJson.assignmentTitle;
+    populateUnitFilter();
+    renderCatalogPicker();
+    syncTextareaFromState();
+    initGroups();
+  </script>
+</body>
+</html>
