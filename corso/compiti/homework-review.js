@@ -1,6 +1,5 @@
 (() => {
   const teacherPins = { Antonio: "2202", Assel: "2109" };
-
   function addStyles() {
     if (document.getElementById("homework-review-styles")) return;
     const style = document.createElement("style");
@@ -16,38 +15,18 @@
       #homework-review .review-status.error { background:#fde8e7; color:#a51d1d; }
       #homework-review details.review-section { margin:14px 0; border:1px solid #d8e5d8; border-radius:12px; background:#fff; }
       #homework-review details.review-section > summary { padding:14px 16px; background:#edf4ed; color:#2f5739; font-weight:800; cursor:pointer; }
-      #homework-review .review-row { margin:12px; padding:14px; border:1px solid #e7e5dc; border-radius:10px; background:#fffefa; transition: background .15s ease, border-color .15s ease; }
-      #homework-review .review-label { margin:0 0 8px; font-weight:800; line-height:1.55; }
-      #homework-review .review-value { margin:6px 0; padding:10px 12px; border:1.5px solid #e0dfd7; border-radius:8px; background:#f5f5ef; white-space:pre-wrap; overflow-wrap:anywhere; font-weight:600; }
-      #homework-review .review-value.is-correct { border-color:#278253; background:#e1f1e5; color:#1b4d32; }
-      #homework-review .review-value.is-incorrect { border-color:#c62828; background:#fde8e7; color:#8f1919; }
-      #homework-review .review-badge { display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px; font-size:.78rem; font-weight:800; vertical-align:middle; }
-      #homework-review .review-badge.ok { background:#278253; color:#fff; }
-      #homework-review .review-badge.ko { background:#c62828; color:#fff; }
-      #homework-review .review-model { margin:8px 0 0; padding:8px 11px; border-left:3px solid #2f5739; border-radius:6px; background:#f4f8f4; color:#2f5739; font-size:.9rem; line-height:1.5; }
+      #homework-review .review-row { margin:12px; padding:14px; border:1px solid #e7e5dc; border-radius:10px; background:#fffefa; }
+      #homework-review .review-label { margin:0 0 8px; font-weight:800; }
+      #homework-review .review-value { margin:6px 0; padding:9px 11px; border-radius:8px; background:#f5f5ef; white-space:pre-wrap; overflow-wrap:anywhere; }
+      #homework-review .review-model { color:#6b7069; font-size:.9rem; }
       #homework-review .review-row textarea { display:block; width:100%; min-height:68px; margin:10px 0; padding:9px 11px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       #homework-review .review-actions { display:flex; flex-wrap:wrap; gap:8px; }
       #homework-review .review-actions button.reject { background:#a51d1d; }
-      #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.45); }
+      #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.35); }
       #homework-review .review-row[data-grade="approved"] { border-color:#278253; background:#e1f1e5; }
       #homework-review .review-row[data-grade="rejected"] { border-color:#c62828; background:#fde8e7; }
       #homework-review .review-footer { margin-top:18px; }
       #homework-review .review-final-comment { display:block; width:100%; min-height:100px; margin:12px 0; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
-      #homework-review .review-footer button { margin-right:10px; margin-bottom:8px; }
-
-      /* Stili per la vista revisionata dello studente */
-      .student-reviewed-banner { margin: 0 0 20px; padding: 18px 20px; border: 2px solid #278253; border-radius: 16px; background: #e1f1e5; color: #174c30; line-height: 1.6; }
-      .student-reviewed-banner h3 { margin: 0 0 6px; color: #174c30; font-size: 1.08rem; }
-      .student-reviewed-banner p { margin: 0; }
-      .student-reviewed-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: .85rem; font-weight: 700; }
-      .student-reviewed-legend span { display: inline-flex; align-items: center; gap: 6px; }
-      .student-reviewed-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
-      .student-reviewed-legend i.ok { background: #e1f1e5; border: 1.5px solid #278253; }
-      .student-reviewed-legend i.ko { background: #fde8e7; border: 1.5px solid #c62828; }
-      .reviewed-field-approved { border-color: #278253 !important; background: #e1f1e5 !important; color: #174c30 !important; font-weight: 700 !important; }
-      .reviewed-field-rejected { border-color: #c62828 !important; background: #fde8e7 !important; color: #8f1919 !important; font-weight: 700 !important; }
-      .student-item-comment { margin-top: 8px; padding: 9px 12px; border-left: 3px solid #bd694d; border-radius: 8px; background: #fff8f2; color: #4a2a1d; font-size: .9rem; line-height: 1.5; }
-      .student-gap-comments { margin-top: 14px; display: grid; gap: 8px; }
       @media(max-width:600px) { #homework-review { margin:12px 8px; padding:17px; } }
     `;
     document.head.appendChild(style);
@@ -63,120 +42,12 @@
 
   function formatValue(value) {
     if (value === null || value === undefined || value === "") return "Nessuna risposta registrata.";
-    if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" / ");
+    if (Array.isArray(value)) return value.map(item => item == null || item === "" ? "—" : String(item)).join(" · ");
     if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}: ${formatValue(item)}`).join("\n");
     return String(value);
   }
 
-  function normalizeText(str) {
-    return String(str || "")
-      .trim()
-      .toLowerCase()
-      .replace(/[’`]/g, "'")
-      .replace(/[.!?]+$/g, "")
-      .replace(/\s+/g, " ");
-  }
-
-  function evaluateAutoMatch(row) {
-    if (row.autoCheck === false) return null;
-    if (row.expected === undefined || row.expected === null || row.expected === "") return null;
-
-    const rawAnswer = Array.isArray(row.answer) ? row.answer.join(" ") : String(row.answer ?? "");
-    const normalizedAns = normalizeText(rawAnswer);
-    const emptyPlaceholders = new Set([
-      "",
-      "nessuna risposta registrata",
-      "nessuna risposta selezionata",
-      "nessuna risposta inserita"
-    ]);
-    if (emptyPlaceholders.has(normalizedAns)) return false;
-
-    const candidates = Array.isArray(row.expected) ? row.expected : [row.expected];
-    return candidates.some(exp => {
-      const normExp = normalizeText(exp);
-      if (normalizedAns === normExp) return true;
-      if (/^[a-z]\s*·/i.test(String(exp)) && normalizedAns === normExp[0]) return true;
-      return false;
-    });
-  }
-
-  // Helper chiamato dalle pagine degli esercizi quando lo studente apre un compito già revisionato
-  window.applyStudentReviewedFeedback = function ({ container, sectionId, teacherReview, isGapStory = false }) {
-    addStyles();
-    const sectionReviews = teacherReview?.answers?.[sectionId] || {};
-
-    container.querySelectorAll("input, select, textarea").forEach(el => {
-      el.disabled = true;
-    });
-
-    const gapCommentsBox = isGapStory ? document.createElement("div") : null;
-    if (gapCommentsBox) gapCommentsBox.className = "student-gap-comments";
-
-    Object.entries(sectionReviews).forEach(([answerId, reviewItem]) => {
-      if (!reviewItem) return;
-      const field = container.querySelector(`[data-answer-id="${answerId}"]`);
-      if (!field) return;
-
-      if (reviewItem.grade === "approved") {
-        field.classList.add("reviewed-field-approved");
-      } else if (reviewItem.grade === "rejected") {
-        field.classList.add("reviewed-field-rejected");
-      }
-
-      if (reviewItem.comment) {
-        const commentBox = document.createElement("div");
-        commentBox.className = "student-item-comment";
-        const num = answerId.replace(/^q/, "");
-        const prefix = isGapStory ? `Spazio ${num} — Commento dell’insegnante: ` : "Commento dell’insegnante: ";
-        const strong = document.createElement("strong");
-        strong.textContent = prefix;
-        commentBox.append(strong, document.createTextNode(reviewItem.comment));
-
-        if (isGapStory && gapCommentsBox) {
-          gapCommentsBox.appendChild(commentBox);
-        } else {
-          const host = field.closest(".match-row, .item-block") || field.parentElement;
-          if (host) host.appendChild(commentBox);
-        }
-      }
-    });
-
-    if (gapCommentsBox && gapCommentsBox.children.length > 0) {
-      container.appendChild(gapCommentsBox);
-    }
-  };
-
-  window.renderStudentReviewedBanner = function ({ targetParent, teacherReview }) {
-    addStyles();
-    const existing = document.getElementById("student-reviewed-banner");
-    if (existing) existing.remove();
-
-    const banner = document.createElement("section");
-    banner.id = "student-reviewed-banner";
-    banner.className = "student-reviewed-banner";
-    banner.setAttribute("aria-label", "Esito della correzione");
-
-    const title = document.createElement("h3");
-    title.textContent = "✓ Compito revisionato dall’insegnante";
-    banner.appendChild(title);
-
-    if (teacherReview?.finalComment) {
-      const p = document.createElement("p");
-      const strong = document.createElement("strong");
-      strong.textContent = "Giudizio finale: ";
-      p.append(strong, document.createTextNode(teacherReview.finalComment));
-      banner.appendChild(p);
-    }
-
-    const legend = document.createElement("div");
-    legend.className = "student-reviewed-legend";
-    legend.innerHTML = '<span><i class="ok"></i> Risposta corretta</span><span><i class="ko"></i> Risposta da rivedere</span>';
-    banner.appendChild(legend);
-
-    targetParent.prepend(banner);
-  };
-
-  window.openHomeworkTeacherReview = async function ({ taskData, buildRows }) {
+  window.openHomeworkTeacherReview = async function ({ taskData, buildRows, backHref }) {
     const params = new URLSearchParams(location.search);
     const hasReviewTarget = params.has("group") && params.has("student");
     if (params.get("teacherReview") !== "1" && !hasReviewTarget) return false;
@@ -223,7 +94,7 @@
     const header = document.createElement("div");
     header.className = "review-top";
     const back = document.createElement("a");
-    back.href = new URL("../../compiti.html", location.href).href;
+    back.href = backHref ? new URL(backHref, location.href).href : new URL("../../compiti.html", location.href).href;
     back.textContent = "← Torna alla gestione compiti";
     const title = document.createElement("h1");
     title.textContent = taskData.title || "Correzione del compito";
@@ -238,81 +109,64 @@
     root.appendChild(status);
 
     const sections = buildRows(submission) || [];
-    const savedReview = submission.teacherReview?.answers || {};
-    sections.forEach((section, sectionIndex) => {
+          const savedReview = submission.teacherReview?.answers || {};
+      const exerciseComments = submission.teacherReview?.exerciseComments || {};
+      sections.forEach((section, sectionIndex) => {
       const details = document.createElement("details");
       details.className = "review-section";
-      details.open = true;
-      const summary = document.createElement("summary");
-      summary.textContent = section.title || `Parte ${sectionIndex + 1}`;
-      details.appendChild(summary);
-
-      (section.rows || []).forEach((row, rowIndex) => {
+      details.open = sectionIndex === 0;
+              const summary = document.createElement("summary");
+        summary.textContent = section.title || `Parte ${sectionIndex + 1}`;
+        details.appendChild(summary);
+        const safeSectionId = String(section.id || sectionIndex).replace(/[.#$\/\[\]]/g, "_");
+        (section.rows || []).forEach((row, rowIndex) => {
         const reviewKey = String(row.id ?? rowIndex).replace(/[.#$\/\[\]]/g, "_");
-        const rowRef = submissionRef.child(`teacherReview/answers/${section.id}/${reviewKey}`);
+        const rowRef = submissionRef.child(`teacherReview/answers/${safeSectionId}/${reviewKey}`);
         const prior = savedReview[section.id]?.[reviewKey] || {};
-        const autoResult = evaluateAutoMatch(row);
-
         const card = document.createElement("article");
         card.className = "review-row";
         card.dataset.grade = prior.grade || "";
-
         const label = document.createElement("p");
         label.className = "review-label";
         label.textContent = row.prompt || `Risposta ${rowIndex + 1}`;
-
         const response = document.createElement("div");
         response.className = "review-value";
         response.textContent = formatValue(row.answer);
-
-        if (autoResult === true) {
-          response.classList.add("is-correct");
-          const badge = document.createElement("span");
-          badge.className = "review-badge ok";
-          badge.textContent = "✓ Corretta";
-          response.appendChild(badge);
-        } else if (autoResult === false) {
-          response.classList.add("is-incorrect");
-          const badge = document.createElement("span");
-          badge.className = "review-badge ko";
-          badge.textContent = "✕ Da correggere";
-          response.appendChild(badge);
-        }
-
         card.append(label, response);
-
         if (row.expected !== undefined && row.expected !== null && row.expected !== "") {
           const model = document.createElement("p");
           model.className = "review-model";
-          const prefix = row.autoCheck === false ? "Esempio di risposta:" : "Risposta giusta:";
-          model.innerHTML = `<strong>${prefix}</strong> ${formatValue(row.expected)}`;
+          model.textContent = `Risposta attesa: ${formatValue(row.expected)}`;
           card.appendChild(model);
         }
-
-        const comment = document.createElement("textarea");
-        comment.maxLength = 1000;
-        comment.placeholder = "Commento per lo studente (facoltativo)";
-        comment.value = prior.comment || "";
-        comment.setAttribute("aria-label", `Commento: ${label.textContent}`);
-
-        const actions = document.createElement("div");
-        actions.className = "review-actions";
-        const saveComment = document.createElement("button");
-        saveComment.type = "button";
-        saveComment.textContent = "💾 Salva commento";
-        saveComment.addEventListener("click", async () => {
-          saveComment.disabled = true;
-          try {
-            await rowRef.update({ comment: comment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now() });
-            status.className = "review-status";
-            status.textContent = "Commento salvato. Puoi continuare la revisione.";
-          } catch (_) {
-            status.className = "review-status error";
-            status.textContent = "Impossibile salvare il commento. Controlla la connessione e riprova.";
-          } finally { saveComment.disabled = false; }
-        });
-        actions.appendChild(saveComment);
-
+                  const comment = document.createElement("textarea");
+          comment.maxLength = 1000;
+          comment.placeholder = "Commento per lo studente (facoltativo)";
+          comment.value = section.commentMode === "exercise"
+            ? (exerciseComments[safeSectionId]?.comment || "")
+            : (prior.comment || "");
+          comment.setAttribute("aria-label", section.commentMode === "exercise"
+            ? `Commento complessivo: ${summary.textContent}`
+            : `Commento: ${label.textContent}`);
+          const actions = document.createElement("div");
+          actions.className = "review-actions";
+          if (section.commentMode !== "exercise") {
+            const saveComment = document.createElement("button");
+            saveComment.type = "button";
+            saveComment.textContent = "💾 Salva commento";
+            saveComment.addEventListener("click", async () => {
+              saveComment.disabled = true;
+              try {
+                await rowRef.update({ comment: comment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now() });
+                status.className = "review-status";
+                status.textContent = "Commento salvato. Puoi continuare la revisione.";
+              } catch (_) {
+                status.className = "review-status error";
+                status.textContent = "Impossibile salvare il commento. Controlla la connessione e riprova.";
+              } finally { saveComment.disabled = false; }
+            });
+            actions.appendChild(saveComment);
+          }
         [["approved", "✓ Approva", ""], ["rejected", "✕ Da rivedere", "reject"]].forEach(([grade, text, className]) => {
           const button = document.createElement("button");
           button.type = "button";
@@ -334,11 +188,36 @@
           });
           actions.appendChild(button);
         });
-
-        card.append(comment, actions);
-        details.appendChild(card);
-      });
-      root.appendChild(details);
+                  if (section.commentMode !== "exercise") card.appendChild(comment);
+          card.appendChild(actions);
+          details.appendChild(card);
+        });
+        if (section.commentMode === "exercise") {
+          const commentBox = document.createElement("article");
+          commentBox.className = "review-row";
+          const commentLabel = document.createElement("p");
+          commentLabel.className = "review-label";
+          commentLabel.textContent = "Commento complessivo per questo esercizio";
+          const saveExerciseComment = document.createElement("button");
+          saveExerciseComment.type = "button";
+          saveExerciseComment.textContent = "💾 Salva commento dell’esercizio";
+          saveExerciseComment.addEventListener("click", async () => {
+            saveExerciseComment.disabled = true;
+            try {
+              await submissionRef.child(`teacherReview/exerciseComments/${safeSectionId}`).set({
+                comment: comment.value.trim(), reviewedBy: session.teacher, updatedAt: Date.now()
+              });
+              status.className = "review-status";
+              status.textContent = "Commento dell’esercizio salvato e visibile allo studente.";
+            } catch (_) {
+              status.className = "review-status error";
+              status.textContent = "Impossibile salvare il commento. Controlla la connessione e riprova.";
+            } finally { saveExerciseComment.disabled = false; }
+          });
+          commentBox.append(commentLabel, comment, saveExerciseComment);
+          details.appendChild(commentBox);
+        }
+        root.appendChild(details);
     });
 
     const footer = document.createElement("div");

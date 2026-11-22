@@ -1,6 +1,6 @@
 // Catalogo esercizi — Unità 0: Alfabeto Italiano (Livello A0 · IT / RU)
-window.UNIT_EXERCISES_CATALOG = window.UNIT_EXERCISES_CATALOG || {};
-window.UNIT_EXERCISES_CATALOG["0"] = {
+window.HOMEWORK_EXERCISES_CATALOG = window.HOMEWORK_EXERCISES_CATALOG || {};
+window.HOMEWORK_EXERCISES_CATALOG["0"] = {
   unitNumber: 0,
   unitSlug: "u_000",
   unitTitle: "Unità 0 · Alfabeto Italiano / Итальянский алфавит",

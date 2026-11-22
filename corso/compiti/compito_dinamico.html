@@ -142,7 +142,73 @@
     button.primary:hover:not(:disabled) { background: var(--green-dark); }
     button:disabled { opacity: .55; cursor: not-allowed; }
     #save-status { min-height: 1.4em; color: var(--green); font-weight: 700; }
-    .note { color: var(--muted); font-size: .9rem; }
+          .note { color: var(--muted); font-size: .9rem; }
+      .review-summary { margin: 0 0 22px; padding: clamp(18px, 3vw, 26px); border: 1px solid #c9dac9; border-radius: 18px; background: linear-gradient(135deg, #edf4ed, #fffefa 75%); }
+      .review-summary h2 { margin: 0 0 6px; font-size: 1.25rem; }
+      .review-summary-intro { margin: 0 0 16px; color: var(--muted); line-height: 1.5; }
+      .review-summary-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      .review-stat { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+      .review-stat strong { display: block; color: var(--green); font-size: 1.35rem; }
+      .review-stat span { color: var(--muted); font-size: .88rem; }
+      .exercise-review { margin-top: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #f8fbf7; }
+      .exercise-review h3 { margin-bottom: 5px; font-size: 1rem; }
+      .exercise-review-summary { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+      .review-item { margin: 8px 0; padding: 12px 14px; border: 1px solid var(--line); border-left-width: 4px; border-radius: 10px; background: #fff; }
+      .review-item.correct { border-color: var(--success); background: var(--success-bg); }
+      .review-item.incorrect { border-color: #c62828; background: #fde8e7; }
+      .review-item.ungraded { border-color: #b7b9b1; background: #f5f5f1; }
+      .review-item p { margin: 5px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .review-prompt { font-weight: 700; }
+      .review-answer-label { color: var(--muted); font-size: .88rem; font-weight: 700; }
+      .review-outcome { display: inline-block; margin-top: 6px; }
+      .exercise-review-comment { margin-top: 12px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; white-space: pre-wrap; }
+      .final-review-comment { margin: 0 0 20px; padding: 14px 18px; border-left: 4px solid var(--green); border-radius: 12px; background: var(--green-light); white-space: pre-wrap; }
+            @media (max-width: 520px) { .review-summary-stats { grid-template-columns: 1fr; } .review-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; } }
+
+    /* Rifiniture per una lettura più chiara e un uso comodo anche su mobile */
+    body { padding: clamp(16px, 4vw, 32px) 16px 56px; }
+    header { position: relative; overflow: hidden; }
+    header::after {
+      content: ""; position: absolute; width: 170px; height: 170px; right: -74px; top: -92px;
+      border: 22px solid rgba(47,87,57,.06); border-radius: 50%; pointer-events: none;
+    }
+    header > a { position: relative; z-index: 1; }
+    header p { font-size: 1rem; }
+    .ex-card { border-left: 4px solid var(--green); }
+    .ex-card h2 { margin-bottom: 14px; font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1.3; }
+    .instructions { padding: 12px 14px; border-radius: 10px; background: #f5f8f2; }
+    .item-block { transition: border-color .15s, box-shadow .15s; }
+    .item-block:focus-within { border-color: #9ab79c; box-shadow: 0 0 0 3px rgba(47,87,57,.08); }
+    .mc-label { transition: border-color .15s, background .15s; line-height: 1.45; }
+    .mc-label:hover { border-color: #9ab79c; background: #f8fbf7; }
+    input.gap-input, textarea.open-input { max-width: 100%; transition: border-color .15s, box-shadow .15s; }
+    input.gap-input:focus, textarea.open-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(47,87,57,.12); }
+    button.primary { transition: background .15s, transform .15s; }
+    button.primary:hover:not(:disabled) { transform: translateY(-1px); }
+    .task-submit { align-items: center; }
+    #save-status { padding: 0 4px; }
+    .review-item { line-height: 1.5; }
+    .review-item.correct, .review-item.incorrect, .review-item.ungraded { border-left-width: 5px; }
+    .review-outcome { padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.75); }
+    .exercise-review-comment, .final-review-comment { line-height: 1.6; }
+    @media (max-width: 640px) {
+      body { padding: 14px 12px 36px; }
+      header, .ex-card { border-radius: 16px; }
+      header { padding: 24px 18px; }
+      header > a { max-width: 100%; justify-content: center; text-align: center; }
+      .ex-card { padding: 20px 16px; }
+      .sort-pool { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; padding: 10px; }
+      .sort-col { padding: 11px; min-height: 160px; }
+      .sort-col-cards { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); }
+      .word-tile { padding: 8px 6px; }
+      .task-submit { align-items: stretch; padding: 16px; }
+      .task-submit button.primary { width: 100%; }
+      .review-summary, .exercise-review { padding: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -197,11 +263,12 @@
     let studentName = "";
     let submissionStatus = "in-progress";
     let saveTimer = null;
-    let resolvedExercises = [];
+        let resolvedExercises = [];
+    let teacherReviewData = {};
     const activePickByEx = {};
 
     function findExercisesByIds(ids) {
-      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
       const map = new Map();
       Object.keys(catalog).forEach(uKey => {
         (catalog[uKey].exercises || []).forEach(ex => {
@@ -244,9 +311,148 @@
       }, 350);
     }
 
+        function normalizeAnswer(value) {
+      return String(value ?? "").trim().toLocaleLowerCase("it");
+    }
+
+    function hasRussianSupport(ex) {
+      const unitNumber = Number(String(ex.unitTitle || "").match(/\d+/)?.[0]);
+      return Number.isFinite(unitNumber) && unitNumber <= 15;
+    }
+
+    function reviewLabel(ex, russian, italian) {
+      return hasRussianSupport(ex) ? `${russian} / ${italian}` : italian;
+    }
+
+    function itemIsCorrect(ex, item, saved) {
+      if (saved === undefined || saved === null || saved === "") return false;
+      if (ex.type === "column_sort") return String(saved) === String(item.column);
+      if (ex.type === "multiple_choice") {
+        const correct = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
+        return correct.some(value => String(value) === String(saved));
+      }
+      const expected = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
+      return expected.some(value => normalizeAnswer(value) === normalizeAnswer(saved));
+    }
+
+    function getReviewOutcome(ex, item, saved, row, teacherGrade) {
+      if (teacherGrade === "approved") return "correct";
+      if (teacherGrade === "rejected") return "incorrect";
+      if (row.expected === undefined || row.expected === null || row.expected === "") return "ungraded";
+      return itemIsCorrect(ex, item, saved) ? "correct" : "incorrect";
+    }
+
+    function renderReviewSummary() {
+      let correct = 0;
+      let incorrect = 0;
+      let ungraded = 0;
+      resolvedExercises.forEach(ex => {
+        const savedAnswers = answers[ex.id] || {};
+        const teacherRows = teacherReviewData.answers?.[ex.id] || {};
+        reviewRowsForExercise(ex, { answers }).forEach((row, index) => {
+          const item = (ex.items || [])[index] || {};
+          const reviewKey = String(row.id).replace(/[.#$\/\[\]]/g, "_");
+          const outcome = getReviewOutcome(ex, item, savedAnswers[item.id], row, teacherRows[reviewKey]?.grade);
+          if (outcome === "correct") correct++;
+          else if (outcome === "incorrect") incorrect++;
+          else ungraded++;
+        });
+      });
+      const summary = document.createElement("section");
+      summary.className = "review-summary";
+      summary.setAttribute("aria-label", "Riepilogo della revisione");
+      const supportExercise = resolvedExercises.find(hasRussianSupport) || resolvedExercises[0] || {};
+      const heading = document.createElement("h2");
+      heading.textContent = reviewLabel(supportExercise, "Итоги проверки", "Riepilogo della correzione");
+      const intro = document.createElement("p");
+      intro.className = "review-summary-intro";
+      intro.textContent = reviewLabel(supportExercise, "Ниже — ответы и комментарии преподавателя.", "Rivedi qui sotto le risposte e i commenti dell’insegnante.");
+      const stats = document.createElement("div");
+      stats.className = "review-summary-stats";
+      [[correct, reviewLabel(supportExercise, "Правильно", "Corrette")], [incorrect, reviewLabel(supportExercise, "Нужно исправить", "Da rivedere")], [ungraded, reviewLabel(supportExercise, "Не оценено", "Non valutate")]].forEach(([count, label]) => {
+        const stat = document.createElement("div");
+        stat.className = "review-stat";
+        const number = document.createElement("strong");
+        number.textContent = String(count);
+        const text = document.createElement("span");
+        text.textContent = label;
+        stat.append(number, text);
+        stats.appendChild(stat);
+      });
+      summary.append(heading, intro, stats);
+      container.appendChild(summary);
+    }
+
+    function appendExerciseReview(card, ex) {
+      const savedAnswers = answers[ex.id] || {};
+      const rows = reviewRowsForExercise(ex, { answers });
+      const teacherRows = teacherReviewData.answers?.[ex.id] || {};
+      const panel = document.createElement("section");
+      panel.className = "exercise-review";
+      const heading = document.createElement("h3");
+      heading.textContent = reviewLabel(ex, "Проверка упражнения", "Correzione dell’esercizio");
+      let correct = 0;
+      let incorrect = 0;
+      let ungraded = 0;
+      const outcomes = rows.map((row, index) => {
+        const item = (ex.items || [])[index] || {};
+        const saved = savedAnswers[item.id];
+        const reviewKey = String(row.id).replace(/[.#$\/\[\]]/g, "_");
+        const outcome = getReviewOutcome(ex, item, saved, row, teacherRows[reviewKey]?.grade);
+        if (outcome === "correct") correct++;
+        else if (outcome === "incorrect") incorrect++;
+        else ungraded++;
+        return { row, outcome };
+      });
+      const exerciseSummary = document.createElement("p");
+      exerciseSummary.className = "exercise-review-summary";
+      exerciseSummary.textContent = `${correct} ${reviewLabel(ex, "правильно", "corrette")} · ${incorrect} ${reviewLabel(ex, "нужно исправить", "da rivedere")}${ungraded ? ` · ${ungraded} ${reviewLabel(ex, "не оценено", "non valutate")}` : ""}`;
+      panel.append(heading, exerciseSummary);
+      outcomes.forEach(({ row, outcome }, index) => {
+        const line = document.createElement("div");
+        line.className = `review-item ${outcome}`;
+        const prompt = document.createElement("p");
+        prompt.className = "review-prompt";
+        prompt.textContent = `${index + 1}. ${row.prompt}`;
+        const answerLabel = document.createElement("p");
+        answerLabel.className = "review-answer-label";
+        answerLabel.textContent = reviewLabel(ex, "Твой ответ", "La tua risposta");
+        const answer = document.createElement("p");
+        answer.textContent = row.answer || reviewLabel(ex, "Ответ не записан.", "Nessuna risposta registrata.");
+        line.append(prompt, answerLabel, answer);
+        if (outcome === "incorrect" && row.expected) {
+          const expectedLabel = document.createElement("p");
+          expectedLabel.className = "review-answer-label";
+          expectedLabel.textContent = reviewLabel(ex, "Правильный ответ", "Risposta corretta");
+          const expected = document.createElement("p");
+          expected.textContent = row.expected;
+          line.append(expectedLabel, expected);
+        }
+        const result = document.createElement("strong");
+        result.className = "review-outcome";
+        result.textContent = outcome === "correct"
+          ? `✓ ${reviewLabel(ex, "Правильно", "Corretta")}`
+          : outcome === "incorrect"
+            ? `✕ ${reviewLabel(ex, "Нужно исправить", "Da rivedere")}`
+            : `○ ${reviewLabel(ex, "Не оценено", "Non valutata")}`;
+        line.appendChild(result);
+        panel.appendChild(line);
+      });
+      const exerciseComment = teacherReviewData.exerciseComments?.[String(ex.id).replace(/[.#$\/\[\]]/g, "_")]?.comment;
+      if (exerciseComment) {
+        const comment = document.createElement("div");
+        comment.className = "exercise-review-comment";
+        comment.textContent = `${reviewLabel(ex, "Комментарий преподавателя", "Commento dell’insegnante")}: ${exerciseComment}`;
+        panel.appendChild(comment);
+      }
+      card.appendChild(panel);
+    }
+
     function renderExercises() {
       container.replaceChildren();
       const disabled = submissionStatus === "reviewed";
+      if (disabled) renderReviewSummary();
+
 
       resolvedExercises.forEach((ex, exIdx) => {
         const card = document.createElement("article");
@@ -292,7 +498,8 @@
           }
         });
 
-        card.appendChild(bodyEl);
+                card.appendChild(bodyEl);
+        if (disabled) appendExerciseReview(card, ex);
         container.appendChild(card);
       });
     }
@@ -314,6 +521,33 @@
       }
     });
 
+        function reviewRowsForExercise(ex, submission) {
+      const exerciseAnswers = submission.answers?.[ex.id] || {};
+      return (ex.items || []).map((item, index) => {
+        const saved = exerciseAnswers[item.id];
+        let answer = saved;
+        let expected = "";
+
+        if (ex.type === "column_sort") {
+          const placedColumn = (ex.columns || []).find(column => column.id === saved);
+          const correctColumn = (ex.columns || []).find(column => column.id === item.column);
+          answer = placedColumn?.label || saved;
+          expected = correctColumn?.label || item.column || "";
+        } else if (ex.type === "multiple_choice") {
+          const selectedOption = (item.options || []).find(option => String(option.value) === String(saved));
+          answer = selectedOption?.label || saved;
+          const correctValues = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
+          expected = correctValues.map(value => (item.options || []).find(option => String(option.value) === String(value))?.label || value).join(" / ");
+        } else if (item.answers) {
+          expected = Array.isArray(item.answers) ? item.answers.join(" / ") : item.answers;
+        }
+
+        const prompt = item.prompt || item.title || item.word ||
+          [item.before, "[spazio]", item.after].filter(Boolean).join(" ") || `Risposta ${index + 1}`;
+        return { id: item.id || index, prompt, answer, expected };
+      });
+    }
+
     async function init() {
       if (!assignmentId) {
         pageMessage.textContent = "Manca il parametro ?assignment= nell'URL.";
@@ -322,7 +556,13 @@
       let session = null;
       try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
 
-      if (!session || !session.group || !session.name) {
+      const teacherReview = params.get("teacherReview") === "1";
+      const groupId = teacherReview ? params.get("group") : session?.group;
+      if (teacherReview && (!groupId || !params.get("student"))) {
+        pageMessage.textContent = "Parametri di revisione incompleti. Riapri il compito dalla gestione compiti.";
+        return;
+      }
+      if (!teacherReview && (!session || !session.group || !session.name)) {
         pageMessage.textContent = "Accedi dalla pagina principale per aprire questo compito.";
         return;
       }
@@ -332,7 +572,7 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const assignSnap = await db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}`).once("value");
+        const assignSnap = await db.ref(`compiti/gruppi/${groupId}/assegnazioni/${assignmentId}`).once("value");
         const assignment = assignSnap.val();
         if (!assignment) {
           throw new Error("Assegnazione non trovata su Firebase per questo gruppo.");
@@ -344,8 +584,25 @@
           throw new Error("Nessun esercizio del catalogo corrisponde agli ID selezionati. Verifica che i file unit_XXX_exercises.js siano caricati.");
         }
 
+        if (teacherReview) {
+          const opened = await window.openHomeworkTeacherReview({
+            taskData: { title: assignment.title || "Compito personalizzato" },
+            backHref: "../compiti.html",
+            buildRows(submission) {
+              return resolvedExercises.map(ex => ({
+                id: ex.id,
+                title: ex.title,
+                commentMode: "exercise",
+                rows: reviewRowsForExercise(ex, submission)
+              }));
+            }
+          });
+          if (!opened) throw new Error("Impossibile aprire la modalità di revisione.");
+          return;
+        }
+
         const studentKey = Array.from(session.name).map(ch => ch.codePointAt(0).toString(16)).join("_") || "studente";
-        submissionRef = db.ref(`compiti/gruppi/${session.group}/assegnazioni/${assignmentId}/consegne/${studentKey}`);
+        submissionRef = db.ref(`compiti/gruppi/${groupId}/assegnazioni/${assignmentId}/consegne/${studentKey}`);
         studentName = session.name;
 
         const subSnap = await submissionRef.once("value");
@@ -359,8 +616,16 @@
         if (submissionStatus === "reviewed") {
           submitBox.hidden = true;
           saveStatus.textContent = "Compito già revisionato dall’insegnante.";
+          teacherReviewData = sub.teacherReview || {};
         }
         renderExercises();
+        if (submissionStatus === "reviewed" && teacherReviewData.finalComment) {
+          const feedback = document.createElement("section");
+          feedback.className = "final-review-comment";
+          const supportExercise = resolvedExercises.find(hasRussianSupport) || resolvedExercises[0] || {};
+          feedback.textContent = `${reviewLabel(supportExercise, "Итоговый отзыв преподавателя", "Giudizio finale dell’insegnante")}: ${teacherReviewData.finalComment}`;
+          container.appendChild(feedback);
+        }
       } catch (err) {
         pageMessage.textContent = err.message || "Errore durante il caricamento del compito.";
       }

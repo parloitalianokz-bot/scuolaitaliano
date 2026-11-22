@@ -147,7 +147,11 @@
     .task-answer.approved, .task-answer.rejected { padding: 16px; border: 2px solid; font-size: 1.08rem; font-weight: 800; line-height: 1.5; }
     .task-answer.approved { border-color: #278253; background: #e1f1e5; color: #17623c; }
     .task-answer.rejected { border-color: #c62828; background: #fde8e7; color: #a51d1d; }
-    .task-feedback { margin-top: 10px; padding: 12px; border-left: 3px solid var(--accent); background: #fff8f2; white-space: pre-wrap; }
+         .task-feedback { margin-top: 10px; padding: 12px; border-left: 3px solid var(--accent); background: #fff8f2; white-space: pre-wrap; }
+     .task-final-review { margin-top: 16px; padding: 18px 20px; border: 1px solid #c9dac9; border-left: 5px solid var(--green); border-radius: 14px; background: linear-gradient(135deg, #edf4ed, #fffefa 80%); }
+     .task-final-review h3 { margin: 0 0 8px; color: var(--green); font-size: 1rem; }
+     .task-final-review p { margin: 0; color: #292d28; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+
     .question-strip { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; }
     .question-card { flex: 0 0 min(320px, 85vw); padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; scroll-snap-align: start; }
     .question-card p { margin: 0 0 12px; }
@@ -349,7 +353,7 @@
     }
     function groupLabel(id) { return `${groupData[id]?.nome || id} · ${id}`; }
     function unitCatalogExercises(unitNum) {
-      const unitObj = (window.UNIT_EXERCISES_CATALOG || {})[String(unitNum)];
+      const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(unitNum)];
       return Array.isArray(unitObj?.exercises) ? unitObj.exercises : [];
     }
 
@@ -450,27 +454,16 @@
     function noTasks(container, text) {
       container.replaceChildren(makeElement("p", "empty", text));
     }
-    function appendTeacherReviewToStudentCard(card, submission) {
-      const review = submission?.teacherReview;
-      if (review?.finalComment) {
-        card.appendChild(makeElement("div", "task-feedback", `Giudizio finale dell’insegnante: ${review.finalComment}`));
-      }
-      const notes = Object.entries(review?.answers || {}).flatMap(([sectionId, rows]) =>
-        Object.entries(rows || {}).flatMap(([rowId, item]) => {
-          if (!item || (!item.grade && !item.comment)) return [];
-          const grade = item.grade === "approved" ? "Approvata" : item.grade === "rejected" ? "Non approvata" : "";
-          const detail = [grade, item.comment ? `Commento: ${item.comment}` : ""].filter(Boolean).join(" · ");
-          return [`${sectionId} · ${rowId}: ${detail}`];
-        })
-      );
-      if (notes.length) {
-        const details = document.createElement("details");
-        details.className = "task-feedback";
-        details.appendChild(makeElement("summary", "", "Valutazioni e commenti dell’insegnante"));
-        notes.forEach(note => details.appendChild(makeElement("p", "", note)));
-        card.appendChild(details);
-      }
-    }
+         function appendTeacherReviewToStudentCard(card, submission) {
+       const finalComment = submission?.teacherReview?.finalComment;
+       if (!finalComment) return;
+       const panel = makeElement("section", "task-final-review");
+       panel.setAttribute("aria-label", "Giudizio finale dell’insegnante");
+       panel.appendChild(makeElement("h3", "", "Giudizio finale dell’insegnante"));
+       panel.appendChild(makeElement("p", "", finalComment));
+       card.appendChild(panel);
+     }
+
     const taskCache = new Map();
     function loadTaskDefinition(path) {
       if (!taskCache.has(path)) {
@@ -874,7 +867,7 @@
       assignmentTask.addEventListener("change", async () => {
         if (assignmentTask.value === CUSTOM_TASK_PATH) {
           customComposerBox.classList.remove("hidden");
-          const unitObj = (window.UNIT_EXERCISES_CATALOG || {})[String(assignmentUnit.value)];
+          const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(assignmentUnit.value)];
           const desc = unitObj?.description || "Compito personalizzato composto dagli esercizi selezionati.";
           taskDescriptionText.textContent = desc;
           taskInfoButton.disabled = false;

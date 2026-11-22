@@ -157,7 +157,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="unit_000_exercises.js"></script>
+  <script src="u_000/unit_000_exercises.js"></script>
   <script>
     const firebaseConfig = {
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
@@ -176,7 +176,7 @@
     let db = null;
 
     function getAllCatalogExercises() {
-      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
       const list = [];
       Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(unitKey => {
         const unitObj = catalog[unitKey];
@@ -204,7 +204,7 @@
       const select = document.getElementById("unit-filter");
       select.replaceChildren();
       select.appendChild(new Option("Tutte le unità caricate", "all"));
-      const catalog = window.UNIT_EXERCISES_CATALOG || {};
+      const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
       Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(key => {
         select.appendChild(new Option(catalog[key].unitTitle || `Unità ${key}`, key));
       });
