@@ -8,91 +8,240 @@ window.UNIT_EXERCISES_CATALOG["0"] = {
   description: "Fonetica, vocali pure senza riduzione, suoni duri e dolci (C/G, CH/GH, GN/GLI, SCI/SCE), H muta, S e Z con traslitterazione in cirillico. / Фонетика, чистые гласные без редукции, твёрдые и мягкие звуки, немая H, S и Z с транслитерацией кириллицей.",
   exercises: [
     {
-      id: "u000_es1_mc",
+      id: "u000_es1_c_sort",
+      unitNumber: 0,
+      tier: "Base",
+      tierLabel: "1 · Riconoscimento e abbinamento (Livello base · A0)",
+      type: "column_sort",
+      title: "1.1 Abbinamento · Suono della C dolce [ч] o dura [к] / Распределение · Мягкий [ч] или твёрдый [к] звук C",
+      instructions: "Inserisci ogni scheda (parola + immagine) nella colonna giusta: trascinala (drag & drop) oppure clicca sulla scheda e poi clicca sulla colonna (o viceversa, clicca sulla colonna e poi sulla scheda). / Перетащи карточку в нужный столбец или нажми на карточку, а затем на столбец (или наоборот: сначала выбери столбец, затем карточку).",
+      columns: [
+        { id: "dolce", label: "C dolce [ч] / Мягкий [ч]" },
+        { id: "dura", label: "C dura [к] / Твёрдый [к]" }
+      ],
+      items: [
+        {
+          id: "c1",
+          word: "cinese",
+          translit: "[чинезе]",
+          image: "img/cinese.jpg",
+          fallbackEmoji: "🇨🇳",
+          column: "dolce"
+        },
+        {
+          id: "c2",
+          word: "chitarra",
+          translit: "[китарра]",
+          image: "img/chitarra.jpg",
+          fallbackEmoji: "🎸",
+          column: "dura"
+        },
+        {
+          id: "c3",
+          word: "cinema",
+          translit: "[чинема]",
+          image: "img/cinema.jpg",
+          fallbackEmoji: "🎬",
+          column: "dolce"
+        },
+        {
+          id: "c4",
+          word: "quaderno",
+          translit: "[куадерно]",
+          image: "img/quaderno.jpg",
+          fallbackEmoji: "📓",
+          column: "dura"
+        },
+        {
+          id: "c5",
+          word: "città",
+          translit: "[читта]",
+          image: "img/citta.jpg",
+          fallbackEmoji: "🏙️",
+          column: "dolce"
+        },
+        {
+          id: "c6",
+          word: "chiave",
+          translit: "[кьяве]",
+          image: "img/chiave.jpg",
+          fallbackEmoji: "🔑",
+          column: "dura"
+        }
+      ]
+    },
+    {
+      id: "u000_es1_g_sort",
+      unitNumber: 0,
+      tier: "Base",
+      tierLabel: "1 · Riconoscimento e abbinamento (Livello base · A0)",
+      type: "column_sort",
+      title: "1.2 Abbinamento · Suono della G dolce [дж] o dura [г] / Распределение · Мягкий [дж] или твёрдый [г] звук G",
+      instructions: "Inserisci ogni scheda (parola + immagine) nella colonna giusta tramite drag & drop oppure cliccando sulla scheda e poi sulla colonna (o viceversa). / Перетащи карточку в нужный столбец или нажми на карточку, а затем на столбец (или наоборот).",
+      columns: [
+        { id: "dolce", label: "G dolce [дж] / Мягкий [дж]" },
+        { id: "dura", label: "G dura [г] / Твёрдый [г]" }
+      ],
+      items: [
+        {
+          id: "g1",
+          word: "gatto",
+          translit: "[гатто]",
+          image: "img/gatto.jpg",
+          fallbackEmoji: "🐱",
+          column: "dura"
+        },
+        {
+          id: "g2",
+          word: "gioco",
+          translit: "[джоко]",
+          image: "img/gioco.jpg",
+          fallbackEmoji: "🎲",
+          column: "dolce"
+        },
+        {
+          id: "g3",
+          word: "ghiaccio",
+          translit: "[гьяччо]",
+          image: "img/ghiaccio.jpg",
+          fallbackEmoji: "🧊",
+          column: "dura"
+        },
+        {
+          id: "g4",
+          word: "giraffa",
+          translit: "[джираффа]",
+          image: "img/giraffa.jpg",
+          fallbackEmoji: "🦒",
+          column: "dolce"
+        },
+        {
+          id: "g5",
+          word: "gomma",
+          translit: "[гомма]",
+          image: "img/gomma.jpg",
+          fallbackEmoji: "🧼",
+          column: "dura"
+        },
+        {
+          id: "g6",
+          word: "giardino",
+          translit: "[джардино]",
+          image: "img/giardino.jpg",
+          fallbackEmoji: "🌿",
+          column: "dolce"
+        }
+      ]
+    },
+    {
+      id: "u000_es1_s_sort",
+      unitNumber: 0,
+      tier: "Base",
+      tierLabel: "1 · Riconoscimento e abbinamento (Livello base · A0)",
+      type: "column_sort",
+      title: "1.3 Abbinamento · Suono della S sorda [с] o sonora [з] / Распределение · Глухой [с] или звонкий [з] звук S",
+      instructions: "Inserisci ogni scheda (parola + immagine) nella colonna giusta tramite drag & drop oppure cliccando sulla scheda e poi sulla colonna (o viceversa). / Перетащи карточку в нужный столбец или нажми на карточку, а затем на столбец (или наоборот).",
+      columns: [
+        { id: "sorda", label: "S sorda [с] / Глухой [с]" },
+        { id: "sonora", label: "S sonora [з] / Звонкий [з]" }
+      ],
+      items: [
+        {
+          id: "s1",
+          word: "sole",
+          translit: "[соле]",
+          image: "img/sole.jpg",
+          fallbackEmoji: "☀️",
+          column: "sorda"
+        },
+        {
+          id: "s2",
+          word: "vaso",
+          translit: "[вазо]",
+          image: "img/vaso.jpg",
+          fallbackEmoji: "🏺",
+          column: "sonora"
+        },
+        {
+          id: "s3",
+          word: "stella",
+          translit: "[стелла]",
+          image: "img/stella.jpg",
+          fallbackEmoji: "⭐",
+          column: "sorda"
+        },
+        {
+          id: "s4",
+          word: "rosa",
+          translit: "[роза]",
+          image: "img/rosa.jpg",
+          fallbackEmoji: "🌹",
+          column: "sonora"
+        },
+        {
+          id: "s5",
+          word: "scuola",
+          translit: "[скуола]",
+          image: "img/scuola.jpg",
+          fallbackEmoji: "🏫",
+          column: "sorda"
+        },
+        {
+          id: "s6",
+          word: "svizzero",
+          translit: "[свиццеро]",
+          image: "img/svizzero.jpg",
+          fallbackEmoji: "🇨🇭",
+          column: "sonora"
+        }
+      ]
+    },
+    {
+      id: "u000_es1_gn_gl_qa",
       unitNumber: 0,
       tier: "Base",
       tierLabel: "1 · Riconoscimento e abbinamento (Livello base · A0)",
       type: "multiple_choice",
-      title: "1.1 Scelta multipla · Suoni e lettere dell'alfabeto / Выбор ответа · Звуки и буквы",
-      instructions: "Leggi la parola e scegli il suono corretto della lettera o del gruppo evidenziato. / Прочитай слово и выбери правильный звук выделенной буквы или сочетания.",
+      title: "1.4 Domande su GN e GLI con trascrizione russa / Вопросы о GN и GLI с русской транскрипцией",
+      instructions: "Scegli la trascrizione o la regola corretta per i gruppi GN e GLI. / Выбери правильную транскрипцию или правило для сочетаний GN и GLI.",
       items: [
         {
           id: "q1",
-          prompt: "cinema [чинема] — come suona la C? / Как звучит C?",
+          prompt: "Come si legge «gn» in montagna? / Как читается «gn» в слове montagna [монтанья]?",
           options: [
-            { value: "A", label: "A · [к]" },
-            { value: "B", label: "B · [ч]" },
-            { value: "C", label: "C · [с]" }
+            { value: "A", label: "A · [нь] (как в «конь»)" },
+            { value: "B", label: "B · [гн] (как «гн»)" },
+            { value: "C", label: "C · [н] (как «н»)" }
           ],
-          answers: ["B"]
+          answers: ["A"]
         },
         {
           id: "q2",
-          prompt: "chitarra [китарра] — perché c'è la H? / Зачем здесь H?",
+          prompt: "Qual è la trascrizione corretta di «gnomo»? / Какая транскрипция верна для «gnomo»?",
           options: [
-            { value: "A", label: "A · Per fare [ч]" },
-            { value: "B", label: "B · Per mantenere il suono duro [к] davanti a «i» / Чтобы сохранить твёрдый [к] перед «i»" },
-            { value: "C", label: "C · Per allungare la «i»" }
+            { value: "A", label: "A · [гномо]" },
+            { value: "B", label: "B · [ньомо]" },
+            { value: "C", label: "C · [номо]" }
           ],
           answers: ["B"]
         },
         {
           id: "q3",
-          prompt: "gatto [гатто] — come suona la G? / Как звучит G?",
+          prompt: "Come si legge «gli» in famiglia? / Как читается «gli» в слове famiglia [фамилия]?",
           options: [
-            { value: "A", label: "A · [дж]" },
-            { value: "B", label: "B · [г]" },
-            { value: "C", label: "C · È muta / Не произносится" }
+            { value: "A", label: "A · [гли] (как «гли»)" },
+            { value: "B", label: "B · [ль] (мягкий звук, как в «семья»)" },
+            { value: "C", label: "C · [ли] (как «ли»)" }
           ],
           answers: ["B"]
         },
         {
           id: "q4",
-          prompt: "ghiaccio [гьяччо] — come suona «ghi»? / Как звучит «ghi»?",
+          prompt: "Qual è la trascrizione corretta di «luglio»? / Какая транскрипция верна для «luglio»?",
           options: [
-            { value: "A", label: "A · Suono duro [г] + vocale / Твёрдый [г] + гласный" },
-            { value: "B", label: "B · Suono dolce [дж] + vocale / Мягкий [дж] + гласный" },
-            { value: "C", label: "C · Suono [ль]" }
-          ],
-          answers: ["A"]
-        },
-        {
-          id: "q5",
-          prompt: "montagna [монтанья] — come suona «gn»? / Как звучит «gn»?",
-          options: [
-            { value: "A", label: "A · [нь] (come in «конь»)" },
-            { value: "B", label: "B · [гн]" },
-            { value: "C", label: "C · [н]" }
-          ],
-          answers: ["A"]
-        },
-        {
-          id: "q6",
-          prompt: "coniglio [конильо] — come suona «gli»? / Как звучит «gli»?",
-          options: [
-            { value: "A", label: "A · [гли]" },
-            { value: "B", label: "B · [ль] (come in «семья»)" },
-            { value: "C", label: "C · [ли]" }
-          ],
-          answers: ["B"]
-        },
-        {
-          id: "q7",
-          prompt: "scena [шена] — come suona «sce»? / Как звучит «sce»?",
-          options: [
-            { value: "A", label: "A · [ске]" },
-            { value: "B", label: "B · [ше] (come «шэ»)" },
-            { value: "C", label: "C · [се]" }
-          ],
-          answers: ["B"]
-        },
-        {
-          id: "q8",
-          prompt: "vaso [вазо] — come suona la S tra due vocali? / Как звучит S между двумя гласными?",
-          options: [
-            { value: "A", label: "A · [с]" },
-            { value: "B", label: "B · [з]" },
-            { value: "C", label: "C · [ш]" }
+            { value: "A", label: "A · [луглио]" },
+            { value: "B", label: "B · [лульо]" },
+            { value: "C", label: "C · [люльо]" }
           ],
           answers: ["B"]
         }
