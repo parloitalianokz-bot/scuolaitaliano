@@ -3,374 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compositore compiti personalizzati · Assegnazione al gruppo</title>
+  <title>Componi un compito · Italiano</title>
   <style>
-    :root {
-      color-scheme: light;
-      font-family: 'Segoe UI', Inter, system-ui, sans-serif;
-      color: #292d28;
-      background: #f5f3ec;
-      --green: #2f5739; --green-dark: #1e3d27; --green-light: #edf4ed;
-      --accent: #bd694d; --muted: #6b7069; --line: #d8e5d8; --paper: #fffefa;
-      --success: #278253; --success-bg: #e1f1e5;
-    }
+    :root { font-family: system-ui, sans-serif; color: #263329; background: #f5f3ec; --green:#2f5739; --line:#d8e5d8; --paper:#fffefa; }
     * { box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      margin: 0;
-      padding: 32px 16px 64px;
-      background: linear-gradient(rgba(250,248,241,.88),rgba(250,248,241,.94)), url("../u_001/img/sfondo-firenze.jpg") center / cover fixed, #e9e3d6;
-    }
-    main { width: min(100%, 960px); margin: auto; }
-    a { color: var(--green); font-weight: 700; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    h1, h2, h3 { color: var(--green); margin-top: 0; }
-    :focus-visible { outline: 3px solid rgba(189,105,77,.55); outline-offset: 3px; }
-
-    header, .panel {
-      margin-bottom: 22px;
-      padding: clamp(20px, 3.5vw, 32px);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--paper);
-      box-shadow: 0 12px 34px rgba(43,69,46,.08);
-    }
-    header { padding: clamp(24px, 4.5vw, 40px); border-top: 4px solid var(--green); text-align: center; }
-    header > a {
-      display: inline-flex; min-height: 38px; align-items: center; margin-bottom: 16px;
-      padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff;
-    }
-    .eyebrow { display: block; margin-bottom: 8px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing: -.03em; line-height: 1.15; }
-    header p { max-width: 740px; margin: 12px auto 0; color: var(--muted); line-height: 1.6; }
-
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 16px; }
-    label.field { display: flex; flex-direction: column; gap: 6px; font-weight: 700; color: var(--green); font-size: .92rem; }
-    input, select, textarea {
-      padding: 10px 12px;
-      border: 1.5px solid #b9cdb9;
-      border-radius: 10px;
-      background: #fff;
-      color: inherit;
-      font: inherit;
-    }
-    textarea.json-box {
-      width: 100%;
-      min-height: 145px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: .84rem;
-      line-height: 1.45;
-    }
-
-    .ex-pick-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-    .ex-pick-item {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 14px;
-      border: 1px solid #e2e8e2;
-      border-radius: 12px;
-      background: #faf9f5;
-    }
-    .ex-pick-item.selected { border-color: var(--green); background: var(--green-light); }
-    .ex-meta { font-size: .82rem; color: var(--muted); }
-
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    button.primary {
-      min-height: 44px; padding: 9px 18px; border: 0; border-radius: 10px;
-      background: var(--green); color: #fff; font: inherit; font-weight: 700; cursor: pointer;
-    }
-    button.primary:hover { background: var(--green-dark); }
-    button.secondary {
-      min-height: 44px; padding: 9px 16px; border: 1.5px solid var(--green); border-radius: 10px;
-      background: #fff; color: var(--green); font: inherit; font-weight: 700; cursor: pointer;
-    }
-    .status-msg { margin-top: 12px; font-weight: 700; color: var(--green); }
-    .status-msg.error { color: #a33226; }
+    body { margin:0; padding:28px 14px 56px; }
+    main { width:min(100%,900px); margin:auto; }
+    .panel { margin:16px 0; padding:22px; border:1px solid var(--line); border-radius:18px; background:var(--paper); box-shadow:0 8px 24px #26332912; }
+    h1,h2 { color:var(--green); }
+    .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+    label.field { display:grid; gap:6px; font-weight:650; }
+    input,select,textarea { width:100%; padding:10px; border:1px solid #b8c8b8; border-radius:9px; font:inherit; }
+    .exercise { display:flex; gap:12px; align-items:flex-start; padding:12px; border-bottom:1px solid var(--line); }
+    .exercise input { width:auto; margin-top:5px; }
+    .meta { color:#626b63; font-size:.88rem; }
+    button,.button { display:inline-block; padding:11px 16px; border:0; border-radius:9px; background:var(--green); color:#fff; font:inherit; font-weight:700; cursor:pointer; text-decoration:none; }
+    button:disabled { opacity:.55; cursor:wait; }
+    #status { white-space:pre-wrap; }
+    @media(max-width:540px) { .panel { padding:16px; } }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <a href="../compiti.html">← Torna ai compiti a casa</a>
-      <span class="eyebrow">Docente · Assegnazione Compiti Composti</span>
-      <h1>Assegna un compito personalizzato al gruppo</h1>
-      <p>Importa il JSON generato (anche con esercizi presi da unità diverse), scegli il gruppo su Firebase e pubblica l'assegnazione con un link univoco per gli studenti.</p>
-    </header>
-
+    <p><a href="../compiti.html">← Torna a Compiti / Назад к заданиям</a></p>
+    <h1>Componi un compito / Составь задание</h1>
+    <p>Seleziona gli esercizi del catalogo e assegnali al gruppo. / Выбери упражнения из каталога и назначь их группе.</p>
     <section class="panel">
-      <h2>1. Importa o modifica la bozza JSON</h2>
-      <div class="actions" style="margin-top:0;margin-bottom:12px;">
-        <button type="button" id="load-draft-btn" class="secondary">Carica bozza salvata da pagina unità</button>
-        <button type="button" id="apply-json-btn" class="secondary">Applica JSON alla selezione</button>
+      <div class="fields">
+        <label class="field">Gruppo / Группа<select id="group"></select></label>
+        <label class="field">Unità / Раздел<select id="unit"></select></label>
+        <label class="field">Titolo / Название<input id="title" value="Compito personalizzato · Unità 1"></label>
       </div>
-      <textarea id="json-input" class="json-box" spellcheck="false"></textarea>
+      <label class="field" style="margin-top:14px">Indicazioni aggiuntive / Дополнительные инструкции<textarea id="description" rows="3"></textarea></label>
     </section>
-
     <section class="panel">
-      <h2>2. Seleziona esercizi (stessa unità o altre unità)</h2>
-      <div class="grid-2">
-        <label class="field">
-          Filtra per unità
-          <select id="unit-filter"></select>
-        </label>
-        <label class="field">
-          Titolo assegnazione
-          <input type="text" id="assignment-title" placeholder="Es. Compito misto · Alfabeto + Ripasso">
-        </label>
-      </div>
-      <div id="catalog-picker" class="ex-pick-list"></div>
+      <h2>Esercizi selezionabili / Упражнения для выбора</h2>
+      <div id="exercise-list"></div>
+      <p id="empty" hidden>Nessun esercizio per questa unità. / В этом разделе нет упражнений.</p>
     </section>
-
     <section class="panel">
-      <h2>3. Assegna al gruppo su Firebase</h2>
-      <div class="grid-2">
-        <label class="field">
-          Gruppo di destinazione
-          <select id="target-group">
-            <option value="">Caricamento gruppi…</option>
-          </select>
-        </label>
-        <label class="field">
-          Unità di riferimento (per soglia studente)
-          <input type="number" id="assignment-unit" min="0" value="0">
-        </label>
-      </div>
-      <div class="grid-2">
-        <label class="field">
-          Percorso pagina compito dinamico (taskPath)
-          <input type="text" id="task-path" value="compiti/compito_dinamico.html">
-        </label>
-        <label class="field">
-          Data di scadenza (opzionale)
-          <input type="date" id="due-date">
-        </label>
-      </div>
-      <div class="actions">
-        <button type="button" id="publish-btn" class="primary">Pubblica assegnazione sul gruppo</button>
-      </div>
-      <div id="publish-status" class="status-msg" role="status" aria-live="polite"></div>
+      <button id="publish" type="button">Assegna al gruppo / Назначить группе</button>
+      <p id="status" role="status" aria-live="polite"></p>
     </section>
   </main>
-
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="u_000/unit_000_exercises.js"></script>
+  <script src="u_001/unit_001_exercises.js"></script>
   <script>
     const firebaseConfig = {
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "esercizi-parlo-italiano"
     };
-    const DRAFT_STORAGE_KEY = "parlo_selected_exercises_draft";
+    const teacherPins = { Antonio: "2202", Assel: "2109" };
+    const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
+    const groupSelect = document.getElementById("group");
+    const unitSelect = document.getElementById("unit");
+    const list = document.getElementById("exercise-list");
+    const status = document.getElementById("status");
+    let session = null;
+    let groups = {};
 
-    const defaultJson = {
-      assignmentTitle: "Compito personalizzato · Unità 0 (Alfabeto Italiano)",
-      selectedExerciseIds: ["u000_es1_mc", "u000_es2_incastro"],
-      createdAt: new Date().toISOString()
-    };
-
-    let selectedIds = [...defaultJson.selectedExerciseIds];
-    let activeUnitFilter = "all";
-    let db = null;
-
-    function getAllCatalogExercises() {
-      const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
-      const list = [];
-      Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(unitKey => {
-        const unitObj = catalog[unitKey];
-        (unitObj.exercises || []).forEach(ex => {
-          list.push({
-            ...ex,
-            unitNumber: unitObj.unitNumber ?? Number(unitKey),
-            unitTitle: unitObj.unitTitle || `Unità ${unitKey}`
-          });
-        });
-      });
-      return list;
-    }
-
-    function syncTextareaFromState() {
-      const payload = {
-        assignmentTitle: document.getElementById("assignment-title").value.trim() || "Compito personalizzato",
-        selectedExerciseIds: selectedIds,
-        createdAt: new Date().toISOString()
-      };
-      document.getElementById("json-input").value = JSON.stringify(payload, null, 2);
-    }
-
-    function populateUnitFilter() {
-      const select = document.getElementById("unit-filter");
-      select.replaceChildren();
-      select.appendChild(new Option("Tutte le unità caricate", "all"));
-      const catalog = window.HOMEWORK_EXERCISES_CATALOG || {};
-      Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(key => {
-        select.appendChild(new Option(catalog[key].unitTitle || `Unità ${key}`, key));
-      });
-      select.value = activeUnitFilter;
-    }
-
-    function renderCatalogPicker() {
-      const container = document.getElementById("catalog-picker");
-      container.replaceChildren();
-      const all = getAllCatalogExercises().filter(ex =>
-        activeUnitFilter === "all" || String(ex.unitNumber) === String(activeUnitFilter)
-      );
-
-      all.forEach(ex => {
-        const isSelected = selectedIds.includes(ex.id);
+    function renderExercises() {
+      list.replaceChildren();
+      const unit = catalog[unitSelect.value];
+      const exercises = unit?.exercises || [];
+      const defaults = new Set(unit?.defaultExerciseIds || []);
+      document.getElementById("empty").hidden = exercises.length > 0;
+      exercises.forEach(ex => {
         const row = document.createElement("label");
-        row.className = `ex-pick-item${isSelected ? " selected" : ""}`;
-
-        const left = document.createElement("div");
-        const title = document.createElement("div");
-        title.innerHTML = `<strong>${ex.title}</strong>`;
+        row.className = "exercise";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = ex.id;
+        checkbox.checked = defaults.has(ex.id);
+        const info = document.createElement("span");
+        const title = document.createElement("strong");
+        title.textContent = ex.title;
         const meta = document.createElement("div");
-        meta.className = "ex-meta";
-        meta.textContent = `${ex.unitTitle} · ${ex.tierLabel} · ID: ${ex.id}`;
-        left.append(title, meta);
-
-        const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.checked = isSelected;
-        cb.addEventListener("change", () => {
-          if (cb.checked) {
-            if (!selectedIds.includes(ex.id)) selectedIds.push(ex.id);
-          } else {
-            selectedIds = selectedIds.filter(id => id !== ex.id);
-          }
-          renderCatalogPicker();
-          syncTextareaFromState();
-        });
-
-        row.append(left, cb);
-        container.appendChild(row);
+        meta.className = "meta";
+        meta.textContent = `${ex.tierLabel} · ${ex.type}`;
+        info.append(title, meta);
+        row.append(checkbox, info);
+        list.appendChild(row);
       });
+      document.getElementById("title").value = `Compito personalizzato · Unità ${unitSelect.value}`;
     }
 
-    function loadDraftFromLocalStorage() {
-      try {
-        const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw);
-        if (parsed.assignmentTitle) document.getElementById("assignment-title").value = parsed.assignmentTitle;
-        if (Array.isArray(parsed.selectedExerciseIds)) selectedIds = parsed.selectedExerciseIds;
-        renderCatalogPicker();
-        syncTextareaFromState();
-      } catch (_) {}
-    }
-
-    document.getElementById("load-draft-btn").addEventListener("click", () => {
-      loadDraftFromLocalStorage();
-      const st = document.getElementById("publish-status");
-      st.className = "status-msg";
-      st.textContent = "Bozza caricata da localStorage.";
-    });
-
-    document.getElementById("apply-json-btn").addEventListener("click", () => {
-      const st = document.getElementById("publish-status");
-      try {
-        const parsed = JSON.parse(document.getElementById("json-input").value);
-        if (!Array.isArray(parsed.selectedExerciseIds)) {
-          throw new Error("Il campo selectedExerciseIds deve essere un array.");
-        }
-        selectedIds = parsed.selectedExerciseIds.map(String);
-        if (parsed.assignmentTitle) {
-          document.getElementById("assignment-title").value = parsed.assignmentTitle;
-        }
-        renderCatalogPicker();
-        syncTextareaFromState();
-        st.className = "status-msg";
-        st.textContent = `JSON applicato: ${selectedIds.length} esercizi selezionati.`;
-      } catch (err) {
-        st.className = "status-msg error";
-        st.textContent = `JSON non valido: ${err.message}`;
+    async function initialize() {
+      try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+      if (!session?.isTeacher || !teacherPins[session.teacher]) {
+        status.textContent = "Accedi come insegnante dalla pagina principale. / Войдите как преподаватель на главной странице.";
+        document.getElementById("publish").disabled = true;
+        return;
       }
-    });
-
-    document.getElementById("unit-filter").addEventListener("change", (e) => {
-      activeUnitFilter = e.target.value;
-      renderCatalogPicker();
-    });
-
-    document.getElementById("assignment-title").addEventListener("input", syncTextareaFromState);
-
-    async function initGroups() {
-      const select = document.getElementById("target-group");
       try {
-        if (!window.firebase) throw new Error("Firebase non caricato");
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        db = firebase.database();
-        const snap = await db.ref("configurazioneScuola/gruppi").once("value");
-        const groups = snap.val() || {};
-        select.replaceChildren();
-        const keys = Object.keys(groups);
-        if (!keys.length) {
-          select.appendChild(new Option("Nessun gruppo trovato su Firebase", ""));
-          return;
-        }
-        keys.forEach(gKey => {
-          const g = groups[gKey];
-          select.appendChild(new Option(`${g.nome || gKey} (${gKey})`, gKey));
+        const snap = await firebase.database().ref("configurazioneScuola/gruppi").once("value");
+        groups = snap.val() || {};
+        Object.entries(groups).filter(([, group]) => group && group.attivo !== false)
+          .sort((a, b) => String(a[1].nome || a[0]).localeCompare(String(b[1].nome || b[0]), "it"))
+          .forEach(([id, group]) => groupSelect.add(new Option(`${group.nome || id} · ${id}`, id)));
+        if (!groupSelect.options.length) throw new Error("Nessun gruppo attivo. / Нет активных групп.");
+        Object.keys(catalog).sort((a, b) => Number(a) - Number(b)).forEach(key => {
+          unitSelect.add(new Option(catalog[key].unitTitle || `Unità ${key}`, key));
         });
-      } catch (err) {
-        select.replaceChildren();
-        select.appendChild(new Option("Errore caricamento gruppi", ""));
+        unitSelect.value = "1" in catalog ? "1" : unitSelect.options[0]?.value;
+        renderExercises();
+      } catch (error) {
+        status.textContent = error.message || "Impossibile caricare gruppi e cataloghi. / Не удалось загрузить группы и каталог.";
+        document.getElementById("publish").disabled = true;
       }
     }
 
-    document.getElementById("publish-btn").addEventListener("click", async () => {
-      const st = document.getElementById("publish-status");
-      const groupKey = document.getElementById("target-group").value;
-      const title = document.getElementById("assignment-title").value.trim() || "Compito personalizzato";
-      const unitNumber = Number(document.getElementById("assignment-unit").value || 0);
-      const taskPath = document.getElementById("task-path").value.trim() || "compiti/compito_dinamico.html";
-      const dueDate = document.getElementById("due-date").value || null;
-
-      if (!db) {
-        st.className = "status-msg error";
-        st.textContent = "Connessione a Firebase non disponibile.";
+    unitSelect.addEventListener("change", renderExercises);
+    document.getElementById("publish").addEventListener("click", async event => {
+      const selectedExerciseIds = Array.from(list.querySelectorAll("input:checked"), input => input.value);
+      if (!selectedExerciseIds.length) {
+        status.textContent = "Seleziona almeno un esercizio. / Выбери хотя бы одно упражнение.";
         return;
       }
-      if (!groupKey) {
-        st.className = "status-msg error";
-        st.textContent = "Seleziona un gruppo prima di assegnare il compito.";
-        return;
-      }
-      if (!selectedIds.length) {
-        st.className = "status-msg error";
-        st.textContent = "Seleziona almeno un esercizio (selectedExerciseIds vuoto).";
-        return;
-      }
-
+      const button = event.currentTarget;
+      button.disabled = true;
+      status.textContent = "Pubblicazione in corso… / Публикация…";
       try {
-        const assignRef = db.ref(`compiti/gruppi/${groupKey}/assegnazioni`).push();
-        const assignmentData = {
-          id: assignRef.key,
-          title,
+        const unitNumber = Number(unitSelect.value);
+        const ref = firebase.database().ref(`compiti/gruppi/${groupSelect.value}/assegnazioni`).push();
+        await ref.set({
           unitNumber,
-          taskPath,
-          selectedExerciseIds: selectedIds,
-          dueDate,
+          title: document.getElementById("title").value.trim() || `Compito personalizzato · Unità ${unitNumber}`,
+          description: document.getElementById("description").value.trim(),
+          taskPath: "compiti/compito_dinamico.html",
+          selectedExerciseIds,
           createdAt: Date.now(),
-          status: "active"
-        };
-        await assignRef.set(assignmentData);
-        const studentLink = `${taskPath}?assignment=${encodeURIComponent(assignRef.key)}`;
-        st.className = "status-msg";
-        st.textContent = `Compito assegnato al gruppo "${groupKey}"! ID: ${assignRef.key} · Link studente: ${studentLink}`;
-      } catch (err) {
-        st.className = "status-msg error";
-        st.textContent = `Errore durante il salvataggio: ${err.message}`;
+          createdBy: session.teacher,
+          consegne: {}
+        });
+        status.textContent = `Compito assegnato al gruppo ${groups[groupSelect.value].nome || groupSelect.value}. / Задание назначено группе.`;
+      } catch (_) {
+        status.textContent = "Impossibile assegnare il compito. Verifica le regole Firebase. / Не удалось назначить задание. Проверь правила Firebase.";
+      } finally {
+        button.disabled = false;
       }
     });
-
-    document.getElementById("assignment-title").value = defaultJson.assignmentTitle;
-    populateUnitFilter();
-    renderCatalogPicker();
-    syncTextareaFromState();
-    initGroups();
+    initialize();
   </script>
 </body>
 </html>

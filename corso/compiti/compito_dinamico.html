@@ -56,6 +56,12 @@
       background: var(--green-light); color: var(--green); font-size: .78rem; font-weight: 800; margin-bottom: 8px;
     }
     .instructions { color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+     .mc-question, .gap-line {
+       color: var(--green-dark); font-family: Georgia, 'Times New Roman', serif;
+       font-size: clamp(1.02rem, 2.6vw, 1.16rem); font-weight: 600; line-height: 1.7;
+     }
+     .mc-question { margin-bottom: 4px; }
+     .mc-question strong, .gap-line > strong { font-family: 'Segoe UI', Inter, system-ui, sans-serif; font-size: .92em; font-weight: 800; }
     .example-box {
       margin: 0 0 14px; padding: 10px 14px; border-left: 3px solid var(--accent);
       border-radius: 8px; background: #fff8f2; font-size: .92rem; line-height: 1.5;
@@ -113,13 +119,57 @@
     }
     .item-block:last-child { margin-bottom: 0; }
     .mc-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-    .mc-label {
-      display: flex; align-items: center; gap: 10px; padding: 8px 12px;
-      border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; cursor: pointer;
-    }
-    .mc-label input { width: 17px; height: 17px; accent-color: var(--green); cursor: pointer; }
+     .mc-label {
+       display: flex; align-items: center; gap: 11px; min-height: 48px; padding: 10px 14px;
+       border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: #292d28;
+       cursor: pointer; font: inherit; font-size: 1rem; font-weight: 600; line-height: 1.45;
+       text-align: left; transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+     }
+     .mc-label:hover { border-color: #477755; background: #edf4ed; }
+     .mc-label:has(input:checked) { border-color: var(--green-dark); background: #e2ede3; color: var(--green-dark); font-weight: 700; }
+     .mc-label:focus-within { outline: 3px solid rgba(189,105,77,.4); outline-offset: 2px; }
+     .mc-label input { width: 18px; height: 18px; flex: 0 0 18px; margin: 0; accent-color: var(--green); cursor: pointer; }
+     .mc-option-letter {
+       display: inline-grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px;
+       border-radius: 8px; background: var(--green-light); color: var(--green-dark);
+       font: 800 .84rem 'Segoe UI', Inter, system-ui, sans-serif; text-transform: uppercase;
+     }
+     .mc-option-text { min-width: 0; }
+     .gap-line .gap-input { font-family: 'Segoe UI', Inter, system-ui, sans-serif; font-size: .98rem; }
     .gap-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; line-height: 1.7; }
     .gap-cue { font-size: .8rem; font-weight: 700; color: var(--accent); }
+
+    .matching-select {
+      min-height: 42px; max-width: 100%; margin: 6px 0 2px; padding: 8px 38px 8px 12px;
+      border: 1.5px solid #a9c3aa; border-radius: 11px; background: #fffefa; color: var(--green-dark);
+      font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 2px 5px rgba(35,58,39,.07);
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .matching-select:hover { border-color: var(--green); background: #f8fbf7; }
+    .matching-select:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(47,87,57,.14); }
+
+    .homework-table-wrap {
+      overflow-x: auto; margin: 14px 0; border: 1px solid #d8e5d8; border-radius: 15px;
+      background: #fffefa; box-shadow: 0 5px 16px rgba(35,58,39,.07); -webkit-overflow-scrolling: touch;
+    }
+    .homework-data-table { width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 0; color: #303a31; }
+    .homework-data-table th {
+      padding: 13px 14px; background: var(--green); color: #fff; text-align: left;
+      font-size: .88rem; font-weight: 800; letter-spacing: .01em;
+    }
+    .homework-data-table th:first-child { border-top-left-radius: 14px; }
+    .homework-data-table th:last-child { border-top-right-radius: 14px; }
+    .homework-data-table td { padding: 12px 14px; border-bottom: 1px solid #e5ece4; vertical-align: middle; }
+    .homework-data-table tbody tr:nth-child(even) td { background: #f5f8f2; }
+    .homework-data-table tbody tr:last-child td { border-bottom: 0; }
+    .homework-data-table td:first-child { color: var(--green-dark); font-weight: 800; }
+    .homework-data-table input.gap-input {
+      width: 100%; min-width: 130px; min-height: 42px; padding: 8px 11px; border: 2px solid #a9c3aa;
+      border-radius: 10px; background: #fff; color: var(--green-dark); font: inherit; font-weight: 700;
+      box-shadow: inset 0 1px 2px rgba(35,58,39,.05); transition: border-color .15s, box-shadow .15s;
+    }
+    .homework-data-table input.gap-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(47,87,57,.14); }
+    .homework-data-table input.gap-input:disabled { background: #f0f3ed; }
     input.gap-input {
       min-height: 38px; padding: 6px 10px; border: 1.5px solid #b9cdb9;
       border-radius: 9px; background: #fff; color: inherit; font: inherit; width: min(170px, 60vw);
@@ -127,6 +177,40 @@
     textarea.open-input {
       display: block; width: 100%; min-height: 92px; margin-top: 8px; padding: 12px 14px;
       border: 1.5px solid #d4e1d5; border-radius: 12px; background: #fff; color: inherit; font: inherit; resize: vertical;
+    }
+    .open-response-list, .word-order-list { display: grid; gap: 12px; }
+    .open-response-card, .word-order-card {
+      gap: 10px; padding: 16px; border-color: #dfe8df; border-radius: 16px; background: #fcfdfb;
+    }
+    .open-response-title, .word-order-prompt { margin: 0; color: var(--green-dark); font-size: 1rem; font-weight: 800; line-height: 1.45; }
+    .open-response-prompt { margin: 0; color: #343b34; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+    textarea.open-input.answer-input {
+      min-height: 112px; margin: 0; border: 1.5px solid #cbdacb; border-radius: 12px;
+      background: #fff; color: #292d28; font-size: 1rem; line-height: 1.55;
+    }
+    .answer-form-card:focus-within { border-color: #9ab79c; background: #fff; box-shadow: 0 8px 24px rgba(47,87,57,.1); }
+    .word-order-built {
+      min-height: 54px; padding: 12px 14px; border: 1.5px solid #c9dac9; border-radius: 12px;
+      background: #fff; color: var(--green-dark); font-size: 1.05rem; font-weight: 700; line-height: 1.5;
+    }
+    .word-order-built.is-empty { color: var(--muted); font-size: .92rem; font-weight: 500; }
+    .word-order-bank { display: flex; flex-wrap: wrap; gap: 8px; }
+    .word-order-token, .word-order-action {
+      min-height: 40px; padding: 8px 13px; border: 1.5px solid #c9dac9; border-radius: 10px;
+      background: #fff; color: var(--green-dark); font: inherit; font-weight: 700; cursor: pointer;
+      transition: border-color .15s, background .15s, transform .15s;
+    }
+    .word-order-token:hover:not(:disabled), .word-order-action:hover:not(:disabled) {
+      border-color: var(--green); background: var(--green-light); transform: translateY(-1px);
+    }
+    .word-order-token[aria-pressed="true"] { border-color: var(--green); background: var(--green-light); box-shadow: inset 0 0 0 1px var(--green); }
+    .word-order-token:disabled { opacity: .55; cursor: not-allowed; }
+    .word-order-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px; }
+    .word-order-action { min-height: 36px; padding: 6px 11px; background: #f5f8f2; font-size: .88rem; }
+    @media (max-width: 640px) {
+      .open-response-card, .word-order-card { padding: 13px; }
+      .word-order-actions { flex-direction: column; }
+      .word-order-action { width: 100%; }
     }
 
     .task-submit {
@@ -201,9 +285,34 @@
       .sort-col { padding: 11px; min-height: 160px; }
       .sort-col-cards { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); }
       .word-tile { padding: 8px 6px; }
+      .matching-select { width: 100%; }
       .task-submit { align-items: stretch; padding: 16px; }
       .task-submit button.primary { width: 100%; }
       .review-summary, .exercise-review { padding: 15px; }
+    }
+    /* Evita overflow da parole, selettori e contenuti lunghi su viewport stretti. */
+    main, #workspace, #exercises-container, .ex-card, .item-block,
+    .open-response-card, .word-order-card, .task-submit { min-width: 0; }
+    .ex-card, .item-block, .review-item, .instructions, .example-box,
+    .open-response-prompt, .word-order-prompt { overflow-wrap: anywhere; }
+    .sort-pool, .sort-col-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 125px), 1fr)); }
+    .homework-table-wrap { max-width: 100%; }
+    .matching-select, input.gap-input, textarea.open-input { max-width: 100%; }
+    .word-order-bank { min-width: 0; }
+    .word-order-token, .word-order-action { overflow-wrap: anywhere; }
+    @media (max-width: 640px) {
+      .gap-line { align-items: stretch; }
+      .gap-line .gap-input { width: 100%; }
+      .mc-options { min-width: 0; }
+      .word-order-built { overflow-wrap: anywhere; }
+      .homework-table-wrap { border-radius: 12px; }
+      .homework-data-table { min-width: 560px; }
+      .review-item { padding: 11px; }
+    }
+    @media (max-width: 380px) {
+      body { padding-right: 8px; padding-left: 8px; }
+      header, .ex-card { padding-right: 13px; padding-left: 13px; }
+      .word-order-token { padding: 7px 9px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
@@ -242,6 +351,7 @@
   <script src="homework-review.js"></script>
   <script src="exercise-renderers.js"></script>
   <script src="u_000/unit_000_exercises.js"></script>
+  <script src="u_001/unit_001_exercises.js"></script>
   <script>
     const firebaseConfig = {
       databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
@@ -464,7 +574,8 @@
         card.appendChild(badge);
 
         const h2 = document.createElement("h2");
-        h2.textContent = `${exIdx + 1}. ${ex.title}`;
+        const titleWithoutNumber = String(ex.title || "").replace(/^\s*\d+\.\s*/, "");
+        h2.textContent = `${exIdx + 1}. ${titleWithoutNumber}`;
         card.appendChild(h2);
 
         const instr = document.createElement("p");

@@ -276,6 +276,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="compiti/u_000/unit_000_exercises.js"></script>
+  <script src="compiti/u_001/unit_001_exercises.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script>
     const firebaseConfig = {
@@ -370,9 +371,6 @@
       const unitExercises = unitCatalogExercises(assignmentUnit.value);
       const validIds = new Set(unitExercises.map(ex => ex.id));
       selectedCustomExerciseIds = selectedCustomExerciseIds.filter(id => validIds.has(id));
-      if (!selectedCustomExerciseIds.length && unitExercises.length) {
-        selectedCustomExerciseIds = unitExercises.map(ex => ex.id);
-      }
       composerExerciseList.replaceChildren();
       unitExercises.forEach(ex => {
         const isChecked = selectedCustomExerciseIds.includes(ex.id);
@@ -872,10 +870,15 @@
           taskDescriptionText.textContent = desc;
           taskInfoButton.disabled = false;
           assignmentTitle.value = `Compito personalizzato · Unità ${assignmentUnit.value}`;
-          assignmentDescription.value = "";
-          selectedCustomExerciseIds = [];
-          renderComposerExercises();
-          return;
+                     assignmentDescription.value = "";
+           const exercises = unitCatalogExercises(assignmentUnit.value);
+           const validIds = new Set(exercises.map(ex => ex.id));
+           const preferred = unitObj?.defaultExerciseIds;
+           selectedCustomExerciseIds = Array.isArray(preferred) && preferred.length
+             ? preferred.filter(id => validIds.has(id))
+             : exercises.map(ex => ex.id);
+           renderComposerExercises();
+           return;
         }
         customComposerBox.classList.add("hidden");
         const selectedTask = (TASK_CATALOG[String(assignmentUnit.value)] || [])
