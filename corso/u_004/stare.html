@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri e usa stare per parlare di come ci sentiamo, dei disturbi e delle differenze con essere." />
+  <title>Unità 4 — Il verbo stare</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .container { width: min(100%, 980px); margin: 0 auto; }
+    .hero { margin: 8px 0 18px; padding: 26px 20px; border: 1px solid var(--border); border-radius: 22px; background: rgba(255,254,250,.95); text-align: center; }
+    .eyebrow { display: inline-block; margin-bottom: 7px; color: var(--primary-dark); font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    h1, h2 { color: var(--primary-dark); }
+    h1 { margin: 4px 0; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); line-height: 1.55; }
+    .card { margin: 0 0 18px; padding: clamp(17px, 4vw, 28px); border: 1px solid var(--border); border-radius: 18px; background: rgba(255,254,250,.97); }
+    .card h2 { margin-top: 0; font-size: clamp(1.2rem, 3vw, 1.5rem); }
+    .intro { color: var(--text-muted); line-height: 1.65; }
+    .example-grid, .phrase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 10px; margin: 15px 0; }
+    .example, .phrase { padding: 13px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: var(--primary-light); line-height: 1.6; }
+    .example strong, .phrase strong { color: var(--primary-dark); }
+    .translation { display: block; margin-top: 4px; color: var(--text-muted); }
+    .l1-note { margin: 14px 0 0; padding: 14px 16px; border-left: 5px solid var(--accent); border-radius: 10px; background: #f8f6ef; line-height: 1.65; }
+    .discovery-list, .practice-list { display: grid; gap: 10px; margin: 15px 0; }
+    .discovery-item, .practice-item { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; line-height: 1.55; }
+    .discovery-item label, .practice-item label { flex: 1 1 300px; }
+    select { max-width: 100%; min-height: 42px; padding: 7px 10px; border: 1px solid #d4e1d5; border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; }
+    .answer-select { min-width: 170px; }
+    .action-button { min-height: 42px; padding: 9px 15px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .action-button:hover { background: var(--primary); }
+    .feedback { min-height: 1.5em; margin: 10px 0 0; font-weight: 700; line-height: 1.5; }
+    .feedback.success { color: var(--success); }
+    .feedback.error { color: var(--error); }
+    .table-wrap { overflow-x: auto; margin-top: 15px; border: 1px solid var(--border); border-radius: 12px; }
+    table { width: 100%; min-width: 620px; border-collapse: collapse; background: #fff; }
+    th, td { padding: 11px 13px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { background: var(--primary-light); color: var(--primary-dark); }
+    tr:last-child td { border-bottom: 0; }
+    .synthesis { border: 2px solid #d8e5d8; }
+    @media (max-width: 600px) { .container { padding: 0 10px; } .discovery-item, .practice-item { align-items: stretch; flex-direction: column; } .answer-select, .discovery-item select, .practice-item select { width: 100%; } th, td { padding: 10px; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="004_stare">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Grammatica</span>
+      <h1>Il verbo stare</h1>
+      <p class="hero-subtitle">Parti da situazioni che conosci, osserva come le esprimiamo in italiano e ricava la regola.<br><span lang="ru">Начни со знакомых ситуаций, посмотри, как они выражаются по-итальянски, и сформулируй правило.</span></p>
+    </header>
+
+    <section class="card" aria-labelledby="anticipa-title">
+      <h2 id="anticipa-title">1. Anticipa · Предположи</h2>
+      <p class="intro">Immagina: incontri un’amica e vuoi sapere come si sente. Poi ti dice che ha mal di gola. Quali parole useresti? Prima di leggere la regola, prova a collegare ogni situazione alla frase italiana.<br><span lang="ru">Представь: ты встречаешь подругу и спрашиваешь, как она себя чувствует. Затем она говорит, что у неё болит горло. Попробуй понять, какие итальянские фразы подходят к ситуациям.</span></p>
+      <div class="example-grid">
+        <div class="example"><strong>Come stai?</strong><span class="translation" lang="ru">Как ты себя чувствуешь?</span></div>
+        <div class="example"><strong>Sto bene, grazie. / Oggi sto male.</strong><span class="translation" lang="ru">Я хорошо себя чувствую, спасибо. / Сегодня я плохо себя чувствую.</span></div>
+        <div class="example"><strong>Non sto bene: ho mal di gola.</strong><span class="translation" lang="ru">Я плохо себя чувствую: у меня болит горло.</span></div>
+      </div>
+      <p class="l1-note" lang="ru"><strong>Опора на жизненный опыт.</strong> Когда мы говорим о самочувствии, мы обычно сообщаем об общем состоянии («мне хорошо / плохо»), а затем уточняем симптом («болит горло», «температура»). В итальянском эти две части часто строятся с разными глаголами.</p>
+      <p class="intro"><strong>In italiano:</strong> <em>stare</em> descrive spesso come ci si sente; per indicare molti disturbi si usa invece <em>avere</em>. Non traduciamo parola per parola: impariamo le espressioni complete.</p>
+    </section>
+
+    <section class="card" aria-labelledby="scopri-title">
+      <h2 id="scopri-title">2. Scopri e confronta · Найди закономерность</h2>
+      <p class="intro">Osserva le espressioni. Nota quale verbo si usa per lo stato generale, quale per i disturbi e come cambia il verbo con una o più parti del corpo.<br><span lang="ru">Посмотри на выражения: какой глагол обозначает общее самочувствие, какой — симптомы? Что меняется, если болит одна часть тела или несколько?</span></p>
+      <div class="phrase-grid">
+        <div class="phrase"><strong>Come stai? — Sto bene / sto male.</strong><span class="translation" lang="ru">Как ты себя чувствуешь? — Хорошо / плохо.</span></div>
+        <div class="phrase"><strong>Ho mal di testa / gola / denti / schiena / stomaco.</strong><span class="translation" lang="ru">У меня болит голова / горло / зубы / спина / живот.</span></div>
+        <div class="phrase"><strong>Ho la febbre. / Ho il raffreddore.</strong><span class="translation" lang="ru">У меня температура. / Я простужен(а).</span></div>
+        <div class="phrase"><strong>Mi fa male la gamba / il collo / la mano.</strong><span class="translation" lang="ru">У меня болит нога / шея / рука.</span></div>
+        <div class="phrase"><strong>Mi fanno male gli occhi.</strong><span class="translation" lang="ru">У меня болят глаза.</span></div>
+        <div class="phrase"><strong>Sono allergico / allergica a…</strong><span class="translation" lang="ru">У меня аллергия на… (мужчина / женщина).</span></div>
+      </div>
+      <p class="l1-note"><strong>Attenzione · Важно:</strong> <em>mi fa male</em> si usa con una parte del corpo al singolare; <em>mi fanno male</em> con un soggetto plurale: <em>gli occhi</em>. <span lang="ru">Сравни: <em>mi fa male la mano</em> — болит рука; <em>mi fanno male gli occhi</em> — болят глаза. Глагол согласуется с частью тела.</span></p>
+      <p class="intro">Nel dialogo dell’Unità 4 il dottore sente <em>Sto male, ho mal di gola</em>: prima il cavallo dice come si sente, poi spiega il disturbo. <span lang="ru">В диалоге сначала говорится об общем самочувствии, а затем — о конкретном симптоме.</span></p>
+    </section>
+
+    <section class="card" aria-labelledby="fare-title">
+      <h2 id="fare-title">3. Grammatica del fare · Учимся, действуя</h2>
+      <p class="intro">Completa scegliendo l’espressione adatta alla situazione. Usa gli indizi: stato generale, un sintomo oppure una o più parti del corpo.<br><span lang="ru">Выбери выражение по ситуации: общее самочувствие, симптом, одна или несколько частей тела.</span></p>
+      <div class="practice-list" id="practice-quiz">
+        <div class="practice-item" data-answer="Sto">
+          <label for="practice-1">Alla domanda «Come stai?», rispondi: «___ bene, grazie».</label>
+          <select id="practice-1"><option value="">Scegli · Выбери</option><option value="Sto">Sto</option><option value="Ho">Ho</option><option value="Sono">Sono</option></select>
+        </div>
+        <div class="practice-item" data-answer="Ho">
+          <label for="practice-2">Hai la gola dolorante: «___ mal di gola».</label>
+          <select id="practice-2"><option value="">Scegli · Выбери</option><option value="Sto">Sto</option><option value="Ho">Ho</option><option value="Fanno">Fanno</option></select>
+        </div>
+        <div class="practice-item" data-answer="fa">
+          <label for="practice-3">Una sola gamba: «Mi ___ male la gamba».</label>
+          <select id="practice-3"><option value="">Scegli · Выбери</option><option value="fa">fa</option><option value="fanno">fanno</option><option value="sto">sto</option></select>
+        </div>
+        <div class="practice-item" data-answer="fanno">
+          <label for="practice-4">Gli occhi (plurale): «Mi ___ male gli occhi».</label>
+          <select id="practice-4"><option value="">Scegli · Выбери</option><option value="fa">fa</option><option value="fanno">fanno</option><option value="ho">ho</option></select>
+        </div>
+        <div class="practice-item" data-answer="Sono">
+          <label for="practice-5">Se sei una donna e hai un’allergia: «___ allergica a…».</label>
+          <select id="practice-5"><option value="">Scegli · Выбери</option><option value="Sto">Sto</option><option value="Ho">Ho</option><option value="Sono">Sono</option></select>
+        </div>
+      </div>
+      <button class="action-button" id="check-practice" type="button">Controlla · Проверь</button>
+      <p class="feedback" id="practice-feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" aria-labelledby="essere-title">
+      <h2 id="essere-title">4. Essere o stare? · Быть или чувствовать себя?</h2>
+      <p class="intro">I due verbi non sono intercambiabili in ogni situazione. Con <em>essere</em> identifichiamo o descriviamo; <em>stare</em> compare in espressioni di stato e, in alcuni contesti, significa “restare / trovarsi”.<br><span lang="ru">Эти глаголы не всегда взаимозаменяемы. <em>Essere</em> помогает назвать, кто это, или описать; <em>stare</em> употребляется в выражениях самочувствия, а в некоторых контекстах означает «оставаться / находиться».</span></p>
+      <div class="table-wrap" role="region" aria-label="Confronto tra essere e stare, scorrevole orizzontalmente" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Funzione · Значение</th><th scope="col">Esempio in italiano</th><th scope="col">In russo</th></tr></thead>
+          <tbody>
+            <tr><td>Identificare · Идентификация</td><td><em>Chi è? È Paolo. Paolo è un professore.</em></td><td>Кто это? Это Паоло. Паоло — преподаватель. Qui si usa <em>essere</em>.</td></tr>
+            <tr><td>Descrivere una caratteristica · Описание</td><td><em>Paolo è alto.</em></td><td>Паоло высокий. Для внешности и характеристик обычно используется <em>essere</em>.</td></tr>
+            <tr><td>Dire come ci si sente · Самочувствие</td><td><em>Come stai? Sto sereno / sto bene.</em></td><td>Как ты себя чувствуешь? Я спокоен / чувствую себя хорошо. О самочувствии обычно спрашивают <em>Come stai?</em>, а не *Come sei?</td></tr>
+            <tr><td>Luogo o permanenza · Место / пребывание</td><td><em>La bicicletta è in cantina.</em><br><em>Oggi sto a casa.</em></td><td>Велосипед находится в подвале. Сегодня я остаюсь дома. Для обычного местонахождения естественно <em>essere</em>; <em>stare</em> может подчеркнуть пребывание или оставание.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="l1-note" lang="ru"><strong>Важно.</strong> Не думай, что <em>stare</em> автоматически заменяет <em>essere</em> при временном признаке. Например, обычно говорят <em>Paolo è sereno</em> («Паоло спокоен»); <em>stare sereno</em> возможно в контексте как пожелание или совет («будь спокоен»). <em>Oggi resto a casa</em> тоже правильно: <em>restare</em> значит «оставаться», а <em>Oggi sto a casa</em> — «сегодня я дома / остаюсь дома».</p>
+    </section>
+
+    <section class="card synthesis" aria-labelledby="sintesi-title">
+      <h2 id="sintesi-title">5. Sintesi · Итоговая таблица</h2>
+      <p class="intro">Ora ricomponi ciò che hai osservato: parti dalla situazione e scegli l’espressione tipica.<br><span lang="ru">Соберём правило в таблицу: определи ситуацию и выбери типичное выражение.</span></p>
+      <div class="table-wrap" role="region" aria-label="Sintesi degli usi di stare e delle espressioni di salute, scorrevole orizzontalmente" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Situazione · Ситуация</th><th scope="col">Struttura italiana · Итальянская модель</th><th scope="col">Esempio · Пример</th></tr></thead>
+          <tbody>
+            <tr><td>Chiedere / dire come ci si sente · Спросить / сказать о самочувствии</td><td><strong>stare + bene / male</strong></td><td><em>Come stai? Sto bene. / Sto male.</em></td></tr>
+            <tr><td>Indicare un disturbo · Назвать недомогание</td><td><strong>avere + mal di… / nome</strong></td><td><em>Ho mal di testa. Ho la febbre. Ho il raffreddore.</em></td></tr>
+            <tr><td>Dire che una parte del corpo fa male · Сказать, что болит часть тела</td><td><strong>mi fa male + singolare<br>mi fanno male + plurale</strong></td><td><em>Mi fa male la mano.<br>Mi fanno male gli occhi.</em></td></tr>
+            <tr><td>Dire di avere un’allergia · Сказать об аллергии</td><td><strong>essere allergico / allergica a…</strong></td><td><em>Sono allergica al polline.</em></td></tr>
+            <tr><td>Identificare / descrivere · Назвать / описать</td><td><strong>essere</strong></td><td><em>Lui è Paolo. Paolo è alto.</em></td></tr>
+            <tr><td>Restare in un luogo · Оставаться в месте</td><td><strong>stare / restare + luogo</strong></td><td><em>Oggi sto a casa. Oggi resto a casa.</em></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="l1-note"><strong>In breve:</strong> <em>Sto male, ho mal di gola.</em> Prima <em>stare</em> per il benessere generale; poi <em>avere</em> per il disturbo specifico. <span lang="ru"><strong>Кратко:</strong> сначала <em>stare</em> — общее самочувствие, затем <em>avere</em> — конкретный симптом.</span></p>
+    </section>
+  </main>
+
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script>
+    document.getElementById("check-practice").addEventListener("click", () => {
+      const items = [...document.querySelectorAll("#practice-quiz .practice-item")];
+      let correct = 0;
+      items.forEach(item => {
+        const select = item.querySelector("select");
+        const isCorrect = select.value === item.dataset.answer;
+        select.style.borderColor = isCorrect ? "var(--success)" : select.value ? "var(--error)" : "";
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById("practice-feedback");
+      feedback.className = `feedback ${correct === items.length ? "success" : "error"}`;
+      feedback.textContent = correct === items.length
+        ? "Ottimo! Hai riconosciuto le espressioni. · Отлично! Ты правильно выбрал(а) выражения."
+        : `Risposte corrette: ${correct} su ${items.length}. Rileggi gli indizi e riprova. · Правильных ответов: ${correct} из ${items.length}. Прочитай подсказки и попробуй ещё раз.`;
+    });
+
+    window.ParloExercise?.decorateSessionLinks?.();
+    window.ParloExercise?.initBackgroundParallax?.();
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

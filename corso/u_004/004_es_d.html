@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Riordina le parole per formare frasi con indirizzi, Unità 4." />
+  <title>Unità 4 — Riordina le parole · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .dialogue-tips { margin: 0 0 18px; border: 1px solid var(--border); border-radius: 13px; background: rgba(255,254,250,.96); }
+    .dialogue-tips summary { padding: 12px 15px; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .dialogue-tips-body { padding: 0 16px 13px; line-height: 1.55; }
+    .dialogue-tips-body ul { margin: 0; padding-left: 22px; }
+    .worksheet-card { display: grid; gap: 12px; padding: 14px; border: 1.5px solid #dfe8df; border-radius: 16px; background: #fcfdfb; }
+    .worksheet-card.active-turn { border-color: var(--primary); background: #fff; box-shadow: 0 8px 24px rgba(71,119,85,.1); }
+    .worksheet-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .worksheet-label { color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .dialogue-layout { min-width: 0; }
+    .dialogue-lines { display: grid; gap: 8px; }
+    .line-item { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 12px; border: 1px solid #e1e8df; border-radius: 12px; background: #fbfcf9; }
+    .line-item.fixed { border-color: #d8e5d8; background: var(--primary-light); }
+    .line-badge { display: inline-grid; flex: 0 0 30px; width: 30px; height: 30px; place-items: center; border: 1px solid #d4e1d5; border-radius: 9px; background: #fff; color: var(--primary-dark); font-size: .85rem; font-weight: 800; }
+    .line-text { color: var(--text); line-height: 1.45; overflow-wrap: anywhere; }
+    .line-content { display: flex; flex: 1; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+    .arrow-btns { display: flex; flex-shrink: 0; gap: 4px; }
+    .btn-arrow { display: inline-grid; min-width: 34px; min-height: 34px; place-items: center; border: 1px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; cursor: pointer; }
+    .btn-arrow:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .btn-arrow:disabled { opacity: .4; cursor: not-allowed; }
+    .actions-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .btn-verify { min-height: 42px; padding: 9px 16px; border: 0; border-radius: 11px; background: var(--primary); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .btn-verify:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-verify:disabled { opacity: .5; cursor: not-allowed; }
+    .line-check-tag { color: var(--text-muted); font-size: .82rem; font-weight: 700; }
+    .line-item.line-correct { border-color: #9bc4a6; background: var(--success-bg); }
+    .line-item.line-incorrect { border-color: #f0b6b2; background: #fef3f2; }
+    .line-item.line-correct .line-check-tag { color: var(--success); }
+    .line-item.line-incorrect .line-check-tag { color: #991b1b; }
+    .automatic-score { margin: 0; color: var(--primary-dark); font-size: .9rem; font-weight: 800; }
+    .sync-feedback { min-height: 1.2em; color: var(--text-muted); font-size: .85rem; font-weight: 700; }
+    .sync-feedback.saved { color: var(--success); }
+    .sync-feedback.error { color: #991b1b; }
+    .word-order-subject { margin: 0; color: var(--primary-dark); font-size: 1.08rem; font-weight: 800; }
+    .word-order-label { display: block; color: var(--primary-dark); font-size: .9rem; }
+    .word-order-answer, .word-order-bank { display: flex; min-height: 58px; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px; border: 1.5px solid #dce8dc; border-radius: 13px; background: #fff; }
+    .word-order-answer { background: #f8faf6; }
+    .word-order-token { min-height: 40px; padding: 7px 12px; border: 1px solid #cbdccf; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 700; cursor: pointer; }
+    .word-order-token:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .word-order-token.in-answer { border-color: var(--primary); background: var(--primary-light); }
+    .word-order-token.is-correct { border-color: #8abd98; background: #e9f6ec; color: #17623c; }
+    .word-order-token.is-incorrect { border-color: #e6a5a1; background: #fef0ef; color: #991b1b; }
+    .word-order-token:disabled { cursor: not-allowed; opacity: .75; }
+    .word-order-fixed { flex: 0 0 auto; padding: 8px 10px; border-radius: 9px; background: #eaf1e8; color: var(--primary-dark); font-weight: 800; }
+    .word-order-hint { margin: 0; color: var(--text-muted); font-size: .86rem; line-height: 1.45; }
+    @media (max-width: 600px) { .word-order-answer, .word-order-bank { gap: 6px; padding: 9px; } .word-order-token { min-height: 38px; padding: 6px 9px; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="004_es_d" data-next-href="004_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Grammatica e lessico</span>
+      <h1>L’indirizzo</h1>
+      <p class="hero-subtitle">Riordina le parole per comporre le frasi sugli indirizzi.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio D</div>
+      <div class="instruction-text">👉 <strong>Составьте предложения, выбирая слова в правильном порядке.</strong> Нажмите на слово, чтобы добавить его в поле ответа; нажмите на слово в поле ответа, чтобы вернуть его. Затем нажмите «Проверить». В онлайн-режиме учитель назначает очередь; в остальных режимах работайте самостоятельно. <a class="reading-link" href="004_lettura.html">Перечитайте диалог.</a></div>
+    </section>
+
+    <details class="dialogue-tips">
+      <summary>📌 Suggerimenti</summary>
+      <div class="dialogue-tips-body" lang="ru">
+        <ul>
+          <li>После подлежащего выберите правильную форму глагола: abito, abita, abitiamo или abitano.</li>
+          <li>Для адреса используйте in via / in piazza / in viale и al numero + число словами.</li>
+          <li>Нажимайте слова в банке, чтобы добавить их в ответ; повторное нажатие в ответе возвращает слово назад.</li>
+        </ul>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Frasi da riordinare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="004_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/ordina-parole-frase.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: l’insegnante assegna i turni; i progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: riordina le parole durante il tuo turno; i progressi sono condivisi con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente e i progressi sono disponibili per la revisione."
+        : "🎙️ Modalità a distanza: riordina le frasi individualmente; i progressi sono salvati per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: lo studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const sentences = [
+      { title: "La signora Bianchini", subject: "La signora Bianchini", correctOrder: ["abita", "in", "piazza", "Garibaldi,", "al", "numero", "ventuno."], words: ["Garibaldi,", "numero", "piazza", "abita", "al", "in", "ventuno."], hint: "Scegli la forma del verbo per Lei e ricomponi l’indirizzo con il numero scritto in lettere." },
+      { title: "Mia zia", subject: "Mia zia", correctOrder: ["abita", "in", "via", "Rossini,", "al", "numero", "uno."], words: ["Rossini,", "al", "via", "numero", "abita", "uno.", "in"], hint: "Dopo il soggetto usa la forma abita; ricorda la virgola prima di al numero." },
+      { title: "Gli amici di Paolo", subject: "Gli amici di Paolo", correctOrder: ["abitano", "in", "viale", "Europa,", "al", "numero", "dodici."], words: ["numero", "Europa,", "abitano", "al", "in", "dodici.", "viale"], hint: "Il soggetto è plurale: scegli abitano." },
+      { title: "Noi · piazza della Repubblica", subject: "Noi", correctOrder: ["abitiamo", "in", "piazza", "della", "Repubblica,", "al", "numero", "dieci."], words: ["Repubblica,", "numero", "piazza", "abitiamo", "dieci.", "della", "al", "in"], hint: "Con noi usa abitiamo e mantieni unito il nome della piazza nel giusto ordine." },
+      { title: "Io · via Verdi", subject: "Io", correctOrder: ["abito", "in", "via", "Verdi,", "al", "numero", "undici."], words: ["Verdi,", "numero", "abito", "undici.", "in", "al", "via"], hint: "Con io usa abito; il numero dell’indirizzo è scritto in lettere." },
+      { title: "Franco", subject: "Franco", correctOrder: ["abita", "in", "piazza", "Roma,", "al", "numero", "trenta."], words: ["al", "trenta.", "piazza", "numero", "Roma,", "in", "abita"], hint: "Ricostruisci prima la forma del verbo e poi l’indirizzo." },
+      { title: "Gianni", subject: "Gianni", correctOrder: ["abita", "in", "via", "Emilia,", "al", "numero", "due."], words: ["Emilia,", "via", "numero", "due.", "abita", "in", "al"], hint: "Ricorda la struttura: abita in via…, al numero…" },
+      { title: "Francesco", subject: "Francesco", correctOrder: ["abita", "in", "piazza", "S.", "Pietro,", "al", "numero", "uno."], words: ["Pietro,", "numero", "S.", "abita", "uno.", "al", "piazza", "in"], hint: "Il nome è piazza S. Pietro: conserva l’abbreviazione e l’ordine del nome proprio." },
+      { title: "Noi · viale Tasso", subject: "Noi", correctOrder: ["abitiamo", "in", "viale", "Tasso,", "al", "numero", "nove."], words: ["Tasso,", "in", "nove.", "viale", "numero", "abitiamo", "al"], hint: "Con noi usa abitiamo; dopo l’indirizzo indica il numero civico." },
+      { title: "Le amiche di Anna", subject: "Le amiche di Anna", correctOrder: ["abitano", "in", "via", "Rossini,", "al", "numero", "trentatré."], words: ["numero", "abitano", "Rossini,", "in", "trentatré.", "via", "al"], hint: "Il soggetto è plurale: usa abitano. Il numero 33 si scrive trentatré." }
+    ].map((sentence, index) => ({ ...sentence, id: `frase_${index + 1}`, title: `Frase ${index + 1} · ${sentence.title}` }));
+
+    ParloWordOrderExercise.init({
+      unitNumber: 4,
+      exercisePath: "004_es_d",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

@@ -102,7 +102,8 @@
         const width = html.match(token)?.[1] || "85";
         const role = dialogue.keyRoles[index] || "A";
         const speaker = role === "A" ? dialogue.speakerA : dialogue.speakerB;
-        const input = `<input type="text" class="inline-input${role === "B" ? " role-b" : ""}" style="width:${width}px" data-keyidx="${index}" aria-label="Spazio ${index + 1}, Personaggio ${role} (${speaker})" placeholder="___" disabled>`;
+        const placeholder = String(dialogue.placeholders?.[index] || "___").replace(/[&"<>]/g, character => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" })[character]);
+        const input = `<input type="text" class="inline-input${role === "B" ? " role-b" : ""}" style="width:${width}px" data-keyidx="${index}" aria-label="Spazio ${index + 1}, Personaggio ${role} (${speaker})" placeholder="${placeholder}" disabled>`;
         html = html.replace(token, input);
       });
       return html;

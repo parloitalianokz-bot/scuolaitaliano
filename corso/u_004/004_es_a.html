@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esercizio di ascolto e comprensione sul dialogo L’indirizzo, Unità 4." />
+  <title>Unità 4 — L’indirizzo · Esercizio A</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/es-a.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { max-width: 820px; margin: 0 auto 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.92); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .reading-tip { max-width: 880px; margin: 0 auto 18px; overflow: hidden; border: 1px solid #d8e5d8; border-radius: 14px; background: rgba(255,254,250,.96); }
+    .reading-tip summary { padding: 13px 18px; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .reading-tip-content { padding: 0 18px 14px; line-height: 1.55; }
+    .reading-tip-content p { margin: 0 0 8px; }
+    .reading-tip-content p:last-child { margin-bottom: 0; }
+    .reading-tip a { color: var(--primary-dark); font-weight: 700; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="004_es_a" data-next-href="004_es_b.html" data-next-label="Vai all’esercizio B →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Lettura e comprensione</span>
+      <h1>L’indirizzo</h1>
+      <p class="hero-subtitle">Leggete il dialogo e scegliete la risposta corretta.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <details class="reading-tip">
+      <summary>📖 Istruzioni</summary>
+      <div class="reading-tip-content" lang="ru">
+        <p>A) Выберите правильный вариант.</p>
+        <p>В онлайн-режиме следуйте назначенному ходу: один участник формулирует вопрос, другой выбирает ответ. В режимах занятий на расстоянии и самостоятельной практики работайте индивидуально.</p>
+        <p lang="it"><a href="004_lettura.html">← Rileggi il dialogo</a></p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Domande dell’esercizio"></section>
+  </main>
+
+  <script>
+    window.ES_A_DATA = [
+      { hint: "Il dottor Vallini abita", options: ["in periferia", "in centro", "in campagna"], correctOption: 0 },
+      { hint: "Il dottor Vallini abita", options: ["vicino all’aeroporto", "vicino allo stadio", "vicino alla stazione"], correctOption: 1 },
+      { hint: "Il dottor Vallini abita", options: ["di fronte a un teatro", "di fronte a un negozio", "di fronte allo stadio"], correctOption: 1 },
+      { hint: "Il dottor Vallini abita", options: ["in una villa", "in un ascensore", "in un appartamento"], correctOption: 2 },
+      { hint: "La sua casa", options: ["è antica", "è moderna"], correctOption: 1 },
+      { hint: "Il dottor Vallini", options: ["è un cardiologo", "è un chirurgo", "è un veterinario"], correctOption: 2 },
+      { hint: "I pazienti del dottor Vallini", options: ["sono persone", "sono studenti di italiano", "sono animali"], correctOption: 2 },
+      { hint: "Il cavallo telefona", options: ["perché è malato", "perché è vecchio", "perché è stanco"], correctOption: 0 },
+      { hint: "Il cavallo", options: ["ha mal di gola", "ha mal di testa", "ha mal di denti"], correctOption: 0 }
+    ];
+
+    const session = window.ParloSession || {};
+    const descriptions = {
+      online: "💬 Modalità online: segui i turni assegnati; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: svolgi l’esercizio individualmente; i progressi sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = descriptions[session.activityMode] || descriptions.online;
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/es-a-engine.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività interattive Wordwall dell’Unità 4, Esercizio I." />
+  <title>Unità 4 — Attività interattive · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .activity-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .activity-tabs button { min-height: 42px; padding: 8px 16px; border: 1px solid var(--border); border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; cursor: pointer; }
+    .activity-tabs button[aria-selected="true"] { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .wordwall-frame { display: flex; justify-content: center; width: 100%; }
+    .wordwall-frame iframe { display: block; width: 500px; max-width: 100%; height: 380px; border: 0; border-radius: 12px; }
+    @media (max-width: 600px) { .wordwall-frame iframe { height: min(380px, 75vh); } .activity-tabs button { flex: 1 1 auto; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="004_es_i" data-next-href="004_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Grammatica e lessico</span>
+      <h1>Attività interattiva</h1>
+      <p class="hero-subtitle">Allenati con le attività Wordwall.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">👉 Выполните интерактивное задание. Результаты и сохранение ответов обрабатываются на Wordwall.</div>
+    </section>
+
+    <section class="card" aria-label="Attività interattive Wordwall">
+      <div class="activity-tabs" role="tablist" aria-label="Scegli l’attività Wordwall">
+        <button id="activity-tab-1" type="button" role="tab" aria-selected="true" aria-controls="activity-panel-1">Attività 1</button>
+        <button id="activity-tab-2" type="button" role="tab" aria-selected="false" aria-controls="activity-panel-2" tabindex="-1">Attività 2</button>
+      </div>
+      <div id="activity-panel-1" role="tabpanel" aria-labelledby="activity-tab-1">
+        <div class="wordwall-frame">
+          <iframe
+            title="Attività Wordwall 1 — Unità 4, Esercizio I"
+            src="https://wordwall.net/it/embed/371655974eda4d5988d5c5a672b9d8f8?themeId=1&amp;templateId=3&amp;fontStackId=0"
+            width="500"
+            height="380"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div id="activity-panel-2" role="tabpanel" aria-labelledby="activity-tab-2" hidden>
+        <div class="wordwall-frame">
+          <iframe
+            title="Attività Wordwall 2 — Unità 4, Esercizio I"
+            src="https://wordwall.net/it/embed/981e80d425a04924aa3ed1f8fa0846e1?themeId=1&amp;templateId=8&amp;fontStackId=0"
+            width="500"
+            height="380"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <nav class="slide-navigation" aria-label="Navigazione esercizi">
+        <a id="next-exercise" href="004_es_j.html">Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const session = window.ParloSession || {};
+      const modeDescriptions = {
+        online: "💬 Modalità online: completa l’attività direttamente su Wordwall.",
+        distance: "🎙️ Modalità a distanza: svolgi le attività individualmente su Wordwall.",
+        individual: "🏋️ Modalità allenamento: esercitati autonomamente su Wordwall."
+      };
+      document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+      const tabs = [...document.querySelectorAll('[role="tab"]')];
+      const panels = tabs.map(tab => document.getElementById(tab.getAttribute("aria-controls")));
+      function selectTab(index, moveFocus = false) {
+        tabs.forEach((tab, tabIndex) => {
+          const selected = tabIndex === index;
+          tab.setAttribute("aria-selected", String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+          panels[tabIndex].hidden = !selected;
+        });
+        window.ParloNotesScope = {
+          group: session.safeGroup || "sconosciuto",
+          exercise: "004_es_i",
+          card: `wordwall-${index + 1}`,
+          cardLabel: `Attività interattiva Wordwall ${index + 1}`
+        };
+        if (moveFocus) tabs[index].focus();
+      }
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => selectTab(index));
+        tab.addEventListener("keydown", event => {
+          let nextIndex = index;
+          if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+          else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          selectTab(nextIndex, true);
+        });
+      });
+      selectTab(0);
+
+      window.ParloExercise?.decorateSessionLinks?.();
+      window.ParloExercise?.initBackgroundParallax?.();
+    })();
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

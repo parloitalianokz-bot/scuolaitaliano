@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con le preposizioni corrette, Unità 4, Esercizio H." />
+  <title>Unità 4 — Aggiungi le preposizioni · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="004_es_h" data-next-href="004_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Grammatica e lessico</span>
+      <h1>Aggiungi le preposizioni</h1>
+      <p class="hero-subtitle">Completa le frasi scegliendo la preposizione adatta.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio H</div>
+      <div class="instruction-text">👉 <strong>Добавьте предлоги.</strong> Выберите подходящий предлог или сочленённую форму в каждом пропуске. В онлайн-режиме преподаватель назначает очередь; в остальных режимах работайте самостоятельно.</div>
+    </section>
+
+    <section class="card" aria-label="Frasi da completare con le preposizioni">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="004_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna il turno per ogni frase; i progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il tuo turno; le risposte sono condivise con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const prompts = [
+      {
+        id: "h1",
+        text: "Il dottor Vallini riceve {{0}} casa. Abita {{1}} via Mazzini, {{2}} numero 20.",
+        keys: [["a", "in"], "in", "al"],
+        options: [["a", "in", "da"], ["in", "a", "di"], ["al", "a", "in"]]
+      },
+      {
+        id: "h2",
+        text: "È un palazzo moderno, {{0}} fronte {{1}} un negozio {{2}} mobili.",
+        keys: ["di", "a", "di"],
+        options: [["di", "a", "da"], ["a", "di", "in"], ["di", "a", "da"]]
+      },
+      {
+        id: "h3",
+        text: "Il suo appartamento è {{0}} terzo piano. Via Mazzini è {{1}} periferia, vicino {{2}} stadio.",
+        keys: ["al", "in", "allo"],
+        options: [["al", "nel", "del"], ["in", "a", "di"], ["allo", "al", "all'"]]
+      },
+      {
+        id: "h4",
+        text: "Il cavallo invece abita {{0}} periferia, però in un'altra zona, vicino {{1}} aeroporto.",
+        keys: ["in", "all'"],
+        options: [["in", "a", "di"], ["all'", "al", "dall'"]]
+      },
+      {
+        id: "h5",
+        text: "Lui abita {{0}} viale Colombo, {{1}} numero 3.",
+        keys: ["in", "al"],
+        options: [["in", "a", "di"], ["al", "a", "in"]]
+      },
+      {
+        id: "h6",
+        text: "È un palazzo moderno, {{0}} fronte a un negozio {{1}} frutta e verdura. Il suo appartamento è {{2}} primo piano.",
+        keys: ["di", "di", "al"],
+        options: [["di", "a", "da"], ["di", "a", "in"], ["al", "nel", "del"]]
+      }
+    ];
+
+    const sentences = prompts.map(prompt => ({
+      id: prompt.id,
+      parts: prompt.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${prompt.id}-${index}`,
+          select: true,
+          correct: prompt.keys[index],
+          options: prompt.options[index],
+          placeholder: "Scegli…"
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 4,
+      exercisePath: "004_es_h",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Riordina le battute dei dialoghi sull’abitazione, Unità 4." />
+  <title>Unità 4 — Riordina i dialoghi · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .dialogue-tips { margin: 0 0 18px; border: 1px solid var(--border); border-radius: 13px; background: rgba(255,254,250,.96); }
+    .dialogue-tips summary { padding: 12px 15px; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .dialogue-tips-body { padding: 0 16px 13px; line-height: 1.55; }
+    .dialogue-tips-body ul { margin: 0; padding-left: 22px; }
+    .worksheet-card { display: grid; gap: 12px; padding: 14px; border: 1.5px solid #dfe8df; border-radius: 16px; background: #fcfdfb; }
+    .worksheet-card.active-turn { border-color: var(--primary); background: #fff; box-shadow: 0 8px 24px rgba(71,119,85,.1); }
+    .worksheet-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .worksheet-label { color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    .dialogue-lines { display: grid; gap: 8px; }
+    .line-item { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 12px; border: 1px solid #e1e8df; border-radius: 12px; background: #fbfcf9; }
+    .line-item.fixed { border-color: #d8e5d8; background: var(--primary-light); }
+    .line-badge { display: inline-grid; flex: 0 0 30px; width: 30px; height: 30px; place-items: center; border: 1px solid #d4e1d5; border-radius: 9px; background: #fff; color: var(--primary-dark); font-size: .85rem; font-weight: 800; }
+    .line-text { color: var(--text); line-height: 1.45; overflow-wrap: anywhere; }
+    .line-content { display: flex; flex: 1; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+    .arrow-btns { display: flex; flex-shrink: 0; gap: 4px; }
+    .btn-arrow { display: inline-grid; min-width: 34px; min-height: 34px; place-items: center; border: 1px solid #d4e1d5; border-radius: 8px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; cursor: pointer; }
+    .btn-arrow:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .btn-arrow:disabled { opacity: .4; cursor: not-allowed; }
+    .actions-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .btn-verify { min-height: 42px; padding: 9px 16px; border: 0; border-radius: 11px; background: var(--primary); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .btn-verify:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-verify:disabled { opacity: .5; cursor: not-allowed; }
+    .line-check-tag { color: var(--text-muted); font-size: .82rem; font-weight: 700; }
+    .line-item.line-correct { border-color: #9bc4a6; background: var(--success-bg); }
+    .line-item.line-incorrect { border-color: #f0b6b2; background: #fef3f2; }
+    .line-item.line-correct .line-check-tag { color: var(--success); }
+    .line-item.line-incorrect .line-check-tag { color: #991b1b; }
+    .automatic-score { margin: 0; color: var(--primary-dark); font-size: .9rem; font-weight: 800; }
+    .sync-feedback { min-height: 1.2em; color: var(--text-muted); font-size: .85rem; font-weight: 700; }
+    .sync-feedback.saved { color: var(--success); }
+    .sync-feedback.error { color: #991b1b; }
+    @media (max-width: 600px) { .line-item { gap: 7px; padding: 9px; } .line-content { flex-direction: column; align-items: flex-start; } .btn-arrow { min-width: 32px; } }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="004_es_e" data-next-href="004_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Conversazione e logica</span>
+      <h1>L’indirizzo</h1>
+      <p class="hero-subtitle">Riordina le battute dei dialoghi sull’abitazione.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio E (attività B)</div>
+      <div class="instruction-text">👉 <strong>Расположите реплики в диалогах в правильном порядке.</strong> Первые реплики уже стоят на своём месте. Перемещайте остальные реплики стрелками и нажмите «Проверить». В онлайн-режиме преподаватель назначает очередь; в остальных режимах работайте самостоятельно. <a class="reading-link" href="004_lettura.html">Перечитайте диалог.</a></div>
+    </section>
+
+    <details class="dialogue-tips">
+      <summary>📌 Suggerimenti</summary>
+      <div class="dialogue-tips-body" lang="ru">
+        <ul>
+          <li>Соединяйте каждый вопрос с подходящим ответом.</li>
+          <li>Обращайте внимание на связки: «E dove…?», «E a che piano…?» и «E tu…?».</li>
+          <li>Используйте стрелки, чтобы менять порядок реплик, затем проверьте диалог.</li>
+        </ul>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Dialoghi da riordinare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un dialogo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei dialoghi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei dialoghi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="004_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/dialogue-order-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: l’insegnante assegna i turni; i progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: riordina le battute durante il tuo turno; i progressi sono condivisi con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente e i progressi sono disponibili per la revisione."
+        : "🎙️ Modalità a distanza: riordina i dialoghi individualmente; i progressi sono salvati per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: lo studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const rawDialogues = [
+      {
+        id: "d1",
+        title: "Dialogo 1 · Carla",
+        lines: [
+          "— Carla, tu abiti da sola?",
+          "— Sì, è vicino a Villa Borghese.",
+          "— No, abito con i miei genitori.",
+          "— È in centro?",
+          "— In via Veneto, al numero 16.",
+          "— E dove abiti?"
+        ],
+        correctOrder: [0, 2, 5, 4, 3, 1]
+      },
+      {
+        id: "d2",
+        title: "Dialogo 2 · Il dottor Vallini",
+        lines: [
+          "— Lei dove abita, Dottor Vallini?",
+          "— Al terzo piano.",
+          "— In via Mazzini, al numero 20.",
+          "— E a che piano abita?",
+          "— È in periferia, vicino allo stadio.",
+          "— È in centro?"
+        ],
+        correctOrder: [0, 2, 3, 1, 5, 4]
+      },
+      {
+        id: "d3",
+        title: "Dialogo 3 · Marco",
+        lines: [
+          "— Marco, hai una casa al mare?",
+          "— È in Liguria, vicino a Genova.",
+          "— Io invece ho solo un appartamento in città.",
+          "— Dove si trova?",
+          "— E tu dove abiti?",
+          "— Sì, è a due passi dalla spiaggia."
+        ],
+        correctOrder: [0, 5, 3, 1, 4, 2]
+      },
+      {
+        id: "d4",
+        title: "Dialogo 4 · Paolo",
+        lines: [
+          "— Paolo, a che piano abiti?",
+          "— Sì, non è in centro ma è tranquilla.",
+          "— Al quinto piano, ma c’è l’ascensore.",
+          "— Sì, ci sono molti appartamenti.",
+          "— Quindi è un condominio grande?",
+          "— È una bella zona?"
+        ],
+        correctOrder: [0, 2, 4, 3, 5, 1]
+      }
+    ];
+
+    const dialogues = rawDialogues.map(dialogue => {
+      const orderedLines = dialogue.correctOrder.map(index => dialogue.lines[index]);
+      const fixed = orderedLines[0];
+      return {
+        id: dialogue.id,
+        title: dialogue.title,
+        fixed,
+        initialOrder: dialogue.lines.filter(line => line !== fixed),
+        correctOrder: orderedLines.slice(1)
+      };
+    });
+
+    ParloDialogueOrderExercise.init({
+      unitNumber: 4,
+      exercisePath: "004_es_e",
+      dialogues
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

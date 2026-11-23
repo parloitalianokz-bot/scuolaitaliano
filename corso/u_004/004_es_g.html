@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Forma le preposizioni articolate completando le frasi, Unità 4, Esercizio G." />
+  <title>Unità 4 — Preposizioni articolate · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="004_es_g" data-next-href="004_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Grammatica e lessico</span>
+      <h1>Le preposizioni articolate</h1>
+      <p class="hero-subtitle">Completa le frasi fondendo la preposizione con l’articolo determinativo.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div class="instruction-text">👉 <strong>Образуйте слитные формы предлога и определённого артикля.</strong> Впишите в каждый пропуск только получившуюся форму (например: <span lang="it">di + il → del</span>). В онлайн-режиме преподаватель назначает очередь; в остальных режимах работайте самостоятельно.</div>
+    </section>
+
+    <section class="card" aria-label="Frasi con preposizioni articolate">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="004_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna il turno per ogni frase; i progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il tuo turno; le risposte sono condivise con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const prompts = [
+      {
+        id: "g1",
+        text: "La fermata [di + l’] {{0}} autobus si trova vicino [a + la] {{1}} piazza, di fronte [a + il] {{2}} supermercato.",
+        keys: ["dell'", "alla", "al"],
+        hint: "Определите род и число существительного после каждого пропуска. Перед гласной у l’ предлог сливается с артиклем и сохраняет апостроф."
+      },
+      {
+        id: "g2",
+        text: "Molti impiegati lasciano la macchina [in + il] {{0}} parcheggio [di + la] {{1}} ditta.",
+        keys: ["nel", "della"],
+        hint: "Parcheggio — мужской род, единственное число; ditta — женский род, единственное число."
+      },
+      {
+        id: "g3",
+        text: "Milano è la capitale [di + l’] {{0}} economia, [di + la] {{1}} moda, [di + l’] {{2}} informazione e [di + lo] {{3}} spettacolo.",
+        keys: ["dell'", "della", "dell'", "dello"],
+        hint: "Обратите внимание на начальный гласный в economia и informazione, а также на артикль lo перед spettacolo."
+      },
+      {
+        id: "g4",
+        text: "I clienti [di + gli] {{0}} alberghi danno i documenti [a + il] {{1}} portiere.",
+        keys: ["degli", "al"],
+        hint: "Alberghi употребляется с артиклем gli; portiere — с артиклем il."
+      },
+      {
+        id: "g5",
+        text: "Le chiavi [di + la] {{0}} macchina sono [in + la] {{1}} tasca [di + il] {{2}} mio cappotto.",
+        keys: ["della", "nella", "del"],
+        hint: "Сопоставьте окончания предлогов с родом и числом: macchina и tasca — женский род, cappotto — мужской."
+      },
+      {
+        id: "g6",
+        text: "Oggi telefono [a + lo] {{0}} zio Dino, [a + l’] {{1}} idraulico, [a + il] {{2}} veterinario e [a + la] {{3}} direttrice [di + la] {{4}} banca.",
+        keys: ["allo", "all'", "al", "alla", "della"],
+        hint: "Выбирайте форму по артиклю в скобках; перед гласной в all’ сохраняется апостроф."
+      },
+      {
+        id: "g7",
+        text: "La casa [di + gli] {{0}} amici di Paolo è vicino [a + lo] {{1}} stadio, poco lontano [da + l’] {{2}} ufficio dove lavora mio padre.",
+        keys: ["degli", "allo", "dall'"],
+        hint: "Сочетания образуются с gli, lo и l’; перед ufficio нужен апостроф."
+      },
+      {
+        id: "g8",
+        text: "Di solito non torno a casa [a + l’] {{0}} ora di pranzo: mangio [a + la] {{1}} mensa [di + l’] {{2}} ufficio.",
+        keys: ["all'", "alla", "dell'"],
+        hint: "Ora e ufficio начинаются с гласной: в формах с l’ пишется апостроф."
+      },
+      {
+        id: "g9",
+        text: "[In + il] {{0}} tempo libero molte persone si dedicano [a + lo] {{1}} sport, [a + gli] {{2}} amici e [a + i] {{3}} figli.",
+        keys: ["nel", "allo", "agli", "ai"],
+        hint: "Сверьте артикли lo, gli и i с соответствующими формами предлога a."
+      },
+      {
+        id: "g10",
+        text: "Tu credi [a + l’] {{0}} oroscopo?",
+        keys: ["all'"],
+        hint: "Oroscopo начинается с гласной; нужна слитная форма с апострофом."
+      }
+    ];
+
+    const sentences = prompts.map(prompt => ({
+      id: prompt.id,
+      hints: [prompt.hint],
+      hintsLang: "ru",
+      parts: prompt.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${prompt.id}-${index}`,
+          input: true,
+          correct: prompt.keys[index],
+          placeholder: "…"
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 4,
+      exercisePath: "004_es_g",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

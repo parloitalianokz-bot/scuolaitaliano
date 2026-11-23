@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crea brevi dialoghi sullo stato di salute con stare, avere e fare male, Unità 4, Esercizio J." />
+  <title>Unità 4 — Crea i dialoghi sulla salute · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-s2s.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="004_es_j" data-next-href="004_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 4 · Conversazione e dialoghi</span>
+      <h1>Parliamo di salute</h1>
+      <p class="hero-subtitle">Crea brevi dialoghi usando le espressioni per dire come ti senti e che cosa ti fa male.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box exercise-instruction" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio J</div>
+      <div class="instruction-text">👉 <strong>Составьте короткие диалоги по образцу.</strong> Заполните реплики обоих персонажей: спросите, как человек себя чувствует, назовите недомогание и спросите о его причине. Для синьоры Паолетти и доктора Донелли используйте вежливую форму <em>Lei</em>. В онлайн-режиме преподаватель назначает роли; в остальных режимах каждый ученик пишет обе реплики в своём личном пространстве.</div>
+      <div class="example-dialogue"><strong>Giovanni — testa</strong><br>— Ciao Giovanni, come stai?<br>— Male: ho mal di testa.<br>— Mi dispiace! Perché hai mal di testa?<br>— Perché lavoro molto.</div>
+    </section>
+
+    <details class="dialogue-tips">
+      <summary>📌 Suggerimenti · Подсказки</summary>
+      <div class="dialogue-tips-body" lang="ru">
+        <ul>
+          <li>Для общего самочувствия используйте <em>stare</em>: <em>Sto bene / male</em>; чтобы назвать недомогание — <em>avere</em>: <em>Ho mal di gola</em>.</li>
+          <li>Для одной части тела можно сказать <em>Mi fa male la schiena</em>; для нескольких — <em>Mi fanno male i denti</em>.</li>
+          <li>Причину можно придумать: <em>Perché lavoro molto</em>, <em>Perché ho preso freddo</em>, <em>Perché ho mangiato troppo</em>.</li>
+          <li>С синьорой Паолетти и доктором Донелли обращайтесь на <em>Lei</em>: <em>Come sta? Perché ha…?</em></li>
+        </ul>
+      </div>
+    </details>
+
+    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione dei ruoli">
+      <div class="assignment-grid">
+        <label class="assignment-field" for="writer-a-select">🗣️ Personaggio A · Domande<select id="writer-a-select"><option value="">— Nessuno assegnato —</option></select></label>
+        <label class="assignment-field" for="writer-b-select">💬 Personaggio B · Risposte<select id="writer-b-select"><option value="">— Nessuno assegnato —</option></select></label>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Dialoghi sulla salute">
+      <p id="assignment-status" class="assignment-status" role="status" aria-live="polite"></p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento · Seleziona un dialogo"></nav>
+      <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
+      <div id="char-toolbar" class="char-toolbar" role="toolbar" aria-label="Caratteri speciali italiani"><span class="char-toolbar-label">Caratteri:</span><button type="button" class="char-btn" data-char="'" aria-label="Inserisci apostrofo">'</button><button type="button" class="char-btn" data-char="à">à</button><button type="button" class="char-btn" data-char="è">è</button><button type="button" class="char-btn" data-char="ì">ì</button><button type="button" class="char-btn" data-char="ò">ò</button><button type="button" class="char-btn" data-char="ù">ù</button><button type="button" class="char-btn" data-char="È">È</button></div>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei dialoghi"><button id="previous-question" class="nav-btn" type="button">← Precedente</button><span id="question-progress" class="slide-progress" aria-live="polite"></span><button id="next-question" class="nav-btn" type="button">Successiva →</button><a id="next-exercise" class="nav-btn" href="004_es_k.html" hidden>Vai all’esercizio K →</a></nav>
+      <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-s2s.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna Personaggio A e B; i dialoghi sono condivisi in tempo reale."
+        : "💬 Modalità online: completa le battute del personaggio assegnato; il dialogo si aggiorna in tempo reale.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa entrambi i ruoli; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati con entrambi i ruoli nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const cases = [
+      { id: "j1", name: "Franca", symptom: "mal di gola", symptomRu: "болит горло", reason: "ho preso freddo", greeting: "Ciao Franca", informal: true },
+      { id: "j2", name: "Signora Paoletti", symptom: "mal di stomaco", symptomRu: "болит желудок", reason: "ho mangiato troppo", greeting: "Buongiorno, signora Paoletti", informal: false },
+      { id: "j3", name: "Carlo", symptom: "mal di schiena", symptomRu: "болит спина", reason: "lavoro molte ore al computer", greeting: "Ciao Carlo", informal: true },
+      { id: "j4", name: "Dottor Donelli", symptom: "mal di denti", symptomRu: "болят зубы", reason: "devo andare dal dentista", greeting: "Buongiorno, dottor Donelli", informal: false },
+      { id: "j5", name: "Giovanni", symptom: "mal di testa, mal di denti e mal di gola", symptomRu: "болят голова, зубы и горло", reason: "non mi sento bene da giorni", greeting: "Ciao Giovanni", informal: true },
+      { id: "j6", name: "Antonio", symptom: "mal di pancia", symptomRu: "болит живот", reason: "ho mangiato qualcosa di pesante", greeting: "Ciao Antonio", informal: true }
+    ];
+
+    const dialogues = cases.map(person => {
+      const you = person.informal ? "stai" : "sta";
+      const have = person.informal ? "hai" : "ha";
+      const name = person.name;
+      const keys = [
+        `${person.greeting}, come ${you}?`,
+        `Non sto bene: ho ${person.symptom}.`,
+        `Mi dispiace! Perché ${have} ${person.symptom}?`,
+        `Perché ${person.reason}.`
+      ];
+      const template = [
+        `<p><span class="dialogue-speaker">🗣️ Personaggio A · Saluto e domanda</span>{{0:320}}</p>`,
+        `<p><span class="dialogue-speaker speaker-b">💬 Personaggio B · Stato e disturbo</span>{{1:320}}</p>`,
+        `<p><span class="dialogue-speaker">🗣️ Personaggio A · Reazione e domanda sulla causa</span>{{2:360}}</p>`,
+        `<p><span class="dialogue-speaker speaker-b">💬 Personaggio B · Causa o spiegazione</span>{{3:360}}</p>`
+      ].join("");
+      return {
+        id: person.id,
+        title: `${name} · ${person.symptom}`,
+        speakerA: "Domande",
+        speakerB: "Risposte",
+        keys,
+        keyRoles: ["A", "B", "A", "B"],
+        placeholders: [
+          "Поздоровайся и спроси, как он/она себя чувствует.",
+          `Скажи, что ${person.informal ? "ты" : "Вы"} плохо себя чувствуешь, и назови симптом.`,
+          `Вырази сочувствие и спроси, почему ${person.informal ? "у него/неё" : "у Вас"} ${person.symptomRu}.`,
+          "Объясни причину; можно придумать свою."
+        ],
+        template: `<div class="person-card-header"><strong>${name}</strong> · Tema: ${person.symptom}. Usa le battute guida per costruire il dialogo; la causa può essere modificata.<br><span lang="ru">Тема: ${person.symptomRu}. Составь диалог по подсказкам; причину можно изменить.</span></div>${template}`
+      };
+    });
+
+    window.ParloInlineS2S.init({
+      dialogues,
+      exercisePath: "004_es_j",
+      unitNumber: 4,
+      uniqueAssignments: false,
+      validateAnswers: false,
+      studentHint: "Составьте четыре реплики по подсказкам: приветствие и вопрос, ответ о самочувствии и симптоме, сочувствие и вопрос о причине, объяснение. Причину можно придумать. Для взрослых собеседников используйте вежливое обращение Lei.",
+      teacherHint: "Попросите пары различать общее самочувствие (stare) и конкретный симптом (avere / fare male). Обратите внимание на согласование mi fa / mi fanno и на вежливую форму Lei в диалогах с синьорой Паолетти и доктором Донелли."
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

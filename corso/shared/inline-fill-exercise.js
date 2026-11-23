@@ -69,12 +69,17 @@
       .toLowerCase();
   }
 
-  function isFieldCorrect(rawValue, expected) {
+    function isFieldCorrect(rawValue, expected) {
     const actual = normalizeAnswer(rawValue);
     if (!actual) return false;
     const allowed = Array.isArray(expected) ? expected : [expected];
     return allowed.some(ans => normalizeAnswer(ans) === actual);
   }
+
+  function isFieldPart(part) {
+    return Boolean(part && (part.input || part.select));
+  }
+
 
   function getHistoryList(rawHistory) {
     if (!rawHistory) return [];
@@ -218,7 +223,7 @@
       const remoteInputs = safeRead("inputs", slotId) || {};
       const result = {};
       sentence.parts.forEach(part => {
-        if (!part || typeof part === "string" || !part.input) return;
+                if (!isFieldPart(part)) return;
         const uiInput = cardUI[cardIndex]?.inputsById?.[part.id]?.input;
         if (uiInput && (dirtyFields.has(`${cardIndex}_${part.id}`) || document.activeElement === uiInput)) {
           result[part.id] = uiInput.value;
@@ -234,7 +239,7 @@
         if (typeof part === "string") {
           return part.replace(/<[^>]*>/g, "");
         }
-        if (part && part.input) {
+                if (isFieldPart(part)) {
           const val = String(values?.[part.id] || "").trim();
           return `[${val || "___"}]`;
         }
@@ -276,7 +281,7 @@
       const sentence = sentences[cardIndex];
       const pendingSaves = [];
       sentence.parts.forEach(part => {
-        if (!part || typeof part === "string" || !part.input) return;
+                if (!isFieldPart(part)) return;
         const fieldKey = `${cardIndex}_${part.id}`;
         if (saveTimers.has(fieldKey)) {
           clearTimeout(saveTimers.get(fieldKey));
@@ -360,9 +365,10 @@
       turnHintTag.hidden = isPersonalPractice;
       worksheetHeader.append(worksheetLabel, turnHintTag);
 
-      const accentToolbar = document.createElement("div");
+            const accentToolbar = document.createElement("div");
       accentToolbar.className = "accent-toolbar";
       accentToolbar.setAttribute("aria-label", "Caratteri speciali italiani");
+      accentToolbar.hidden = !sentence.parts.some(part => part && part.input);
 
       let lastFocusedInput = null;
       const inputsById = {};
@@ -396,19 +402,33 @@
           sentenceBox.appendChild(span);
           return;
         }
-        if (part && part.input) {
+                if (isFieldPart(part)) {
           blankCounter += 1;
           const wrap = document.createElement("span");
           wrap.className = "blank-wrap";
 
-          const input = document.createElement("input");
-          input.type = "text";
+          const input = document.createElement(part.select ? "select" : "input");
           input.className = "blank-input";
-          input.autocomplete = "off";
-          input.autocapitalize = "off";
-                     input.spellcheck = false;
-           input.placeholder = part.placeholder || "";
-           input.disabled = true;
+          if (part.select) {
+            const placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = part.placeholder || "Scegli…";
+            input.appendChild(placeholder);
+            (part.options || []).forEach(option => {
+              const item = document.createElement("option");
+              item.value = typeof option === "string" ? option : option.value;
+              item.textContent = typeof option === "string" ? option : (option.label || option.value);
+              input.appendChild(item);
+            });
+          } else {
+            input.type = "text";
+            input.autocomplete = "off";
+            input.autocapitalize = "off";
+            input.spellcheck = false;
+            input.placeholder = part.placeholder || "";
+            inputList.push(input);
+          }
+          input.disabled = true;
           input.setAttribute("aria-label", `Spazio ${blankCounter} nella frase ${cardIndex + 1}`);
 
           const mark = document.createElement("span");
@@ -418,7 +438,7 @@
           input.addEventListener("focus", () => {
             lastFocusedInput = input;
           });
-                    input.addEventListener("input", () => {
+          input.addEventListener(part.select ? "change" : "input", () => {
             scheduleFieldSave(cardIndex, part.id, input.value);
           });
           input.addEventListener("blur", () => {
@@ -428,7 +448,6 @@
           wrap.append(input, mark);
           sentenceBox.appendChild(wrap);
           inputsById[part.id] = { input, wrap, mark, correct: part.correct };
-          inputList.push(input);
         }
       });
 
@@ -568,8 +587,8 @@
             const span = document.createElement("span");
             span.innerHTML = part;
             body.appendChild(span);
-          } else if (part && part.input) {
-            const val = item.inputs?.[part.id] || "";
+                    } else if (isFieldPart(part)) {
+             const val = item.inputs?.[part.id] || "";
             const ok = isFieldCorrect(val, part.correct);
             const chip = document.createElement("span");
             chip.className = `history-blank ${val ? (ok ? "ok" : "err") : ""}`.trim();
@@ -648,7 +667,7 @@
       const remoteInputs = safeRead("inputs", slotId) || {};
 
       sentence.parts.forEach(part => {
-        if (!part || typeof part === "string" || !part.input) return;
+                if (!isFieldPart(part)) return;
         const entry = ui.inputsById[part.id];
         const fieldKey = `${cardIndex}_${part.id}`;
         entry.input.disabled = !canEdit;
