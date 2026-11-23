@@ -1,0 +1,25 @@
+:root {
+  --reading-bg: url("img/sfondo.jpeg");
+  --reading-banner: url("img/banner.png");
+  --es-a-bg: url("img/sfondo.jpeg");
+  --inbox-bg: url("img/sfondo.jpeg");
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 50% -12%, rgba(111, 151, 116, .18), transparent 42%), var(--bg-main, #f5f1e7);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: -25vh 0;
+  background:
+    linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
+    var(--reading-bg) center / cover no-repeat;
+  transform: translate3d(0, var(--parallax-y, 0), 0);
+  will-change: transform;
+  pointer-events: none;
+}
