@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Confronta persone, oggetti e attività, Unità 54, Esercizio J." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_j" data-next-href="054_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione scritta</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Confronta persone, oggetti e attività usando i comparativi.</p>
+    </header>
+
+    <details class="instruction-box">
+      <summary class="instruction-title">💡 Ripasso · I comparativi</summary>
+      <div class="instruction-text">
+        <p>Per confrontare due elementi puoi usare <strong>più … di</strong> o <strong>meno … di</strong>: <em>La pioggia è più fredda della neve.</em> Per esprimere uguaglianza usa <strong>tanto … quanto</strong> o <strong>così … come</strong>: <em>Il treno è tanto comodo quanto l’aereo.</em></p>
+        <p>Usa <strong>che</strong> quando confronti qualità, attività o gruppi introdotti da una preposizione: <em>È più facile camminare che correre.</em> Formula confronti sensati e varia gli aggettivi e le strutture.</p>
+      </div>
+    </details>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">Esercizio J · Confronti liberi</h2>
+      <div class="instruction-text">
+        <p>Per ogni coppia, scrivi alcuni confronti possibili. Puoi esprimere somiglianze o differenze e usare aggettivi, avverbi o verbi. Le risposte possono variare: motiva le tue idee con frasi complete.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Esercizio sui comparativi">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una coppia:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle coppie"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle coppie">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_j",
+      hintsLang: "it",
+      placeholder: "Scrivi alcuni confronti completi per questa coppia...",
+      questions: [
+        { key: "j1", title: "Pioggia e neve", hints: ["Confronta temperatura, intensità o effetti sul paesaggio. Puoi usare ‘più… di’, ‘meno… di’ o ‘tanto… quanto’."] },
+        { key: "j2", title: "Ragazze bionde e ragazze brune", hints: ["Confronta colori, gusti o caratteristiche senza generalizzare: puoi esprimere preferenze personali o parlare dell’aspetto. Si confrontano due gruppi introdotti da ‘con’. "] },
+        { key: "j3", title: "Auto diesel e auto a benzina", hints: ["Confronta consumi, costi, prestazioni o impatto ambientale. Per i gruppi con preposizione puoi usare ‘che’. "] },
+        { key: "j4", title: "Uomini con la barba e uomini senza barba", hints: ["Confronta l’aspetto o le preferenze personali; puoi usare ‘più… che’ davanti ai gruppi con preposizione."] },
+        { key: "j5", title: "Smartphone e tablet", hints: ["Confronta dimensioni, portabilità, funzioni o comodità d’uso."] },
+        { key: "j6", title: "Caffè italiano e caffè americano", hints: ["Confronta gusto, intensità, quantità o modo di servirli."] },
+        { key: "j7", title: "Viaggi in aereo e viaggi in treno", hints: ["Confronta durata, comodità, costo o paesaggio. Davanti ai gruppi introdotti da ‘in’ puoi usare ‘che’."] },
+        { key: "j8", title: "Vacanze organizzate e viaggi fai da te", hints: ["Confronta libertà, organizzazione, imprevisti e costi; puoi confrontare anche ‘organizzare’ e ‘decidere’."] },
+        { key: "j9", title: "Ristoranti di lusso e trattorie tradizionali", hints: ["Confronta atmosfera, prezzi, servizio o tipo di cucina."] },
+        { key: "j10", title: "Libri gialli e libri fantasy", hints: ["Confronta personaggi, ambientazioni, suspense o fantasia; puoi indicare quale genere preferisci e perché."] },
+        { key: "j11", title: "Pizza margherita e pizza quattro stagioni", hints: ["Confronta ingredienti, sapore, semplicità o pesantezza."] },
+        { key: "j12", title: "Documentari e commedie", hints: ["Confronta ciò che insegnano, le emozioni che suscitano o il modo in cui intrattengono."] },
+        { key: "j13", title: "Film in bianco e nero e film a colori", hints: ["Confronta stile, atmosfera o realismo. I gruppi sono introdotti da preposizioni: puoi usare ‘più… che’."] },
+        { key: "j14", title: "Doccia e bagno", hints: ["Confronta durata, consumo d’acqua, comodità o effetto rilassante."] },
+        { key: "j15", title: "Vacanza in campeggio e vacanza in hotel", hints: ["Confronta comfort, contatto con la natura, costo o libertà."] },
+        { key: "j16", title: "Radio e televisione", hints: ["Confronta informazione, intrattenimento e possibilità di fare altre attività mentre le ascolti o le guardi."] },
+        { key: "j17", title: "Balletto classico e danza moderna", hints: ["Confronta movimenti, tecnica, musica o libertà di espressione."] },
+        { key: "j18", title: "Vita da single e vita di coppia", hints: ["Confronta abitudini, libertà, compagnia o responsabilità, senza considerare una scelta migliore per tutti."] },
+        { key: "j19", title: "Sport all’aperto e sport al chiuso", hints: ["Confronta ambiente, dipendenza dal tempo, attrezzatura o possibilità di allenarsi."] },
+        { key: "j20", title: "Serate romantiche e serate con amici", hints: ["Confronta atmosfera, attività e compagnia; esprimi anche quale tipo di serata preferisci."] }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa i comparativi con di o che, Unità 54, Esercizio I." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_i" data-next-href="054_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Grammatica</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Completa i comparativi con <em>di</em> o <em>che</em>.</p>
+    </header>
+
+    <details class="instruction-box">
+      <summary class="instruction-title">💡 Ripasso · Di o che?</summary>
+      <div class="instruction-text">
+        <p>In genere si usa <strong>di</strong> per confrontare due elementi diversi: <em>Marco è più alto di Luca</em>. Se <em>di</em> precede un articolo, si unisce formando <em>del, della, dei</em> e altre forme articolate.</p>
+        <p>Si usa <strong>che</strong> quando si confrontano due aggettivi, due azioni o elementi paralleli: <em>è più facile che divertente</em>; <em>preferisco leggere che guardare la TV</em>. Si usa anche davanti a gruppi introdotti da una preposizione: <em>più spesso in treno che in auto</em>.</p>
+      </div>
+    </details>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">Esercizio I · I comparativi</h2>
+      <div class="instruction-text">
+        <p>Completa ogni frase con la forma corretta di <em>di</em> o <em>che</em>. Fai attenzione alle preposizioni articolate.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa i comparativi con di o che">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_j.html" hidden>Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const sentences = [
+      { id: "i1", parts: ["Giovanni è più giovane ", { id: "i1-gap", input: true, correct: "di" }, " sua moglie?"], hints: ["Confronta due persone: usa ‘di’ davanti al possessivo senza articolo."] },
+      { id: "i2", parts: ["La carne mi piace più ", { id: "i2-gap", input: true, correct: "del" }, " pesce."], hints: ["Confronta due cibi; ‘di’ si fonde con l’articolo ‘il’."] },
+      { id: "i3", parts: ["Suonare il campanello è più facile ", { id: "i3-gap", input: true, correct: "che" }, " suonare il pianoforte."], hints: ["Si confrontano due azioni all’infinito."] },
+      { id: "i4", parts: ["Questo romanzo è meno interessante ", { id: "i4-gap", input: true, correct: "di" }, " quello."], hints: ["Confronta questo romanzo con un altro indicato da ‘quello’: usa ‘di’."] },
+      { id: "i5", parts: ["Di notte fa più fresco ", { id: "i5-gap", input: true, correct: "che" }, " di giorno."], hints: ["Confronta due espressioni di tempo introdotte dalla stessa preposizione: usa ‘che’."] },
+      { id: "i6", parts: ["In trattoria si spende meno ", { id: "i6-gap", input: true, correct: "che" }, " al ristorante."], hints: ["Si confrontano due espressioni di luogo introdotte da preposizioni: usa ‘che’."] },
+      { id: "i7", parts: ["Mi piace più nuotare ", { id: "i7-gap", input: true, correct: "che" }, " fare ginnastica."], hints: ["Si confrontano due attività all’infinito."] },
+      { id: "i8", parts: ["Il duomo di Pisa è più antico ", { id: "i8-gap", input: true, correct: "di" }, " quello di Firenze."], hints: ["Confronta due edifici diversi: usa ‘di’ davanti a ‘quello’."] },
+      { id: "i9", parts: ["L’appartamento dei vicini è più piccolo ", { id: "i9-gap", input: true, correct: "del" }, " nostro."], hints: ["‘Nostro’ è preceduto dall’articolo sottinteso ‘il’: usa la forma articolata di ‘di’."] },
+      { id: "i10", parts: ["Il branzino è più caro ", { id: "i10-gap", input: true, correct: "del" }, " merluzzo."], hints: ["Confronta due pesci; usa ‘di’ unito all’articolo ‘il’."] },
+      { id: "i11", parts: ["A Marco piace più la musica classica ", { id: "i11-gap", input: true, correct: "che" }, " musica leggera."], hints: ["La struttura mette a confronto due alternative nella stessa frase: usa ‘che’."] },
+      { id: "i12", parts: ["Il vino bianco è più leggero ", { id: "i12-gap", input: true, correct: "del" }, " vino rosso."], hints: ["Confronta due tipi di vino; ‘di’ si unisce all’articolo ‘il’."] },
+      { id: "i13", parts: ["Il caffè che fa mia nonna è più forte ", { id: "i13-gap", input: true, correct: "del" }, " caffè del bar."], hints: ["Confronta due caffè; usa la preposizione articolata ‘di + il’."] },
+      { id: "i14", parts: ["Il mio cane è più intelligente ", { id: "i14-gap", input: true, correct: "di" }, " me."], hints: ["Davanti al pronome personale tonico si usa ‘di’."] },
+      { id: "i15", parts: ["Dormire è più utile ", { id: "i15-gap", input: true, correct: "che" }, " lavorare, almeno secondo me."], hints: ["Si confrontano due azioni all’infinito."] },
+      { id: "i16", parts: ["La mia macchina è più rumorosa ", { id: "i16-gap", input: true, correct: "di" }, " un vecchio trattore."], hints: ["Confronta due elementi diversi; prima del nome senza articolo si usa ‘di’."] },
+      { id: "i17", parts: ["La mia vita sentimentale è più caotica ", { id: "i17-gap", input: true, correct: "del" }, " traffico di Roma."], hints: ["‘Traffico’ ha l’articolo ‘il’: usa ‘di + il’."] },
+      { id: "i18", parts: ["La bolletta del gas è più alta ", { id: "i18-gap", input: true, correct: "del" }, " Monte Bianco."], hints: ["Confronta due elementi; davanti a ‘Monte’ è sottinteso l’articolo ‘il’."] },
+      { id: "i19", parts: ["La pasta che cucina il mio amico inglese è più scotta ", { id: "i19-gap", input: true, correct: "che" }, " al dente."], hints: ["Si confrontano due modi/espressioni riferiti alla cottura: usa ‘che’."] },
+      { id: "i20", parts: ["Il mio giardino è più selvaggio ", { id: "i20-gap", input: true, correct: "di" }, " una giungla."], hints: ["Confronta due elementi diversi; usa ‘di’ davanti al nome."] },
+      { id: "i21", parts: ["Il mio divano è più comodo ", { id: "i21-gap", input: true, correct: "del" }, " letto (ecco perché ci dormo sempre)."], hints: ["‘Letto’ è preceduto dall’articolo ‘il’: usa ‘di + il’."] },
+      { id: "i22", parts: ["Casa mia è più frequentata ", { id: "i22-gap", input: true, correct: "della" }, " Stazione Centrale."], hints: ["‘Stazione’ è femminile e richiede ‘la’: unisci ‘di + la’."] },
+      { id: "i23", parts: ["La mia moto è più lenta ", { id: "i23-gap", input: true, correct: "di" }, " una lumaca."], hints: ["Confronta due elementi diversi; davanti al nome senza articolo usa ‘di’."] },
+      { id: "i24", parts: ["Il mio armadio è meno disordinato ", { id: "i24-gap", input: true, correct: "della" }, " mia vita."], hints: ["‘Vita’ è preceduto dall’articolo ‘la’: usa la forma articolata di ‘di’."] },
+      { id: "i25", parts: ["Il mio portafoglio è più vuoto ", { id: "i25-gap", input: true, correct: "di" }, " una scatola di biscotti dopo una serata Netflix."], hints: ["Confronta due elementi; davanti al nome senza articolo si usa ‘di’."] },
+      { id: "i26", parts: ["Il caffè che bevo la mattina è meno nero ", { id: "i26-gap", input: true, correct: "del" }, " mio umore il lunedì."], hints: ["Davanti a ‘mio umore’ è sottinteso ‘il’: usa ‘di + il’."] },
+      { id: "i27", parts: ["Rispondere ai messaggi su Whatsapp è più complicato ", { id: "i27-gap", input: true, correct: "che" }, " scrivere un romanzo."], hints: ["Si confrontano due azioni all’infinito."] },
+      { id: "i28", parts: ["Il mio cane è più confuso ", { id: "i28-gap", input: true, correct: "di" }, " me dopo un’ora di matematica."], hints: ["Davanti al pronome personale tonico si usa ‘di’."] },
+      { id: "i29", parts: ["Il silenzio durante la cena con i parenti è più imbarazzante ", { id: "i29-gap", input: true, correct: "del" }, " primo appuntamento."], hints: ["‘Primo appuntamento’ ha l’articolo ‘il’: usa ‘di + il’."] },
+      { id: "i30", parts: ["Il mio weekend è più corto ", { id: "i30-gap", input: true, correct: "di" }, " una canzone rap."], hints: ["Confronta due elementi diversi; davanti al nome senza articolo usa ‘di’."] }
+    ].map(sentence => ({ ...sentence, hintsLang: "it" }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_i",
+      sentences
+    });
+  </script>
+</body>
+</html>

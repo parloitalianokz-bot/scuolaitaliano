@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Racconta e confronta i personaggi di Ricchi e poveri, Unità 54." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_d" data-next-href="054_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione orale</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Racconta il testo confrontando il più possibile i personaggi.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio D · Racconto e confronto</h2>
+      <div class="instruction-text">
+        <p>Raccontate la storia in italiano e confrontate le famiglie e i personaggi. Usate i suggerimenti per organizzare il racconto e, quando possibile, le forme comparative.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Racconto e confronto dei personaggi di Ricchi e poveri">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle schede" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle schede">
+        <button id="previous-question" type="button" hidden>← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite" hidden></span>
+        <button id="next-question" type="button" hidden>Successiva →</button>
+        <a id="next-exercise" href="054_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/speech-exercise.js?v=1"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_d",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "racconto-ricchi-poveri",
+          title: "Racconta e confronta le famiglie del palazzo",
+          intro: "Segui l’ordine dei piani e confronta il più possibile le condizioni di vita, le abitudini e i caratteri degli inquilini. Non è necessario ripetere il testo parola per parola.",
+          prompts: [
+            "Presenta il palazzo e le famiglie che ci abitano, dal pianterreno al quarto piano. Quali sono le loro differenze più evidenti?",
+            "Confronta gli sposini del pianterreno con i pensionati: com’è diversa la loro situazione familiare e che cosa desiderano o di che cosa hanno bisogno?",
+            "Descrivi la famiglia di musicisti sordi. Confronta il loro appartamento rumoroso con le abitudini della famiglia benestante del secondo piano, che è spesso fuori casa.",
+            "Confronta la famiglia benestante con la famiglia numerosa del terzo piano: chi ha più stanze e più soldi? Chi ha più figli? Come vivono i bambini e Olaf?",
+            "Confronta le difficoltà economiche della famiglia numerosa con quelle dei pensionati. Per che cosa spendono i soldi e che cosa non possono permettersi?",
+            "Racconta che cosa succede ai pensionati quando piove e perché non vanno dal medico. Concludi confrontando i loro pasti a casa con quelli al buffet dei congressi medici."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

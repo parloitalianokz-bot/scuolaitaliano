@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trasforma le frasi usando il condizionale semplice, Unità 54, Esercizio G." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_g" data-next-href="054_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione scritta</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Rendi le frasi più cortesi usando il condizionale semplice.</p>
+    </header>
+
+    <details class="instruction-box">
+      <summary class="instruction-title">💡 Ripasso · Il condizionale semplice</summary>
+      <div class="instruction-text">
+        <p>Il condizionale semplice si forma con la radice del verbo e le desinenze <strong>-ei, -esti, -ebbe, -emmo, -este, -ebbero</strong>. Per fare richieste più cortesi si usa spesso con <em>potere</em>, <em>volere</em> e <em>dovere</em>: <em>Puoi aiutarmi?</em> → <em>Potresti aiutarmi?</em></p>
+        <p>Attenzione alle forme irregolari: <em>potrei</em>, <em>vorrei</em>, <em>dovrei</em>, <em>sarei</em>, <em>avrei</em>, <em>farei</em> e <em>verrei</em>. Riscrivi ogni frase in modo naturale, mantenendo il significato.</p>
+      </div>
+    </details>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">Esercizio G · Trasformazioni</h2>
+      <div class="instruction-text">
+        <p>Come nell’esempio, trasforma le frasi usando il condizionale semplice. Per le richieste, scegli una forma cortese adatta alla persona a cui ti rivolgi.</p>
+        <p><strong>Esempio:</strong> Devi studiare di più. → Dovresti studiare di più.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Esercizio sul condizionale semplice">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_g",
+      hintsLang: "it",
+      placeholder: "Riscrivi la frase usando il condizionale semplice...",
+      questions: [
+        { key: "g1", title: "Scusa, hai una sigaretta?", hints: ["Formula una richiesta informale più cortese: puoi usare ‘avere’ o ‘dare’ al condizionale."] },
+        { key: "g2", title: "Scusi, mi dice che ore sono?", hints: ["Mantieni il Lei di cortesia e usa ‘dire’ al condizionale."] },
+        { key: "g3", title: "Ti dispiace chiudere il finestrino?", hints: ["Trasforma ‘dispiace’ in una forma condizionale più cortese."] },
+        { key: "g4", title: "Scusi, ci presta un chilo di patate?", hints: ["Mantieni il Lei di cortesia e coniuga ‘prestare’ al condizionale."] },
+        { key: "g5", title: "Scusate, ci prestate due uova?", hints: ["Rivolgiti a più persone: usa la seconda persona plurale del condizionale."] },
+        { key: "g6", title: "Scusi, mi fa passare?", hints: ["Mantieni il Lei di cortesia: puoi usare ‘fare’ o ‘potere’ al condizionale."] },
+        { key: "g7", title: "Lo struzzo vuole la colazione a letto, domani mattina.", hints: ["Esprimi il desiderio dello struzzo con ‘volere’ al condizionale."] },
+        { key: "g8", title: "Io e te dobbiamo parlare un momento, se non ti dispiace.", hints: ["Usa ‘dovere’ alla prima persona plurale del condizionale."] },
+        { key: "g9", title: "Oggi mi serve la tua macchina, ti dispiace prestarmela?", hints: ["Trasforma la richiesta in una domanda cortese con ‘dispiacere’ o ‘potere’ al condizionale."] },
+        { key: "g10", title: "Ragazzi, ho una proposta: che ne dite di andare due giorni a Urbino?", hints: ["Rivolgiti ai ragazzi con ‘dire’ alla seconda persona plurale del condizionale."] },
+        { key: "g11", title: "Direttore, posso parlarLe in privato?", hints: ["Mantieni il Lei di cortesia e usa ‘potere’ al condizionale."] },
+        { key: "g12", title: "Marco, ti dispiace andare dal dentista al posto mio?", hints: ["Formula la richiesta informale con ‘dispiacere’ al condizionale."] },
+        { key: "g13", title: "Mi passi il sale?", hints: ["Trasforma la richiesta in una domanda informale cortese: usa ‘passare’ al condizionale."] },
+        { key: "g14", title: "Puoi aprire la porta, per favore?", hints: ["Usa ‘potere’ alla seconda persona singolare del condizionale."] },
+        { key: "g15", title: "Professoressa, mi dà un aiutino?", hints: ["Mantieni il Lei di cortesia e coniuga ‘dare’ al condizionale."] },
+        { key: "g16", title: "Portami un bicchiere d’acqua.", hints: ["Trasforma l’imperativo in una richiesta cortese con ‘portare’ al condizionale."] },
+        { key: "g17", title: "Puoi spegnere la luce?", hints: ["Usa ‘potere’ alla seconda persona singolare del condizionale."] },
+        { key: "g18", title: "Sono un po’ stanco, adesso vado via.", hints: ["Rendi più attenuata la decisione usando ‘andare’ al condizionale; puoi mantenere invariata la prima parte."] },
+        { key: "g19", title: "Avvocato, mi richiami più tardi!", hints: ["Mantieni il Lei di cortesia e trasforma ‘richiamare’ in una richiesta al condizionale."] },
+        { key: "g20", title: "Vieni con me al cinema?", hints: ["Formula l’invito con ‘venire’ alla seconda persona singolare del condizionale."] },
+        { key: "g21", title: "Non toccare il mio telefono. Può scoppiare!", hints: ["Trasforma il divieto in un consiglio: puoi usare ‘dovere’ al condizionale."] },
+        { key: "g22", title: "Ragazzi, devo controllare i vostri compiti. Ricordatemelo domani.", hints: ["Usa ‘dovere’ alla prima persona singolare e trasforma la richiesta ai ragazzi in una domanda cortese."] },
+        { key: "g23", title: "Aiutami con i compiti.", hints: ["Trasforma l’imperativo in una richiesta informale cortese con ‘aiutare’ al condizionale."] },
+        { key: "g24", title: "Compra del pane, per favore.", hints: ["Formula la richiesta informale con ‘comprare’ al condizionale."] },
+        { key: "g25", title: "Porta il cane a fare una passeggiata.", hints: ["Trasforma l’imperativo in una richiesta cortese usando ‘portare’ al condizionale."] },
+        { key: "g26", title: "Signora, chiuda la porta dietro di Lei.", hints: ["Mantieni il Lei di cortesia e trasforma ‘chiudere’ in una domanda cortese."] },
+        { key: "g27", title: "Fai una telefonata a Luca.", hints: ["Trasforma l’imperativo informale in una richiesta con ‘fare’ al condizionale."] },
+        { key: "g28", title: "Scrivetemi un’email quando potete.", hints: ["Rivolgiti a più persone e usa ‘potere’ al condizionale."] },
+        { key: "g29", title: "Tesoro, portami un bicchiere d’acqua, se non ti pesa.", hints: ["Rendi più cortese la richiesta con ‘portare’ al condizionale; puoi mantenere ‘se non ti pesa’."] },
+        { key: "g30", title: "Ti spiace dirmi che ore sono?", hints: ["Trasforma ‘spiace’ in una forma condizionale per rendere la domanda più cortese."] }
+      ]
+    });
+  </script>
+</body>
+</html>

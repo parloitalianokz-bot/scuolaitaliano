@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il testo Ricchi e poveri con la forma corretta dei verbi, Unità 54." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_b" data-next-href="054_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Grammatica</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Completa il testo con la forma corretta dei verbi.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio B · I verbi</h2>
+      <div class="instruction-text">
+        <p>Mettete i verbi tra parentesi nella forma corretta: presente, passato prossimo o condizionale semplice.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa il testo con i verbi">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del testo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del testo"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_b",
+      sentences: [
+        {
+          id: "ricchi-poveri-01",
+          parts: [
+            "In via Manzoni 20 c’è una casa di cinque piani. Ci ", { id: "abitare-01", input: true, correct: "abitano" },
+            " cinque famiglie. Al pianterreno ", { id: "abitare-02", input: true, correct: "abita" },
+            " una coppia di sposini, innamoratissimi; lui è un po’ più giovane di lei."
+          ]
+        },
+        {
+          id: "ricchi-poveri-02",
+          parts: [
+            "", { id: "trasferirsi", input: true, correct: "si sono trasferiti" },
+            " qui da poco tempo, e ancora non ", { id: "avere-01", input: true, correct: "hanno" },
+            " tutti i mobili; ", { id: "volere-01", input: true, correct: "vorrebbero" },
+            " comprarli, ma per ora i soldi non ", { id: "bastare-01", input: true, correct: "bastano" }, "."
+          ]
+        },
+        {
+          id: "ricchi-poveri-03",
+          parts: [
+            "Al marito la sera ", { id: "piacere-01", input: true, correct: "piace" },
+            " molto mangiare una bella bistecca, o un arrosto con contorno, ma purtroppo sua moglie ancora non ",
+            { id: "imparare-01", input: true, correct: "ha imparato" }, " a cucinare."
+          ]
+        },
+        {
+          id: "ricchi-poveri-04",
+          parts: [
+            "Ieri, per esempio, quando lui ", { id: "tornare-01", input: true, correct: "è tornato" },
+            " a casa non ", { id: "trovare-01", input: true, correct: "ha trovato" },
+            " niente di pronto, e così ", { id: "dovere-01", input: true, correct: "ha dovuto" }, " mangiare dei biscotti."
+          ]
+        },
+        {
+          id: "ricchi-poveri-05",
+          parts: [
+            "Al primo piano ", { id: "abitare-03", input: true, correct: "abita" },
+            " una famiglia di musicisti sordi. Il padre è un musicista sordo, la moglie è una musicista sorda e anche i figli sono sordi e ",
+            { id: "suonare-01", input: true, correct: "suonano" }, " qualche strumento musicale."
+          ]
+        },
+        {
+          id: "ricchi-poveri-06",
+          parts: [
+            "A loro ", { id: "piacere-02", input: true, correct: "piace" }, " molto suonare tutti insieme. Ieri sera, per esempio, il padre ",
+            { id: "riunire-01", input: true, correct: "ha riunito" }, " la famiglia in salotto, e ",
+            { id: "suonare-02", input: true, correct: "ha suonato" }, " una sinfonia."
+          ]
+        },
+        {
+          id: "ricchi-poveri-07",
+          parts: [
+            "In più c’erano la radio e la televisione accese. Al padre, poi, ", { id: "piacere-03", input: true, correct: "piace" },
+            " molto fare qualche lavoretto in casa; ieri, per esempio, verso mezzanotte, ",
+            { id: "usare-01", input: true, correct: "ha usato" }, " il trapano per appendere al muro un orologio a cucù."
+          ]
+        },
+        {
+          id: "ricchi-poveri-08",
+          parts: [
+            "Gli inquilini del secondo piano sono benestanti. Non ", { id: "sapere-01", input: true, correct: "sanno" },
+            " quante stanze ", { id: "esserci-01", input: true, correct: "ci sono" },
+            " nel loro appartamento, perché non le ", { id: "contare-01", input: true, correct: "contano" }, " mai."
+          ]
+        },
+        {
+          id: "ricchi-poveri-09",
+          parts: [
+            "A loro ", { id: "piacere-04", input: true, correct: "piacciono" }, " molto i viaggi: anche la settimana scorsa, per esempio, ",
+            { id: "fare-01", input: true, correct: "hanno fatto" }, " un viaggio all’estero."
+          ]
+        },
+        {
+          id: "ricchi-poveri-10",
+          parts: [
+            "Spesso la sera gli ", { id: "piacere-05", input: true, correct: "piace" }, " mangiare al ristorante. Ieri però ",
+            { id: "scendere-01", input: true, correct: "sono scesi" }, " al piano di sotto, dalla famiglia dei musicisti sordi, ",
+            { id: "suonare-03", input: true, correct: "hanno suonato" }, " il campanello (a lungo ed energicamente) e ",
+            { id: "chiedere-01", input: true, correct: "hanno chiesto" }, " in prestito due uova e un chilo di patate."
+          ]
+        },
+        {
+          id: "ricchi-poveri-11",
+          parts: [
+            "Al terzo piano ", { id: "abitare-04", input: true, correct: "abita" },
+            " una famiglia numerosa: padre, madre e otto bambini piccoli. ", { id: "avere-02", input: true, correct: "hanno" },
+            " un cane che ", { id: "chiamarsi-01", input: true, correct: "si chiama" }, " Olaf."
+          ]
+        },
+        {
+          id: "ricchi-poveri-12",
+          parts: [
+            "", { id: "vivere-01", input: true, correct: "vivono" }, " in un appartamento di due stanze: nella stanza più piccola ",
+            { id: "stare-01", input: true, correct: "stanno" }, " i genitori e i bambini, in quella grande ",
+            { id: "stare-02", input: true, correct: "sta" }, " il cane."
+          ]
+        },
+        {
+          id: "ricchi-poveri-13",
+          parts: [
+            "A loro ", { id: "piacere-06", input: true, correct: "piacerebbe" }, " molto trasferirsi in un appartamento più grande. In casa non ci sono molti soldi, perché a Olaf ",
+            { id: "piacere-07", input: true, correct: "piace" }, " solo la carne fresca di prima scelta; una volta ",
+            { id: "provare-01", input: true, correct: "hanno provato" }, " a mangiare uno dei bambini, ma non gli ",
+            { id: "piacere-08", input: true, correct: "è piaciuto" }, "."
+          ]
+        },
+        {
+          id: "ricchi-poveri-14",
+          parts: [
+            "I suoi padroni ", { id: "essere-01", input: true, correct: "sarebbero" },
+            " molto contenti di vendere Olaf, ma nessuno lo ", { id: "volere-02", input: true, correct: "vuole" }, "."
+          ]
+        },
+        {
+          id: "ricchi-poveri-15",
+          parts: [
+            "I pensionati del quarto piano ", { id: "avere-03", input: true, correct: "hanno" },
+            " problemi di salute, però non ", { id: "andare-01", input: true, correct: "vanno" },
+            " mai dal medico; ", { id: "preferire-01", input: true, correct: "preferiscono" }, " non curarsi."
+          ]
+        },
+        {
+          id: "ricchi-poveri-16",
+          parts: [
+            "", { id: "avere-04", input: true, correct: "avrebbero" }, " bisogno di vestiti nuovi, e ",
+            { id: "volere-03", input: true, correct: "vorrebbero" }, " anche riparare il tetto, perché nel loro appartamento ",
+            { id: "piovere-01", input: true, correct: "piove" }, "; ma la pensione non gli ",
+            { id: "bastare-02", input: true, correct: "basta" }, "."
+          ]
+        },
+        {
+          id: "ricchi-poveri-17",
+          parts: [
+            "Per fortuna ", { id: "avere-05", input: true, correct: "hanno" }, " delle malattie rarissime, che ",
+            { id: "piacere-09", input: true, correct: "piacciono" }, " molto agli specialisti."
+          ]
+        },
+        {
+          id: "ricchi-poveri-18",
+          parts: [
+            "Il mese scorso, per esempio, li ", { id: "invitare-01", input: true, correct: "hanno invitati" },
+            " a un congresso medico: i due pensionati ", { id: "esibirsi-01", input: true, correct: "si sono esibiti" },
+            " davanti a un pubblico di medici, che li ", { id: "applaudire-01", input: true, correct: "hanno applauditi" },
+            " con entusiasmo. Dopo il congresso c’era il buffet, e lì finalmente ",
+            { id: "potere-01", input: true, correct: "hanno potuto" }, " mangiare."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

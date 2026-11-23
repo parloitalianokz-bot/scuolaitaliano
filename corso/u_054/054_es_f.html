@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trasforma le frasi usando il superlativo relativo, Unità 54, Esercizio F." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_f" data-next-href="054_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione scritta</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Trasforma le frasi usando il superlativo relativo.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio F · Il superlativo relativo</h2>
+      <div class="instruction-text">
+        <p>Come nell’esempio, riscrivi ogni frase usando il superlativo relativo. Fai attenzione all’articolo e all’accordo dell’aggettivo.</p>
+        <p><strong>Esempio:</strong> Roma è una città italiana interessante. → Roma è la città più interessante.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Esercizio sul superlativo relativo">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_f",
+      hintsLang: "it",
+      placeholder: "Riscrivi la frase usando il superlativo relativo...",
+      questions: [
+        { key: "f1", title: "Il delfino è un animale intelligente.", hints: ["Trasforma l’aggettivo in un superlativo relativo e mantieni il genere maschile."] },
+        { key: "f2", title: "La Ferrari è una macchina veloce.", hints: ["Riformula la frase con ‘la macchina più...’."] },
+        { key: "f3", title: "La rosa è un fiore molto profumato.", hints: ["La frase inizia con ‘La rosa è il fiore...’: accorda l’articolo con ‘fiore’."] },
+        { key: "f4", title: "La Russia è un grande paese.", hints: ["Usa ‘il paese più...’; ricorda che ‘grande’ diventa ‘grande’ anche al superlativo relativo."] },
+        { key: "f5", title: "Milano è una città ricca.", hints: ["Riformula con ‘la città più...’ e mantieni l’aggettivo al femminile."] },
+        { key: "f6", title: "Pavarotti è un tenore famoso.", hints: ["Usa ‘il tenore più...’."] },
+        { key: "f7", title: "L’olio di oliva è un condimento molto sano.", hints: ["Riformula con ‘il condimento più...’."] },
+        { key: "f8", title: "Gennaio è un mese freddissimo.", hints: ["Sostituisci il superlativo assoluto con ‘il mese più freddo’."] },
+        { key: "f9", title: "L’aereo è un mezzo di trasporto molto rapido.", hints: ["Usa ‘il mezzo di trasporto più...’."] },
+        { key: "f10", title: "Questo ristorante è carissimo.", hints: ["Sostituisci ‘carissimo’ con il superlativo relativo, mantenendo il dimostrativo."] },
+        { key: "f11", title: "Questa camera è grandissima.", hints: ["Sostituisci ‘grandissima’ con ‘la più grande’."] },
+        { key: "f12", title: "Mia sorella è completamente stupida.", hints: ["Riformula la frase con ‘la persona più...’; usa l’aggettivo al femminile."] },
+        { key: "f13", title: "Il coccodrillo è un rettile pericoloso.", hints: ["Usa ‘il rettile più...’."] },
+        { key: "f14", title: "La pizza napoletana è una pizza molto buona.", hints: ["Il superlativo relativo di ‘buono’ è irregolare: usa ‘la pizza migliore’."] },
+        { key: "f15", title: "Il Pacifico è un oceano enorme.", hints: ["Riformula con ‘l’oceano più...’."] },
+        { key: "f16", title: "L’Everest è una montagna alta.", hints: ["Usa ‘la montagna più...’."] },
+        { key: "f17", title: "L’architettura di Gaudí è molto originale.", hints: ["Riformula con ‘l’architettura più...’."] },
+        { key: "f18", title: "La pasta italiana è un piatto tradizionale.", hints: ["La frase inizia con ‘La pasta italiana è il piatto...’: fai concordare l’articolo con ‘piatto’."] },
+        { key: "f19", title: "La Grande Muraglia Cinese è una struttura imponente.", hints: ["Usa ‘la struttura più...’."] },
+        { key: "f20", title: "Il jazz è un genere musicale innovativo.", hints: ["Riformula con ‘il genere musicale più...’."] },
+        { key: "f21", title: "Il rinascimento è un periodo storico importante.", hints: ["Usa ‘il periodo storico più...’."] },
+        { key: "f22", title: "Le Baleari sono isole bellissime.", hints: ["Passa al singolare: ‘Le Baleari sono le isole più belle’."] },
+        { key: "f23", title: "La torre Eiffel è un monumento famoso di Parigi.", hints: ["Riformula con ‘il monumento più famoso di Parigi’."] },
+        { key: "f24", title: "La luna è un satellite luminoso.", hints: ["Usa ‘il satellite più...’; fai attenzione al genere di ‘satellite’."] },
+        { key: "f25", title: "L’Italia è un paese ricco di cultura.", hints: ["Riformula con ‘il paese più ricco di cultura’."] },
+        { key: "f26", title: "Il vino francese è caro, il vino italiano è buono.", hints: ["Confronta i due vini: usa il superlativo relativo per il prezzo e per la qualità."] },
+        { key: "f27", title: "Il mare in Sardegna è molto verde.", hints: ["Riformula con ‘il mare più verde’."] },
+        { key: "f28", title: "Il gatto è un animale affettuoso.", hints: ["Usa ‘l’animale più...’ e concorda l’aggettivo al maschile."] },
+        { key: "f29", title: "Il deserto del Sahara è un luogo arido.", hints: ["Riformula con ‘il luogo più...’."] },
+        { key: "f30", title: "La moda milanese è elegante.", hints: ["Usa ‘la moda più...’; mantieni il genere femminile."] }
+      ]
+    });
+  </script>
+</body>
+</html>

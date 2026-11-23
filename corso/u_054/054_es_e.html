@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Formula frasi comparative, Unità 54, Esercizio E." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_e" data-next-href="054_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione scritta</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Formula frasi usando le forme comparative.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio E · Le forme comparative</h2>
+      <div class="instruction-text">
+        <p>Come nell’esempio, confrontate i due elementi con una frase completa. Potete scegliere liberamente gli aggettivi o le caratteristiche da confrontare.</p>
+        <p><strong>Esempio:</strong> Marco è più simpatico di Stefano, ma è meno bello.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Esercizio sulle frasi comparative">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una traccia:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle tracce"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle tracce">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_e",
+      hintsLang: "it",
+      questions: [
+        { key: "e1", title: "I vecchi — i giovani", hints: ["Confrontate le persone anziane e i giovani: chi è più o meno esperto, energico o saggio?"] },
+        { key: "e2", title: "Il vino — la birra", hints: ["Confrontate il gusto, il colore o il modo in cui si bevono."] },
+        { key: "e3", title: "Ingrassare — dimagrire", hints: ["Confrontate i due cambiamenti del peso e i loro effetti sulla salute."] },
+        { key: "e4", title: "Le foto in bianco e nero — le foto a colori", hints: ["Confrontate l’aspetto, lo stile o l’atmosfera delle fotografie."] },
+        { key: "e5", title: "I cani — i gatti", hints: ["Confrontate gli animali: per esempio, considerate la loro compagnia o indipendenza."] },
+        { key: "e6", title: "L’ascensore — le scale", hints: ["Confrontate comodità, velocità o utilità per fare esercizio."] },
+        { key: "e7", title: "I tulipani — le rose", hints: ["Confrontate i fiori per bellezza, profumo o facilità di coltivazione."] },
+        { key: "e8", title: "I tedeschi — gli italiani", hints: ["Confrontate con rispetto alcuni aspetti generali, per esempio le abitudini o la lingua."] },
+        { key: "e9", title: "L’arte moderna — l’arte antica", hints: ["Confrontate le opere per stile, significato o periodo storico."] },
+        { key: "e10", title: "Fare i regali — riceverli", hints: ["Confrontate le due esperienze: quale può essere più piacevole o emozionante?"] },
+        { key: "e11", title: "I cibi surgelati — i cibi freschi", hints: ["Confrontate il sapore, la qualità o la praticità."] },
+        { key: "e12", title: "Fare sport — guardarlo alla televisione", hints: ["Confrontate il movimento e il divertimento di chi pratica uno sport e di chi lo segue."] },
+        { key: "e13", title: "Il caldo — il freddo", hints: ["Confrontate le temperature e il modo in cui vi fanno sentire."] },
+        { key: "e14", title: "La montagna — la pianura", hints: ["Confrontate il paesaggio, il clima o le attività che si possono fare."] },
+        { key: "e15", title: "L’automobile — la bicicletta", hints: ["Confrontate velocità, comodità, costo o impatto sull’ambiente."] },
+        { key: "e16", title: "La letteratura — la matematica", hints: ["Confrontate le materie per interesse, difficoltà o tipo di attività."] },
+        { key: "e17", title: "Il caffè — il tè", hints: ["Confrontate il gusto, la preparazione o l’effetto energizzante."] },
+        { key: "e18", title: "Il latte — il succo di frutta", hints: ["Confrontate il gusto o le occasioni in cui si bevono."] },
+        { key: "e19", title: "Il mare — il lago", hints: ["Confrontate dimensioni, paesaggio o possibilità di fare il bagno."] },
+        { key: "e20", title: "I libri — i fumetti", hints: ["Confrontate il modo di raccontare una storia o di presentare le immagini."] },
+        { key: "e21", title: "Il pesce — la carne", hints: ["Confrontate il gusto, il modo di cucinarli o le vostre preferenze."] },
+        { key: "e22", title: "Il digitale — l’analogico", hints: ["Confrontate facilità d’uso, qualità o sensazione di autenticità."] },
+        { key: "e23", title: "Il pranzo — la cena", hints: ["Confrontate l’orario, la durata o l’importanza dei due pasti."] },
+        { key: "e24", title: "La primavera — l’autunno", hints: ["Confrontate il clima, i colori o le attività tipiche delle stagioni."] },
+        { key: "e25", title: "La città grande — la città piccola", hints: ["Confrontate traffico, servizi, tranquillità o opportunità."] }
+      ]
+    });
+  </script>
+</body>
+</html>

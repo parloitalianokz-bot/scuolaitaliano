@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trasforma le espressioni con qualche e alcuni, Unità 54, Esercizio H." />
+  <title>Unità 54 — Ricchi e poveri · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="054_es_h" data-next-href="054_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 54 · Produzione scritta</span>
+      <h1>Ricchi e poveri</h1>
+      <p class="hero-subtitle">Trasforma le frasi alternando <em>qualche</em> e <em>alcuni/e</em>.</p>
+    </header>
+
+    <details class="instruction-box">
+      <summary class="instruction-title">💡 Ripasso · Qualche e alcuni/e</summary>
+      <div class="instruction-text">
+        <p><strong>Qualche</strong> è invariabile ed è seguito da un nome singolare: <em>qualche vestito</em>. Il verbo concorda al singolare quando il gruppo è il soggetto: <em>Qualche collega è arrivato.</em></p>
+        <p><strong>Alcuni</strong> si usa con nomi maschili plurali e <strong>alcune</strong> con nomi femminili plurali: <em>alcuni vestiti</em>, <em>alcune fotografie</em>. Se necessario, modifica anche verbi, pronomi e aggettivi. Mantieni il significato della frase.</p>
+      </div>
+    </details>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">Esercizio H · Trasformazioni</h2>
+      <div class="instruction-text">
+        <p>Come nell’esempio, sostituisci <em>qualche</em> con <em>alcuni/e</em> o viceversa. Fai attenzione agli accordi necessari.</p>
+        <p><strong>Esempio:</strong> In centro ho comprato qualche vestito. → In centro ho comprato alcuni vestiti.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Esercizio su qualche e alcuni">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="054_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 54,
+      exercisePath: "054_es_h",
+      hintsLang: "it",
+      placeholder: "Riscrivi la frase usando l’altra espressione...",
+      questions: [
+        { key: "h1", title: "Abbiamo passato alcuni giorni a Capri.", hints: ["Sostituisci ‘alcuni giorni’ con ‘qualche giorno’."] },
+        { key: "h2", title: "Ho portato in vacanza qualche libro e due o tre riviste.", hints: ["Trasforma ‘qualche libro’ in ‘alcuni libri’; lascia invariato il resto della frase."] },
+        { key: "h3", title: "In centro abbiamo fatto qualche fotografia.", hints: ["Usa ‘alcune’ e metti ‘fotografia’ al plurale."] },
+        { key: "h4", title: "Abbiamo invitato alcuni amici a cena.", hints: ["Passa al singolare: ‘qualche amico’."] },
+        { key: "h5", title: "In camera del nonno ci sono alcuni cactus.", hints: ["Usa ‘qualche’ seguito dal nome singolare; ricorda che ‘cactus’ ha la stessa forma al singolare e al plurale."] },
+        { key: "h6", title: "Silvia è stata qualche volta a Mosca.", hints: ["Sostituisci ‘qualche volta’ con ‘alcune volte’."] },
+        { key: "h7", title: "Io e Giorgio ci siamo conosciuti alcuni anni fa.", hints: ["Trasforma ‘alcuni anni’ in ‘qualche anno’."] },
+        { key: "h8", title: "Al supermercato ho comprato qualche bottiglia di vino.", hints: ["Usa ‘alcune bottiglie’ al posto di ‘qualche bottiglia’."] },
+        { key: "h9", title: "Gli studenti hanno fatto alcune domande al professore.", hints: ["Passa al singolare con ‘qualche domanda’; il soggetto della frase resta ‘gli studenti’."] },
+        { key: "h10", title: "In casa abbiamo alcuni mobili italiani.", hints: ["Usa ‘qualche mobile’; fai concordare al singolare anche l’aggettivo."] },
+        { key: "h11", title: "Questa medicina ha qualche effetto collaterale pericoloso.", hints: ["Trasforma il gruppo nominale in ‘alcuni effetti collaterali pericolosi’; il soggetto resta ‘questa medicina’."] },
+        { key: "h12", title: "Alcuni colleghi di mio padre sono già andati in pensione.", hints: ["Usa ‘qualche collega’ e accorda al singolare il verbo e il participio."] },
+        { key: "h13", title: "Ho incontrato qualche collega al bar, giusto per lamentarci del lavoro.", hints: ["Sostituisci ‘qualche collega’ con ‘alcuni colleghi’. Il resto può restare invariato."] },
+        { key: "h14", title: "In frigo ci sono alcune birre, ma nessuno sa chi le ha messe lì...", hints: ["Usa ‘qualche birra’; cambia al singolare ‘ci sono’ e il pronome ‘le’."] },
+        { key: "h15", title: "Oggi in ufficio ho scritto qualche email, giusto per far finta di essere impegnato.", hints: ["Trasforma ‘qualche email’ in ‘alcune email’. La forma scritta di ‘email’ non cambia al plurale."] },
+        { key: "h16", title: "Alcuni vicini sono venuti a lamentarsi del rumore, ma poi sono rimasti per la festa.", hints: ["Usa ‘qualche vicino’ e accorda al singolare entrambi i gruppi verbali riferiti ai vicini."] },
+        { key: "h17", title: "Ho incontrato alcuni vecchi amici al bar... non li vedevo da così tanto che ho dovuto presentarmi!", hints: ["Passa a ‘qualche vecchio amico’; trasforma anche ‘li’ in ‘lo’."] },
+        { key: "h18", title: "Mia moglie ha comprato qualche vestito... adesso ci serve solo un altro armadio.", hints: ["Sostituisci ‘qualche vestito’ con ‘alcuni vestiti’; la seconda parte non cambia."] },
+        { key: "h19", title: "Ho incontrato qualche vecchio collega che non vedevo da tempo... e dopo due minuti di chiacchiere ho capito perché ci eravamo persi di vista.", hints: ["Usa ‘alcuni vecchi colleghi’ al posto di ‘qualche vecchio collega’."] },
+        { key: "h20", title: "Ho portato qualche bottiglia di vino al picnic... peccato che avevo dimenticato il cavatappi!", hints: ["Trasforma ‘qualche bottiglia’ in ‘alcune bottiglie’; mantieni invariato il resto."] }
+      ]
+    });
+  </script>
+</body>
+</html>
