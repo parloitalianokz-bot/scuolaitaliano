@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi oralmente alle domande sul lavoro e sulle abilità, Unità 14, Esercizio M." />
+  <title>Unità 14 — Lavoro e abilità · Esercizio M</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=3" />
+  <link rel="stylesheet" href="fondo.css" />
+  <style>
+    .unit-gate { margin: 18px 0 28px; padding: 18px; border: 1px solid #d8e5d8; border-radius: 18px; background: var(--primary-light); text-align: center; }
+    .unit-gate p { margin: 0 0 10px; color: var(--primary-dark); }
+    .unit-gate a, .unit-gate button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin: 4px; padding: 9px 18px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .unit-gate a[aria-disabled="true"] { background: #879187; cursor: not-allowed; pointer-events: none; }
+    .unit-gate button:disabled { opacity: .6; cursor: wait; }
+    #unit-next-status { margin: 10px 0 0; color: var(--text-muted); font-size: .9rem; }
+  </style>
+</head>
+<body data-page-key="014_es_m">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Lavoro e abilità</h1>
+      <p class="hero-subtitle">Rispondi alle domande in italiano, parlando al microfono o scrivendo.</p>
+    </header>
+
+    <details class="didactic-hints">
+      <summary>📘 Breve ripasso · Краткое правило</summary>
+      <div class="didactic-hints-body">
+        <p><strong>Per parlare del lavoro:</strong> <em>fare + articolo + professione</em>: <em>Faccio il cuoco</em>, <em>faccio l’insegnante</em>, <em>faccio la segretaria</em>.</p>
+        <p><strong>Sapere + infinito</strong> indica un’abilità: <em>So cucinare</em>. Per la negazione, metti <em>non</em> prima del verbo: <em>Non so guidare</em>. Al presente: <em>so, sai, sa, sappiamo, sapete, sanno</em>.</p>
+        <p lang="ru"><strong>По-русски:</strong> о профессии говорят с помощью <em>fare</em> и артикля: <em>Faccio il cuoco</em> — «Я повар». Конструкция <em>sapere + инфинитив</em> означает «уметь что-либо делать»: <em>So cucinare</em> — «Я умею готовить». В отрицании <em>non</em> ставится перед <em>sapere</em>: <em>Non so guidare</em> — «Я не умею водить».</p>
+        <p lang="ru">Отвечай полными фразами. Можно добавить подробности: <em>Faccio la segretaria. So usare il computer, ma non so parlare tedesco.</em></p>
+      </div>
+    </details>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">🎙️ Задание · Esercizio M</div>
+      <div class="instruction-text">
+        👉 <strong>Ответьте на вопросы по-итальянски, по возможности устно.</strong> Нажмите на микрофон и говорите; если микрофон недоступен, введите ответ с клавиатуры. Составляйте полные фразы и откройте подсказки, если нужно.
+        <br /><span lang="it"><strong>Rispondi alle domande in italiano, preferibilmente a voce.</strong> Premi il microfono e parla; se non è disponibile, scrivi la risposta. Usa frasi complete e apri i suggerimenti quando ti servono.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Domande su lavoro e abilità">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="#unit-gate" hidden>Vai allo sblocco dell’Unità 15 ↓</a>
+      </nav>
+    </section>
+
+    <section class="unit-gate" id="unit-gate" aria-labelledby="unit-next-heading" hidden>
+      <p id="unit-next-heading"><strong>Hai terminato l’Unità 14!</strong></p>
+      <button id="unlock-unit-next" type="button" hidden>🔓 Sblocca l’Unità 15 per il gruppo</button>
+      <a id="unit-next-link" href="../u_015/015_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 15 →</a>
+      <p id="unit-next-status" role="status" aria-live="polite">Unità 15 bloccata: attendi l’autorizzazione dell’insegnante.</p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/speech-exercise.js?v=3"></script>
+  <script>
+    const cards = [
+      {
+        key: "lavoro-studi",
+        icon: "💼",
+        title: "Il tuo lavoro o i tuoi studi",
+        intro: "Parla del tuo lavoro, della scuola o dell’università.",
+        prompts: [
+          "Che lavoro fai? Se studi, che cosa studi?",
+          "Ti piace il tuo lavoro o la tua scuola/università? Perché?",
+          "Qual è la tua mansione preferita al lavoro? Se studi, qual è la tua materia preferita?",
+          "Ti piacciono i tuoi colleghi o i tuoi compagni di classe?"
+        ],
+        hints: [
+          "Начни с полной фразы: Faccio il/la… Если ты учишься, скажи: Studio…",
+          "Чтобы объяснить своё мнение, можно добавить: Mi piace perché… / Non mi piace perché…",
+          "На работе можно сказать: La mia mansione preferita è… В школе: La mia materia preferita è…",
+          "Ответь: Sì, mi piacciono… / No, non mi piacciono…"
+        ]
+      },
+      {
+        key: "abilita-professione",
+        icon: "⭐",
+        title: "Che cosa sai fare?",
+        intro: "Parla delle tue abilità e del lavoro che vuoi fare.",
+        prompts: [
+          "Che cosa sai fare bene? Che lavoro puoi fare?",
+          "Che cosa non sai fare? Che lavoro non puoi fare?",
+          "Che cosa vuoi imparare a fare? Perché?",
+          "Che lavoro vuoi fare in futuro? Perché ti interessa questa professione?"
+        ],
+        hints: [
+          "Используй sapere + инфинитив: So cucinare / So usare il computer. Для возможной работы подойдет: Posso fare…",
+          "Поставь non перед глаголом: Non so… / Non posso… Затем добавь инфинитив.",
+          "Для желания используй volere + инфинитив: Voglio imparare a… Добавь причину с perché.",
+          "Скажи: Voglio fare il/la… либо Vorrei fare il/la… Объясни: perché mi piace / perché è interessante."
+        ]
+      },
+      {
+        key: "trasporti",
+        icon: "🚲",
+        title: "La macchina e i trasporti",
+        intro: "Parla di come ti sposti.",
+        prompts: [
+          "Sai guidare la macchina? Che macchina hai?",
+          "Sai andare in bicicletta?",
+          "Quali mezzi di trasporto usi di solito in città?"
+        ],
+        hints: [
+          "Ответь полной фразой: Sì, so guidare… / No, non so guidare… Если у тебя есть машина, назови её.",
+          "Можно сказать: So andare in bicicletta / Non so andare in bicicletta.",
+          "Назови транспорт: l’autobus, il tram, la metropolitana, la bicicletta…"
+        ]
+      },
+      {
+        key: "cucina",
+        icon: "🍳",
+        title: "La cucina",
+        intro: "Parla di quello che sai cucinare e dei tuoi piatti preferiti.",
+        prompts: [
+          "Sai cucinare?",
+          "Qual è il piatto che sai cucinare meglio?",
+          "Qual è un piatto che non sai cucinare?",
+          "Qual è il tuo piatto preferito?",
+          "Chi cucina di solito a casa tua?"
+        ],
+        hints: [
+          "Usa: So cucinare / Non so cucinare.",
+          "Nomina un piatto: So cucinare la pasta / una torta.",
+          "Per dire che non sai prepararlo: Non so cucinare…",
+          "Puoi iniziare così: Il mio piatto preferito è…",
+          "Rispondi: A casa mia cucina di solito…"
+        ]
+      },
+      {
+        key: "computer",
+        icon: "💻",
+        title: "Il computer",
+        intro: "Parla dei programmi e dei dispositivi che usi.",
+        prompts: [
+          "Sai usare il computer?",
+          "Quali programmi usi di solito?",
+          "Quali programmi sai usare meglio e quali non sai usare?",
+          "Preferisci usare il computer o il telefonino?"
+        ],
+        hints: [
+          "Начни: Sì, so usare il computer… / No, non so…",
+          "Назови программы и добавь: Uso di solito…",
+          "Используй sapere: So usare… / Non so usare…",
+          "Ответь: Preferisco usare… perché…"
+        ]
+      },
+      {
+        key: "lingue",
+        icon: "🌍",
+        title: "Le lingue straniere",
+        intro: "Parla delle lingue che conosci e di quelle che vuoi imparare.",
+        prompts: [
+          "Che lingue sai parlare?",
+          "Che lingue vuoi imparare?",
+          "Ti piace studiare l’italiano con la scuola Parlo Italiano?"
+        ],
+        hints: [
+          "Скажи: So parlare… и перечисли языки.",
+          "Для желания используй volere + инфинитив: Voglio imparare…",
+          "Ответь: Sì, mi piace… / No, non mi piace… Можно добавить perché."
+        ]
+      },
+      {
+        key: "musica",
+        icon: "🎵",
+        title: "La musica",
+        intro: "Parla degli strumenti e della musica che ti piace.",
+        prompts: [
+          "Sai suonare uno strumento musicale?",
+          "Quale strumento non sai suonare?",
+          "Quale strumento vuoi imparare a suonare?",
+          "Qual è il tuo genere musicale preferito?",
+          "Sai cantare bene?"
+        ],
+        hints: [
+          "Puoi rispondere: So suonare la chitarra / il pianoforte / il violino.",
+          "Usa: Non so suonare…",
+          "Per esprimere un desiderio: Voglio imparare a suonare…",
+          "Назови жанр: pop, rock, jazz, musica classica…",
+          "Ответь: Sì, so cantare bene / No, non so cantare bene."
+        ]
+      }
+    ];
+
+    ParloSpeechExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_m",
+      lang: "it-IT",
+      cards
+    });
+
+    (() => {
+      const session = window.ParloSession || {};
+      const isTeacher = Boolean(session.isTeacher);
+      const safeGroup = session.safeGroup || "";
+      const unitGate = document.getElementById("unit-gate");
+      const unlockBtn = document.getElementById("unlock-unit-next");
+      const nextLink = document.getElementById("unit-next-link");
+      const statusEl = document.getElementById("unit-next-status");
+      const progressBar = document.getElementById("exercise-progress");
+      const targetUnit = 15;
+      let groupUnitNumber = 0;
+      let db = null;
+      let groupRef = null;
+
+      function syncGateVisibility() {
+        const steps = progressBar ? [...progressBar.querySelectorAll(".progress-step")] : [];
+        unitGate.hidden = steps[cards.length - 1]?.getAttribute("aria-current") !== "step";
+      }
+
+      function renderGateState() {
+        const unlocked = groupUnitNumber >= targetUnit;
+        nextLink.setAttribute("aria-disabled", String(!unlocked));
+        nextLink.tabIndex = unlocked ? 0 : -1;
+        unlockBtn.hidden = !isTeacher || !safeGroup || safeGroup === "sconosciuto" || unlocked;
+        statusEl.textContent = unlocked
+          ? "Unità 15 sbloccata per il gruppo."
+          : isTeacher
+            ? "L’Unità 15 è bloccata per il gruppo."
+            : "Unità 15 bloccata: attendi l’autorizzazione dell’insegnante.";
+      }
+
+      nextLink.addEventListener("click", event => {
+        if (groupUnitNumber < targetUnit) event.preventDefault();
+      });
+
+      if (window.firebase && safeGroup && safeGroup !== "sconosciuto") {
+        db = window.ParloModes ? ParloModes.initFirebase() : firebase.database();
+        if (db) {
+          groupRef = db.ref(`configurazioneScuola/gruppi/${safeGroup}`);
+          groupRef.child("unitNumber").on("value", snapshot => {
+            groupUnitNumber = Number(snapshot.val()) || 0;
+            renderGateState();
+          }, () => {
+            statusEl.textContent = "Impossibile verificare l’autorizzazione per l’Unità 15.";
+          });
+
+          unlockBtn.addEventListener("click", async () => {
+            if (!isTeacher || !groupRef) return;
+            unlockBtn.disabled = true;
+            statusEl.textContent = "Salvataggio dello sblocco…";
+            try {
+              const result = await groupRef.child("unitNumber").transaction(current =>
+                Math.max(Number(current) || 0, targetUnit)
+              );
+              if (!result.committed) throw new Error("Aggiornamento non completato");
+              const unlockedUnit = Number(result.snapshot.val()) || targetUnit;
+              await db.ref(`esercizi/gruppi/${safeGroup}/unitNumber`).transaction(current =>
+                Math.max(Number(current) || 0, unlockedUnit)
+              );
+              groupUnitNumber = unlockedUnit;
+              renderGateState();
+            } catch (_) {
+              statusEl.textContent = "Errore durante lo sblocco dell’Unità 15.";
+            } finally {
+              unlockBtn.disabled = false;
+            }
+          });
+        }
+      }
+
+      new MutationObserver(syncGateVisibility).observe(progressBar, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["aria-current"]
+      });
+      requestAnimationFrame(syncGateVisibility);
+      renderGateState();
+    })();
+  </script>
+</body>
+</html>

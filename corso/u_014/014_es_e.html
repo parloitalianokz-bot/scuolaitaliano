@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi in italiano alle domande sul racconto Il nuovo direttore, Unità 14, Esercizio E." />
+  <title>Unità 14 — Il nuovo direttore · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_e" data-next-href="014_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Rispondi alle domande</h1>
+      <p class="hero-subtitle">Comprendi il racconto e rispondi con frasi complete in italiano.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio E</div>
+      <div class="instruction-text">
+        👉 <strong>Ответьте по-итальянски на вопросы по рассказу. Составляйте полные предложения и опирайтесь на текст.</strong>
+        <br /><span lang="it"><strong>Rispondi in italiano alle domande sul racconto.</strong> Usa frasi complete e fai riferimento al testo.</span>
+      </div>
+    </section>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Domande sul racconto Il nuovo direttore">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla domanda"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: rispondi durante il tuo turno; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: rispondi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    ParloInboxExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_e",
+      itemsLabel: "Domanda",
+      questions: [
+        {
+          key: "q1",
+          title: "Perché Marcello cerca un lavoro?",
+          placeholder: "Подумай, что известно о работе Марчелло: Marcello è… e cerca un lavoro perché…",
+          hints: ["В рассказе говорится, что Марчелло безработный.", "Начни так: Marcello cerca un lavoro perché…"]
+        },
+        {
+          key: "q2",
+          title: "Perché ha bisogno di soldi?",
+          placeholder: "Назови расходы Марчелло: Ha bisogno di soldi perché deve…",
+          hints: ["Вспомни, за что Марчелло должен платить и что ему нужно купить.", "Можно начать так: Ha bisogno di soldi perché deve pagare… e comprare…"]
+        },
+        {
+          key: "q3",
+          title: "Da quanto tempo Marcello non lavora?",
+          placeholder: "Ответь, как долго он не работает: Marcello non lavora da…",
+          hints: ["Обрати внимание на выражение времени в начале рассказа.", "Используй конструкцию da + период времени."]
+        },
+        {
+          key: "q4",
+          title: "Cosa dicono gli amici a Marcello?",
+          placeholder: "Расскажи, что сообщили друзья: Gli amici dicono a Marcello che…",
+          hints: ["Друзья рассказывают ему о фирме, которая ищет сотрудников.", "Начни так: Gli amici gli dicono che una ditta…"]
+        },
+        {
+          key: "q5",
+          title: "Cosa fa Marcello la sera prima del colloquio?",
+          placeholder: "Опиши вечер перед собеседованием: La sera Marcello…",
+          hints: ["Вспомни, куда Марчелло идёт с друзьями и что там делает.", "Начни так: La sera va… e spende…"]
+        },
+        {
+          key: "q6",
+          title: "Come si presenta all’appuntamento Marcello?",
+          placeholder: "Опиши внешний вид и состояние Марчелло: Si presenta…",
+          hints: ["В рассказе упоминаются опоздание, одежда, борода и самочувствие.", "Используй слова: in ritardo, vestito vecchio e sporco, barba lunga."]
+        },
+        {
+          key: "q7",
+          title: "Perché Marcello non può diventare segretario?",
+          placeholder: "Объясни, чего Марчелло не умеет: Non può fare il segretario perché non sa…",
+          hints: ["Вспомни первый вопрос начальника отдела кадров.", "Используй sapere + инфинитив: non sa usare…"]
+        },
+        {
+          key: "q8",
+          title: "Perché non può diventare interprete?",
+          placeholder: "Объясни, что Марчелло не знает: Non può fare l’interprete perché…",
+          hints: ["Начальник спрашивает о знании иностранных языков.", "Начни так: Non conosce…"]
+        },
+        {
+          key: "q9",
+          title: "Perché non può diventare uomo delle pulizie?",
+          placeholder: "Назови работу по дому, которую Марчелло не умеет делать: Non può fare l’uomo delle pulizie perché…",
+          hints: ["Вспомни вопросы про пылесос и мытьё пола.", "Можно ответить двумя частями: Non sa usare… e non sa lavare…"]
+        },
+        {
+          key: "q10",
+          title: "Perché non può diventare autista?",
+          placeholder: "Объясни, умеет ли он водить машину: Non può fare l’autista perché…",
+          hints: ["Вспомни, что отвечает Марчелло на вопрос о машине.", "Начни так: Non sa guidare…"]
+        },
+        {
+          key: "q11",
+          title: "Perché non può diventare cuoco?",
+          placeholder: "Назови два дела, которые Марчелло не умеет делать на кухне: Non può fare il cuoco perché…",
+          hints: ["Начальник спрашивает, если Марчелло умеет готовить и мыть посуду.", "Соедини ответ союзом e: Non sa… e non sa…"]
+        },
+        {
+          key: "q12",
+          title: "Perché Marcello può diventare solo direttore?",
+          placeholder: "Объясни вывод начальника: Può fare solo il direttore perché…",
+          hints: ["Вспомни, что говорит начальник после вопросов о разных профессиях.", "Это шутливый вывод: по словам начальника, Марчелло не умеет делать ничего."]
+        },
+        {
+          key: "q13",
+          title: "Cosa sa fare la segretaria di Marcello?",
+          placeholder: "В тексте не перечислены её умения: ответь, что именно говорится о секретарше, или предложи возможный ответ.",
+          hints: ["В конце рассказа говорится, что у Марчелло есть красивая секретарша; её умения не описаны.", "Можно отметить, что в рассказе не говорится, что она умеет делать, или придумать подходящий ответ."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

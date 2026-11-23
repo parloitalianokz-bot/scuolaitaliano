@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Coniuga i verbi modali sapere, potere, volere e dovere al presente. Unità 14, Esercizio H." />
+  <title>Unità 14 — I verbi modali · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_h" data-next-href="014_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>I verbi modali al presente</h1>
+      <p class="hero-subtitle">Coniuga i verbi tra parentesi e completa le frasi.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio H</div>
+      <div class="instruction-text">
+        👉 <strong>Проспрягайте глаголы в скобках и дополните предложения.</strong> Обращайте внимание на подлежащее; если подлежащих несколько, выберите форму множественного числа.
+        <br /><span lang="it"><strong>Coniuga i verbi tra parentesi e completa le frasi.</strong> Fai attenzione al soggetto; con più soggetti usa la forma plurale.</span>
+      </div>
+    </section>
+
+    <details class="didactic-hints">
+      <summary>📘 Breve ripasso · Краткое правило</summary>
+      <div class="didactic-hints-body">
+        <p><strong>In italiano:</strong> i verbi modali <em>sapere</em> (abilità), <em>potere</em> (possibilità o permesso), <em>volere</em> (volontà) e <em>dovere</em> (necessità) si coniugano in base al soggetto. Quando sono seguiti da un altro verbo, questo resta all’infinito, senza preposizione: <em>devo studiare</em>, <em>possiamo andare</em>.</p>
+        <p><strong>Forme al presente:</strong><br />
+          <em>sapere:</em> so, sai, sa, sappiamo, sapete, sanno ·
+          <em>potere:</em> posso, puoi, può, possiamo, potete, possono ·<br />
+          <em>volere:</em> voglio, vuoi, vuole, vogliamo, volete, vogliono ·
+          <em>dovere:</em> devo, devi, deve, dobbiamo, dovete, devono.
+        </p>
+        <p lang="ru"><strong>По-русски:</strong> модальные глаголы <em>sapere</em> («уметь»), <em>potere</em> («мочь», «иметь разрешение»), <em>volere</em> («хотеть») и <em>dovere</em> («быть должным», «долженствовать») изменяются в зависимости от подлежащего. После них другой глагол ставится в инфинитиве без предлога: <em>devo studiare</em> — «я должен учиться», <em>possiamo andare</em> — «мы можем пойти».</p>
+        <p lang="ru"><strong>Обрати внимание:</strong> в выражении <em>voler bene a qualcuno</em> глагол означает «любить, хорошо относиться к кому-либо» и употребляется с предлогом <em>a</em>: <em>vogliamo bene allo struzzo</em> — «мы любим страуса».</p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Completa le frasi con la forma corretta dei verbi modali">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inline-fill-exercise.js?v=2"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_h",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        {
+          id: "sapere-fare",
+          parts: ["Io non ", { id: "io", input: true, correct: "so" }, " fare niente; anche Marcello non ", { id: "marcello", input: true, correct: "sa" }, " fare niente."],
+          hints: ["Определи подлежащее в каждой части: Io = io, Marcello = lui. Подбери формы sapere."]
+        },
+        {
+          id: "volere-televisione",
+          parts: ["Io e Marco ", { id: "noi", input: true, correct: "vogliamo" }, " guardare la televisione."],
+          hints: ["Io e Marco = noi. Нужно выразить желание посмотреть телевизор: volere + infinito."]
+        },
+        {
+          id: "dovere-colloquio",
+          parts: ["Io e Marcello ", { id: "noi", input: true, correct: "dobbiamo" }, " andare a un colloquio."],
+          hints: ["Io e Marcello = noi. Спрягай dovere в форме noi."]
+        },
+        {
+          id: "dovere-studiare",
+          parts: ["Tu ", { id: "tu", input: true, correct: "devi" }, " studiare; anche i tuoi amici ", { id: "amici", input: true, correct: "devono" }, " studiare."],
+          hints: ["Tu требует формы единственного числа; i tuoi amici = loro. Для обоих пропусков используй dovere."]
+        },
+        {
+          id: "volere-mangiare",
+          parts: ["Il cane ", { id: "cane", input: true, correct: "vuole" }, " mangiare; anche il gatto ", { id: "gatto", input: true, correct: "vuole" }, " mangiare."],
+          hints: ["Il cane и il gatto — каждый по отдельности, то есть lui. Спрягай volere."]
+        },
+        {
+          id: "potere-festa",
+          parts: ["Io e te non ", { id: "noi", input: true, correct: "possiamo" }, " andare alla festa."],
+          hints: ["Io e te = noi. Спрягай potere; после него употребляется infinito."]
+        },
+        {
+          id: "sapere-computer",
+          parts: ["Tu e Mario non ", { id: "voi", input: true, correct: "sapete" }, " usare il computer."],
+          hints: ["Tu e Mario = voi. «Уметь пользоваться» выражается sapere + infinito."]
+        },
+        {
+          id: "volere-carriera",
+          parts: ["Io e Marcello ", { id: "noi", input: true, correct: "vogliamo" }, " fare carriera."],
+          hints: ["Io e Marcello = noi. Спрягай volere в настоящем времени."]
+        },
+        {
+          id: "sapere-cucinare",
+          parts: ["Tu non ", { id: "tu", input: true, correct: "sai" }, " cucinare; anche Anna non ", { id: "anna", input: true, correct: "sa" }, " cucinare."],
+          hints: ["Tu = ты; Anna = lei. Оба раза используется sapere в значении умения."]
+        },
+        {
+          id: "dovere-venire",
+          parts: ["Tu e Renato non ", { id: "voi", input: true, correct: "dovete" }, " venire oggi."],
+          hints: ["Tu e Renato = voi. Спрягай dovere."]
+        },
+        {
+          id: "dovere-uscire",
+          parts: ["Carla e Anna ", { id: "loro", input: true, correct: "devono" }, " uscire subito."],
+          hints: ["Carla e Anna = loro. Спрягай dovere в третьем лице множественного числа."]
+        },
+        {
+          id: "volere-andare",
+          parts: ["Tu ", { id: "tu", input: true, correct: "vuoi" }, " andare a casa; anche i tuoi amici ci ", { id: "amici", input: true, correct: "vogliono" }, " andare."],
+          hints: ["Tu = tu; i tuoi amici = loro. Спрягай volere в двух разных формах."]
+        },
+        {
+          id: "potere-aspettare",
+          parts: ["Tu mi ", { id: "tu", input: true, correct: "puoi" }, " aspettare; anche Carla mi ", { id: "carla", input: true, correct: "può" }, " aspettare."],
+          hints: ["Tu требует puoi; Carla = lei требует può. Обрати внимание на ударение в форме può."]
+        },
+        {
+          id: "volere-bene",
+          parts: ["Io e mio nonno ", { id: "noi", input: true, correct: "vogliamo" }, " bene allo struzzo."],
+          hints: ["Io e mio nonno = noi. Здесь выражение volere bene a qualcuno означает «любить, хорошо относиться к кому-либо»."]
+        },
+        {
+          id: "sapere-guidare",
+          parts: ["Gianni e Marcello non ", { id: "loro", input: true, correct: "sanno" }, " guidare la macchina."],
+          hints: ["Gianni e Marcello = loro. Для умения водить используется sapere + infinito."]
+        },
+        {
+          id: "potere-ufficio",
+          parts: ["Marcello non ", { id: "marcello", input: true, correct: "può" }, " andare in ufficio oggi; anche la sua segretaria non ci ", { id: "segretaria", input: true, correct: "può" }, " andare."],
+          hints: ["Marcello = lui; la sua segretaria = lei. В обоих случаях форма potere — può."]
+        },
+        {
+          id: "dovere-lavorare",
+          parts: ["Io ", { id: "io", input: true, correct: "devo" }, " lavorare ma non voglio; anche Marcello ", { id: "marcello", input: true, correct: "deve" }, " lavorare ma non vuole."],
+          hints: ["Io требует форму devo; Marcello = lui требует deve. Слова voglio и vuole уже даны в предложении."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

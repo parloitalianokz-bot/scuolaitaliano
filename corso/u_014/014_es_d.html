@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il racconto Il nuovo direttore con le parole e gli articoli mancanti, Unità 14." />
+  <title>Unità 14 — Il nuovo direttore · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_d" data-next-href="014_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Completa il racconto</h1>
+      <p class="hero-subtitle">Inserisci le parole e gli articoli mancanti.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio D</div>
+      <div class="instruction-text">
+        👉 <strong>Вставьте пропущенные слова и артикли.</strong> Заполните все пропуски в каждой части рассказа, затем проверьте ответы.
+        <br /><span lang="it"><strong>Inserisci le parole e gli articoli mancanti.</strong> Completa ogni parte del racconto e poi controlla le risposte.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Racconto da completare con parole e articoli">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del racconto:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inline-fill-exercise.js?v=2"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_d",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        {
+          id: "lavoro-affitto",
+          parts: [
+            "Marcello cerca ", { id: "articolo-lavoro", input: true, size: "short", correct: "un" }, " ",
+            { id: "lavoro", input: true, correct: "lavoro" },
+            " perché ha bisogno di soldi. Deve pagare ",
+            { id: "articolo-affitto", input: true, size: "short", correct: "l'" },
+            { id: "affitto", input: true, correct: "affitto" },
+            " dell’appartamento. Deve anche comprare ",
+            { id: "articolo-vestito", input: true, size: "short", correct: "un" }, " ",
+            { id: "vestito", input: true, correct: "vestito" }, " nuovo."
+          ]
+        },
+        {
+          id: "annuncio-appuntamento",
+          parts: [
+            "Un giorno ", { id: "articolo-amici", input: true, size: "short", correct: "gli" }, " ",
+            { id: "amici", input: true, correct: "amici" }, " dicono a Marcello che ",
+            { id: "articolo-ditta", input: true, size: "short", correct: "una" }, " ",
+            { id: "ditta", input: true, correct: "ditta" },
+            " importante cerca degli impiegati. Allora lui telefona e prende un appuntamento con ",
+            { id: "articolo-personale", input: true, size: "short", correct: "il" }, " ",
+            { id: "capo-personale", input: true, correct: "capo" }, " del personale."
+          ]
+        },
+        {
+          id: "festa-e-ritardo",
+          parts: [
+            "La sera Marcello va a festeggiare al bar e spende tutti ",
+            { id: "articolo-soldi", input: true, size: "short", correct: "i" }, " ",
+            { id: "soldi", input: true, correct: "soldi" },
+            ". Il giorno dopo arriva in ritardo; ha ",
+            { id: "articolo-vestito-sporco", input: true, size: "short", correct: "un" }, " ",
+            { id: "vestito-sporco", input: true, correct: "vestito" }, " vecchio e sporco, ha ",
+            { id: "articolo-barba", input: true, size: "short", correct: "la" }, " ",
+            { id: "barba", input: true, correct: "barba" }, " lunga."
+          ]
+        },
+        {
+          id: "colloquio",
+          parts: [
+            "Il capo del personale riceve Marcello nel suo ufficio e comincia a fare ",
+            { id: "articolo-domande", input: true, size: "short", correct: "le" }, " ",
+            { id: "domande", input: true, correct: "domande" },
+            ". Marcello non sa guidare ",
+            { id: "articolo-macchina", input: true, size: "short", correct: "la" }, " ",
+            { id: "macchina", input: true, correct: "macchina" },
+            ", non conosce ", { id: "articolo-lingue", input: true, size: "short", correct: "le" }, " ",
+            { id: "lingue", input: true, correct: "lingue" }, " straniere."
+          ]
+        },
+        {
+          id: "direttore-generale",
+          parts: [
+            "Marcello diventa direttore generale; ha anche ",
+            { id: "articolo-macchina-personale", input: true, size: "short", correct: "una" }, " ",
+            { id: "macchina-personale", input: true, correct: "macchina" },
+            " personale e ",
+            { id: "articolo-segretaria", input: true, size: "short", correct: "una" }, " ",
+            { id: "segretaria", input: true, correct: "segretaria" }, " molto bella."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

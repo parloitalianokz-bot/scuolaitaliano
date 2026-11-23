@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Costruisci frasi con volere e sapere al presente, Unità 14, Esercizio J." />
+  <title>Unità 14 — Volere fare una professione · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_j" data-next-href="014_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Volere fare una professione</h1>
+      <p class="hero-subtitle">Trasforma le parole in frasi complete, seguendo il modello.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio J</div>
+      <div class="instruction-text">
+        👉 <strong>Составьте предложения по образцу.</strong> Напишите, кем человек хочет стать и что он умеет делать.
+        <br /><span lang="it"><strong>Costruisci frasi secondo il modello.</strong> Scrivi quale professione una persona vuole svolgere e che cosa sa fare.</span>
+        <br /><em>Renato — guidare → Renato vuole fare l’autista perché sa guidare bene.</em>
+      </div>
+    </section>
+
+    <details class="didactic-hints">
+      <summary>📘 Breve ripasso · Краткое правило</summary>
+      <div class="didactic-hints-body">
+        <p><strong>In italiano:</strong> per esprimere un desiderio si usa <em>volere</em> al presente seguito direttamente dall’infinito: <em>voglio diventare</em>, <em>vuole fare</em>, <em>vogliamo fare</em>. Per indicare un’abilità si usa <em>sapere</em> al presente + infinito: <em>sa cucinare</em>, <em>sanno scrivere</em>. Dopo entrambi i verbi modali non si mette una preposizione prima dell’infinito.</p>
+        <p><strong>Forme utili:</strong><br />
+          <em>volere:</em> voglio, vuoi, vuole, vogliamo, volete, vogliono ·
+          <em>sapere:</em> so, sai, sa, sappiamo, sapete, sanno.
+        </p>
+        <p lang="ru"><strong>По-русски:</strong> желание выражается глаголом <em>volere</em> в настоящем времени и следующим за ним инфинитивом без предлога: <em>voglio diventare</em> — «я хочу стать», <em>vuole fare</em> — «он/она хочет работать». Умение выражается конструкцией <em>sapere</em> в настоящем времени + инфинитив: <em>sa cucinare</em> — «умеет готовить». Спрягайте оба глагола по подлежащему.</p>
+        <p lang="ru"><strong>Профессия:</strong> название профессии обычно употребляется с определённым артиклем: <em>fare il cuoco</em>, <em>fare la ballerina</em>, <em>fare l’informatico</em>. В предложении соедините желание и умение с помощью <em>perché</em> («потому что»).</p>
+      </div>
+    </details>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Costruisci frasi con volere, sapere e le professioni">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: scrivi durante il tuo turno; frasi e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: scrivi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    ParloInboxExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_j",
+      itemsLabel: "Frase",
+      placeholder: "Составь предложение: [имя] vuole fare il/la ... perché sa ...",
+      questions: [
+        {
+          key: "sorella-ballare",
+          title: "Mia sorella — ballare",
+          placeholder: "Mia sorella vuole fare la ballerina perché sa…",
+          hints: ["Mia sorella = lei: usa vuole e sa. La professione è la ballerina.", "Completa con un infinito collegato alla danza: Mia sorella vuole fare la ballerina perché sa…"]
+        },
+        {
+          key: "io-scrivere-libri",
+          title: "Io — scrivere i libri",
+          placeholder: "Io voglio fare lo scrittore/la scrittrice perché so…",
+          hints: ["Con io usa voglio e so. Scegli l’articolo e la forma della professione adatti a te.", "Puoi usare scrivere: Io voglio fare lo scrittore/la scrittrice perché so scrivere libri."]
+        },
+        {
+          key: "giorgio-contare-soldi",
+          title: "Giorgio — contare i soldi",
+          placeholder: "Giorgio vuole fare il cassiere perché sa…",
+          hints: ["Giorgio = lui: usa vuole e sa. Una professione adatta può essere il cassiere.", "Completa con l’abilità: Giorgio vuole fare il cassiere perché sa contare i soldi."]
+        },
+        {
+          key: "amici-cucinare",
+          title: "I miei amici — cucinare",
+          placeholder: "I miei amici vogliono fare i cuochi perché sanno…",
+          hints: ["I miei amici = loro: usa vogliono e sanno. Ricorda l’articolo plurale i.", "Quale abilità è legata ai cuochi? Puoi usare cucinare."]
+        },
+        {
+          key: "noi-curare-persone",
+          title: "Noi — curare le persone",
+          placeholder: "Noi vogliamo fare i medici perché sappiamo…",
+          hints: ["Con noi usa vogliamo e sappiamo. Puoi scegliere la professione i medici.", "Completa con un’attività dei medici: per esempio, sappiamo curare le persone."]
+        },
+        {
+          key: "amiche-tagliare-capelli",
+          title: "Le mie amiche — tagliare i capelli",
+          placeholder: "Le mie amiche vogliono fare le parrucchiere perché sanno…",
+          hints: ["Le mie amiche = loro: usa vogliono e sanno. La professione al femminile plurale è le parrucchiere.", "Puoi completare con tagliare i capelli."]
+        },
+        {
+          key: "michele-riparare-macchine",
+          title: "Michele — riparare le macchine",
+          placeholder: "Michele vuole fare il meccanico perché sa…",
+          hints: ["Michele = lui: usa vuole e sa. La professione è il meccanico.", "Completa con l’abilità: riparare le macchine."]
+        },
+        {
+          key: "anna-suonare-chitarra",
+          title: "Anna — suonare la chitarra",
+          placeholder: "Anna vuole fare la musicista perché sa…",
+          hints: ["Anna = lei: usa vuole e sa. Puoi scegliere la professione la musicista.", "Completa con suonare la chitarra."]
+        },
+        {
+          key: "io-cantare",
+          title: "Io — cantare",
+          placeholder: "Io voglio fare il/la cantante perché so…",
+          hints: ["Con io usa voglio e so. Cantante si usa sia al maschile sia al femminile; scegli l’articolo adatto.", "Completa con cantare: Io voglio fare il/la cantante perché so cantare."]
+        },
+        {
+          key: "bruno-usare-computer",
+          title: "Bruno — usare il computer",
+          placeholder: "Bruno vuole fare l’informatico perché sa…",
+          hints: ["Bruno = lui: usa vuole e sa. Una professione adatta è l’informatico.", "Completa con usare il computer."]
+        },
+        {
+          key: "io-guido-disegnare",
+          title: "Io e Guido — disegnare bene",
+          placeholder: "Io e Guido vogliamo fare i disegnatori perché sappiamo…",
+          hints: ["Io e Guido = noi: usa vogliamo e sappiamo. Per il plurale misto si usa i disegnatori.", "Puoi completare con disegnare bene."]
+        },
+        {
+          key: "carla-aspirapolvere",
+          title: "Carla — usare l’aspirapolvere",
+          placeholder: "Carla vuole fare la donna delle pulizie perché sa…",
+          hints: ["Carla = lei: usa vuole e sa. Puoi usare la professione la donna delle pulizie.", "Completa con usare l’aspirapolvere."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

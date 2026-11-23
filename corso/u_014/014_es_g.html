@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con sapere o potere al presente. Unità 14, Esercizio G." />
+  <title>Unità 14 — Sapere o potere · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_g" data-next-href="014_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Sapere o potere?</h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta di <em>sapere</em> o <em>potere</em>.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div class="instruction-text">
+        👉 <strong>Дополните предложения глаголами <em>sapere</em> или <em>potere</em>, поставив их в нужную форму настоящего времени.</strong> Сначала определите, говорится ли об умении или о возможности/разрешении.
+        <br /><span lang="it"><strong>Completa le frasi con <em>sapere</em> o <em>potere</em> al presente.</strong> Prima capisci se si parla di un’abilità oppure di una possibilità o di un permesso.</span>
+      </div>
+    </section>
+
+    <details class="didactic-hints">
+      <summary>📘 Breve ripasso · Краткое правило</summary>
+      <div class="didactic-hints-body">
+        <p><strong>In italiano:</strong> <em>sapere + infinito</em> indica un’abilità appresa: <em>So cucinare</em> = sono capace di cucinare. <em>Potere + infinito</em> indica una possibilità o un permesso, spesso legati alla situazione: <em>Oggi non posso nuotare: la piscina è chiusa.</em> Dopo entrambi i verbi modali si usa l’infinito senza preposizione.</p>
+        <p lang="ru"><strong>По-русски:</strong> <em>sapere + инфинитив</em> означает умение, приобретённый навык: <em>So cucinare</em> — «Я умею готовить». <em>Potere + инфинитив</em> выражает возможность или разрешение, часто зависящие от обстоятельств: <em>Oggi non posso nuotare: la piscina è chiusa</em> — «Сегодня я не могу плавать: бассейн закрыт». После обоих модальных глаголов ставится инфинитив без предлога.</p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Completa le frasi con sapere o potere">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inline-fill-exercise.js?v=2"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_g",
+      sentences: [
+        {
+          id: "patente-scaduta",
+          parts: ["Ho la patente scaduta. Non ", { id: "verbo", input: true, correct: "posso" }, " guidare la macchina."],
+          hints: ["Права просрочены: речь о невозможности из-за обстоятельств. Выбери potere и форму для io."]
+        },
+        {
+          id: "paola-cucinare",
+          parts: ["— Paola, ", { id: "domanda", input: true, correct: "sai" }, " cucinare? — Sì, ", { id: "risposta", input: true, correct: "so" }, " cucinare molto bene."],
+          hints: ["Вопрос обращён к Паоле: tu. В ответе говорит сама Паола: io. Здесь говорится об умении готовить."]
+        },
+        {
+          id: "federico-roberto-bicicletta",
+          parts: ["Federico e Roberto ", { id: "verbo", input: true, correct: "sanno" }, " andare in bicicletta molto bene."],
+          hints: ["Federico e Roberto = loro. Хорошо ездить на велосипеде — приобретённый навык."]
+        },
+        {
+          id: "neve-bicicletta",
+          parts: ["Oggi nevica e Federico non ", { id: "verbo", input: true, correct: "può" }, " andare in bicicletta."],
+          hints: ["Из-за снега поездка сейчас невозможна. Подлежащее Federico = lui."]
+        },
+        {
+          id: "tu-guidare",
+          parts: ["Tu ", { id: "verbo", input: true, correct: "sai" }, " guidare bene la macchina?"],
+          hints: ["Здесь спрашивают об умении водить. Подлежащее tu."]
+        },
+        {
+          id: "telefonino-complicato",
+          parts: ["Non ", { id: "verbo", input: true, correct: "so" }, " usare questo telefonino, è troppo complicato."],
+          hints: ["Телефон слишком сложный для говорящего: речь о том, что он не умеет им пользоваться. Подлежащее io."]
+        },
+        {
+          id: "ristorante-cucinare",
+          parts: ["Ogni sera vado al ristorante perché non ", { id: "verbo", input: true, correct: "so" }, " cucinare."],
+          hints: ["Говорящий ходит в ресторан, потому что не умеет готовить. Подлежащее io."]
+        },
+        {
+          id: "marco-pianoforte",
+          parts: ["Marco ", { id: "verbo", input: true, correct: "sa" }, " suonare il pianoforte meglio di Beethoven."],
+          hints: ["Играть на пианино — умение; подлежащее Marco = lui."]
+        },
+        {
+          id: "caramelle-diabete",
+          parts: ["Non ", { id: "verbo", input: true, correct: "posso" }, " mangiare le caramelle: ho il diabete."],
+          hints: ["Из-за диабета есть конфеты нельзя/невозможно. Подлежащее io."]
+        },
+        {
+          id: "piscina-chiusa",
+          parts: ["Oggi la piscina è chiusa, non (noi) ", { id: "verbo", input: true, correct: "possiamo" }, " nuotare."],
+          hints: ["Бассейн закрыт, поэтому плавать сейчас невозможно. Noi = мы."]
+        },
+        {
+          id: "paolo-paura-acqua",
+          parts: ["Paolo ha paura dell’acqua perché non ", { id: "verbo", input: true, correct: "sa" }, " nuotare."],
+          hints: ["Причина страха — Паоло не умеет плавать. Paolo = lui."]
+        },
+        {
+          id: "studenti-telefonino",
+          parts: ["In classe gli studenti non ", { id: "verbo", input: true, correct: "possono" }, " usare il telefonino."],
+          hints: ["В классе пользоваться телефоном не разрешено. Gli studenti = loro."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

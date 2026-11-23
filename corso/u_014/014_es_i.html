@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Costruisci frasi sulle professioni con sapere al presente, Unità 14, Esercizio I." />
+  <title>Unità 14 — Le professioni · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_i" data-next-href="014_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Le professioni e le abilità</h1>
+      <p class="hero-subtitle">Trasforma le parole in frasi complete, seguendo il modello.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">
+        👉 <strong>Составьте предложения по образцу.</strong> Используйте название профессии и укажите, что человек умеет делать.
+        <br /><span lang="it"><strong>Costruisci frasi secondo il modello.</strong> Usa la professione e spiega che cosa la persona sa fare.</span>
+        <br /><em>Renato — autista → Renato fa l’autista perché sa guidare la macchina.</em>
+      </div>
+    </section>
+
+    <details class="didactic-hints">
+      <summary>📘 Breve ripasso · Краткое правило</summary>
+      <div class="didactic-hints-body">
+        <p><strong>In italiano:</strong> per parlare del mestiere si usa <em>fare</em> con l’articolo: <em>fa il cuoco</em>, <em>fa l’interprete</em>, <em>fanno gli insegnanti</em>. Per spiegare un’abilità si usa <em>sapere + infinito</em>: <em>sa cucinare</em>, <em>sanno insegnare</em>. Il verbo <em>sapere</em> si coniuga in base al soggetto.</p>
+        <p lang="ru"><strong>По-русски:</strong> чтобы назвать профессию, употребляйте <em>fare</em> с определённым артиклем: <em>fa il cuoco</em> — «работает поваром», <em>fanno gli insegnanti</em> — «работают учителями». Чтобы сказать об умении, используйте <em>sapere + инфинитив</em>: <em>sa cucinare</em> — «умеет готовить». <em>Sapere</em> согласуется с подлежащим: <em>io so, lui/lei sa, loro sanno</em>.</p>
+        <p><strong>Schema · Схема:</strong> soggetto + <em>fare</em> al presente + articolo e professione + <em>perché</em> + <em>sapere</em> al presente + infinito.</p>
+      </div>
+    </details>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Costruisci frasi sulle professioni e le abilità">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="014_es_j.html" hidden>Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: scrivi durante il tuo turno; frasi e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: scrivi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    ParloInboxExercise.init({
+      unitNumber: 14,
+      exercisePath: "014_es_i",
+      itemsLabel: "Frase",
+      placeholder: "Составь полное предложение: [имя] fa il/la ... perché sa ...",
+      questions: [
+        {
+          key: "carlo-cuoco",
+          title: "Carlo — cuoco",
+          placeholder: "Carlo fa il cuoco perché sa…",
+          hints: ["Назови профессию с fare il… Затем укажи умение: sapere + инфинитив.", "Начни так: Carlo fa il cuoco perché sa…"]
+        },
+        {
+          key: "genitori-insegnanti",
+          title: "I miei genitori — insegnanti",
+          placeholder: "I miei genitori fanno gli insegnanti perché sanno…",
+          hints: ["I miei genitori = loro: используй fanno и sanno.", "Какое умение связано с профессией учителя? Начни: I miei genitori fanno gli insegnanti perché sanno…"]
+        },
+        {
+          key: "fratello-programmatore",
+          title: "Mio fratello — programmatore",
+          placeholder: "Mio fratello fa il programmatore perché sa…",
+          hints: ["Mio fratello = lui. Для профессии используй fa il…; для умения — sa + инфинитив.", "Начни так: Mio fratello fa il programmatore perché sa…"]
+        },
+        {
+          key: "signora-pina-pulizie",
+          title: "La signora Pina — donna delle pulizie",
+          placeholder: "La signora Pina fa la donna delle pulizie perché sa…",
+          hints: ["La signora Pina = lei. Можно сказать, что она умеет убирать или мыть полы.", "Начни так: La signora Pina fa la donna delle pulizie perché sa fare…"]
+        },
+        {
+          key: "riccardo-pianista",
+          title: "Riccardo — pianista",
+          placeholder: "Riccardo fa il pianista perché sa…",
+          hints: ["Riccardo = lui. Какое умение нужно пианисту? Используй suonare.", "Начни так: Riccardo fa il pianista perché sa suonare…"]
+        },
+        {
+          key: "amici-giornalisti",
+          title: "I miei amici — giornalisti",
+          placeholder: "I miei amici fanno i giornalisti perché sanno…",
+          hints: ["I miei amici = loro: используй fanno i… и sanno.", "Например, журналисты умеют писать статьи или брать интервью: sanno scrivere… / sanno fare…"]
+        },
+        {
+          key: "anna-segretaria",
+          title: "Anna — segretaria",
+          placeholder: "Anna fa la segretaria perché sa…",
+          hints: ["Anna = lei. Подумай, что секретарша умеет делать на работе.", "Например: Anna fa la segretaria perché sa usare il computer."]
+        },
+        {
+          key: "io-interprete",
+          title: "Io — interprete",
+          placeholder: "Io faccio l’interprete perché so…",
+          hints: ["Для io используй faccio и so.", "Интерпретатор умеет говорить на языках и переводить: so parlare… / so tradurre…"]
+        },
+        {
+          key: "sorella-ballerina",
+          title: "Mia sorella — ballerina",
+          placeholder: "Mia sorella fa la ballerina perché sa…",
+          hints: ["Mia sorella = lei. Выбери инфинитив, связанный с профессией балерины.", "Начни так: Mia sorella fa la ballerina perché sa ballare…"]
+        },
+        {
+          key: "io-violinista",
+          title: "Io — violinista",
+          placeholder: "Io faccio il/la violinista perché so…",
+          hints: ["Для io используй faccio и so. Выбери артикль il или la в соответствии с собой.", "Начни так: Io faccio il/la violinista perché so suonare il violino."]
+        },
+        {
+          key: "noi-traduttori",
+          title: "Noi — traduttori",
+          placeholder: "Noi facciamo i traduttori perché sappiamo…",
+          hints: ["Noi требует facciamo и sappiamo.", "Переводчики умеют переводить: sappiamo tradurre…"]
+        },
+        {
+          key: "dottor-garbati-direttore",
+          title: "Il dottor Garbati — direttore di banca",
+          placeholder: "Il dottor Garbati fa il direttore di banca perché sa…",
+          hints: ["Il dottor Garbati = lui. Укажите умение, подходящее директору банка.", "Например: sa dirigere una banca / sa amministrare una banca."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

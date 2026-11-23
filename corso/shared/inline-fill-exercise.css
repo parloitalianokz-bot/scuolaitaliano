@@ -109,3 +109,8 @@
   .sentence-content { line-height: 2.2; }
   .blank-input { width: clamp(100px, 30vw, 140px); margin: 0 2px; padding: 5px; }
 }
+
+.blank-input-short { width: clamp(52px, 7vw, 68px); }
+@media (max-width: 640px) {
+  .blank-input.blank-input-short { width: 54px; }
+}

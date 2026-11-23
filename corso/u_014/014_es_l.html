@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività interattive sui verbi modali, Unità 14, Esercizio L." />
+  <title>Unità 14 — Attività interattive · Esercizio L</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/embedded-activities.css?v=2" />
+  <link rel="stylesheet" href="fondo.css" />
+</head>
+<body data-page-key="014_es_l" data-next-href="014_es_m.html" data-next-label="Vai all’esercizio M →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 14 · Il nuovo direttore</span>
+      <h1>Attività interattive</h1>
+      <p class="hero-subtitle">Ripassa e metti in pratica i verbi modali.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">🎯 Задание · Esercizio L</div>
+      <div class="instruction-text">
+        Выполните оба интерактивных задания. Прочитайте инструкции в каждой карточке и выберите подходящую форму глагола.
+        <br /><span lang="it">Completa entrambe le attività interattive. Segui le istruzioni di ciascuna scheda e scegli la forma corretta del verbo.</span>
+      </div>
+    </section>
+
+    <section class="activities-card" aria-label="Attività interattive">
+      <nav id="activity-tabs" class="activity-tabs" aria-label="Seleziona una scheda">
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 1">1</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 2">2</button>
+      </nav>
+
+      <div class="activity-scroller" id="activity-scroller" tabindex="0" aria-label="Schede delle attività, scorri orizzontalmente">
+        <article class="activity-card" aria-labelledby="activity-one-title">
+          <h2 id="activity-one-title" class="activity-title">Scheda 1</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/70d85e955fcb420da81beccf6f600ba0?themeId=1&amp;templateId=5&amp;fontStackId=0"
+            title="Attività interattiva — Scheda 1"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-two-title">
+          <h2 id="activity-two-title" class="activity-title">Scheda 2</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/729acb41776247efa3db9b724b4d75b3?themeId=43&amp;templateId=5&amp;fontStackId=0"
+            title="Attività interattiva — Scheda 2"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+      </div>
+
+      <nav class="activity-navigation" aria-label="Navigazione delle schede e degli esercizi">
+        <a class="exercise-link" href="014_es_k.html">← Esercizio K</a>
+        <button id="activity-previous" type="button" aria-label="Scheda precedente">← Precedente</button>
+        <span id="activity-counter" class="activity-counter" aria-live="polite"></span>
+        <button id="activity-next" type="button" aria-label="Scheda successiva">Successiva →</button>
+        <a id="next-exercise" class="exercise-link next-exercise" href="014_es_m.html" hidden>Vai all’esercizio M →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="./unit-nav.js"></script>
+  <script>
+    const scroller = document.getElementById("activity-scroller");
+    const activityCards = [...scroller.querySelectorAll(".activity-card")];
+    const tabs = [...document.querySelectorAll(".activity-tab")];
+    const previousButton = document.getElementById("activity-previous");
+    const nextButton = document.getElementById("activity-next");
+    const nextExercise = document.getElementById("next-exercise");
+    const counter = document.getElementById("activity-counter");
+    let activeActivity = 0;
+
+    function goToActivity(index) {
+      const target = Math.max(0, Math.min(activityCards.length - 1, index));
+      scroller.scrollTo({
+        left: activityCards[target].offsetLeft - scroller.offsetLeft,
+        behavior: "smooth"
+      });
+    }
+
+    function updateActivityNavigation() {
+      activeActivity = activityCards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(activityCards[closestIndex].offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+
+      tabs.forEach((tab, index) => {
+        if (index === activeActivity) tab.setAttribute("aria-current", "step");
+        else tab.removeAttribute("aria-current");
+      });
+      previousButton.disabled = activeActivity === 0;
+      nextButton.hidden = activeActivity === activityCards.length - 1;
+      nextExercise.hidden = activeActivity !== activityCards.length - 1;
+      counter.textContent = `Scheda ${activeActivity + 1} di ${activityCards.length}`;
+    }
+
+    tabs.forEach((tab, index) => tab.addEventListener("click", () => goToActivity(index)));
+    previousButton.addEventListener("click", () => goToActivity(activeActivity - 1));
+    nextButton.addEventListener("click", () => goToActivity(activeActivity + 1));
+    scroller.addEventListener("scroll", updateActivityNavigation, { passive: true });
+    window.addEventListener("resize", updateActivityNavigation);
+    updateActivityNavigation();
+  </script>
+</body>
+</html>

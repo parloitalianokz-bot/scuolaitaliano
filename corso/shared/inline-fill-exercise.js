@@ -409,6 +409,7 @@
 
           const input = document.createElement(part.select ? "select" : "input");
           input.className = "blank-input";
+          if (part.size) input.classList.add(`blank-input-${part.size}`);
           if (part.select) {
             const placeholder = document.createElement("option");
             placeholder.value = "";

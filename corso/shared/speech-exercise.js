@@ -435,9 +435,17 @@
       const numSpan = document.createElement("span");
       numSpan.className = "number";
       numSpan.textContent = String(index + 1);
-      const textSpan = document.createElement("span");
+            const textSpan = document.createElement("span");
       textSpan.textContent = card.title;
-      title.append(numSpan, textSpan);
+      if (card.icon) {
+        const iconSpan = document.createElement("span");
+        iconSpan.className = "section-icon";
+        iconSpan.setAttribute("aria-hidden", "true");
+        iconSpan.textContent = card.icon;
+        title.append(numSpan, iconSpan, textSpan);
+      } else {
+        title.append(numSpan, textSpan);
+      }
 
             const turnPill = document.createElement("span");
       turnPill.className = "turn-pill";
