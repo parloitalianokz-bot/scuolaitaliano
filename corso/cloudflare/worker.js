@@ -76,12 +76,14 @@ function makeEvaluationPrompt(input) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
+    const url = new URL(request.url);
+    console.info("Review Worker request", { method: request.method, path: url.pathname });
+
     const allowedOrigin = String(env.ALLOWED_ORIGIN || "").replace(/\/$/, "");
     if (!allowedOrigin || origin !== allowedOrigin) {
+      console.warn("Review Worker: origin rejected", { origin, allowedOrigin });
       return jsonResponse({ error: "Origine non autorizzata." }, 403);
     }
-
-    const url = new URL(request.url);
     if (url.pathname !== "/review") return jsonResponse({ error: "Percorso non trovato." }, 404, origin);
     if (request.method === "OPTIONS") return new Response(null, {
       status: 204,
