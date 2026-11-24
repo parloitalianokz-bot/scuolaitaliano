@@ -145,6 +145,11 @@ export default {
       });
       const result = await apiResponse.json().catch(() => ({}));
       if (!apiResponse.ok) {
+        console.error("Gemini API request failed", {
+          status: apiResponse.status,
+          code: result.error?.code,
+          message: result.error?.message || "No error message returned"
+        });
         const status = apiResponse.status === 429 ? 429 : 502;
         return jsonResponse({ error: status === 429
           ? "Limite gratuito dell’IA raggiunto temporaneamente. Riprova più tardi."
@@ -154,7 +159,8 @@ export default {
         .map(part => part.text || "").join("\n").trim();
       if (!text) return jsonResponse({ error: "L’IA non ha restituito un feedback utilizzabile." }, 502, origin);
       return jsonResponse({ feedback: text }, 200, origin);
-    } catch (_) {
+    } catch (error) {
+      console.error("Gemini service request failed", error instanceof Error ? error.message : String(error));
       return jsonResponse({ error: "Servizio temporaneamente non disponibile. Riprova più tardi." }, 502, origin);
     }
   }
