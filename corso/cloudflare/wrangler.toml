@@ -5,7 +5,7 @@ compatibility_date = "2025-03-01"
 [vars]
 FIREBASE_PROJECT_ID = "esercizi-parlo-italiano"
 AUTHORIZED_TEACHER_EMAIL = "parloitaliano.kz@gmail.com"
-ALLOWED_ORIGIN = "https://INSERISCI-IL-DOMINIO-DEL-SITO"
+ALLOWED_ORIGIN = "https://shkolaitaliano.com/"
 GEMINI_MODEL = "gemini-2.5-flash"
 
 # Set GEMINI_API_KEY as a secret in the Cloudflare dashboard; do not add it here.
