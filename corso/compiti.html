@@ -230,6 +230,10 @@
                 <button id="composer-clear-all" type="button" class="secondary" style="min-height:34px;padding:4px 10px;font-size:.85rem">Deseleziona</button>
               </div>
             </div>
+            <div class="field" id="composer-session-field" style="margin-top:12px">
+              <label for="composer-session-select">Sessione da assegnare / Занятие для назначения</label>
+              <select id="composer-session-select"></select>
+            </div>
             <div id="composer-exercise-list" class="composer-grid"></div>
             <details style="margin-top:10px">
               <summary style="cursor:pointer;color:var(--green);font-weight:700;font-size:.88rem">Anteprima / incolla JSON esercizi (opzionale)</summary>
@@ -318,10 +322,13 @@
     const assignmentUnit = document.getElementById("assignment-unit");
     const assignmentTask = document.getElementById("assignment-task");
     const customComposerBox = document.getElementById("custom-composer-box");
-    const composerExerciseList = document.getElementById("composer-exercise-list");
-    const composerJson = document.getElementById("composer-json");
-    const CUSTOM_TASK_PATH = "compiti/compito_dinamico.html";
-    let selectedCustomExerciseIds = [];
+         const composerExerciseList = document.getElementById("composer-exercise-list");
+     const composerJson = document.getElementById("composer-json");
+     const composerSessionField = document.getElementById("composer-session-field");
+     const composerSessionSelect = document.getElementById("composer-session-select");
+     const CUSTOM_TASK_PATH = "compiti/compito_dinamico.html";
+     let selectedCustomExerciseIds = [];
+     let selectedComposerSession = "";
     const taskInfoButton = document.getElementById("task-info-button");
     const taskDescriptionDialog = document.getElementById("task-description-dialog");
     const taskDescriptionText = document.getElementById("task-description-text");
@@ -358,12 +365,28 @@
       return element;
     }
     function groupLabel(id) { return `${groupData[id]?.nome || id} · ${id}`; }
-    function unitCatalogExercises(unitNum) {
-      const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(unitNum)];
-      return Array.isArray(unitObj?.exercises) ? unitObj.exercises : [];
-    }
+         function unitCatalogExercises(unitNum) {
+       const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(unitNum)];
+       return Array.isArray(unitObj?.exercises) ? unitObj.exercises : [];
+     }
+     function composerExercisesForCurrentSession() {
+       const exercises = unitCatalogExercises(assignmentUnit.value);
+       return selectedComposerSession
+         ? exercises.filter(ex => String(ex.sessionNumber) === selectedComposerSession)
+         : exercises;
+     }
+     function updateComposerSessionOptions(unitObj) {
+       const sessions = Array.isArray(unitObj?.sessions) ? unitObj.sessions : [];
+       composerSessionField.classList.toggle("hidden", sessions.length === 0);
+       composerSessionSelect.replaceChildren(new Option("Tutti gli esercizi", ""));
+       sessions.forEach(item => {
+         composerSessionSelect.add(new Option(item.title || `Sessione ${item.number}`, String(item.number)));
+       });
+       selectedComposerSession = sessions.length ? String(sessions[0].number) : "";
+       composerSessionSelect.value = selectedComposerSession;
+     }
 
-    function syncComposerJsonPreview() {
+     function syncComposerJsonPreview() {
       if (!composerJson) return;
       composerJson.value = JSON.stringify({
         assignmentTitle: assignmentTitle.value.trim() || `Compito personalizzato · Unità ${assignmentUnit.value}`,
@@ -376,9 +399,12 @@
       const unitExercises = unitCatalogExercises(assignmentUnit.value);
       const validIds = new Set(unitExercises.map(ex => ex.id));
       selectedCustomExerciseIds = selectedCustomExerciseIds.filter(id => validIds.has(id));
-      composerExerciseList.replaceChildren();
-      unitExercises.forEach(ex => {
-        const isChecked = selectedCustomExerciseIds.includes(ex.id);
+             composerExerciseList.replaceChildren();
+       const visibleExercises = selectedComposerSession
+         ? unitExercises.filter(ex => String(ex.sessionNumber) === selectedComposerSession)
+         : unitExercises;
+       visibleExercises.forEach(ex => {
+         const isChecked = selectedCustomExerciseIds.includes(ex.id);
         const row = makeElement("label", `composer-item${isChecked ? " checked" : ""}`);
         const cb = document.createElement("input");
         cb.type = "checkbox";
@@ -870,18 +896,24 @@
       assignmentTask.addEventListener("change", async () => {
         if (assignmentTask.value === CUSTOM_TASK_PATH) {
           customComposerBox.classList.remove("hidden");
-          const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(assignmentUnit.value)];
-          const desc = unitObj?.description || "Compito personalizzato composto dagli esercizi selezionati.";
-          taskDescriptionText.textContent = desc;
-          taskInfoButton.disabled = false;
-          assignmentTitle.value = `Compito personalizzato · Unità ${assignmentUnit.value}`;
-                     assignmentDescription.value = "";
+                     const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(assignmentUnit.value)];
+           const desc = unitObj?.description || "Compito personalizzato composto dagli esercizi selezionati.";
+           taskDescriptionText.textContent = desc;
+           taskInfoButton.disabled = false;
+           assignmentTitle.value = `Compito personalizzato · Unità ${assignmentUnit.value}`;
+           assignmentDescription.value = "";
+           updateComposerSessionOptions(unitObj);
            const exercises = unitCatalogExercises(assignmentUnit.value);
+           const visibleExercises = composerExercisesForCurrentSession();
            const validIds = new Set(exercises.map(ex => ex.id));
            const preferred = unitObj?.defaultExerciseIds;
-           selectedCustomExerciseIds = Array.isArray(preferred) && preferred.length
-             ? preferred.filter(id => validIds.has(id))
-             : exercises.map(ex => ex.id);
+           selectedCustomExerciseIds = selectedComposerSession
+             ? visibleExercises.map(ex => ex.id)
+             : (Array.isArray(preferred) && preferred.length
+               ? preferred.filter(id => validIds.has(id))
+               : exercises.map(ex => ex.id));
+           const activeSession = unitObj?.sessions?.find(item => String(item.number) === selectedComposerSession);
+           if (activeSession) assignmentTitle.value = `Unità ${assignmentUnit.value} · ${activeSession.title}`;
            renderComposerExercises();
            return;
         }
@@ -908,11 +940,22 @@
           }
         }
       });
-      document.getElementById("composer-select-all").addEventListener("click", () => {
-        selectedCustomExerciseIds = unitCatalogExercises(assignmentUnit.value).map(ex => ex.id);
-        renderComposerExercises();
-      });
-      document.getElementById("composer-clear-all").addEventListener("click", () => {
+             composerSessionSelect.addEventListener("change", () => {
+         selectedComposerSession = composerSessionSelect.value;
+         const exercises = composerExercisesForCurrentSession();
+         selectedCustomExerciseIds = exercises.map(ex => ex.id);
+         const unitObj = (window.HOMEWORK_EXERCISES_CATALOG || {})[String(assignmentUnit.value)];
+         const activeSession = unitObj?.sessions?.find(item => String(item.number) === selectedComposerSession);
+         assignmentTitle.value = activeSession
+           ? `Unità ${assignmentUnit.value} · ${activeSession.title}`
+           : `Compito personalizzato · Unità ${assignmentUnit.value}`;
+         renderComposerExercises();
+       });
+       document.getElementById("composer-select-all").addEventListener("click", () => {
+         selectedCustomExerciseIds = composerExercisesForCurrentSession().map(ex => ex.id);
+         renderComposerExercises();
+       });
+       document.getElementById("composer-clear-all").addEventListener("click", () => {
         selectedCustomExerciseIds = [];
         renderComposerExercises();
       });
