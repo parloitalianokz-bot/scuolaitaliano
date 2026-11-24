@@ -1,10 +1,12 @@
 (() => {
   "use strict";
 
-  const FIREBASE_CONFIG = {
+    const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBbOOnXPeSgqV_oT7uXdAEioU4Ha9nkbSY",
     authDomain: "esercizi-parlo-italiano.firebaseapp.com",
     databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "esercizi-parlo-italiano"
+    projectId: "esercizi-parlo-italiano",
+    appId: "1:499443551452:web:0e05cb85de9f9ade897819"
   };
 
   const TEACHER_ID = "__teacher__";
@@ -424,7 +426,6 @@
             const accentToolbar = createItalianCharToolbar(questionInput);
 
       let teacherFeedbackPanel = null;
-      let feedbackPrompt = null;
       let feedbackEditor = null;
       let feedbackStatus = null;
       let studentFeedbackPanel = null;
@@ -439,16 +440,10 @@
         const goalText = document.createElement("p");
         goalText.className = "es-a-feedback-goal";
         goalText.textContent = `Obiettivo della scheda: ${question.questionGoal || "Non specificato"}`;
-        const promptButton = document.createElement("button");
-        promptButton.type = "button";
-        promptButton.className = "es-a-feedback-button";
-        promptButton.textContent = "Genera e copia il prompt per AI Studio";
-        feedbackPrompt = document.createElement("textarea");
-        feedbackPrompt.className = "es-a-feedback-prompt";
-        feedbackPrompt.rows = 8;
-        feedbackPrompt.readOnly = true;
-        feedbackPrompt.hidden = true;
-        feedbackPrompt.setAttribute("aria-label", "Prompt per AI Studio");
+        const generateFeedbackButton = document.createElement("button");
+        generateFeedbackButton.type = "button";
+        generateFeedbackButton.className = "es-a-feedback-button";
+        generateFeedbackButton.textContent = "✨ Genera feedback con l’IA";
         feedbackEditor = document.createElement("textarea");
         feedbackEditor.className = "es-a-feedback-editor";
         feedbackEditor.rows = 8;
@@ -460,21 +455,50 @@
         saveFeedbackButton.textContent = "💾 Salva feedback per lo studente";
         feedbackStatus = document.createElement("p");
         feedbackStatus.className = "es-a-feedback-status";
-        promptButton.addEventListener("click", async () => {
-          const options = question.options.map((option, optionIndex) =>
-            `${optionIndex === question.correctOption ? "[RISPOSTA ATTESA - SOLO PER LA VALUTAZIONE] " : ""}${option}`
-          ).join("\n");
+        generateFeedbackButton.addEventListener("click", async () => {
+          const endpoint = String(window.PARLO_AI_REVIEW_URL || "").trim();
+          if (!endpoint) {
+            feedbackStatus.textContent = "Il Worker non è ancora configurato. Segui le istruzioni in cloudflare/README.md.";
+            return;
+          }
           const studentQuestion = String((cardsState[index] || {}).draftQuestion || questionInput.value || "").trim();
-          const prompt = `Sei un assistente per un corso base di italiano. Valuta la domanda dello studente sia nella forma grammaticale sia nella coerenza logica con l’obiettivo indicato.\n\nContesto/inizio della frase: ${question.hint}\nObiettivo della domanda: ${question.questionGoal || "Non specificato"}\nOpzioni dell’esercizio:\n${options}\nDomanda dello studente: «${studentQuestion || "(non ancora scritta)"}»\n\nLa risposta attesa è fornita solo per verificare che la domanda chieda proprio quell’informazione: non rivelarla e non rispondere all’esercizio. Se la domanda è corretta, dillo; altrimenti proponi una versione corretta e spiega anche se il problema è grammaticale o di coerenza logica. Non inventare errori. Produci queste sezioni: Versione corretta; Nota molto breve in italiano per l’insegnante; Spiegazione semplice per lo studente in italiano (L2), russo e kazako; Un suggerimento breve per lo studente in italiano (L2), russo e kazako.`;
-          feedbackPrompt.value = prompt;
-          feedbackPrompt.hidden = false;
-          feedbackPrompt.focus();
-          feedbackPrompt.select();
+          if (!studentQuestion) {
+            feedbackStatus.textContent = "Lo studente non ha ancora scritto una domanda da revisionare.";
+            return;
+          }
+          const user = window.firebase?.auth?.().currentUser;
+          if (!user) {
+            feedbackStatus.textContent = "Accesso Google docente non disponibile. Torna alla pagina iniziale, accedi di nuovo e ricarica questa pagina.";
+            return;
+          }
+
+          generateFeedbackButton.disabled = true;
+          feedbackStatus.textContent = "Invio della richiesta e generazione del feedback…";
           try {
-            await navigator.clipboard.writeText(prompt);
-            feedbackStatus.textContent = "Prompt copiato. Incollalo in AI Studio; poi controlla la risposta e copiala nel campo feedback.";
-          } catch (_) {
-            feedbackStatus.textContent = "Prompt pronto e selezionato: copialo e incollalo in AI Studio.";
+            const idToken = await user.getIdToken();
+            const response = await fetch(endpoint, {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                "authorization": `Bearer ${idToken}`
+              },
+              body: JSON.stringify({
+                context: question.hint,
+                goal: question.questionGoal || "Non specificato",
+                options: question.options,
+                correctOption: question.correctOption,
+                studentQuestion
+              })
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.error || "Impossibile generare il feedback.");
+            feedbackEditor.value = String(result.feedback || "");
+            feedbackStatus.textContent = "Feedback IA pronto. Controllalo e correggilo, se serve, prima di salvarlo per lo studente.";
+            feedbackEditor.focus();
+          } catch (error) {
+            feedbackStatus.textContent = error?.message || "Servizio IA non disponibile. Riprova più tardi.";
+          } finally {
+            generateFeedbackButton.disabled = false;
           }
         });
         saveFeedbackButton.addEventListener("click", async () => {
@@ -498,7 +522,7 @@
             saveFeedbackButton.disabled = false;
           }
         });
-        teacherFeedbackPanel.append(feedbackTitle, goalText, promptButton, feedbackPrompt, feedbackEditor, saveFeedbackButton, feedbackStatus);
+        teacherFeedbackPanel.append(feedbackTitle, goalText, generateFeedbackButton, feedbackEditor, saveFeedbackButton, feedbackStatus);
       } else if (!isTeacherView && activityMode === "distance") {
         studentFeedbackPanel = document.createElement("section");
         studentFeedbackPanel.className = "es-a-student-feedback";
