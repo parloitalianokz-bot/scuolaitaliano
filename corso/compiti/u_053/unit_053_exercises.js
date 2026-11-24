@@ -170,13 +170,13 @@ window.HOMEWORK_EXERCISES_CATALOG["53"] = {
       title: "2.2 Abbina le frasi ai significati / Соедини предложения со значениями",
       instructions: "Abbina ogni frase alla relazione espressa. / Соедини предложение с выражаемым сравнением.",
       options: [
-        { value: "E", label: "E · Durano più a lungo" },
-        { value: "C", label: "C · È più semplice" },
-        { value: "A", label: "A · Costa di più" },
-        { value: "G", label: "G · È più conveniente" },
-        { value: "D", label: "D · È più raffinata" },
-        { value: "F", label: "F · È più economico" },
-        { value: "B", label: "B · Pesa meno" }
+                 { value: "E", label: "E · Sono più resistenti" },
+         { value: "C", label: "C · Richiede meno difficoltà" },
+         { value: "A", label: "A · Ha un prezzo superiore" },
+         { value: "G", label: "G · È più vantaggioso" },
+         { value: "D", label: "D · Ha più eleganza" },
+         { value: "F", label: "F · Ha un prezzo inferiore" },
+         { value: "B", label: "B · È più leggero" }
       ],
       items: [
         { id: "m1", prompt: "Lo zibellino è più caro del visone", answers: ["A"] },
@@ -198,7 +198,7 @@ window.HOMEWORK_EXERCISES_CATALOG["53"] = {
         { id: "o2", prompt: "Confronta la grandezza", words: ["diamante.", "del", "grande", "più", "Il", "è", "rubino"], answers: [4, 6, 5, 3, 2, 1, 0] },
         { id: "o3", prompt: "Confronta la facilità", words: ["che", "è", "scegliere.", "provare", "più", "facile"], answers: [4, 5, 1, 3, 0, 2] },
         { id: "o4", prompt: "Confronta due borse", words: ["della", "borsa", "La", "più", "è", "nera.", "rossa", "elegante"], answers: [2, 6, 4, 3, 7, 0, 1, 5] },
-        { id: "o5", prompt: "Confronta le scarpe", words: ["di", "quelle", "pelle", "sono", "Le", "più", "resistenti", "tela.", "scarpe", "di"], answers: [4, 8, 0, 2, 3, 5, 6, 9, 1, 7] },
+                 { id: "o5", prompt: "Confronta le scarpe", words: ["di", "quelle", "pelle", "sono", "Le", "più", "resistenti", "tela.", "scarpe", "di", "di"], answers: [4, 8, 0, 2, 3, 5, 6, 9, 1, 10, 7] },
         { id: "o6", prompt: "Confronta il prezzo", words: ["meno", "La", "giacca", "costa", "del", "cappotto."], answers: [1, 2, 3, 0, 4, 5] },
         { id: "o7", prompt: "Confronta due attività", words: ["che", "fare", "È", "più", "a", "casa.", "divertente", "shopping", "restare"], answers: [2, 3, 6, 1, 7, 0, 8, 4, 5] },
         { id: "o8", prompt: "Confronta il pagamento", words: ["contanti.", "carta", "con", "più", "pagare", "la", "È", "comodo", "che", "con", "i"], answers: [6, 3, 7, 4, 5, 1, 2, 8, 9, 10, 0] },
