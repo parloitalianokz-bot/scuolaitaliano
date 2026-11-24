@@ -34,7 +34,7 @@
       card.prepend(studentLogin);
     }
 
-    let exerciseProgress = document.getElementById("exercise-progress");
+        let exerciseProgress = document.getElementById("exercise-progress");
     if (!exerciseProgress) {
       exerciseProgress = document.createElement("nav");
       exerciseProgress.id = "exercise-progress";
@@ -43,11 +43,23 @@
       studentLogin.after(exerciseProgress);
     }
 
+    let refreshDistanceButton = document.getElementById("refresh-distance-data");
+    if (!refreshDistanceButton) {
+      refreshDistanceButton = document.createElement("button");
+      refreshDistanceButton.id = "refresh-distance-data";
+      refreshDistanceButton.type = "button";
+      refreshDistanceButton.className = "btn-secondary";
+      refreshDistanceButton.textContent = "Aggiorna dati dello studente";
+      refreshDistanceButton.style.marginBottom = "12px";
+      refreshDistanceButton.hidden = true;
+      exerciseProgress.after(refreshDistanceButton);
+    }
+
     let questionsContainer = document.getElementById("questions-container");
     if (!questionsContainer) {
       questionsContainer = document.createElement("div");
       questionsContainer.id = "questions-container";
-      exerciseProgress.after(questionsContainer);
+      refreshDistanceButton.after(questionsContainer);
     }
 
     let slideNav = card.querySelector(".slide-navigation");
@@ -70,7 +82,8 @@
     return {
       studentLogin,
       studentNameInput: document.getElementById("student-name"),
-      confirmStudentNameBtn: document.getElementById("confirm-student-name"),
+            confirmStudentNameBtn: document.getElementById("confirm-student-name"),
+      refreshDistanceButton,
       questionsContainer,
       previousButton: document.getElementById("previous-question"),
       nextButton: document.getElementById("next-question"),
@@ -109,7 +122,8 @@
     const {
       studentLogin,
       studentNameInput,
-      confirmStudentNameBtn,
+            confirmStudentNameBtn,
+      refreshDistanceButton,
       questionsContainer,
       previousButton,
       nextButton,
@@ -120,6 +134,7 @@
 
         let exerciseRef = null;
     let exerciseDataHandler = null;
+    let exerciseLoadToken = 0;
     let databaseRef = null;
     let reviewStudentId = isTeacherView && activityMode === "distance"
       ? sanitizeId(window.ParloReviewStudentId || "").replace(/^student_/, "")
@@ -272,7 +287,9 @@
       }));
     }
 
-    function syncDraftToFirebase(index, text) {
+        function syncDraftToFirebase(index, text) {
+      cardsState[index] = { ...(cardsState[index] || {}), draftQuestion: text };
+      updateNavigation();
       if (!exerciseRef) return;
       clearTimeout(draftSyncTimers.get(index));
       draftSyncTimers.set(index, setTimeout(() => {
@@ -404,7 +421,94 @@
       questionInput.placeholder = "Scrivi qui la domanda...";
       questionInput.disabled = true;
 
-      const accentToolbar = createItalianCharToolbar(questionInput);
+            const accentToolbar = createItalianCharToolbar(questionInput);
+
+      let teacherFeedbackPanel = null;
+      let feedbackPrompt = null;
+      let feedbackEditor = null;
+      let feedbackStatus = null;
+      let studentFeedbackPanel = null;
+      let studentFeedbackText = null;
+
+      if (isTeacherView && activityMode === "distance") {
+        teacherFeedbackPanel = document.createElement("section");
+        teacherFeedbackPanel.className = "es-a-teacher-feedback";
+        teacherFeedbackPanel.hidden = !reviewStudentId;
+        const feedbackTitle = document.createElement("h3");
+        feedbackTitle.textContent = "👩‍🏫 Revisione della domanda";
+        const goalText = document.createElement("p");
+        goalText.className = "es-a-feedback-goal";
+        goalText.textContent = `Obiettivo della scheda: ${question.questionGoal || "Non specificato"}`;
+        const promptButton = document.createElement("button");
+        promptButton.type = "button";
+        promptButton.className = "es-a-feedback-button";
+        promptButton.textContent = "Genera e copia il prompt per AI Studio";
+        feedbackPrompt = document.createElement("textarea");
+        feedbackPrompt.className = "es-a-feedback-prompt";
+        feedbackPrompt.rows = 8;
+        feedbackPrompt.readOnly = true;
+        feedbackPrompt.hidden = true;
+        feedbackPrompt.setAttribute("aria-label", "Prompt per AI Studio");
+        feedbackEditor = document.createElement("textarea");
+        feedbackEditor.className = "es-a-feedback-editor";
+        feedbackEditor.rows = 8;
+        feedbackEditor.placeholder = "Incolla qui il feedback generato, controllalo e poi salvalo per lo studente.";
+        feedbackEditor.setAttribute("aria-label", "Feedback approvato dall’insegnante");
+        const saveFeedbackButton = document.createElement("button");
+        saveFeedbackButton.type = "button";
+        saveFeedbackButton.className = "es-a-feedback-button es-a-feedback-save";
+        saveFeedbackButton.textContent = "💾 Salva feedback per lo studente";
+        feedbackStatus = document.createElement("p");
+        feedbackStatus.className = "es-a-feedback-status";
+        promptButton.addEventListener("click", async () => {
+          const options = question.options.map((option, optionIndex) =>
+            `${optionIndex === question.correctOption ? "[RISPOSTA ATTESA - SOLO PER LA VALUTAZIONE] " : ""}${option}`
+          ).join("\n");
+          const studentQuestion = String((cardsState[index] || {}).draftQuestion || questionInput.value || "").trim();
+          const prompt = `Sei un assistente per un corso base di italiano. Valuta la domanda dello studente sia nella forma grammaticale sia nella coerenza logica con l’obiettivo indicato.\n\nContesto/inizio della frase: ${question.hint}\nObiettivo della domanda: ${question.questionGoal || "Non specificato"}\nOpzioni dell’esercizio:\n${options}\nDomanda dello studente: «${studentQuestion || "(non ancora scritta)"}»\n\nLa risposta attesa è fornita solo per verificare che la domanda chieda proprio quell’informazione: non rivelarla e non rispondere all’esercizio. Se la domanda è corretta, dillo; altrimenti proponi una versione corretta e spiega anche se il problema è grammaticale o di coerenza logica. Non inventare errori. Produci queste sezioni: Versione corretta; Nota molto breve in italiano per l’insegnante; Spiegazione semplice per lo studente in italiano (L2), russo e kazako; Un suggerimento breve per lo studente in italiano (L2), russo e kazako.`;
+          feedbackPrompt.value = prompt;
+          feedbackPrompt.hidden = false;
+          feedbackPrompt.focus();
+          feedbackPrompt.select();
+          try {
+            await navigator.clipboard.writeText(prompt);
+            feedbackStatus.textContent = "Prompt copiato. Incollalo in AI Studio; poi controlla la risposta e copiala nel campo feedback.";
+          } catch (_) {
+            feedbackStatus.textContent = "Prompt pronto e selezionato: copialo e incollalo in AI Studio.";
+          }
+        });
+        saveFeedbackButton.addEventListener("click", async () => {
+          if (!exerciseRef || !reviewStudentId) {
+            feedbackStatus.textContent = "Seleziona prima uno studente da revisionare.";
+            return;
+          }
+          saveFeedbackButton.disabled = true;
+          try {
+            const feedback = {
+              text: feedbackEditor.value.trim(),
+              updatedAt: Date.now(),
+              teacher: String(session.teacherName || session.name || "Insegnante")
+            };
+            await exerciseRef.child("cards").child(String(index)).child("teacherFeedback").set(feedback);
+            cardsState[index] = { ...(cardsState[index] || {}), teacherFeedback: feedback };
+            feedbackStatus.textContent = feedback.text ? "Feedback salvato: sarà visibile allo studente." : "Feedback rimosso.";
+          } catch (_) {
+            feedbackStatus.textContent = "Errore: impossibile salvare il feedback.";
+          } finally {
+            saveFeedbackButton.disabled = false;
+          }
+        });
+        teacherFeedbackPanel.append(feedbackTitle, goalText, promptButton, feedbackPrompt, feedbackEditor, saveFeedbackButton, feedbackStatus);
+      } else if (!isTeacherView && activityMode === "distance") {
+        studentFeedbackPanel = document.createElement("section");
+        studentFeedbackPanel.className = "es-a-student-feedback";
+        studentFeedbackPanel.hidden = true;
+        const feedbackTitle = document.createElement("h3");
+        feedbackTitle.textContent = "👩‍🏫 Feedback dell’insegnante";
+        studentFeedbackText = document.createElement("p");
+        studentFeedbackText.className = "es-a-student-feedback-text";
+        studentFeedbackPanel.append(feedbackTitle, studentFeedbackText);
+      }
 
             questionInput.addEventListener("input", () => {
         const cardData = cardsState[index] || {};
@@ -448,7 +552,9 @@
 
             submitBtn.hidden = activityMode === "distance";
       submitRow.hidden = activityMode === "distance";
-      questionCard.append(questionHeader, accentToolbar, questionInput, submitRow);
+            questionCard.append(questionHeader, accentToolbar, questionInput, submitRow);
+      if (teacherFeedbackPanel) questionCard.after(teacherFeedbackPanel);
+      if (studentFeedbackPanel) questionCard.after(studentFeedbackPanel);
 
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
@@ -493,15 +599,21 @@
         badgeSpan.className = "option-feedback-badge";
         button.append(mainSpan, badgeSpan);
 
-                button.addEventListener("click", () => {
+                                button.addEventListener("click", () => {
                     const cardData = cardsState[index] || {};
           if (reviewStudentId || !exerciseRef || !currentUserId || (!independentPractice && cardData.answerAssignee !== currentUserId)) return;
 
-          exerciseRef.child("cards").child(String(index)).update({
+          const answerUpdate = {
             selectedOption: optionIndex,
             answeredBy: isTeacherView ? "Insegnante" : currentUserName,
             answeredAt: firebase.database.ServerValue.TIMESTAMP
-          });
+          };
+          exerciseRef.child("cards").child(String(index)).update(answerUpdate);
+          if (activityMode === "distance") {
+            cardsState[index] = { ...cardData, ...answerUpdate, answeredAt: Date.now() };
+            renderCard(index);
+            updateNavigation();
+          }
         });
 
         optionsGrid.appendChild(button);
@@ -528,7 +640,12 @@
 
         askPill,
         answerPill,
-        questionCard,
+                questionCard,
+        teacherFeedbackPanel,
+        feedbackEditor,
+        feedbackStatus,
+        studentFeedbackPanel,
+        studentFeedbackText,
         questionTurnHint,
         accentToolbar,
         questionInput,
@@ -716,7 +833,7 @@
         }
       });
 
-      if (hasSelection) {
+            if (hasSelection) {
         const isCorrect = Number(selectedOption) === question.correctOption;
         const who = cardData.answeredBy ? ` (${cardData.answeredBy})` : "";
         ui.answerOutcome.hidden = false;
@@ -726,6 +843,23 @@
           : `❌ Risposta non corretta${who}.`;
       } else {
         ui.answerOutcome.hidden = true;
+      }
+
+      const savedFeedback = cardData.teacherFeedback || {};
+      if (ui.teacherFeedbackPanel) {
+        ui.teacherFeedbackPanel.hidden = !reviewStudentId;
+        if (document.activeElement !== ui.feedbackEditor) {
+          ui.feedbackEditor.value = String(savedFeedback.text || "");
+        }
+        if (savedFeedback.updatedAt && !ui.feedbackStatus.textContent.startsWith("Prompt")) {
+          ui.feedbackStatus.textContent = `Feedback salvato${savedFeedback.teacher ? ` da ${savedFeedback.teacher}` : ""}.`;
+        } else if (!savedFeedback.text && !ui.feedbackStatus.textContent.startsWith("Prompt")) {
+          ui.feedbackStatus.textContent = "";
+        }
+      }
+      if (ui.studentFeedbackPanel) {
+        ui.studentFeedbackPanel.hidden = !String(savedFeedback.text || "").trim();
+        ui.studentFeedbackText.textContent = String(savedFeedback.text || "");
       }
     }
 
@@ -745,14 +879,33 @@
         : independentPractice
           ? `${sharedExercisePath}/${activityMode}/students/${currentUserId}`
           : sharedExercisePath;
+            const loadToken = ++exerciseLoadToken;
       exerciseRef = databaseRef.ref(studentExercisePath);
+      const targetRef = exerciseRef;
       exerciseDataHandler = snapshot => {
+        if (loadToken !== exerciseLoadToken) return;
         const data = snapshot.val() || {};
         cardsState = data.cards || {};
         renderAllCards();
       };
-      exerciseRef.on("value", exerciseDataHandler);
+
+      if (activityMode === "distance") {
+        exerciseDataHandler = null;
+        targetRef.once("value").then(snapshot => {
+          if (loadToken !== exerciseLoadToken || exerciseRef !== targetRef) return;
+          const data = snapshot.val() || {};
+          cardsState = data.cards || {};
+          renderAllCards();
+        }).catch(error => console.error("Errore nel caricamento dei dati dello studente:", error));
+      } else {
+        targetRef.on("value", exerciseDataHandler);
+      }
     }
+
+    refreshDistanceButton.hidden = !(isTeacherView && activityMode === "distance");
+    refreshDistanceButton.addEventListener("click", () => {
+      if (isTeacherView && activityMode === "distance") connectExerciseData();
+    });
 
     if (isTeacherView && activityMode === "distance") {
       window.addEventListener("parlo:review-student-changed", event => {

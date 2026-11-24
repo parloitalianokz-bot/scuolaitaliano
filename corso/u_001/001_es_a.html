@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unità 1 — Lettura e Comprensione (Un albergo in centro)</title>
   <link rel="stylesheet" href="../shared/theme.css?v=2" />
-  <link rel="stylesheet" href="../shared/es-a.css?v=1" />
+  <link rel="stylesheet" href="../shared/es-a.css?v=2" />
   <link rel="stylesheet" href="fondo.css?v=1" />
 </head>
 <body data-review-answer-selector=".question-form-card" data-review-comment-placement="section" data-review-item-label="domanda">
@@ -57,25 +57,25 @@
 
   <script>
     window.ES_A_DATA = [
-      { hint: "L’albergo Ponte Vecchio", options: ["è a Roma.", "è a Firenze."], correctOption: 1 },
-      { hint: "L’albergo Ponte Vecchio", options: ["è in periferia", "è in centro"], correctOption: 1 },
-      { hint: "Victor è", options: ["il direttore dell’albergo.", "avvocato."], correctOption: 1 },
-      { hint: "Victor", options: ["è in Italia per turismo", "è in Italia per affari"], correctOption: 1 },
-      { hint: "Karl e Klaus", options: ["è studente", "sono studenti"], correctOption: 1 },
-      { hint: "Karl e Klaus", options: ["sono in Italia per studiare il tedesco", "sono in Italia per studiare l’italiano"], correctOption: 1 },
-      { hint: "Mary è in Italia", options: ["per insegnare l’italiano", "per insegnare l’inglese."], correctOption: 1 },
-      { hint: "Mary è", options: ["un’insegnante inglese", "un’insegnante americana"], correctOption: 0 },
-      { hint: "Yoko", options: ["è insegnante", "è dentista"], correctOption: 1 },
-      { hint: "Yoko è in Italia", options: ["per una conferenza", "per turismo"], correctOption: 0 },
-      { hint: "Olga è in Italia", options: ["per conoscere i ragazzi italiani", "per studiare e per fare shopping"], correctOption: 1 },
-      { hint: "Olga è", options: ["una studentessa italiana", "una studentessa di italiano"], correctOption: 1 },
-      { hint: "Il direttore dell’albergo", options: ["è molto occupato.", "è molto sposato"], correctOption: 0 }
+      { hint: "L’albergo Ponte Vecchio", questionGoal: "Chiedere in quale città si trova l’albergo.", options: ["è a Roma.", "è a Firenze."], correctOption: 1 },
+      { hint: "L’albergo Ponte Vecchio", questionGoal: "Chiedere dove si trova l’albergo: in centro o in periferia.", options: ["è in periferia", "è in centro"], correctOption: 1 },
+      { hint: "Victor è", questionGoal: "Chiedere quale professione fa Victor.", options: ["il direttore dell’albergo.", "avvocato."], correctOption: 1 },
+      { hint: "Victor", questionGoal: "Chiedere per quale motivo Victor è in Italia.", options: ["è in Italia per turismo", "è in Italia per affari"], correctOption: 1 },
+      { hint: "Karl e Klaus", questionGoal: "Chiedere che cosa sono Karl e Klaus, cioè la loro condizione o attività.", options: ["è studente", "sono studenti"], correctOption: 1 },
+      { hint: "Karl e Klaus", questionGoal: "Chiedere quale lingua Karl e Klaus sono venuti a studiare in Italia.", options: ["sono in Italia per studiare il tedesco", "sono in Italia per studiare l’italiano"], correctOption: 1 },
+      { hint: "Mary è in Italia", questionGoal: "Chiedere quale lingua Mary è venuta a insegnare.", options: ["per insegnare l’italiano", "per insegnare l’inglese."], correctOption: 1 },
+      { hint: "Mary è", questionGoal: "Chiedere la nazionalità di Mary, non la sua professione.", options: ["un’insegnante inglese", "un’insegnante americana"], correctOption: 0 },
+      { hint: "Yoko", questionGoal: "Chiedere quale professione fa Yoko.", options: ["è insegnante", "è dentista"], correctOption: 1 },
+      { hint: "Yoko è in Italia", questionGoal: "Chiedere per quale motivo Yoko è in Italia.", options: ["per una conferenza", "per turismo"], correctOption: 0 },
+      { hint: "Olga è in Italia", questionGoal: "Chiedere che cosa Olga è venuta a fare in Italia.", options: ["per conoscere i ragazzi italiani", "per studiare e per fare shopping"], correctOption: 1 },
+      { hint: "Olga è", questionGoal: "Chiedere che tipo di studentessa è Olga: italiana oppure studentessa di italiano.", options: ["una studentessa italiana", "una studentessa di italiano"], correctOption: 1 },
+      { hint: "Il direttore dell’albergo", questionGoal: "Chiedere com’è o in quale stato si trova il direttore dell’albergo.", options: ["è molto occupato.", "è molto sposato"], correctOption: 0 }
     ];
   </script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="../shared/group-scope.js?v=5"></script>
   <script src="../shared/exercise-core.js?v=8"></script>
-  <script src="../shared/es-a-engine.js?v=3"></script>
+  <script src="../shared/es-a-engine.js?v=4"></script>
 </body>
 </html>
