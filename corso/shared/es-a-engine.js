@@ -466,15 +466,36 @@
             feedbackStatus.textContent = "Lo studente non ha ancora scritto una domanda da revisionare.";
             return;
           }
-          const user = window.firebase?.auth?.().currentUser;
-          if (!user) {
+          const authFactory = window.firebase?.auth;
+          if (typeof authFactory !== "function") {
             feedbackStatus.textContent = "Accesso Google docente non disponibile. Torna alla pagina iniziale, accedi di nuovo e ricarica questa pagina.";
             return;
           }
 
           generateFeedbackButton.disabled = true;
-          feedbackStatus.textContent = "Invio della richiesta e generazione del feedback…";
+          feedbackStatus.textContent = "Verifica dell’accesso docente…";
           try {
+            const auth = authFactory.call(window.firebase);
+            let user = auth.currentUser;
+            if (!user) {
+              user = await new Promise(resolve => {
+                let unsubscribe = () => {};
+                let settled = false;
+                const finish = currentUser => {
+                  if (settled) return;
+                  settled = true;
+                  clearTimeout(timeoutId);
+                  unsubscribe();
+                  resolve(currentUser);
+                };
+                const timeoutId = setTimeout(() => finish(null), 8000);
+                unsubscribe = auth.onAuthStateChanged(finish, () => finish(null));
+              });
+            }
+            if (!user) {
+              throw new Error("Accesso Google docente non disponibile. Torna alla pagina iniziale, accedi di nuovo e ricarica questa pagina.");
+            }
+            feedbackStatus.textContent = "Invio della richiesta e generazione del feedback…";
             const idToken = await user.getIdToken();
             const response = await fetch(endpoint, {
               method: "POST",
