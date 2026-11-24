@@ -457,6 +457,12 @@
         feedbackStatus.className = "es-a-feedback-status";
         generateFeedbackButton.addEventListener("click", async () => {
           const endpoint = String(window.PARLO_AI_REVIEW_URL || "").trim();
+          console.info("[AI review] Click sul pulsante", {
+            endpointConfigured: Boolean(endpoint),
+            teacherView: isTeacherView,
+            activityMode,
+            reviewStudentSelected: Boolean(reviewStudentId)
+          });
           if (!endpoint) {
             feedbackStatus.textContent = "Il Worker non è ancora configurato. Segui le istruzioni in cloudflare/README.md.";
             return;
@@ -497,6 +503,7 @@
             }
             feedbackStatus.textContent = "Invio della richiesta e generazione del feedback…";
             const idToken = await user.getIdToken();
+            console.info("[AI review] Invio POST al Worker", new URL(endpoint).origin + new URL(endpoint).pathname);
             const response = await fetch(endpoint, {
               method: "POST",
               headers: {
@@ -517,6 +524,7 @@
             feedbackStatus.textContent = "Feedback IA pronto. Controllalo e correggilo, se serve, prima di salvarlo per lo studente.";
             feedbackEditor.focus();
           } catch (error) {
+            console.error("[AI review] Richiesta non completata", error);
             feedbackStatus.textContent = error?.message || "Servizio IA non disponibile. Riprova più tardi.";
           } finally {
             generateFeedbackButton.disabled = false;
