@@ -553,8 +553,6 @@
             submitBtn.hidden = activityMode === "distance";
       submitRow.hidden = activityMode === "distance";
             questionCard.append(questionHeader, accentToolbar, questionInput, submitRow);
-      if (teacherFeedbackPanel) questionCard.after(teacherFeedbackPanel);
-      if (studentFeedbackPanel) questionCard.after(studentFeedbackPanel);
 
       const contributionsWrapper = document.createElement("div");
       contributionsWrapper.className = "contributions-wrapper";
@@ -627,9 +625,13 @@
 
       optionsSection.append(hint, optionsGrid, answerOutcome);
 
-      box.append(header);
+            box.append(header);
       if (isTeacherView) box.append(assignmentBar);
-      box.append(questionCard, contributionsWrapper, optionsSection);
+      box.append(questionCard);
+      if (teacherFeedbackPanel) box.append(teacherFeedbackPanel);
+      if (studentFeedbackPanel) box.append(studentFeedbackPanel);
+      box.append(contributionsWrapper, optionsSection);
+
       questionsContainer.appendChild(box);
 
       cardUI.push({
