@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi affermativamente alle domande usando i pronomi diretti, Unità 48, Esercizio G." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_g" data-next-href="048_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Grammatica</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Rispondi affermativamente con i pronomi diretti.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div class="instruction-text">
+        👉 <strong>Дайте утвердительный ответ на вопросы, заменяя прямое дополнение местоимением.</strong><br />
+        <span lang="it">Rispondi con una frase completa e affermativa. Sostituisci il complemento oggetto con il pronome diretto e accorda il participio passato quando necessario. In modalità online si lavora a turno con i turni assegnati dall’insegnante; in modalità distanza invia le risposte per la revisione; in modalità allenamento esercitati individualmente e consulta i suggerimenti.</span>
+      </div>
+    </div>
+
+    <section class="card" aria-label="Rispondi alle domande con i pronomi diretti">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una domanda:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="048_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inbox-exercise.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_g",
+      hintsLang: "it",
+      questions: [
+        { key: "g1", title: "Hai lavato la macchina? Rispondi affermativamente con il pronome diretto.", hints: ["La macchina è femminile singolare: usa <em>la</em>, che davanti ad <em>ho</em> diventa <em>l’ho</em>. Ricorda l’accordo del participio passato."] },
+        { key: "g2", title: "Il dottore ha visitato tua madre? Rispondi affermativamente con il pronome diretto.", hints: ["Tua madre è femminile singolare: sostituiscila con <em>la</em> e accorda il participio."] },
+        { key: "g3", title: "Hai risolto il tuo problema? Rispondi affermativamente con il pronome diretto.", hints: ["Il problema è maschile singolare: usa <em>lo</em>. Il participio termina in <em>-o</em>."] },
+        { key: "g4", title: "Hai scritto gli inviti? Rispondi affermativamente con il pronome diretto.", hints: ["Gli inviti è maschile plurale: usa <em>li</em> e accorda il participio al plurale maschile."] },
+        { key: "g5", title: "Hai chiuso la finestra? Rispondi affermativamente con il pronome diretto.", hints: ["La finestra è femminile singolare: usa <em>la</em> e accorda il participio."] },
+        { key: "g6", title: "Hai fatto le valigie? Rispondi affermativamente con il pronome diretto.", hints: ["Le valigie è femminile plurale: usa <em>le</em>; il participio passato concorda al femminile plurale."] },
+        { key: "g7", title: "Hai conosciuto i nuovi studenti? Rispondi affermativamente con il pronome diretto.", hints: ["I nuovi studenti è maschile plurale: usa <em>li</em> e accorda il participio."] },
+        { key: "g8", title: "Marco ha lasciato la sua ragazza? Rispondi affermativamente con il pronome diretto.", hints: ["La sua ragazza è femminile singolare: usa <em>la</em> e accorda il participio."] },
+        { key: "g9", title: "Avete tradotto tutte le frasi? Rispondi affermativamente con il pronome diretto.", hints: ["Tutte le frasi è femminile plurale: usa <em>le</em> e accorda il participio."] },
+        { key: "g10", title: "Hai visto le foto del mio viaggio in India? Rispondi affermativamente con il pronome diretto.", hints: ["Le foto è femminile plurale: sostituiscile con <em>le</em> e accorda il participio."] },
+        { key: "g11", title: "Avete lavato le tende del salotto? Rispondi affermativamente con il pronome diretto.", hints: ["Le tende è femminile plurale: usa <em>le</em> prima dell’ausiliare e accorda il participio."] },
+        { key: "g12", title: "Hai acceso il forno? Rispondi affermativamente con il pronome diretto.", hints: ["Il forno è maschile singolare: usa <em>lo</em>; davanti ad <em>ho</em> si elide in <em>l’ho</em>. Il participio resta maschile singolare."] },
+        { key: "g13", title: "Hai acceso la luce? Rispondi affermativamente con il pronome diretto.", hints: ["La luce è femminile singolare: usa <em>la</em> (elisa davanti ad <em>ho</em>) e accorda il participio al femminile."] },
+        { key: "g14", title: "Hai spento la luce? Rispondi affermativamente con il pronome diretto.", hints: ["La luce è femminile singolare: usa <em>la</em> davanti all’ausiliare e accorda il participio."] },
+        { key: "g15", title: "Hai spento il forno? Rispondi affermativamente con il pronome diretto.", hints: ["Il forno è maschile singolare: usa <em>lo</em>, che si elide davanti ad <em>ho</em>; il participio termina in <em>-o</em>."] },
+        { key: "g16", title: "Marco ha riparato la moto? Rispondi affermativamente con il pronome diretto.", hints: ["La moto è femminile singolare: usa <em>la</em> e accorda il participio."] },
+        { key: "g17", title: "Marco ha trovato gli occhiali? Rispondi affermativamente con il pronome diretto.", hints: ["Gli occhiali è maschile plurale: usa <em>li</em> e accorda il participio al plurale."] },
+        { key: "g18", title: "Hai preso il caffè? Rispondi affermativamente con il pronome diretto.", hints: ["Il caffè è maschile singolare: usa <em>lo</em>, eliso davanti ad <em>ho</em>; mantieni il participio al maschile singolare."] },
+        { key: "g19", title: "Avete venduto la casa? Rispondi affermativamente con il pronome diretto.", hints: ["La casa è femminile singolare: usa <em>la</em> e accorda il participio."] },
+        { key: "g20", title: "Sandra ha lavato i piatti? Rispondi affermativamente con il pronome diretto.", hints: ["I piatti è maschile plurale: usa <em>li</em> e accorda il participio al plurale maschile."] }
+      ]
+    });
+  </script>
+</body>
+</html>
