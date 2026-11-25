@@ -238,9 +238,14 @@
         hintsBody.className = "didactic-hints-body";
         if (hintsLang) hintsBody.lang = hintsLang;
         const hintsList = document.createElement("ul");
-        hints.forEach(hintText => {
+                hints.forEach(hint => {
           const li = document.createElement("li");
-          li.textContent = hintText;
+          if (hint && typeof hint === "object") {
+            li.textContent = String(hint.text || "");
+            if (hint.lang) li.lang = String(hint.lang);
+          } else {
+            li.textContent = String(hint);
+          }
           hintsList.appendChild(li);
         });
         hintsBody.appendChild(hintsList);
@@ -273,14 +278,16 @@
       answerInput.disabled = true;
 
       const accentToolbar = createItalianCharToolbar(answerInput, specialChars);
-      const answerNote = document.createElement("p");
+            const answerNote = document.createElement("p");
             answerNote.className = "answer-form-note";
             answerNote.textContent = isDistanceMode
         ? isTeacherView
-          ? "Risposta dello studente, sincronizzata in tempo reale."
-          : "La risposta viene salvata automaticamente e condivisa in tempo reale con l’insegnante."
-        : config.liveDraftOnly
-          ? "La risposta viene salvata e condivisa in tempo reale con l’insegnante."
+          ? "Risposta dello studente salvata per la revisione."
+          : "La risposta viene salvata per la revisione dell’insegnante, senza aggiornamenti in tempo reale."
+                : config.liveDraftOnly
+          ? (isPersonalPractice
+            ? "La risposta viene salvata senza aggiornamenti in tempo reale."
+            : "La risposta viene salvata e condivisa in tempo reale con l’insegnante.")
           : isPersonalPractice
             ? session.activityMode === "individual"
               ? "Le tue risposte vengono salvate in uno spazio personale visibile solo a te."
@@ -515,18 +522,24 @@
       updateNavigation();
     }
 
+        const activityMode = ["distance", "individual"].includes(session.activityMode)
+      ? session.activityMode
+      : "online";
+    const isOnlineMode = activityMode === "online";
     const db = window.ParloModes ? ParloModes.initFirebase() : null;
     if (!db) {
       setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
     } else {
-      const connectedRef = db.ref(".info/connected");
-      connectedRef.on("value", snap => {
-        if (snap.val() === false) {
-          setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
-        } else {
-          setConnectionMessage("");
-        }
-      });
+      if (isOnlineMode) {
+        const connectedRef = db.ref(".info/connected");
+        connectedRef.on("value", snap => {
+          if (snap.val() === false) {
+            setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
+          } else {
+            setConnectionMessage("");
+          }
+        });
+      }
 
       const exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${exercisePath}`);
       sync = ParloModes.createSync({
@@ -535,6 +548,8 @@
         database: db,
         session,
         slots,
+        realtime: isOnlineMode,
+        trackPresence: isOnlineMode,
         onChange(snapshotState) {
           renderAllCards(snapshotState.onlineStudents);
         },
@@ -544,7 +559,7 @@
         }
       });
 
-      if (isTeacherView) {
+      if (isTeacherView && isOnlineMode) {
         cardUI.forEach((ui, index) => {
           sync.bindAssignmentSelect(ui.assignSelect, slots[index].id);
         });

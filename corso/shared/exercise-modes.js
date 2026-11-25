@@ -100,7 +100,9 @@
     }
 
         const state = { assignments: {}, root: {}, student: {}, students: {}, viewStudent: {} };
-    const listeners = [];
+        const listeners = [];
+    const refreshTargets = [];
+    const realtime = options.realtime !== false;
     const assignmentMenus = new Set();
     let reviewStudentId = isTeacher && activityMode === "distance"
       ? SAFE_KEY(window.ParloReviewStudentId || "")
@@ -183,9 +185,25 @@
       assignmentMenus.forEach(renderAssignmentMenu);
     }
 
-    function listen(target, handler) {
+        function listen(target, handler) {
+      if (!realtime) {
+        refreshTargets.push([target, handler]);
+        target.once("value").then(handler).catch(error => options.onError?.(error));
+        return;
+      }
       target.on("value", handler, error => options.onError?.(error));
       listeners.push([target, handler]);
+    }
+
+    function refreshAfterWrite(promise) {
+      return promise.then(async result => {
+        if (!realtime && !closed) {
+          await Promise.all(refreshTargets.map(([target, handler]) =>
+            target.once("value").then(handler)
+          ));
+        }
+        return result;
+      });
     }
 
     function parseOnlinePresence(presenceTree) {
@@ -234,28 +252,28 @@
         item.id !== key && sameIdentity(person, state.assignments[item.id]))) {
         return Promise.reject(new Error("Assegna ogni slot a uno studente diverso."));
       }
-      return assignmentRef(mode === "single-turn" ? undefined : key).set(person);
+      return refreshAfterWrite(assignmentRef(mode === "single-turn" ? undefined : key).set(person));
     }
 
         function setMode() {
       if (!isTeacher || reviewStudentId) return Promise.reject(new Error("La modalità non è modificabile durante la revisione."));
 
-      return ref.child("controlAssignments").child("mode").set(mode);
+      return refreshAfterWrite(ref.child("controlAssignments").child("mode").set(mode));
     }
 
     function write(path, value, slot) {
       if (!canWrite(slot)) return Promise.reject(new Error("Non hai i permessi di scrittura per questo campo."));
-      return pathRef(ref, valuePath(path, slot)).set(value);
+      return refreshAfterWrite(pathRef(ref, valuePath(path, slot)).set(value));
     }
 
     function remove(path, slot) {
       if (!canWrite(slot)) return Promise.reject(new Error("Non hai i permessi di scrittura per questo campo."));
-      return pathRef(ref, valuePath(path, slot)).remove();
+      return refreshAfterWrite(pathRef(ref, valuePath(path, slot)).remove());
     }
 
     function push(path, value, slot) {
       if (!canWrite(slot)) return Promise.reject(new Error("Non hai i permessi di scrittura per questo campo."));
-      return pathRef(ref, valuePath(path, slot)).push().set(value);
+      return refreshAfterWrite(pathRef(ref, valuePath(path, slot)).push().set(value));
     }
 
         function assignmentFor(slot) {
@@ -434,8 +452,13 @@
       assignmentFor,
       bindAssignmentSelect,
       setRoster,
-      setOnlineNames,
-            close() {
+            setOnlineNames,
+      refresh() {
+        return Promise.all(refreshTargets.map(([target, handler]) =>
+          target.once("value").then(handler)
+        ));
+      },
+      close() {
         closed = true;
         listeners.forEach(([target, handler]) => target.off("value", handler));
         listeners.length = 0;

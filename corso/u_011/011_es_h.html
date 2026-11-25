@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Unisci le frasi e coniuga il verbo fare al presente, con suggerimenti in russo e italiano. Unità 11, Esercizio H." />
+  <title>Unità 11 — Il verbo fare: anche noi · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_h" data-next-href="011_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>Il verbo <em>fare</em>: anche noi</h1>
+      <p class="hero-subtitle">Unisci le frasi usando un solo soggetto e coniuga correttamente il verbo.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio H · Объедини предложения</h2>
+      <div class="instruction-text">
+        <p><strong>Объедини две части в одно предложение:</strong> используй <em>e</em> и поставь глагол <em>fare</em> в правильную форму. / <strong>Unisci le due parti in una sola frase:</strong> usa <em>e</em> e coniuga <em>fare</em> correttamente.</p>
+        <p><strong>Esempio:</strong> Io faccio sport; anche Marco fa sport. → Io e Marco facciamo sport.</p>
+        <p>In modalità online si rispettano i turni e le risposte si aggiornano in tempo reale. In modalità distanza lavori individualmente; in modalità allenamento ti eserciti nel tuo spazio personale. Distanza e allenamento salvano senza aggiornamenti realtime.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Unisci le frasi con il verbo fare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_h",
+      itemsLabel: "Frase",
+      hintsLang: "it",
+      placeholder: "Riscrivi qui la frase unita in italiano...",
+      submitLabel: "Invia risposta",
+      questions: [
+        {
+          key: "h1",
+          title: "Io faccio colazione presto; anche i miei genitori fanno colazione presto.",
+          hints: [
+            { lang: "ru", text: "Объедини «io» и «i miei genitori»: говорящий входит в группу. Какое местоимение подходит?" },
+            { lang: "it", text: "Unisci «io» e «i miei genitori»: chi parla è incluso nel gruppo. Quale pronome usi?" }
+          ]
+        },
+        {
+          key: "h2",
+          title: "Tu fai la spesa al supermercato; anche la signora Carlini fa la spesa al supermercato.",
+          hints: [
+            { lang: "ru", text: "Объедини «tu» и синьору Карлини. Какая форма обращения используется для группы, в которую входит собеседник?" },
+            { lang: "it", text: "Unisci «tu» e la signora Carlini. Quale forma si usa per un gruppo che include la persona a cui si parla?" }
+          ]
+        },
+        {
+          key: "h3",
+          title: "Marco fa la doccia la mattina; anche Stefano fa la doccia la mattina.",
+          hints: [
+            { lang: "ru", text: "Здесь два человека. Объедини имена и выбери форму fare для «loro»." },
+            { lang: "it", text: "Ci sono due persone: unisci i nomi e scegli la forma di fare per «loro»." }
+          ]
+        },
+        {
+          key: "h4",
+          title: "Io faccio ginnastica la sera; anche Laura fa ginnastica la sera.",
+          hints: [
+            { lang: "ru", text: "Говорящий занимается вместе с Лаурой. Объедини подлежащие и согласуй fare." },
+            { lang: "it", text: "Chi parla fa ginnastica con Laura. Unisci i soggetti e accorda fare." }
+          ]
+        },
+        {
+          key: "h5",
+          title: "Mio padre fa l’avvocato; anche tuo padre fa l’avvocato.",
+          hints: [
+            { lang: "ru", text: "Объедини два подлежащих «mio padre» и «tuo padre»: речь идёт об одном человеке или о нескольких?" },
+            { lang: "it", text: "Unisci «mio padre» e «tuo padre»: il soggetto composto è singolare o plurale?" }
+          ]
+        },
+        {
+          key: "h6",
+          title: "Tu fai colazione in cucina; anche i tuoi amici fanno colazione in cucina.",
+          hints: [
+            { lang: "ru", text: "«Tu» и твои друзья образуют группу. Выбери правильную форму fare для этой группы." },
+            { lang: "it", text: "«Tu» e i tuoi amici formano un gruppo: scegli la forma corretta di fare." }
+          ]
+        },
+        {
+          key: "h7",
+          title: "Io faccio un lavoro interessante; anche Giorgio fa un lavoro interessante.",
+          hints: [
+            { lang: "ru", text: "Говорящий входит в группу вместе с Джорджо. Объедини подлежащие и измени fare." },
+            { lang: "it", text: "Chi parla è nel gruppo insieme a Giorgio. Unisci i soggetti e modifica fare." }
+          ]
+        },
+        {
+          key: "h8",
+          title: "Tu fai tardi la sera; anche Daria fa tardi la sera.",
+          hints: [
+            { lang: "ru", text: "Сочетание «tu + Daria» соответствует «voi» или «loro»? Поставь fare в нужную форму." },
+            { lang: "it", text: "La combinazione «tu + Daria» corrisponde a «voi» o a «loro»? Coniuga fare." }
+          ]
+        },
+        {
+          key: "h9",
+          title: "Io faccio la doccia tutti i giorni; anche mio fratello fa la doccia tutti i giorni.",
+          hints: [
+            { lang: "ru", text: "Объедини говорящего и его брата. Какое местоимение и какая форма fare подходят?" },
+            { lang: "it", text: "Unisci chi parla e suo fratello. Quale pronome e quale forma di fare sono adatti?" }
+          ]
+        },
+        {
+          key: "h10",
+          title: "Marco non fa niente la sera; anche Stefano non fa niente la sera.",
+          hints: [
+            { lang: "ru", text: "Объедини два имени. Сохрани отрицание «non» и используй форму fare для двух людей." },
+            { lang: "it", text: "Unisci i due nomi, mantieni la negazione «non» e usa la forma di fare per due persone." }
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

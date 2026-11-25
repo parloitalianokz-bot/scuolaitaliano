@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con stare + gerundio, Unità 11, Esercizio J." />
+  <title>Unità 11 — Stare + gerundio · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_j" data-next-href="011_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1><em>Stare</em> + gerundio</h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta del presente progressivo.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio J · Completa le frasi</h2>
+      <div class="instruction-text">
+        <p>Inserisci nello spazio la forma corretta di <em>stare + gerundio</em>. In modalità online rispetta i turni assegnati e le risposte si aggiornano in tempo reale; in modalità distanza lavori individualmente; in modalità allenamento ti eserciti nel tuo spazio personale. Distanza e allenamento salvano le risposte senza aggiornamenti realtime.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa le frasi con stare più gerundio">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_j",
+      itemsLabel: "Frase",
+      sentences: [
+        {
+          id: "j1",
+          hints: [
+            { lang: "ru", text: "Стефано — один человек: выбери форму stare для lui и образуй gerundio от uscire." },
+            { lang: "it", text: "Stefano è una sola persona: usa stare con lui e forma il gerundio di uscire." }
+          ],
+          parts: ["Stefano (uscire) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta uscendo" }, " di casa."]
+        },
+        {
+          id: "j2",
+          hints: [
+            { lang: "ru", text: "Для одного человека используй sta. Вспомни неправильный gerundio глагола fare." },
+            { lang: "it", text: "Per una persona usa sta. Ricorda il gerundio irregolare di fare." }
+          ],
+          parts: ["La signora Franca (fare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta facendo" }, " le pulizie."]
+        },
+        {
+          id: "j3",
+          hints: [
+            { lang: "ru", text: "Мирко — один человек. Для глаголов на -are замени окончание на -ando." },
+            { lang: "it", text: "Mirko è una persona: per i verbi in -are sostituisci la desinenza con -ando." }
+          ],
+          parts: ["Mirko (guardare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta guardando" }, " la TV."]
+        },
+        {
+          id: "j4",
+          hints: [
+            { lang: "ru", text: "Два человека требуют stanno. В gerundio от leggere сохраняется двойная g." },
+            { lang: "it", text: "Due persone richiedono stanno. Nel gerundio di leggere conserva la doppia g." }
+          ],
+          parts: ["Lucia e il nonno (leggere) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stanno leggendo" }, " la favola della «Bella e la Bestia»."]
+        },
+        {
+          id: "j5",
+          hints: [
+            { lang: "ru", text: "Говорящий — io: используй sto. У fare неправильная форма gerundio." },
+            { lang: "it", text: "Chi parla è io: usa sto. Fare ha un gerundio irregolare." }
+          ],
+          parts: ["Io (fare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sto facendo" }, " la doccia e non posso rispondere al telefono."]
+        },
+        {
+          id: "j6",
+          hints: [
+            { lang: "ru", text: "Il sig. Volpi — один человек: используй sta. Образуй gerundio от spegnere." },
+            { lang: "it", text: "Il signor Volpi è una persona: usa sta e forma il gerundio di spegnere." }
+          ],
+          parts: ["Il sig. Volpi (spegnere) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta spegnendo" }, " il computer perché ha finito di lavorare."]
+        },
+        {
+          id: "j7",
+          hints: [
+            { lang: "ru", text: "Два имени соответствуют loro: используй stanno. У giocare замени -are на -ando." },
+            { lang: "it", text: "Due nomi corrispondono a loro: usa stanno. In giocare cambia -are in -ando." }
+          ],
+          parts: ["Andrea e Alberto (giocare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stanno giocando" }, " alla PlayStation."]
+        },
+        {
+          id: "j8",
+          hints: [
+            { lang: "ru", text: "С noi используй stiamo. Для andare образуй gerundio с окончанием -ando." },
+            { lang: "it", text: "Con noi usa stiamo. Forma il gerundio di andare con la desinenza -ando." }
+          ],
+          parts: ["Noi (andare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stiamo andando" }, " a trovare i nonni che non vediamo spesso."]
+        },
+        {
+          id: "j9",
+          hints: [
+            { lang: "ru", text: "I turisti — это loro: используй stanno. Не забудь неправильную форму facendo." },
+            { lang: "it", text: "I turisti corrisponde a loro: usa stanno. Ricorda la forma irregolare facendo." }
+          ],
+          parts: ["I turisti (fare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stanno facendo" }, " una foto davanti al Colosseo."]
+        },
+        {
+          id: "j10",
+          hints: [
+            { lang: "ru", text: "Пропущенное подлежащее — Maria: используй sta. Образуй gerundio от ascoltare." },
+            { lang: "it", text: "Il soggetto sottinteso è Maria: usa sta. Forma il gerundio di ascoltare." }
+          ],
+          parts: ["Maria non ti sente: (ascoltare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta ascoltando" }, " la musica con le cuffie."]
+        },
+        {
+          id: "j11",
+          hints: [
+            { lang: "ru", text: "Carlo — один человек: выбери sta. У parlare замени -are на -ando." },
+            { lang: "it", text: "Carlo è una persona: scegli sta. In parlare sostituisci -are con -ando." }
+          ],
+          parts: ["Carlo è al telefono da più di un’ora: ma con chi (parlare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta parlando" }, "?"]
+        },
+        {
+          id: "j12",
+          hints: [
+            { lang: "ru", text: "Katia и Michela — несколько человек: используй stanno. Сохрани двойную t в chattando." },
+            { lang: "it", text: "Katia e Michela sono più persone: usa stanno. Conserva la doppia t in chattando." }
+          ],
+          parts: ["Katia e Michela (chattare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stanno chattando" }, " su Facebook."]
+        },
+        {
+          id: "j13",
+          hints: [
+            { lang: "ru", text: "Marco — один человек: используй sta. Образуй gerundio от chiudere с окончанием -endo." },
+            { lang: "it", text: "Marco è una persona: usa sta. Forma il gerundio di chiudere con -endo." }
+          ],
+          parts: ["Marco (chiudere) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta chiudendo" }, " la finestra perché ha freddo."]
+        },
+        {
+          id: "j14",
+          hints: [
+            { lang: "ru", text: "Для Marina используй sta. В gerundio mettere сохрани двойную t." },
+            { lang: "it", text: "Per Marina usa sta. Nel gerundio di mettere conserva la doppia t." }
+          ],
+          parts: ["Marina (mettere) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta mettendo" }, " la torta nel forno."]
+        },
+        {
+          id: "j15",
+          hints: [
+            { lang: "ru", text: "Подлежащее, не выраженное в предложении, — il direttore: используй sta facendo." },
+            { lang: "it", text: "Il soggetto sottinteso è il direttore: usa sta facendo." }
+          ],
+          parts: ["Il direttore è occupato: (fare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta facendo" }, " una telefonata."]
+        },
+        {
+          id: "j16",
+          hints: [
+            { lang: "ru", text: "Говорящий использует форму io: выбери sto и образуй gerundio от scendere." },
+            { lang: "it", text: "Chi parla usa io: scegli sto e forma il gerundio di scendere." }
+          ],
+          parts: ["Arrivo tra 5 minuti: (scendere) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sto scendendo" }, " dal treno."]
+        },
+        {
+          id: "j17",
+          hints: [
+            { lang: "ru", text: "Для io используй sto. У navigare замени -are на -ando." },
+            { lang: "it", text: "Con io usa sto. In navigare cambia -are in -ando." }
+          ],
+          parts: ["Io (navigare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sto navigando" }, " in internet."]
+        },
+        {
+          id: "j18",
+          hints: [
+            { lang: "ru", text: "Noi требует stiamo. Образуй gerundio от prenotare." },
+            { lang: "it", text: "Noi richiede stiamo. Forma il gerundio di prenotare." }
+          ],
+          parts: ["Noi (prenotare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stiamo prenotando" }, " l’hotel su «Booking.com»."]
+        },
+        {
+          id: "j19",
+          hints: [
+            { lang: "ru", text: "Gli impiegati — множественное число: используй stanno. Вспомни gerundio facendo." },
+            { lang: "it", text: "Gli impiegati è plurale: usa stanno. Ricorda il gerundio facendo." }
+          ],
+          parts: ["Gli impiegati (fare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "stanno facendo" }, " una videochiamata con i colleghi francesi."]
+        },
+        {
+          id: "j20",
+          hints: [
+            { lang: "ru", text: "La lezione è un soggetto singolare: usa sta. Образуй gerundio от cominciare." },
+            { lang: "it", text: "La lezione è un soggetto singolare: usa sta. Forma il gerundio di cominciare." }
+          ],
+          parts: ["Adesso devo andare: la lezione di italiano (cominciare) ", { id: "v1", input: true, placeholder: "stare + gerundio", correct: "sta cominciando" }, "."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

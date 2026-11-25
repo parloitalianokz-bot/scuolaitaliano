@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il racconto La casalinga con le forme corrette dei verbi al presente, Unità 11." />
+  <title>Unità 11 — La casalinga · Esercizio C</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_c" data-next-href="011_es_d.html" data-next-label="Vai all’esercizio D →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Completa il racconto con la forma corretta dei verbi al presente.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio C · Completa il testo</h2>
+      <div class="instruction-text">
+        <p>Inserisci negli spazi la forma corretta dei verbi al presente. In modalità online rispetta i turni assegnati; in modalità distanza completa il lavoro individualmente; in modalità allenamento esercitati nel tuo spazio personale. Le risposte vengono salvate, ma solo online si aggiornano in tempo reale.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa il racconto La casalinga">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un paragrafo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei paragrafi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei paragrafi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successivo →</button>
+        <a id="next-exercise" href="011_es_d.html" hidden>Vai all’esercizio D →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_c",
+      itemsLabel: "Paragrafo",
+      sentences: [
+        {
+          id: "c1",
+          hintsLang: "it",
+          hints: [
+            "Individua il soggetto di ogni verbo: la giornata comincia, Maria prepara la colazione, il marito guarda la televisione e i bambini dormono.",
+            "Fai attenzione alla persona: «preparare» riferito a Maria diventa «prepara»; con «i bambini» usa il plurale «dormono»."
+          ],
+          parts: [
+            "La mia giornata ", { id: "v1", input: true, placeholder: "cominciare", correct: "comincia" },
+            " la mattina alle sette. ", { id: "v2", input: true, placeholder: "preparare", correct: "preparo" },
+            " la colazione per tutta la famiglia, mentre mio marito ", { id: "v3", input: true, placeholder: "guardare", correct: "guarda" },
+            " la televisione in camera da letto e i bambini ", { id: "v4", input: true, placeholder: "dormire", correct: "dormono" },
+            " ancora."
+          ]
+        },
+        {
+          id: "c2",
+          hintsLang: "it",
+          hints: [
+            "Il soggetto sottinteso è Maria: usa la prima persona singolare per «portare», «andare» e «fare».",
+            "Attenzione ai verbi irregolari: «andare» diventa «vado» e «fare» diventa «faccio»."
+          ],
+          parts: [
+            "Alle otto e mezzo ", { id: "v1", input: true, placeholder: "portare", correct: "porto" },
+            " i bambini a scuola, poi ", { id: "v2", input: true, placeholder: "andare", correct: "vado" },
+            " al supermercato e ", { id: "v3", input: true, placeholder: "fare", correct: "faccio" },
+            " la spesa."
+          ]
+        },
+        {
+          id: "c3",
+          hintsLang: "it",
+          hints: [
+            "Alle undici il soggetto sottinteso è Maria: «tornare» e «preparare» sono alla prima persona singolare.",
+            "All’una il soggetto diventa «noi»: usa il presente plurale per «andare» e «mangiare»."
+          ],
+          parts: [
+            "Alle undici ", { id: "v1", input: true, placeholder: "tornare", correct: "torno" },
+            " a casa e ", { id: "v2", input: true, placeholder: "preparare", correct: "preparo" },
+            " il pranzo, mentre mio marito guarda la televisione in salotto. All’una ",
+            { id: "v3", input: true, placeholder: "andare", correct: "andiamo" },
+            " a mangiare. Mentre ", { id: "v4", input: true, placeholder: "mangiare", correct: "mangiamo" },
+            ", mio marito guarda la televisione in cucina."
+          ]
+        },
+        {
+          id: "c4",
+          hintsLang: "it",
+          hints: [
+            "Maria parla di sé: «vado» è alla prima persona singolare. In «torniamo» il soggetto è «noi».",
+            "I soggetti «i bambini» restano al plurale: «studiano» e «giocano». Per «io pulisco» usa la prima persona singolare."
+          ],
+          parts: [
+            "Dopo pranzo ", { id: "v1", input: true, placeholder: "andare", correct: "vado" },
+            " a prendere i bambini a scuola. Alle tre ", { id: "v2", input: true, placeholder: "tornare", correct: "torniamo" },
+            " a casa: i bambini ", { id: "v3", input: true, placeholder: "studiare", correct: "studiano" },
+            " un po’ e poi ", { id: "v4", input: true, placeholder: "giocare", correct: "giocano" },
+            " in salotto, mentre io ", { id: "v5", input: true, placeholder: "pulire", correct: "pulisco" },
+            " la casa e mio marito guarda la televisione in bagno."
+          ]
+        },
+        {
+          id: "c5",
+          hintsLang: "it",
+          hints: [
+            "La narratrice parla in prima persona: «preparo», «lavo», «porto» e «faccio».",
+            "Con «noi» per cenare usa «ceniamo». Ricorda la forma irregolare «faccio» del verbo «fare»."
+          ],
+          parts: [
+            "Alle sette ", { id: "v1", input: true, placeholder: "preparare", correct: "preparo" },
+            " la cena e alle otto e mezzo ", { id: "v2", input: true, placeholder: "cenare", correct: "ceniamo" },
+            ". Poi io ", { id: "v3", input: true, placeholder: "lavare", correct: "lavo" },
+            " i piatti. Alle dieci ", { id: "v4", input: true, placeholder: "portare", correct: "porto" },
+            " i bambini a letto, e alle dieci e mezzo ", { id: "v5", input: true, placeholder: "fare", correct: "faccio" },
+            " una passeggiata in giardino con il cane."
+          ]
+        },
+        {
+          id: "c6",
+          hintsLang: "it",
+          hints: [
+            "A mezzanotte il soggetto sottinteso è Maria: usa «vado». Il marito guarda la televisione: «guarda» è già scritto.",
+            "Alla fine il soggetto sottinteso è «noi»: il presente di «dormire» è «dormiamo»."
+          ],
+          parts: [
+            "A mezzanotte ", { id: "v1", input: true, placeholder: "andare", correct: "vado" },
+            " in camera da letto; mio marito ", { id: "v2", input: true, placeholder: "guardare", correct: "guarda" },
+            " ancora un po’ la televisione e poi finalmente ",
+            { id: "v3", input: true, placeholder: "dormire", correct: "dormiamo" }, "."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

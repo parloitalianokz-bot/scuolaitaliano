@@ -100,7 +100,8 @@
       ParloExercise.decorateSessionLinks?.();
     }
 
-    const unitNumber = Number(config.unitNumber || 1);
+        const unitNumber = Number(config.unitNumber || 1);
+    const itemLabel = String(config.itemsLabel || "Frase");
     const exercisePath = String(
       config.exercisePath ||
       location.pathname.split("/").pop().replace(/\.html$/i, "").replace(/[.#$\/\[\]]/g, "_") ||
@@ -113,9 +114,10 @@
       return null;
     }
 
-        const session = window.ParloSession || {};
+            const session = window.ParloSession || {};
+    const activityMode = ["distance", "individual"].includes(session.activityMode) ? session.activityMode : "online";
     const isTeacherView = Boolean(session.isTeacher);
-    const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
+    const isPersonalPractice = !isTeacherView && activityMode !== "online";
     const safeGroup = session.safeGroup || "sconosciuto";
     const groupName = session.group || "";
     const myIdentityName = isTeacherView ? "Insegnante" : String(session.name || "").trim();
@@ -136,7 +138,7 @@
 
     const slots = sentences.map((_, index) => ({
       id: `card_${index}`,
-      label: `${index + 1}. Frase ${index + 1}`
+      label: `${index + 1}. ${itemLabel} ${index + 1}`
     }));
 
     let db = null;
@@ -210,7 +212,7 @@
         group: safeGroup,
         exercise: exercisePath,
         card: scopeKey,
-        cardLabel: `Frase ${index + 1}`
+        cardLabel: `${itemLabel} ${index + 1}`
       };
       window.dispatchEvent(new CustomEvent("parlo:notes-scope-changed", {
         detail: window.ParloNotesScope
@@ -328,7 +330,7 @@
       numSpan.className = "number";
       numSpan.textContent = String(cardIndex + 1);
       const textSpan = document.createElement("span");
-      textSpan.textContent = `Frase ${cardIndex + 1} di ${sentences.length}`;
+      textSpan.textContent = `${itemLabel} ${cardIndex + 1} di ${sentences.length}`;
       title.append(numSpan, textSpan);
 
       const turnPill = document.createElement("span");
@@ -430,7 +432,7 @@
             inputList.push(input);
           }
           input.disabled = true;
-          input.setAttribute("aria-label", `Spazio ${blankCounter} nella frase ${cardIndex + 1}`);
+          input.setAttribute("aria-label", `Spazio ${blankCounter} nel ${itemLabel.toLowerCase()} ${cardIndex + 1}`);
 
           const mark = document.createElement("span");
           mark.className = "blank-mark";
@@ -461,9 +463,14 @@
         const ul = document.createElement("ul");
         ul.className = "hints-list";
                    ul.setAttribute("lang", sentence.hintsLang || "ru");
-        sentence.hints.forEach(hintText => {
+                sentence.hints.forEach(hint => {
           const li = document.createElement("li");
-          li.textContent = hintText;
+          if (hint && typeof hint === "object") {
+            li.textContent = hint.text || "";
+            if (hint.lang) li.setAttribute("lang", hint.lang);
+          } else {
+            li.textContent = hint;
+          }
           ul.appendChild(li);
         });
         hintsDetails.append(summary, ul);
@@ -510,8 +517,8 @@
       const historyTitle = document.createElement("h3");
             historyTitle.className = "history-title";
       historyTitle.textContent = isPersonalPractice
-        ? `📜 Le tue risposte inviate · Frase ${cardIndex + 1}`
-        : `📜 Contributi inviati · Frase ${cardIndex + 1}`;
+                ? `📜 Le tue risposte inviate · ${itemLabel} ${cardIndex + 1}`
+        : `📜 Contributi inviati · ${itemLabel} ${cardIndex + 1}`;
       const historyList = document.createElement("div");
       historyList.className = "history-list";
       historySection.append(historyTitle, historyList);
@@ -542,7 +549,7 @@
         button.type = "button";
         button.className = "progress-step";
         button.textContent = String(index + 1);
-        button.setAttribute("aria-label", `Vai alla frase ${index + 1}`);
+                 button.setAttribute("aria-label", `Vai al ${itemLabel.toLowerCase()} ${index + 1}`);
         button.setAttribute("aria-current", index === activeCard ? "step" : "false");
         button.addEventListener("click", () => showCard(index));
         exerciseProgress.appendChild(button);
@@ -621,7 +628,7 @@
       }
 
       if (progressText) {
-        progressText.textContent = `Frase ${activeCard + 1} di ${sentences.length}`;
+        progressText.textContent = `${itemLabel} ${activeCard + 1} di ${sentences.length}`;
       }
     }
 
@@ -738,21 +745,25 @@
     if (!db) {
       setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
     } else {
-      db.ref(".info/connected").on("value", snap => {
-        if (snap.val() === false) {
-          setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
-        } else {
-          setConnectionMessage("");
-        }
-      });
+            if (activityMode === "online") {
+        db.ref(".info/connected").on("value", snap => {
+          if (snap.val() === false) {
+            setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
+          } else {
+            setConnectionMessage("");
+          }
+        });
+      }
 
       exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${exercisePath}`);
       sync = ParloModes.createSync({
         mode: "multi-turn",
         ref: exerciseRef,
         database: db,
-        session,
+                session,
         slots,
+        realtime: activityMode === "online",
+        trackPresence: activityMode === "online",
         onChange(snapshotState) {
           renderAllCards(snapshotState?.onlineStudents || new Set());
         },
@@ -762,13 +773,15 @@
         }
       });
 
-      if (isTeacherView) {
+            if (isTeacherView) {
         cardUI.forEach((ui, index) => {
           sync.bindAssignmentSelect(ui.assignSelect, slots[index].id);
         });
-        ParloModes.loadGroupRoster(db, safeGroup, unitNumber, roster => {
-          sync.setRoster(roster);
-        });
+        if (activityMode === "online") {
+          ParloModes.loadGroupRoster(db, safeGroup, unitNumber, roster => {
+            sync.setRoster(roster);
+          });
+        }
       }
 
       if (unitGate && groupName && nextUnitLink && nextUnitStatus) {

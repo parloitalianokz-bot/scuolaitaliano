@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi oralmente alle domande sulla giornata quotidiana, Unità 11, Esercizio O." />
+  <title>Unità 11 — La giornata quotidiana · Esercizio O</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=4" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .unit-gate { margin: 18px 0 28px; padding: 18px; border: 1px solid #d8e5d8; border-radius: 18px; background: var(--primary-light); text-align: center; }
+    .unit-gate p { margin: 0 0 10px; color: var(--primary-dark); }
+    .unit-gate a, .unit-gate button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin: 4px; padding: 9px 18px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .unit-gate a[aria-disabled="true"] { background: #879187; cursor: not-allowed; pointer-events: none; }
+    .unit-gate button:disabled { opacity: .6; cursor: wait; }
+    #unit-next-status { margin: 10px 0 0; color: var(--text-muted); font-size: .9rem; }
+  </style>
+</head>
+<body data-page-key="011_es_o" data-next-href="../u_012/012_lettura.html" data-next-label="Vai all’Unità 12 →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Produzione orale</span>
+      <h1>La giornata quotidiana</h1>
+      <p class="hero-subtitle">Rispondi alle domande e poi rivolgile al tuo compagno.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💬 Esercizio O · Parliamo</h2>
+      <div class="instruction-text">
+        <p>Rispondi con frasi complete usando il microfono o la tastiera.</p>
+        <p lang="ru">Отвечай полными предложениями с помощью микрофона или клавиатуры.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Domande sulla giornata quotidiana">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="#unit-gate" hidden>Vai allo sblocco dell’Unità 12 ↓</a>
+      </nav>
+    </section>
+
+    <section class="unit-gate" id="unit-gate" aria-labelledby="unit-next-heading" hidden>
+      <p id="unit-next-heading"><strong>Hai terminato l’Unità 11!</strong></p>
+      <button id="unlock-unit-next" type="button" hidden>🔓 Sblocca l’Unità 12 per il gruppo</button>
+      <a id="unit-next-link" href="../u_012/012_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 12 →</a>
+      <p id="unit-next-status" role="status" aria-live="polite">Unità 12 bloccata: attendi l’autorizzazione dell’insegnante.</p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/speech-exercise.js?v=4"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_o",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "o1",
+          title: "Colazione",
+          intro: "Usa alle + l’ora. · Используй alle + время.",
+          prompts: ["A che ora fai colazione? Che cosa mangi o bevi di solito, e fai colazione a casa o fuori?"]
+        },
+        {
+          key: "o2",
+          title: "La doccia",
+          intro: "Puoi aggiungere quando fai la doccia. · Добавь, когда ты принимаешь душ.",
+          prompts: ["A che ora fai la doccia e quanto tempo ci metti? La fai la mattina o la sera? Che cosa fai subito dopo?"]
+        },
+        {
+          key: "o3",
+          title: "Uscire di casa",
+          intro: "Rispondi con esco di casa alle… · Ответь: esco di casa alle…",
+          prompts: ["A che ora esci di casa la mattina? Dove vai, come ci arrivi e con chi, di solito?"]
+        },
+        {
+          key: "o4",
+          title: "Il pranzo",
+          intro: "Aggiungi dove o con chi pranzi. · Добавь, где или с кем ты обедаешь.",
+          prompts: ["A che ora pranzi? Dove pranzi e con chi? Che cosa mangi di solito e quanto dura la pausa pranzo?"]
+        },
+        {
+          key: "o5",
+          title: "La cena",
+          intro: "Confronta l’ora della cena con quella del pranzo. · Сравни время ужина и обеда.",
+          prompts: ["A che ora ceni? Con chi ceni e che cosa mangiate di solito? Che cosa fai dopo cena?"]
+        },
+        {
+          key: "o6",
+          title: "Il ritorno a casa",
+          intro: "Inizia con torno a casa alle… · Начни с torno a casa alle…",
+          prompts: ["A che ora torni a casa la sera? Da dove torni e come? Che cosa fai appena arrivi a casa?"]
+        },
+        {
+          key: "o7",
+          title: "Andare a dormire",
+          intro: "Puoi dire se l’orario cambia nei giorni festivi. · Расскажи, меняется ли время в выходные.",
+          prompts: ["A che ora vai a dormire? Che cosa fai prima di andare a letto? A che ora ti svegli il giorno dopo, e l’orario cambia nel fine settimana?"]
+        }
+      ]
+    });
+
+    (() => {
+      const session = window.ParloSession || {};
+      const isTeacher = Boolean(session.isTeacher);
+      const safeGroup = session.safeGroup || "";
+      const unitGate = document.getElementById("unit-gate");
+      const unlockBtn = document.getElementById("unlock-unit-next");
+      const nextLink = document.getElementById("unit-next-link");
+      const statusEl = document.getElementById("unit-next-status");
+      const progressBar = document.getElementById("exercise-progress");
+      const targetUnit = 12;
+      let groupUnitNumber = 0;
+      let db = null;
+      let groupRef = null;
+
+      function syncGateVisibility() {
+        const steps = progressBar ? [...progressBar.querySelectorAll(".progress-step")] : [];
+        const lastStep = steps[steps.length - 1];
+        unitGate.hidden = !lastStep || lastStep.getAttribute("aria-current") !== "step";
+      }
+
+      function renderGateState() {
+        const unlocked = groupUnitNumber >= targetUnit;
+        nextLink.setAttribute("aria-disabled", String(!unlocked));
+        nextLink.tabIndex = unlocked ? 0 : -1;
+        unlockBtn.hidden = !isTeacher || !safeGroup || safeGroup === "sconosciuto" || unlocked;
+        statusEl.textContent = unlocked
+          ? "Unità 12 sbloccata per il gruppo."
+          : isTeacher
+            ? "L’Unità 12 è bloccata per il gruppo."
+            : "Unità 12 bloccata: attendi l’autorizzazione dell’insegnante.";
+      }
+
+      nextLink.addEventListener("click", event => {
+        if (groupUnitNumber < targetUnit) event.preventDefault();
+      });
+
+      if (window.firebase && safeGroup && safeGroup !== "sconosciuto") {
+        db = window.ParloModes ? ParloModes.initFirebase() : firebase.database();
+        if (db) {
+          groupRef = db.ref(`configurazioneScuola/gruppi/${safeGroup}`);
+          groupRef.child("unitNumber").on("value", snapshot => {
+            groupUnitNumber = Number(snapshot.val()) || 0;
+            renderGateState();
+          }, () => {
+            statusEl.textContent = "Impossibile verificare l’autorizzazione per l’Unità 12.";
+          });
+
+          unlockBtn.addEventListener("click", async () => {
+            if (!isTeacher || !groupRef) return;
+            unlockBtn.disabled = true;
+            statusEl.textContent = "Salvataggio dello sblocco…";
+            try {
+              const result = await groupRef.child("unitNumber").transaction(current =>
+                Math.max(Number(current) || 0, targetUnit)
+              );
+              if (!result.committed) throw new Error("Aggiornamento non completato");
+              const unlockedUnit = Number(result.snapshot.val()) || targetUnit;
+              await db.ref(`esercizi/gruppi/${safeGroup}/unitNumber`).transaction(current =>
+                Math.max(Number(current) || 0, unlockedUnit)
+              );
+              groupUnitNumber = unlockedUnit;
+              renderGateState();
+            } catch (_) {
+              statusEl.textContent = "Errore durante lo sblocco dell’Unità 12.";
+            } finally {
+              unlockBtn.disabled = false;
+            }
+          });
+        }
+      }
+
+      new MutationObserver(syncGateVisibility).observe(progressBar, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["aria-current"]
+      });
+      requestAnimationFrame(syncGateVisibility);
+      renderGateState();
+    })();
+  </script>
+</body>
+</html>

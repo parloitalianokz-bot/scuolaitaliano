@@ -146,7 +146,27 @@
     let rosterState = {};
     let activeQuestion = 0;
     const cardUI = [];
-    const draftSyncTimers = new Map();
+        const draftSyncTimers = new Map();
+
+    function individualPracticeStorageKey() {
+      return `parlo:practice:${gruppo}:${exerciseKey}:${currentUserId}`;
+    }
+
+    function saveIndividualPractice() {
+      if (!independentPractice || !currentUserId) return;
+      try {
+        localStorage.setItem(individualPracticeStorageKey(), JSON.stringify({ cards: cardsState }));
+      } catch (_) {}
+    }
+
+    function loadIndividualPractice() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(individualPracticeStorageKey()) || "{}");
+        return saved && saved.cards && typeof saved.cards === "object" ? saved.cards : {};
+      } catch (_) {
+        return {};
+      }
+    }
 
     function updateLoginVisibility() {
       studentLogin.classList.toggle("visible", !isTeacherView && !currentUserId);
@@ -292,6 +312,10 @@
         function syncDraftToFirebase(index, text) {
       cardsState[index] = { ...(cardsState[index] || {}), draftQuestion: text };
       updateNavigation();
+      if (independentPractice) {
+        saveIndividualPractice();
+        return;
+      }
       if (!exerciseRef) return;
       clearTimeout(draftSyncTimers.get(index));
       draftSyncTimers.set(index, setTimeout(() => {
@@ -440,14 +464,10 @@
         const goalText = document.createElement("p");
         goalText.className = "es-a-feedback-goal";
         goalText.textContent = `Obiettivo della scheda: ${question.questionGoal || "Non specificato"}`;
-        const generateFeedbackButton = document.createElement("button");
-        generateFeedbackButton.type = "button";
-        generateFeedbackButton.className = "es-a-feedback-button";
-        generateFeedbackButton.textContent = "✨ Genera feedback con l’IA";
         feedbackEditor = document.createElement("textarea");
         feedbackEditor.className = "es-a-feedback-editor";
         feedbackEditor.rows = 8;
-        feedbackEditor.placeholder = "Incolla qui il feedback generato, controllalo e poi salvalo per lo studente.";
+        feedbackEditor.placeholder = "Scrivi il feedback per lo studente, poi salvalo.";
         feedbackEditor.setAttribute("aria-label", "Feedback approvato dall’insegnante");
         const saveFeedbackButton = document.createElement("button");
         saveFeedbackButton.type = "button";
@@ -455,81 +475,6 @@
         saveFeedbackButton.textContent = "💾 Salva feedback per lo studente";
         feedbackStatus = document.createElement("p");
         feedbackStatus.className = "es-a-feedback-status";
-        generateFeedbackButton.addEventListener("click", async () => {
-          const endpoint = String(window.PARLO_AI_REVIEW_URL || "").trim();
-          console.info("[AI review] Click sul pulsante", {
-            endpointConfigured: Boolean(endpoint),
-            teacherView: isTeacherView,
-            activityMode,
-            reviewStudentSelected: Boolean(reviewStudentId)
-          });
-          if (!endpoint) {
-            feedbackStatus.textContent = "Il Worker non è ancora configurato. Segui le istruzioni in cloudflare/README.md.";
-            return;
-          }
-          const studentQuestion = String((cardsState[index] || {}).draftQuestion || questionInput.value || "").trim();
-          if (!studentQuestion) {
-            feedbackStatus.textContent = "Lo studente non ha ancora scritto una domanda da revisionare.";
-            return;
-          }
-          const authFactory = window.firebase?.auth;
-          if (typeof authFactory !== "function") {
-            feedbackStatus.textContent = "Accesso Google docente non disponibile. Torna alla pagina iniziale, accedi di nuovo e ricarica questa pagina.";
-            return;
-          }
-
-          generateFeedbackButton.disabled = true;
-          feedbackStatus.textContent = "Verifica dell’accesso docente…";
-          try {
-            const auth = authFactory.call(window.firebase);
-            let user = auth.currentUser;
-            if (!user) {
-              user = await new Promise(resolve => {
-                let unsubscribe = () => {};
-                let settled = false;
-                const finish = currentUser => {
-                  if (settled) return;
-                  settled = true;
-                  clearTimeout(timeoutId);
-                  unsubscribe();
-                  resolve(currentUser);
-                };
-                const timeoutId = setTimeout(() => finish(null), 8000);
-                unsubscribe = auth.onAuthStateChanged(finish, () => finish(null));
-              });
-            }
-            if (!user) {
-              throw new Error("Accesso Google docente non disponibile. Torna alla pagina iniziale, accedi di nuovo e ricarica questa pagina.");
-            }
-            feedbackStatus.textContent = "Invio della richiesta e generazione del feedback…";
-            const idToken = await user.getIdToken();
-            console.info("[AI review] Invio POST al Worker", new URL(endpoint).origin + new URL(endpoint).pathname);
-            const response = await fetch(endpoint, {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-                "authorization": `Bearer ${idToken}`
-              },
-              body: JSON.stringify({
-                context: question.hint,
-                goal: question.questionGoal || "Non specificato",
-                options: question.options,
-                correctOption: question.correctOption,
-                studentQuestion
-              })
-            });
-            const result = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(result.error || "Impossibile generare il feedback.");
-            feedbackEditor.value = String(result.feedback || "");
-            feedbackStatus.textContent = "Feedback IA pronto. Controllalo e correggilo, se serve, prima di salvarlo per lo studente.";
-            feedbackEditor.focus();
-          } catch (error) {
-            console.error("[AI review] Richiesta non completata", error);
-            feedbackStatus.textContent = error?.message || "Servizio IA non disponibile. Riprova più tardi.";
-          } finally {
-            generateFeedbackButton.disabled = false;
-          }
-        });
         saveFeedbackButton.addEventListener("click", async () => {
           if (!exerciseRef || !reviewStudentId) {
             feedbackStatus.textContent = "Seleziona prima uno studente da revisionare.";
@@ -551,7 +496,7 @@
             saveFeedbackButton.disabled = false;
           }
         });
-        teacherFeedbackPanel.append(feedbackTitle, goalText, generateFeedbackButton, feedbackEditor, saveFeedbackButton, feedbackStatus);
+        teacherFeedbackPanel.append(feedbackTitle, goalText, feedbackEditor, saveFeedbackButton, feedbackStatus);
       } else if (!isTeacherView && activityMode === "distance") {
         studentFeedbackPanel = document.createElement("section");
         studentFeedbackPanel.className = "es-a-student-feedback";
@@ -581,7 +526,7 @@
 
             submitBtn.addEventListener("click", async () => {
         const cardData = cardsState[index] || {};
-        if (reviewStudentId || !exerciseRef || !currentUserId || (!independentPractice && cardData.questionAssignee !== currentUserId)) return;
+        if (reviewStudentId || (!exerciseRef && !independentPractice) || !currentUserId || (!independentPractice && cardData.questionAssignee !== currentUserId)) return;
 
         const formatted = ensureQuestionMark(questionInput.value);
         if (!formatted) {
@@ -591,14 +536,29 @@
         clearTimeout(draftSyncTimers.get(index));
         draftSyncTimers.delete(index);
 
-        const cardRef = exerciseRef.child("cards").child(String(index));
-        await cardRef.child("contributions").push().set({
-          text: formatted,
-          authorId: currentUserId,
-          authorName: isTeacherView ? "Insegnante" : currentUserName,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-        await cardRef.child("draftQuestion").set("");
+                if (independentPractice) {
+          const contributions = { ...(cardData.contributions || {}) };
+          const contributionId = `local_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+          contributions[contributionId] = {
+            text: formatted,
+            authorId: currentUserId,
+            authorName: currentUserName,
+            timestamp: Date.now()
+          };
+          cardsState[index] = { ...cardData, contributions, draftQuestion: "" };
+          saveIndividualPractice();
+          renderCard(index);
+          updateNavigation();
+        } else {
+          const cardRef = exerciseRef.child("cards").child(String(index));
+          await cardRef.child("contributions").push().set({
+            text: formatted,
+            authorId: currentUserId,
+            authorName: isTeacherView ? "Insegnante" : currentUserName,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+          });
+          await cardRef.child("draftQuestion").set("");
+        }
         questionInput.value = "";
         questionInput.focus();
       });
@@ -650,20 +610,27 @@
         badgeSpan.className = "option-feedback-badge";
         button.append(mainSpan, badgeSpan);
 
-                                button.addEventListener("click", () => {
-                    const cardData = cardsState[index] || {};
-          if (reviewStudentId || !exerciseRef || !currentUserId || (!independentPractice && cardData.answerAssignee !== currentUserId)) return;
+                                        button.addEventListener("click", () => {
+          const cardData = cardsState[index] || {};
+          if (reviewStudentId || (!exerciseRef && !independentPractice) || !currentUserId || (!independentPractice && cardData.answerAssignee !== currentUserId)) return;
 
           const answerUpdate = {
             selectedOption: optionIndex,
             answeredBy: isTeacherView ? "Insegnante" : currentUserName,
-            answeredAt: firebase.database.ServerValue.TIMESTAMP
+            answeredAt: independentPractice ? Date.now() : firebase.database.ServerValue.TIMESTAMP
           };
-          exerciseRef.child("cards").child(String(index)).update(answerUpdate);
-          if (activityMode === "distance") {
-            cardsState[index] = { ...cardData, ...answerUpdate, answeredAt: Date.now() };
+          if (independentPractice) {
+            cardsState[index] = { ...cardData, ...answerUpdate };
+            saveIndividualPractice();
             renderCard(index);
             updateNavigation();
+          } else {
+            exerciseRef.child("cards").child(String(index)).update(answerUpdate);
+            if (activityMode === "distance") {
+              cardsState[index] = { ...cardData, ...answerUpdate, answeredAt: Date.now() };
+              renderCard(index);
+              updateNavigation();
+            }
           }
         });
 
@@ -924,7 +891,15 @@
     }
 
         function connectExerciseData() {
-      if (!databaseRef || (independentPractice && !currentUserId)) return;
+      if (independentPractice) {
+        if (!currentUserId) return;
+        exerciseRef = null;
+        exerciseDataHandler = null;
+        cardsState = loadIndividualPractice();
+        renderAllCards();
+        return;
+      }
+      if (!databaseRef) return;
       if (exerciseRef && exerciseDataHandler) {
         exerciseRef.off("value", exerciseDataHandler);
       }
@@ -989,7 +964,7 @@
       });
     }
 
-    if (window.firebase) {
+        if (window.firebase && activityMode !== "individual") {
       try {
         if (window.ParloModes && typeof window.ParloModes.initFirebase === "function") {
           window.ParloModes.initFirebase();

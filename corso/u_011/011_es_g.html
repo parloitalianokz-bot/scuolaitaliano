@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con la forma corretta del verbo fare al presente, Unità 11." />
+  <title>Unità 11 — Il verbo fare · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_g" data-next-href="011_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>Il verbo <em>fare</em></h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta di <em>fare</em> al presente.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio G · Completa le frasi</h2>
+      <div class="instruction-text">
+        <p>Coniuga <em>fare</em> al presente e scrivi la forma corretta in ogni spazio. In modalità online rispetta i turni assegnati e le risposte si aggiornano in tempo reale; in modalità distanza lavori individualmente; in modalità allenamento ti eserciti nel tuo spazio personale. Distanza e allenamento salvano le risposte senza aggiornamenti realtime.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa le frasi con il verbo fare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_g",
+      itemsLabel: "Frase",
+      sentences: [
+        {
+          id: "g1",
+          hintsLang: "it",
+          hints: [
+            "Con «tu» usa la seconda persona singolare di fare.",
+            "La seconda parte è detta da chi parla di sé: usa la forma di fare con «io»."
+          ],
+          parts: ["Tu ", { id: "v1", input: true, placeholder: "fare", correct: "fai" }, " pure la doccia, io intanto ", { id: "v2", input: true, placeholder: "fare", correct: "faccio" }, " colazione."]
+        },
+        {
+          id: "g2",
+          hintsLang: "it",
+          hints: ["Il soggetto è «noi»: ricorda la forma irregolare della prima persona plurale di fare."],
+          parts: ["Noi ", { id: "v1", input: true, placeholder: "fare", correct: "facciamo" }, " la fila per comprare il biglietto."]
+        },
+        {
+          id: "g3",
+          hintsLang: "it",
+          hints: ["«Voi» indica più persone a cui ci si rivolge: scegli la forma di fare corrispondente."],
+          parts: ["Voi ", { id: "v1", input: true, placeholder: "fare", correct: "fate" }, " una festa stasera?"]
+        },
+        {
+          id: "g4",
+          hintsLang: "it",
+          hints: [
+            "Chi parla di sé usa la prima persona singolare di fare.",
+            "Nella seconda frase il soggetto è «tu»: usa la seconda persona singolare."
+          ],
+          parts: ["Io ", { id: "v1", input: true, placeholder: "fare", correct: "faccio" }, " la spesa. Tu intanto ", { id: "v2", input: true, placeholder: "fare", correct: "fai" }, " la lavatrice e stendi i panni."]
+        },
+        {
+          id: "g5",
+          hintsLang: "it",
+          hints: ["«Alessandro e Luisa» è un soggetto plurale, equivalente a «loro»: usa la terza persona plurale di fare."],
+          parts: ["Alessandro e Luisa ", { id: "v1", input: true, placeholder: "fare", correct: "fanno" }, " sempre dei regali a tutti quando tornano da un viaggio."]
+        },
+        {
+          id: "g6",
+          hintsLang: "it",
+          hints: ["«I nostri amici» corrisponde a «loro»: completa con la forma plurale di fare."],
+          parts: ["I nostri amici ", { id: "v1", input: true, placeholder: "fare", correct: "fanno" }, " un viaggio in Europa."]
+        },
+        {
+          id: "g7",
+          hintsLang: "it",
+          hints: ["«Giorgio» è un soggetto singolare maschile, equivalente a «lui»: usa la forma breve di fare."],
+          parts: ["Giorgio ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " molte fotografie quando viaggia."]
+        },
+        {
+          id: "g8",
+          hintsLang: "it",
+          hints: ["Il soggetto è «tu»: completa con la seconda persona singolare di fare."],
+          parts: ["Tu ", { id: "v1", input: true, placeholder: "fare", correct: "fai" }, " sempre molte domande."]
+        },
+        {
+          id: "g9",
+          hintsLang: "it",
+          hints: ["«Marisa» è una sola persona, equivalente a «lei»: quale forma di fare si usa?"],
+          parts: ["Marisa ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " tutti i giorni una telefonata a suo figlio."]
+        },
+        {
+          id: "g10",
+          hintsLang: "it",
+          hints: [
+            "La domanda è rivolta a «voi»: usa la seconda persona plurale di fare.",
+            "Nella risposta il soggetto è «noi»: usa la prima persona plurale."
+          ],
+          parts: ["Voi che cosa ", { id: "v1", input: true, placeholder: "fare", correct: "fate" }, " stasera? Noi ", { id: "v2", input: true, placeholder: "fare", correct: "facciamo" }, " un giro in centro."]
+        },
+        {
+          id: "g11",
+          hintsLang: "it",
+          hints: ["«Barbara» è una sola persona, equivalente a «lei»: completa con la terza persona singolare di fare."],
+          parts: ["Stasera Barbara ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " la pizza e invita tutti a cena."]
+        },
+        {
+          id: "g12",
+          hintsLang: "it",
+          hints: ["«Luigi e Stefano» è un soggetto plurale, equivalente a «loro»: usa la forma plurale di fare."],
+          parts: ["Luigi e Stefano ", { id: "v1", input: true, placeholder: "fare", correct: "fanno" }, " una passeggiata insieme tutte le mattine."]
+        },
+        {
+          id: "g13",
+          hintsLang: "it",
+          hints: ["Nell’espressione impersonale «fare caldo» si usa la terza persona singolare: «fa caldo»."],
+          parts: ["Oggi ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " davvero caldo."]
+        },
+        {
+          id: "g14",
+          hintsLang: "it",
+          hints: ["Anche con «freddo» si usa l’espressione impersonale «fa freddo»: completa con la terza persona singolare."],
+          parts: ["Oggi ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " molto freddo."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

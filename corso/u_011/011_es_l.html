@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trasforma le frasi al presente progressivo con stare + gerundio, Unità 11, Esercizio L." />
+  <title>Unità 11 — Stare + gerundio · Esercizio L</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_l" data-next-href="011_es_m.html" data-next-label="Vai all’esercizio M →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1><em>Stare</em> + gerundio</h1>
+      <p class="hero-subtitle">Trasforma tutti i verbi delle frasi al presente progressivo.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio L · Riscrivi le frasi</h2>
+      <div class="instruction-text">
+        <p>Riscrivi ogni frase completa trasformando <strong>tutti</strong> i verbi in <em>stare + gerundio</em>.</p>
+        <p><strong>Modello:</strong> Marco mangia e guarda la televisione. → <em>Marco sta mangiando e sta guardando la televisione.</em></p>
+        <p lang="ru">Перепиши каждое предложение целиком, поставив <strong>все</strong> глаголы в настоящее продолженное время: <em>stare + gerundio</em>.</p>
+        <p lang="ru"><strong>Образец:</strong> Marco mangia e guarda la televisione. → <em>Marco sta mangiando e sta guardando la televisione.</em></p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Trasforma le frasi al presente progressivo">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_m.html" hidden>Vai all’esercizio M →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_l",
+      itemsLabel: "Frase",
+      specialChars: ["'", "à", "è", "é", "ì", "ò", "ù", "È"],
+      placeholder: "Riscrivi qui la frase completa al presente progressivo...",
+      submitLabel: "Invia risposta",
+      questions: [
+        {
+          key: "l1",
+          title: "Carla ascolta la musica e fa ginnastica.",
+          hints: [
+            { lang: "ru", text: "Преобразуй оба действия. Вспомни особую форму gerundio у fare." },
+            { lang: "it", text: "Trasforma entrambe le azioni. Ricorda il gerundio irregolare di fare." }
+          ]
+        },
+        {
+          key: "l2",
+          title: "Io leggo il giornale e faccio colazione.",
+          hints: [
+            { lang: "ru", text: "Подлежащее — io. Используй sto и измени оба глагола на gerundio." },
+            { lang: "it", text: "Il soggetto è io: usa sto e trasforma entrambi i verbi al gerundio." }
+          ]
+        },
+        {
+          key: "l3",
+          title: "Il dottor Donelli parla al telefono e guida la macchina.",
+          hints: [
+            { lang: "ru", text: "Оба действия выполняет один человек. Как согласуется stare?" },
+            { lang: "it", text: "La stessa persona compie entrambe le azioni. Come si coniuga stare?" }
+          ]
+        },
+        {
+          key: "l4",
+          title: "Mentre parliamo, noi camminiamo.",
+          hints: [
+            { lang: "ru", text: "Оба действия относятся к noi. Поставь оба глагола в форму stare + gerundio." },
+            { lang: "it", text: "Entrambe le azioni si riferiscono a noi. Usa stare + gerundio per tutti e due i verbi." }
+          ]
+        },
+        {
+          key: "l5",
+          title: "Il nonno cammina mentre dorme.",
+          hints: [
+            { lang: "ru", text: "Подлежащее обеих частей — il nonno. Измени camminare и dormire." },
+            { lang: "it", text: "Il soggetto di entrambe le parti è il nonno. Trasforma camminare e dormire." }
+          ]
+        },
+        {
+          key: "l6",
+          title: "Carla telefona e fuma una sigaretta.",
+          hints: [
+            { lang: "ru", text: "Два одновременных действия: повтори форму stare перед каждым gerundio." },
+            { lang: "it", text: "Sono due azioni contemporanee: ripeti stare prima di ciascun gerundio." }
+          ]
+        },
+        {
+          key: "l7",
+          title: "Mentre scrivo una lettera, bevo un caffè.",
+          hints: [
+            { lang: "ru", text: "Здесь подразумевается io. Вспомни gerundio глаголов scrivere и bere." },
+            { lang: "it", text: "Il soggetto sottinteso è io. Ricorda i gerundi di scrivere e bere." }
+          ]
+        },
+        {
+          key: "l8",
+          title: "I ragazzi mangiano la pizza e bevono la birra.",
+          hints: [
+            { lang: "ru", text: "I ragazzi — множественное число: используй stanno для обоих действий." },
+            { lang: "it", text: "I ragazzi è plurale: usa stanno per entrambe le azioni." }
+          ]
+        },
+        {
+          key: "l9",
+          title: "Marco canta quando fa la doccia.",
+          hints: [
+            { lang: "ru", text: "Преобразуй canta и fa. У fare неправильный gerundio." },
+            { lang: "it", text: "Trasforma canta e fa. Fare ha un gerundio irregolare." }
+          ]
+        },
+        {
+          key: "l10",
+          title: "Mentre facciamo colazione, noi guardiamo la televisione.",
+          hints: [
+            { lang: "ru", text: "Оба действия выполняет noi. Измени также неправильную форму facciamo." },
+            { lang: "it", text: "Noi compie entrambe le azioni. Trasforma anche la forma irregolare facciamo." }
+          ]
+        },
+        {
+          key: "l11",
+          title: "Marco dorme e sua sorella ascolta la musica.",
+          hints: [
+            { lang: "ru", text: "Два разных подлежащих в единственном числе. Поставь оба глагола в прогрессивную форму." },
+            { lang: "it", text: "Ci sono due soggetti diversi al singolare. Trasforma entrambi i verbi al progressivo." }
+          ]
+        },
+        {
+          key: "l12",
+          title: "Mentre parlo al telefono, mia sorella ascolta dietro la porta.",
+          hints: [
+            { lang: "ru", text: "Первая часть — io, вторая — mia sorella. Выбери подходящие формы stare." },
+            { lang: "it", text: "La prima parte ha come soggetto io, la seconda mia sorella. Scegli le forme di stare." }
+          ]
+        },
+        {
+          key: "l13",
+          title: "Tu studi e tua sorella suona il pianoforte.",
+          hints: [
+            { lang: "ru", text: "Сравни подлежащие tu и tua sorella: формы stare будут разными." },
+            { lang: "it", text: "Confronta i soggetti tu e tua sorella: le forme di stare sono diverse." }
+          ]
+        },
+        {
+          key: "l14",
+          title: "Mentre Maria lava i piatti, suo marito guarda la televisione.",
+          hints: [
+            { lang: "ru", text: "Maria и suo marito — два подлежащих в единственном числе. Измени оба глагола." },
+            { lang: "it", text: "Maria e suo marito sono due soggetti singolari. Trasforma entrambi i verbi." }
+          ]
+        },
+        {
+          key: "l15",
+          title: "Mentre i bambini giocano, Maria pulisce la casa.",
+          hints: [
+            { lang: "ru", text: "Сначала подлежащее во множественном числе, затем в единственном. Согласуй stare." },
+            { lang: "it", text: "Prima un soggetto plurale, poi uno singolare. Concorda correttamente stare." }
+          ]
+        },
+        {
+          key: "l16",
+          title: "Quando i bambini studiano, Maria prepara la cena.",
+          hints: [
+            { lang: "ru", text: "Преобразуй оба действия и согласуй stare отдельно с каждым подлежащим." },
+            { lang: "it", text: "Trasforma entrambe le azioni e concorda stare con ciascun soggetto." }
+          ]
+        },
+        {
+          key: "l17",
+          title: "Maria fa una passeggiata e suo marito guarda la televisione.",
+          hints: [
+            { lang: "ru", text: "У fare неправильный gerundio. Затем преобразуй действие suo marito." },
+            { lang: "it", text: "Fare ha un gerundio irregolare. Poi trasforma l’azione di suo marito." }
+          ]
+        },
+        {
+          key: "l18",
+          title: "Mentre tutti dormono, Maria prepara la colazione.",
+          hints: [
+            { lang: "ru", text: "Tutti требует stanno, а Maria — sta. Измени оба глагола." },
+            { lang: "it", text: "Tutti richiede stanno, mentre Maria richiede sta. Trasforma entrambi i verbi." }
+          ]
+        },
+        {
+          key: "l19",
+          title: "Io parlo e tu non mi ascolti.",
+          hints: [
+            { lang: "ru", text: "Io и tu требуют разных форм stare. Сохрани отрицание non." },
+            { lang: "it", text: "Io e tu richiedono forme diverse di stare. Mantieni la negazione non." }
+          ]
+        },
+        {
+          key: "l20",
+          title: "Mentre i bambini fanno i compiti, il cane dorme sul divano.",
+          hints: [
+            { lang: "ru", text: "I bambini — множественное число, il cane — единственное. Вспомни fare → facendo." },
+            { lang: "it", text: "I bambini è plurale, il cane è singolare. Ricorda fare → facendo." }
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

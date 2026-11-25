@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le tracce sulla giornata di Maria usando il presente progressivo, Unità 11, Esercizio I." />
+  <title>Unità 11 — La giornata di Maria · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_i" data-next-href="011_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>La giornata di Maria</h1>
+      <p class="hero-subtitle">Descrivi che cosa sta succedendo nei diversi momenti della giornata.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio I · Usa il presente progressivo</h2>
+      <div class="instruction-text">
+        <p>Scrivi una frase completa per ogni traccia usando <em>stare</em> + gerundio. In modalità online rispettate i turni assegnati e le risposte si aggiornano in tempo reale; in modalità distanza lavori individualmente; in modalità allenamento ti eserciti nel tuo spazio personale. Distanza e allenamento salvano le risposte senza aggiornamenti realtime.</p>
+        <p><strong>Esempio:</strong> 7.15 — Maria — cucina → <em>Sono le sette e un quarto e Maria sta preparando la colazione in cucina.</em></p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa le tracce sulla giornata di Maria">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una traccia:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle tracce"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle tracce">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_j.html" hidden>Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_i",
+      itemsLabel: "Traccia",
+      hintsLang: "it",
+      placeholder: "Scrivi una frase completa al presente progressivo...",
+      submitLabel: "Invia risposta",
+      questions: [
+        {
+          key: "i1",
+          title: "6.00 — i bambini — a letto",
+          hints: [
+            { lang: "ru", text: "Кто выполняет действие? Согласуй stare с множественным числом; образуй gerundio от dormire." },
+            { lang: "it", text: "Chi compie l’azione? Concorda stare al plurale e forma il gerundio di dormire." }
+          ]
+        },
+        {
+          key: "i2",
+          title: "7.15 — il marito di Maria — camera da letto",
+          hints: [
+            { lang: "ru", text: "Что муж смотрит утром? Используй stare в единственном числе и gerundio от guardare." },
+            { lang: "it", text: "Che cosa guarda il marito al mattino? Usa stare al singolare e il gerundio di guardare." }
+          ]
+        },
+        {
+          key: "i3",
+          title: "10.30 — Maria — supermercato",
+          hints: [
+            { lang: "ru", text: "Вспомни выражение fare la spesa и форму gerundio глагола fare." },
+            { lang: "it", text: "Ricorda l’espressione fare la spesa e la forma gerundio del verbo fare." }
+          ]
+        },
+        {
+          key: "i4",
+          title: "11.00 — i bambini — scuola",
+          hints: [
+            { lang: "ru", text: "Какое действие дети выполняют в школе? Согласуй stare и образуй gerundio от studiare." },
+            { lang: "it", text: "Che cosa fanno i bambini a scuola? Concorda stare e forma il gerundio di studiare." }
+          ]
+        },
+        {
+          key: "i5",
+          title: "12.30 — Maria — cucina",
+          hints: [
+            { lang: "ru", text: "Что Мария готовит перед обедом? Образуй gerundio от preparare." },
+            { lang: "it", text: "Che cosa prepara Maria prima di pranzo? Forma il gerundio di preparare." }
+          ]
+        },
+        {
+          key: "i6",
+          title: "12.30 — il marito di Maria — salotto",
+          hints: [
+            { lang: "ru", text: "Что делает муж в гостиной? Выбери stare для единственного числа и образуй gerundio." },
+            { lang: "it", text: "Che cosa fa il marito in salotto? Scegli stare al singolare e forma il gerundio." }
+          ]
+        },
+        {
+          key: "i7",
+          title: "13.00 — Maria e suo marito — cucina",
+          hints: [
+            { lang: "ru", text: "Как сказать 13.00 по-итальянски? Используй форму stare для двух человек и gerundio от mangiare." },
+            { lang: "it", text: "Come si dice 13.00 in italiano? Usa stare per due persone e il gerundio di mangiare." }
+          ]
+        },
+        {
+          key: "i8",
+          title: "16.30 — i bambini — salotto",
+          hints: [
+            { lang: "ru", text: "Что дети делают в гостиной? Образуй gerundio от giocare." },
+            { lang: "it", text: "Che cosa fanno i bambini in salotto? Forma il gerundio di giocare." }
+          ]
+        },
+        {
+          key: "i9",
+          title: "16.30 — Maria — casa",
+          hints: [
+            { lang: "ru", text: "Что Мария делает дома, пока дети играют? Вспомни gerundio от pulire." },
+            { lang: "it", text: "Che cosa fa Maria a casa mentre i bambini giocano? Ricorda il gerundio di pulire." }
+          ]
+        },
+        {
+          key: "i10",
+          title: "17.30 — il marito di Maria — bagno",
+          hints: [
+            { lang: "ru", text: "Какое занятие мужа повторяется? Укажи действие и место." },
+            { lang: "it", text: "Quale attività del marito si ripete? Indica l’azione e il luogo." }
+          ]
+        },
+        {
+          key: "i11",
+          title: "19.00 — Maria — cucina",
+          hints: [
+            { lang: "ru", text: "Что Мария готовит вечером? Построй фразу с stare + gerundio." },
+            { lang: "it", text: "Che cosa prepara Maria la sera? Costruisci la frase con stare + gerundio." }
+          ]
+        },
+        {
+          key: "i12",
+          title: "20.30 — tutta la famiglia — cucina",
+          hints: [
+            { lang: "ru", text: "Вся семья — единое подлежащее. Выбери форму stare и подходящий gerundio." },
+            { lang: "it", text: "Tutta la famiglia è un soggetto singolare: scegli la forma di stare e il gerundio adatto." }
+          ]
+        },
+        {
+          key: "i13",
+          title: "21.00 — Maria — cucina",
+          hints: [
+            { lang: "ru", text: "Что Мария делает после ужина? Образуй gerundio от lavare." },
+            { lang: "it", text: "Che cosa fa Maria dopo cena? Forma il gerundio di lavare." }
+          ]
+        },
+        {
+          key: "i14",
+          title: "21.30 — il marito di Maria — salotto",
+          hints: [
+            { lang: "ru", text: "Где муж смотрит телевизор вечером? Используй sta + gerundio." },
+            { lang: "it", text: "Dove guarda la televisione il marito la sera? Usa sta + gerundio." }
+          ]
+        },
+        {
+          key: "i15",
+          title: "22.00 — i bambini — a letto",
+          hints: [
+            { lang: "ru", text: "Как сказать 22.00 в разговорной форме? Вспомни выражение andare a letto." },
+            { lang: "it", text: "Come si dice 22.00 in modo colloquiale? Ricorda l’espressione andare a letto." }
+          ]
+        },
+        {
+          key: "i16",
+          title: "22.30 — Maria — giardino",
+          hints: [
+            { lang: "ru", text: "Вспомни fare una passeggiata. Добавь место и укажи, кто гуляет с Марией." },
+            { lang: "it", text: "Ricorda fare una passeggiata. Aggiungi il luogo e indica chi accompagna Maria." }
+          ]
+        },
+        {
+          key: "i17",
+          title: "24.00 — Maria — camera da letto",
+          hints: [
+            { lang: "ru", text: "Как сказать 24.00? Построй stare + gerundio с выражением andare a dormire." },
+            { lang: "it", text: "Come si dice 24.00? Costruisci stare + gerundio con l’espressione andare a dormire." }
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Racconta in italiano la giornata di Maria usando il microfono o la tastiera, Unità 11, Esercizio F." />
+  <title>Unità 11 — La casalinga · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=3" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_f" data-next-href="011_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Produzione orale</span>
+      <h1>La giornata di Maria</h1>
+      <p class="hero-subtitle">Racconta la giornata di Maria in italiano, una parte alla volta.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio F · Racconta la giornata</h2>
+      <div class="instruction-text">
+        <p>Segui le domande guida e racconta con frasi complete, senza ripetere il testo parola per parola. Puoi usare il microfono oppure scrivere con la tastiera. Online i contributi e i turni si aggiornano in tempo reale; in distanza e in allenamento il lavoro è individuale e non usa aggiornamenti realtime.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Racconto della giornata di Maria">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle parti del racconto" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/speech-exercise.js?v=4"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_f",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "riassunto-giornata",
+          title: "Riassunto della giornata di Maria",
+          intro: "Riassumi in un unico racconto la giornata di Maria, dalla mattina fino a mezzanotte. Segui la sequenza degli orari e collega le informazioni con frasi complete.",
+          prompts: [
+            "A che ora comincia la giornata di Maria? Che cosa fa lei, e che cosa fanno suo marito e i bambini, alle sette?",
+            "Che cosa fa Maria alle otto e mezzo e dove porta i bambini? Dove va dopo e che cosa fa?",
+            "Che cosa fa Maria alle undici? Che cosa fa suo marito mentre lei prepara il pranzo? Che cosa succede all’una?",
+            "Che cosa fa Maria dopo pranzo e dove va? Che cosa succede alle tre, quando tornano a casa?",
+            "Che cosa fanno i bambini nel pomeriggio? Che cosa fanno Maria e suo marito mentre loro giocano?",
+            "Che cosa fa Maria alle sette? A che ora cenano e che cosa fa dopo cena?",
+            "Che cosa fa Maria alle dieci e alle dieci e mezzo? Dove va e chi la accompagna?",
+            "Che cosa fa Maria a mezzanotte? Che cosa fa suo marito prima che finalmente dormano? A che ora finisce la giornata?"
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

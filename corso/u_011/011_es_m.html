@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con il verbo fare al presente, Unità 11, Esercizio M." />
+  <title>Unità 11 — Il verbo fare · Esercizio M</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_m" data-next-href="011_es_n.html" data-next-label="Vai all’esercizio N →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>Il verbo <em>fare</em> al presente</h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta di <em>fare</em>.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio M · Completa le frasi</h2>
+      <div class="instruction-text">
+        <p>Inserisci la forma corretta di <em>fare</em> negli spazi.</p>
+        <p lang="ru">Впиши нужную форму глагола <em>fare</em> в пропуски.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa le frasi con il verbo fare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_n.html" hidden>Vai all’esercizio N →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_m",
+      itemsLabel: "Frase",
+      sentences: [
+        {
+          id: "m1",
+          hints: [
+            { lang: "ru", text: "Подлежащее — il dottor Renzi e sua moglie, то есть loro. Выбери форму fare для loro." },
+            { lang: "it", text: "Il soggetto è il dottor Renzi e sua moglie, cioè loro: scegli la forma di fare per loro." }
+          ],
+          parts: ["Quest’anno il dottor Renzi e sua moglie ", { id: "v1", input: true, placeholder: "fare", correct: "fanno" }, " le vacanze separate."]
+        },
+        {
+          id: "m2",
+          hints: [
+            { lang: "ru", text: "Это выражение о погоде: «очень холодно». Какая форма fare употребляется безлично?" },
+            { lang: "it", text: "È un’espressione sul tempo: quale forma impersonale di fare si usa con freddo?" }
+          ],
+          parts: ["Perché non chiudi la finestra? ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " molto freddo!"]
+        },
+        {
+          id: "m3",
+          hints: [
+            { lang: "ru", text: "Gli impiegati — это loro. Вспомни форму fare для множественного числа." },
+            { lang: "it", text: "Gli impiegati corrisponde a loro: ricorda la forma di fare alla terza persona plurale." }
+          ],
+          parts: ["Ogni Natale gli impiegati ", { id: "v1", input: true, placeholder: "fare", correct: "fanno" }, " un regalo al direttore."]
+        },
+        {
+          id: "m4",
+          hints: [
+            { lang: "ru", text: "Сначала io, затем tu. Выбери соответствующие формы: io …, tu …" },
+            { lang: "it", text: "Prima il soggetto è io, poi tu: completa con le due forme corrispondenti di fare." }
+          ],
+          parts: ["Io ", { id: "v1", input: true, placeholder: "fare", correct: "faccio" }, " la spesa al mercato, tu invece ", { id: "v2", input: true, placeholder: "fare", correct: "fai" }, " la spesa al supermercato."]
+        },
+        {
+          id: "m5",
+          hints: [
+            { lang: "ru", text: "Io e i miei amici соответствует noi. Как спрягается fare с noi?" },
+            { lang: "it", text: "Io e i miei amici corrisponde a noi: quale forma di fare si usa con noi?" }
+          ],
+          parts: ["Io e i miei amici ", { id: "v1", input: true, placeholder: "fare", correct: "facciamo" }, " molti viaggi insieme."]
+        },
+        {
+          id: "m6",
+          hints: [
+            { lang: "ru", text: "Giorgio — третье лицо единственного числа. Вспомни форму lui/lei у fare." },
+            { lang: "it", text: "Giorgio è terza persona singolare: ricorda la forma di fare per lui/lei." }
+          ],
+          parts: ["La sera Giorgio non ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " niente: resta in casa e riposa."]
+        },
+        {
+          id: "m7",
+          hints: [
+            { lang: "ru", text: "Вопрос обращён к Stefano (tu). Какая форма fare соответствует tu?" },
+            { lang: "it", text: "La domanda è rivolta a Stefano (tu): quale forma di fare scegli?" }
+          ],
+          parts: ["Stefano, cosa ", { id: "v1", input: true, placeholder: "fare", correct: "fai" }, " domenica prossima?"]
+        },
+        {
+          id: "m8",
+          hints: [
+            { lang: "ru", text: "Подлежащее la mia macchina — единственное число. Используй форму fare для lei." },
+            { lang: "it", text: "La mia macchina è singolare: usa la forma di fare per lei." }
+          ],
+          parts: ["La mia macchina ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " 20 chilometri con un litro di benzina."]
+        },
+        {
+          id: "m9",
+          hints: [
+            { lang: "ru", text: "Ragazzi — обращение к voi. Какую форму fare нужно использовать?" },
+            { lang: "it", text: "Ragazzi è un’allocuzione a voi: quale forma di fare si usa?" }
+          ],
+          parts: ["Ragazzi, perché non ", { id: "v1", input: true, placeholder: "fare", correct: "fate" }, " una passeggiata con questa bella giornata?"]
+        },
+        {
+          id: "m10",
+          hints: [
+            { lang: "ru", text: "Подлежащее il tuo telefonino — единственное число. Выбери форму для lui." },
+            { lang: "it", text: "Il tuo telefonino è singolare: scegli la forma di fare per lui." }
+          ],
+          parts: ["Il tuo telefonino ", { id: "v1", input: true, placeholder: "fare", correct: "fa" }, " anche le fotografie?"]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

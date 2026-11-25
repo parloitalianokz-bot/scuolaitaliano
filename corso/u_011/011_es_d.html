@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il racconto La casalinga con le preposizioni semplici e articolate, Unità 11." />
+  <title>Unità 11 — La casalinga · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_d" data-next-href="011_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Completa il racconto con le preposizioni semplici e articolate.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio D · Completa il testo</h2>
+      <div class="instruction-text">
+        <p>Inserisci negli spazi la preposizione corretta. In modalità online rispetta i turni assegnati; in modalità distanza completa il lavoro individualmente; in modalità allenamento esercitati nel tuo spazio personale. Le risposte vengono salvate, ma solo online si aggiornano in tempo reale.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Completa il racconto La casalinga">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un paragrafo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei paragrafi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei paragrafi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successivo →</button>
+        <a id="next-exercise" href="011_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_d",
+      itemsLabel: "Paragrafo",
+      sentences: [
+        {
+          id: "d1",
+          hintsLang: "it",
+          hints: [
+            "Qui si indica a chi appartiene la giornata: osserva il legame tra «giornata» e «Maria».",
+            "Per indicare un orario preciso, usa la preposizione richiesta davanti all’ora."
+          ],
+          parts: [
+            "La giornata ", { id: "v1", input: true, placeholder: "preposizione", correct: "di" },
+            " Maria comincia la mattina ", { id: "v2", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " sette."
+          ]
+        },
+        {
+          id: "d2",
+          hintsLang: "it",
+          hints: [
+            "Per indicare il luogo in cui si va, scegli la preposizione adatta con «cucina».",
+            "La colazione è preparata a beneficio di tutta la famiglia: individua la preposizione che esprime questa relazione.",
+            "«Camera da letto» è un’espressione fissa: completa la locuzione."
+          ],
+          parts: [
+            "Lei va ", { id: "v1", input: true, placeholder: "preposizione", correct: "in" },
+            " cucina e prepara la colazione ", { id: "v2", input: true, placeholder: "preposizione", correct: "per" },
+            " tutta la famiglia, mentre suo marito guarda la televisione in camera ",
+            { id: "v3", input: true, placeholder: "preposizione", correct: "da" },
+            " letto e i bambini dormono."
+          ]
+        },
+        {
+          id: "d3",
+          hintsLang: "it",
+          hints: [
+            "Per indicare un orario preciso, usa la preposizione articolata con l’articolo richiesto.",
+            "Con «andare a scuola» si usa una preposizione semplice: completa l’espressione di destinazione.",
+            "Davanti a «supermercato», la preposizione si unisce all’articolo determinativo.",
+            "Anche qui si indica un’ora precisa: scegli la forma corretta.",
+            "Per dire che Maria torna a casa, usa l’espressione usuale senza articolo.",
+            "«Salotto» indica il luogo in cui si guarda la televisione: completa con la preposizione di stato in luogo."
+          ],
+          parts: [
+            "", { id: "v1", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " otto e mezzo Maria porta i bambini ", { id: "v2", input: true, placeholder: "preposizione", correct: "a" },
+            " scuola. Poi va ", { id: "v3", input: true, placeholder: "preposizione + articolo", correct: "al" },
+            " supermercato e fa la spesa. ", { id: "v4", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " undici torna ", { id: "v5", input: true, placeholder: "preposizione", correct: "a" },
+            " casa. Mentre lei prepara il pranzo, suo marito guarda la televisione ",
+            { id: "v6", input: true, placeholder: "preposizione", correct: "in" },
+            " salotto."
+          ]
+        },
+        {
+          id: "d4",
+          hintsLang: "it",
+          hints: [
+            "Per dire «all’una», la preposizione si unisce all’articolo femminile: ricorda l’apostrofo.",
+            "Con «cucina» si indica il luogo in cui si svolge l’azione: scegli la preposizione di stato in luogo."
+          ],
+          parts: [
+            "", { id: "v1", input: true, placeholder: "preposizione + articolo", correct: "all'una" },
+            " Maria e suo marito mangiano. Mentre mangiano, il marito guarda la televisione ",
+            { id: "v2", input: true, placeholder: "preposizione", correct: "in" },
+            " cucina."
+          ]
+        },
+        {
+          id: "d5",
+          hintsLang: "it",
+          hints: [
+            "Dopo «andare», la preposizione introduce il verbo all’infinito «prendere».",
+            "Completa l’espressione di destinazione «… scuola».",
+            "Con «restare» si dice che qualcuno rimane … casa: usa la preposizione usuale senza articolo."
+          ],
+          parts: [
+            "Dopo pranzo lei va ", { id: "v1", input: true, placeholder: "preposizione", correct: "a" },
+            " prendere i bambini ", { id: "v2", input: true, placeholder: "preposizione", correct: "a" },
+            " scuola; suo marito resta ", { id: "v3", input: true, placeholder: "preposizione", correct: "a" },
+            " casa e guarda la televisione."
+          ]
+        },
+        {
+          id: "d6",
+          hintsLang: "it",
+          hints: [
+            "Per indicare un’ora precisa, completa con la preposizione articolata corretta.",
+            "Maria torna a casa: in questa espressione non si usa l’articolo.",
+            "Per indicare il luogo in cui i bambini giocano, scegli la preposizione di stato in luogo.",
+            "Anche «bagno» indica un luogo: usa la preposizione adatta per dire dove guarda la televisione il marito."
+          ],
+          parts: [
+            "", { id: "v1", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " tre Maria torna ", { id: "v2", input: true, placeholder: "preposizione", correct: "a" },
+            " casa. I bambini giocano ", { id: "v3", input: true, placeholder: "preposizione", correct: "in" },
+            " salotto, mentre lei pulisce la casa. Il marito guarda la televisione ",
+            { id: "v4", input: true, placeholder: "preposizione", correct: "in" },
+            " bagno."
+          ]
+        },
+        {
+          id: "d7",
+          hintsLang: "it",
+          hints: [
+            "Per indicare l’ora precisa della cena, scegli la preposizione articolata corretta.",
+            "«Portare i bambini … letto» è un’espressione comune: completa la locuzione."
+          ],
+          parts: [
+            "", { id: "v1", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " sette Maria prepara la cena; dopo cena lava i piatti, poi porta i bambini ",
+            { id: "v2", input: true, placeholder: "preposizione", correct: "a" },
+            " letto."
+          ]
+        },
+        {
+          id: "d8",
+          hintsLang: "it",
+          hints: [
+            "Davanti a un’ora precisa, usa la preposizione articolata corretta.",
+            "Per indicare il luogo in cui si svolge la passeggiata, scegli la preposizione adatta con «giardino».",
+            "Il cane accompagna Maria: individua la preposizione che esprime compagnia.",
+            "Per dire «a mezzanotte», si usa una forma fissa: ricorda l’elisione.",
+            "Dopo «andare» e prima di «dormire» si usa la preposizione che introduce l’infinito."
+          ],
+          parts: [
+            "", { id: "v1", input: true, placeholder: "preposizione + ora", correct: "alle" },
+            " dieci e mezzo fa una passeggiata ", { id: "v2", input: true, placeholder: "preposizione", correct: "in" },
+            " giardino ", { id: "v3", input: true, placeholder: "preposizione", correct: "con" },
+            " il cane. E ", { id: "v4", input: true, placeholder: "preposizione + ora", correct: "a" },
+            " mezzanotte finalmente va ", { id: "v5", input: true, placeholder: "preposizione", correct: "a" },
+            " dormire."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

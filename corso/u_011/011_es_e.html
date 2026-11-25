@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi alle domande sul racconto La casalinga con frasi complete in italiano, Unità 11." />
+  <title>Unità 11 — La casalinga · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_e" data-next-href="011_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Produzione scritta</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Rispondi alle domande con frasi complete in italiano.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio E · Rispondi alle domande</h2>
+      <div class="instruction-text">
+        <p>Scrivi una risposta completa in italiano per ogni domanda. In modalità online rispettate i turni assegnati e i contributi vengono condivisi in tempo reale; in modalità distanza completa il lavoro individualmente, mentre in modalità allenamento esercitati nel tuo spazio personale. In distanza e allenamento le risposte si salvano senza aggiornamenti in tempo reale.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Domande sul racconto La casalinga">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una domanda:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="011_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_e",
+      itemsLabel: "Domanda",
+      hintsLang: "it",
+      placeholder: "Scrivi una frase completa in italiano...",
+      submitLabel: "Invia risposta",
+      questions: [
+        {
+          key: "e1",
+          title: "A che ora comincia la giornata di Maria?",
+          hints: ["Rileggi l’inizio del racconto e individua l’orario preciso.", "Rispondi con una frase completa: «La giornata di Maria comincia…»."]
+        },
+        {
+          key: "e2",
+          title: "Che cosa fa Maria la mattina alle sette?",
+          hints: ["Cerca nel primo paragrafo le azioni che Maria svolge alle sette.", "Puoi iniziare così: «Alle sette Maria…»."]
+        },
+        {
+          key: "e3",
+          title: "Che cosa fa Maria alle otto e mezzo?",
+          hints: ["Individua l’azione di Maria a quell’ora e la destinazione dei bambini.", "Formula la risposta al presente e includi le informazioni importanti."]
+        },
+        {
+          key: "e4",
+          title: "Che cosa fa Maria alle undici?",
+          hints: ["Dopo la spesa, rileggi il passaggio che inizia con «Alle undici».", "Nella risposta puoi indicare dove torna Maria e che cosa prepara."]
+        },
+        {
+          key: "e5",
+          title: "Che cosa fa il marito di Maria alle undici?",
+          hints: ["Osserva che cosa fa il marito mentre Maria prepara il pranzo.", "Indica anche il luogo in cui si trova."]
+        },
+        {
+          key: "e6",
+          title: "Che cosa fa Maria all’una?",
+          hints: ["Rileggi il passaggio sull’ora di pranzo: chi mangia con Maria?", "Puoi aggiungere che cosa fa suo marito mentre loro mangiano."]
+        },
+        {
+          key: "e7",
+          title: "Che cosa fa Maria dopo pranzo?",
+          hints: ["Segui le azioni di Maria subito dopo pranzo.", "Scrivi la destinazione e lo scopo della sua uscita."]
+        },
+        {
+          key: "e8",
+          title: "Che cosa fa Maria il pomeriggio alle tre?",
+          hints: ["Cerca l’orario delle tre e osserva cosa succede quando Maria torna a casa.", "Nella risposta puoi menzionare le attività dei bambini e quella di Maria."]
+        },
+        {
+          key: "e9",
+          title: "Che cosa fa Maria la sera alle sette?",
+          hints: ["Rileggi il passaggio della sera e cerca l’azione delle sette.", "Rispondi con una frase completa al presente."]
+        },
+        {
+          key: "e10",
+          title: "Che cosa fa Maria alle otto e mezzo?",
+          hints: ["Individua l’azione che avviene alle otto e mezzo, dopo la preparazione della cena.", "Puoi specificare con chi Maria svolge questa attività."]
+        },
+        {
+          key: "e11",
+          title: "Che cosa fa Maria alle dieci?",
+          hints: ["Rileggi la parte del racconto che descrive la fine della serata.", "Indica che cosa fa Maria e a chi è legata questa azione."]
+        },
+        {
+          key: "e12",
+          title: "Che cosa fa Maria alle dieci e mezzo?",
+          hints: ["Cerca l’orario delle dieci e mezzo e individua l’attività di Maria.", "Aggiungi il luogo e la persona o l’animale che la accompagna."]
+        },
+        {
+          key: "e13",
+          title: "Che cosa fa Maria a mezzanotte?",
+          hints: ["Rileggi l’ultimo paragrafo e individua l’azione di Maria a mezzanotte.", "Non confondere quello che fa Maria con quello che fa suo marito."]
+        },
+        {
+          key: "e14",
+          title: "A che ora finisce la giornata di Maria?",
+          hints: ["Pensa all’ultimo orario indicato nel racconto.", "Rispondi con una frase completa che specifichi quando termina la giornata."]
+        },
+        {
+          key: "e15",
+          title: "Che cosa fa il marito di Maria durante la giornata?",
+          hints: ["Raccogli le informazioni sul marito nei diversi momenti del racconto.", "Quale attività ripete? Puoi indicare anche i luoghi in cui la svolge."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

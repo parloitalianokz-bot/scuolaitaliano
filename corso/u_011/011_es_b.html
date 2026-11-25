@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Riscrivi La casalinga alla terza persona singolare, Unità 11." />
+  <title>Unità 11 — La casalinga · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="011_es_b" data-next-href="011_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 11 · Grammatica e scrittura</span>
+      <h1>La casalinga</h1>
+      <p class="hero-subtitle">Riscrivi ogni paragrafo alla terza persona singolare.</p>
+    </header>
+
+    <section class="instruction-box" aria-labelledby="exercise-instructions-title">
+      <h2 class="instruction-title" id="exercise-instructions-title">💡 Esercizio B · Riscrittura</h2>
+      <div class="instruction-text">
+        <p>Riscrivi ogni paragrafo sostituendo la prima persona singolare con la terza persona singolare. In modalità online rispettate i turni assegnati; in modalità distanza completate il lavoro individualmente; in modalità allenamento esercitatevi nel vostro spazio personale. Le risposte vengono salvate, ma solo la modalità online si aggiorna in tempo reale.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Riscrittura del racconto">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un paragrafo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei paragrafi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei paragrafi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successivo →</button>
+        <a id="next-exercise" href="011_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=5"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 11,
+      exercisePath: "011_es_b",
+      itemsLabel: "Paragrafo",
+      hintsLang: "it",
+      placeholder: "Riscrivi qui il paragrafo alla terza persona singolare...",
+      submitLabel: "Invia riscrittura",
+      questions: [
+        {
+          title: "Paragrafo 1 · La vita della casalinga è difficile! La mia giornata comincia la mattina alle sette. Preparo la colazione per tutta la famiglia, mentre mio marito guarda la televisione in camera da letto e i bambini dormono ancora.",
+          hints: ["Trasforma «la mia giornata» in «la sua giornata».", "Cambia «comincia»? La forma resta uguale alla terza persona; trasforma invece «preparo» in «prepara».", "Mantieni il soggetto «mio marito» e «i bambini» nelle frasi subordinate."]
+        },
+        {
+          title: "Paragrafo 2 · Alle otto e mezzo porto i bambini a scuola, poi vado al supermercato e faccio la spesa.",
+          hints: ["Individua i tre verbi alla prima persona: «porto», «vado» e «faccio».", "Riscrivili alla terza persona singolare: «porta», «va» e «fa».", "Il complemento «i bambini a scuola» resta invariato."]
+        },
+        {
+          title: "Paragrafo 3 · Alle undici torno a casa e preparo il pranzo, mentre mio marito guarda la televisione in salotto.",
+          hints: ["Trasforma «torno» in «torna» e «preparo» in «prepara».", "La frase introdotta da «mentre» ha già come soggetto «mio marito»: conserva «guarda»."]
+        },
+        {
+          title: "Paragrafo 4 · All’una andiamo a mangiare. Mentre mangiamo, mio marito guarda la televisione in cucina.",
+          hints: ["Il soggetto «noi» è sottinteso: riscrivi entrambe le forme al singolare, «andiamo» → «va» e «mangiamo» → «mangia».", "Dopo «mentre», conserva il soggetto «mio marito» e il verbo «guarda»."]
+        },
+        {
+          title: "Paragrafo 5 · Dopo pranzo vado a prendere i bambini a scuola. Alle tre torniamo a casa: i bambini studiano un po’ e poi giocano in salotto, mentre io pulisco la casa e mio marito guarda la televisione in bagno.",
+          hints: ["Cambia «vado» in «va» e «torniamo» in «torna».", "«I bambini studiano» e «giocano» restano al plurale: il loro soggetto non cambia.", "Nella parte finale trasforma «io pulisco» in «lei pulisce»; conserva «mio marito guarda»."]
+        },
+        {
+          title: "Paragrafo 6 · Alle sette preparo la cena e alle otto e mezzo ceniamo. Poi io lavo i piatti.",
+          hints: ["Trasforma «preparo» in «prepara», «ceniamo» in «cena» e «lavo» in «lava».", "Puoi mantenere «io» solo nel testo di partenza: nella riscrittura il soggetto è «lei» oppure resta sottinteso."]
+        },
+        {
+          title: "Paragrafo 7 · Alle dieci porto i bambini a letto, e alle dieci e mezzo faccio una passeggiata in giardino con il cane.",
+          hints: ["Trasforma «porto» in «porta» e «faccio» in «fa».", "Mantieni l’espressione «con il cane» e gli orari."]
+        },
+        {
+          title: "Paragrafo 8 · A mezzanotte vado in camera da letto; mio marito guarda ancora un po’ la televisione e poi finalmente dormiamo.",
+          hints: ["Trasforma «vado» in «va» e «dormiamo» in «dorme».", "La frase «mio marito guarda» è già alla terza persona singolare e non va cambiata."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

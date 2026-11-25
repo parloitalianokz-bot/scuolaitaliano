@@ -78,6 +78,7 @@
 
         const session = window.ParloSession || {};
     const isTeacherView = Boolean(session.isTeacher);
+    const isOnlineMode = session.activityMode === "online";
     const isPersonalPractice = !isTeacherView && ["distance", "individual"].includes(session.activityMode);
     const safeGroup = session.safeGroup || "sconosciuto";
     const currentAuthorName = isTeacherView
@@ -838,14 +839,16 @@
     if (!db) {
       setConnectionMessage("⚠️ Connessione al database non disponibile: verifica la rete o ricarica la pagina.");
     } else {
-      const connectedRef = db.ref(".info/connected");
-      connectedRef.on("value", snap => {
-        if (snap.val() === false) {
-          setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
-        } else {
-          setConnectionMessage("");
-        }
-      });
+            if (isOnlineMode) {
+        const connectedRef = db.ref(".info/connected");
+        connectedRef.on("value", snap => {
+          if (snap.val() === false) {
+            setConnectionMessage("⚠️ Connessione a Firebase interrotta: i salvataggi potrebbero non riuscire finché non torna la rete.");
+          } else {
+            setConnectionMessage("");
+          }
+        });
+      }
 
       const exerciseRef = db.ref(`esercizi/gruppi/${safeGroup}/${exercisePath}`);
       sync = ParloModes.createSync({
@@ -853,7 +856,9 @@
         ref: exerciseRef,
         database: db,
         session,
-        slots,
+                slots,
+        realtime: isOnlineMode,
+        trackPresence: isOnlineMode,
         onChange(snapshotState) {
           renderAllCards(snapshotState.onlineStudents);
         },
@@ -863,13 +868,15 @@
         }
       });
 
-      if (isTeacherView) {
+            if (isTeacherView) {
         cardUI.forEach((ui, index) => {
           sync.bindAssignmentSelect(ui.assignSelect, slots[index].id);
         });
-        ParloModes.loadGroupRoster(db, safeGroup, unitNumber, roster => {
-          sync.setRoster(roster);
-        });
+        if (isOnlineMode) {
+          ParloModes.loadGroupRoster(db, safeGroup, unitNumber, roster => {
+            sync.setRoster(roster);
+          });
+        }
       }
     }
 
