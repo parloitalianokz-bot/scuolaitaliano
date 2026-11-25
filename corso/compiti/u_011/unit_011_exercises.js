@@ -22,7 +22,7 @@ window.HOMEWORK_EXERCISES_CATALOG["11"] = {
       title: "1.1 Comprendi la giornata di Maria / Пойми распорядок дня Марии",
       instructions: "Scegli la risposta corretta secondo il racconto. / Выбери правильный ответ по рассказу.",
       items: [
-        { id: "q1", prompt: "A che ora comincia la giornata della narratrice?", options: [{ value: "a", label: "a · Alle sette" }, { value: "b", label: "b · Alle otto e mezzo" }, { value: "c", label: "c · Alle undici" }], answers: ["a"] },
+        { id: "q1", prompt: "A che ora comincia la giornata di Maria?", options: [{ value: "a", label: "a · Alle sette" }, { value: "b", label: "b · Alle otto e mezzo" }, { value: "c", label: "c · Alle undici" }], answers: ["a"] },
         { id: "q2", prompt: "Dove porta i bambini alle otto e mezzo?", options: [{ value: "a", label: "a · Al supermercato" }, { value: "b", label: "b · A scuola" }, { value: "c", label: "c · In salotto" }], answers: ["b"] },
         { id: "q3", prompt: "Che cosa fa dopo aver accompagnato i bambini?", options: [{ value: "a", label: "a · Va al supermercato e fa la spesa" }, { value: "b", label: "b · Prepara la cena" }, { value: "c", label: "c · Fa una passeggiata" }], answers: ["a"] },
         { id: "q4", prompt: "Che cosa fanno i bambini dopo aver studiato?", options: [{ value: "a", label: "a · Dormono in camera" }, { value: "b", label: "b · Giocano in salotto" }, { value: "c", label: "c · Vanno al supermercato" }], answers: ["b"] },
@@ -53,12 +53,12 @@ window.HOMEWORK_EXERCISES_CATALOG["11"] = {
       instructions: "Tocca le parole nell’ordine corretto per formare le frasi. / Нажимай на слова в правильном порядке, чтобы составить предложения.",
       items: [
         { id: "o1", prompt: "La mattina", words: ["sette.", "alle", "comincia", "giornata", "La", "mia"], answers: [4, 5, 3, 2, 1, 0] },
-        { id: "o2", prompt: "La colazione", words: ["famiglia.", "la", "Preparo", "per", "colazione", "tutta"], answers: [2, 4, 1, 3, 5, 0] },
+        { id: "o2", prompt: "La colazione", words: ["famiglia.", "la", "Preparo", "per", "colazione", "tutta", "la"], answers: [2, 1, 4, 3, 5, 6, 0] },
         { id: "o3", prompt: "La scuola", words: ["a", "bambini", "porto", "scuola.", "i", "Io"], answers: [5, 2, 4, 1, 0, 3] },
-        { id: "o4", prompt: "Il supermercato", words: ["spesa.", "la", "faccio", "supermercato", "al", "Vado"], answers: [5, 4, 3, 2, 1, 0] },
-        { id: "o5", prompt: "Il pranzo", words: ["pranzo.", "il", "preparo", "casa", "a", "Torno"], answers: [5, 3, 4, 2, 1, 0] },
-        { id: "o6", prompt: "I bambini", words: ["salotto.", "in", "giocano", "bambini", "I", "i"], answers: [4, 5, 3, 2, 1, 0] },
-        { id: "o7", prompt: "La cena", words: ["cena", "la", "Maria", "sette.", "prepara", "Alle"], answers: [5, 3, 2, 4, 1, 0] },
+        { id: "o4", prompt: "Il supermercato", words: ["spesa.", "la", "faccio", "supermercato", "al", "Vado", "e"], answers: [5, 4, 3, 6, 2, 1, 0] },
+        { id: "o5", prompt: "Il pranzo", words: ["pranzo.", "il", "preparo", "casa", "a", "Torno", "e"], answers: [5, 3, 4, 6, 2, 1, 0] },
+        { id: "o6", prompt: "I bambini", words: ["salotto.", "in", "giocano", "bambini", "I"], answers: [4, 3, 2, 1, 0] },
+        { id: "o7", prompt: "La cena", words: ["cena", "la", "Maria", "sette.", "prepara", "alle"], answers: [2, 4, 1, 0, 5, 3] },
         { id: "o8", prompt: "La passeggiata", words: ["cane.", "il", "con", "passeggiata", "una", "faccio"], answers: [5, 4, 3, 2, 1, 0] }
       ]
     },
@@ -68,7 +68,7 @@ window.HOMEWORK_EXERCISES_CATALOG["11"] = {
       title: "1.4 Ricostruisci le frasi al presente / Составь предложения в настоящем времени",
       instructions: "Riordina soggetto, verbo e complementi. / Расставь подлежащее, глагол и остальные части предложения.",
       items: [
-        { id: "o1", prompt: "Maria e i bambini", words: ["a", "Maria", "i", "casa.", "bambini", "tornano"], answers: [1, 2, 4, 5, 0, 3] },
+        { id: "o1", prompt: "Maria e i bambini", words: ["a", "Maria", "i", "casa.", "bambini", "tornano", "e"], answers: [1, 6, 2, 4, 5, 0, 3] },
         { id: "o2", prompt: "Il marito", words: ["televisione", "guarda", "marito", "Il", "la", "in", "salotto."], answers: [3, 2, 1, 4, 0, 5, 6] },
         { id: "o3", prompt: "La famiglia", words: ["mangiamo", "noi", "All’una", "insieme."], answers: [2, 3, 1, 0] },
         { id: "o4", prompt: "Dopo pranzo", words: ["a", "vado", "bambini", "prendere", "i", "Dopo", "pranzo"], answers: [5, 6, 1, 3, 4, 2, 0] },
