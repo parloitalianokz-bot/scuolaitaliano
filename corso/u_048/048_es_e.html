@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con i pronomi diretti e ne, Unità 48, Esercizio E." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio E</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_e" data-next-href="048_es_f.html" data-next-label="Vai all’esercizio F →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Grammatica</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Completa le frasi con i pronomi diretti e con <em>ne</em>.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio E</div>
+      <div class="instruction-text">👉 <strong>Добавьте подходящее местоимение: прямое местоимение или <em>ne</em>.</strong></div>
+    </div>
+    <div class="instruction-box" lang="it">
+      <div class="instruction-title">💬 Consiglio per gli studenti</div>
+      <div class="instruction-text">Inserisci il pronome diretto che sostituisce la persona o la cosa già nominata; usa <em>ne</em> per indicare una quantità o un gruppo introdotto da <em>di</em>. In modalità online si lavora a turno, con i turni assegnati dall’insegnante. In modalità distanza invia le risposte per la revisione; in modalità allenamento esercitati individualmente e consulta i suggerimenti quando ti servono.</div>
+    </div>
+
+    <section class="card" aria-label="Completa le frasi con i pronomi diretti e ne">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="048_es_f.html" hidden>Vai all’esercizio F →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_e",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        {
+          id: "marco-oggi",
+          hintsLang: "it",
+          hints: ["Marco è il complemento oggetto di vedere: quale pronome diretto maschile singolare lo sostituisce?"],
+          parts: ["Hai visto Marco? — No, ma ", { id: "lo-vedro", input: true, correct: "lo" }, " vedrò oggi in biblioteca."]
+        },
+        {
+          id: "marco-tempo",
+          hintsLang: "it",
+          hints: ["Marco è maschile singolare e completa il verbo vedere come complemento oggetto."],
+          parts: ["Come va, Marco? È molto tempo che non ", { id: "lo-vedevo", input: true, correct: "lo" }, " vedevo."]
+        },
+        {
+          id: "signora-prego",
+          hintsLang: "it",
+          hints: ["È una forma di cortesia rivolta a una signora: il pronome diretto femminile di cortesia si scrive con la maiuscola."],
+          parts: ["Signora, ", { id: "la-prego", input: true, correct: "La" }, " prego di non parlare così forte mentre sono al telefono."]
+        },
+        {
+          id: "capire-te",
+          hintsLang: "it",
+          hints: ["Il soggetto è tu e la frase si rivolge direttamente a te: usa il pronome diretto corrispondente."],
+          parts: ["Quando parli così in fretta, non ", { id: "ti-capisco", input: true, correct: "ti" }, " capisco."]
+        },
+        {
+          id: "segreto",
+          hintsLang: "it",
+          hints: ["Un segreto è maschile singolare; è ciò che non dirò a nessuno."],
+          parts: ["Posso confidarti un segreto? — Certo, non ", { id: "lo-diro", input: true, correct: "lo" }, " dirò a nessuno."]
+        },
+        {
+          id: "radio",
+          hintsLang: "it",
+          hints: ["La radio è femminile singolare; sostituisce il complemento oggetto di ascoltare."],
+          parts: ["Ascolti spesso la radio? — No, ", { id: "la-ascolto", input: true, correct: "la" }, " ascolto solo in macchina."]
+        },
+        {
+          id: "vestito-soldi",
+          hintsLang: "it",
+          hints: ["Il vestito è maschile singolare. Nella seconda frase, i soldi sono maschile plurale: puoi chiedere in prestito proprio i soldi."],
+          parts: ["Quando vedo un vestito che mi piace, ", { id: "lo-compro", input: true, correct: "lo" }, " compro subito. Se non ho i soldi, ", { id: "li-chiedo", input: true, correct: "li" }, " chiedo in prestito a qualcuno."]
+        },
+        {
+          id: "programma-concerto",
+          hintsLang: "it",
+          hints: ["Il programma è maschile singolare e completa il verbo conoscere come complemento oggetto."],
+          parts: ["Conosci già il programma del concerto di stasera? — No, non ", { id: "lo-conosco", input: true, correct: "lo" }, " conosco."]
+        },
+        {
+          id: "macchie-rossetto",
+          hintsLang: "it",
+          hints: ["Qui si dice che non si vede nessuna macchia appartenente a quel gruppo: usa <em>ne</em> con il quantificatore <em>nessuna</em>."],
+          parts: ["Guarda quante macchie di rossetto ci sono sulla tua camicia! — Dove? Io non ", { id: "ne-vedo", input: true, correct: "ne" }, " vedo nessuna."]
+        },
+        {
+          id: "musica-classica",
+          hintsLang: "it",
+          hints: ["Per rispondere a «Ti piace?» si usa l’espressione «non lo so». Poi la musica classica, femminile singolare, è il complemento oggetto di conoscere."],
+          parts: ["Ti piace la musica classica? — Non ", { id: "lo-so", input: true, correct: "lo" }, " so, non ", { id: "la-conosco", input: true, correct: "la" }, " conosco abbastanza."]
+        },
+        {
+          id: "rimprovera-tratta",
+          hintsLang: "it",
+          hints: ["«Noi» è il complemento oggetto di entrambi i verbi: rimproverare e trattare."],
+          parts: ["Quando l’insegnante non è contento di noi, ", { id: "ci-rimprovera", input: true, correct: "ci" }, " rimprovera e ", { id: "ci-tratta", input: true, correct: "ci" }, " tratta male."]
+        },
+        {
+          id: "stazione-domani",
+          hintsLang: "it",
+          hints: ["Nella domanda, «ragazzi» è la persona plurale che viene accompagnata: usa <em>vi</em>. Nella risposta, Corrado accompagna «noi»: usa <em>ci</em>."],
+          parts: ["Ragazzi, chi ", { id: "vi-porta", input: true, correct: "vi" }, " porta alla stazione domani mattina? — ", { id: "ci-porta", input: true, correct: "Ci" }, " porta Corrado."]
+        },
+        {
+          id: "saluto-giovanni",
+          hintsLang: "it",
+          hints: ["Giovanni è la persona a cui si rivolge il parlante: usa il pronome diretto della seconda persona singolare."],
+          parts: ["Giovanni, adesso ", { id: "ti-saluto", input: true, correct: "ti" }, " saluto perché devo andare a casa."]
+        },
+        {
+          id: "studente-serio",
+          hintsLang: "it",
+          hints: ["Lo studente è maschile singolare e viene incontrato: scegli il pronome diretto corrispondente."],
+          parts: ["È uno studente molto serio: ", { id: "lo-incontro", input: true, correct: "lo" }, " incontro tutti i giorni in biblioteca."]
+        },
+        {
+          id: "studentessa-seria",
+          hintsLang: "it",
+          hints: ["La studentessa è femminile singolare e viene incontrata: scegli il pronome diretto corrispondente."],
+          parts: ["È una studentessa poco seria: ", { id: "la-incontro", input: true, correct: "la" }, " incontro tutte le sere in discoteca."]
+        },
+        {
+          id: "elefanti",
+          hintsLang: "it",
+          hints: ["Con «degli elefanti» e una quantità («moltissimi») si usa <em>ne</em>. Nella seconda frase gli elefanti sono complemento oggetto plurale: usa <em>li</em>."],
+          parts: ["Tuo nonno ha degli elefanti? — Sì, ", { id: "ne-ha", input: true, correct: "ne" }, " ha moltissimi: lui ", { id: "li-tiene", input: true, correct: "li" }, " tiene in garage."]
+        },
+        {
+          id: "aeroporto",
+          hintsLang: "it",
+          hints: ["La persona che parla deve partire: è lei stessa che deve essere accompagnata all’aeroporto."],
+          parts: ["Domani devo partire per l’Italia: chi ", { id: "mi-accompagna", input: true, correct: "mi" }, " accompagna all’aeroporto?"]
+        },
+        {
+          id: "cucina-sporca",
+          hintsLang: "it",
+          hints: ["La cucina è femminile singolare; il pronome può precedere il verbo: «la devo pulire»."],
+          parts: ["La cucina è molto sporca: ", { id: "la-devo", input: true, correct: "la" }, " devo pulire."]
+        },
+        {
+          id: "cerco-giovanni",
+          hintsLang: "it",
+          hints: ["Giovanni è la persona a cui si rivolge il parlante: il pronome diretto della seconda persona singolare è lo stesso usato con «ti cerco»."],
+          parts: ["Giovanni, dove sei stato? Sono due giorni che ", { id: "ti-cerco", input: true, correct: "ti" }, " cerco!"]
+        },
+        {
+          id: "direttore-aspetta",
+          hintsLang: "it",
+          hints: ["«Signori» indica più persone a cui ci si rivolge direttamente: il direttore aspetta voi."],
+          parts: ["Signori, potete entrare: il direttore ", { id: "vi-aspetta", input: true, correct: "vi" }, " aspetta."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
