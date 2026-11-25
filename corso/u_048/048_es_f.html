@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con i pronomi diretti e indiretti, ne e ci, Unità 48, Esercizio F." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_f" data-next-href="048_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Grammatica</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Completa le frasi con i pronomi atoni, <em>ne</em> e <em>ci</em>.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">👉 <strong>Добавьте безударное местоимение: прямое или косвенное дополнение, частичное <em>ne</em> или <em>ci</em>.</strong></div>
+    </div>
+    <div class="instruction-box" lang="it">
+      <div class="instruction-title">💬 Consiglio per gli studenti</div>
+      <div class="instruction-text">Individua la persona o la cosa sostituita dal pronome. Usa <em>ne</em> per una quantità o una parte, <em>ci</em> per sostituire un luogo o un complemento introdotto da <em>a</em>. Attenzione alle combinazioni come <em>ce l’ho</em>. In modalità online si lavora a turno, con i turni assegnati dall’insegnante; in modalità distanza invia le risposte per la revisione; in modalità allenamento esercitati individualmente e consulta i suggerimenti quando ti servono.</div>
+    </div>
+
+    <section class="card" aria-label="Completa le frasi con i pronomi atoni, ne e ci">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="048_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_f",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        {
+          id: "prosecco",
+          hintsLang: "it",
+          hints: ["«Un prosecco» è maschile singolare e viene preso dai ragazzi: usa il pronome diretto corrispondente."],
+          parts: ["Prendete un prosecco anche voi, ragazzi? — Grazie, ", { id: "lo-prendiamo", input: true, correct: "lo" }, " prendiamo volentieri!"]
+        },
+        {
+          id: "camera",
+          hintsLang: "it",
+          hints: ["La donna è entrata nella mia camera: sostituisci il complemento di luogo con il pronome <em>ci</em>."],
+          parts: ["Chi è entrato nella mia camera? — ", { id: "ci-entrata", input: true, correct: "Ci" }, " è entrata solo la donna di servizio, per rifare il letto."]
+        },
+        {
+          id: "caramella",
+          hintsLang: "it",
+          hints: ["Per dire «ho una caramella per te», combina <em>ci</em> con il pronome diretto femminile."],
+          parts: ["Luigi, hai una caramella per la gola? — Sì, ", { id: "ce-lho-caramella", input: true, correct: "ce l'" }, "ho!"]
+        },
+        {
+          id: "lezione",
+          hintsLang: "it",
+          hints: ["Nella prima parte si sostituisce l’intera frase con «lo so»; nella seconda, <em>ci</em> riprende «alla lezione»."],
+          parts: ["È tardi, devi andare alla lezione di italiano! — ", { id: "lo-so-lezione", input: true, correct: "Lo" }, " so, ma non voglio andar", { id: "ci-andare-lezione", input: true, correct: "ci" }, "."]
+        },
+        {
+          id: "sms",
+          hintsLang: "it",
+          hints: ["«Sms» è maschile plurale ed è il complemento oggetto di «scrivo»."],
+          parts: ["Scrivi molti sms? — Sì, ma ", { id: "li-scrivo-sms", input: true, correct: "li" }, " scrivo solo mentre guido la macchina."]
+        },
+        {
+          id: "appartamento",
+          hintsLang: "it",
+          hints: ["<em>Ci</em> sostituisce il complemento di luogo «in questo appartamento»."],
+          parts: ["Da quanto tempo abitate in questo appartamento? — ", { id: "ci-abitiamo", input: true, correct: "Ci" }, " abitiamo da sei anni."]
+        },
+        {
+          id: "profumo",
+          hintsLang: "it",
+          hints: ["La domanda riguarda una quantità: usa <em>ne</em> prima del verbo."],
+          parts: ["Quanti litri di profumo consuma in un mese, Signora? — ", { id: "ne-consumo", input: true, correct: "Ne" }, " consumo tre."]
+        },
+        {
+          id: "borsa",
+          hintsLang: "it",
+          hints: ["I libri sono stati messi dentro la borsa: <em>ci</em> sostituisce «nella borsa»."],
+          parts: ["Perché la tua borsa è così pesante? — ", { id: "ci-ho-messo", input: true, correct: "Ci" }, " ho messo i miei libri."]
+        },
+        {
+          id: "direttore-documenti",
+          hintsLang: "it",
+          hints: ["Il complemento indiretto è «al direttore»: il pronome atono maschile singolare è <em>gli</em>."],
+          parts: ["Ho detto al direttore che domani ", { id: "gli-portero", input: true, correct: "gli" }, " porterò i documenti."]
+        },
+        {
+          id: "milano",
+          hintsLang: "it",
+          hints: ["<em>Ci</em> sostituisce il complemento di luogo «a Milano»."],
+          parts: ["Elena una volta è stata a Milano, Laura invece non ", { id: "ci-stata", input: true, correct: "ci" }, " è ancora stata."]
+        },
+        {
+          id: "complimenti-elena",
+          hintsLang: "it",
+          hints: ["I complimenti sono stati fatti a Elena: usa il pronome indiretto femminile singolare."],
+          parts: ["Elena era molto elegante ieri sera: tutti ", { id: "le-complimenti", input: true, correct: "le" }, " hanno fatto i complimenti."]
+        },
+        {
+          id: "dottore",
+          hintsLang: "it",
+          hints: ["<em>Ci</em> riprende «dal dottore»; con il passato prossimo si accorda il participio con il soggetto sottinteso maschile."],
+          parts: ["Sei andato dal dottore? — No, non ", { id: "ci-andato", input: true, correct: "ci" }, " sono ancora andato."]
+        },
+        {
+          id: "pizza",
+          hintsLang: "it",
+          hints: ["Si parla di una quantità di pizza già mangiata: usa <em>ne</em>."],
+          parts: ["Ho mangiato troppa pizza, non ", { id: "ne-voglio", input: true, correct: "ne" }, " voglio più."]
+        },
+        {
+          id: "macchina-madre",
+          hintsLang: "it",
+          hints: ["Nella prima frase «la macchina» si sostituisce con <em>ce l’</em>; poi riprendi «la macchina» con <em>la</em> e «a tua madre» con <em>le</em>."],
+          parts: ["Tua madre ha la macchina? — Sì, ", { id: "ce-lha-macchina", input: true, correct: "ce l'" }, "ha, ma non ", { id: "la-sa", input: true, correct: "la" }, " sa guidare. — E allora a che ", { id: "le-serve", input: true, correct: "le" }, " serve?"]
+        },
+        {
+          id: "passaporto",
+          hintsLang: "it",
+          hints: ["Per rispondere «ho il passaporto», combina <em>ci</em> con il pronome diretto maschile singolare."],
+          parts: ["Ha il passaporto, Signore? — Sì, ", { id: "ce-lho-passaporto", input: true, correct: "ce l'" }, "ho."]
+        },
+        {
+          id: "tornare-casa",
+          hintsLang: "it",
+          hints: ["<em>Ci</em> riprende il complemento di luogo «a casa»."],
+          parts: ["Se non vuoi tornare a casa con me, allora ", { id: "ci-tornero", input: true, correct: "ci" }, " tornerò da sola."]
+        },
+        {
+          id: "dieci-euro",
+          hintsLang: "it",
+          hints: ["Si parla di una quantità di euro: usa <em>ne</em> sia per dire che li hai sia per chiedere se l’altra persona li vuole."],
+          parts: ["Hai dieci euro? — Sì, ", { id: "ne-ho-euro", input: true, correct: "ne" }, " ho: ", { id: "ne-vuoi-euro", input: true, correct: "ne" }, " vuoi?"]
+        },
+        {
+          id: "contrabbassi",
+          hintsLang: "it",
+          hints: ["La domanda chiede quanti contrabbassi possiede tuo nonno: usa <em>ne</em> con la quantità."],
+          parts: ["Quanti contrabbassi ha tuo nonno? — ", { id: "ne-ha-contrabbassi", input: true, correct: "Ne" }, " ha quattro."]
+        },
+        {
+          id: "esami-marco",
+          hintsLang: "it",
+          hints: ["Gli esami mancano a Marco: il pronome indiretto maschile singolare è <em>gli</em>."],
+          parts: ["Marco ha quasi finito l’università: ", { id: "gli-mancano", input: true, correct: "gli" }, " mancano solo tre esami."]
+        },
+        {
+          id: "giardino",
+          hintsLang: "it",
+          hints: ["<em>Ci</em> riprende il luogo «in giardino» e si unisce a «vengo»."],
+          parts: ["Chi fa due passi con me in giardino? — ", { id: "ci-vengo", input: true, correct: "Ci" }, " vengo io."]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
