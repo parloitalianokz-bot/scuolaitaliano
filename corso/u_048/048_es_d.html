@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Racconta in italiano Gli animali del signor Rossi, Unità 48, Esercizio D." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_d" data-next-href="048_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Produzione orale</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Racconta la storia in italiano seguendo le tappe.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio D</div>
+      <div class="instruction-text">
+        👉 <strong>Перескажите текст.</strong> Используйте подсказки, чтобы рассказать историю по порядку. Не обязательно повторять текст дословно.
+        <br /><span lang="it"><strong>Racconta il testo in italiano seguendo i suggerimenti.</strong> Puoi parlare al microfono oppure scrivere la risposta. In modalità online rispetta i turni assegnati; in modalità distanza invia il tuo contributo per la revisione; in modalità allenamento esercitati individualmente.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Racconta la storia degli animali del signor Rossi">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="048_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/speech-exercise.js?v=2"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_d",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "partenza-vacanza",
+          title: "La vacanza e gli animali",
+          intro: "Presenta il signor Rossi e spiega quale problema deve risolvere prima di partire.",
+          prompts: [
+            "Dove va in vacanza il signor Rossi e per quanto tempo?",
+            "Quali animali ha? Perché non può portarli in albergo?"
+          ]
+        },
+        {
+          key: "squalo-bambina",
+          title: "Lo squalo e la bambina",
+          intro: "Racconta l’accordo tra il signor Rossi e la bambina del piano di sopra.",
+          prompts: [
+            "Che cosa regala il signor Rossi alla bambina? Che cosa le chiede in cambio?",
+            "Che cosa deve mangiare lo squalo ogni giorno e che cosa lascia Rossi alla bambina?"
+          ]
+        },
+        {
+          key: "struzzo-maestra",
+          title: "Lo struzzo e la maestra",
+          intro: "Descrivi l’incontro con la vecchia maestra e le cure richieste per lo struzzo.",
+          prompts: [
+            "Perché la maestra è sorpresa quando vede il signor Rossi con lo struzzo?",
+            "Quali oggetti lascia Rossi? Quali cure, cibi e attenzioni richiede lo struzzo?",
+            "Di che cosa ha paura lo struzzo?"
+          ]
+        },
+        {
+          key: "gorilla-ufficio",
+          title: "Il gorilla in ufficio",
+          intro: "Spiega perché Rossi porta il gorilla al lavoro e come lo prepara alla sua assenza.",
+          prompts: [
+            "Che cosa gli spiega e gli mostra?",
+            "Che cosa gli lascia da mangiare prima di partire?"
+          ]
+        },
+        {
+          key: "ritorno-vacanza",
+          title: "Il ritorno e la disgrazia dei pesci",
+          intro: "Racconta che cosa scopre il signor Rossi quando torna dalle vacanze.",
+          prompts: [
+            "Che cosa racconta la bambina? Quale pesce è scomparso e quale animale l’ha mangiato?",
+            "Che cosa scopre Rossi quando va dalla maestra? Perché è scappato lo struzzo?"
+          ]
+        },
+        {
+          key: "gorilla-direttore",
+          title: "Il nuovo direttore",
+          intro: "Concludi il racconto con la visita in ufficio e la sorpresa della segretaria.",
+          prompts: [
+            "Che cosa vuole fare il signor Rossi quando arriva in ufficio?",
+            "Perché il gorilla non può riceverlo? Che nuovo ruolo ha ottenuto?"
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
