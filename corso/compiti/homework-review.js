@@ -18,8 +18,10 @@
       #homework-review .review-row { margin:12px; padding:14px; border:1px solid #e7e5dc; border-radius:10px; background:#fffefa; }
       #homework-review .review-label { margin:0 0 8px; font-weight:800; }
       #homework-review .review-value { margin:6px 0; padding:9px 11px; border-radius:8px; background:#f5f5ef; white-space:pre-wrap; overflow-wrap:anywhere; }
-      #homework-review .review-model { color:#6b7069; font-size:.9rem; }
-      #homework-review .review-row textarea { display:block; width:100%; min-height:68px; margin:10px 0; padding:9px 11px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
+             #homework-review .review-model { color:#6b7069; font-size:.9rem; }
+       #homework-review .review-instructions { margin:0; padding:12px 16px; color:#424b43; white-space:pre-wrap; line-height:1.5; }
+       #homework-review .review-context { margin:6px 0; padding:9px 11px; border-left:3px solid #c8d9c8; background:#f7f8f3; color:#525b51; white-space:pre-wrap; overflow-wrap:anywhere; font-size:.92rem; }
+       #homework-review .review-row textarea { display:block; width:100%; min-height:68px; margin:10px 0; padding:9px 11px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       #homework-review .review-actions { display:flex; flex-wrap:wrap; gap:8px; }
       #homework-review .review-actions button.reject { background:#a51d1d; }
       #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.35); }
@@ -119,6 +121,12 @@
               const summary = document.createElement("summary");
         summary.textContent = section.title || `Parte ${sectionIndex + 1}`;
         details.appendChild(summary);
+        if (section.instructions) {
+          const instructions = document.createElement("p");
+          instructions.className = "review-instructions";
+          instructions.textContent = section.instructions;
+          details.appendChild(instructions);
+        }
         const safeSectionId = String(section.id || sectionIndex).replace(/[.#$\/\[\]]/g, "_");
         const exerciseComment = document.createElement("textarea");
         exerciseComment.maxLength = 1000;
@@ -138,8 +146,15 @@
         const response = document.createElement("div");
         response.className = "review-value";
         response.textContent = formatValue(row.answer);
-        card.append(label, response);
-        if (row.expected !== undefined && row.expected !== null && row.expected !== "") {
+                 card.append(label);
+         if (section.showExerciseDetails && row.context) {
+           const context = document.createElement("div");
+           context.className = "review-context";
+           context.textContent = row.context;
+           card.appendChild(context);
+         }
+         card.appendChild(response);
+         if (row.expected !== undefined && row.expected !== null && row.expected !== "") {
           const model = document.createElement("p");
           model.className = "review-model";
           model.textContent = `Risposta attesa: ${formatValue(row.expected)}`;

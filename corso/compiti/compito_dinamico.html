@@ -646,18 +646,34 @@
           const correctColumn = (ex.columns || []).find(column => column.id === item.column);
           answer = placedColumn?.label || saved;
           expected = correctColumn?.label || item.column || "";
-        } else if (ex.type === "multiple_choice") {
-          const selectedOption = (item.options || []).find(option => String(option.value) === String(saved));
+        } else if (ex.type === "multiple_choice" || ex.type === "matching") {
+          const options = item.options || ex.options || [];
+          const selectedOption = options.find(option => String(option.value) === String(saved));
           answer = selectedOption?.label || saved;
           const correctValues = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
-          expected = correctValues.map(value => (item.options || []).find(option => String(option.value) === String(value))?.label || value).join(" / ");
+          expected = correctValues.map(value => options.find(option => String(option.value) === String(value))?.label || value).join(" / ");
+        } else if (ex.type === "word_order") {
+          const words = item.words || [];
+          answer = Array.isArray(saved) ? saved.map(position => words[position]).filter(Boolean).join(" ") : saved;
+          expected = (Array.isArray(item.answers) ? item.answers : []).map(position => words[position]).filter(Boolean).join(" ");
         } else if (item.answers) {
           expected = Array.isArray(item.answers) ? item.answers.join(" / ") : item.answers;
         }
 
         const prompt = item.prompt || item.title || item.word ||
           [item.before, "[spazio]", item.after].filter(Boolean).join(" ") || `Risposta ${index + 1}`;
-        return { id: item.id || index, prompt, answer, expected };
+        const context = [];
+        if (ex.type === "multiple_choice") context.push(`Opzioni: ${(item.options || []).map(option => option.label).join(" · ")}`);
+        if (ex.type === "matching") context.push(`Possibili abbinamenti: ${(ex.options || []).map(option => option.label).join(" · ")}`);
+        if (ex.type === "word_order") context.push(`Parole da usare: ${(item.words || []).join(" · ")}`);
+        if (ex.type === "gap_fill") context.push(`Frase completa: ${[item.before, "[spazio da completare]", item.after, item.cue ? `(${item.cue})` : ""].filter(Boolean).join(" ")}`);
+        if (ex.type === "table_fill") {
+          const cells = (item.cells || []).map(cell => cell && typeof cell === "object" && cell.input ? "[risposta da inserire]" : String(cell ?? ""));
+          context.push(`Tabella${(ex.columns || []).length ? ` · ${(ex.columns || []).join(" | ")}` : ""}: ${cells.join(" | ")}`);
+        }
+        if (ex.type === "open_response" && item.title) context.push(`Traccia: ${item.title}`);
+        if (ex.type === "column_sort") context.push(`Elemento: ${item.word || item.prompt || ""} · Colonne: ${(ex.columns || []).map(column => column.label).join(" / ")}`);
+        return { id: item.id || index, prompt, answer, expected, context: context.join("\n") };
       });
     }
 
@@ -702,9 +718,13 @@
             taskData: { title: assignment.title || "Compito personalizzato" },
             backHref: "../compiti.html",
             buildRows(submission) {
+              const showExerciseDetails = assignment.source === "automatic-composer" ||
+                (assignment.taskPath === "compiti/compito_dinamico.html" && Array.isArray(assignment.selectedExerciseIds));
               return resolvedExercises.map(ex => ({
                 id: ex.id,
                 title: ex.title,
+                instructions: showExerciseDetails ? ex.instructions : "",
+                showExerciseDetails,
                 commentMode: "exercise",
                 rows: reviewRowsForExercise(ex, submission)
               }));
