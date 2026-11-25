@@ -245,8 +245,11 @@
       .review-prompt { font-weight: 700; }
       .review-answer-label { color: var(--muted); font-size: .88rem; font-weight: 700; }
       .review-outcome { display: inline-block; margin-top: 6px; }
-      .exercise-review-comment { margin-top: 12px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 8px; background: #fff8f2; white-space: pre-wrap; }
-      .final-review-comment { margin: 0 0 20px; padding: 14px 18px; border-left: 4px solid var(--green); border-radius: 12px; background: var(--green-light); white-space: pre-wrap; }
+             .exercise-review-comment, .final-review-comment { padding: 16px 18px; border: 1px solid #ead8cc; border-left: 5px solid var(--accent); border-radius: 12px; background: linear-gradient(135deg, #fff8f2, #fffefa); box-shadow: 0 4px 12px rgba(89,65,48,.06); }
+       .exercise-review-comment { margin-top: 14px; }
+       .final-review-comment { margin: 0 0 20px; border-color: var(--line); border-left-color: var(--green); background: linear-gradient(135deg, var(--green-light), #fffefa); }
+       .teacher-comment-heading { margin: 0 0 8px; color: var(--green-dark); font-size: .9rem; font-weight: 800; line-height: 1.4; }
+       .teacher-comment-text { margin: 0; color: #343a34; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
             @media (max-width: 520px) { .review-summary-stats { grid-template-columns: 1fr; } .review-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; } }
 
     /* Rifiniture per una lettura più chiara e un uso comodo anche su mobile */
@@ -551,12 +554,18 @@
         panel.appendChild(line);
       });
       const exerciseComment = teacherReviewData.exerciseComments?.[String(ex.id).replace(/[.#$\/\[\]]/g, "_")]?.comment;
-      if (exerciseComment) {
-        const comment = document.createElement("div");
-        comment.className = "exercise-review-comment";
-        comment.textContent = `${reviewLabel(ex, "Комментарий преподавателя", "Commento dell’insegnante")}: ${exerciseComment}`;
-        panel.appendChild(comment);
-      }
+             if (exerciseComment) {
+         const comment = document.createElement("section");
+         comment.className = "exercise-review-comment";
+         const commentHeading = document.createElement("h4");
+         commentHeading.className = "teacher-comment-heading";
+         commentHeading.textContent = `${reviewLabel(ex, "Комментарий преподавателя", "Commento dell’insegnante")}:`;
+         const commentText = document.createElement("p");
+         commentText.className = "teacher-comment-text";
+         commentText.textContent = exerciseComment;
+         comment.append(commentHeading, commentText);
+         panel.appendChild(comment);
+       }
       card.appendChild(panel);
     }
 
@@ -752,13 +761,19 @@
           teacherReviewData = sub.teacherReview || {};
         }
         renderExercises();
-        if (submissionStatus === "reviewed" && teacherReviewData.finalComment) {
-          const feedback = document.createElement("section");
-          feedback.className = "final-review-comment";
-          const supportExercise = resolvedExercises.find(hasRussianSupport) || resolvedExercises[0] || {};
-          feedback.textContent = `${reviewLabel(supportExercise, "Итоговый отзыв преподавателя", "Giudizio finale dell’insegnante")}: ${teacherReviewData.finalComment}`;
-          container.appendChild(feedback);
-        }
+                 if (submissionStatus === "reviewed" && teacherReviewData.finalComment) {
+           const feedback = document.createElement("section");
+           feedback.className = "final-review-comment";
+           const supportExercise = resolvedExercises.find(hasRussianSupport) || resolvedExercises[0] || {};
+           const feedbackHeading = document.createElement("h3");
+           feedbackHeading.className = "teacher-comment-heading";
+           feedbackHeading.textContent = `${reviewLabel(supportExercise, "Итоговый отзыв преподавателя", "Giudizio finale dell’insegnante")}:`;
+           const feedbackText = document.createElement("p");
+           feedbackText.className = "teacher-comment-text";
+           feedbackText.textContent = teacherReviewData.finalComment;
+           feedback.append(feedbackHeading, feedbackText);
+           container.appendChild(feedback);
+         }
       } catch (err) {
         const message = err.message || "Errore durante il caricamento del compito.";
         const reviewRoot = document.getElementById("homework-review");
