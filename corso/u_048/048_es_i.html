@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parla degli animali domestici e delle vacanze, Unità 48, Esercizio I." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_i">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Produzione orale</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Per parlare un po’ · Esprimi la tua opinione sugli animali domestici.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">
+        👉 <strong>Ответьте на вопросы и поговорите о домашних животных.</strong>
+        <br /><span lang="it"><strong>Rispondi in italiano alle domande, una per scheda.</strong> Puoi parlare al microfono oppure scrivere la risposta. In modalità online rispetta i turni assegnati dall’insegnante; in modalità distanza invia i tuoi contributi per la revisione; in modalità allenamento esercitati individualmente e consulta i suggerimenti.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Conversazione sugli animali domestici">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/speech-exercise.js?v=2"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_i",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "animale-domestico",
+          title: "Domanda 1 · Il tuo animale",
+          intro: "Parla della tua esperienza personale e aggiungi qualche dettaglio.",
+          prompts: ["Hai un animale domestico? Se sì, quale e come ti prendi cura di lui?"]
+        },
+        {
+          key: "animale-vacanza",
+          title: "Domanda 2 · Le vacanze",
+          intro: "Spiega la tua preferenza e motiva la risposta.",
+          prompts: ["Preferisci portare il tuo animale domestico in vacanza con te o lasciarlo a casa? Perché?"]
+        },
+        {
+          key: "vantaggi-svantaggi",
+          title: "Domanda 3 · Vantaggi e svantaggi",
+          intro: "Presenta almeno un vantaggio e uno svantaggio, facendo qualche esempio.",
+          prompts: ["Secondo te, quali sono i vantaggi e gli svantaggi di portare un animale domestico in vacanza?"]
+        },
+        {
+          key: "alberghi-animali",
+          title: "Domanda 4 · Alberghi e animali",
+          intro: "Esprimi il tuo parere e proponi possibili soluzioni o alternative.",
+          prompts: ["Cosa pensi degli alberghi che non accettano animali domestici? Quali alternative ci sono?"]
+        },
+        {
+          key: "abbandono-animali",
+          title: "Domanda 5 · L’abbandono",
+          intro: "Spiega il tuo giudizio e indica quali responsabilità hanno i proprietari.",
+          prompts: ["Cosa pensi delle persone che abbandonano gli animali per andare in vacanza?"]
+        },
+        {
+          key: "signor-rossi",
+          title: "Domanda 6 · Il signor Rossi",
+          intro: "Collega la risposta alla storia letta e motiva la tua opinione.",
+          prompts: ["Secondo te, il signor Rossi ha agito correttamente affidando i suoi animali ad altre persone durante le vacanze?"]
+        },
+        {
+          key: "esperienza-animale",
+          title: "Domanda 7 · Un’esperienza personale",
+          intro: "Racconta l’episodio al passato e descrivi come ti sei sentito/a.",
+          prompts: ["Ti è mai capitato di doverti prendere cura dell’animale domestico di un amico o un parente? Come è stata l’esperienza?"]
+        },
+        {
+          key: "animale-difficile",
+          title: "Domanda 8 · Quale animale è più difficile?",
+          intro: "Scegli uno dei tre animali e spiega quali difficoltà potrebbe creare.",
+          prompts: ["Tra gorilla, struzzo e squalo, qual è l’animale che vi sembra più difficile da gestire? Perché?"]
+        },
+        {
+          key: "animali-esotici",
+          title: "Domanda 9 · Animali esotici o comuni",
+          intro: "Confronta le due possibilità e spiega quale preferisci.",
+          prompts: ["Preferisci animali domestici più esotici o quelli più comuni come cani e gatti?"]
+        },
+        {
+          key: "animali-lavoro",
+          title: "Domanda 10 · Gli animali al lavoro",
+          intro: "Considera sia gli aspetti positivi sia le possibili difficoltà.",
+          prompts: ["Cosa pensi degli animali nei luoghi di lavoro, come uffici? Possono migliorare l’ambiente lavorativo o presentano solo delle difficoltà?"]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
