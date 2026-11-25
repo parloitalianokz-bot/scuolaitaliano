@@ -442,6 +442,15 @@
     function itemIsCorrect(ex, item, saved) {
       if (saved === undefined || saved === null || saved === "") return false;
       if (ex.type === "column_sort") return String(saved) === String(item.column);
+      if (ex.type === "word_order") {
+        const currentWords = item.words || [];
+        const savedWords = saved && !Array.isArray(saved) && Array.isArray(saved.words) ? saved.words : currentWords;
+        const savedOrder = Array.isArray(saved) ? saved : saved && Array.isArray(saved.order) ? saved.order : [];
+        const expected = Array.isArray(item.answers) ? item.answers : [];
+        const submittedPhrase = savedOrder.map(position => savedWords[position]).filter(word => word !== undefined).join(" ");
+        const expectedPhrase = expected.map(position => currentWords[position]).filter(word => word !== undefined).join(" ");
+        return normalizeAnswer(submittedPhrase) === normalizeAnswer(expectedPhrase);
+      }
       if (ex.type === "multiple_choice") {
         const correct = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
         return correct.some(value => String(value) === String(saved));
@@ -662,9 +671,11 @@
           const correctValues = Array.isArray(item.answers) ? item.answers : item.answers == null ? [] : [item.answers];
           expected = correctValues.map(value => options.find(option => String(option.value) === String(value))?.label || value).join(" / ");
         } else if (ex.type === "word_order") {
-          const words = item.words || [];
-          answer = Array.isArray(saved) ? saved.map(position => words[position]).filter(Boolean).join(" ") : saved;
-          expected = (Array.isArray(item.answers) ? item.answers : []).map(position => words[position]).filter(Boolean).join(" ");
+          const currentWords = item.words || [];
+          const words = saved && !Array.isArray(saved) && Array.isArray(saved.words) ? saved.words : currentWords;
+          const order = Array.isArray(saved) ? saved : saved && Array.isArray(saved.order) ? saved.order : [];
+          answer = order.map(position => words[position]).filter(word => word !== undefined).join(" ");
+          expected = (Array.isArray(item.answers) ? item.answers : []).map(position => currentWords[position]).filter(word => word !== undefined).join(" ");
         } else if (item.answers) {
           expected = Array.isArray(item.answers) ? item.answers.join(" / ") : item.answers;
         }

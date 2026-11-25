@@ -86,10 +86,16 @@
         built.setAttribute("aria-live", "polite");
         const tray = document.createElement("div");
         tray.className = "word-order-bank";
-        const words = item.words || [];
-        let selected = Array.isArray(savedAnswers[item.id])
-          ? savedAnswers[item.id].filter(position => Number.isInteger(position) && position >= 0 && position < words.length)
-          : [];
+        const savedOrder = savedAnswers[item.id];
+        const words = savedOrder && !Array.isArray(savedOrder) && Array.isArray(savedOrder.words)
+          ? savedOrder.words
+          : (item.words || []);
+        let selected = Array.isArray(savedOrder)
+          ? savedOrder.filter(position => Number.isInteger(position) && position >= 0 && position < words.length)
+          : savedOrder && Array.isArray(savedOrder.order)
+            ? savedOrder.order.filter(position => Number.isInteger(position) && position >= 0 && position < words.length)
+            : [];
+        const saveSelection = () => onChangeItem(item.id, { words: [...words], order: [...selected] });
         const redraw = () => {
           built.textContent = selected.map(position => words[position]).join(" ") || "Tocca le parole per comporre la frase…";
           built.classList.toggle("is-empty", selected.length === 0);
@@ -107,7 +113,7 @@
               selected = isSelected
                 ? selected.filter(selectedPosition => selectedPosition !== position)
                 : [...selected, position];
-              onChangeItem(item.id, [...selected]);
+              saveSelection();
               redraw();
             });
             tray.appendChild(button);
@@ -122,7 +128,7 @@
         undo.disabled = disabled;
         undo.addEventListener("click", () => {
           selected.pop();
-          onChangeItem(item.id, [...selected]);
+          saveSelection();
           redraw();
         });
         const reset = document.createElement("button");
@@ -132,7 +138,7 @@
         reset.disabled = disabled;
         reset.addEventListener("click", () => {
           selected = [];
-          onChangeItem(item.id, []);
+          saveSelection();
           redraw();
         });
         actions.append(undo, reset);
