@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa il racconto Gli animali del signor Rossi con i pronomi, Unità 48." />
+  <title>Unità 48 — Gli animali del signor Rossi · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=2" />
+</head>
+<body data-page-key="048_es_b" data-next-href="048_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 48 · Grammatica</span>
+      <h1>Gli animali del signor Rossi</h1>
+      <p class="hero-subtitle">Completa il racconto con i pronomi diretti e indiretti.</p>
+    </header>
+
+    <div class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio B</div>
+      <div class="instruction-text">👉 <strong>Вставьте подходящие местоимения вместо пропусков.</strong></div>
+    </div>
+    <div class="instruction-box" lang="it">
+      <div class="instruction-title">💬 Consiglio per gli studenti</div>
+      <div class="instruction-text">Completa gli spazi con i pronomi e poi controlla le risposte. In modalità online si lavora a turno, con i turni assegnati dall’insegnante. In modalità distanza invia le tue risposte per la revisione; in modalità allenamento esercitati individualmente e usa i suggerimenti quando ti servono.</div>
+    </div>
+
+    <section class="card" aria-label="Completa il racconto con i pronomi">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del racconto:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="048_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="unit-nav.js?v=1"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 48,
+      exercisePath: "048_es_b",
+      specialChars: ["'", "à", "è", "ì", "ò", "ù", "È"],
+      sentences: [
+        {
+          id: "rossi-animali",
+          hintsLang: "it",
+          hints: ["Con una quantità si usa spesso ne.", "Gli animali sono un complemento oggetto plurale: scegli il pronome diretto adatto."],
+          parts: [
+            "Prima di partire per le vacanze, il signor Rossi deve risolvere un problema: a chi lasciare i suoi animali. Lui ",
+            { id: "ne-ha-tre", input: true, correct: "ne" },
+            " ha tre: un gorilla, uno struzzo e uno squalo. Sono animali molto educati e puliti, ma stranamente in albergo non ",
+            { id: "non-li-ammettono", input: true, correct: "li" },
+            " ammettono. Lui ", { id: "li-ama", input: true, correct: "li" },
+            " ama molto, e vorrebbe lasciar", { id: "lasciarli", input: true, correct: "li" },
+            " a una persona che ama gli animali come lui."
+          ]
+        },
+        {
+          id: "bambina-squalo",
+          hintsLang: "it",
+          hints: ["La bambina è il complemento oggetto di ferma: usa la.", "Con fare una proposta e regalare qualcosa a qualcuno si usa il pronome indiretto le.", "Lo squalo è maschile; la carne è femminile."],
+          parts: [
+            "Per fortuna i suoi vicini hanno una bambina che ha un piccolo pesce rosso. Il signor Rossi ",
+            { id: "la-ferma", input: true, correct: "la" },
+            " ferma per le scale e ", { id: "le-fa-proposta", input: true, correct: "le" },
+            " fa una proposta: ", { id: "le-regalera", input: true, correct: "le" },
+            " regalerà un acquario più grande, ma in cambio lei deve tenere per un po’ il suo squalo. Abiterà con il suo pesciolino, nell’acquario, e lei ogni giorno dovrà dar", {
+              id: "dargli-carne", input: true, correct: "gli"
+            },
+            " trenta chili di carne. Se non ", { id: "gli-dara-carne", input: true, correct: "gli" },
+            " darà la carne, lui mangerà il pesce rosso. Il signor Rossi ",
+            { id: "le-lascia-furgone", input: true, correct: "le" },
+            " lascia un furgone pieno di carne surgelata, per dar", { id: "darla-squalo", input: true, correct: "la" }, " allo squalo."
+          ]
+        },
+        {
+          id: "maestra-struzzo",
+          hintsLang: "it",
+          hints: ["La maestra è la persona a cui il signor Rossi lascia e spiega qualcosa: usa il pronome indiretto.", "Lo struzzo è il complemento oggetto di vede."],
+          parts: [
+            "Poco lontano da lui abita la sua ex maestra di matematica, una signora anziana; il signor Rossi decide di lasciar",
+            { id: "lasciarle-struzzo", input: true, correct: "le" },
+            " lo struzzo. Va da lei il giorno dopo, con lo struzzo al guinzaglio: la maestra è molto sorpresa, perché non ",
+            { id: "non-lo-vedeva", input: true, correct: "lo" },
+            " vedeva dai tempi della scuola. Il signor Rossi ", { id: "le-spiega", input: true, correct: "le" },
+            " spiega che lo struzzo è un animale delicato: ", { id: "le-lascia-oggetti", input: true, correct: "le" },
+            " lascia il dentifricio, lo spazzolino e il pettine che lui usa di solito."
+          ]
+        },
+        {
+          id: "promessa-maestra",
+          hintsLang: "it",
+          hints: ["La maestra promette qualcosa al signor Rossi: gli.", "Per la maestra e per lo struzzo, individua a chi o a che cosa si riferiscono i pronomi.", "Con piacere, il pronome precede il verbo: gli piacciono."],
+          parts: [
+            "La maestra ", { id: "gli-promette", input: true, correct: "gli" },
+            " promette che si occuperà dello struzzo. Il signor Rossi ",
+            { id: "le-spiega-cura", input: true, correct: "le" },
+            " spiega che ogni giorno lei dovrà far", { id: "farle-pedicure", input: true, correct: "le" },
+            " pedicure e manicure, e anche un massaggio alla schiena. Per il mangiare, non ci sono problemi: lo struzzo mangia di tutto, ",
+            { id: "gli-piacciono-caramelle", input: true, correct: "gli" },
+            " piacciono soprattutto le caramelle e i gessetti. Però ha molta paura del buio: di notte bisogna lasciar",
+            { id: "lasciargli-luce", input: true, correct: "gli" },
+            " la luce accesa. E poi non ", { id: "non-gli-piacciono", input: true, correct: "gli" },
+            " piacciono i tamburi e i fuochi d’artificio."
+          ]
+        },
+        {
+          id: "gorilla-ufficio",
+          hintsLang: "it",
+          hints: ["Il gorilla è il complemento oggetto di porta, saluta, bacia e abbraccia: usa lo.", "Quando il gorilla è la persona che riceve una spiegazione, una scatola o un’indicazione, usa gli."],
+          parts: [
+            "Per il gorilla ha un’idea brillante: ", { id: "lo-porta", input: true, correct: "lo" },
+            " porta in ufficio, almeno aiuterà un po’. ", { id: "gli-spiega", input: true, correct: "gli" },
+            " spiega come funzionano il computer e le altre cose. ",
+            { id: "gli-lascia-banane", input: true, correct: "gli" },
+            " lascia una scatola di banane e ", { id: "gli-fa-vedere", input: true, correct: "gli" },
+            " fa vedere dov’è il gabinetto. Poi ", { id: "lo-saluta", input: true, correct: "lo" },
+            " saluta, ", { id: "lo-bacia", input: true, correct: "lo" },
+            " bacia e ", { id: "lo-abbraccia", input: true, correct: "lo" },
+            " abbraccia, e finalmente parte per le vacanze."
+          ]
+        },
+        {
+          id: "ritorno-bambina",
+          hintsLang: "it",
+          hints: ["La bambina riceve il racconto: le.", "Per dare da mangiare ai pesci si può dire dar loro da mangiare oppure dargli da mangiare.", "Il pesciolino rosso è il complemento oggetto di ha mangiato."],
+          parts: [
+            "Quando torna dalle vacanze, il signor Rossi va subito dalla bambina del piano di sopra. ",
+            { id: "le-racconta", input: true, correct: "le" },
+            " racconta che è successa una disgrazia ai pesci, perché una volta ha dimenticato di dar",
+            { id: "dargli-da-mangiare", input: true, correct: ["gli", "loro"] },
+            " da mangiare. Lo squalo non c’è più, il pesciolino rosso della bambina ",
+            { id: "lo-ha-mangiato", input: true, correct: "lo" }, " ha mangiato."
+          ]
+        },
+        {
+          id: "struzzo-scappato",
+          hintsLang: "it",
+          hints: ["La maestra racconta qualcosa al signor Rossi: gli.", "Quando si riferisce alla persona a cui la maestra aveva dato indicazioni, usa le.", "Lo struzzo è maschile: gli si porta la colazione e lo si spaventa."],
+          parts: [
+            "Il signor Rossi corre dalla maestra di matematica. La maestra ",
+            { id: "gli-racconta", input: true, correct: "gli" },
+            " racconta che con lo struzzo ha sempre fatto come lui ",
+            { id: "le-aveva-detto", input: true, correct: "le" },
+            " aveva detto: la mattina ", { id: "gli-portava", input: true, correct: "gli" },
+            " portava la colazione a letto, la notte ", { id: "gli-lasciava-luce", input: true, correct: "gli" },
+            " lasciava la luce accesa, in più non ", { id: "lo-ha-spaventato", input: true, correct: "lo" },
+            " ha spaventato con i tamburi e i fuochi d’artificio. Purtroppo però lo struzzo era scappato: aveva trovato un CD di Shostakovich e ",
+            { id: "lo-aveva-mangiato", input: true, correct: "lo" }, " aveva mangiato."
+          ]
+        },
+        {
+          id: "gorilla-direttore",
+          hintsLang: "it",
+          hints: ["La segretaria è la persona a cui Rossi parla: le.", "Il gorilla è maschile: lo vuole vedere, non lo può ricevere, può telefonargli."],
+          parts: [
+            "Dopo il signor Rossi va in ufficio per riprendere il suo gorilla. Va dalla segretaria e ",
+            { id: "le-dice", input: true, correct: "le" },
+            " dice che vuole veder", { id: "vederlo", input: true, correct: "lo" },
+            ". Il gorilla però non ", { id: "non-lo-puo-ricevere", input: true, correct: "lo" },
+            " può ricevere; è in riunione. Se il signor Rossi ",
+            { id: "lo-vuole-vedere", input: true, correct: "lo" },
+            " vuole vedere, può prendere un appuntamento; oppure può telefonar",
+            { id: "telefonargli", input: true, correct: "gli" }, "."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
