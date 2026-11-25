@@ -27,7 +27,15 @@
       #homework-review .review-actions button.selected { outline:3px solid rgba(189,105,77,.35); }
       #homework-review .review-row[data-grade="approved"] { border-color:#278253; background:#e1f1e5; }
       #homework-review .review-row[data-grade="rejected"] { border-color:#c62828; background:#fde8e7; }
-      #homework-review .review-footer { margin-top:18px; }
+             #homework-review .review-footer { margin-top:18px; }
+       .homework-teacher-controls { margin:24px 0; padding:20px; border:2px solid #2f5739; border-radius:16px; background:#fffefa; }
+       .homework-teacher-controls h2 { margin-top:0; }
+       .homework-teacher-controls label { display:block; margin:10px 0; font-weight:700; }
+       .homework-teacher-controls textarea { display:block; width:100%; min-height:100px; margin-top:8px; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
+       .homework-teacher-controls .review-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+       .homework-teacher-controls .review-actions button.reject { background:#a51d1d; }
+       .homework-teacher-controls .review-actions button.selected { outline:3px solid rgba(189,105,77,.35); }
+
       #homework-review .review-final-comment { display:block; width:100%; min-height:100px; margin:12px 0; padding:10px 12px; border:1px solid #d4e1d5; border-radius:8px; font:inherit; resize:vertical; }
       @media(max-width:600px) { #homework-review { margin:12px 8px; padding:17px; } }
     `;
@@ -48,6 +56,103 @@
     if (typeof value === "object") return Object.entries(value).map(([key, item]) => `${key}: ${formatValue(item)}`).join("\n");
     return String(value);
   }
+
+  window.getHomeworkTeacherSubmission = async function () {
+    const params = new URLSearchParams(location.search);
+    const hasReviewTarget = params.has("group") && params.has("student");
+    if (params.get("teacherReview") !== "1" && !hasReviewTarget) return null;
+
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem("parlo_session") || "null"); } catch (_) {}
+    const assignmentId = params.get("assignment");
+    const groupId = params.get("group");
+    const studentKey = params.get("student");
+    if (!session?.isTeacher || !teacherPins[session.teacher] || !assignmentId || !groupId || !studentKey) {
+      throw new Error("Accedi come insegnante dalla pagina principale per correggere questo compito.");
+    }
+    if (!window.firebase) throw new Error("Firebase non disponibile.");
+    if (!firebase.apps.length) firebase.initializeApp({
+      databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "esercizi-parlo-italiano"
+    });
+
+    const assignmentRef = firebase.database().ref(`compiti/gruppi/${groupId}/assegnazioni/${assignmentId}`);
+    const [assignmentSnapshot, groupSnapshot] = await Promise.all([
+      assignmentRef.once("value"),
+      firebase.database().ref(`configurazioneScuola/gruppi/${groupId}`).once("value")
+    ]);
+    const assignment = assignmentSnapshot.val();
+    const group = groupSnapshot.val();
+    if (!group || !assignment || !assignment.taskPath || !taskPathMatches(assignment.taskPath)) {
+      throw new Error("Compito non disponibile per questo gruppo o percorso.");
+    }
+
+    const submissionRef = assignmentRef.child(`consegne/${studentKey}`);
+    const submission = (await submissionRef.once("value")).val();
+    if (!submission || !["pending", "reviewed"].includes(submission.status)) {
+      throw new Error("La consegna non è in attesa di correzione o non è disponibile.");
+    }
+    return { submission, submissionRef, session, assignment, studentKey };
+  };
+
+  window.addHomeworkTeacherControls = function ({ submission, submissionRef, session, target }) {
+    if (!target) return;
+    const existing = target.querySelector(".homework-teacher-controls");
+    if (existing) existing.remove();
+    addStyles();
+    const panel = document.createElement("section");
+    panel.className = "homework-teacher-controls review-row";
+    const heading = document.createElement("h2");
+    heading.textContent = "Revisione dell’insegnante";
+    const label = document.createElement("label");
+    label.textContent = "Commento per lo studente";
+    const comment = document.createElement("textarea");
+    comment.maxLength = 3000;
+    comment.placeholder = "Scrivi un commento sulla consegna…";
+    comment.value = submission.teacherReview?.finalComment || "";
+    const actions = document.createElement("div");
+    actions.className = "review-actions";
+    const status = document.createElement("p");
+    status.className = "review-status";
+    status.setAttribute("role", "status");
+    const currentOutcome = submission.teacherReview?.outcome || "";
+
+    [["approved", "✓ Approva"], ["rejected", "✕ Non approva"]].forEach(([outcome, text]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = text;
+      button.classList.toggle("selected", currentOutcome === outcome);
+      if (outcome === "rejected") button.classList.add("reject");
+      button.addEventListener("click", async () => {
+        actions.querySelectorAll("button").forEach(item => { item.disabled = true; });
+        try {
+          const now = Date.now();
+          await submissionRef.update({
+            status: "reviewed",
+            reviewedAt: now,
+            reviewedBy: session.teacher,
+            "teacherReview/outcome": outcome,
+            "teacherReview/finalComment": comment.value.trim(),
+            "teacherReview/finalCommentBy": session.teacher,
+            "teacherReview/finalCommentUpdatedAt": now
+          });
+          actions.querySelectorAll("button").forEach(item => item.classList.toggle("selected", item === button));
+          status.className = "review-status";
+          status.textContent = outcome === "approved" ? "Compito approvato e revisione salvata." : "Compito non approvato: revisione salvata.";
+        } catch (_) {
+          status.className = "review-status error";
+          status.textContent = "Impossibile salvare la revisione. Controlla la connessione e riprova.";
+        } finally {
+          actions.querySelectorAll("button").forEach(item => { item.disabled = false; });
+        }
+      });
+      actions.appendChild(button);
+    });
+
+    label.appendChild(comment);
+    panel.append(heading, label, actions, status);
+    target.appendChild(panel);
+  };
 
   window.openHomeworkTeacherReview = async function ({ taskData, buildRows, backHref }) {
     const params = new URLSearchParams(location.search);

@@ -734,23 +734,36 @@
         }
 
         if (teacherReview) {
-          const opened = await window.openHomeworkTeacherReview({
-            taskData: { title: assignment.title || "Compito personalizzato" },
-            backHref: "../compiti.html",
-            buildRows(submission) {
-              const showExerciseDetails = assignment.source === "automatic-composer" ||
-                (assignment.taskPath === "compiti/compito_dinamico.html" && Array.isArray(assignment.selectedExerciseIds));
-              return resolvedExercises.map(ex => ({
+          const review = await window.getHomeworkTeacherSubmission();
+          if (!review) throw new Error("Impossibile aprire la modalità di revisione.");
+          submissionRef = review.submissionRef;
+          studentName = review.submission.studentName || params.get("student");
+          answers = review.submission.answers || {};
+          teacherReviewData = review.submission.teacherReview || {};
+          if (review.assignment?.source !== "automatic-composer") {
+            await window.openHomeworkTeacherReview({
+              taskData: { title: assignment.title || "Compito personalizzato" },
+              buildRows: submission => resolvedExercises.map(ex => ({
                 id: ex.id,
                 title: ex.title,
-                instructions: showExerciseDetails ? ex.instructions : "",
-                showExerciseDetails,
-                commentMode: "exercise",
+                instructions: ex.instructions,
+                showExerciseDetails: true,
                 rows: reviewRowsForExercise(ex, submission)
-              }));
-            }
+              }))
+            });
+            return;
+          }
+          submissionStatus = "reviewed";
+          pageMessage.textContent = "";
+          workspace.hidden = false;
+          submitBox.hidden = true;
+          renderExercises();
+          window.addHomeworkTeacherControls({
+            submission: review.submission,
+            submissionRef,
+            session: review.session,
+            target: workspace
           });
-          if (!opened) throw new Error("Impossibile aprire la modalità di revisione.");
           return;
         }
 
