@@ -95,9 +95,19 @@
     .dialogue-reply-turn.speaker-caller .student-reply { border-bottom-left-radius: 5px; }
     .speaker-agent .dialogue-line-bubble,
     .dialogue-reply-turn.speaker-agent .student-reply { border-bottom-right-radius: 5px; }
-    .dialogue-script .speaker-caller .dialogue-line-bubble { background: #edf4ed; }
-    .dialogue-script .speaker-agent .dialogue-line-bubble { background: #f2eef8; border-color: #e2d9ee; }
-    .dialogue-script .dialogue-line-bubble { display: flex; align-items: center; gap: 8px; }
+    .dialogue-script .speaker-caller .dialogue-line-bubble { background: #e8f3e9; border-color: #cfe2d1; }
+    .dialogue-script .speaker-agent .dialogue-line-bubble { background: #f1eafa; border-color: #ddcdec; }
+    .dialogue-script .dialogue-line-bubble { display: flex; align-items: center; gap: 8px; width: min(calc(82% - 40px), 650px); }
+    .dialogue-script .speaker-caller::before,
+    .dialogue-script .speaker-agent::after {
+      flex: 0 0 32px;
+      width: 32px;
+      font-size: 1.65rem;
+      line-height: 1;
+      text-align: center;
+      content: "🗣️";
+    }
+    .dialogue-script .speaker-agent::after { transform: scaleX(-1); filter: hue-rotate(115deg) saturate(1.35); }
     .dialogue-script .dialogue-dash { flex: 0 0 auto; font-weight: 700; }
     .dialogue-question-mark { flex: 0 0 auto; color: var(--primary-dark); font-size: 2rem; font-weight: 800; line-height: 1; }
     .dialogue-script .student-reply {
@@ -167,8 +177,9 @@
       .prompt-question { max-width: 94%; }
       .student-reply { width: 94%; justify-self: end; }
       .dialogue-script .dialogue-turn { width: 100%; }
-      .dialogue-line-bubble,
-      .dialogue-script .student-reply { width: min(94%, 650px); }
+      .dialogue-line-bubble { width: min(94%, 650px); }
+      .dialogue-script .dialogue-line-bubble,
+      .dialogue-script .student-reply { width: calc(100% - 40px); max-width: 650px; }
     }
     @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
   </style>
