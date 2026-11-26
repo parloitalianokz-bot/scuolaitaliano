@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con essere o esserci, Unità 5, Esercizio I." />
+  <title>Unità 5 — Essere o esserci? · Esercizio I</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .grammar-reminder { margin: 0 0 18px; padding: 13px 16px; border: 1px solid var(--border); border-left: 5px solid var(--accent); border-radius: 13px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .grammar-reminder a { color: var(--primary-dark); font-weight: 800; }
+    .progress-label { margin: 0 0 8px; color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="005_es_i" data-next-href="005_es_j.html" data-next-label="Vai all’esercizio J →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Grammatica</span>
+      <h1>Essere o esserci?</h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta di <em>essere</em> o <em>esserci</em>.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio I</div>
+      <div class="instruction-text">Введите глагол <em>essere</em> или <em>esserci</em> в правильной форме.</div>
+    </section>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+    <p class="grammar-reminder" lang="ru">При необходимости загляните в <a href="esserci.html"><span lang="it">scheda grammaticale del verbo <em>esserci</em></span></a>.</p>
+
+    <section class="card" aria-label="Frasi da completare con essere o esserci">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="005_es_j.html" hidden>Vai all’esercizio J →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna a turno le frasi; risposte e progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il tuo turno; risposte e progressi sono condivisi con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const rawSentences = [
+      { id: "i1", text: "1) Dove {{0}} Marco? Marco {{1}} a scuola.", answers: ["è", "è"] },
+      { id: "i2", text: "2) In giardino {{0}} un cane e {{1}} due gatti.", answers: ["c’è", "ci sono"] },
+      { id: "i3", text: "3) La moglie {{0}} in cucina, il marito e l’amico {{1}} in soggiorno.", answers: ["è", "sono"] },
+      { id: "i4", text: "4) Dove {{0}} la scuola ‘Lingua Bella’? {{1}} a Firenze, in Italia.", answers: ["è", "è"] },
+      { id: "i5", text: "5) Nel cassetto {{0}} le posate e nel mobile {{1}} i piatti.", answers: ["ci sono", "ci sono"] },
+      { id: "i6", text: "6) Quanti studenti {{0}} in classe? {{1}} otto studenti.", answers: ["ci sono", "ci sono"] },
+      { id: "i7", text: "7) Per cena {{0}} la pasta e {{1}} anche il vino.", answers: ["c’è", "c’è"] },
+      { id: "i8", text: "8) La signora Banfi {{0}} una brava moglie.", answers: ["è"] },
+      { id: "i9", text: "9) Chi {{0}} l’insegnante della scuola? — Antonio {{1}} l’insegnante.", answers: ["è", "è"] },
+      { id: "i10", text: "10) Dove {{0}} gli occhiali da sole? Nel cassetto non {{1}}.", answers: ["sono", "ci sono"] },
+      { id: "i11", text: "11) Cosa {{0}} nel programma di studi? {{1}} le lezioni di italiano.", answers: ["c’è", "ci sono"] },
+      { id: "i12", text: "12) Che cosa {{0}} nel tuo zaino? — {{1}} i miei quaderni e i libri.", answers: ["c’è", "ci sono"] },
+      { id: "i13", text: "13) Paolo {{0}} in ritardo perché {{1}} ancora a letto.", answers: ["è", "è"] },
+      { id: "i14", text: "14) Sul tavolo {{0}} una bottiglia di vino e {{1}} due bicchieri.", answers: ["c’è", "ci sono"] },
+      { id: "i15", text: "15) Il signor Banfi {{0}} un uomo fortunato.", answers: ["è"] },
+      { id: "i16", text: "16) {{0}} stanco, ho bisogno di riposare.", answers: ["sono"] },
+      { id: "i17", text: "17) Alla TV {{0}} una partita di calcio.", answers: ["c’è"] },
+      { id: "i18", text: "18) {{0}} molti libri interessanti in questa biblioteca.", answers: ["ci sono"] }
+    ];
+
+    const sentences = rawSentences.map(sentence => ({
+      id: sentence.id,
+      hints: ["Определите, нужен ли глагол essere или esserci, и согласуйте его с контекстом."],
+      hintsLang: "ru",
+      parts: sentence.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${sentence.id}-${index}`,
+          input: true,
+          correct: sentence.answers[index],
+          placeholder: "…"
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 5,
+      exercisePath: "005_es_i",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

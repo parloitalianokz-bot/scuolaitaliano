@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con c’è e ci sono, Unità 5, Esercizio H." />
+  <title>Unità 5 — C’è o ci sono? · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .grammar-reminder { margin: 0 0 18px; padding: 13px 16px; border: 1px solid var(--border); border-left: 5px solid var(--accent); border-radius: 13px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .grammar-reminder a { color: var(--primary-dark); font-weight: 800; }
+    .progress-label { margin: 0 0 8px; color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="005_es_h" data-next-href="005_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Grammatica</span>
+      <h1>C’è o ci sono?</h1>
+      <p class="hero-subtitle">Completa le frasi con la forma corretta di <em>esserci</em>.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio H</div>
+      <div class="instruction-text">Дополните фразы оборотом <em>c’è</em> или <em>ci sono</em>. Внимательно прочитайте каждую фразу и учитывайте контекст.</div>
+    </section>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+    <p class="grammar-reminder" lang="ru">При необходимости загляните в <a href="esserci.html"><span lang="it">scheda grammaticale del verbo <em>esserci</em></span></a>.</p>
+
+    <section class="card" aria-label="Frasi da completare con c’è e ci sono">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="005_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna a turno le frasi; risposte e progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il tuo turno; risposte e progressi sono condivisi con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const rawSentences = [
+      { id: "h1", text: "— Pronto, sono Luca, {{0}} Alessia per favore? — Mi dispiace, Alessia non {{1}}, adesso è in biblioteca.", answers: ["c’è", "c’è"] },
+      { id: "h2", text: "In biblioteca {{0}} molti libri interessanti.", answers: ["ci sono"] },
+      { id: "h3", text: "In classe {{0}} gli studenti e {{1}} l’insegnante.", answers: ["ci sono", "c’è"] },
+      { id: "h4", text: "In cucina {{0}} solo la signora Banfi.", answers: ["c’è"] },
+      { id: "h5", text: "Nella borsa {{0}} i soldi e {{1}} i documenti.", answers: ["ci sono", "ci sono"] },
+      { id: "h6", text: "In cucina {{0}} la tavola e le sedie.", answers: ["ci sono"] },
+      { id: "h7", text: "In casa non {{0}} nessuno; {{1}} solo il gatto.", answers: ["c’è", "c’è"] },
+      { id: "h8", text: "A Milano {{0}} il Duomo, {{1}} il teatro La Scala e {{2}} molti negozi eleganti, ma non {{3}} un posto per parcheggiare!", answers: ["c’è", "c’è", "ci sono", "c’è"] },
+      { id: "h9", text: "In casa {{0}} solo la signora Gina.", answers: ["c’è"] },
+      { id: "h10", text: "Che cosa {{0}} per cena? {{1}} gli spaghetti al pesto.", answers: ["c’è", "ci sono"] },
+      { id: "h11", text: "Che cosa {{0}} nella scatola? {{1}} i cioccolatini.", answers: ["c’è", "ci sono"] },
+      { id: "h12", text: "{{0}} qualcuno in casa?", answers: ["c’è"] }
+    ];
+
+    const sentences = rawSentences.map(sentence => ({
+      id: sentence.id,
+      hints: ["Обрати внимание на контекст и число."] ,
+      hintsLang: "ru",
+      parts: sentence.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${sentence.id}-${index}`,
+          input: true,
+          correct: sentence.answers[index],
+          placeholder: "…"
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 5,
+      exercisePath: "005_es_h",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

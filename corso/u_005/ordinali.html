@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Osserva e usa i numeri ordinali in situazioni quotidiane, Unità 5." />
+  <title>Unità 5 — I numeri ordinali</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    body { margin: 0; padding: 32px 16px; }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .hero { margin: 8px 0 20px; padding: clamp(22px,5vw,32px) 18px; border: 1px solid var(--border); border-radius: 24px; background: linear-gradient(135deg,rgba(255,254,250,.97),rgba(237,244,237,.94)); text-align: center; }
+    .eyebrow { display: inline-block; margin-bottom: 10px; padding: 8px 15px; border-radius: 20px; background: var(--primary-light); color: var(--primary-dark); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .hero h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem,5vw,2.65rem); letter-spacing: -.04em; line-height: 1.12; }
+    .hero-subtitle { margin: 8px 0 0; color: var(--text-muted); line-height: 1.6; }
+    .lesson-card { margin: 0 0 18px; padding: clamp(18px,4vw,28px); border: 1px solid var(--border); border-radius: 20px; background: rgba(255,254,250,.96); }
+    .lesson-card h2 { margin: 0 0 10px; color: var(--primary-dark); font-size: 1.25rem; }
+    .lead { margin: 0 0 16px; color: var(--text-muted); line-height: 1.65; }
+    .examples { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,250px),1fr)); gap: 10px; }
+    .example { padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; background: #fff; line-height: 1.6; }
+    .example .it { display: block; margin-bottom: 5px; color: var(--primary-dark); font-size: 1.08rem; font-weight: 800; }
+    .focus { padding: 1px 4px; border-radius: 5px; background: #f8e8df; color: #944d35; }
+    .ru { color: var(--text-muted); }
+    .think { margin: 16px 0 0; padding: 14px 16px; border-left: 4px solid var(--accent); border-radius: 10px; background: #fff7f1; line-height: 1.65; }
+    .discovery-list,.practice-list { display: grid; gap: 10px; }
+    .discovery-row,.practice-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: #fff; line-height: 1.6; }
+    .discovery-row label { flex: 1 1 300px; }
+    select { min-height: 40px; max-width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 9px; background: #fff; color: var(--text); font: inherit; }
+    .action { min-height: 42px; margin-top: 14px; padding: 9px 16px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .action:hover { filter: brightness(1.08); }
+    .feedback { min-height: 1.5em; margin: 12px 0 0; font-weight: 700; }
+    .feedback.success { color: #17623c; }
+    .feedback.error { color: #991b1b; }
+    .rule { margin-top: 16px; overflow: hidden; border: 1px solid var(--border); border-radius: 13px; background: #fff; }
+    .rule summary { padding: 13px 16px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; cursor: pointer; line-height: 1.5; }
+    .rule-content { padding: 14px 16px; line-height: 1.7; }
+    .rule-content p:last-child { margin-bottom: 0; }
+    .mini-table { width: 100%; margin-top: 12px; border-collapse: collapse; }
+    .mini-table th,.mini-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+    .mini-table th { background: var(--primary-light); color: var(--primary-dark); }
+    .mini-table td:first-child { color: var(--primary-dark); font-weight: 800; }
+    .use-note { margin-top: 14px; padding: 14px 16px; border-radius: 12px; background: #f4f1e7; line-height: 1.65; }
+    @media(max-width:600px) { .discovery-row { align-items: stretch; flex-direction: column; } .discovery-row select { width: 100%; } .mini-table th,.mini-table td { padding: 8px 6px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Grammatica</span>
+      <h1>I numeri ordinali</h1>
+      <p class="hero-subtitle">Un piano, una fila, una data: guarda come si indica il posto che viene prima o dopo.<br /><span lang="ru">Этаж, очередь, дата: посмотри, как обозначить порядок.</span></p>
+    </header>
+
+    <section class="lesson-card" aria-labelledby="scene-title">
+      <h2 id="scene-title">🧭 Segui il percorso · Проследи порядок</h2>
+      <p class="lead">Immagina di arrivare in una città nuova. Cerchi la biblioteca, guardi il calendario e chiedi informazioni sulla festa.</p>
+      <div class="examples">
+        <div class="example"><span class="it">La biblioteca è al <span class="focus">secondo</span> piano.</span><span class="ru" lang="ru">Библиотека находится на втором этаже.</span></div>
+        <div class="example"><span class="it">La festa è il <span class="focus">primo</span> maggio.</span><span class="ru" lang="ru">Праздник — первого мая.</span></div>
+        <div class="example"><span class="it">Ci sono posti liberi in <span class="focus">decima</span> fila.</span><span class="ru" lang="ru">Есть свободные места в десятом ряду.</span></div>
+        <div class="example"><span class="it">È il <span class="focus">venticinquesimo</span> anniversario.</span><span class="ru" lang="ru">Это двадцать пятая годовщина.</span></div>
+        <div class="example"><span class="it">È la <span class="focus">terza</span> volta che vengo qui.</span><span class="ru" lang="ru">Я здесь в третий раз.</span></div>
+        <div class="example"><span class="it">Sono le sei e un <span class="focus">quarto</span>.</span><span class="ru" lang="ru">Четверть седьмого.</span></div>
+      </div>
+      <div class="think"><strong>Fermati un momento · Подумай:</strong> In queste frasi, le parole evidenziate parlano di una quantità o aiutano a trovare qualcosa in una sequenza? Osserva anche le parole che le accompagnano: <em>piano, fila, anniversario, volta</em>.<br /><span lang="ru">Выделенные слова обозначают количество или место в последовательности? Обрати внимание на слова рядом: этаж, ряд, годовщина, раз.</span></div>
+    </section>
+
+    <section class="lesson-card" aria-labelledby="discover-title">
+      <h2 id="discover-title">🔍 Prova a intuire · Попробуй догадаться</h2>
+      <p class="lead">Completa guardando il contesto e il nome vicino allo spazio. Non serve aprire subito la spiegazione.</p>
+      <div class="discovery-list" id="discovery">
+        <div class="discovery-row"><label for="d1"><strong>1.</strong> L’aula è al ___ piano. <span class="ru" lang="ru">Класс на втором этаже.</span></label><select id="d1"><option value="">Scegli</option><option value="secondo">secondo</option><option value="seconda">seconda</option></select></div>
+        <div class="discovery-row"><label for="d2"><strong>2.</strong> Ci sediamo in ___ fila. <span class="ru" lang="ru">Садимся в третьем ряду.</span></label><select id="d2"><option value="">Scegli</option><option value="terzo">terzo</option><option value="terza">terza</option></select></div>
+        <div class="discovery-row"><label for="d3"><strong>3.</strong> Oggi è l’___ compleanno di Leo. <span class="ru" lang="ru">Сегодня восьмой день рождения Лео.</span></label><select id="d3"><option value="">Scegli</option><option value="ottavo">ottavo</option><option value="ottava">ottava</option></select></div>
+      </div>
+      <button class="action" id="check-discovery" type="button">Controlla · Проверь</button>
+      <p class="feedback" id="discovery-feedback" role="status" aria-live="polite"></p>
+
+      <details class="rule">
+        <summary>Hai notato una regolarità? Apri quando vuoi · Ты заметил закономерность? Открой, когда захочешь</summary>
+        <div class="rule-content">
+          <p>I numeri ordinali indicano il posto in una sequenza: il piano, la fila, il turno, l’anniversario o la volta. Rispondono alla domanda implicita: <em>quale, nell’ordine?</em></p>
+          <p>La forma si accorda con il nome a cui si riferisce. In genere trovi <strong>-o</strong> con un nome maschile singolare e <strong>-a</strong> con un nome femminile singolare: <em>il secondo piano, la seconda fila</em>. Al plurale: <em>i secondi piani, le seconde file</em>.</p>
+          <table class="mini-table" aria-label="Alcuni numeri ordinali italiani">
+            <thead><tr><th>Numero</th><th>Maschile singolare</th><th>Femminile singolare</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>primo</td><td>prima</td></tr>
+              <tr><td>2</td><td>secondo</td><td>seconda</td></tr>
+              <tr><td>3</td><td>terzo</td><td>terza</td></tr>
+              <tr><td>4</td><td>quarto</td><td>quarta</td></tr>
+              <tr><td>5</td><td>quinto</td><td>quinta</td></tr>
+              <tr><td>6</td><td>sesto</td><td>sesta</td></tr>
+              <tr><td>7</td><td>settimo</td><td>settima</td></tr>
+              <tr><td>8</td><td>ottavo</td><td>ottava</td></tr>
+              <tr><td>9</td><td>nono</td><td>nona</td></tr>
+              <tr><td>10</td><td>decimo</td><td>decima</td></tr>
+              <tr><td>11</td><td>undicesimo</td><td>undicesima</td></tr>
+              <tr><td>25</td><td>venticinquesimo</td><td>venticinquesima</td></tr>
+            </tbody>
+          </table>
+          <p>Per i numeri composti la forma conserva l’idea dell’ordine e cambia la desinenza secondo il nome: <em>il venticinquesimo anniversario</em>, <em>la venticinquesima volta</em>. Per le date si dice <em>il primo maggio</em>; per l’ora, <em>un quarto</em> è un’espressione fissa molto comune.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="lesson-card" aria-labelledby="use-title">
+      <h2 id="use-title">🗺️ Mettili in azione · Используй в речи</h2>
+      <p class="lead">Pensa a luoghi, date e persone che conosci. Completa e poi prova a leggere le frasi ad alta voce.</p>
+      <div class="practice-list">
+        <div class="practice-row"><span><strong>1.</strong> Il mio appartamento è al <em>secondo</em> piano. Qual è il tuo piano?</span></div>
+        <div class="practice-row"><span><strong>2.</strong> La mia festa preferita è il ___ <em>___</em>. (giorno / mese)</span></div>
+        <div class="practice-row"><span><strong>3.</strong> In classe mi siedo in ___ fila.</span></div>
+        <div class="practice-row"><span><strong>4.</strong> È la ___ volta che visito un posto nuovo.</span></div>
+      </div>
+      <p class="use-note"><strong>Ora tocca a te · Теперь твоя очередь:</strong> scegli una scala, una fila o una classifica che conosci e descrivi almeno due posizioni. Quale parola cambia se cambia il nome?<br /><span lang="ru">Выбери лестницу, ряд или знакомый рейтинг и назови хотя бы два места в порядке. Как изменится форма, если существительное будет другим?</span></p>
+    </section>
+  </main>
+
+  <script src="../shared/exercise-core.js?v=9"></script>
+  <script>
+    window.ParloExercise?.initBackgroundParallax?.();
+    const discoveryAnswers = ["secondo", "terza", "ottavo"];
+    document.getElementById("check-discovery").addEventListener("click", () => {
+      const selects = [...document.querySelectorAll("#discovery select")];
+      const feedback = document.getElementById("discovery-feedback");
+      const unanswered = selects.some(select => !select.value);
+      const correct = selects.filter((select, index) => select.value === discoveryAnswers[index]).length;
+      feedback.className = `feedback ${!unanswered && correct === selects.length ? "success" : "error"}`;
+      feedback.textContent = unanswered
+        ? "Completa tutte le frasi e riprova. · Заполни все предложения и попробуй ещё раз."
+        : correct === selects.length
+          ? "Ottimo: hai seguito il nome e la situazione. · Отлично: ты ориентировался на существительное и ситуацию."
+          : `Hai trovato ${correct} forme su ${selects.length}. Torna agli esempi e osserva il nome dopo lo spazio. · Верных форм: ${correct} из ${selects.length}. Вернись к примерам и посмотри на существительное после пропуска.`;
+    });
+  </script>
+</body>
+</html>

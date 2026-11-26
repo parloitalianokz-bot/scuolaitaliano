@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scegli le preposizioni adatte, Unità 5, Esercizio K." />
+  <title>Unità 5 — Le preposizioni · Esercizio K</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .grammar-reminder { margin: 0 0 18px; padding: 13px 16px; border: 1px solid var(--border); border-left: 5px solid var(--accent); border-radius: 13px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .progress-label { margin: 0 0 8px; color: var(--primary-dark); font-size: .92rem; font-weight: 800; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="005_es_k">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Grammatica</span>
+      <h1>Le preposizioni</h1>
+      <p class="hero-subtitle">Scegli la preposizione che completa meglio ogni frase.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio K</div>
+      <div class="instruction-text">Выберите подходящий предлог. Читайте всю фразу и обращайте внимание на значение: место, направление, происхождение или цель.</div>
+    </section>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+    <p class="grammar-reminder" lang="ru">Подсказка: сначала определите, какую связь выражает предлог, затем проверьте устойчивое сочетание в контексте.</p>
+
+    <section class="card" aria-label="Frasi da completare scegliendo le preposizioni">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna a turno le frasi; risposte e progressi sono condivisi con il gruppo."
+        : "💬 Modalità online: completa le frasi durante il tuo turno; risposte e progressi sono condivisi con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa le frasi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const rawSentences = [
+      { id: "k1", text: "1) Alikhan è uno studente {{0}} architettura. Alikhan è {{1}} Astana, ma adesso abita {{2}} Milano.", answers: ["di", "di", "a"], options: [["di", "a", "con"], ["di", "a", "per"], ["di", "a", "su"]] },
+      { id: "k2", text: "2) Alikhan abita {{0}} albergo, e {{1}} spendere meno soldi cerca un appartamento {{2}} affitto.", answers: ["in", "per", "in"], options: [["a", "in", "per"], ["di", "con", "per"], ["di", "a", "in"]] },
+      { id: "k3", text: "3) Un giorno vede un annuncio {{0}} internet e telefona subito all’agenzia {{1}} ricevere informazioni.", answers: ["su", "per"], options: [["da", "su", "per"], ["di", "con", "per"]] },
+      { id: "k4", text: "4) L’agente dice {{0}} Alikhan che l’appartamento è perfetto {{1}} lui, perché è {{2}} centro, vicino all’università.", answers: ["a", "per", "in"], options: [["di", "a", "da"], ["su", "con", "per"], ["di", "in", "da"]] },
+      { id: "k5", text: "5) {{0}} salotto c’è la TV, {{1}} camera {{2}} letto c’è l’armadio, {{3}} cucina c’è il frigorifero.", answers: ["in", "in", "da", "in"], options: [["in", "su", "da"], ["in", "con", "su"], ["di", "da", "su"], ["in", "su", "con"]] },
+      { id: "k6", text: "6) Sul tavolo {{0}} cucina c’è una teiera, alcune tazze e un vassoio {{1}} kurt {{2}} gli ospiti.", answers: ["in", "con", "per"], options: [["in", "su", "con"], ["di", "per", "con"], ["di", "a", "per"]] },
+      { id: "k7", text: "7) Alikhan va {{0}} studiare {{1}} piedi perché l’appartamento è molto vicino all’università. Ma quando piove va {{2}} autobus.", answers: ["a", "a", "in"], options: [["di", "a", "in"], ["a", "in", "per"], ["a", "con", "in"]] },
+      { id: "k8", text: "8) Ha bisogno {{0}} un’auto. Un giorno vede un’offerta sul giornale e chiama il venditore {{1}} avere informazioni.", answers: ["di", "per"], options: [["di", "per", "con"], ["di", "per", "con"]] },
+      { id: "k9", text: "9) La casa {{0}} Alikhan {{1}} Astana è {{2}} centro.", answers: ["di", "a", "in"], options: [["di", "a", "per"], ["di", "in", "a"], ["in", "su", "di"]] },
+      { id: "k10", text: "10) {{0}} salotto c’è un grande tappeto, ci sono due poltrone e c’è un tavolino; {{1}} camera da letto c’è un letto matrimoniale, c’è un comodino e c’è un armadio; {{2}} cucina c’è il forno, c’è il piano cottura e ci sono gli armadietti.", answers: ["in", "in", "in"], options: [["in", "su", "da"], ["in", "con", "su"], ["in", "con", "su"]] }
+    ];
+
+    const sentences = rawSentences.map(sentence => ({
+      id: sentence.id,
+      hints: ["Подумайте, обозначает ли предлог место, направление, происхождение, цель или устойчивое сочетание."],
+      hintsLang: "ru",
+      parts: sentence.text.split(/(\{\{\d+\}\})/g).map(part => {
+        const match = part.match(/^\{\{(\d+)\}\}$/);
+        if (!match) return part;
+        const index = Number(match[1]);
+        return {
+          id: `${sentence.id}-${index}`,
+          select: true,
+          options: sentence.options[index],
+          correct: sentence.answers[index],
+          placeholder: "Scegli…"
+        };
+      })
+    }));
+
+    ParloInlineFillExercise.init({
+      unitNumber: 5,
+      exercisePath: "005_es_k",
+      sentences
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>
