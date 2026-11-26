@@ -258,15 +258,14 @@
         return btn;
       });
 
-      const turnsContainer = document.createElement("div");
-      turnsContainer.className = "dialogue-turns-list";
+            const turnsContainer = document.createElement("div");
+      turnsContainer.className = dialogue.script
+        ? "dialogue-turns-list dialogue-script"
+        : "dialogue-turns-list";
 
       const textareas = dialogue.questions.map((question, qIndex) => {
-        const turnItem = document.createElement("div");
-        turnItem.className = "dialogue-turn";
-
         const promptLabel = document.createElement("label");
-        promptLabel.className = "prompt-question";
+        promptLabel.className = dialogue.script ? "visually-hidden" : "prompt-question";
         const textareaId = `reply-${cardIndex}-${qIndex}`;
         promptLabel.htmlFor = textareaId;
         promptLabel.textContent = question.q;
@@ -276,8 +275,12 @@
         textarea.className = "student-reply";
         textarea.rows = 2;
         textarea.disabled = true;
-        if (question.placeholder) {
-          textarea.placeholder = question.placeholder;
+                 textarea.placeholder = question.placeholder || "";
+        if (question.questionMark) {
+          const questionMark = document.createElement("span");
+          questionMark.className = "dialogue-question-mark";
+          questionMark.textContent = "?";
+          textarea._questionMark = questionMark;
         }
         textarea.setAttribute("aria-label", `${dialogue.title}, risposta ${qIndex + 1}: ${question.q}`);
 
@@ -285,16 +288,49 @@
           lastFocusedTextarea = textarea;
         });
         textarea.addEventListener("input", () => {
+          if (textarea._questionMark) textarea._questionMark.hidden = Boolean(textarea.value.trim());
           scheduleFieldSave(cardIndex, qIndex, textarea.value);
         });
         textarea.addEventListener("blur", () => {
           flushFieldSave(cardIndex, qIndex, textarea.value);
         });
 
-        turnItem.append(promptLabel, textarea);
-        turnsContainer.appendChild(turnItem);
+        textarea._promptLabel = promptLabel;
         return textarea;
       });
+
+      if (Array.isArray(dialogue.script)) {
+        dialogue.script.forEach(turn => {
+          const turnItem = document.createElement("div");
+          turnItem.className = `dialogue-turn speaker-${turn.speaker === "agent" ? "agent" : "caller"}`;
+          const bubble = document.createElement("div");
+          bubble.className = "dialogue-line-bubble";
+
+          if (Number.isInteger(turn.question) && textareas[turn.question]) {
+            const textarea = textareas[turn.question];
+            const dash = document.createElement("span");
+            dash.className = "dialogue-dash";
+            dash.textContent = "—";
+            bubble.append(dash, textarea._promptLabel, textarea);
+            if (textarea._questionMark) {
+              textarea._questionMark.hidden = Boolean(textarea.value.trim());
+              bubble.appendChild(textarea._questionMark);
+            }
+          } else {
+            bubble.textContent = `— ${turn.text || ""}`;
+          }
+
+          turnItem.appendChild(bubble);
+          turnsContainer.appendChild(turnItem);
+        });
+      } else {
+        textareas.forEach((textarea, qIndex) => {
+          const turnItem = document.createElement("div");
+          turnItem.className = "dialogue-turn";
+          turnItem.append(textarea._promptLabel, textarea);
+          turnsContainer.appendChild(turnItem);
+        });
+      }
 
       const actionsRow = document.createElement("div");
       actionsRow.className = "actions-row";
@@ -401,8 +437,9 @@
         const remoteVal = getReplyValue(cardIndex, qIndex);
         textarea.disabled = !canEdit;
         if (!dirtyFields.has(fieldKey) && document.activeElement !== textarea && textarea.value !== remoteVal) {
-          textarea.value = remoteVal;
-        }
+                     textarea.value = remoteVal;
+           if (textarea._questionMark) textarea._questionMark.hidden = Boolean(remoteVal.trim());
+         }
       });
     }
 
