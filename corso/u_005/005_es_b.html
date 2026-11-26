@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Risposte aperte sul dialogo Un appartamento per Alikhan, Unità 5." />
+  <title>Unità 5 — Un appartamento per Alikhan · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 12px; padding: 11px 14px; border: 1px solid #d8e5d8; border-radius: 11px; background: var(--primary-light); color: var(--primary-dark); line-height: 1.5; }
+    .reading-link { color: var(--primary-dark); font-weight: 700; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="005_es_b" data-next-href="005_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Lettura e comprensione</span>
+      <h1>Un appartamento per Alikhan</h1>
+      <p class="hero-subtitle">Rispondi alle domande con frasi complete.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio B</div>
+      <div class="instruction-text">👉 <strong>Ответьте на вопросы полными фразами по диалогу «Un appartamento per Alikhan».</strong> В онлайн-режиме следуйте назначенным ходам; в остальных режимах работайте индивидуально. <a class="reading-link" href="005_lettura.html">Перечитайте диалог.</a></div>
+    </section>
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Domande dell’esercizio">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla domanda"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="005_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: rispondi durante il tuo turno; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: rispondi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const answerHints = [
+      "Найди в диалоге фразу, которая отвечает на вопрос, и составь полный ответ по-итальянски.",
+      "Проверь, что ответ содержит нужную информацию и согласуется с вопросом."
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 5,
+      exercisePath: "005_es_b",
+      questions: [
+        { key: "q1", title: "1) Di dove è Alikhan?", placeholder: "Alikhan è uno studente kazako di...", hints: answerHints },
+        { key: "q2", title: "2) Che cosa studia?", placeholder: "Studia...", hints: answerHints },
+        { key: "q3", title: "3) Dove abita adesso?", placeholder: "Adesso abita...", hints: answerHints },
+        { key: "q4", title: "4) Perché cerca un appartamento in affitto?", placeholder: "Cerca un appartamento in affitto perché...", hints: answerHints },
+        { key: "q5", title: "5) Dove trova un annuncio?", placeholder: "Trova un annuncio...", hints: answerHints },
+        { key: "q6", title: "6) Dove è l'appartamento?", placeholder: "L'appartamento è in zona...", hints: answerHints },
+        { key: "q7", title: "7) Quante camere ci sono nell'appartamento?", placeholder: "Nell'appartamento ci sono...", hints: answerHints },
+        { key: "q8", title: "8) Che cosa c'è in soggiorno?", placeholder: "In soggiorno ci sono...", hints: answerHints },
+        { key: "q9", title: "9) Che cosa c'è in camera da letto?", placeholder: "In camera da letto ci sono...", hints: answerHints },
+        { key: "q10", title: "10) Che cosa c'è in cucina?", placeholder: "In cucina ci sono...", hints: answerHints },
+        { key: "q11", title: "11) Che cosa c'è in bagno?", placeholder: "In bagno ci sono...", hints: answerHints },
+        { key: "q12", title: "12) Quanti balconi ci sono nell’appartamento?", placeholder: "Nell'appartamento c'è...", hints: answerHints },
+        { key: "q13", title: "13) Quanto costa l'appartamento?", placeholder: "L'appartamento costa...", hints: answerHints },
+        { key: "q14", title: "14) Perché costa così poco?", placeholder: "Costa così poco perché...", hints: answerHints }
+      ]
+    });
+  </script>
+</body>
+</html>

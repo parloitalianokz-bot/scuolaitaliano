@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scopri e usa esserci attraverso la descrizione di un appartamento, Unità 5." />
+  <title>Unità 5 — Esserci</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .hero { margin:8px 0 20px; padding:clamp(22px,5vw,32px) 18px; border:1px solid var(--border); border-radius:24px; background:linear-gradient(135deg,rgba(255,254,250,.97),rgba(237,244,237,.94)); text-align:center; }
+    .eyebrow { display:inline-block; margin-bottom:10px; padding:8px 15px; border-radius:20px; background:var(--primary-light); color:var(--primary-dark); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .hero h1 { margin:4px 0; color:var(--primary-dark); font-size:clamp(1.9rem,5vw,2.65rem); letter-spacing:-.04em; line-height:1.12; }
+    .hero-subtitle { margin:8px 0 0; color:var(--text-muted); line-height:1.6; }
+    .lesson-card { margin:0 0 18px; padding:clamp(18px,4vw,28px); border:1px solid var(--border); border-radius:20px; background:rgba(255,254,250,.96); }
+    .lesson-card h2 { margin:0 0 10px; color:var(--primary-dark); font-size:1.25rem; }
+    .lead { margin:0 0 16px; color:var(--text-muted); line-height:1.65; }
+    .examples { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:10px; }
+    .example { padding:14px 16px; border:1px solid var(--border); border-radius:14px; background:#fff; line-height:1.55; }
+    .example .it { display:block; margin-bottom:5px; color:var(--primary-dark); font-size:1.08rem; font-weight:800; }
+    .focus { padding:1px 4px; border-radius:5px; background:#f8e8df; color:#944d35; }
+    .ru { color:var(--text-muted); }
+    .think { margin:16px 0 0; padding:14px 16px; border-left:4px solid var(--accent); border-radius:10px; background:#fff7f1; line-height:1.65; }
+    .choice-list { display:grid; gap:10px; margin-top:14px; }
+    .choice { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding:12px 14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
+    .choice label { flex:1 1 260px; line-height:1.5; }
+    select { min-height:40px; max-width:100%; padding:7px 10px; border:1px solid var(--border); border-radius:9px; background:#fff; color:var(--text); font:inherit; }
+    .action { min-height:42px; margin-top:14px; padding:9px 16px; border:0; border-radius:10px; background:var(--primary-dark); color:#fff; font:inherit; font-weight:800; cursor:pointer; }
+    .action:hover { filter:brightness(1.08); }
+    .feedback { min-height:1.5em; margin:12px 0 0; font-weight:700; }
+    .feedback.success { color:#17623c; }
+    .feedback.error { color:#991b1b; }
+    .rule { margin-top:16px; overflow:hidden; border:1px solid var(--border); border-radius:13px; background:#fff; }
+    .rule summary { padding:13px 16px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; cursor:pointer; line-height:1.5; }
+    .rule-content { padding:14px 16px; line-height:1.7; }
+    .rule-content p:last-child { margin-bottom:0; }
+    .mini-table { width:100%; margin-top:12px; border-collapse:collapse; }
+    .mini-table th,.mini-table td { padding:9px 10px; border-bottom:1px solid var(--border); text-align:left; }
+    .mini-table th { background:var(--primary-light); color:var(--primary-dark); }
+    .mini-table td:first-child { color:var(--primary-dark); font-weight:800; }
+    .task { display:grid; gap:12px; }
+    .task-row { padding:14px 16px; border:1px solid var(--border); border-radius:13px; background:#fff; line-height:1.7; }
+    .task-row select { margin:3px; }
+    .task-row .ru { display:block; font-size:.95rem; }
+    .use-note { margin-top:14px; padding:14px 16px; border-radius:12px; background:#f4f1e7; line-height:1.65; }
+    @media(max-width:600px) { .choice { align-items:stretch; flex-direction:column; } .choice select { width:100%; } .mini-table th,.mini-table td { padding:8px 6px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Grammatica</span>
+      <h1><em>Esserci</em> · C’è? Ci sono?</h1>
+      <p class="hero-subtitle">Immagina un appartamento, ascolta quello che c’è e prova a raccontarlo.<br /><span lang="ru">Представь квартиру, посмотри, что в ней есть, и попробуй описать её.</span></p>
+    </header>
+
+    <section class="lesson-card" aria-labelledby="imagine-title">
+      <h2 id="imagine-title">🔎 Guarda la casa · Посмотри на квартиру</h2>
+      <p class="lead">Alikhan entra nell’appartamento. Che cosa nota? Leggi le frasi e immagina la scena.</p>
+      <div class="examples">
+        <div class="example"><span class="it">In soggiorno <span class="focus">c’è</span> un divano.</span><span class="ru" lang="ru">В гостиной есть диван.</span></div>
+        <div class="example"><span class="it">In camera <span class="focus">c’è</span> un grande armadio.</span><span class="ru" lang="ru">В спальне есть большой шкаф.</span></div>
+        <div class="example"><span class="it">In cucina <span class="focus">ci sono</span> quattro sedie.</span><span class="ru" lang="ru">На кухне есть четыре стула.</span></div>
+        <div class="example"><span class="it"><span class="focus">C’è</span> anche un balcone?</span><span class="ru" lang="ru">Есть ещё балкон?</span></div>
+        <div class="example"><span class="it">Non <span class="focus">c’è</span> il tetto!</span><span class="ru" lang="ru">Крыши нет!</span></div>
+        <div class="example"><span class="it">Quante camere <span class="focus">ci sono</span>?</span><span class="ru" lang="ru">Сколько комнат?</span></div>
+      </div>
+      <div class="think"><strong>Fermati un momento · Подумай:</strong> In quali frasi si parla di una cosa sola? In quali di più cose? Che cosa cambia nella frase italiana?<br /><span lang="ru">Где речь идёт об одном предмете, а где — о нескольких? Что меняется в итальянской фразе?</span></div>
+    </section>
+
+    <section class="lesson-card" aria-labelledby="notice-title">
+      <h2 id="notice-title">🧩 Prova a intuire · Попробуй догадаться</h2>
+      <p class="lead">Scegli la forma che ti sembra adatta. Puoi tornare agli esempi e cambiare risposta.</p>
+      <div class="choice-list" id="discovery">
+        <div class="choice"><label for="d1"><strong>1.</strong> In bagno ___ una doccia. <span class="ru" lang="ru">В ванной есть душ.</span></label><select id="d1"><option value="">Scegli</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select></div>
+        <div class="choice"><label for="d2"><strong>2.</strong> In salotto ___ due poltrone. <span class="ru" lang="ru">В гостиной есть два кресла.</span></label><select id="d2"><option value="">Scegli</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select></div>
+        <div class="choice"><label for="d3"><strong>3.</strong> Nell’appartamento non ___ l’ascensore. <span class="ru" lang="ru">В квартире нет лифта.</span></label><select id="d3"><option value="">Scegli</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select></div>
+      </div>
+      <button class="action" id="check-discovery" type="button">Controlla · Проверь</button>
+      <p class="feedback" id="discovery-feedback" role="status" aria-live="polite"></p>
+
+      <details class="rule">
+        <summary>Hai trovato una regolarità? Apri solo quando vuoi · Ты заметил закономерность? Открой, когда будешь готов</summary>
+        <div class="rule-content">
+          <p>Usiamo <strong><em>esserci</em></strong> per dire che una persona o una cosa è presente, esiste o si trova in un luogo o in una situazione. Spesso in russo il significato si rende con «есть», «находится» oppure con una frase senza глагол.</p>
+          <p>Negli esempi, la forma segue ciò di cui parliamo: <strong><em>c’è</em></strong> con una cosa o persona al singolare; <strong><em>ci sono</em></strong> con più persone o cose. Per negare, basta mettere <strong><em>non</em></strong> prima: <em>non c’è / non ci sono</em>.</p>
+          <p><em>Esserci</em> può anche comparire con persone diverse: <em>io ci sono, tu ci sei, lui/lei c’è, noi ci siamo, voi ci siete, loro ci sono</em>. In frasi come <em>Io ci sono</em> il senso è “я здесь / я присутствую”; quando descriviamo che cosa si trova in un posto, come nella casa di Alikhan, osserviamo soprattutto <em>c’è</em> e <em>ci sono</em>.</p>
+          <table class="mini-table" aria-label="Forme di esserci nella descrizione di una casa">
+            <thead><tr><th>Quante cose?</th><th>Forma</th><th>Esempio</th></tr></thead>
+            <tbody><tr><td>Una</td><td><em>c’è</em></td><td>C’è una camera.</td></tr><tr><td>Più di una</td><td><em>ci sono</em></td><td>Ci sono due camere.</td></tr><tr><td>Nessuna</td><td><em>non c’è / non ci sono</em></td><td>Non c’è il tetto. Non ci sono le sedie.</td></tr></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="lesson-card" aria-labelledby="use-title">
+      <h2 id="use-title">🏠 Racconta la tua casa · Расскажи о доме</h2>
+      <p class="lead">Immagina una casa o una stanza. Completa le frasi: scegli ciò che c’è davvero nella scena.</p>
+      <div class="task" id="practice">
+        <div class="task-row" data-answer="c'è"><span class="it">In cucina <select aria-label="In cucina c’è o ci sono un frigorifero"><option value="">…</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select> un frigorifero.</span><span class="ru" lang="ru">На кухне есть холодильник.</span></div>
+        <div class="task-row" data-answer="ci sono"><span class="it">In camera <select aria-label="In camera c’è o ci sono due comodini"><option value="">…</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select> due comodini.</span><span class="ru" lang="ru">В спальне есть две тумбочки.</span></div>
+        <div class="task-row" data-answer="non c'è"><span class="it">Nel mio appartamento <select aria-label="Nel mio appartamento non c’è o non ci sono un balcone"><option value="">…</option><option value="non c'è">non c’è</option><option value="non ci sono">non ci sono</option></select> un balcone.</span><span class="ru" lang="ru">В моей квартире нет балкона.</span></div>
+        <div class="task-row" data-answer="ci sono"><span class="it">Nel quartiere <select aria-label="Nel quartiere ci sono o c’è molti negozi"><option value="">…</option><option value="c'è">c’è</option><option value="ci sono">ci sono</option></select> molti negozi.</span><span class="ru" lang="ru">В районе много магазинов.</span></div>
+      </div>
+      <button class="action" id="check-practice" type="button">Controlla le frasi · Проверь предложения</button>
+      <p class="feedback" id="practice-feedback" role="status" aria-live="polite"></p>
+      <p class="use-note"><strong>Ora tocca a te · Теперь твоя очередь:</strong> descrivi a voce una stanza che conosci. Di’ una cosa che c’è e due cose che ci sono. Se vuoi, aggiungi anche una cosa che non c’è.<br /><span lang="ru">Опиши вслух знакомую комнату: назови один предмет, который там есть, и два предмета, которые там есть. Если хочешь, добавь то, чего там нет.</span></p>
+    </section>
+  </main>
+
+  <script>
+    const discoveryAnswers = ["c'è", "ci sono", "c'è"];
+    document.getElementById("check-discovery").addEventListener("click", () => {
+      const selects = [...document.querySelectorAll("#discovery select")];
+      const feedback = document.getElementById("discovery-feedback");
+      const unanswered = selects.some(select => !select.value);
+      const correct = selects.filter((select, index) => select.value === discoveryAnswers[index]).length;
+      feedback.className = `feedback ${!unanswered && correct === selects.length ? "success" : "error"}`;
+      feedback.textContent = unanswered
+        ? "Completa tutte le frasi e riprova. · Заполни все предложения и попробуй ещё раз."
+        : correct === selects.length
+          ? "Ottimo: hai seguito il numero delle cose nominate. · Отлично: ты ориентировался на количество предметов."
+          : `Hai trovato ${correct} forme su ${selects.length}. Torna agli esempi e osserva la cosa nominata. · Верных форм: ${correct} из ${selects.length}. Вернись к примерам и посмотри на предмет. `;
+    });
+
+    document.getElementById("check-practice").addEventListener("click", () => {
+      const rows = [...document.querySelectorAll("#practice .task-row")];
+      let correct = 0;
+      let unanswered = false;
+      rows.forEach(row => {
+        const select = row.querySelector("select");
+        const isCorrect = select.value === row.dataset.answer;
+        select.style.borderColor = isCorrect ? "#17623c" : select.value ? "#991b1b" : "";
+        if (!select.value) unanswered = true;
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById("practice-feedback");
+      feedback.className = `feedback ${!unanswered && correct === rows.length ? "success" : "error"}`;
+      feedback.textContent = unanswered
+        ? `Hai completato ${correct} frasi su ${rows.length}. Completa le altre e ricontrolla. · Заполнено: ${correct} из ${rows.length}. Закончи остальные предложения.`
+        : correct === rows.length
+          ? "Perfetto! Ora usa le frasi per descrivere una casa vera o immaginaria. · Отлично! Теперь опиши реальный или воображаемый дом."
+          : `Frasi corrette: ${correct} su ${rows.length}. Osserva se dopo la forma c’è una cosa o ce ne sono più. · Верных предложений: ${correct} из ${rows.length}. Посмотри, один предмет идёт дальше или несколько.`;
+    });
+  </script>
+</body>
+</html>
