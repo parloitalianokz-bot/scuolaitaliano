@@ -763,8 +763,8 @@
       { gruppo: "Genova", nome: "Inkar", nomeCompleto: "Inkar Zhampeissova", email: "inkarazhampeissova@gmail.com" },
       { gruppo: "Genova", nome: "Korkema", nomeCompleto: "Korkem Amanova", email: "amanovakorkem0@gmail.com", aliases: ["Korkem"] },
       { gruppo: "Genova", nome: "Teya", nomeCompleto: "Teya Chay", email: "teyachay98@gmail.com" },
-      { gruppo: "Genova", nome: "Aleksei", nomeCompleto: "Alexei Loginov", email: "alex.o.loginov@gmail.com", aliases: ["Aleksei", "Nicnkame Aleksei", "Nckname Aleksei"] },
-      { gruppo: "Genova", nome: "Chenara", nomeCompleto: "Chenara", email: "a.s.chenara@gmail.com" },
+      { gruppo: "Genova", nome: "Aleksei", nomeCompleto: "Alexei Loginov", email: "alex.o.loginov@gmail.com", aliases: ["Alexei", "Alexey", "Alexey Loginov", "Alexei Loginov", "Aleksei", "Nicnkame Aleksei", "Nckname Aleksei"] },
+      { gruppo: "Genova", nome: "Chenara", nomeCompleto: "Chenara", email: "a.s.chenara@gmail.com", aliases: ["Chenar"] },
       { gruppo: "Test", nome: "Test", nomeCompleto: "Account di test", email: "parloitaliano.kz@gmail.com" }
     ];
 
@@ -784,7 +784,6 @@
       ]},
       Milano: { unitNumber: 13, insegnante: "Antonio", studenti: [
         { nome: "Dinmuhamet (Dimash)", descrizione: "uomo, dirigente d'azienda" },
-        { nome: "Kaussar", descrizione: "giovane, studia a scuola, vive ad Almaty" },
         { nome: "Milla", descrizione: "giovane, studia a scuola, vive ad Almaty" },
         { nome: "Sana", descrizione: "ragazza, studia in Italia" },
         { nome: "Zhanar", descrizione: "donna" }
@@ -795,8 +794,7 @@
         { nome: "Ayaru", descrizione: "giovane, studia a scuola" },
         { nome: "Dinara", descrizione: "giovane donna, impiegata, vuole trasferirsi in Italia, vive ad Almaty" },
         { nome: "Eva" },
-        { nome: "Maria" },
-        { nome: "Sofia", descrizione: "giovane, studia al college KAZNISSA, vive ad Almaty" }
+        { nome: "Maria" }
       ]},
       Genova: { unitNumber: 1, insegnante: "Antonio", studenti: [] }
     };
@@ -1888,6 +1886,15 @@
          genova[1].studenti = (genova[1].studenti || []).filter(student => String(student.nome || "").trim().toLowerCase() !== "test");
          genova[1].studentiInattivi = (genova[1].studentiInattivi || []).filter(student => String(student.nome || "").trim().toLowerCase() !== "test");
        }
+       // Rimuove i vecchi profili iniziali che non fanno parte del registro con email.
+       ["Milano", "Venezia"].forEach(groupName => {
+         const found = groupForName(groupName);
+         if (!found) return;
+         const obsoleteNames = groupName === "Milano" ? ["Kaussar"] : ["Sofia"];
+         const isObsolete = student => !student.email && obsoleteNames.includes(String(student.nome || "").trim());
+         found[1].studenti = (found[1].studenti || []).filter(student => !isObsolete(student));
+         found[1].studentiInattivi = (found[1].studentiInattivi || []).filter(student => !isObsolete(student));
+       });
        return groups;
      }
 
@@ -1906,8 +1913,9 @@
            [profile.nome, ...(profile.aliases || [])].some(name =>
              String(student.nome || "").toLocaleLowerCase("it") === name.toLocaleLowerCase("it")
            );
+         const matchingRecords = candidates.filter(matches);
          const existing = (expectedArray || []).find(matches);
-         if (!existing || existing.nome !== profile.nome || existing.nomeCompleto !== profile.nomeCompleto ||
+         if (matchingRecords.length !== 1 || !existing || existing.nome !== profile.nome || existing.nomeCompleto !== profile.nomeCompleto ||
              existing.email?.toLowerCase() !== profile.email.toLowerCase() ||
              (profile.inattivo && Number(existing.unitNumber) !== profile.unitNumber) ||
              (wrongArray || []).some(matches)) return true;
