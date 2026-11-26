@@ -511,14 +511,14 @@
     <section id="login-panel" class="access-card">
       <h2>🎓 Accedi</h2>
 
-      <div class="form-group">
+      <div class="form-group" hidden>
         <label for="group-select">Gruppo</label>
         <select id="group-select">
           <option value="">— Seleziona un gruppo —</option>
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" hidden>
         <label for="name-select">Имя · Nome</label>
         <select id="name-select" disabled>
           <option value="">— Сначала выберите группу · Prima scegli il gruppo —</option>
@@ -530,6 +530,8 @@
         <input type="password" id="student-pin" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{6}" aria-describedby="student-pin-help">
         <small id="student-pin-help" style="display:block;margin-top:6px;color:var(--muted);line-height:1.45;">Per il gruppo Cremona inserisci il PIN personale di 6 cifre.</small>
       </div>
+
+      <button type="button" id="btn-student-google-login" class="btn-primary" disabled>Accedi con Google</button>
 
       <div class="form-group">
         <label for="activity-mode">Режим занятий · Modalità di esercitazione</label>
@@ -543,7 +545,7 @@
         </small>
       </div>
 
-      <button type="button" id="btn-login" class="btn-primary" disabled>Войти · Entra</button>
+      <button type="button" id="btn-login" class="btn-primary" disabled hidden>Войти · Entra</button>
 
       <p id="login-message" class="message" hidden></p>
 
@@ -734,6 +736,37 @@
       54: { title: "Ricchi e poveri", path: "u_054" }
     };
 
+    // Registro degli studenti: il nickname è il nome breve usato durante le lezioni.
+    const STUDENT_ROSTER = [
+      { gruppo: "Cremona", nome: "Lajla", nomeCompleto: "Lajla", email: "lajla0265@gmail.com", aliases: ["Lajila"] },
+      { gruppo: "Cremona", nome: "Aendin", nomeCompleto: "Aendin Makhpirov", email: "aendin2009.kaz@gmail.com" },
+      { gruppo: "Cremona", nome: "Almira", nomeCompleto: "Almira Aituova", email: "aituovaalmira@gmail.com" },
+      { gruppo: "Roma", nome: "Arsen", nomeCompleto: "Arsen Yerbol", email: "arsenyerbol@gmail.com" },
+      { gruppo: "Roma", nome: "Alem", nomeCompleto: "Alem Khassenova", email: "khassenova.alem@gmail.com" },
+      { gruppo: "Roma", nome: "Katya", nomeCompleto: "Yekaterina Astashkina", email: "bellecatherina@gmail.com" },
+      { gruppo: "Roma", nome: "Yuliya", nomeCompleto: "Yuliya Akkulova", email: "yuliya.aqqu@gmail.com", aliases: ["Yulia", "Yuliya"] },
+      { gruppo: "Roma", nome: "Nazyma", nomeCompleto: "Nazyma Zhambyl", email: "nazyma1207@gmail.com", aliases: ["Nazym"] },
+      { gruppo: "Roma", nome: "Assel", nomeCompleto: "Асель Тулегенова", email: "aselyanasipkalievna@gmail.com" },
+      { gruppo: "Milano", nome: "Dimash", nomeCompleto: "Anetov Dinmuhamed", email: "anetov.astana@gmail.com", aliases: ["Dinmuhamet (Dimash)", "Dinmuhamet", "Dimash"] },
+      { gruppo: "Milano", nome: "Sana", nomeCompleto: "Sana Anuar", email: "629sana@gmail.com" },
+      { gruppo: "Milano", nome: "Zhanara", nomeCompleto: "Zhanargul Mukashkereyeva", email: "zhanargulmukashkereyeva@gmail.com", aliases: ["Zhanar"] },
+      { gruppo: "Milano", nome: "Milla", nomeCompleto: "Milla Bondareva", email: "millabondareva8@gmail.com", inattivo: true, unitNumber: 13 },
+      { gruppo: "Venezia", nome: "Dinara", nomeCompleto: "Dinara (sorella di Aliya)", email: "orlik880@gmail.com" },
+      { gruppo: "Venezia", nome: "Aiaru", nomeCompleto: "Aiaru", email: "aiaru23@list.ru", aliases: ["Ayaru"] },
+      { gruppo: "Venezia", nome: "Eva", nomeCompleto: "Eva", email: "gotovskaaeva22@gmail.com" },
+      { gruppo: "Venezia", nome: "Arlan", nomeCompleto: "Arlan Iskakov", email: "arlanisk09@gmail.com" },
+      { gruppo: "Venezia", nome: "Alua", nomeCompleto: "Alua Imang", email: "fvmima@gmail.com", inattivo: true, unitNumber: 10 },
+      { gruppo: "Venezia", nome: "Aruzhan", nomeCompleto: "Aruzhan Nazar", email: "aruzhanazar@gmail.com", inattivo: true, unitNumber: 10 },
+      { gruppo: "Venezia", nome: "Zinar", nomeCompleto: "Zinar Valiyeva", email: "zinarvaliyeva@gmail.com", inattivo: true, unitNumber: 10 },
+      { gruppo: "Venezia", nome: "Maria", nomeCompleto: "Maria Eremina", email: "malidovna2007@gmail.com", inattivo: true, unitNumber: 10, aliases: ["Maria Eremina"] },
+      { gruppo: "Genova", nome: "Anfissa", nomeCompleto: "Anfisa Kim", email: "kimanfisa282008@gmail.com", aliases: ["Anfisa"] },
+      { gruppo: "Genova", nome: "Inkar", nomeCompleto: "Inkar Zhampeissova", email: "inkarazhampeissova@gmail.com" },
+      { gruppo: "Genova", nome: "Korkema", nomeCompleto: "Korkem Amanova", email: "amanovakorkem0@gmail.com", aliases: ["Korkem"] },
+      { gruppo: "Genova", nome: "Teya", nomeCompleto: "Teya Chay", email: "teyachay98@gmail.com" },
+      { gruppo: "Genova", nome: "Aleksei", nomeCompleto: "Alexei Loginov", email: "alex.o.loginov@gmail.com", aliases: ["Aleksei", "Nicnkame Aleksei", "Nckname Aleksei"] },
+      { gruppo: "Genova", nome: "Chenara", nomeCompleto: "Chenara", email: "a.s.chenara@gmail.com" }
+    ];
+
     // Gruppi iniziali: usati solo per creare il primo archivio condiviso.
     const DEFAULT_GROUPS = {
       Cremona: { unitNumber: 53, insegnante: "Antonio", studenti: [
@@ -763,7 +796,8 @@
         { nome: "Eva" },
         { nome: "Maria" },
         { nome: "Sofia", descrizione: "giovane, studia al college KAZNISSA, vive ad Almaty" }
-      ]}
+      ]},
+      Genova: { unitNumber: 1, insegnante: "Antonio", studenti: [] }
     };
 
     // Mantiene eventuali avanzamenti locali esistenti durante la prima migrazione.
@@ -788,14 +822,15 @@
       return { ...DEFAULT_GROUPS };
     }
 
-    const LEGACY_GROUP_IDS = { Cremona: "Cr01", Roma: "Ro01", Milano: "Mi01", Venezia: "Ve01" };
+    const LEGACY_GROUP_IDS = { Cremona: "Cr01", Roma: "Ro01", Milano: "Mi01", Venezia: "Ve01", Genova: "Ge01" };
 
     function makeInitialGroups() {
       const initial = {};
       Object.entries(loadGroups()).forEach(([name, group]) => {
-        const id = LEGACY_GROUP_IDS[name];
+        const id = LEGACY_GROUP_IDS[name] || name;
         initial[id] = { ...group, id, nome: name, attivo: true };
       });
+      mergeRegisteredStudents(initial);
       return initial;
     }
 
@@ -818,6 +853,7 @@
     const studentPinInput = document.getElementById("student-pin");
     const activityModeSelect = document.getElementById("activity-mode");
     const btnLogin = document.getElementById("btn-login");
+    const btnStudentGoogleLogin = document.getElementById("btn-student-google-login");
     const loginMessage = document.getElementById("login-message");
 
     const teacherNameSelect = document.getElementById("teacher-name-select");
@@ -961,6 +997,12 @@
       updateTeacherLoginButton();
     }
 
+    function studentAdminLabel(student) {
+      const fullName = student.nomeCompleto || student.nome;
+      const email = student.email ? ` · ${student.email}` : "";
+      return `${fullName} (${student.nome})${email}`;
+    }
+
     function getStudentRecord(groupName, studentName) {
       const group = GROUPS[groupName];
       if (!group) return null;
@@ -1036,6 +1078,10 @@
 
     function updateTeacherLoginButton() {
       btnTeacherLogin.disabled = !(groupsReady && teacherNameSelect.value && teacherGroupSelect.value);
+    }
+
+    function updateStudentGoogleLoginButton() {
+      btnStudentGoogleLogin.disabled = !groupsReady;
     }
 
     function clearSession() {
@@ -1390,12 +1436,12 @@
       row.append(label, limitSelect, btnSaveGroups);
       groupEditorList.appendChild(row);
 
-      const activeStudents = [...group.studenti].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
-      [deactivateStudentSelect, moveStudentSelect].forEach(select => {
-        select.replaceChildren(new Option("— Scegli uno studente —", ""));
-        activeStudents.forEach(student => select.add(new Option(student.nome, student.nome)));
-        select.disabled = activeStudents.length === 0;
-      });
+             const activeStudents = [...group.studenti].sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+       [deactivateStudentSelect, moveStudentSelect].forEach(select => {
+         select.replaceChildren(new Option("— Scegli uno studente —", ""));
+         activeStudents.forEach(student => select.add(new Option(studentAdminLabel(student), student.nome)));
+         select.disabled = activeStudents.length === 0;
+       });
 
       studentAccessLimit.replaceChildren();
       for (let n = 0; n <= 77; n++) {
@@ -1482,7 +1528,7 @@
         const archivedRow = document.createElement("div");
         archivedRow.className = "group-editor";
         const info = document.createElement("span");
-        info.textContent = `${student.nome} · ${groupOptionLabel(sourceId)} (${sourceId}) · accesso fino all’unità ${student.unitNumber ?? sourceGroup.unitNumber} · disattivato il ${student.dataEsclusione || "data non disponibile"}`;
+                 info.textContent = `${studentAdminLabel(student)} · ${groupOptionLabel(sourceId)} (${sourceId}) · accesso fino all’unità ${student.unitNumber ?? sourceGroup.unitNumber} · disattivato il ${student.dataEsclusione || "data non disponibile"}`;
         const restoreGroup = document.createElement("select");
         restoreGroup.setAttribute("aria-label", `Gruppo in cui ripristinare ${student.nome}`);
         restoreGroup.add(new Option("— Scegli un gruppo attivo —", ""));
@@ -1631,6 +1677,48 @@
       showTeacherUI();
     });
 
+    btnStudentGoogleLogin.addEventListener("click", async () => {
+      hideMessage(loginMessage);
+      btnStudentGoogleLogin.disabled = true;
+      btnStudentGoogleLogin.textContent = "Accesso Google…";
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+        const result = await firebase.auth().signInWithPopup(provider);
+        const email = result.user?.email?.trim().toLowerCase();
+        const match = email && Object.entries(GROUPS).flatMap(([groupId, group]) =>
+          [...(group.studenti || []), ...(group.studentiInattivi || [])]
+            .filter(student => student.email?.trim().toLowerCase() === email)
+            .map(student => ({ groupId, group, student }))
+        )[0];
+
+        if (!match) {
+          showMessage(loginMessage, `L’indirizzo ${email || "Google"} non è associato a uno studente. Contatta l’insegnante.`, "error");
+          return;
+        }
+
+        isTeacher = false;
+        currentTeacher = null;
+        currentStudentPinVerified = false;
+        currentGroup = match.groupId;
+        currentName = match.student.nome;
+        currentActivityMode = ["online", "distance", "individual"].includes(activityModeSelect.value)
+          ? activityModeSelect.value
+          : "online";
+        saveSession();
+        showStudentUI();
+        renderUnits(getStudentMaxUnit(currentGroup, currentName));
+      } catch (error) {
+        const message = error?.code === "auth/popup-closed-by-user"
+          ? "Accesso Google annullato."
+          : "Impossibile accedere con Google. Verifica che Google sia abilitato in Firebase Authentication.";
+        showMessage(loginMessage, message, "error");
+      } finally {
+        btnStudentGoogleLogin.textContent = "Accedi con Google";
+        updateStudentGoogleLoginButton();
+      }
+    });
+
     btnLogin.addEventListener("click", () => {
       hideMessage(loginMessage);
       const group = groupSelect.value;
@@ -1729,7 +1817,7 @@
       const signingOutTeacher = isTeacher;
       clearSession();
       resetToLogin();
-      if (signingOutTeacher && window.firebase?.apps?.length) {
+      if (window.firebase?.apps?.length) {
         try { await firebase.auth().signOut(); } catch (_) { /* ignore */ }
       }
     });
@@ -1746,9 +1834,92 @@
       hideMessage(teacherMessage);
     });
 
-    function normalizeCloudGroups(remoteGroups) {
-      const normalized = {};
-      for (const [key, value] of Object.entries(remoteGroups || {})) {
+         function mergeRegisteredStudents(groups) {
+       const groupForName = name => Object.entries(groups).find(([, group]) =>
+         String(group.nome || "").toLocaleLowerCase("it") === name.toLocaleLowerCase("it")
+       );
+
+       STUDENT_ROSTER.forEach(profile => {
+         let found = groupForName(profile.gruppo);
+         if (!found) {
+           const id = LEGACY_GROUP_IDS[profile.gruppo] || profile.gruppo;
+           groups[id] = {
+             id,
+             nome: profile.gruppo,
+             insegnante: "Antonio",
+             unitNumber: 1,
+             studenti: [],
+             studentiInattivi: [],
+             attivo: true
+           };
+           found = [id, groups[id]];
+         }
+
+         const group = found[1];
+         group.studenti = Array.isArray(group.studenti) ? group.studenti : [];
+         group.studentiInattivi = Array.isArray(group.studentiInattivi) ? group.studentiInattivi : [];
+         const names = [profile.nome, ...(profile.aliases || [])].map(name => name.toLocaleLowerCase("it"));
+         const matchesProfile = student =>
+           (student.email && student.email.trim().toLowerCase() === profile.email.toLowerCase()) ||
+           names.includes(String(student.nome || "").toLocaleLowerCase("it"));
+         const previous = [...group.studenti, ...group.studentiInattivi].find(matchesProfile) || {};
+         group.studenti = group.studenti.filter(student => !matchesProfile(student));
+         group.studentiInattivi = group.studentiInattivi.filter(student => !matchesProfile(student));
+
+         const record = {
+           ...previous,
+           nome: profile.nome,
+           nomeCompleto: profile.nomeCompleto,
+           email: profile.email.toLowerCase()
+         };
+         delete record.dataEsclusione;
+         delete record.unitNumber;
+         if (profile.inattivo) {
+           record.unitNumber = profile.unitNumber;
+           group.studentiInattivi.push(record);
+         } else {
+           group.studenti.push(record);
+         }
+       });
+
+       const genova = groupForName("Genova");
+       if (genova) {
+         genova[1].studenti = (genova[1].studenti || []).filter(student => String(student.nome || "").trim().toLowerCase() !== "test");
+         genova[1].studentiInattivi = (genova[1].studentiInattivi || []).filter(student => String(student.nome || "").trim().toLowerCase() !== "test");
+       }
+       return groups;
+     }
+
+     function hasRegisteredRosterUpdates(remoteGroups, normalizedGroups) {
+       const remote = Object.values(remoteGroups || {});
+       for (const profile of STUDENT_ROSTER) {
+         const sourceGroup = remote.find(group =>
+           String(group?.nome || "").toLocaleLowerCase("it") === profile.gruppo.toLocaleLowerCase("it")
+         );
+         if (!sourceGroup) return true;
+         const expectedArray = profile.inattivo ? sourceGroup.studentiInattivi : sourceGroup.studenti;
+         const wrongArray = profile.inattivo ? sourceGroup.studenti : sourceGroup.studentiInattivi;
+         const candidates = [...(sourceGroup.studenti || []), ...(sourceGroup.studentiInattivi || [])];
+         const matches = student =>
+           (student.email && student.email.trim().toLowerCase() === profile.email.toLowerCase()) ||
+           [profile.nome, ...(profile.aliases || [])].some(name =>
+             String(student.nome || "").toLocaleLowerCase("it") === name.toLocaleLowerCase("it")
+           );
+         const existing = (expectedArray || []).find(matches);
+         if (!existing || existing.nome !== profile.nome || existing.nomeCompleto !== profile.nomeCompleto ||
+             existing.email?.toLowerCase() !== profile.email.toLowerCase() ||
+             (profile.inattivo && Number(existing.unitNumber) !== profile.unitNumber) ||
+             (wrongArray || []).some(matches)) return true;
+         if (candidates.length !== (sourceGroup.studenti || []).length + (sourceGroup.studentiInattivi || []).length) return true;
+       }
+       const remoteGenova = remote.find(group => String(group?.nome || "").toLocaleLowerCase("it") === "genova");
+       return Boolean(remoteGenova && [...(remoteGenova.studenti || []), ...(remoteGenova.studentiInattivi || [])]
+         .some(student => String(student.nome || "").trim().toLowerCase() === "test"));
+     }
+
+     function normalizeCloudGroups(remoteGroups) {
+       const normalized = {};
+       for (const [key, value] of Object.entries(remoteGroups || {})) {
         if (!value || typeof value !== "object") continue;
         const id = value.id || LEGACY_GROUP_IDS[key] || key;
         const name = value.nome || key;
@@ -1767,12 +1938,13 @@
           studentiInattivi: (Array.isArray(value.studentiInattivi) ? value.studentiInattivi : []).map(renameStudent),
           attivo: value.attivo !== false
         };
-      }
-      return normalized;
-    }
+             }
+       mergeRegisteredStudents(normalized);
+       return normalized;
+     }
 
-    function requiresGroupMigration(remoteGroups, normalized) {
-      return Object.entries(remoteGroups || {}).some(([key, value]) => {
+     function requiresGroupMigration(remoteGroups, normalized) {
+       return hasRegisteredRosterUpdates(remoteGroups, normalized) || Object.entries(remoteGroups || {}).some(([key, value]) => {
         if (!value || key !== value.id || !value.nome || typeof value.attivo !== "boolean") return true;
         const isCremona = value.id === "Cr01" || value.nome === "Cremona" || key === "Cremona";
         return isCremona && [...(value.studenti || []), ...(value.studentiInattivi || [])].some(student => student?.nome === "Laila");
@@ -1795,8 +1967,9 @@
         groupsRef = firebase.database().ref("configurazioneScuola/gruppi");
         groupsRef.transaction(current => current || GROUPS)
           .then(() => {
-            groupsReady = true;
-            groupsRef.on("value", async snapshot => {
+                       groupsReady = true;
+           updateStudentGoogleLoginButton();
+           groupsRef.on("value", async snapshot => {
               const cloudGroups = snapshot.val();
               if (!cloudGroups) return;
               const normalizedGroups = normalizeCloudGroups(cloudGroups);
