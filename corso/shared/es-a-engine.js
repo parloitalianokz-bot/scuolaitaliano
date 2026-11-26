@@ -141,9 +141,11 @@
     let reviewStudentId = isTeacherView && activityMode === "distance"
       ? sanitizeId(window.ParloReviewStudentId || "").replace(/^student_/, "")
       : "";
-    let presenceGroupRef = null;
+        let presenceGroupRef = null;
     let cardsState = {};
     let rosterState = {};
+    let groupStudentRoster = [];
+    let presenceState = {};
     let activeQuestion = 0;
     const cardUI = [];
         const draftSyncTimers = new Map();
@@ -255,6 +257,22 @@
         return `${entry.online ? "🟢" : "⚪"} ${entry.name}`;
       }
       return assigneeId.replace(/^student_/, "").replace(/_/g, " ");
+    }
+
+        function refreshTurnRoster() {
+      const nextRoster = {};
+      groupStudentRoster.forEach(student => {
+        const name = String(student?.nome || "").trim();
+        if (!name) return;
+        const id = `student_${sanitizeId(name)}`;
+        nextRoster[id] = {
+          ...(presenceState[id] || {}),
+          name,
+          online: Boolean(presenceState[id]?.online)
+        };
+      });
+      rosterState = nextRoster;
+      renderAllCards();
     }
 
     function buildTurnOptions(selectEl, selectedValue) {
@@ -976,9 +994,20 @@
         if (activityMode === "online") {
           presenceGroupRef = databaseRef.ref(`esercizi/gruppi/${gruppo}/presenze`);
           presenceGroupRef.on("value", snapshot => {
-            rosterState = snapshot.val() || {};
-            renderAllCards();
+            presenceState = snapshot.val() || {};
+            refreshTurnRoster();
           });
+
+          if (gruppo !== "sconosciuto") {
+            databaseRef.ref(`configurazioneScuola/gruppi/${gruppo}`).on("value", snapshot => {
+              const groupData = snapshot.val() || {};
+              const students = groupData.studenti;
+              groupStudentRoster = Array.isArray(students)
+                ? students
+                : Object.values(students || {});
+              refreshTurnRoster();
+            });
+          }
         }
 
         connectExerciseData();
