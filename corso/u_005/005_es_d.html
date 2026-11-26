@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="../shared/embedded-activities.css?v=2" />
   <link rel="stylesheet" href="fondo.css?v=1" />
   <style>
+    body { margin: 0; padding: 32px 16px; }
+    .container { width: min(100%, 880px); margin: 0 auto; }
+    .activity-tabs { flex-wrap: wrap; }
+    .activity-navigation { flex-wrap: wrap; }
     .hero {
       margin: 8px 0 20px;
       padding: clamp(22px, 5vw, 32px) 18px;
@@ -56,6 +60,15 @@
       font-weight: 800;
     }
     .instruction-text { color: var(--text); }
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .activity-tabs { justify-content: center; }
+      .activity-navigation > * { flex: 1 1 auto; }
+      .activity-navigation .activity-counter { flex-basis: 100%; order: -1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; }
+    }
   </style>
 </head>
 <body data-page-key="005_es_d" data-next-href="005_es_e.html" data-next-label="Vai all’esercizio E →">
@@ -148,6 +161,7 @@
   <script src="../shared/exercise-core.js?v=8"></script>
   <script src="../shared/exercise-modes.js?v=4"></script>
   <script>
+    window.ParloExercise?.initBackgroundParallax?.();
     const scroller = document.getElementById("activity-scroller");
     const activityCards = [...scroller.querySelectorAll(".activity-card")];
     const tabs = [...document.querySelectorAll(".activity-tab")];

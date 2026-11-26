@@ -113,7 +113,9 @@
     </section>
   </main>
 
+  <script src="../shared/exercise-core.js?v=9"></script>
   <script>
+    window.ParloExercise?.initBackgroundParallax?.();
     const discoveryAnswers = ["c'è", "ci sono", "c'è"];
     document.getElementById("check-discovery").addEventListener("click", () => {
       const selects = [...document.querySelectorAll("#discovery select")];

@@ -41,8 +41,10 @@
     const body = document.body;
     if (!body || body.dataset.parallaxInitialized === "true") return;
 
-    // Preserve pages that already provide their own parallax layer.
-    if (getComputedStyle(body, "::before").content !== "none") return;
+    // Preserve a real custom pseudo-element background, but ignore the default
+    // computed value ("normal") used when no ::before content is defined.
+    const beforeContent = getComputedStyle(body, "::before").content;
+    if (beforeContent && beforeContent !== "none" && beforeContent !== "normal") return;
 
     const bodyStyle = getComputedStyle(body);
     if (!bodyStyle.backgroundImage || bodyStyle.backgroundImage === "none") return;
