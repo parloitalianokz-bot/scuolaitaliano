@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa i dialoghi per chiedere informazioni su un appartamento in affitto, Unità 5, Esercizio G." />
+  <title>Unità 5 — Informazioni sull’appartamento · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .grammar-reminder { margin: 0 0 18px; padding: 13px 16px; border: 1px solid var(--border); border-left: 5px solid var(--accent); border-radius: 13px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .grammar-reminder a { color: var(--primary-dark); font-weight: 800; }
+    .progress-label {
+      margin: 0 0 8px;
+      color: var(--primary-dark);
+      font-size: .92rem;
+      font-weight: 800;
+    }
+    .section-box { gap: 12px; }
+    .worksheet-card {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+      padding: clamp(14px, 3vw, 20px);
+      border: 1px solid #dfe8df;
+      border-radius: 17px;
+      background: #fcfdfb;
+    }
+    .worksheet-card.active-turn {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(71, 119, 85, .08);
+    }
+    .worksheet-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .worksheet-label { color: var(--primary-dark); font-weight: 800; }
+    .turn-hint-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eef3ee;
+      color: var(--text-muted);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .accent-toolbar { display: flex; flex-wrap: wrap; gap: 6px; }
+    .accent-toolbar button {
+      min-width: 36px;
+      min-height: 34px;
+      padding: 4px 9px;
+      border: 1px solid #d8e5d8;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .accent-toolbar button:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .accent-toolbar button:disabled { opacity: .55; cursor: not-allowed; }
+    .dialogue-turns-list { display: grid; gap: 18px; }
+    .dialogue-turn {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      align-items: center;
+      gap: 10px clamp(12px, 3vw, 28px);
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+    .dialogue-script { gap: 12px; }
+    .dialogue-script .dialogue-turn { display: flex; }
+    .dialogue-script .speaker-caller { justify-content: flex-start; }
+    .dialogue-script .speaker-agent { justify-content: flex-end; }
+    .dialogue-line-bubble,
+    .dialogue-script .student-reply {
+      box-sizing: border-box;
+      width: min(82%, 650px);
+      padding: 12px 16px;
+      border: 1px solid #dce8dc;
+      border-radius: 17px;
+      color: var(--text);
+      font-size: .95rem;
+      line-height: 1.55;
+      box-shadow: 0 3px 10px rgba(45, 75, 50, .05);
+    }
+    .dialogue-line-bubble { background: #edf4ed; }
+    .speaker-caller .dialogue-line-bubble,
+    .dialogue-reply-turn.speaker-caller .student-reply { border-bottom-left-radius: 5px; }
+    .speaker-agent .dialogue-line-bubble,
+    .dialogue-reply-turn.speaker-agent .student-reply { border-bottom-right-radius: 5px; }
+    .dialogue-script .speaker-caller .dialogue-line-bubble { background: #edf4ed; }
+    .dialogue-script .speaker-agent .dialogue-line-bubble { background: #f2eef8; border-color: #e2d9ee; }
+    .dialogue-script .dialogue-line-bubble { display: flex; align-items: center; gap: 8px; }
+    .dialogue-script .dialogue-dash { flex: 0 0 auto; font-weight: 700; }
+    .dialogue-question-mark { flex: 0 0 auto; color: var(--primary-dark); font-size: 2rem; font-weight: 800; line-height: 1; }
+    .dialogue-script .student-reply {
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      min-height: 38px;
+      padding: 6px 2px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font: inherit;
+      resize: vertical;
+      box-shadow: none;
+    }
+    .dialogue-script .student-reply:focus { outline: 2px solid rgba(71, 119, 85, .35); outline-offset: 1px; }
+    .dialogue-script .student-reply::placeholder { color: #778279; font-size: .88rem; }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .prompt-question {
+      justify-self: start;
+      max-width: 100%;
+      padding: 13px 16px;
+      border: 1px solid #dce8dc;
+      border-radius: 17px 17px 17px 5px;
+      background: #edf4ed;
+      color: var(--text);
+      font-size: .93rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .student-reply {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 76px;
+      padding: 11px 14px;
+      border: 1.5px solid #d4e1d5;
+      border-radius: 17px 17px 5px 17px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      font-size: .96rem;
+      line-height: 1.5;
+      resize: vertical;
+      box-shadow: 0 3px 10px rgba(45, 75, 50, .05);
+    }
+    .student-reply:focus { border-color: var(--primary); outline: 3px solid rgba(71, 119, 85, .14); }
+    .student-reply:disabled { background: #f2f5f1; color: #647067; cursor: not-allowed; }
+    .actions-row { min-height: 1.2em; }
+    .sync-feedback { color: var(--text-muted); font-size: .85rem; font-weight: 700; }
+    .sync-feedback.saved { color: var(--success); }
+    .sync-feedback.error { color: #991b1b; }
+    @media (max-width: 600px) {
+      .slide-navigation { flex-wrap: wrap; }
+      .slide-navigation > * { flex: 1 1 auto; }
+      .section-box { padding: 14px; }
+      .dialogue-turn { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .prompt-question { max-width: 94%; }
+      .student-reply { width: 94%; justify-self: end; }
+      .dialogue-script .dialogue-turn { width: 100%; }
+      .dialogue-line-bubble,
+      .dialogue-script .student-reply { width: min(94%, 650px); }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="005_es_g" data-next-href="005_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 5 · Conversazione e dialoghi</span>
+      <h1>Informazioni sull’appartamento</h1>
+      <p class="hero-subtitle">Completa i dialoghi per chiedere e dare informazioni su una casa in affitto.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div class="instruction-text">
+        Дополните диалоги, вписав пропущенные реплики. Внимательно прочитайте соседние реплики и используйте подходящие вопросы и ответы. Там, где информация не задана, придумайте естественный вариант.
+        <br /><span lang="it">Completa i dialoghi inserendo le battute mancanti. Leggi con attenzione le battute vicine e scegli domande e risposte adatte; dove mancano informazioni, inventa una risposta naturale.</span>
+      </div>
+    </section>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+    <p class="grammar-reminder" lang="ru">Если нужно, consulta la <a href="esserci.html"><span lang="it">scheda grammaticale del verbo <em>esserci</em></span></a> per ripassare <em>c’è</em> e <em>ci sono</em>.</p>
+
+    <section class="card" aria-label="Dialoghi da completare sugli appartamenti in affitto">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un dialogo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei dialoghi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei dialoghi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="005_es_h.html" hidden>Vai all’esercizio H →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+      <script src="../shared/dialogue-completion-exercise.js?v=3"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna il turno per ogni dialogo; le risposte sono condivise con il gruppo."
+        : "💬 Modalità online: completa le battute durante il turno assegnato; le risposte sono condivise con il gruppo.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente; puoi consultare i loro progressi."
+        : "🎙️ Modalità a distanza: completa i dialoghi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: ogni studente si esercita nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const dialogues = [
+      {
+        id: "g1",
+        title: "Dialogo 1 · Nel centro storico",
+        questions: [
+          { q: "Formula la domanda sulla posizione dell’appartamento.", placeholder: "Подумайте, как спросить…", questionMark: true },
+          { q: "Chiedi quante stanze ci sono.", placeholder: "Сформулируйте вопрос…", questionMark: true },
+          { q: "Chiedi se l’appartamento è arredato.", placeholder: "Подумайте, как спросить…", questionMark: true },
+          { q: "Chiedi quanto costa l’affitto.", placeholder: "Сформулируйте вопрос…", questionMark: true },
+          { q: "Ringrazia e concludi cortesemente la telefonata.", placeholder: "Подберите вежливую фразу…" }
+        ],
+        script: [
+          { text: "Buonasera, chiamo per avere informazioni sull’appartamento che Lei affitta.", speaker: "caller" },
+          { text: "Sì, prego.", speaker: "agent" },
+          { question: 0, speaker: "caller" },
+          { text: "L'appartamento è nel centro storico della città, vicino alla piazza principale.", speaker: "agent" },
+          { question: 1, speaker: "caller" },
+          { text: "Ci sono tre stanze: due camere da letto, un soggiorno, e una cucina abitabile.", speaker: "agent" },
+          { question: 2, speaker: "caller" },
+          { text: "Sì, è completamente arredato con mobili moderni e confortevoli.", speaker: "agent" },
+          { question: 3, speaker: "caller" },
+          { text: "L'affitto è di 900 euro al mese, spese condominiali incluse.", speaker: "agent" },
+          { question: 4, speaker: "caller" },
+          { text: "Prego, arrivederci.", speaker: "agent" }
+        ]
+      },
+      {
+        id: "g2",
+        title: "Dialogo 2 · La telefonata",
+        questions: [
+          { q: "Rispondi cortesemente all’interessato.", placeholder: "Начните с вежливой фразы…" },
+          { q: "Indica la zona di San Marco, in centro.", placeholder: "Ответьте кратко…" },
+          { q: "Rispondi di sì.", placeholder: "Ответьте полной фразой…" },
+          { q: "Indica che si trova al terzo piano.", placeholder: "Составьте ответ…" },
+          { q: "Descrivi le due camere, il soggiorno, la cucina e il bagno.", placeholder: "Опишите это своими словами…" },
+          { q: "Spiega che l’appartamento è arredato.", placeholder: "Составьте ответ…" },
+          { q: "Indica il prezzo di 850 euro al mese, spese incluse.", placeholder: "Ответьте полной фразой…" }
+        ],
+        script: [
+          { text: "Salve, sono interessato al Suo appartamento.", speaker: "caller" },
+          { question: 0, speaker: "agent" },
+          { text: "In che zona è?", speaker: "caller" },
+          { question: 1, speaker: "agent" },
+          { text: "E’ vicino alla fermata della metro?", speaker: "caller" },
+          { question: 2, speaker: "agent" },
+          { text: "A che piano è?", speaker: "caller" },
+          { question: 3, speaker: "agent" },
+          { text: "Quante stanze ci sono?", speaker: "caller" },
+          { question: 4, speaker: "agent" },
+          { text: "Ci sono i mobili?", speaker: "caller" },
+          { question: 5, speaker: "agent" },
+          { text: "Quanto costa?", speaker: "caller" },
+          { question: 6, speaker: "agent" }
+        ]
+      },
+      {
+        id: "g3",
+        title: "Dialogo 3 · Vicino alla stazione",
+        questions: [
+          { q: "Presenta la telefonata e chiedi informazioni sull’appartamento.", placeholder: "Начните разговор…" },
+          { q: "Formula la domanda sulla posizione.", placeholder: "Сформулируйте вопрос…", questionMark: true },
+          { q: "Chiedi quante stanze ci sono e quali sono.", placeholder: "Сформулируйте вопрос…", questionMark: true },
+          { q: "Chiedi se l’appartamento è arredato.", placeholder: "Подумайте, как спросить…", questionMark: true },
+          { q: "Chiedi il prezzo dell’affitto.", placeholder: "Сформулируйте вопрос…", questionMark: true },
+          { q: "Ringrazia e concludi cortesemente la telefonata.", placeholder: "Подберите вежливую фразу…" }
+        ],
+        script: [
+          { question: 0, speaker: "caller" },
+          { text: "Sì, prego.", speaker: "agent" },
+          { question: 1, speaker: "caller" },
+          { text: "L'appartamento è vicino alla stazione.", speaker: "agent" },
+          { question: 2, speaker: "caller" },
+          { text: "Ci sono due camere da letto, c’è un soggiorno spazioso, c’è la cucina e c’è un bagno.", speaker: "agent" },
+          { question: 3, speaker: "caller" },
+          { text: "Sì, è completamente arredato con mobili moderni e accessori.", speaker: "agent" },
+          { question: 4, speaker: "caller" },
+          { text: "L'affitto mensile è di 800 euro, spese condominiali escluse.", speaker: "agent" },
+          { question: 5, speaker: "caller" },
+          { text: "Prego, arrivederci.", speaker: "agent" }
+        ]
+      },
+      {
+        id: "g4",
+        title: "Dialogo 4 · L’annuncio sul giornale",
+        questions: [
+          { q: "Rispondi che l’appartamento è disponibile da subito.", placeholder: "Составьте краткий ответ…" },
+          { q: "Indica le due camere, il soggiorno, la cucina e il bagno.", placeholder: "Опишите это своими словами…" },
+          { q: "Rispondi di sì e aggiungi che si trova vicino a un parco.", placeholder: "Подумайте, как дополнить ответ…" },
+          { q: "Rispondi di no.", placeholder: "Составьте краткий ответ…" },
+          { q: "Indica 750 euro al mese, spese escluse.", placeholder: "Ответьте полной фразой…" },
+          { q: "Indica il secondo piano e la presenza dell’ascensore.", placeholder: "Добавьте подходящую деталь…" }
+        ],
+        script: [
+          { text: "Buongiorno, chiamo per l’annuncio sul giornale. L’appartamento è libero?", speaker: "caller" },
+          { question: 0, speaker: "agent" },
+          { text: "Quante stanze ci sono?", speaker: "caller" },
+          { question: 1, speaker: "agent" },
+          { text: "E’ in una zona tranquilla?", speaker: "caller" },
+          { question: 2, speaker: "agent" },
+          { text: "È ammobiliato?", speaker: "caller" },
+          { question: 3, speaker: "agent" },
+          { text: "Quanto costa?", speaker: "caller" },
+          { question: 4, speaker: "agent" },
+          { text: "A che piano è?", speaker: "caller" },
+          { question: 5, speaker: "agent" }
+        ]
+      }
+    ];
+
+    ParloDialogueCompletionExercise.init({
+      unitNumber: 5,
+      exercisePath: "005_es_g",
+      dialogues
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>
