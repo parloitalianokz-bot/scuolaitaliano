@@ -1,8 +1,17 @@
 (() => {
+  const load = src => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = false;
+    document.head.appendChild(script);
+  };
+
+  load("../shared/access-guard.js?v=3");
+
   window.PARLO_UNIT_NAV = {
     unitNumber: 5,
     exercises: [
-      { value: "lettura.html", label: "Lettura" },
+      { value: "005_lettura.html", label: "Lettura" },
       ..."abcdefghijklmn".split("").map(letter => ({ value: `005_es_${letter}.html`, label: `Esercizio ${letter.toUpperCase()}` }))
     ],
     grammar: [
@@ -10,7 +19,5 @@
       { value: "ordinali.html", label: "I numeri ordinali" }
     ]
   };
-  const script = document.createElement("script");
-  script.src = "../shared/unit-navigation.js?v=1";
-  document.head.appendChild(script);
+  load("../shared/unit-navigation.js?v=1");
 })();
