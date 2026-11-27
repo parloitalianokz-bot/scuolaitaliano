@@ -63,9 +63,19 @@
     .message.error { background: #fde8e7; color: #a51d1d; }
     .message.success { background: #e1f1e5; color: #17623c; }
     .lesson-group h2 { margin-bottom: 18px; }
-    .lesson { margin-top: 16px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcf8; }
+    .unit-group { margin-top: 12px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcf8; }
+    .unit-group > summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      min-height: 54px; padding: 14px 16px; border-radius: 14px; color: var(--green);
+      font-weight: 800; cursor: pointer; list-style: none;
+    }
+    .unit-group > summary::-webkit-details-marker { display: none; }
+    .unit-group > summary::after { content: "+"; color: var(--accent); font-size: 1.35rem; }
+    .unit-group[open] > summary::after { content: "−"; }
+    .unit-group > summary:hover { background: var(--green-light); }
+    .unit-lessons { padding: 0 12px 12px; }
+    .lesson { margin-top: 12px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fffefa; }
     .lesson h3 { margin: 0 0 12px; color: var(--green); }
-    .lesson-date { margin: -5px 0 12px; color: var(--muted); font-weight: 700; }
     .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #111; }
     .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .pdf-preview { width: 100%; height: min(75vh, 800px); margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
@@ -93,7 +103,7 @@
     <p id="page-message" class="message" role="status" aria-live="polite" hidden></p>
 
     <section id="teacher-controls" class="card" hidden>
-      <h2>Aggiungi una videolezione</h2>
+      <h2>Aggiungi o aggiorna una videolezione</h2>
       <form id="video-form">
         <div class="toolbar">
           <div class="field">
@@ -103,10 +113,6 @@
           <div class="field">
             <label for="unit-select">Unità</label>
             <select id="unit-select" required></select>
-          </div>
-          <div class="field">
-            <label for="lesson-date">Data della lezione</label>
-            <input id="lesson-date" type="date" required>
           </div>
         </div>
         <div class="field" style="margin-top:12px">
@@ -142,7 +148,6 @@
     const unitSelect = document.getElementById("unit-select");
     const videoForm = document.getElementById("video-form");
     const youtubeUrl = document.getElementById("youtube-url");
-    const lessonDateInput = document.getElementById("lesson-date");
     const pdfUrlInput = document.getElementById("pdf-url");
     const archive = document.getElementById("archive");
 
@@ -167,10 +172,6 @@
       return element;
     }
     function groupName(id) { return groups[id]?.nome || id; }
-    function formatLessonDate(value) {
-      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
-      return match ? `${match[3]}/${match[2]}/${match[1]}` : "";
-    }
     function getStudentLimit(group) {
       const active = (group.studenti || []).some(student => student.nome === session.name);
       const inactive = (group.studentiInattivi || []).find(student => student.nome === session.name);
@@ -229,6 +230,10 @@
       videosRef.on("value", videosListener, () => showMessage("Errore nel caricamento delle videolezioni. Verifica la connessione e le regole Firebase."));
     }
     function renderArchive() {
+      const previousOpenUnits = new Set(
+        [...archive.querySelectorAll(".unit-group[open]")].map(details => details.dataset.unit)
+      );
+      const hadRenderedGroups = archive.querySelector(".unit-group") !== null;
       archive.replaceChildren();
       const group = groups[selectedGroup];
       if (!group) return;
@@ -242,57 +247,75 @@
       if (!lessons.length) {
         section.appendChild(makeElement("p", "empty", "Non ci sono ancora videolezioni disponibili per questo gruppo."));
       }
-      lessons.forEach(({ key, video, unit }) => {
-        const lesson = makeElement("article", "lesson");
-        lesson.appendChild(makeElement("h3", "", `Unità ${unit}${video.title ? ` · ${video.title}` : ""}`));
-        const lessonDate = formatLessonDate(video.lessonDate);
-        if (lessonDate) lesson.appendChild(makeElement("p", "lesson-date", `Lezione del ${lessonDate}`));
-        const frame = makeElement("div", "video-frame");
-        const iframe = document.createElement("iframe");
-        iframe.src = embedUrl(video);
-        iframe.title = `Videolezione del gruppo ${groupName(selectedGroup)}, unità ${unit}`;
-        iframe.loading = "lazy";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.referrerPolicy = "strict-origin-when-cross-origin";
-        iframe.allowFullscreen = true;
-        frame.appendChild(iframe);
-        lesson.appendChild(frame);
-        if (video.pdfUrl) {
-          const pdfHeading = makeElement("h3", "", "Materiale PDF");
-          pdfHeading.style.marginTop = "20px";
-          lesson.appendChild(pdfHeading);
-          const pdfFrame = document.createElement("iframe");
-          pdfFrame.className = "pdf-preview";
-          pdfFrame.src = video.pdfPreviewUrl || googleDrivePreviewUrl(video.pdfUrl) || video.pdfUrl;
-          pdfFrame.title = `PDF associato alla videolezione dell’unità ${unit}`;
-          pdfFrame.loading = "lazy";
-          lesson.appendChild(pdfFrame);
-          const pdfLink = makeElement("a", "pdf-link", "Apri il PDF in una nuova scheda");
-          pdfLink.href = video.pdfUrl;
-          pdfLink.target = "_blank";
-          pdfLink.rel = "noopener noreferrer";
-          lesson.appendChild(pdfLink);
-        }
-        if (session.isTeacher) {
-          const actions = makeElement("div", "lesson-actions");
-          const remove = makeElement("button", "secondary", "Elimina videolezione");
-          remove.type = "button";
-          remove.addEventListener("click", async () => {
-            if (!window.confirm(`Eliminare la videolezione dell’unità ${unit} per il gruppo ${groupName(selectedGroup)}?`)) return;
-            remove.disabled = true;
-            try {
-              if (video.pdfPath) await firebase.storage().ref(video.pdfPath).delete();
-              await videosRef.child(key).remove();
-              showMessage(`Videolezione dell’unità ${unit} eliminata.`, "success");
-            } catch (_) {
-              showMessage("Impossibile eliminare la videolezione o il PDF. Verifica le regole Firebase.");
-              remove.disabled = false;
-            }
-          });
-          actions.appendChild(remove);
-          lesson.appendChild(actions);
-        }
-        section.appendChild(lesson);
+      const currentUnit = session.isTeacher
+        ? Number(group.unitNumber)
+        : studentUnitLimit;
+      const lessonsByUnit = new Map();
+      lessons.forEach(entry => {
+        if (!lessonsByUnit.has(entry.unit)) lessonsByUnit.set(entry.unit, []);
+        lessonsByUnit.get(entry.unit).push(entry);
+      });
+      lessonsByUnit.forEach((unitLessons, unit) => {
+        const details = makeElement("details", "unit-group");
+        details.dataset.unit = String(unit);
+        details.open = hadRenderedGroups
+          ? previousOpenUnits.has(String(unit))
+          : unit === currentUnit;
+        const summary = makeElement("summary", "", `Unità ${unit} · ${unitLessons.length} ${unitLessons.length === 1 ? "videolezione" : "videolezioni"}`);
+        details.appendChild(summary);
+        const unitContent = makeElement("div", "unit-lessons");
+        unitLessons.forEach(({ key, video }) => {
+          const lesson = makeElement("article", "lesson");
+          lesson.appendChild(makeElement("h3", "", video.title || "Videolezione"));
+          const frame = makeElement("div", "video-frame");
+          const iframe = document.createElement("iframe");
+          iframe.src = embedUrl(video);
+          iframe.title = `Videolezione del gruppo ${groupName(selectedGroup)}, unità ${unit}`;
+          iframe.loading = "lazy";
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          iframe.allowFullscreen = true;
+          frame.appendChild(iframe);
+          lesson.appendChild(frame);
+          if (video.pdfUrl) {
+            const pdfHeading = makeElement("h3", "", "Materiale PDF");
+            pdfHeading.style.marginTop = "20px";
+            lesson.appendChild(pdfHeading);
+            const pdfFrame = document.createElement("iframe");
+            pdfFrame.className = "pdf-preview";
+            pdfFrame.src = video.pdfPreviewUrl || googleDrivePreviewUrl(video.pdfUrl) || video.pdfUrl;
+            pdfFrame.title = `PDF associato alla videolezione dell’unità ${unit}`;
+            pdfFrame.loading = "lazy";
+            lesson.appendChild(pdfFrame);
+            const pdfLink = makeElement("a", "pdf-link", "Apri il PDF in una nuova scheda");
+            pdfLink.href = video.pdfUrl;
+            pdfLink.target = "_blank";
+            pdfLink.rel = "noopener noreferrer";
+            lesson.appendChild(pdfLink);
+          }
+          if (session.isTeacher) {
+            const actions = makeElement("div", "lesson-actions");
+            const remove = makeElement("button", "secondary", "Elimina videolezione");
+            remove.type = "button";
+            remove.addEventListener("click", async () => {
+              if (!window.confirm(`Eliminare la videolezione dell’unità ${unit} per il gruppo ${groupName(selectedGroup)}?`)) return;
+              remove.disabled = true;
+              try {
+                if (video.pdfPath) await firebase.storage().ref(video.pdfPath).delete();
+                await videosRef.child(key).remove();
+                showMessage(`Videolezione dell’unità ${unit} eliminata.`, "success");
+              } catch (_) {
+                showMessage("Impossibile eliminare la videolezione o il PDF. Verifica le regole Firebase.");
+                remove.disabled = false;
+              }
+            });
+            actions.appendChild(remove);
+            lesson.appendChild(actions);
+          }
+          unitContent.appendChild(lesson);
+        });
+        details.appendChild(unitContent);
+        section.appendChild(details);
       });
       archive.appendChild(section);
     }
@@ -357,10 +380,6 @@
         showMessage("Inserisci un link YouTube valido (video, youtu.be o Shorts).");
         return;
       }
-      if (!lessonDateInput.value) {
-        showMessage("Indica la data della lezione.");
-        return;
-      }
       const enteredPdfUrl = pdfUrlInput.value.trim();
       const pdfPreviewUrl = enteredPdfUrl ? googleDrivePreviewUrl(enteredPdfUrl) : "";
       if (enteredPdfUrl && !pdfPreviewUrl) {
@@ -378,14 +397,12 @@
           pdfUrl: enteredPdfUrl,
           pdfPreviewUrl,
           unitNumber: unit,
-          lessonDate: lessonDateInput.value,
           updatedAt: Date.now(),
           updatedBy: session.teacher
         };
 
         await lessonRef.set(lessonData);
         youtubeUrl.value = "";
-        lessonDateInput.value = "";
         if (enteredPdfUrl) pdfUrlInput.value = "";
         showMessage(`Videolezione salvata per ${groupName(groupId)}, unità ${unit}.`, "success");
       } catch (error) {
