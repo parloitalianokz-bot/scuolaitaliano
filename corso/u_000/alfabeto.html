@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lezione interattiva sull'alfabeto e la pronuncia italiana." />
+    <meta name="description" content="Lezione interattiva sull'alfabeto e la pronuncia italiana." />
+  <script src="../shared/access-guard.js"></script>
   <title>L'alfabeto italiano</title>
   <style>
     :root {
@@ -290,11 +291,13 @@
     else if (group && studentName) badge.textContent = `👤 ${group} · ${studentName}`;
     else badge.textContent = "Accedi dalla pagina iniziale per visualizzare il badge del gruppo.";
 
-    const unlockButton = document.getElementById("unlock-unit-one");
+        const unlockButton = document.getElementById("unlock-unit-one");
     const unitOneLink = document.getElementById("unit-one-link");
     const unitOneStatus = document.getElementById("unit-one-status");
     const teacherCanUnlock = Boolean(session.isTeacher && session.teacher && group);
+    let unitOneUnlocked = false;
     unlockButton.hidden = !teacherCanUnlock;
+    unlockButton.disabled = true;
 
     if (group && window.firebase) {
       const firebaseConfig = {
@@ -305,21 +308,22 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const groupRef = firebase.database().ref(`configurazioneScuola/gruppi/${group}`);
         groupRef.child("unitNumber").on("value", snapshot => {
-          const unlocked = Number(snapshot.val()) >= 1;
-          unitOneLink.setAttribute("aria-disabled", String(!unlocked));
-          unitOneLink.tabIndex = unlocked ? 0 : -1;
-          unlockButton.hidden = !teacherCanUnlock || unlocked;
-          unitOneStatus.textContent = unlocked
+          unitOneUnlocked = Number(snapshot.val()) >= 1;
+          unitOneLink.setAttribute("aria-disabled", String(!unitOneUnlocked));
+          unitOneLink.tabIndex = unitOneUnlocked ? 0 : -1;
+          unlockButton.disabled = !teacherCanUnlock || unitOneUnlocked;
+          unitOneStatus.textContent = unitOneUnlocked
             ? "Unità 1 sbloccata per il gruppo."
             : teacherCanUnlock
               ? "L’unità 1 è bloccata per il gruppo."
               : "Unità 1 bloccata: attendi l’autorizzazione dell’insegnante.";
         }, () => {
+          unlockButton.disabled = true;
           unitOneStatus.textContent = "Impossibile verificare lo sblocco dell’unità 1.";
         });
 
         unlockButton.addEventListener("click", async () => {
-          if (!teacherCanUnlock) return;
+          if (!teacherCanUnlock || unitOneUnlocked || unlockButton.disabled) return;
           unlockButton.disabled = true;
           unitOneStatus.textContent = "Salvataggio dello sblocco…";
           try {
@@ -327,16 +331,16 @@
             unitOneStatus.textContent = "Unità 1 sbloccata per il gruppo.";
           } catch (_) {
             unitOneStatus.textContent = "Errore: impossibile sbloccare l’unità 1.";
-          } finally {
-            unlockButton.disabled = false;
+            unlockButton.disabled = !teacherCanUnlock || unitOneUnlocked;
           }
         });
       } catch (_) {
+        unlockButton.disabled = true;
         unitOneStatus.textContent = "Impossibile collegarsi ai dati del gruppo.";
       }
     } else if (teacherCanUnlock) {
       unitOneStatus.textContent = "Servizio dati non disponibile: impossibile sbloccare l’unità 1.";
-    }
+        }
 
     const slides = document.getElementById("slides");
     const cards = [...document.querySelectorAll(".lesson-card")];
