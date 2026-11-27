@@ -1322,6 +1322,7 @@
     }
 
     function showStudentUI() {
+      btnStudentGoogleLogin.hidden = true;
       loginLayout.classList.add("hidden");
       homeworkEntry.classList.remove("hidden");
       videoEntry.classList.remove("hidden");
@@ -1335,7 +1336,7 @@
       const maxUnit = getStudentMaxUnit(currentGroup, currentName);
       studentModeSwitchWrap.hidden = false;
       studentModeSwitch.value = currentActivityMode;
-      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} · Unità ${maxUnit}`;
+      userInfoText.textContent = `${currentName} - ${GROUPS[currentGroup]?.nome || currentGroup}`;
     }
 
     function syncTeacherReviewStudentSelector() {
@@ -1367,6 +1368,7 @@
     });
 
     function showTeacherUI() {
+      btnStudentGoogleLogin.hidden = true;
       loginLayout.classList.add("hidden");
       homeworkEntry.classList.remove("hidden");
       videoEntry.classList.remove("hidden");
@@ -1388,6 +1390,7 @@
     }
 
     function resetToLogin() {
+      btnStudentGoogleLogin.hidden = false;
       loginLayout.classList.remove("hidden");
       loginVisual.dataset.role = "student";
       homeworkEntry.classList.add("hidden");
