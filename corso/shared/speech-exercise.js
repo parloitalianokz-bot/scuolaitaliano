@@ -470,6 +470,22 @@
         assignmentBar.append(assignLabel, assignSelect);
       }
 
+            const imageFigure = card.image ? document.createElement("figure") : null;
+      if (imageFigure) {
+        imageFigure.className = "speech-image-figure";
+        const image = document.createElement("img");
+        image.src = card.image;
+        image.alt = card.imageAlt || card.title || "Immagine della scheda";
+        image.loading = "lazy";
+        image.decoding = "async";
+        imageFigure.appendChild(image);
+        if (card.imageCaption) {
+          const caption = document.createElement("figcaption");
+          caption.textContent = card.imageCaption;
+          imageFigure.appendChild(caption);
+        }
+      }
+
       // Contenuto guida della scheda (es. incipit + lista domande per racconto, oppure sottotitolo)
       let promptBlock = null;
       if (card.intro || card.starter || (Array.isArray(card.prompts) && card.prompts.length)) {
@@ -649,7 +665,8 @@
       contributionsWrapper.append(contributionsTitle, contributionsEmpty, contributionsList);
 
       box.append(header);
-      if (isTeacherView) box.append(assignmentBar);
+            if (isTeacherView) box.append(assignmentBar);
+      if (imageFigure) box.append(imageFigure);
       if (promptBlock) box.append(promptBlock);
       box.append(tipsDetails, productionCard, contributionsWrapper);
       questionsContainer.appendChild(box);

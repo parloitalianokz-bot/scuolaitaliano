@@ -1066,6 +1066,7 @@
     function saveSession() {
       try {
         localStorage.setItem("parlo_session", JSON.stringify({
+          loginVerified: true,
           isTeacher,
           teacher: currentTeacher,
           group: currentGroup,
@@ -1107,6 +1108,7 @@
           showTeacherUI();
           renderUnits(null);
           buildTeacherEditor();
+          saveSession();
           return true;
         }
 
@@ -1123,6 +1125,7 @@
           activityModeSelect.value = currentActivityMode;
           showStudentUI();
           renderUnits(getStudentMaxUnit(storedGroup, data.name));
+          saveSession();
           return true;
         }
         return false;

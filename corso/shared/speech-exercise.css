@@ -24,28 +24,14 @@ h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem, 5vw, 2.
 .card { margin-bottom: 24px; padding: clamp(20px, 4vw, 32px); border: 1px solid var(--border); border-radius: 26px; background: var(--card-bg); box-shadow: 0 22px 60px rgba(43, 69, 46, .11); }
 .connection-banner { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #f5c2c0; border-radius: 12px; background: #fde8e7; color: #991b1b; font-size: .9rem; font-weight: 700; }
 .overall-progress {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 6px;
-  overflow-x: auto;
-  margin: 0 0 16px;
-  padding: 2px 1px 10px;
-  scrollbar-width: thin;
+  display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; margin: 0 0 16px;
+  padding: 2px 1px 10px; scrollbar-width: thin;
 }
 .progress-step {
-  flex: 0 0 36px;
-  min-width: 36px;
-  min-height: 36px;
-  padding: 4px 8px;
-  border: 1px solid #d8e5d8;
-  border-radius: 10px;
-  background: #fff;
-  color: var(--primary-dark);
-  font: inherit;
-  font-size: .88rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background .18s, border-color .18s, color .18s;
+  flex: 0 0 36px; min-width: 36px; min-height: 36px; padding: 4px 8px;
+  border: 1px solid #d8e5d8; border-radius: 10px; background: #fff;
+  color: var(--primary-dark); font: inherit; font-size: .88rem; font-weight: 800;
+  cursor: pointer; transition: background .18s, border-color .18s, color .18s;
 }
 .progress-step:hover { border-color: var(--primary); background: var(--primary-light); }
 .progress-step.done { border-color: #9bc4a6; background: var(--success-bg); color: var(--success); }
@@ -60,6 +46,9 @@ h1 { margin: 4px 0; color: var(--primary-dark); font-size: clamp(1.9rem, 5vw, 2.
 .turn-assignment-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px 14px; border: 1px solid #d5e2d5; border-radius: 14px; background: #f3f8f3; }
 .turn-assignment-bar label { color: var(--primary-dark); font-size: .85rem; font-weight: 800; }
 .turn-assignment-bar select { flex: 1; min-width: 210px; min-height: 38px; padding: 6px 10px; border: 1.5px solid #c7d8c8; border-radius: 10px; background: #fff; color: var(--text); font: inherit; }
+.speech-image-figure { margin: 0; padding: 10px; border: 1px solid #dce8dc; border-radius: 14px; background: #fff; }
+.speech-image-figure img { display: block; width: 100%; max-height: 520px; object-fit: contain; border-radius: 8px; }
+.speech-image-figure figcaption { margin-top: 8px; color: var(--text-muted); font-size: .88rem; line-height: 1.5; }
 .speech-prompts { padding: 14px 16px; border: 1px solid #dce8dc; border-radius: 14px; background: #f8faf6; line-height: 1.55; }
 .speech-prompts-intro { margin: 0 0 10px; color: var(--primary-dark); font-weight: 700; }
 .speech-prompts-viewport { max-height: 240px; overflow: auto; padding: 0 8px 0 2px; }
