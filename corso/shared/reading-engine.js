@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+
   const FIREBASE_CONFIG = {
     authDomain: "esercizi-parlo-italiano.firebaseapp.com",
     databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app",
@@ -231,7 +232,8 @@
         const li = document.createElement("li");
         const strong = document.createElement("strong");
         strong.textContent = tip.textContent.trim();
-        li.append(strong, ` — ${tip.getAttribute("data-tip") || ""}`);
+        const explanation = tip.getAttribute("data-glossary") || tip.getAttribute("data-tip") || "";
+        li.append(strong, ` — ${explanation}`);
         glossaryList.appendChild(li);
       });
       glossaryBox.hidden = false;
