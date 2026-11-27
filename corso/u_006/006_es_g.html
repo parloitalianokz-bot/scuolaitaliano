@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Unisci le frasi usando anche, Unità 6 — Esercizio G." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_g">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Produzione scritta</span>
+      <h1>Il mio migliore amico</h1>
+      <p class="hero-subtitle">Unisci le frasi usando anche.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div class="instruction-text">
+        👉 <strong>Объедините предложения по образцу:</strong><br />
+        Paolo è alto; anche Fabio è alto. → Paolo e Fabio sono alti.
+        <br /><span lang="it"><strong>Unisci le frasi usando «anche».</strong> Scrivi una frase completa e fai attenzione all’accordo.</span>
+      </div>
+    </section>
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Unisci le frasi usando anche">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla frase"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: rispondi durante il tuo turno; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: rispondi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const combinationHints = [
+      "Объедините два предложения в одно, используя «e» и «anche».",
+      "Проверьте форму глагола и согласование прилагательного во множественном числе."
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_g",
+      questions: [
+        { key: "q1", title: "1) Fabio è sportivo; anche Paolo è sportivo.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q2", title: "2) Fabio è ricco; anche Anna è ricca.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q3", title: "3) Gianni è simpatico; anche Vittorio è simpatico.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q4", title: "4) Anna è bionda; anche Carla è bionda.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q5", title: "5) Paolo è grasso; anche Marco è grasso.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q6", title: "6) Paolo è sposato; anche Anna è sposata.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q7", title: "7) John è straniero; anche Paul è straniero.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q8", title: "8) Carla è alta; anche Milena è alta.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q9", title: "9) Milena è magra; anche Fabio è magro.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q10", title: "10) Tu sei sportivo; anch’io sono sportivo.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q11", title: "11) Tu sei alto; anche Gianni è alto.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q12", title: "12) Anna è bassa; anche suo marito è basso.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q13", title: "13) Tu sei magra; anch’io sono magro.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints },
+        { key: "q14", title: "14) Tu sei bionda; anche Anna è bionda.", placeholder: "Unisci le frasi usando «anche».", hints: combinationHints }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trasforma le frasi usando invece, Unità 6 — Esercizio F." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_f" data-next-href="006_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Produzione scritta</span>
+      <h1>Il mio migliore amico</h1>
+      <p class="hero-subtitle">Trasforma le frasi usando invece.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">
+        👉 <strong>Измените предложения по образцу.</strong>
+        Fabio è alto, Marco no. → Fabio è alto, invece Marco è basso.
+        В онлайн-режиме следуйте назначенным ходам; в остальных режимах работайте индивидуально.
+      </div>
+    </section>
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Trasforma le frasi usando invece">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla frase"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="006_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: rispondi durante il tuo turno; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: rispondi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const transformationHints = [
+      "Перестройте предложение по образцу, используя «invece».",
+      "Составьте полное предложение и проверьте форму прилагательного."
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_f",
+      questions: [
+        { key: "q1", title: "1) Fabio è magro, Marco no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q2", title: "2) John è straniero, Marco no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q3", title: "3) Anna è bionda, Giulia no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q4", title: "4) Marco è buono, Fabio no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q5", title: "5) Carlo è alto, Luisa no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q6", title: "6) La mia macchina è nuova, la tua no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q7", title: "7) La casa di Fabio è bella, la casa di Marco no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q8", title: "8) Roma è una città calda, Londra no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q9", title: "9) Tu sei simpatico, lui no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q10", title: "10) Giulia è buona, Anna no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q11", title: "11) Anna è bassa, suo marito no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q12", title: "12) Marco è povero, Fabio no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q13", title: "13) Loro sono bassi, noi no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints },
+        { key: "q14", title: "14) Loro sono ricche, noi no.", placeholder: "Riscrivi la frase usando «invece».", hints: transformationHints }
+      ]
+    });
+  </script>
+</body>
+</html>

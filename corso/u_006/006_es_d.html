@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rispondi alle domande sul racconto Il mio migliore amico, Unità 6 — Esercizio D." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio D</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_d" data-next-href="006_es_e.html" data-next-label="Vai all’esercizio E →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Lettura e comprensione</span>
+      <h1>Il mio migliore amico</h1>
+      <p class="hero-subtitle">Rispondi alle domande con frasi complete.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio D</div>
+      <div class="instruction-text">
+        👉 <strong>Ответьте на вопросы полными фразами по рассказу «Il mio migliore amico».</strong>
+        В онлайн-режиме следуйте назначенным ходам; в остальных режимах работайте индивидуально.
+        <a href="006_lettura.html">Перечитайте рассказ.</a>
+      </div>
+    </section>
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="card" aria-label="Domande sul racconto Il mio migliore amico">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla domanda"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="006_es_e.html" hidden>Vai all’esercizio E →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const modeDescriptions = {
+      online: "💬 Modalità online: rispondi durante il tuo turno; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: rispondi individualmente; le risposte sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const answerHints = [
+      "Найди в рассказе информацию, которая отвечает на вопрос.",
+      "Составь полный ответ по-итальянски и проверь, что он действительно отвечает на вопрос."
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_d",
+      questions: [
+        { key: "q1", title: "1) Perché Fabio e Marco sono amici?", placeholder: "Fabio e Marco sono amici perché...", hints: answerHints },
+        { key: "q2", title: "2) Com’è Fabio?", placeholder: "Fabio è...", hints: answerHints },
+        { key: "q3", title: "3) Com’è Marco?", placeholder: "Marco è...", hints: answerHints },
+        { key: "q4", title: "4) Quanti anni ha Fabio?", placeholder: "Fabio ha...", hints: answerHints },
+        { key: "q5", title: "5) Quanti anni ha Marco?", placeholder: "Marco ha...", hints: answerHints },
+        { key: "q6", title: "6) Fabio e Marco sono sposati?", placeholder: "Fabio è..., mentre Marco...", hints: answerHints },
+        { key: "q7", title: "7) Che lavoro fanno Fabio e Marco?", placeholder: "Fabio è..., mentre Marco...", hints: answerHints },
+        { key: "q8", title: "8) Perché Marco non ha soldi?", placeholder: "Marco non ha soldi perché...", hints: answerHints },
+        { key: "q9", title: "9) Marco e Fabio parlano le lingue straniere?", placeholder: "Fabio..., mentre Marco...", hints: answerHints },
+        { key: "q10", title: "10) Marco e Fabio hanno la macchina?", placeholder: "Fabio ha..., mentre Marco...", hints: answerHints },
+        { key: "q11", title: "11) Dove mangiano il sabato sera?", placeholder: "Il sabato sera mangiano...", hints: answerHints },
+        { key: "q12", title: "12) Di che cosa parlano mentre mangiano?", placeholder: "Mentre mangiano, parlano...", hints: answerHints },
+        { key: "q13", title: "13) Chi paga il conto?", placeholder: "Il conto lo paga...", hints: answerHints },
+        { key: "q14", title: "14) Perché Fabio paga anche per Marco?", placeholder: "Fabio paga anche per Marco perché...", hints: answerHints },
+        { key: "q15", title: "15) Come tornano a casa?", placeholder: "Fabio torna..., mentre Marco...", hints: answerHints },
+        { key: "q16", title: "16) Perché Marco torna a casa a piedi?", placeholder: "Marco torna a casa a piedi perché...", hints: answerHints },
+        { key: "q17", title: "17) Perché Marco ha voglia di ammazzare Fabio, a volte?", placeholder: "A volte Marco ha voglia di ammazzare Fabio perché...", hints: answerHints }
+      ]
+    });
+  </script>
+</body>
+</html>

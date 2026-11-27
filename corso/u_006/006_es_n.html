@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività interattive Wordwall, Unità 6 — Esercizio N." />
+  <title>Unità 6 — Attività interattive · Esercizio N</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/embedded-activities.css?v=3" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_n">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Il mio migliore amico</span>
+      <h1>Attività interattive</h1>
+      <p class="hero-subtitle">Svolgi le attività Wordwall una alla volta.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">🎯 Задание · Esercizio N</div>
+      <div class="instruction-text">
+        Выполните интерактивные задания по очереди. Прочитайте инструкцию в каждой карточке и выполните задание.
+      </div>
+    </section>
+
+    <section class="activities-card" aria-label="Attività interattive Wordwall">
+      <nav id="activity-tabs" class="activity-tabs" aria-label="Seleziona una scheda">
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 1">1</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 2">2</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 3">3</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 4">4</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda 5">5</button>
+      </nav>
+
+      <div class="activity-scroller" id="activity-scroller" tabindex="0" aria-label="Schede delle attività, scorri orizzontalmente">
+        <article class="activity-card" aria-labelledby="activity-one-title">
+          <h2 id="activity-one-title" class="activity-title">Scheda 1</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/c46ce82b31a9453f9ff29dac24788b91?themeId=45&amp;templateId=72&amp;fontStackId=0"
+            title="Attività interattiva Wordwall — Scheda 1"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-two-title">
+          <h2 id="activity-two-title" class="activity-title">Scheda 2</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/7ca9acae13ee478888018b2ac2b8b826?themeId=1&amp;templateId=46&amp;fontStackId=0"
+            title="Attività interattiva Wordwall — Scheda 2"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-three-title">
+          <h2 id="activity-three-title" class="activity-title">Scheda 3</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/858006e6d60a4462916b5e1991e685cc?themeId=1&amp;templateId=5&amp;fontStackId=0"
+            title="Attività interattiva Wordwall — Scheda 3"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-four-title">
+          <h2 id="activity-four-title" class="activity-title">Scheda 4</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/da4eb81770284d919a5d8f8e3a65d476?themeId=1&amp;templateId=46&amp;fontStackId=0"
+            title="Attività interattiva Wordwall — Scheda 4"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-five-title">
+          <h2 id="activity-five-title" class="activity-title">Scheda 5</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/9794f0bdcbbc4bab80bc1b622d522a80?themeId=2&amp;templateId=70&amp;fontStackId=0"
+            title="Attività interattiva Wordwall — Scheda 5"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+      </div>
+
+      <nav class="activity-navigation" aria-label="Navigazione delle schede e degli esercizi">
+        <a class="exercise-link" href="006_es_m.html">← Esercizio M</a>
+        <button id="activity-previous" type="button" aria-label="Scheda precedente">← Precedente</button>
+        <span id="activity-counter" class="activity-counter" aria-live="polite"></span>
+        <button id="activity-next" type="button" aria-label="Scheda successiva">Successiva →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script>
+    const scroller = document.getElementById("activity-scroller");
+    const activityCards = [...scroller.querySelectorAll(".activity-card")];
+    const tabs = [...document.querySelectorAll(".activity-tab")];
+    const previousButton = document.getElementById("activity-previous");
+    const nextButton = document.getElementById("activity-next");
+    const counter = document.getElementById("activity-counter");
+    let activeActivity = 0;
+
+    function goToActivity(index) {
+      const target = Math.max(0, Math.min(activityCards.length - 1, index));
+      scroller.scrollTo({
+        left: activityCards[target].offsetLeft - scroller.offsetLeft,
+        behavior: "smooth"
+      });
+    }
+
+    function updateActivityNavigation() {
+      activeActivity = activityCards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(activityCards[closestIndex].offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+
+      tabs.forEach((tab, index) => {
+        if (index === activeActivity) tab.setAttribute("aria-current", "step");
+        else tab.removeAttribute("aria-current");
+      });
+      previousButton.disabled = activeActivity === 0;
+      nextButton.disabled = activeActivity === activityCards.length - 1;
+      counter.textContent = `Scheda ${activeActivity + 1} di ${activityCards.length}`;
+    }
+
+    tabs.forEach((tab, index) => tab.addEventListener("click", () => goToActivity(index)));
+    previousButton.addEventListener("click", () => goToActivity(activeActivity - 1));
+    nextButton.addEventListener("click", () => goToActivity(activeActivity + 1));
+    scroller.addEventListener("scroll", updateActivityNavigation, { passive: true });
+    window.addEventListener("resize", updateActivityNavigation);
+    updateActivityNavigation();
+  </script>
+</body>
+</html>

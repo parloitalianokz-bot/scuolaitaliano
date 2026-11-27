@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Unisci le frasi usando anche, Unità 6 — Esercizio L." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio L</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_l" data-next-href="006_es_m.html" data-next-label="Vai all’esercizio M →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Grammatica e comunicazione</span>
+      <h1>Il mio migliore amico</h1>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">Задание · Esercizio L</div>
+      <div class="instruction-text">
+        Объедините каждую пару предложений, используя <em>anche</em>. Напишите полное предложение по-итальянски. Поставьте <em>anche</em> перед словом или частью предложения, к которой относится значение «тоже» или «также».
+      </div>
+    </section>
+
+    <details class="exercise-explanation">
+      <summary>Кратко о грамматике · где ставить <em>anche</em>?</summary>
+      <div class="exercise-explanation-content" lang="ru">
+        <p><em>Anche</em> означает «тоже» или «также»: оно добавляет к уже известной информации ещё одного человека, предмет, действие или обстоятельство. Обычно <em>anche</em> ставится непосредственно перед тем словом или частью предложения, которые добавляются. Поэтому место <em>anche</em> помогает понять, на чём сделан акцент.</p>
+        <ul>
+          <li><strong>Перед человеком или местоимением</strong> — добавляем ещё одного участника: <em>Anch’io abito in centro</em> — «Я тоже живу в центре»; <em>Anche Paolo lavora il sabato</em> — «Паоло тоже работает по субботам».</li>
+          <li><strong>Перед временем или местом</strong> — добавляем ещё одно обстоятельство: <em>Paolo lavora anche la domenica</em> — «Паоло работает также и по воскресеньям».</li>
+          <li><strong>Перед действием или предметом</strong> — добавляем ещё одно действие или объект: <em>Io abito in centro e lavoro anche in centro</em> — «Я живу в центре и также работаю в центре».</li>
+        </ul>
+        <p>Сравните: <em>Anche Fabio lavora il sabato</em> — в субботу работает и Фабио; <em>Fabio lavora anche la domenica</em> — Фабио работает не только в другие дни, но и в воскресенье. В этих заданиях можно повторить подлежащее и глагол, если так получается ясное полное предложение.</p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Объедините предложения с anche">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Перейти к заданию"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Навигация по заданиям">
+        <button id="previous-question" type="button">← Предыдущее</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Следующее →</button>
+        <a id="next-exercise" href="006_es_m.html" hidden>К упражнению M →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js"></script>
+  <script>
+    ParloInboxExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_l",
+      itemsLabel: "Frase",
+      questions: [
+        { key: "q1", title: "1) Io abito in centro - Tu abiti in centro", placeholder: "Составьте полное предложение с anche." },
+        { key: "q2", title: "2) Io abito in centro - Io lavoro in centro", placeholder: "Составьте полное предложение с anche." },
+        { key: "q3", title: "3) Io abito in centro - Io abito in campagna", placeholder: "Составьте полное предложение с anche." },
+        { key: "q4", title: "4) Paolo lavora il sabato - Paolo lavora la domenica", placeholder: "Составьте полное предложение с anche." },
+        { key: "q5", title: "5) Paolo lavora il sabato - Fabio lavora il sabato", placeholder: "Составьте полное предложение с anche." },
+        { key: "q6", title: "6) Paolo lavora il sabato - Paolo studia il sabato", placeholder: "Составьте полное предложение с anche." },
+        { key: "q7", title: "7) Noi parliamo inglese - Voi parlate inglese", placeholder: "Составьте полное предложение с anche." },
+        { key: "q8", title: "8) Noi parliamo inglese - Noi parliamo francese", placeholder: "Составьте полное предложение с anche." },
+        { key: "q9", title: "9) Io guardo la tv - Tu guardi la tv", placeholder: "Составьте полное предложение с anche." },
+        { key: "q10", title: "10) Io guardo la tv - io leggo il giornale", placeholder: "Составьте полное предложение с anche." }
+      ]
+    });
+  </script>
+</body>
+</html>

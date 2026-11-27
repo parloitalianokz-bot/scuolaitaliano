@@ -83,7 +83,31 @@ main,
   box-shadow: 0 6px 18px rgba(43, 69, 46, .04);
 }
 
+/* Spiegazione facoltativa e apribile, da collocare sotto la consegna. */
+.exercise-explanation {
+  margin: -6px 0 22px;
+  border: 1px solid #d8e5d8;
+  border-radius: 14px;
+  background: rgba(255, 254, 250, .96);
+}
+
+.exercise-explanation summary {
+  padding: 12px 17px;
+  color: var(--primary-dark);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.exercise-explanation-content {
+  padding: 0 17px 14px;
+  line-height: 1.55;
+}
+
+.exercise-explanation-content p { margin: 0 0 8px; }
+.exercise-explanation-content p:last-child { margin-bottom: 0; }
+
 .instruction-title {
+
   margin-bottom: 4px;
   color: var(--accent);
   font-size: .82rem;

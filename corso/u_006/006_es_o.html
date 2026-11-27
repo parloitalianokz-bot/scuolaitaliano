@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Descrivi il tuo migliore amico o la tua migliore amica, Unità 6 — Esercizio O." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio O</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .unit-gate { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; padding: 14px; border: 1px solid #d8e5d8; border-radius: 14px; background: #f8faf6; }
+    .unit-gate a, .unit-gate button { min-height: 42px; padding: 8px 15px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--primary-dark); font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
+    .unit-gate a[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+    .unit-gate button { background: var(--primary); color: #fff; }
+    .unit-gate button:disabled { opacity: .5; cursor: wait; }
+    #unit-next-status { color: var(--text-muted); font-size: .88rem; font-weight: 700; }
+    @media (max-width: 600px) { .unit-gate > * { flex: 1 1 100%; text-align: center; } }
+  </style>
+</head>
+<body data-page-key="006_es_o">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Produzione orale</span>
+      <h1>Il mio migliore amico</h1>
+      <p class="hero-subtitle">Descrivi il tuo migliore amico o la tua migliore amica.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">🎙️ Задание · Esercizio O</div>
+      <div class="instruction-text">Расскажи по-итальянски о своём лучшем друге или лучшей подруге. Ответь на вопросы полными предложениями. Можно говорить в микрофон или печатать.</div>
+    </section>
+
+    <section class="card" aria-label="Descrivi il tuo migliore amico o la tua migliore amica">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dell’attività"></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione della scheda">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+      </nav>
+      <section id="unit-gate" class="unit-gate" aria-label="Accesso all’Unità 7">
+        <a id="unit-next-link" href="../u_007/007_lettura.html" aria-disabled="true" tabindex="-1">Vai all’Unità 7 →</a>
+        <button id="unlock-unit-next" type="button" hidden>Abilita l’Unità 7 per il gruppo</button>
+        <span id="unit-next-status" role="status" aria-live="polite">Verifica dell’autorizzazione…</span>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/speech-exercise.js?v=2"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_o",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "descrivi-migliore-amico",
+          title: "Descrivi il tuo migliore amico o la tua migliore amica",
+          prompts: [
+            "Come si chiama il tuo migliore amico o la tua migliore amica?",
+            "Di dove è?",
+            "Quanti anni ha?",
+            "Com’è?",
+            "Che lavoro fa?",
+            "È sposato o sposata?",
+            "Perché siete amici o amiche?",
+            "Siete molto diversi o diverse?"
+          ]
+        }
+      ]
+    });
+
+    (() => {
+      const session = window.ParloSession || {};
+      const safeGroup = session.safeGroup || "";
+      const isTeacher = Boolean(session.isTeacher);
+      const unlockBtn = document.getElementById("unlock-unit-next");
+      const nextLink = document.getElementById("unit-next-link");
+      const statusEl = document.getElementById("unit-next-status");
+      const targetUnit = 7;
+      let groupUnitNumber = 0;
+      let db = null;
+      let groupRef = null;
+
+      function renderGateState() {
+        const unlocked = groupUnitNumber >= targetUnit;
+        nextLink.setAttribute("aria-disabled", String(!unlocked));
+        nextLink.tabIndex = unlocked ? 0 : -1;
+        unlockBtn.hidden = !isTeacher || !groupRef || unlocked;
+        statusEl.textContent = unlocked
+          ? "Unità 7 abilitata per il gruppo."
+          : isTeacher
+            ? "L’Unità 7 è bloccata per il gruppo. Puoi abilitarla per tutti."
+            : "Unità 7 bloccata: attendi l’autorizzazione dell’insegnante.";
+      }
+
+      nextLink.addEventListener("click", event => {
+        if (groupUnitNumber < targetUnit) event.preventDefault();
+      });
+
+      if (window.firebase && safeGroup && safeGroup !== "sconosciuto") {
+        db = window.ParloModes ? ParloModes.initFirebase() : firebase.database();
+        if (db) {
+          groupRef = db.ref(`configurazioneScuola/gruppi/${safeGroup}`);
+          groupRef.child("unitNumber").on("value", snapshot => {
+            groupUnitNumber = Number(snapshot.val()) || 0;
+            renderGateState();
+          }, () => {
+            statusEl.textContent = "Impossibile verificare l’autorizzazione per l’Unità 7.";
+          });
+
+          unlockBtn.addEventListener("click", async () => {
+            if (!isTeacher || !groupRef || groupUnitNumber >= targetUnit) return;
+            unlockBtn.disabled = true;
+            statusEl.textContent = "Salvataggio dell’autorizzazione…";
+            try {
+              const result = await groupRef.child("unitNumber").transaction(current =>
+                Math.max(Number(current) || 0, targetUnit)
+              );
+              if (!result.committed) throw new Error("Aggiornamento non completato");
+              const unlockedUnit = Number(result.snapshot.val()) || targetUnit;
+              await db.ref(`esercizi/gruppi/${safeGroup}/unitNumber`).transaction(current =>
+                Math.max(Number(current) || 0, unlockedUnit)
+              );
+              groupUnitNumber = unlockedUnit;
+              renderGateState();
+            } catch (_) {
+              statusEl.textContent = "Errore durante l’abilitazione dell’Unità 7.";
+            } finally {
+              unlockBtn.disabled = false;
+            }
+          });
+        }
+      } else {
+        statusEl.textContent = "Accedi con un gruppo per verificare l’autorizzazione all’Unità 7.";
+      }
+    })();
+  </script>
+</body>
+</html>

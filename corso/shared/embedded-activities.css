@@ -1,5 +1,81 @@
- .activities-card {
-  padding: clamp(18px, 4vw, 28px);
+ body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px 16px;
+  color: var(--text);
+}
+
+main,
+.container {
+  width: min(100%, 880px);
+  margin: 0 auto;
+}
+
+.hero {
+  margin: 8px 0 20px;
+  padding: 24px 20px 22px;
+  text-align: center;
+  border: 1px solid rgba(71, 119, 85, .13);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+  box-shadow: 0 12px 32px rgba(43, 69, 46, .07);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #eaf1e8;
+  color: var(--primary-dark);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 4px 0;
+  color: var(--primary-dark);
+  font-size: clamp(1.85rem, 5vw, 2.55rem);
+  letter-spacing: -.04em;
+  line-height: 1.12;
+}
+
+.hero-subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: .96rem;
+  line-height: 1.5;
+}
+
+.instruction-box {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border: 1px solid #d8e5d8;
+  border-left: 5px solid var(--accent);
+  border-radius: 16px;
+  background: rgba(255, 254, 250, .96);
+  box-shadow: 0 6px 18px rgba(43, 69, 46, .05);
+}
+
+.instruction-title {
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.instruction-text {
+  color: var(--text);
+  font-size: .96rem;
+  line-height: 1.5;
+}
+
+.activities-card {
+   padding: clamp(18px, 4vw, 28px);
   border: 1px solid var(--border);
   border-radius: 26px;
   background: var(--card-bg);
@@ -97,6 +173,7 @@
 .activity-navigation .next-exercise:hover { background: var(--primary-dark); color: #fff; }
 
 @media (max-width: 600px) {
+  body { padding: 20px 12px; }
   .activity-navigation { flex-wrap: wrap; }
   .activity-navigation > * { flex: 1; }
   .activity-counter { flex-basis: 100%; order: -1; }

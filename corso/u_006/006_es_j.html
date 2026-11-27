@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con bene o la forma corretta di buono, Unità 6 — Esercizio J." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=2" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_j" data-next-href="006_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Grammatica e lessico</span>
+      <h1>Il mio migliore amico</h1>
+    </header>
+
+    <section class="instruction-box">
+      <div class="instruction-title">Consegna · Esercizio J</div>
+      <div class="instruction-text">
+        Completa le frasi con <em>bene</em> o la forma corretta di <em>buono</em>.
+      </div>
+    </section>
+
+    <details class="exercise-explanation">
+      <summary>Grammatica in breve · <em>bene</em> o <em>buono</em>?</summary>
+      <div class="exercise-explanation-content">
+        <p lang="ru"><strong>Buono</strong> — прилагательное: оно описывает человека или предмет и согласуется с существительным. <strong>Bene</strong> — наречие: оно описывает, как выполняется действие или как себя чувствует человек, и не изменяется.</p>
+        <p><strong>In breve:</strong> <em>buono</em> concorda con il nome (<em>una pizza buona</em>); <em>bene</em> è invariabile e indica come si svolge un’azione o come si sta (<em>parlare bene, stare bene</em>).</p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Completa le frasi con bene o buono">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla frase"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="006_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=2"></script>
+  <script>
+    const forms = ["bene", "buono", "buona", "buoni", "buone"];
+
+    ParloInlineFillExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_j",
+      itemsLabel: "Frase",
+      sentences: [
+        {
+          id: "frase-1",
+          parts: [
+            "1) Oggi il tempo è ",
+            { id: "frase-1-forma", input: true, placeholder: "forma corretta", correct: "buono" },
+            "."
+          ]
+        },
+        {
+          id: "frase-2",
+          parts: [
+            "2) — Come stai? — ",
+            { id: "frase-2-forma", input: true, placeholder: "forma corretta", correct: "Bene" },
+            ", grazie."
+          ]
+        },
+        {
+          id: "frase-3",
+          parts: [
+            "3) Lui parla inglese molto ",
+            { id: "frase-3-forma", input: true, placeholder: "forma corretta", correct: "bene" },
+            "."
+          ]
+        },
+        {
+          id: "frase-4",
+          parts: [
+            "4) La pizza è ",
+            { id: "frase-4-pizza", input: true, placeholder: "forma corretta", correct: "buona" },
+            ", la carne è ",
+            { id: "frase-4-carne", input: true, placeholder: "forma corretta", correct: "buona" },
+            ", anche gli spaghetti sono ",
+            { id: "frase-4-spaghetti", input: true, placeholder: "forma corretta", correct: "buoni" },
+            "."
+          ]
+        },
+        {
+          id: "frase-5",
+          parts: [
+            "5) Fabio è un bravo avvocato e guadagna molto ",
+            { id: "frase-5-guadagna", input: true, placeholder: "forma corretta", correct: "bene" },
+            ". A lui va tutto ",
+            { id: "frase-5-va", input: true, placeholder: "forma corretta", correct: "bene" },
+            "."
+          ]
+        },
+        {
+          id: "frase-6",
+          parts: [
+            "6) Oggi non sto ",
+            { id: "frase-6-forma", input: true, placeholder: "forma corretta", correct: "bene" },
+            ", ho mal di testa."
+          ]
+        },
+        {
+          id: "frase-7",
+          parts: [
+            "7) I vostri bambini sono ",
+            { id: "frase-7-forma", input: true, placeholder: "forma corretta", correct: "buoni" },
+            ", i nostri invece sono cattivi."
+          ]
+        },
+        {
+          id: "frase-8",
+          parts: [
+            "8) Io gioco ",
+            { id: "frase-8-forma", input: true, placeholder: "forma corretta", correct: "bene" },
+            " a tennis."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

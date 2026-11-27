@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con essere e avere al presente, Unità 6 — Esercizio K." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio K</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=2" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="006_es_k" data-next-href="006_es_l.html" data-next-label="Vai all’esercizio L →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js?v=2"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Grammatica e lessico</span>
+      <h1>Il mio migliore amico</h1>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">Задание · Esercizio K</div>
+      <div class="instruction-text">
+        Дополните фразы глаголами <em>essere</em> и <em>avere</em> в правильной форме (настоящее время).
+      </div>
+    </section>
+
+    <details class="exercise-explanation">
+      <summary>Grammatica e uso · <em>essere</em> o <em>avere</em>?</summary>
+      <div class="exercise-explanation-content" lang="ru">
+        <p><em>Essere</em> употребляется, чтобы назвать личность или характеристику, состояние, местоположение и день недели: <em>Paolo è sposato</em>, <em>le sigarette sono nella borsa</em>, <em>è giovedì</em>.</p>
+        <p><em>Avere</em> употребляется с возрастом, принадлежностью и некоторыми устойчивыми выражениями: <em>avere trent’anni</em>, <em>avere la macchina</em>, <em>avere fretta / fame / voglia</em>. Спрягайте глагол по лицу и числу подлежащего.</p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Completa le frasi con essere e avere">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente alla frase"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation student-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="006_es_l.html" hidden>Vai all’esercizio L →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=2"></script>
+  <script>
+    const essereAvereForms = ["sono", "sei", "è", "siamo", "siete", "ho", "hai", "ha", "abbiamo", "avete", "hanno"];
+
+    ParloInlineFillExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_k",
+      itemsLabel: "Frase",
+      sentences: [
+        {
+          id: "frase-1",
+          parts: [
+            "1) Io e Renato ",
+            { id: "frase-1-primo-verbo", input: true, placeholder: "forma verbale", correct: "siamo" },
+            " amici: ",
+            { id: "frase-1-secondo-verbo", input: true, placeholder: "forma verbale", correct: "siamo" },
+            " ex compagni di università."
+          ]
+        },
+        {
+          id: "frase-2",
+          parts: [
+            "2) — Scusi, che ore sono? — Mi dispiace, non ",
+            { id: "frase-2-verbo", input: true, placeholder: "forma verbale", correct: "ho" },
+            " l’orologio."
+          ]
+        },
+        {
+          id: "frase-3",
+          parts: [
+            "3) Paolo ",
+            { id: "frase-3-primo-verbo", input: true, placeholder: "forma verbale", correct: "ha" },
+            " trent’anni, ",
+            { id: "frase-3-secondo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " sposato e ",
+            { id: "frase-3-terzo-verbo", input: true, placeholder: "forma verbale", correct: "ha" },
+            " due figli."
+          ]
+        },
+        {
+          id: "frase-4",
+          parts: [
+            "4) I ragazzi ",
+            { id: "frase-4-verbo", input: true, placeholder: "forma verbale", correct: "hanno" },
+            " fretta, perché il loro treno parte fra mezz’ora."
+          ]
+        },
+        {
+          id: "frase-5",
+          parts: [
+            "5) I tuoi amici ",
+            { id: "frase-5-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " molto simpatici."
+          ]
+        },
+        {
+          id: "frase-6",
+          parts: [
+            "6) Marco va a piedi, perché non ",
+            { id: "frase-6-verbo", input: true, placeholder: "forma verbale", correct: "ha" },
+            " la macchina."
+          ]
+        },
+        {
+          id: "frase-7",
+          parts: [
+            "7) Andiamo al bar, perché ",
+            { id: "frase-7-verbo", input: true, placeholder: "forma verbale", correct: "abbiamo" },
+            " voglia di un caffè."
+          ]
+        },
+        {
+          id: "frase-8",
+          parts: [
+            "8) — Che giorno ",
+            { id: "frase-8-primo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " oggi? — ",
+            { id: "frase-8-secondo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " giovedì."
+          ]
+        },
+        {
+          id: "frase-9",
+          parts: [
+            "9) I miei cugini ",
+            { id: "frase-9-primo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " molto ricchi e ",
+            { id: "frase-9-secondo-verbo", input: true, placeholder: "forma verbale", correct: "hanno" },
+            " molti soldi."
+          ]
+        },
+        {
+          id: "frase-10",
+          parts: [
+            "10) L’accendino ",
+            { id: "frase-10-primo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " sul tavolo, le sigarette ",
+            { id: "frase-10-secondo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " nella borsa."
+          ]
+        },
+        {
+          id: "frase-11",
+          parts: [
+            "11) Laura ",
+            { id: "frase-11-primo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " bionda e ",
+            { id: "frase-11-secondo-verbo", input: true, placeholder: "forma verbale", correct: "ha" },
+            " gli occhi azzurri."
+          ]
+        },
+        {
+          id: "frase-12",
+          parts: [
+            "12) Oggi i negozi ",
+            { id: "frase-12-primo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " chiusi, perché ",
+            { id: "frase-12-secondo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " domenica."
+          ]
+        },
+        {
+          id: "frase-13",
+          parts: [
+            "13) Ragazzi, se ",
+            { id: "frase-13-primo-verbo", input: true, placeholder: "forma verbale", correct: "avete" },
+            " voglia di fumare, potete prendere le mie sigarette: ",
+            { id: "frase-13-secondo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " nella mia borsa."
+          ]
+        },
+        {
+          id: "frase-14",
+          parts: [
+            "14) — Scusi, Lei ",
+            { id: "frase-14-primo-verbo", input: true, placeholder: "forma verbale", correct: "è" },
+            " italiana? — No, ",
+            { id: "frase-14-secondo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " russa, ",
+            { id: "frase-14-terzo-verbo", input: true, placeholder: "forma verbale", correct: "sono" },
+            " di Mosca."
+          ]
+        },
+        {
+          id: "frase-15",
+          parts: [
+            "15) A pranzo di solito se ",
+            { id: "frase-15-verbo", input: true, placeholder: "forma verbale", correct: "ho" },
+            " fame, mangio qualcosa al bar."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>
