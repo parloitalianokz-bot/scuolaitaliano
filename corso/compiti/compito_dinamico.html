@@ -848,6 +848,21 @@
            feedback.append(feedbackHeading, feedbackText);
            container.appendChild(feedback);
          }
+
+        // Se il docente revisiona mentre il compito è ancora aperto, blocca subito un nuovo invio.
+        submissionRef.on("value", snapshot => {
+          const latest = snapshot.val();
+          if (!latest || latest.status !== "reviewed" || submissionStatus === "reviewed") return;
+          submissionStatus = "reviewed";
+          answers = latest.answers || answers;
+          teacherReviewData = latest.teacherReview || {};
+          saveTimers.forEach(timer => clearTimeout(timer));
+          saveTimers.clear();
+          submitBox.hidden = true;
+          submitBtn.disabled = true;
+          saveStatus.textContent = "Compito già revisionato dall’insegnante.";
+          renderExercises();
+        });
       } catch (err) {
         const message = err.message || "Errore durante il caricamento del compito.";
         const reviewRoot = document.getElementById("homework-review");
