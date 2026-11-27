@@ -519,35 +519,38 @@
 
     .units-archive {
       margin: 28px 0 20px;
-      overflow: hidden;
+      padding: 22px;
       border: 1px solid #cfddcf;
       border-radius: 18px;
-      background: rgba(255, 254, 250, .94);
+      background: linear-gradient(135deg, #edf4ed 0%, #fffefa 72%);
       box-shadow: 0 8px 24px rgba(43, 69, 46, .08);
     }
-    .units-archive > summary {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 22px;
+    .archive-controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+    .archive-summary-title { color: var(--green); font-size: 1.15rem; font-weight: 800; }
+    .archive-level-select {
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 44px 12px 16px;
+      border: 2px solid #b9cfba;
+      border-radius: 14px;
+      background: #fffefa;
       color: var(--green);
-      background: linear-gradient(135deg, #edf4ed, #fffefa);
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      list-style: none;
+      box-shadow: 0 4px 12px rgba(43, 69, 46, .07);
     }
-    .units-archive > summary::-webkit-details-marker { display: none; }
-    .units-archive > summary::after {
-      content: "+";
-      margin-left: auto;
-      font-size: 1.5rem;
-      font-weight: 500;
-      line-height: 1;
+    .archive-level-select optgroup { color: var(--green); font-weight: 800; }
+    .archive-level-select option { color: var(--text); font-weight: 500; }
+    @media (max-width: 600px) {
+      .units-archive { padding: 18px; }
     }
-    .units-archive[open] > summary::after { content: "−"; }
-    .archive-summary-title { font-size: 1.15rem; font-weight: 800; }
-    .archive-summary-note { color: var(--muted); font-size: .9rem; }
-    .units-archive-content { padding: 4px 14px 14px; }
-    .units-archive-content .level-section { margin-top: 10px; }
 
     .units-grid {
       display: grid;
@@ -932,15 +935,20 @@
     const STUDENT_PINS = { Aendin: "482731", Lajila: "906254", Almira: "317869" };
 
     const LEVELS = [
-      { id: "precorso", label: "Percorso preliminare", range: [0, 0], note: "unità 0" },
-      { id: "A1.1", label: "A1.1", range: [1, 11], note: "unità 1 – 11" },
+      { id: "A1.1", label: "A1.1", range: [0, 11], note: "unità 0 – 11" },
       { id: "A1.2", label: "A1.2", range: [12, 23], note: "unità 12 – 23" },
       { id: "A2.1", label: "A2.1", range: [24, 36], note: "unità 24 – 36" },
       { id: "A2.2", label: "A2.2", range: [37, 48], note: "unità 37 – 48" },
       { id: "B1.1", label: "B1.1", range: [49, 61], note: "unità 49 – 61" },
       { id: "B1.2", label: "B1.2", range: [62, 70], note: "unità 62 – 70" },
-      { id: "B1.3", label: "B1.3", range: [71, 75], note: "unità 71 – 75" },
-      { id: "B1.4", label: "B1.4", range: [76, 77], note: "unità 76 – 77" }
+      { id: "B2.1", label: "B2.1", range: [74, 78], note: "unità 74 – 78" },
+      { id: "B2.2", label: "B2.2", range: [79, 84], note: "unità 79 – 84" },
+      { id: "B2.3", label: "B2.3", range: [85, 89], note: "unità 85 – 89" },
+      { id: "B2.4", label: "B2.4", range: [90, 94], note: "unità 90 – 94" },
+      { id: "C1.1", label: "C1.1", range: [95, 99], note: "unità 95 – 99" },
+      { id: "C1.2", label: "C1.2", range: [100, 110], note: "unità 100 – 110" },
+      { id: "C1.3", label: "C1.3", range: [111, 120], note: "unità 111 – 120" },
+      { id: "C2", label: "C2", range: [121, 130], note: "unità 121 – 130" }
     ];
 
     // Unità esistenti: numero → { title, path }
@@ -1471,7 +1479,7 @@
       unitsSection.classList.remove("hidden");
 
       const isTeacherView = maxUnit === null;
-      const effectiveMax = isTeacherView ? 77 : maxUnit;
+      const effectiveMax = isTeacherView ? 130 : maxUnit;
 
       // La scheda evidenzia il limite unità assegnato al gruppo o allo studente.
       const featuredUnit = isTeacherView
@@ -1503,60 +1511,46 @@
         featuredContainer.appendChild(feat);
       }
 
-      const archive = document.createElement("details");
+      const archive = document.createElement("section");
       archive.className = "units-archive";
-      const archiveSummary = document.createElement("summary");
-      const archiveTitle = document.createElement("span");
+      const archiveControls = document.createElement("div");
+      archiveControls.className = "archive-controls";
+      const archiveTitle = document.createElement("label");
       archiveTitle.className = "archive-summary-title";
+      archiveTitle.htmlFor = "archive-level-select";
       archiveTitle.textContent = "Archivio delle unità";
-      const archiveNote = document.createElement("span");
-      archiveNote.className = "archive-summary-note";
-      archiveNote.textContent = "Sfoglia per livello";
-      archiveSummary.append(archiveTitle, archiveNote);
-      archive.appendChild(archiveSummary);
+      const unitSelect = document.createElement("select");
+      unitSelect.id = "archive-level-select";
+      unitSelect.className = "archive-level-select";
+      unitSelect.setAttribute("aria-label", "Seleziona un’unità da aprire");
+      unitSelect.add(new Option("Scegli un’unità…", ""));
 
-      const archiveContent = document.createElement("div");
-      archiveContent.className = "units-archive-content";
-      const visibleLevels = LEVELS.filter(level => level.range[0] <= effectiveMax);
-      visibleLevels.forEach((level, levelIndex) => {
-        const section = document.createElement("details");
-        section.className = "level-section";
-        section.open = levelIndex === 0;
-
-        const title = document.createElement("summary");
-        title.className = "level-title";
-        title.innerHTML = `${level.label} <small>${level.note}</small>`;
-        section.appendChild(title);
-
-        const grid = document.createElement("div");
-        grid.className = "units-grid";
+      LEVELS.forEach(level => {
         const [start, end] = level.range;
-        for (let num = start; num <= end; num++) {
-          if (num > effectiveMax) continue;
-          if (EXISTING[num]) {
-            const link = document.createElement("a");
-            link.className = "unit-link";
-            const unitId = String(num).padStart(3, "0");
-            link.href = `${getProjectBasePath()}${EXISTING[num].path}/${EXISTING[num].file || `${unitId}_lettura.html`}`;
-            const numSpan = document.createElement("span");
-            numSpan.className = "unit-num";
-            numSpan.textContent = `U. ${num}`;
-            const titleSpan = document.createElement("span");
-            titleSpan.className = "unit-*****";
-            titleSpan.textContent = EXISTING[num].title;
-            link.append(numSpan, titleSpan);
-            grid.appendChild(link);
-          } else {
-            const placeholder = document.createElement("div");
-            placeholder.className = "unit-placeholder";
-            placeholder.textContent = `U. ${num}`;
-            grid.appendChild(placeholder);
-          }
+        if (start > effectiveMax) return;
+        const optgroup = document.createElement("optgroup");
+        optgroup.label = `${level.label} · ${level.note}`;
+        for (let num = start; num <= end && num <= effectiveMax; num++) {
+          const title = EXISTING[num]?.title;
+          const option = new Option(
+            title ? `Unità ${num} — ${title}` : `Unità ${num} — In preparazione`,
+            String(num)
+          );
+          if (!title) option.disabled = true;
+          optgroup.appendChild(option);
         }
-        section.appendChild(grid);
-        archiveContent.appendChild(section);
+        unitSelect.appendChild(optgroup);
       });
-      archive.appendChild(archiveContent);
+
+      unitSelect.addEventListener("change", () => {
+        const num = Number(unitSelect.value);
+        if (!Number.isInteger(num) || !EXISTING[num]) return;
+        const unitId = String(num).padStart(3, "0");
+        window.location.href = `${getProjectBasePath()}${EXISTING[num].path}/${EXISTING[num].file || `${unitId}_lettura.html`}`;
+      });
+
+      archiveControls.append(archiveTitle, unitSelect);
+      archive.appendChild(archiveControls);
       unitsContainer.appendChild(archive);
     }
 
@@ -1661,7 +1655,7 @@
       label.htmlFor = "group-unit-limit";
       const limitSelect = document.createElement("select");
       limitSelect.id = "group-unit-limit";
-      for (let n = 0; n <= 77; n++) {
+      for (let n = 0; n <= 130; n++) {
         const option = document.createElement("option");
         option.value = n;
         option.textContent = EXISTING[n]?.title ? `Unità ${n} — ${EXISTING[n].title}` : `Unità ${n}`;
@@ -1679,7 +1673,7 @@
        });
 
       studentAccessLimit.replaceChildren();
-      for (let n = 0; n <= 77; n++) {
+      for (let n = 0; n <= 130; n++) {
         const option = new Option(EXISTING[n]?.title ? `Unità ${n} — ${EXISTING[n].title}` : `Unità ${n}`, n);
         option.selected = n === Number(group.unitNumber);
         studentAccessLimit.add(option);
@@ -1700,7 +1694,7 @@
         const student = group.studenti.find(item => item.nome === deactivateStudentSelect.value);
         if (!student) return;
         const maxUnit = Number(studentAccessLimit.value);
-        if (!Number.isInteger(maxUnit) || maxUnit < 0 || maxUnit > 77) return;
+        if (!Number.isInteger(maxUnit) || maxUnit < 0 || maxUnit > 130) return;
         group.studenti = group.studenti.filter(item => item.nome !== student.nome);
         group.studentiInattivi.push({
           nome: student.nome,
@@ -1866,7 +1860,7 @@
       btnSaveGroups.onclick = async () => {
         hideMessage(editorMessage);
         const newVal = Number(limitSelect.value);
-        if (!Number.isInteger(newVal) || newVal < 0 || newVal > 77) {
+        if (!Number.isInteger(newVal) || newVal < 0 || newVal > 130) {
           showMessage(editorMessage, "Seleziona un’unità valida.", "error");
           return;
         }
@@ -2142,7 +2136,7 @@
           id,
           nome: name,
           insegnante: value.insegnante || "",
-          unitNumber: Number.isInteger(unit) && unit >= 0 && unit <= 77 ? unit : 1,
+          unitNumber: Number.isInteger(unit) && unit >= 0 && unit <= 130 ? unit : 1,
           studenti: (Array.isArray(value.studenti) ? value.studenti : []).map(renameStudent),
           studentiInattivi: (Array.isArray(value.studentiInattivi) ? value.studentiInattivi : []).map(renameStudent),
           attivo: value.attivo !== false
