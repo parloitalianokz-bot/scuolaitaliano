@@ -22,21 +22,21 @@ window.HOMEWORK_EXERCISES_CATALOG["2"] = {
     {
       id: "u002_s1_matching", unitNumber: 2, sessionNumber: 1, tier: "Base",
       tierLabel: "Sessione 1 · 1 Riconoscimento e abbinamento (Livello base)", type: "matching",
-      title: "1.1 Abbina le espressioni alle situazioni / Соедини выражения с ситуациями",
-      instructions: "Abbina ogni espressione con avere alla situazione corretta. / Соедини каждое выражение с подходящей ситуацией.",
+      title: "1.1 Abbina le immagini alle espressioni con avere / Соедини картинки с выражениями с avere",
+      instructions: "Guarda l’immagine e scegli l’espressione corretta. / Посмотри на картинку и выбери подходящее выражение.",
       options: [
-        { value: "A", label: "A · Vuole bere." },
-        { value: "B", label: "B · Vuole mangiare." },
-        { value: "C", label: "C · Ha bisogno di una coperta." },
-        { value: "D", label: "D · Vuole dormire." },
-        { value: "E", label: "E · Si sente in pericolo o spaventato." }
+        { value: "A", label: "avere paura" },
+        { value: "B", label: "avere sonno" },
+        { value: "C", label: "avere freddo" },
+        { value: "D", label: "avere fame" },
+        { value: "E", label: "avere sete" }
       ],
       items: [
-        { id: "m1", prompt: "avere sete", answers: ["A"] },
-        { id: "m2", prompt: "avere fame", answers: ["B"] },
-        { id: "m3", prompt: "avere freddo", answers: ["C"] },
-        { id: "m4", prompt: "avere sonno", answers: ["D"] },
-        { id: "m5", prompt: "avere paura", answers: ["E"] }
+        { id: "m1", visual: "🥤", visualAlt: "un bicchiere d’acqua", prompt: "Immagine: un bicchiere d’acqua", answers: ["E"] },
+        { id: "m2", visual: "🍝", visualAlt: "un piatto di pasta", prompt: "Immagine: un piatto di pasta", answers: ["D"] },
+        { id: "m3", visual: "🧣", visualAlt: "una sciarpa per il freddo", prompt: "Immagine: una sciarpa per il freddo", answers: ["C"] },
+        { id: "m4", visual: "🛏️", visualAlt: "un letto e la luna", prompt: "Immagine: un letto e la luna", answers: ["B"] },
+        { id: "m5", visual: "😨", visualAlt: "una persona spaventata", prompt: "Immagine: una persona spaventata", answers: ["A"] }
       ]
     },
     {
@@ -258,6 +258,7 @@ window.HOMEWORK_EXERCISES_CATALOG["2"] = {
     {
       id: "u002_s3_ordine", unitNumber: 2, sessionNumber: 3, tier: "Elementare",
       tierLabel: "Sessione 3 · 2 Manipolazione e riordino (Livello elementare)", type: "word_order",
+      requireItemSubmission: true,
       title: "3.3 Riordina le descrizioni / Составь описания",
       instructions: "Riordina le parole e fai attenzione al numero e al genere. / Расставь слова по порядку и следи за числом и родом.",
       items: [

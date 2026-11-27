@@ -377,8 +377,9 @@
     let answers = {};
     let submissionRef = null;
     let studentName = "";
-    let submissionStatus = "in-progress";
-    let saveTimer = null;
+         let submissionStatus = "in-progress";
+     const saveTimers = new Map();
+     let answerSaveQueue = Promise.resolve();
         let resolvedExercises = [];
     let teacherReviewData = {};
     const activePickByEx = {};
@@ -405,6 +406,11 @@
       }
     }
 
+    function queueAnswerSave(save) {
+      answerSaveQueue = answerSaveQueue.catch(() => {}).then(save);
+      return answerSaveQueue;
+    }
+
     function persistAnswer(exId, payload) {
       if (submissionStatus === "reviewed") return;
       if (submissionStatus === "pending") {
@@ -414,17 +420,50 @@
       answers[exId] = payload;
 
       saveStatus.textContent = "Salvataggio…";
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(async () => {
+      clearTimeout(saveTimers.get(exId));
+      saveTimers.set(exId, setTimeout(() => {
+        saveTimers.delete(exId);
         if (!submissionRef) return;
-        try {
-          await submissionRef.child(`answers/${exId}`).set(answers[exId]);
+        const snapshot = JSON.parse(JSON.stringify(answers[exId]));
+        queueAnswerSave(async () => {
+          await submissionRef.child(`answers/${exId}`).set(snapshot);
           await submissionRef.update({ studentName, status: submissionStatus, updatedAt: Date.now() });
           saveStatus.textContent = "Risposte salvate automaticamente. ✓";
-        } catch (_) {
-          saveStatus.textContent = "Errore di salvataggio.";
-        }
-      }, 350);
+        }).catch(() => { saveStatus.textContent = "Errore di salvataggio."; });
+      }, 350));
+    }
+
+    async function finalizeExerciseItem(exId, itemId, payload) {
+      if (!submissionRef || submissionStatus === "reviewed") return false;
+      const exerciseAnswers = { ...(answers[exId] || {}) };
+      const existing = exerciseAnswers[itemId];
+      if (existing && !Array.isArray(existing) && existing.locked === true) return true;
+
+      clearTimeout(saveTimers.get(exId));
+      saveTimers.delete(exId);
+      if (submissionStatus === "pending") {
+        submissionStatus = "in-progress";
+        setSubmittedVisualState(false);
+      }
+      const fixedAnswer = { ...payload, locked: true };
+      const nextAnswers = { ...exerciseAnswers, [itemId]: fixedAnswer };
+      answers[exId] = nextAnswers;
+      saveStatus.textContent = "Salvataggio della risposta definitiva…";
+      const snapshot = JSON.parse(JSON.stringify(nextAnswers));
+      try {
+        await queueAnswerSave(() => submissionRef.update({
+          [`answers/${exId}`]: snapshot,
+          studentName,
+          status: submissionStatus,
+          updatedAt: Date.now()
+        }));
+        saveStatus.textContent = "Risposta fissata e salvata. ✓";
+        return true;
+      } catch (_) {
+        answers[exId] = { ...exerciseAnswers, [itemId]: payload };
+        saveStatus.textContent = "Errore nel fissare la risposta. Puoi riprovare.";
+        return false;
+      }
     }
 
         function normalizeAnswer(value) {
@@ -620,11 +659,19 @@
             activePickByEx[ex.id] = nextPick;
             renderExercises();
           },
-          onChangeItem(itemId, val) {
-            const nextExAnswers = { ...(answers[ex.id] || {}), [itemId]: val };
-            persistAnswer(ex.id, nextExAnswers);
-          },
-          onChangeWhole(nextPayload) {
+                     onChangeItem(itemId, val) {
+             const current = (answers[ex.id] || {})[itemId];
+             if (current && !Array.isArray(current) && current.locked === true) return;
+             const nextExAnswers = { ...(answers[ex.id] || {}), [itemId]: val };
+             persistAnswer(ex.id, nextExAnswers);
+           },
+           onLockItem(itemId, payload) {
+             return finalizeExerciseItem(ex.id, itemId, payload).then(saved => {
+               if (saved) renderExercises();
+               return saved;
+             });
+           },
+           onChangeWhole(nextPayload) {
             persistAnswer(ex.id, nextPayload);
             renderExercises();
           }
@@ -638,12 +685,14 @@
 
     submitBtn.addEventListener("click", async () => {
       if (!submissionRef || submissionStatus === "reviewed") return;
-      clearTimeout(saveTimer);
-      submissionStatus = "pending";
-      submitBtn.disabled = true;
-      saveStatus.textContent = "Invio in corso…";
-      try {
-        await submissionRef.update({ studentName, status: submissionStatus, submittedAt: Date.now(), answers });
+             saveTimers.forEach(timer => clearTimeout(timer));
+       saveTimers.clear();
+       submissionStatus = "pending";
+       submitBtn.disabled = true;
+       saveStatus.textContent = "Invio in corso…";
+       try {
+         const snapshot = JSON.parse(JSON.stringify(answers));
+         await queueAnswerSave(() => submissionRef.update({ studentName, status: submissionStatus, submittedAt: Date.now(), answers: snapshot }));
         setSubmittedVisualState(true);
         submitBtn.disabled = false;
         saveStatus.textContent = "Compito inviato all’insegnante! ✓";

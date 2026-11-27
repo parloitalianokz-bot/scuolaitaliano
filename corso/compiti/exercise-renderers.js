@@ -6,22 +6,53 @@
     matching(ctx) {
       const { ex, savedAnswers, disabled, onChangeItem } = ctx;
       const wrap = document.createElement("div");
+      const shuffledOptions = (ex.options || []).slice();
+      for (let i = shuffledOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+      }
+      if (shuffledOptions.length > 1 && shuffledOptions.every((option, i) => option.value === ex.options[i].value)) {
+        shuffledOptions.push(shuffledOptions.shift());
+      }
       (ex.items || []).forEach((item, idx) => {
         const block = document.createElement("div");
         block.className = "item-block";
         const label = document.createElement("label");
         label.className = "gap-line";
         const prompt = document.createElement("strong");
-        prompt.textContent = `${idx + 1}. ${item.prompt} `;
         const select = document.createElement("select");
         select.className = "matching-select";
         select.disabled = disabled;
         select.appendChild(new Option("— scegli / выбери —", ""));
-        (ex.options || []).forEach(option => select.appendChild(new Option(option.label, option.value)));
+        shuffledOptions.forEach(option => select.appendChild(new Option(option.label, option.value)));
         select.value = savedAnswers[item.id] || "";
         select.addEventListener("change", () => onChangeItem(item.id, select.value));
-        label.append(prompt, select);
-        block.appendChild(label);
+
+        if (item.visual) {
+          block.style.display = "grid";
+          block.style.gridTemplateColumns = "76px minmax(0, 1fr)";
+          block.style.alignItems = "center";
+          block.style.gap = "12px";
+          const visual = document.createElement("span");
+          visual.textContent = item.visual;
+          visual.setAttribute("role", "img");
+          visual.setAttribute("aria-label", item.visualAlt || item.prompt || `Immagine ${idx + 1}`);
+          visual.style.display = "grid";
+          visual.style.placeItems = "center";
+          visual.style.width = "64px";
+          visual.style.height = "64px";
+          visual.style.borderRadius = "12px";
+          visual.style.background = "#f1f5ec";
+          visual.style.fontSize = "2.4rem";
+          prompt.textContent = `${idx + 1}. `;
+          select.setAttribute("aria-label", `Immagine: ${item.visualAlt || item.prompt || idx + 1}`);
+          label.append(prompt, select);
+          block.append(visual, label);
+        } else {
+          prompt.textContent = `${idx + 1}. ${item.prompt} `;
+          label.append(prompt, select);
+          block.appendChild(label);
+        }
         wrap.appendChild(block);
       });
       return wrap;
@@ -69,7 +100,8 @@
     },
 
     word_order(ctx) {
-      const { ex, savedAnswers, disabled, onChangeItem } = ctx;
+      const { ex, savedAnswers, disabled, onChangeItem, onLockItem } = ctx;
+      const requireItemSubmission = ex.requireItemSubmission === true && typeof onLockItem === "function";
       const wrap = document.createElement("div");
       wrap.className = "word-order-list";
       (ex.items || []).forEach((item, idx) => {
@@ -87,6 +119,7 @@
         const tray = document.createElement("div");
         tray.className = "word-order-bank";
         const savedOrder = savedAnswers[item.id];
+        let isLocked = Boolean(savedOrder && !Array.isArray(savedOrder) && savedOrder.locked === true);
         const words = savedOrder && !Array.isArray(savedOrder) && Array.isArray(savedOrder.words)
           ? savedOrder.words
           : (item.words || []);
@@ -95,10 +128,13 @@
           : savedOrder && Array.isArray(savedOrder.order)
             ? savedOrder.order.filter(position => Number.isInteger(position) && position >= 0 && position < words.length)
             : [];
-        const saveSelection = () => onChangeItem(item.id, { words: [...words], order: [...selected] });
+        const saveSelection = () => {
+          if (!isLocked) onChangeItem(item.id, { words: [...words], order: [...selected] });
+        };
         const redraw = () => {
           built.textContent = selected.map(position => words[position]).join(" ") || "Tocca le parole per comporre la frase…";
           built.classList.toggle("is-empty", selected.length === 0);
+          if (requireItemSubmission) actions.querySelector("button:last-child")?.updateLockButton?.();
           tray.replaceChildren();
           words.forEach((word, position) => {
             const button = document.createElement("button");
@@ -106,8 +142,8 @@
             button.className = "word-order-token";
             button.textContent = word;
             const isSelected = selected.includes(position);
-            button.disabled = disabled;
-            button.setAttribute("aria-pressed", String(isSelected));
+                          button.disabled = disabled || isLocked;
+              button.setAttribute("aria-pressed", String(isSelected));
             button.addEventListener("click", () => {
               if (disabled) return;
               selected = isSelected
@@ -125,7 +161,7 @@
         undo.type = "button";
         undo.className = "word-order-action";
         undo.textContent = "↩ Annulla ultima / Отменить последнее";
-        undo.disabled = disabled;
+        undo.disabled = disabled || isLocked;
         undo.addEventListener("click", () => {
           selected.pop();
           saveSelection();
@@ -135,13 +171,37 @@
         reset.type = "button";
         reset.className = "word-order-action";
         reset.textContent = "Ricomincia / Начать заново";
-        reset.disabled = disabled;
+        reset.disabled = disabled || isLocked;
         reset.addEventListener("click", () => {
           selected = [];
           saveSelection();
           redraw();
         });
         actions.append(undo, reset);
+        if (requireItemSubmission) {
+          const lock = document.createElement("button");
+          lock.type = "button";
+          lock.className = "word-order-action";
+          lock.addEventListener("click", async () => {
+            if (disabled || isLocked || selected.length !== words.length) return;
+            lock.disabled = true;
+            lock.textContent = "Salvataggio…";
+            const saved = await onLockItem(item.id, { words: [...words], order: [...selected] });
+            if (saved) {
+              isLocked = true;
+              redraw();
+            } else {
+              redraw();
+            }
+          });
+          actions.appendChild(lock);
+          const updateLockButton = () => {
+            lock.textContent = isLocked ? "Risposta fissata ✓ / Ответ зафиксирован ✓" : "Invia risposta / Зафиксировать ответ";
+            lock.disabled = disabled || isLocked || selected.length !== words.length;
+          };
+          lock.updateLockButton = updateLockButton;
+          updateLockButton();
+        }
         block.append(header, built, tray, actions);
         wrap.appendChild(block);
         redraw();
