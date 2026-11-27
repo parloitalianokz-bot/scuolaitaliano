@@ -72,11 +72,11 @@ window.HOMEWORK_EXERCISES_CATALOG["2"] = {
       title: "1.4 Ricostruisci le risposte di Marco / Восстанови ответы Марко",
       instructions: "Metti le parole nell’ordine corretto. / Поставь слова в правильном порядке.",
       items: [
-        { id: "o1", prompt: "Quando ha sete", words: ["sete.", "Ho", "Mamma,", ""].filter(Boolean), answers: [2, 1, 0] },
-        { id: "o2", prompt: "Quando ha fame", words: ["fame.", "ho", "Mamma,", ""].filter(Boolean), answers: [2, 1, 0] },
-        { id: "o3", prompt: "Quando ha freddo", words: ["freddo.", "ho", "Mamma,", ""].filter(Boolean), answers: [2, 1, 0] },
-        { id: "o4", prompt: "Quando ha paura", words: ["paura.", "ho", "Mamma,", ""].filter(Boolean), answers: [2, 1, 0] },
-        { id: "o5", prompt: "La risposta della madre", words: ["anni.", "trentacinque", "già", "Hai"], answers: [3, 2, 1, 0] }
+        { id: "o1", prompt: "Quando ha sete", words: ["ho", "Mamma,", "sete."], answers: [1, 0, 2] },
+        { id: "o2", prompt: "Quando ha fame", words: ["fame.", "ho", "Mamma,"], answers: [2, 1, 0] },
+        { id: "o3", prompt: "Quando ha freddo", words: ["ho", "freddo.", "Mamma,"], answers: [2, 0, 1] },
+        { id: "o4", prompt: "Quando ha paura", words: ["paura.", "Mamma,", "ho"], answers: [1, 2, 0] },
+        { id: "o5", prompt: "La risposta della madre", words: ["trentacinque", "Hai", "anni.", "già"], answers: [1, 3, 0, 2] }
       ]
     },
     {
