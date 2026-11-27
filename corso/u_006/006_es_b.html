@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Adatta al femminile il racconto Il mio migliore amico, Unità 6 — Esercizio B." />
+  <title>Unità 6 — La migliore amica · Esercizio B</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .instruction-box { max-width: 880px; margin: 0 auto 18px; padding: 16px 20px; border: 1px solid #d8e5d8; border-left: 5px solid var(--accent); border-radius: 16px; background: rgba(255,254,250,.96); line-height: 1.55; }
+    .instruction-box p { margin: 0 0 8px; }
+    .instruction-box p:last-child { margin-bottom: 0; }
+    .blank-input-wide { width: clamp(160px, 25vw, 210px); }
+    @media (max-width: 640px) { .blank-input.blank-input-wide { width: min(70vw, 210px); } }
+  </style>
+</head>
+<body data-page-key="006_es_b" data-next-href="006_es_c.html" data-next-label="Vai all’esercizio C →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Grammatica</span>
+      <h1>La migliore amica</h1>
+      <p class="hero-subtitle">Adatta il racconto al femminile scegliendo le forme corrette.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru" aria-label="Istruzioni">
+      <p><strong>Представьте, что в повествовании участвуют две подруги вместо двух друзей-мужчин. Как нужно было бы адаптировать историю?</strong></p>
+      <p lang="it">Scegli la forma corretta in ogni menu a tendina. Completa una parte alla volta e invia le risposte.</p>
+    </section>
+
+    <section class="card" aria-label="Racconto da adattare al femminile">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una parte del racconto:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle parti del racconto">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="006_es_c.html" hidden>Vai all’esercizio C →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    ParloInlineFillExercise.init({
+      unitNumber: 6,
+      exercisePath: "006_es_b",
+      itemsLabel: "Parte",
+      sentences: [
+        {
+          id: "migliore-amica-1",
+          parts: [
+            { id: "la-migliore-amica", select: true, size: "wide", options: ["Il migliore amico", "La migliore amica"], correct: "La migliore amica" },
+            " di Marica si chiama Fabiana. ",
+            { id: "lei-1", select: true, options: ["Lui", "Lei"], correct: "Lei" },
+            " ha trent’anni, come Marica; ",
+            { id: "siamo-sono", select: true, options: ["siamo", "sono"], correct: "sono" },
+            " ex ",
+            { id: "compagne", select: true, options: ["compagni", "compagne"], correct: "compagne" },
+            " di scuola."
+          ]
+        },
+        {
+          id: "migliore-amica-2",
+          parts: [
+            { id: "noi-loro-sono", select: true, options: ["Noi siamo", "Loro sono"], correct: "Loro sono" },
+            " molto ",
+            { id: "diverse", select: true, options: ["diversi", "diverse"], correct: "diverse" },
+            ". Fabiana è ",
+            { id: "bella", select: true, options: ["bello", "bella"], correct: "bella" },
+            ", simpatica, ricca; Marica no."
+          ]
+        },
+        {
+          id: "migliore-amica-3",
+          parts: [
+            { id: "lei-2", select: true, options: ["Lui", "Lei"], correct: "Lei" },
+            " è alta e magra; invece Marica è bassa e grassa. ",
+            { id: "lei-e-3", select: true, options: ["Lui è", "Lei è"], correct: "Lei è" },
+            " bionda e ha gli occhi azzurri; invece Marica è calva e ha gli occhiali."
+          ]
+        },
+        {
+          id: "migliore-amica-4",
+          parts: [
+            "Fabiana è ",
+            { id: "avvocata", select: true, options: ["avvocato", "avvocata"], correct: "avvocata" },
+            ", guadagna molti soldi; Marica invece è ",
+            { id: "disoccupata", select: true, options: ["disoccupato", "disoccupata"], correct: "disoccupata" },
+            ". ",
+            { id: "lei-4a", select: true, options: ["Lui", "Lei"], correct: "Lei" },
+            " è ",
+            { id: "sposata", select: true, options: ["sposato", "sposata"], correct: "sposata" },
+            ", invece Marica è ",
+            { id: "divorziata", select: true, options: ["divorziato", "divorziata"], correct: "divorziata" },
+            " già tre volte. ",
+            { id: "lei-4b", select: true, options: ["Lui", "Lei"], correct: "Lei" },
+            " ha una bella macchina, invece Marica ha una vecchia bicicletta."
+          ]
+        },
+        {
+          id: "migliore-amica-5",
+          parts: [
+            "Fabiana è ",
+            { id: "sportiva", select: true, options: ["sportivo", "sportiva"], correct: "sportiva" },
+            ", ",
+            { id: "viaggia", select: true, options: ["viaggio", "viaggia"], correct: "viaggia" },
+            " molto, conosce molti paesi; Marica invece ",
+            { id: "resta", select: true, options: ["resto", "resta"], correct: "resta" },
+            " sempre in casa. ",
+            { id: "lei-5", select: true, options: ["Lui", "Lei"], correct: "Lei" },
+            " ",
+            { id: "parla-1", select: true, options: ["parlo", "parla"], correct: "parla" },
+            " molte lingue straniere; parla inglese, francese, tedesco. Marica invece ",
+            { id: "parla-2", select: true, options: ["parlo", "parla"], correct: "parla" },
+            " solo italiano."
+          ]
+        },
+        {
+          id: "migliore-amica-6",
+          parts: [
+            "Di solito il sabato sera Marica e Fabiana ",
+            { id: "mangiano", select: true, options: ["mangiamo", "mangiano"], correct: "mangiano" },
+            " insieme in pizzeria. Mentre ",
+            { id: "loro-mangiano", select: true, options: ["noi mangiamo", "loro mangiano"], correct: "loro mangiano" },
+            ", ",
+            { id: "loro-parlano", select: true, options: ["noi parliamo", "loro parlano"], correct: "loro parlano" },
+            " della vita: a Fabiana va tutto bene, a Marica va tutto male."
+          ]
+        },
+        {
+          id: "migliore-amica-7",
+          parts: [
+            "Alla fine della cena Fabiana ",
+            { id: "paga", select: true, options: ["pago", "paga"], correct: "paga" },
+            " il conto anche per Marica perché ",
+            { id: "lei-non-ha", select: true, options: ["io non ho", "lei non ha"], correct: "lei non ha" },
+            " soldi, e poi ",
+            { id: "loro-tornano", select: true, options: ["noi torniamo", "loro tornano"], correct: "loro tornano" },
+            " a casa. Marica ",
+            { id: "torna", select: true, options: ["torno", "torna"], correct: "torna" },
+            " a piedi, Fabiana torna in macchina."
+          ]
+        },
+        {
+          id: "migliore-amica-8",
+          parts: [
+            "Insomma, è bello avere un’",
+            { id: "amica", select: true, options: ["amico", "amica"], correct: "amica" },
+            " come Fabiana: ",
+            { id: "lei-8", select: true, options: ["lui", "lei"], correct: "lei" },
+            " è così ",
+            { id: "brava", select: true, options: ["bravo", "brava"], correct: "brava" },
+            "! Però a volte Marica ha voglia di ammazzare Fabiana."
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

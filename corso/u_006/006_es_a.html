@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esercizio di comprensione sul racconto Il mio migliore amico, Unità 6." />
+  <title>Unità 6 — Il mio migliore amico · Esercizio A</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/es-a.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .mode-note { max-width: 820px; margin: 0 auto 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.92); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .reading-tip { max-width: 880px; margin: 0 auto 18px; overflow: hidden; border: 1px solid #d8e5d8; border-radius: 14px; background: rgba(255,254,250,.96); }
+    .reading-tip summary { padding: 13px 18px; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .reading-tip-content { padding: 0 18px 14px; line-height: 1.55; }
+    .reading-tip-content p { margin: 0 0 8px; }
+    .reading-tip-content p:last-child { margin-bottom: 0; }
+    .reading-tip a { color: var(--primary-dark); font-weight: 700; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
+  </style>
+</head>
+<body data-page-key="006_es_a" data-next-href="006_es_b.html" data-next-label="Vai all’esercizio B →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./006_unit-nav.js"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 6 · Lettura e comprensione</span>
+      <h1>Il mio migliore amico</h1>
+      <p class="hero-subtitle">Leggete il racconto e scegliete la risposta corretta.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <details class="reading-tip">
+      <summary>📖 Istruzioni</summary>
+      <div class="reading-tip-content" lang="ru">
+        <p>Выберите правильный вариант ответа.</p>
+        <p>В онлайн-режиме следуйте назначенному ходу: один участник формулирует вопрос, другой выбирает ответ. В режимах занятий на расстоянии и самостоятельной практики работайте индивидуально.</p>
+        <p lang="it"><a href="006_lettura.html">← Rileggi il racconto</a></p>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Domande dell’esercizio"></section>
+  </main>
+
+  <script>
+    window.ES_A_DATA = [
+      { hint: "Fabio e Marco", options: ["sono ex colleghi di lavoro", "sono ex compagni di scuola"], correctOption: 1 },
+      { hint: "Fabio e Marco", options: ["lavorano entrambi", "Fabio lavora, è avvocato; Marco invece non lavora"], correctOption: 1 },
+      { hint: "Marco", options: ["è disoccupato tre volte", "è divorziato tre volte"], correctOption: 1 },
+      { hint: "Marco", options: ["abita con la moglie", "abita da solo", "abita con Fabio"], correctOption: 1 },
+      { hint: "Marco", options: ["è biondo", "è bruno", "non ha i capelli"], correctOption: 2 },
+      { hint: "In pizzeria", options: ["Marco paga il conto", "Fabio paga il conto"], correctOption: 1 },
+      { hint: "Fabio torna a casa", options: ["in macchina", "a piedi", "in autobus"], correctOption: 0 },
+      { hint: "Fabio", options: ["ha tre mogli", "ha tre macchine", "parla tre lingue straniere"], correctOption: 2 }
+    ];
+
+    const session = window.ParloSession || {};
+    const descriptions = {
+      online: "💬 Modalità online: segui i turni assegnati; domande e risposte sono condivise con il gruppo.",
+      distance: "🎙️ Modalità a distanza: svolgi l’esercizio individualmente; i progressi sono disponibili per la revisione dell’insegnante.",
+      individual: "🏋️ Modalità allenamento: esercitati autonomamente nel tuo spazio personale."
+    };
+    document.getElementById("mode-note").textContent = descriptions[session.activityMode] || descriptions.online;
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=6"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/es-a-engine.js?v=2"></script>
+</body>
+</html>
