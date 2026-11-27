@@ -1383,10 +1383,7 @@
       teacherReviewStudentWrap.hidden = currentActivityMode !== "distance";
       syncTeacherReviewStudentSelector();
       teacherEditor.classList.remove("hidden");
-      const teacherModeLabel = currentActivityMode === "distance"
-        ? "Controllo lavoro a distanza"
-        : "Lezione online · pagine condivise";
-      userInfoText.textContent = `👩‍🏫 ${currentTeacher} · Gruppo ${groupLabel(currentGroup)} · ${teacherModeLabel}`;
+      userInfoText.textContent = `${currentTeacher} - Gruppo ${GROUPS[currentGroup]?.nome || currentGroup}`;
     }
 
     function resetToLogin() {
