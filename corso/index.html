@@ -517,6 +517,38 @@
       font-size: 1.2rem;
     }
 
+    .units-archive {
+      margin: 28px 0 20px;
+      overflow: hidden;
+      border: 1px solid #cfddcf;
+      border-radius: 18px;
+      background: rgba(255, 254, 250, .94);
+      box-shadow: 0 8px 24px rgba(43, 69, 46, .08);
+    }
+    .units-archive > summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      color: var(--green);
+      background: linear-gradient(135deg, #edf4ed, #fffefa);
+      cursor: pointer;
+      list-style: none;
+    }
+    .units-archive > summary::-webkit-details-marker { display: none; }
+    .units-archive > summary::after {
+      content: "+";
+      margin-left: auto;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+    .units-archive[open] > summary::after { content: "−"; }
+    .archive-summary-title { font-size: 1.15rem; font-weight: 800; }
+    .archive-summary-note { color: var(--muted); font-size: .9rem; }
+    .units-archive-content { padding: 4px 14px 14px; }
+    .units-archive-content .level-section { margin-top: 10px; }
+
     .units-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -1471,11 +1503,20 @@
         featuredContainer.appendChild(feat);
       }
 
-      const heading = document.createElement("h2");
-      heading.className = "all-units-heading";
-      heading.textContent = "Archivio delle unità";
-      unitsContainer.appendChild(heading);
+      const archive = document.createElement("details");
+      archive.className = "units-archive";
+      const archiveSummary = document.createElement("summary");
+      const archiveTitle = document.createElement("span");
+      archiveTitle.className = "archive-summary-title";
+      archiveTitle.textContent = "Archivio delle unità";
+      const archiveNote = document.createElement("span");
+      archiveNote.className = "archive-summary-note";
+      archiveNote.textContent = "Sfoglia per livello";
+      archiveSummary.append(archiveTitle, archiveNote);
+      archive.appendChild(archiveSummary);
 
+      const archiveContent = document.createElement("div");
+      archiveContent.className = "units-archive-content";
       const visibleLevels = LEVELS.filter(level => level.range[0] <= effectiveMax);
       visibleLevels.forEach((level, levelIndex) => {
         const section = document.createElement("details");
@@ -1513,8 +1554,10 @@
           }
         }
         section.appendChild(grid);
-        unitsContainer.appendChild(section);
+        archiveContent.appendChild(section);
       });
+      archive.appendChild(archiveContent);
+      unitsContainer.appendChild(archive);
     }
 
     // ─────── EDITOR INSEGNANTE ───────
