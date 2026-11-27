@@ -26,14 +26,13 @@
       padding: 32px 16px;
       color: var(--text);
       background:
-        linear-gradient(rgba(250, 248, 241, .78), rgba(250, 248, 241, .78)),
-        radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .72), transparent 55%),
-        #e9e3d6;
+        radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .78), transparent 58%),
+        linear-gradient(135deg, #e8efe7, #dce7dc);
     }
 
-    main { width: min(100%, 880px); margin: 0 auto; }
+    main { width: min(100%, 1040px); margin: 0 auto; }
 
-    header { margin: 44px 0 32px; text-align: center; }
+    header { margin: 34px 0 28px; text-align: center; }
 
     .eyebrow {
       display: inline-block;
@@ -72,6 +71,155 @@
       color: var(--green);
       font-size: 1.2rem;
     }
+
+    .login-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto 24px;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .login-layout .access-card {
+      margin: 0;
+      padding: clamp(24px, 4vw, 42px);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    #login-panel, #teacher-panel { grid-column: 2; }
+    #login-visual { grid-column: 1; grid-row: 1; }
+    #login-panel {
+      border-radius: 24px;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 12px 32px rgba(43, 69, 46, .16);
+    }
+    #login-panel h2,
+    #login-panel .form-group label,
+    #login-panel .login-promise,
+    #login-panel .login-promise strong,
+    #login-panel .mode-switch a {
+      color: #fff;
+    }
+    #login-panel .login-promise { line-height: 1.6; }
+    #login-panel .mode-switch a { text-decoration-thickness: 2px; }
+    .login-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 440px;
+      overflow: hidden;
+      border-radius: 24px;
+      background: transparent;
+    }
+    .login-visual img {
+      display: block;
+      width: min(100%, 480px);
+      height: auto;
+      max-height: 560px;
+      min-height: 0;
+      object-fit: contain;
+    }
+    #btn-student-google-login {
+      width: min(100%, 320px);
+      min-height: 48px;
+      margin: 22px auto 0;
+      padding: 0 18px;
+      border-radius: 14px;
+    }
+    .login-promise {
+      margin: 22px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .login-promise p { margin: 8px 0 4px; }
+    .login-promise ul { margin: 4px 0 18px; padding-left: 22px; }
+    .login-promise li { margin: 5px 0; }
+    .login-promise strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 1.2rem;
+    } 
+    .login-visual::before, .login-visual::after {
+      position: absolute;
+      z-index: -1;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+      content: "";
+    }
+    .login-visual::before { width: 380px; height: 380px; top: 120px; right: -150px; }
+    .login-visual::after { width: 270px; height: 270px; bottom: -110px; left: -95px; }
+    .visual-copy { position: relative; z-index: 1; }
+    .login-visual[data-role="student"] .teacher-copy { display: none; }
+    .login-visual[data-role="teacher"] .student-copy { display: none; }
+    .visual-kicker {
+      margin: 0 0 12px;
+      color: #d9e8d7;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .visual-copy h2 { margin: 0; color: #fff; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.12; }
+    .visual-copy p:last-child { max-width: 32ch; margin: 12px 0 0; color: #e3eee1; line-height: 1.6; }
+    .login-scene { width: 100%; max-width: 390px; margin: 24px auto 12px; }
+    .login-scene svg { display: block; width: 100%; height: auto; }
+    .login-visual[data-role="teacher"] .student-scene,
+    .login-visual[data-role="student"] .teacher-scene { display: none; }
+    .visual-caption { margin: 0; color: #e3eee1; font-size: .9rem; font-weight: 700; text-align: center; }
+    .google-button {
+      display: block;
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 960 / 233;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
+    }
+    .google-button img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .google-button:hover:not(:disabled) img { filter: brightness(.97); }
+
+    .gsi-material-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid #747775;
+      border-radius: 4px;
+      background: #fff;
+      color: #1f1f1f;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .25px;
+      cursor: pointer;
+      transition: background-color .15s, box-shadow .15s;
+    }
+    .gsi-material-button:hover:not(:disabled) { background: #f8faff; box-shadow: 0 1px 2px rgba(60, 64, 67, .3); }
+    .gsi-material-button:disabled { cursor: wait; opacity: .55; }
+    .gsi-material-button-content-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .gsi-material-button-icon { display: flex; width: 18px; height: 18px; }
+    .gsi-material-button-icon svg { display: block; width: 18px; height: 18px; }
 
     .form-group {
       margin-bottom: 14px;
@@ -132,12 +280,9 @@
       margin: 12px 0 0;
     }
 
-    .mode-switch button {
-      border: 0;
-      background: none;
+    .mode-switch a {
       color: var(--accent);
       font-weight: 700;
-      cursor: pointer;
       text-decoration: underline;
     }
 
@@ -193,7 +338,31 @@
       font-weight: 700;
     }
 
-    .teacher-group-switch[hidden] { display: none; }
+    .student-mode-switch {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      padding: 8px 12px;
+      border: 1px solid #c8dac9;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--green);
+      font-size: .9rem;
+      font-weight: 800;
+    }
+    .student-mode-switch[hidden], .teacher-group-switch[hidden] { display: none; }
+    .student-mode-switch select {
+      min-height: 38px;
+      max-width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #d4e1d5;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--green);
+      font: inherit;
+      font-size: .9rem;
+    }
     .teacher-group-switch select {
       min-height: 38px;
       padding: 6px 10px;
@@ -477,10 +646,22 @@
     #inactive-students-list .group-editor { padding: 10px 0; border-bottom: 1px solid #e5ebdf; }
     #inactive-students-list .group-editor:last-child { border-bottom: 0; }
 
+    @media (max-width: 760px) {
+      .login-layout { grid-template-columns: 1fr; }
+      #login-panel, #teacher-panel, #login-visual { grid-column: auto; grid-row: auto; }
+      #login-visual { order: 1; }
+      #login-panel, #teacher-panel { order: 2; }
+      .login-visual { min-height: 0; }
+      .login-visual img { width: min(100%, 390px); height: auto; max-height: none; min-height: 0; aspect-ratio: 4 / 3; object-fit: contain; }
+      .login-scene { max-width: 310px; margin: 16px auto 8px; }
+    }
+
     @media (max-width: 600px) {
       body { padding: 20px 12px; }
       header { margin: 34px 0 24px; }
       .access-card { padding: 20px; }
+      .login-layout .access-card { padding: 22px; }
+      .login-visual { padding: 0; }
       .featured-unit { padding: 18px 20px; }
       .featured-unit a { width: 100%; justify-content: center; }
       .units-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
@@ -502,15 +683,26 @@
 <body>
   <main>
     <header>
-      <span class="eyebrow">Italiano · Letture ed esercizi</span>
       <h1>Benvenuti</h1>
-      <p>Accedete per aprire le unità.</p>
+      <button type="button" id="btn-student-google-login" class="gsi-material-button" aria-label="Accedi con Google" disabled>
+        <span class="gsi-material-button-state" aria-hidden="true"></span>
+        <span class="gsi-material-button-content-wrapper">
+          <span class="gsi-material-button-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+            </svg>
+          </span>
+          <span class="gsi-material-button-contents">Accedi con Google</span>
+        </span>
+      </button>
     </header>
 
-    <!-- Pannello di accesso partecipante -->
-    <section id="login-panel" class="access-card">
-      <h2>🎓 Accedi</h2>
-
+    <div id="login-layout" class="login-layout">
+      <!-- Pannello di accesso partecipante -->
+      <section id="login-panel" class="access-card">
       <div class="form-group" hidden>
         <label for="group-select">Gruppo</label>
         <select id="group-select">
@@ -531,31 +723,18 @@
         <small id="student-pin-help" style="display:block;margin-top:6px;color:var(--muted);line-height:1.45;">Per il gruppo Cremona inserisci il PIN personale di 6 cifre.</small>
       </div>
 
-      <button type="button" id="btn-student-google-login" class="btn-primary" disabled>Accedi con Google</button>
-
-      <div class="form-group">
-        <label for="activity-mode">Режим занятий · Modalità di esercitazione</label>
-        <select id="activity-mode" aria-describedby="activity-mode-help">
-          <option value="online">Онлайн-урок · Lezione online (по умолчанию · predefinita)</option>
-          <option value="distance">Занятия на расстоянии · Esercitazione a distanza (преподаватель видит ответы · l’insegnante vede le risposte)</option>
-          <option value="individual">Самостоятельная практика · Esercitazione individuale (только для вас · solo tu vedi le risposte)</option>
-        </select>
-        <small id="activity-mode-help" style="display:block;margin-top:6px;color:var(--muted);line-height:1.45;">
-          Выберите, как заниматься. · Scegli come esercitarti.
-        </small>
-      </div>
-
-      <button type="button" id="btn-login" class="btn-primary" disabled hidden>Войти · Entra</button>
-
       <p id="login-message" class="message" hidden></p>
-
-      <div class="mode-switch">
-        <button type="button" id="switch-to-teacher">Insegnante? Accedi qui</button>
+      <div class="login-promise">
+        <strong lang="ru">Твой итальянский всегда с тобой.</strong>
+        <p lang="ru">Войди, чтобы повторять уроки, тренировать грамматику и двигаться к следующей цели.</p>
+        <strong>Il tuo italiano, sempre con te.</strong>
+        <p>Accedi per rivedere le lezioni, allenare la grammatica e raggiungere il tuo prossimo traguardo.</p>
       </div>
+
     </section>
 
-    <!-- Pannello insegnante -->
-    <section id="teacher-panel" class="access-card hidden">
+      <!-- Pannello insegnante -->
+      <section id="teacher-panel" class="access-card hidden">
       <h2>👩‍🏫 Insegnante</h2>
       <div class="form-group">
         <label for="teacher-name-select">Insegnante</label>
@@ -578,16 +757,29 @@
           <option value="distance">Controllo lavoro a distanza · revisione per studente</option>
         </select>
       </div>
-      <button type="button" id="btn-teacher-login" class="btn-primary" disabled>Accedi con Google</button>
+      <button type="button" id="btn-teacher-login" class="btn-primary google-button" disabled>Accedi con Google</button>
       <p id="teacher-message" class="message" hidden></p>
       <div class="mode-switch">
         <button type="button" id="switch-to-student">Partecipante? Torna al login</button>
       </div>
-    </section>
+      </section>
+
+      <aside id="login-visual" class="login-visual" aria-label="Studente che impara l’italiano">
+        <img src="img/login.webp" alt="Studente impegnato nello studio dell’italiano">
+      </aside>
+    </div>
 
     <!-- Info utente loggato -->
     <div id="user-info" class="user-info hidden">
       <span id="user-info-text"></span>
+      <label id="student-mode-switch-wrap" class="student-mode-switch" hidden>
+        Modalità di esercitazione
+        <select id="student-mode-switch" aria-label="Scegli la modalità di esercitazione">
+          <option value="online">Lezione online</option>
+          <option value="distance">Esercitazione a distanza · l’insegnante vede le risposte</option>
+          <option value="individual">Esercitazione individuale · solo tu vedi le risposte</option>
+        </select>
+      </label>
       <label id="teacher-group-switch-wrap" class="teacher-group-switch" hidden>
         Gruppo
         <select id="teacher-group-switch" aria-label="Cambia gruppo insegnante"></select>
@@ -725,7 +917,7 @@
       2:  { title: "Un bravo ragazzo",       path: "u_002" },
       3:  { title: "Un genovese ad Almaty",       path: "u_003" },
       4:  { title: "L’indirizzo",                 path: "u_004" },
-      5:  { title: "Un appartamento per Alikhan", path: "u_005" },
+      5:  { title: "Un appartamento per Alikhan", path: "u_005", file: "005_lettura.html" },
       10: { title: "La borsa rossa",        path: "u_010" },
       11: { title: "La casalinga",           path: "u_011" },
       13: { title: "Il grande scrittore",   path: "u_013" },
@@ -839,6 +1031,8 @@
     // ─────── DOM REFS ───────
     const loginPanel = document.getElementById("login-panel");
     const teacherPanel = document.getElementById("teacher-panel");
+    const loginLayout = document.getElementById("login-layout");
+    const loginVisual = document.getElementById("login-visual");
     const userInfoDiv = document.getElementById("user-info");
     const userInfoText = document.getElementById("user-info-text");
     const unitsSection = document.getElementById("units-section");
@@ -851,8 +1045,8 @@
     const nameSelect = document.getElementById("name-select");
     const studentPinWrap = document.getElementById("student-pin-wrap");
     const studentPinInput = document.getElementById("student-pin");
-    const activityModeSelect = document.getElementById("activity-mode");
-    const btnLogin = document.getElementById("btn-login");
+    const studentModeSwitchWrap = document.getElementById("student-mode-switch-wrap");
+    const studentModeSwitch = document.getElementById("student-mode-switch");
     const btnStudentGoogleLogin = document.getElementById("btn-student-google-login");
     const loginMessage = document.getElementById("login-message");
 
@@ -993,7 +1187,7 @@
       teacherGroupSwitch.value = GROUPS[selectedTeacherSwitch] ? selectedTeacherSwitch : "";
       updateNames();
       if ([...nameSelect.options].some(option => option.value === selectedName)) nameSelect.value = selectedName;
-      updateLoginButton();
+      updateStudentGoogleLoginButton();
       updateTeacherLoginButton();
     }
 
@@ -1030,7 +1224,6 @@
       if (!group || !GROUPS[group]) {
         nameSel.disabled = true;
         nameSel.innerHTML = "<option value=\"\">— Prima scegli il gruppo —</option>";
-        btnLogin.disabled = true;
         return;
       }
 
@@ -1054,13 +1247,7 @@
         nameSel.appendChild(opt);
       });
 
-      btnLogin.disabled = true;
       hideMessage(loginMessage);
-    }
-
-    function updateLoginButton() {
-      const needsPin = groupSelect.value === "Cr01" || GROUPS[groupSelect.value]?.nome === "Cremona";
-      btnLogin.disabled = !(groupsReady && groupSelect.value && nameSelect.value && (!needsPin || /^\d{6}$/.test(studentPinInput.value.trim())));
     }
 
     function saveSession() {
@@ -1122,7 +1309,7 @@
           currentActivityMode = ["online", "distance", "individual"].includes(data.activityMode)
             ? data.activityMode
             : "online";
-          activityModeSelect.value = currentActivityMode;
+          studentModeSwitch.value = currentActivityMode;
           showStudentUI();
           renderUnits(getStudentMaxUnit(storedGroup, data.name));
           saveSession();
@@ -1135,6 +1322,7 @@
     }
 
     function showStudentUI() {
+      loginLayout.classList.add("hidden");
       homeworkEntry.classList.remove("hidden");
       videoEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
@@ -1145,12 +1333,9 @@
       teacherEditor.classList.add("hidden");
       userInfoDiv.classList.remove("hidden");
       const maxUnit = getStudentMaxUnit(currentGroup, currentName);
-      const activityModeLabel = {
-        online: "Онлайн-урок · Lezione online",
-        distance: "Занятия на расстоянии · A distanza",
-        individual: "Самостоятельная практика · Individuale"
-      }[currentActivityMode] || "Онлайн-урок · Lezione online";
-      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} · ${activityModeLabel} (Unità ${maxUnit})`;
+      studentModeSwitchWrap.hidden = false;
+      studentModeSwitch.value = currentActivityMode;
+      userInfoText.textContent = `${currentName} · ${groupLabel(currentGroup)} · Unità ${maxUnit}`;
     }
 
     function syncTeacherReviewStudentSelector() {
@@ -1182,11 +1367,13 @@
     });
 
     function showTeacherUI() {
+      loginLayout.classList.add("hidden");
       homeworkEntry.classList.remove("hidden");
       videoEntry.classList.remove("hidden");
       loginPanel.classList.add("hidden");
       teacherPanel.classList.add("hidden");
       userInfoDiv.classList.remove("hidden");
+      studentModeSwitchWrap.hidden = true;
       teacherGroupSwitchWrap.hidden = false;
       teacherGroupSwitch.value = currentGroup || "";
       teacherActivitySwitchWrap.hidden = false;
@@ -1201,6 +1388,8 @@
     }
 
     function resetToLogin() {
+      loginLayout.classList.remove("hidden");
+      loginVisual.dataset.role = "student";
       homeworkEntry.classList.add("hidden");
       videoEntry.classList.add("hidden");
       unitsSection.classList.add("hidden");
@@ -1218,7 +1407,6 @@
       groupSelect.value = "";
       nameSelect.innerHTML = "<option value=\"\">— Prima scegli il gruppo —</option>";
       nameSelect.disabled = true;
-      btnLogin.disabled = true;
       teacherGroupSelect.value = "";
       teacherNameSelect.value = "";
       btnTeacherLogin.disabled = true;
@@ -1229,7 +1417,7 @@
       currentStudentPinVerified = false;
       studentPinInput.value = "";
       currentActivityMode = "online";
-      activityModeSelect.value = "online";
+      studentModeSwitch.value = "online";
       teacherActivityModeSelect.value = "online";
     }
 
@@ -1661,11 +1849,13 @@
     groupSelect.addEventListener("change", () => {
       studentPinInput.value = "";
       updateNames();
-      updateLoginButton();
     });
-
-    nameSelect.addEventListener("change", updateLoginButton);
-    studentPinInput.addEventListener("input", updateLoginButton);
+    studentModeSwitch.addEventListener("change", () => {
+      currentActivityMode = ["online", "distance", "individual"].includes(studentModeSwitch.value)
+        ? studentModeSwitch.value
+        : "online";
+      saveSession();
+    });
     teacherActivityModeSelect.addEventListener("change", () => {
       currentActivityMode = teacherActivityModeSelect.value === "distance" ? "distance" : "online";
       if (isTeacher) {
@@ -1683,7 +1873,7 @@
     btnStudentGoogleLogin.addEventListener("click", async () => {
       hideMessage(loginMessage);
       btnStudentGoogleLogin.disabled = true;
-      btnStudentGoogleLogin.textContent = "Accesso Google…";
+             btnStudentGoogleLogin.setAttribute("aria-label", "Accesso Google in corso…");
       try {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: "select_account" });
@@ -1705,9 +1895,7 @@
         currentStudentPinVerified = false;
         currentGroup = match.groupId;
         currentName = match.student.nome;
-        currentActivityMode = ["online", "distance", "individual"].includes(activityModeSelect.value)
-          ? activityModeSelect.value
-          : "online";
+        currentActivityMode = "online";
         saveSession();
         showStudentUI();
         renderUnits(getStudentMaxUnit(currentGroup, currentName));
@@ -1717,49 +1905,9 @@
           : "Impossibile accedere con Google. Verifica che Google sia abilitato in Firebase Authentication.";
         showMessage(loginMessage, message, "error");
       } finally {
-        btnStudentGoogleLogin.textContent = "Accedi con Google";
+                 btnStudentGoogleLogin.setAttribute("aria-label", "Accedi con Google");
         updateStudentGoogleLoginButton();
       }
-    });
-
-    btnLogin.addEventListener("click", () => {
-      hideMessage(loginMessage);
-      const group = groupSelect.value;
-      const name = nameSelect.value;
-
-      if (!group || !GROUPS[group]) {
-        showMessage(loginMessage, "Seleziona un gruppo valido.", "error");
-        return;
-      }
-      if (!name) {
-        showMessage(loginMessage, "Seleziona il tuo nome.", "error");
-        return;
-      }
-
-      if (!getStudentRecord(group, name)) {
-        showMessage(loginMessage, "Nome non trovato in questo gruppo.", "error");
-        return;
-      }
-
-      const groupName = GROUPS[group].nome || group;
-      const submittedPin = studentPinInput.value.trim();
-      if (groupName === "Cremona" && STUDENT_PINS[name] !== submittedPin) {
-        showMessage(loginMessage, "PIN errato per lo studente selezionato. Riprova.", "error");
-        return;
-      }
-
-      isTeacher = false;
-      currentTeacher = null;
-      currentStudentPinVerified = groupName === "Cremona";
-      currentGroup = group;
-      currentName = name;
-      currentActivityMode = ["online", "distance", "individual"].includes(activityModeSelect.value)
-        ? activityModeSelect.value
-        : "online";
-      saveSession();
-
-      showStudentUI();
-      renderUnits(getStudentMaxUnit(group, name));
     });
 
     btnTeacherLogin.addEventListener("click", async () => {
@@ -1825,15 +1973,19 @@
       }
     });
 
-    switchToTeacher.addEventListener("click", () => {
-      loginPanel.classList.add("hidden");
-      teacherPanel.classList.remove("hidden");
-      hideMessage(loginMessage);
-    });
+    if (switchToTeacher) {
+      switchToTeacher.addEventListener("click", () => {
+        loginPanel.classList.add("hidden");
+        teacherPanel.classList.remove("hidden");
+        loginVisual.dataset.role = "teacher";
+        hideMessage(loginMessage);
+      });
+    }
 
     switchToStudent.addEventListener("click", () => {
       teacherPanel.classList.add("hidden");
       loginPanel.classList.remove("hidden");
+      loginVisual.dataset.role = "student";
       hideMessage(teacherMessage);
     });
 
