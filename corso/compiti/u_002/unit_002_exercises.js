@@ -114,7 +114,7 @@ window.HOMEWORK_EXERCISES_CATALOG["2"] = {
       title: "1.7 Rispondi sul racconto / Ответь по рассказу",
       instructions: "Rispondi con frasi complete. Risposta aperta: revisione dell’insegnante. / Ответь полными предложениями. Открытый ответ проверяет преподаватель.",
       items: [
-        { id: "r1", title: "La mamma e Marco", prompt: "Dove sono la mamma e Marco? Dove si trova ciascuno?" },
+        { id: "r1", title: "La mamma e Marco", prompt: "Dove sono la mamma e Marco?" },
         { id: "r2", title: "Le richieste di Marco", prompt: "Che cosa chiede Marco quando ha sete, fame e freddo?" },
         { id: "r3", title: "La paura", prompt: "Che cosa dice la madre quando Marco ha paura?" }
       ]
