@@ -854,9 +854,20 @@
       </p>
       <div id="group-editor-list"></div>
       <h3 style="color: var(--green); margin: 24px 0 10px;">Studenti del gruppo</h3>
-      <form id="add-student-form" class="group-editor">
-        <label for="new-student-name">Aggiungi studente</label>
-        <input id="new-student-name" type="text" maxlength="80" placeholder="Nome e cognome" required>
+      <form id="add-student-form" class="student-action-card">
+        <h4>Aggiungi studente</h4>
+        <div class="form-group">
+          <label for="new-student-name">Nome usato nelle lezioni</label>
+          <input id="new-student-name" type="text" maxlength="80" placeholder="Nome" autocomplete="given-name" required>
+        </div>
+        <div class="form-group">
+          <label for="new-student-full-name">Nome completo</label>
+          <input id="new-student-full-name" type="text" maxlength="120" placeholder="Nome e cognome" autocomplete="name" required>
+        </div>
+        <div class="form-group">
+          <label for="new-student-email">Email Google dello studente</label>
+          <input id="new-student-email" type="email" maxlength="254" placeholder="nome@example.com" autocomplete="email" required>
+        </div>
         <button type="submit" class="btn-secondary">Aggiungi</button>
       </form>
       <div class="student-actions-grid">
@@ -961,6 +972,7 @@
       5:  { title: "Un appartamento per Alikhan", path: "u_005", file: "005_lettura.html" },
       6:  { title: "Il mio migliore amico", path: "u_006" },
       7:  { title: "La macchina", path: "u_007" },
+      8:  { title: "Un bravo impiegato", path: "u_008" },
       10: { title: "La borsa rossa",        path: "u_010" },
       11: { title: "La casalinga",           path: "u_011" },
       13: { title: "Il grande scrittore",   path: "u_013" },
@@ -1113,6 +1125,8 @@
     const groupEditorList = document.getElementById("group-editor-list");
     const addStudentForm = document.getElementById("add-student-form");
     const newStudentName = document.getElementById("new-student-name");
+    const newStudentFullName = document.getElementById("new-student-full-name");
+    const newStudentEmail = document.getElementById("new-student-email");
     const deactivateStudentForm = document.getElementById("deactivate-student-form");
     const deactivateStudentSelect = document.getElementById("deactivate-student-select");
     const studentAccessLimit = document.getElementById("student-access-limit");
@@ -1836,21 +1850,24 @@
       addStudentForm.onsubmit = async event => {
         event.preventDefault();
         const name = newStudentName.value.trim();
-        if (!name) return;
+        const fullName = newStudentFullName.value.trim();
+        const email = newStudentEmail.value.trim().toLowerCase();
+        if (!name || !fullName || !email) return;
         if (group.attivo === false) {
           showMessage(editorMessage, "Riattiva il gruppo prima di aggiungere studenti.", "error");
           return;
         }
         const exists = [...(group.studenti || []), ...(group.studentiInattivi || [])]
-          .some(student => student.nome.toLocaleLowerCase("it") === name.toLocaleLowerCase("it"));
+          .some(student => student.nome.toLocaleLowerCase("it") === name.toLocaleLowerCase("it") ||
+            student.email?.trim().toLowerCase() === email);
         if (exists) {
-          showMessage(editorMessage, "Esiste già uno studente con questo nome: ripristinalo dall’archivio se necessario.", "error");
+          showMessage(editorMessage, "Esiste già uno studente con questo nome o questa email nel gruppo.", "error");
           return;
         }
-        group.studenti.push({ nome: name });
+        group.studenti.push({ nome: name, nomeCompleto: fullName, email });
         try {
           await saveCurrentGroup();
-          newStudentName.value = "";
+          addStudentForm.reset();
           showMessage(editorMessage, `${name} aggiunto al gruppo.`, "success");
           buildTeacherEditor();
           populateGroups();
