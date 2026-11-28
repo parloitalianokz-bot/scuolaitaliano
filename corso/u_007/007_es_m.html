@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Produzione orale: racconta la tua esperienza con la macchina e gli spostamenti in città, Unità 7, Esercizio M." />
+  <title>Unità 7 — Racconta la tua esperienza · Esercizio M</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/speech-exercise.css?v=3" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="007_es_m">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio M</span>
+      <h1>Racconta la tua esperienza</h1>
+      <p class="hero-subtitle">Produzione orale · La macchina e gli spostamenti in città</p>
+    </header>
+
+    <section class="instruction-box" aria-label="Consegna">
+      <div class="instruction-title">🎙️ Задание · Esercizio M</div>
+      <div class="instruction-text" lang="ru">
+        Подготовь небольшой рассказ о себе, используя вопросы ниже как план. Не отвечай на них по отдельности и не ограничивайся «да» или «нет»: постарайся связать мысли в единый текст. Если у тебя нет машины, расскажи о машине твоей семьи или о машине, которую ты хотел(а) бы купить.
+        <br /><span lang="it"><strong>Prepara un breve racconto su di te usando le domande come traccia.</strong> Non rispondere una domanda alla volta: collega le idee in un testo. Se non hai la macchina, racconta di quella della tua famiglia o di quella che vorresti comprare. Puoi parlare al microfono oppure scrivere.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Produzione orale sulla macchina e gli spostamenti">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento del racconto" hidden></nav>
+      <div id="questions-container"></div>
+      <nav id="slide-navigation" class="slide-navigation" aria-label="Navigazione della scheda">
+        <button id="previous-question" type="button" hidden>← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite" hidden></span>
+        <button id="next-question" type="button" hidden>Successiva →</button>
+      </nav>
+    </section>
+
+    <p class="bottom-nav"><a href="007_es_l.html">← Torna all’esercizio L</a></p>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/speech-exercise.js?v=3"></script>
+  <script>
+    ParloSpeechExercise.init({
+      unitNumber: 7,
+      exercisePath: "007_es_m",
+      lang: "it-IT",
+      cards: [
+        {
+          key: "racconta-la-tua-esperienza",
+          title: "La macchina e i tuoi spostamenti",
+          intro: "Segui le domande per preparare un racconto personale e coerente. Usa connettivi come e, ma, perché, di solito e quando.",
+          starter: "Nella mia famiglia c’è… / Io ho… / Non ho la macchina, ma…",
+          prompts: [
+            "Hai la macchina? In alternativa: c’è una macchina nella tua famiglia?",
+            "Che macchina è? Di che marca o modello?",
+            "Di che colore è?",
+            "È nuova o vecchia? È grande o piccola? È comoda?",
+            "Usi spesso la macchina?",
+            "Dove vai di solito in macchina: al lavoro, all’università, a fare la spesa o fuori città?",
+            "Dove lasci la macchina quando vai al lavoro o all’università: nel parcheggio o per strada?",
+            "Dove lasci la macchina quando torni a casa: in garage o nel cortile?",
+            "Nella tua città c’è molto traffico?",
+            "Che cosa fai quando sei in un ingorgo? Ascolti musica, parli al telefono? Sei nervoso/a o calmo/a come il dottor Donelli?"
+          ]
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

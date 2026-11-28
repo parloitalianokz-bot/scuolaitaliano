@@ -1,0 +1,44 @@
+/* Schede a fumetto per il motore riordino_s2s. */
+.s2s-card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(15px, 3vw, 24px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fff;
+}
+.s2s-heading { display: grid; gap: 12px; }
+.s2s-heading h2 { margin: 0; color: var(--primary-dark); font-size: 1.2rem; }
+.s2s-assignments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.s2s-assignment { display: grid; gap: 5px; color: var(--primary-dark); font-size: .86rem; font-weight: 800; }
+.s2s-assignment select { width: 100%; min-height: 42px; padding: 7px 10px; border: 1px solid #d8e5d8; border-radius: 10px; background: #fff; color: var(--text); font: inherit; }
+.s2s-turn-list { display: grid; gap: 15px; }
+.s2s-turn { display: flex; align-items: flex-start; gap: 9px; width: min(100%, 680px); }
+.s2s-turn-b { justify-self: end; flex-direction: row-reverse; margin-left: auto; }
+.s2s-avatar { display: grid; flex: 0 0 42px; width: 42px; height: 42px; margin-top: 22px; place-items: center; border: 2px solid; border-radius: 50%; font-size: 1.35rem; }
+.s2s-avatar-a { border-color: #85b9a0; background: #e6f4eb; }
+.s2s-avatar-b { border-color: #d9a18b; background: #fff0e9; }
+.s2s-turn-content { display: grid; gap: 6px; min-width: 0; width: min(100%, 560px); }
+.s2s-turn-b .s2s-turn-content { justify-items: end; }
+.s2s-speaker { color: var(--primary-dark); font-size: .78rem; font-weight: 800; }
+.s2s-speaker-b { color: #934b34; }
+.s2s-bubble { position: relative; display: flex; min-height: 54px; flex-wrap: wrap; align-items: center; gap: 6px; width: 100%; padding: 12px; border: 1px solid #c7dfd0; border-radius: 17px 17px 17px 5px; background: #eff8f1; }
+.s2s-bubble-b { border-color: #e7c6b8; border-radius: 17px 17px 5px 17px; background: #fff4ee; }
+.s2s-placeholder { color: #68766a; font-size: .9rem; font-style: italic; }
+.s2s-bank-label { color: var(--text-muted); font-size: .78rem; font-weight: 700; }
+.s2s-word-bank { display: flex; flex-wrap: wrap; gap: 6px; min-height: 34px; }
+.s2s-token { min-height: 36px; padding: 6px 10px; border: 1px solid #cbdccf; border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
+.s2s-token:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+.s2s-token-in-bubble { min-height: 34px; padding: 5px 9px; }
+.s2s-bubble-b .s2s-token-in-bubble { border-color: #e7c6b8; color: #783d2c; }
+.s2s-token:disabled { cursor: not-allowed; opacity: .75; }
+.s2s-feedback { min-height: 1.2em; color: var(--primary-dark); font-size: .82rem; font-weight: 700; }
+.s2s-verify { justify-self: start; min-height: 38px; padding: 7px 12px; border: 0; border-radius: 9px; background: var(--primary); color: #fff; font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; }
+.s2s-verify:hover:not(:disabled) { background: var(--primary-dark); }
+.s2s-verify:disabled { cursor: not-allowed; opacity: .5; }
+@media (max-width: 600px) {
+  .s2s-assignments { grid-template-columns: 1fr; }
+  .s2s-turn { gap: 6px; }
+  .s2s-avatar { flex-basis: 34px; width: 34px; height: 34px; font-size: 1.1rem; }
+  .s2s-bubble { padding: 9px; }
+}

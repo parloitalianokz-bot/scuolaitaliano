@@ -23,6 +23,13 @@
     const teacherControls = document.getElementById("teacher-controls");
     const questionSelect = document.getElementById("question-writer-select");
     const answerSelect = document.getElementById("answer-writer-select");
+    const assignmentLabels = Array.isArray(config.assignmentLabels) ? config.assignmentLabels : [];
+    [[questionSelect, assignmentLabels[0]], [answerSelect, assignmentLabels[1]]].forEach(([select, text]) => {
+      if (!select || !text) return;
+      const label = select.closest("label");
+      const textNode = [...(label?.childNodes || [])].find(node => node.nodeType === Node.TEXT_NODE);
+      if (textNode) textNode.textContent = `${text}\n        `;
+    });
     const identity = session.name ? { role: isTeacher ? "teacher" : "student", name: String(isTeacher ? (session.teacherName || session.name) : session.name) } : null;
     const group = cleanKey(session.safeGroup || "sconosciuto");
     const slots = cards.flatMap((card, index) => [
@@ -84,6 +91,7 @@
     }
 
     function createPanel(index, field, heading, placeholder) {
+      const card = cards[index];
       const panel = document.createElement("section");
       panel.className = "answer-panel";
       const title = document.createElement("h2");
@@ -98,6 +106,44 @@
       label.htmlFor = input.id;
       label.textContent = heading;
       const toolbar = createToolbar(input);
+      const bubblePrompts = config.dialogueBubbles
+        ? (field === "ans1" ? card.questionPrompts : card.answerPrompts) || []
+        : [];
+      const bubbleInputs = [];
+      let bubbleGroup = null;
+      if (bubblePrompts.length) {
+        input.hidden = true;
+        toolbar.hidden = true;
+        bubbleGroup = document.createElement("div");
+        bubbleGroup.className = `dialogue-bubbles ${field === "ans1" ? "question-bubbles" : "answer-bubbles"}`;
+        bubblePrompts.forEach((cue, bubbleIndex) => {
+          const bubble = document.createElement("div");
+          bubble.className = `dialogue-bubble ${field === "ans1" ? "question-bubble" : "answer-bubble"}`;
+          const bubbleLabel = document.createElement("label");
+          const bubbleInput = document.createElement("textarea");
+          bubbleInput.id = `bubble-${field}-${index}-${bubbleIndex}`;
+          bubbleInput.className = "bubble-input";
+          bubbleInput.rows = 2;
+          bubbleLabel.htmlFor = bubbleInput.id;
+          bubbleLabel.textContent = `${field === "ans1" ? "Domanda" : "Risposta"} ${bubbleIndex + 1}`;
+          bubble.appendChild(bubbleLabel);
+          if (String(cue || "").trim()) {
+            const cueText = document.createElement("p");
+            cueText.className = "bubble-cue";
+            cueText.lang = field === "ans1" ? "ru" : "it";
+            cueText.textContent = String(cue);
+            bubble.appendChild(cueText);
+          }
+          bubble.appendChild(bubbleInput);
+          bubbleGroup.appendChild(bubble);
+          bubbleInputs.push(bubbleInput);
+          bubbleInput.addEventListener("input", () => {
+            input.value = bubbleInputs.map(item => item.value).join("\\n");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+          });
+          bubbleInput.addEventListener("blur", () => input.dispatchEvent(new Event("blur")));
+        });
+      }
       const writerStatus = addPresenceLine(panel, field);
       const submit = document.createElement("button");
       submit.type = "button";
@@ -115,6 +161,7 @@
             timestamp: firebase.database.ServerValue.TIMESTAMP
           }, slotId(index, field));
           await sync.write("draft", "", slotId(index, field));
+          bubbleInputs.forEach(bubbleInput => { bubbleInput.value = ""; });
           setStatus(`Contributo inviato per ${cards[index].name || `la scheda ${index + 1}`}.`);
         } catch (error) {
           setStatus(`Invio non riuscito: ${error?.message || "controlla la connessione e riprova"}`, true);
@@ -145,12 +192,13 @@
       const contributionList = document.createElement("div");
       contributionList.className = "contribution-list";
       contributions.append(contributionsHeading, contributionList);
-      panel.append(title, label, toolbar, input, writerStatus, submit, contributions);
+      if (bubbleGroup) panel.append(title, label, bubbleGroup, input, writerStatus, submit, contributions);
+      else panel.append(title, label, toolbar, input, writerStatus, submit, contributions);
       if (independent) {
         submit.hidden = true;
         contributions.hidden = true;
       }
-      return { panel, input, toolbar, writerStatus, submit, contributionList, contributions };
+      return { panel, input, toolbar, bubbleInputs, writerStatus, submit, contributionList, contributions };
     }
 
     function makeImageHeader(card, index) {
@@ -194,8 +242,8 @@
       reviewGroup.className = "answer-review-group";
       const columns = document.createElement("div");
       columns.className = "answer-columns";
-      const first = createPanel(index, "ans1", "🗣️ Box sinistro · Formula le domande", "Es.: Chi è? Di dov’è? Quanti anni ha?");
-      const second = createPanel(index, "ans2", "💬 Box destro · Scrivi le risposte", "Scrivi risposte complete in italiano...");
+      const first = createPanel(index, "ans1", card.firstPanelHeading || config.firstPanelHeading || "🗣️ Box sinistro · Formula le domande", card.firstPanelPlaceholder || config.firstPanelPlaceholder || "Es.: Chi è? Di dov’è? Quanti anni ha?");
+      const second = createPanel(index, "ans2", card.secondPanelHeading || config.secondPanelHeading || "💬 Box destro · Scrivi le risposte", card.secondPanelPlaceholder || config.secondPanelPlaceholder || "Scrivi risposte complete in italiano...");
       columns.append(first.panel, second.panel);
       reviewGroup.appendChild(columns);
       slide.appendChild(reviewGroup);
@@ -256,7 +304,7 @@
         const groupOption = document.createElement("optgroup");
         groupOption.label = label;
         list.forEach(person => {
-          if (other?.role === person.role && other?.name === person.name && current !== identityKey(person)) return;
+          if (config.allowSameAssignee !== true && other?.role === person.role && other?.name === person.name && current !== identityKey(person)) return;
           groupOption.appendChild(new Option(`${onlineStudents.has(person.name) ? "🟢 " : ""}${person.name}`, identityKey(person)));
         });
         if (groupOption.children.length) options.push(groupOption);
@@ -270,7 +318,7 @@
       if (assigned?.role === "teacher") {
         const teacherGroup = document.createElement("optgroup");
         teacherGroup.label = "👩‍🏫 Insegnante";
-        teacherGroup.appendChild(new Option(assigned.name, identityKey(assigned)));
+        teacherGroup.appendChild(new Option(assigned.name, current));
         options.push(teacherGroup);
       }
       select.replaceChildren(...options);
@@ -288,7 +336,7 @@
           let target = null;
           try { target = select.value ? JSON.parse(select.value) : null; } catch (_) {}
           const other = sync.assignmentFor(slotId(active, field === "ans1" ? "ans2" : "ans1"));
-          if (target && other && target.role === other.role && target.name === other.name) {
+          if (config.allowSameAssignee !== true && target && other && target.role === other.role && target.name === other.name) {
             setStatus("Assegna i due turni a studenti diversi.", true);
             updateUI();
             return;
@@ -337,6 +385,16 @@
         const editable = canEdit(index, field);
         const currentDraft = draft(index, field);
         if (document.activeElement !== input && input.value !== currentDraft) input.value = currentDraft;
+        if (fieldUI.bubbleInputs?.length) {
+          const values = input.value.split("\\n");
+          fieldUI.bubbleInputs.forEach((bubbleInput, bubbleIndex) => {
+            if (document.activeElement !== bubbleInput && bubbleInput.value !== (values[bubbleIndex] || "")) {
+              bubbleInput.value = values[bubbleIndex] || "";
+            }
+            bubbleInput.readOnly = isTeacher && independent;
+            bubbleInput.disabled = !editable && !(isTeacher && independent);
+          });
+        }
         input.readOnly = isTeacher && independent;
         input.disabled = !editable && !(isTeacher && independent);
         fieldUI.toolbar.querySelectorAll("button").forEach(button => { button.disabled = !editable; });
@@ -349,8 +407,8 @@
         renderContributions(fieldUI, index, field);
       });
       const status = item.assignmentStatus;
-      status.textContent = independent ? (isTeacher ? "Lavoro individuale dello studente selezionato." : "Compila entrambi i box: le risposte sono salvate nel tuo spazio personale.")
-        : writerNames.length ? `Turni assegnati: ${writerNames.join(" e ")}.` : "L’insegnante assegna un turno diverso per ciascun box.";
+      status.textContent = independent ? (isTeacher ? "Lavoro individuale dello studente selezionato." : "Compila entrambi i ruoli: le risposte sono salvate nel tuo spazio personale.")
+        : writerNames.length ? `Turni assegnati: ${writerNames.join(" e ")}.` : "L’insegnante assegna i ruoli per questo dialogo.";
       item.slide.classList.toggle("active", index === active);
       const step = progress.children[index];
       const completed = independent

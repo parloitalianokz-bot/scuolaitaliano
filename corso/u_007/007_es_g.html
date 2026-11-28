@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crea mini-dialoghi con il verbo andare a partire dagli indizi, Unità 7." />
+  <title>Unità 7 — La macchina · Esercizio G</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    [hidden] { display:none !important; }
+    main { width:min(100% - 24px, 900px); margin:24px auto; }
+    .hero,.instruction-box,.teacher-controls,.card { border:1px solid var(--border); border-radius:20px; background:rgba(255,254,250,.96); box-shadow:0 10px 28px rgba(43,69,46,.07); }
+    .hero { margin:8px 0 18px; padding:26px 20px; text-align:center; }
+    .eyebrow { color:var(--primary-dark); font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .hero h1 { margin:7px 0; color:var(--primary-dark); }
+    .hero-subtitle { margin:0; color:var(--text-muted); line-height:1.5; }
+    .instruction-box { margin-bottom:16px; padding:15px 18px; border-left:5px solid var(--accent); line-height:1.55; }
+    .instruction-title { margin-bottom:5px; color:var(--primary-dark); font-size:.82rem; font-weight:800; text-transform:uppercase; }
+    .teacher-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-bottom:16px; padding:14px 18px; }
+    .assignment-field { display:grid; gap:6px; color:var(--primary-dark); font-size:.9rem; font-weight:800; }
+    .assignment-select { width:100%; min-height:40px; padding:7px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--primary-dark); font:inherit; }
+    .card { padding:clamp(16px,4vw,28px); }
+    .progress-label { margin:0 0 10px; color:var(--text-muted); font-size:.9rem; font-weight:700; }
+    .overall-progress { display:flex; gap:6px; overflow-x:auto; margin:0 0 14px; padding:2px 1px 9px; }
+    .progress-step,.nav-btn { min-width:40px; min-height:40px; padding:7px 11px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--primary-dark); font:inherit; font-weight:700; cursor:pointer; }
+    .progress-step { flex:0 0 38px; min-width:38px; min-height:38px; padding:4px; }
+    .progress-step[aria-current="step"] { background:var(--primary-dark); color:#fff; }
+    .progress-step.done { border-color:#6ab082; background:#e5f5ea; color:#17623c; }
+    .dialogue-slide { display:none; flex-direction:column; gap:14px; padding:clamp(15px,3vw,23px); border:1px solid var(--border); border-radius:17px; background:#fff; }
+    .dialogue-slide.active { display:flex; }
+    .person-header { padding-bottom:12px; border-bottom:2px solid var(--primary-light); }
+    .person-title { display:block; color:var(--primary-dark); font-size:1.08rem; font-weight:800; line-height:1.5; }
+    .assignment-status { margin:0; padding:10px 12px; border-radius:10px; background:var(--primary-light); color:var(--primary-dark); font-size:.9rem; font-weight:700; line-height:1.5; }
+    .answer-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-items:start; }
+    .answer-panel { min-width:0; padding:14px; border:1px solid var(--border); border-radius:14px; background:#f8faf6; }
+    .answer-panel h2 { margin:0 0 9px; color:var(--primary-dark); font-size:1rem; line-height:1.45; }
+    .answer-input { width:100%; min-height:126px; padding:11px 12px; border:1.5px solid #d4e1d5; border-radius:10px; background:#fff; color:var(--text); font:inherit; line-height:1.5; resize:vertical; }
+    .answer-input:disabled,.answer-input[readonly] { background:#f2f5f1; color:#475569; }
+    .accent-toolbar { display:flex; flex-wrap:wrap; gap:5px; margin:0 0 8px; }
+    .accent-toolbar button { min-width:35px; min-height:32px; padding:3px 8px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--primary-dark); font:inherit; font-weight:700; cursor:pointer; }
+    .accent-toolbar button:disabled { cursor:not-allowed; opacity:.5; }
+    .submit-answer { display:block; min-height:40px; margin:9px 0 0 auto; padding:8px 14px; border:0; border-radius:10px; background:var(--primary); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .submit-answer:disabled { cursor:not-allowed; opacity:.5; }
+    .contributions { display:grid; gap:8px; margin-top:13px; }
+    .contributions h3 { margin:0; color:var(--primary-dark); font-size:.95rem; }
+    .contribution-list { display:grid; gap:8px; }
+    .contribution { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+    .contribution-meta { display:block; margin-bottom:5px; color:var(--text-muted); font-size:.8rem; font-weight:700; }
+    .contribution-text { white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.5; }
+    .empty-message { margin:0; color:var(--text-muted); font-size:.9rem; }
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .suggestion { padding:10px 13px; border:1px solid var(--border); border-radius:11px; background:#fbfdf9; line-height:1.55; }
+    .suggestion summary { color:var(--primary-dark); font-weight:800; cursor:pointer; }
+    .suggestion p { margin:8px 0 0; }
+    .slide-navigation { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:15px; padding-top:13px; border-top:1px solid var(--border); }
+    .slide-progress { color:var(--primary-dark); font-size:.9rem; font-weight:800; text-align:center; }
+    .nav-btn:disabled { cursor:not-allowed; opacity:.45; }
+    .save-status { margin:12px 0 0; padding:10px 12px; border-radius:10px; background:#e1f1e5; color:#17623c; font-size:.9rem; font-weight:700; }
+    .save-status.error { background:#fde8e7; color:#991b1b; }
+    @media(max-width:650px) { .answer-columns,.teacher-controls { grid-template-columns:1fr; } .slide-navigation { flex-wrap:wrap; } .nav-btn { flex:1; } }
+  </style>
+</head>
+<body data-page-key="007_es_g" data-next-href="007_es_h.html" data-next-label="Vai all’esercizio H →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio G</span>
+      <h1>La macchina</h1>
+      <p class="hero-subtitle">Создайте мини-диалоги по подсказкам, используя глагол <em>andare</em>.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio G</div>
+      <div><strong>Составьте диалог из трёх реплик по подсказкам на карточке.</strong> Персонаж A произносит первую и третью реплики, персонаж B задаёт вопрос. Учитель распределяет роли; если вы занимаетесь самостоятельно, составьте обе части. Отправьте реплики на итальянском, каждую с новой строки.</div>
+    </section>
+
+    <section id="teacher-controls" class="teacher-controls" hidden aria-label="Assegnazione dei personaggi">
+      <label class="assignment-field" for="question-writer-select">Personaggio A · battute 1 e 3
+        <select id="question-writer-select" class="assignment-select"><option value="">— Nessuno assegnato —</option></select>
+      </label>
+      <label class="assignment-field" for="answer-writer-select">Personaggio B · battuta 2
+        <select id="answer-writer-select" class="assignment-select"><option value="">— Nessuno assegnato —</option></select>
+      </label>
+    </section>
+
+    <section class="card" aria-label="Schede dei mini-dialoghi">
+      <p class="progress-label">Avanzamento · Seleziona un dialogo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Vai direttamente a un dialogo"></nav>
+      <div id="slides-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei dialoghi">
+        <button id="previous-slide" class="nav-btn" type="button">← Precedente</button>
+        <span id="slide-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-slide" class="nav-btn" type="button">Successiva →</button>
+      </nav>
+      <p id="save-status" class="save-status" role="status" aria-live="polite" hidden></p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/s2s.js?v=2"></script>
+  <script>
+    ParloS2S.init({
+      unitNumber: 7,
+      exercisePath: "007_es_g_s2s",
+      allowSameAssignee: true,
+      assignmentLabels: ["Personaggio A · battute 1 e 3", "Personaggio B · battuta 2"],
+      firstPanelHeading: "🗣️ Personaggio A · battute 1 e 3",
+      secondPanelHeading: "💬 Personaggio B · battuta 2",
+      firstPanelPlaceholder: "Scrivi la prima e la terza battuta, una per riga...",
+      secondPanelPlaceholder: "Scrivi la domanda per Personaggio A...",
+      studentHint: "Сначала составь первую реплику с глаголом andare: vado, vai, va, andiamo, andate, vanno. Во второй реплике спроси о подсказке: Dove? Con chi? Come? Quando? Perché? В третьей реплике ответь полным предложением. Для уже названного места используй ci: Ci vado in autobus. Не забывай согласовать глагол с подлежащим.",
+      teacherHint: "Assegnate Personaggio A (prima e terza battuta) e Personaggio B (domanda); se il gruppo ha un solo studente, assegnate entrambi i ruoli alla stessa persona. Lasciate che gli studenti scelgano la domanda adatta all’indizio (Dove? Con chi? Come? Quando? Perché?) e la forma corretta di andare.",
+      cards: [
+        { id:"g3", name:"Marco — in palestra — con un’amica" },
+        { id:"g5", name:"Noi — a passeggiare — con il cane" },
+        { id:"g8", name:"L’avvocato — in banca — in autobus" },
+        { id:"g9", name:"Noi — fuori città — per fare un bel picnic" },
+        { id:"g10", name:"Io e Giorgio — in discoteca — con Marco" },
+        { id:"g11", name:"Io — in centro — in metropolitana" },
+        { id:"g12", name:"Giovanni — in ufficio — in motorino" },
+        { id:"g13", name:"La signora Rossi — a fare la spesa — ogni giovedì" },
+        { id:"g14", name:"Noi — al mare — in treno" },
+        { id:"g15", name:"I tuoi genitori — in campagna — per riposare" },
+        { id:"g16", name:"Mario — a lavorare — in autobus" },
+        { id:"g17", name:"I ragazzi — in centro — dopo la lezione di italiano" },
+        { id:"g18", name:"Io — in ufficio — in metropolitana" },
+        { id:"g19", name:"Il dottor Rossi — in centro — con l’avvocato" },
+        { id:"g21", name:"I ragazzi — a casa — per pranzare" },
+        { id:"g22", name:"La nuova segretaria — in ufficio — con il direttore" },
+        { id:"g23", name:"La signora Rossi — a comprare il pane — in macchina" },
+        { id:"g24", name:"Io — a casa — con tuo fratello" },
+        { id:"g25", name:"La segretaria — a spedire una lettera — in taxi" },
+        { id:"g26", name:"Noi — al mare — l’estate prossima" },
+        { id:"g27", name:"Io — in campagna — in motorino" },
+        { id:"g28", name:"Il nonno — a comprare il giornale — la domenica mattina" },
+        { id:"g29", name:"I turisti — in albergo — in taxi" },
+        { id:"g30", name:"Io — a lavorare — tutti i giorni" }
+      ]
+    });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

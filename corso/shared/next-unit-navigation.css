@@ -1,0 +1,5 @@
+.next-unit-navigation { display: grid; gap: .65rem; margin: 1.25rem 0 0; padding: 1rem; border: 1px solid var(--border); border-radius: 14px; background: rgba(255, 254, 250, .88); }
+.next-unit-link, .next-unit-enable { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; padding: .7rem 1rem; border: 0; border-radius: 10px; background: #426b4b; color: #fff; font: inherit; font-weight: 700; text-align: center; text-decoration: none; }
+.next-unit-link[aria-disabled="true"], .next-unit-enable:disabled { background: #e5e8e3; color: #656a64; cursor: not-allowed; }
+.next-unit-enable { cursor: pointer; }
+.next-unit-status { margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }

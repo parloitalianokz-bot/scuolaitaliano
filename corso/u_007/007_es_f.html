@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Riordina le parole per ricostruire otto mini-dialoghi, Unità 7." />
+  <title>Unità 7 — La macchina · Esercizio F</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <link rel="stylesheet" href="../shared/riordino-s2s.css?v=1" />
+  <style>
+    .mode-note { margin: 0 0 16px; padding: 11px 15px; border: 1px solid #d8e5d8; border-radius: 12px; background: rgba(255,254,250,.94); color: var(--primary-dark); font-size: .9rem; line-height: 1.5; }
+    .dialogue-tips { margin: 0 0 18px; border: 1px solid var(--border); border-radius: 13px; background: rgba(255,254,250,.96); }
+    .dialogue-tips summary { padding: 12px 15px; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .dialogue-tips-body { padding: 0 16px 13px; line-height: 1.55; }
+    .dialogue-tips-body ul { margin: 0; padding-left: 22px; }
+  </style>
+</head>
+<body data-page-key="007_es_f" data-next-href="007_es_g.html" data-next-label="Vai all’esercizio G →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio F</span>
+      <h1>La macchina</h1>
+      <p class="hero-subtitle">Ricostruisci gli otto mini-dialoghi riordinando le parole.</p>
+    </header>
+
+    <p id="mode-note" class="mode-note" role="status" aria-live="polite"></p>
+
+    <section class="instruction-box" lang="ru">
+      <div class="instruction-title">💡 Задание · Esercizio F</div>
+      <div class="instruction-text">👉 <strong>Восстановите мини-диалоги, расставляя слова в правильном порядке.</strong> Каждый диалог открывается на отдельной карточке. Учитель распределяет персонажей A и B; нажимайте на слова в облачках, чтобы составить свою реплику. Чтобы вернуть слово, нажмите на него в облачке, затем проверьте ответ.</div>
+    </section>
+
+    <details class="dialogue-tips">
+      <summary>📌 Suggerimenti</summary>
+      <div class="dialogue-tips-body" lang="ru">
+        <ul>
+          <li>На каждой карточке три реплики, которые вместе образуют один мини-диалог.</li>
+          <li><strong>Ci</strong> заменяет уже названное место и означает «туда»: <em>Vado in biblioteca. Perché ci vai? Ci vado per studiare.</em></li>
+          <li>Обращайте внимание на лицо и число глагола: <em>vado / vai</em>, <em>andiamo / andate</em>, <em>va / vanno</em>.</li>
+          <li>Когда составите фразу, нажмите «Verifica battuta».</li>
+        </ul>
+      </div>
+    </details>
+
+    <section class="card" aria-label="Mini-dialoghi da ricostruire">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona un dialogo:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento dei dialoghi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione dei dialoghi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="007_es_g.html" hidden>Vai all’esercizio G →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/riordino-s2s.js?v=1"></script>
+  <script>
+    const session = window.ParloSession || {};
+    const teacherView = Boolean(session.isTeacher);
+    const modeDescriptions = {
+      online: teacherView
+        ? "💬 Modalità online: assegna Personaggio A e B per ogni dialogo. Puoi assegnare entrambi i ruoli allo stesso studente."
+        : "💬 Modalità online: riordina le battute del personaggio che ti è stato assegnato; il dialogo si aggiorna in tempo reale.",
+      distance: teacherView
+        ? "🎙️ Modalità a distanza: gli studenti lavorano individualmente e i progressi sono disponibili per la revisione."
+        : "🎙️ Modalità a distanza: esercitati con entrambi i personaggi; le battute sono salvate per la revisione dell’insegnante.",
+      individual: teacherView
+        ? "🏋️ Modalità allenamento: lo studente lavora nel proprio spazio personale."
+        : "🏋️ Modalità allenamento: esercitati autonomamente con entrambi i personaggi."
+    };
+    document.getElementById("mode-note").textContent = modeDescriptions[session.activityMode] || modeDescriptions.online;
+
+    const line = (id, role, correctOrder, words) => ({ id, role, correctOrder, words });
+    const dialogues = [
+      { id: "compagnia", title: "Dialogo 1 · La compagnia", lines: [
+        line("compagnia_1", "A", ["Andiamo", "in", "centro", "con", "gli", "amici."], ["gli", "centro", "Andiamo", "amici.", "con", "in"]),
+        line("compagnia_2", "B", ["Come", "ci", "andate?"], ["andate?", "ci", "Come"]),
+        line("compagnia_3", "A", ["Ci", "andiamo", "in", "metropolitana."], ["metropolitana.", "in", "andiamo", "Ci"])
+      ]},
+      { id: "trasporto", title: "Dialogo 2 · Il mezzo di trasporto", lines: [
+        line("trasporto_1", "A", ["Loro", "vanno", "al", "mare."], ["mare.", "vanno", "al", "Loro"]),
+        line("trasporto_2", "B", ["Come", "ci", "vanno?"], ["vanno?", "Come", "ci"]),
+        line("trasporto_3", "A", ["Ci", "vanno", "in", "macchina."], ["in", "Ci", "macchina.", "vanno"])
+      ]},
+      { id: "tempo", title: "Dialogo 3 · Il tempo", lines: [
+        line("tempo_1", "A", ["Domenica", "prossima", "vado", "al", "lago."], ["lago.", "prossima", "al", "Domenica", "vado"]),
+        line("tempo_2", "B", ["Con", "chi", "ci", "vai?"], ["vai?", "ci", "Con", "chi"]),
+        line("tempo_3", "A", ["Ci", "vado", "con", "il", "mio", "cane."], ["mio", "cane.", "Ci", "il", "con", "vado"])
+      ]},
+      { id: "scopo", title: "Dialogo 4 · Lo scopo", lines: [
+        line("scopo_1", "A", ["Vado", "in", "biblioteca."], ["biblioteca.", "Vado", "in"]),
+        line("scopo_2", "B", ["Perché", "ci", "vai?"], ["vai?", "Perché", "ci"]),
+        line("scopo_3", "A", ["Ci", "vado", "per", "studiare", "italiano."], ["italiano.", "per", "Ci", "studiare", "vado"])
+      ]},
+      { id: "renzi", title: "Dialogo 5 · Il dottor Renzi", lines: [
+        line("renzi_1", "A", ["Il", "dottor", "Renzi", "va", "in", "campagna."], ["campagna.", "Renzi", "in", "Il", "va", "dottor"]),
+        line("renzi_2", "B", ["Con", "chi", "ci", "va?"], ["va?", "chi", "ci", "Con"]),
+        line("renzi_3", "A", ["Ci", "va", "con", "la", "sua", "segretaria."], ["segretaria.", "la", "Ci", "sua", "con", "va"])
+      ]},
+      { id: "noi", title: "Dialogo 6 · Noi", lines: [
+        line("noi_1", "A", ["Andiamo", "a", "fare", "la", "spesa."], ["spesa.", "la", "Andiamo", "fare", "a"]),
+        line("noi_2", "B", ["Come", "ci", "andate?"], ["ci", "andate?", "Come"]),
+        line("noi_3", "A", ["Ci", "andiamo", "in", "autobus."], ["autobus.", "andiamo", "in", "Ci"])
+      ]},
+      { id: "salute", title: "Dialogo 7 · La salute", lines: [
+        line("salute_1", "A", ["Paolo", "va", "dal", "dottore."], ["dottore.", "dal", "Paolo", "va"]),
+        line("salute_2", "B", ["Perché", "ci", "va?"], ["ci", "va?", "Perché"]),
+        line("salute_3", "A", ["Perché", "ha", "mal", "di", "stomaco."], ["stomaco.", "mal", "Perché", "di", "ha"])
+      ]},
+      { id: "struzzo", title: "Dialogo 8 · Chiusura ironica", lines: [
+        line("struzzo_1", "A", ["Stasera", "vado", "al", "cinema."], ["cinema.", "al", "Stasera", "vado"]),
+        line("struzzo_2", "B", ["Con", "chi", "ci", "vai?"], ["ci", "Con", "vai?", "chi"]),
+        line("struzzo_3", "A", ["Ci", "vado", "con", "lo", "struzzo!"], ["struzzo!", "con", "Ci", "lo", "vado"])
+      ]}
+    ];
+
+    ParloRiordinoS2S.init({ unitNumber: 7, exercisePath: "007_es_f", dialogues });
+  </script>
+  <script src="../classroom-notes.js"></script>
+</body>
+</html>

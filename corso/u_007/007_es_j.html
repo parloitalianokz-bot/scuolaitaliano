@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parla delle tue abitudini usando la particella ci. Unità 7, Esercizio J." />
+  <title>Unità 7 — La macchina · Esercizio J</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .examples { margin-top: 12px; padding: 11px 14px; border-left: 4px solid var(--accent); border-radius: 9px; background: #f6f8f0; }
+    .examples p { margin: 4px 0; }
+    .question-translation { display: block; margin-top: 3px; color: var(--text-muted); font-size: .86em; font-weight: 400; }
+    .global-solutions { margin: 18px 0 0; padding: 16px; border: 1px solid #d7c28e; border-radius: 14px; background: #fff7dc; }
+    .global-solutions-toggle { min-height: 40px; padding: 8px 14px; border: 1px solid #70531d; border-radius: 999px; background: #70531d; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+    .global-solutions-list { margin: 14px 0 0; padding-left: 24px; line-height: 1.6; }
+    .global-solutions-list li + li { margin-top: 8px; }
+    .global-solutions-list strong { color: #70531d; }
+    .bottom-nav { margin: 22px 0; text-align: center; }
+    .bottom-nav a { color: var(--primary-dark); font-weight: 700; }
+  </style>
+</head>
+<body data-page-key="007_es_j" data-next-href="007_es_k.html" data-next-label="Vai all’esercizio K →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio J</span>
+      <h1>E tu? Parla della tua vita!</h1>
+      <p class="hero-subtitle">Rispondi in base alle tue abitudini, usando la particella <em>ci</em>.</p>
+    </header>
+
+    <section class="instruction-box" aria-label="Consegna">
+      <div class="instruction-title">💡 Задание · Esercizio J</div>
+      <div class="instruction-text">
+        <p lang="ru"><strong>Ответь на вопросы о своих привычках, используя частицу <em>ci</em>. Можно отвечать утвердительно или отрицательно.</strong></p>
+        <p>Scrivi una risposta completa. Online le risposte inviate sono condivise; a distanza vengono salvate per la revisione, mentre in allenamento restano nel tuo spazio personale.</p>
+        <div class="examples" aria-label="Esempi di risposta">
+          <p><strong>Vai spesso al cinema?</strong></p>
+          <p>→ Sì, <em>ci</em> vado quasi ogni sabato. / No, non <em>ci</em> vado quasi mai.</p>
+          <p><strong>Come vai al lavoro?</strong></p>
+          <p>→ <em>Ci</em> vado in autobus. / <em>Ci</em> vado a piedi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Domande per parlare della tua vita">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una domanda:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle domande"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle domande">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="007_es_k.html" hidden>Vai all’esercizio K →</a>
+      </nav>
+
+      <section id="global-solutions" class="global-solutions" aria-label="Possibili risposte" hidden>
+        <button id="global-solutions-toggle" class="global-solutions-toggle" type="button" aria-expanded="false">Vedi possibili risposte / Посмотреть возможные ответы</button>
+        <ol id="global-solutions-list" class="global-solutions-list" hidden></ol>
+      </section>
+    </section>
+
+    <p class="bottom-nav"><a href="007_es_i.html">← Torna all’esercizio I</a></p>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inbox-exercise.js?v=2"></script>
+  <script>
+    const questions = [
+      { key: "vacanze-questanno", title: "Quando vai in vacanza quest’anno?", translation: "Когда ты едешь в отпуск в этом году?", solution: "Ci vado ad agosto. / Non lo so ancora: forse ci vado in estate." },
+      { key: "vacanze-italia", title: "Quest’anno vai in vacanza in Italia?", translation: "Ты едешь в отпуск в Италию в этом году?", solution: "Sì, ci vado quest’anno. / No, quest’anno non ci vado." },
+      { key: "vacanze-mare", title: "Vai spesso in vacanza al mare?", translation: "Ты часто ездишь отдыхать на море?", solution: "Sì, ci vado spesso. / No, non ci vado quasi mai." },
+      { key: "tempo-casa", title: "Passi tanto tempo a casa?", translation: "Ты проводишь много времени дома?", solution: "Sì, ci passo molto tempo. / No, non ci passo molto tempo." },
+      { key: "cinema", title: "Vai spesso al cinema?", translation: "Ты часто ходишь в кино?", solution: "Sì, ci vado quasi ogni sabato. / No, non ci vado quasi mai." },
+      { key: "teatro", title: "Vai spesso a teatro?", translation: "Ты часто ходишь в театр?", solution: "Sì, ci vado qualche volta. / No, non ci vado spesso." },
+      { key: "lavoro-universita", title: "Come vai al lavoro o all’università?", translation: "Как ты добираешься на работу или в университет?", solution: "Ci vado in autobus. / Ci vado a piedi." },
+      { key: "fare-spesa", title: "Come vai a fare la spesa?", translation: "Как ты ходишь за покупками?", solution: "Ci vado a piedi. / Ci vado in macchina o in autobus." },
+      { key: "montagna", title: "Vai spesso in montagna a sciare o a passeggiare?", translation: "Ты часто ездишь в горы кататься на лыжах или гулять?", solution: "Sì, ci vado spesso a sciare o a passeggiare. / No, non ci vado spesso." },
+      { key: "centro-sabato", title: "Con chi vai in centro il sabato sera?", translation: "С кем ты ходишь в центр города в субботу вечером?", solution: "Ci vado con i miei amici. / Ci vado con mia sorella." },
+      { key: "bar-amici-colleghi", title: "Vai spesso al bar con gli amici o con i colleghi?", translation: "Ты часто ходишь в кафе с друзьями или коллегами?", solution: "Sì, ci vado spesso con i miei amici. / No, non ci vado spesso." },
+      { key: "citta-origine", title: "Torni spesso nella tua città d’origine o dai tuoi genitori?", translation: "Ты часто возвращаешься в родной город или к родителям?", solution: "Sì, ci torno spesso. / No, non ci torno molto spesso." }
+    ];
+
+    ParloInboxExercise.init({
+      unitNumber: 7,
+      exercisePath: "007_es_j",
+      questions
+    });
+
+    questions.forEach((question, index) => {
+      const item = document.createElement("li");
+      const title = document.createElement("strong");
+      title.textContent = `${index + 1}. ${question.title}`;
+      const answer = document.createElement("div");
+      answer.textContent = question.solution;
+      item.append(title, answer);
+      document.getElementById("global-solutions-list").appendChild(item);
+    });
+
+    const isPractice = window.ParloSession?.activityMode === "individual" && !window.ParloSession?.isTeacher;
+    const solutionsPanel = document.getElementById("global-solutions");
+    const solutionsButton = document.getElementById("global-solutions-toggle");
+    const solutionsList = document.getElementById("global-solutions-list");
+    if (isPractice) solutionsPanel.hidden = false;
+    solutionsButton.addEventListener("click", () => {
+      const isHidden = solutionsList.hidden;
+      solutionsList.hidden = !isHidden;
+      solutionsButton.setAttribute("aria-expanded", String(isHidden));
+      solutionsButton.textContent = isHidden
+        ? "Nascondi le possibili risposte / Скрыть возможные ответы"
+        : "Vedi possibili risposte / Посмотреть возможные ответы";
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".section-title").forEach((title, index) => {
+        const translation = questions[index]?.translation;
+        const textContainer = title.lastElementChild;
+        if (!translation || !textContainer) return;
+        textContainer.classList.add("question-title-copy");
+        const translated = document.createElement("span");
+        translated.className = "question-translation";
+        translated.lang = "ru";
+        translated.textContent = translation;
+        textContainer.appendChild(translated);
+      });
+    }, { once: true });
+  </script>
+</body>
+</html>

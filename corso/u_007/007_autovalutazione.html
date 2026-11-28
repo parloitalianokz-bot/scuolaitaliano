@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Autovalutazione bilingue finale dell'Unità 7: andare, i mezzi di trasporto, ci e gli spostamenti." />
+  <title>Unità 7 — Il tuo bilancio</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <link rel="stylesheet" href="../shared/self-assessment.css?v=1" />
+  <link rel="stylesheet" href="../shared/next-unit-navigation.css?v=1" />
+</head>
+<body data-page-key="007_autovalutazione">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Autovalutazione</span>
+      <h1>✅ Il tuo bilancio dell'Unità 7 <span class="title-translation" lang="ru">/ Твой результат</span></h1>
+      <p class="hero-subtitle assessment-subtitle">
+        <span>Come ti senti dopo questa unità? Scegli una faccina per ogni obiettivo.</span>
+        <span lang="ru">Как ты себя чувствуешь после этого урока? Выбери смайлик для каждой цели.</span>
+      </p>
+    </header>
+
+    <section class="card self-assessment" aria-label="Autovalutazione finale">
+      <p class="assessment-intro">
+        Non è un test e non ci sono risposte giuste o sbagliate: questa scheda serve a capire che cosa sai già fare e che cosa vuoi ripassare.
+        <span class="goal-translation" lang="ru">Это не контрольная, здесь нет правильных и неправильных ответов: эта анкета поможет понять, что ты уже умеешь и что хочешь повторить.</span>
+      </p>
+      <div id="assessment-form">
+        <div id="goal-list" class="goal-list"></div>
+        <button id="submit-assessment" class="assessment-submit" type="button" disabled>
+          <span class="submit-label">Invia il mio bilancio <span lang="ru">Отправить результат</span></span>
+        </button>
+      </div>
+      <div id="assessment-status" class="assessment-status" role="status" aria-live="polite" hidden></div>
+      <section id="assessment-results" class="assessment-feedback" aria-live="polite" hidden>
+        <h2>Il tuo prossimo passo / Твой следующий шаг</h2>
+        <p id="feedback-it"></p>
+        <p id="feedback-ru" lang="ru"></p>
+      </section>
+      <section id="next-unit-navigation" class="next-unit-navigation" data-current-unit="7" data-next-unit="8" data-href="../u_008/008_lettura.html" aria-label="Unità successiva">
+        <a class="next-unit-link" aria-disabled="true" tabindex="-1">Vai all’Unità 8 / Перейти к разделу 8</a>
+        <button class="next-unit-enable" type="button" hidden>Abilita l’Unità 8 per il gruppo / Открыть группе раздел 8</button>
+        <p class="next-unit-status" role="status" aria-live="polite">Verifica dei permessi… / Проверка доступа…</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script>
+    window.PARLO_SELF_ASSESSMENT = {
+      voteKey: "parlo_autovalutazione_unita_07_v1",
+      localStatsKey: "parlo_autovalutazione_unita_07_test_stats_v1",
+      statsPath: "statistiche/unita_07",
+      objectives: [
+        { it: "So coniugare e usare il verbo andare al presente.", ru: "Я умею спрягать и использовать глагол andare в настоящем времени." },
+        { it: "So dire dove vado e con quale mezzo (in macchina, in autobus, a piedi).", ru: "Я умею говорить, куда я еду/иду и на каком транспорте (in macchina, in autobus, a piedi)." },
+        { it: "Capisco e uso la particella ci per non ripetere un luogo già nominato.", ru: "Я понимаю и использую частицу ci, чтобы не повторять уже названное место." },
+        { it: "So parlare delle mie abitudini di spostamento e del traffico nella mia città.", ru: "Я могу рассказать о своих привычках передвижения и о пробках/движении в моём городе." }
+      ],
+      choices: [
+        { key: "happy", emoji: "😊", it: "Sì, senza problemi!", ru: "Да, легко!" },
+        { key: "neutral", emoji: "😐", it: "Così così, devo ripassare", ru: "Более-менее, нужно повторить" },
+        { key: "thinking", emoji: "🤔", it: "Non ancora", ru: "Пока нет" }
+      ]
+    };
+  </script>
+  <script src="../shared/self-assessment.js?v=1"></script>
+  <script src="../shared/next-unit-navigation.js?v=1"></script>
+</body>
+</html>

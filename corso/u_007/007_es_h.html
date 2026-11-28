@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Completa le frasi con la forma corretta del verbo andare al presente, Unità 7, Esercizio H." />
+  <title>Unità 7 — La macchina · Esercizio H</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/inbox-exercise.css?v=1" />
+  <link rel="stylesheet" href="../shared/inline-fill-exercise.css?v=1" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="007_es_h" data-next-href="007_es_i.html" data-next-label="Vai all’esercizio I →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio H</span>
+      <h1>La macchina</h1>
+      <p class="hero-subtitle">Consolida il presente del verbo <em>andare</em>.</p>
+    </header>
+
+    <section class="instruction-box" aria-label="Consegna">
+      <div class="instruction-title" lang="ru">💡 Упражнение H · Глагол andare</div>
+      <div class="instruction-text">
+        <p lang="ru"><strong>Дополните фразы глаголом <em>andare</em> в нужной форме.</strong> Вводите ответы непосредственно в пропуски. Откройте «Подсказки», если нужна помощь.</p>
+        <p lang="it">Completa tutte le frasi con la forma corretta del presente indicativo di <em>andare</em>. Inserisci le risposte direttamente negli spazi.</p>
+        <div class="example-box">
+          <strong>Il dottor Donelli ______ in ufficio.</strong><br />
+          → Il dottor Donelli <em>va</em> in ufficio.
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Frasi da completare con il verbo andare">
+      <div id="connection-banner" class="connection-banner" role="alert" aria-live="assertive" hidden></div>
+      <p class="progress-label">Avanzamento · Seleziona una frase:</p>
+      <nav id="exercise-progress" class="overall-progress" aria-label="Avanzamento delle frasi"></nav>
+      <div id="questions-container"></div>
+      <nav class="slide-navigation" aria-label="Navigazione delle frasi">
+        <button id="previous-question" type="button">← Precedente</button>
+        <span id="question-progress" class="slide-progress" aria-live="polite"></span>
+        <button id="next-question" type="button">Successiva →</button>
+        <a id="next-exercise" href="007_es_i.html" hidden>Vai all’esercizio I →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../shared/group-scope.js?v=4"></script>
+  <script src="../shared/exercise-core.js?v=8"></script>
+  <script src="../shared/exercise-modes.js?v=4"></script>
+  <script src="../shared/inline-fill-exercise.js?v=1"></script>
+  <script>
+    const verbHint = "andare";
+    const hint = (it, ru) => [
+      { text: it, lang: "it" },
+      { text: ru, lang: "ru" }
+    ];
+
+    ParloInlineFillExercise.init({
+      unitNumber: 7,
+      exercisePath: "007_es_h",
+      itemsLabel: "Frase",
+      sentences: [
+        { id: "h1", parts: ["Il dottor Donelli ", { input: true, id: "h1_1", correct: "va" }, " in ufficio in macchina."], hints: hint("Il soggetto è una persona: usa la forma di lui/lei.", "Подлежащее — один человек. Выбери форму для lui/lei."), hintsLang: "it" },
+        { id: "h2", parts: ["Domani ", { input: true, id: "h2_1", correct: "vado" }, " dal dottore, perché non sto bene."], hints: hint("Il soggetto sottinteso è io.", "Подразумевается местоимение io (я)."), hintsLang: "it" },
+        { id: "h3", parts: ["Cosa facciamo domani sera? ", { input: true, id: "h3_1", correct: "Andiamo" }, " al cinema?"], hints: hint("La domanda include chi parla e chi ascolta: noi.", "В вопросе говорящий включает себя и собеседника: noi (мы)."), hintsLang: "it" },
+        { id: "h4", parts: ["Mio fratello ha otto anni e ", { input: true, id: "h4_1", correct: "va" }, " a scuola."], hints: hint("Mio fratello corrisponde a lui.", "Mio fratello — это lui (он)."), hintsLang: "it" },
+        { id: "h5", parts: ["— Dove ", { input: true, id: "h5_1", correct: "andate" }, ", ragazzi? — ", { input: true, id: "h5_2", correct: "Andiamo" }, " al supermercato."], hints: hint("Ragazzi: chi parla si rivolge a più persone (voi); nella risposta parla a nome del proprio gruppo (noi).", "Ragazzi: обращаются к нескольким людям (voi); в ответе говорящий говорит от имени своей группы (noi)."), hintsLang: "it" },
+        { id: "h6", parts: ["Ogni giorno il nonno ", { input: true, id: "h6_1", correct: "va" }, " a fare una passeggiata nel parco."], hints: hint("Il nonno è una persona: lui.", "Il nonno — один человек: lui (он)."), hintsLang: "it" },
+        { id: "h7", parts: ["Io e Gianni ", { input: true, id: "h7_1", correct: "andiamo" }, " allo stadio."], hints: hint("Io e Gianni formiamo il soggetto noi.", "Io e Gianni — это noi (мы)."), hintsLang: "it" },
+        { id: "h8", parts: ["Di solito in estate la mia famiglia ", { input: true, id: "h8_1", correct: "va" }, " al mare."], hints: hint("La mia famiglia è un gruppo considerato come un unico soggetto: lei.", "La mia famiglia — собирательное существительное в единственном числе: lei."), hintsLang: "it" },
+        { id: "h9", parts: ["Dopo l’università, gli studenti ", { input: true, id: "h9_1", correct: "vanno" }, " in biblioteca."], hints: hint("Gli studenti è un soggetto plurale: loro.", "Gli studenti — множественное число: loro (они)."), hintsLang: "it" },
+        { id: "h10", parts: ["— Ciao Marco, dove ", { input: true, id: "h10_1", correct: "vai" }, "? — ", { input: true, id: "h10_2", correct: "Vado" }, " a fare la spesa."], hints: hint("A Marco si dà del tu; nella risposta Marco parla di sé con io.", "К Марко обращаются на tu; в ответе Марко говорит о себе: io."), hintsLang: "it" },
+        { id: "h11", parts: ["Tu ", { input: true, id: "h11_1", correct: "vai" }, " in centro a piedi?"], hints: hint("Il soggetto è tu.", "Подлежащее — tu (ты)."), hintsLang: "it" },
+        { id: "h12", parts: ["Anna e Luca ", { input: true, id: "h12_1", correct: "vanno" }, " in treno?"], hints: hint("Due persone formano il soggetto loro.", "Два человека — это loro (они)."), hintsLang: "it" },
+        { id: "h13", parts: ["Ragazzi, domani ", { input: true, id: "h13_1", correct: "andate" }, " al museo?"], hints: hint("Ragazzi è un vocativo rivolto a più persone: voi.", "Ragazzi — обращение к нескольким людям: voi (вы)."), hintsLang: "it" },
+        { id: "h14", parts: ["Mia sorella e io ", { input: true, id: "h14_1", correct: "andiamo" }, " spesso in biblioteca."], hints: hint("Mia sorella e io corrisponde a noi.", "Mia sorella e io — это noi (мы)."), hintsLang: "it" },
+        { id: "h15", parts: ["Io ", { input: true, id: "h15_1", correct: "vado" }, " al lavoro in autobus."], hints: hint("Il soggetto è io.", "Подлежащее — io (я)."), hintsLang: "it" },
+        { id: "h16", parts: ["Il sabato i bambini ", { input: true, id: "h16_1", correct: "vanno" }, " dai nonni."], hints: hint("I bambini è un soggetto plurale: loro.", "I bambini — множественное число: loro (они)."), hintsLang: "it" },
+        { id: "h17", parts: ["Signor Bianchi, ", { input: true, id: "h17_1", correct: "va" }, " in ufficio oggi?"], hints: hint("Nel registro formale, Signor Bianchi si tratta con Lei: il verbo è alla terza persona singolare.", "При официальном обращении к Signor Bianchi используют Lei; глагол стоит в 3-м лице единственного числа."), hintsLang: "it" },
+        { id: "h18", parts: ["Voi ", { input: true, id: "h18_1", correct: "andate" }, " in vacanza ad agosto?"], hints: hint("Il pronome è voi.", "Местоимение — voi (вы)."), hintsLang: "it" },
+        { id: "h19", parts: ["Tu e Paolo ", { input: true, id: "h19_1", correct: "andate" }, " a fare una passeggiata?"], hints: hint("Ci si rivolge direttamente a Tu e Paolo: voi.", "К Tu e Paolo обращаются напрямую: voi (вы)."), hintsLang: "it" },
+        { id: "h20", parts: ["La professoressa ", { input: true, id: "h20_1", correct: "va" }, " all’università."], hints: hint("La professoressa corrisponde a lei.", "La professoressa — это lei (она)."), hintsLang: "it" }
+      ]
+    });
+  </script>
+  <script src="../classroom-notes.js?v=3"></script>
+</body>
+</html>

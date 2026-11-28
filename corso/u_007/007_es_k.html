@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Attività Wordwall su andare, i mezzi di trasporto e le parti della macchina. Unità 7, Esercizio K." />
+  <title>Unità 7 — Attività interattive · Esercizio K</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="../shared/embedded-activities.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+</head>
+<body data-page-key="007_es_k" data-next-href="007_es_l.html" data-next-label="Vai all’esercizio L →">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Esercizio K</span>
+      <h1>Muoversi in città</h1>
+      <p class="hero-subtitle">Ripassa il verbo <em>andare</em> e il lessico dei mezzi di trasporto.</p>
+    </header>
+
+    <section class="instruction-box" lang="ru" aria-label="Consegna">
+      <div class="instruction-title">🎯 Задание · Esercizio K</div>
+      <div class="instruction-text">
+        Выполни три интерактивных задания: повтори глагол <em>andare</em>, названия транспортных средств и частей автомобиля.
+        <br /><span lang="it">Completa le tre attività interattive: ripassa il verbo <em>andare</em>, i mezzi di trasporto e le parti della macchina.</span>
+      </div>
+    </section>
+
+    <section class="activities-card" aria-label="Attività interattive">
+      <nav id="activity-tabs" class="activity-tabs" aria-label="Seleziona una scheda">
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda Andare">1</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda I mezzi di trasporto">2</button>
+        <button class="activity-tab" type="button" aria-controls="activity-scroller" aria-label="Vai alla scheda Le parti della macchina">3</button>
+      </nav>
+
+      <div class="activity-scroller" id="activity-scroller" tabindex="0" aria-label="Schede delle attività, scorri orizzontalmente">
+        <article class="activity-card" aria-labelledby="activity-one-title">
+          <h2 id="activity-one-title" class="activity-title">Scheda 1 · Andare</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/c8420a0134c24f0f834a38edc20094c1?themeId=44&amp;templateId=72&amp;fontStackId=15"
+            title="Wordwall — Andare"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-two-title">
+          <h2 id="activity-two-title" class="activity-title">Scheda 2 · I mezzi di trasporto</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/fad9e6838fda4dc6aeef3e281878864b?themeId=1&amp;templateId=5&amp;fontStackId=0"
+            title="Wordwall — I mezzi di trasporto"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+        <article class="activity-card" aria-labelledby="activity-three-title">
+          <h2 id="activity-three-title" class="activity-title">Scheda 3 · Le parti della macchina</h2>
+          <iframe
+            src="https://wordwall.net/it/embed/9789dcd5b9f0441995944bec40cb1c2c?themeId=1&amp;templateId=5&amp;fontStackId=0"
+            title="Wordwall — Le parti della macchina"
+            width="500"
+            height="380"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </article>
+      </div>
+
+      <nav class="activity-navigation" aria-label="Navigazione delle schede e degli esercizi">
+        <a class="exercise-link" href="007_es_j.html">← Esercizio J</a>
+        <button id="activity-previous" type="button" aria-label="Scheda precedente">← Precedente</button>
+        <span id="activity-counter" class="activity-counter" aria-live="polite"></span>
+        <button id="activity-next" type="button" aria-label="Scheda successiva">Successiva →</button>
+        <a id="next-exercise" class="exercise-link next-exercise" href="007_es_l.html" hidden>Vai all’esercizio L →</a>
+      </nav>
+    </section>
+  </main>
+
+  <script>
+    const scroller = document.getElementById("activity-scroller");
+    const activityCards = [...scroller.querySelectorAll(".activity-card")];
+    const tabs = [...document.querySelectorAll(".activity-tab")];
+    const previousButton = document.getElementById("activity-previous");
+    const nextButton = document.getElementById("activity-next");
+    const nextExercise = document.getElementById("next-exercise");
+    const counter = document.getElementById("activity-counter");
+    let activeActivity = 0;
+
+    function goToActivity(index) {
+      const target = Math.max(0, Math.min(activityCards.length - 1, index));
+      scroller.scrollTo({
+        left: activityCards[target].offsetLeft - scroller.offsetLeft,
+        behavior: "smooth"
+      });
+    }
+
+    function updateActivityNavigation() {
+      activeActivity = activityCards.reduce((closestIndex, card, index) => {
+        const closestDistance = Math.abs(activityCards[closestIndex].offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        const distance = Math.abs(card.offsetLeft - scroller.offsetLeft - scroller.scrollLeft);
+        return distance < closestDistance ? index : closestIndex;
+      }, 0);
+
+      tabs.forEach((tab, index) => {
+        if (index === activeActivity) tab.setAttribute("aria-current", "step");
+        else tab.removeAttribute("aria-current");
+      });
+      previousButton.disabled = activeActivity === 0;
+      nextButton.hidden = activeActivity === activityCards.length - 1;
+      nextExercise.hidden = activeActivity !== activityCards.length - 1;
+      counter.textContent = `Scheda ${activeActivity + 1} di ${activityCards.length}`;
+    }
+
+    tabs.forEach((tab, index) => tab.addEventListener("click", () => goToActivity(index)));
+    previousButton.addEventListener("click", () => goToActivity(activeActivity - 1));
+    nextButton.addEventListener("click", () => goToActivity(activeActivity + 1));
+    scroller.addEventListener("scroll", updateActivityNavigation, { passive: true });
+    window.addEventListener("resize", updateActivityNavigation);
+    updateActivityNavigation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Osserva e ripassa il presente del verbo andare con esempi tratti dall’Unità 7." />
+  <title>Unità 7 — Il verbo andare</title>
+  <link rel="stylesheet" href="../shared/theme.css?v=2" />
+  <link rel="stylesheet" href="fondo.css?v=1" />
+  <style>
+    .container { width: min(100%, 900px); margin: 0 auto; }
+    .hero, .card { margin: 10px 0 18px; padding: clamp(18px, 4vw, 28px); border: 1px solid var(--border); border-radius: 20px; background: rgba(255,254,250,.96); }
+    .hero { text-align: center; }
+    .eyebrow { color: var(--primary-dark); font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    h1, h2 { color: var(--primary-dark); }
+    h1 { margin: 8px 0; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+    .lead, .note { line-height: 1.65; }
+    .conjugation-activity { display: grid; grid-template-columns: minmax(0, 2fr) minmax(190px, 1fr); gap: 14px; align-items: start; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    table { width: 100%; min-width: 460px; border-collapse: collapse; background: #fff; }
+    th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: var(--primary-light); color: var(--primary-dark); }
+    tr:last-child td { border-bottom: 0; }
+    .drop-slot { min-width: 110px; background: #fffdf6; cursor: pointer; }
+    .drop-slot:focus-visible, .verb-tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .drop-slot[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .drop-slot.is-correct { background: #e8f5e9; }
+    .drop-slot.is-incorrect { background: #fff0ed; }
+    .drop-slot .verb-tile { margin: 0; }
+    .verb-bank { padding: 14px; border: 1px solid #d8e5d8; border-radius: 12px; background: #f2f7f0; }
+    .verb-bank h3 { margin: 0 0 8px; color: var(--primary-dark); font-size: 1rem; }
+    .verb-tiles { display: flex; flex-wrap: wrap; gap: 8px; }
+    button.verb-tile { min-height: 38px; margin: 0; padding: 6px 10px; border: 1px solid #d4e1d5; background: #fff; color: var(--primary-dark); cursor: grab; }
+    button.verb-tile[aria-pressed="true"] { outline: 3px solid var(--accent); }
+    #conjugation-feedback { min-height: 1.5em; font-weight: 700; }
+    @media (max-width: 700px) { .conjugation-activity { grid-template-columns: 1fr; } } 
+    .legend { margin: 10px 0 0; font-size: .9rem; line-height: 1.5; }
+    .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; }
+    .example { padding: 14px; border: 1px solid #d8e5d8; border-radius: 12px; background: #fff; line-height: 1.6; }
+    .example strong { color: var(--primary-dark); }
+    .note { padding: 14px 16px; border-left: 5px solid var(--accent); border-radius: 10px; background: #f8f6ef; }
+    .contrast { padding: 14px 16px; border: 1px solid #d8e5d8; border-radius: 12px; background: #f2f7f0; line-height: 1.65; }
+    .quiz { display: grid; gap: 10px; }
+    .question { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .question label { flex: 1 1 250px; line-height: 1.5; }
+    select { min-height: 42px; max-width: 100%; padding: 7px 10px; border: 1px solid #d4e1d5; border-radius: 9px; background: #fff; color: var(--primary-dark); font: inherit; }
+    button { min-height: 42px; margin-top: 14px; padding: 9px 15px; border: 0; border-radius: 10px; background: var(--primary-dark); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    #feedback { min-height: 1.5em; font-weight: 700; }
+    details.tip { margin-top: 14px; padding: 12px 14px; border: 1px solid #d8e5d8; border-radius: 12px; background: #fff; line-height: 1.6; }
+    details.tip summary { color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+    .language-support [lang="ru"] { font-size: .92em; font-style: italic; }
+    .lesson-nav { display: flex; gap: 8px; margin: 0 0 12px; padding: 8px; overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,254,250,.96); }
+    .lesson-nav a { flex: 0 0 auto; padding: 8px 12px; border-radius: 9px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; text-decoration: none; white-space: nowrap; }
+    .lesson-nav a:hover, .lesson-nav a:focus-visible { background: var(--accent); color: #fff; outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+    .lesson-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain; }
+    .lesson-slide { flex: 0 0 100%; min-width: 0; box-sizing: border-box; scroll-snap-align: start; scroll-margin-inline: 0; }
+    .contrastive-box { margin-top: 14px; padding: 14px 16px; border: 1px solid #d8e5d8; border-radius: 12px; background: #f2f7f0; line-height: 1.65; }
+    .contrastive-box h3 { margin-top: 0; color: var(--primary-dark); }
+    @media (max-width: 600px) { .question { align-items: stretch; flex-direction: column; } .question select { width: 100%; } }
+
+    /* Rifiniture di impaginazione e navigazione */
+    body { padding-inline: clamp(12px, 3vw, 24px); }
+    .container { padding-bottom: 28px; }
+    .hero { margin-top: 18px; box-shadow: 0 8px 24px rgba(35, 55, 38, .07); }
+    .hero .lead { max-width: 650px; margin-inline: auto; }
+    .lesson-nav { position: sticky; top: 8px; z-index: 5; gap: 8px; box-shadow: 0 4px 14px rgba(35, 55, 38, .08); }
+    .lesson-nav a { transition: background-color .18s ease, color .18s ease, transform .18s ease; }
+    .lesson-nav a:hover { transform: translateY(-1px); }
+    .lesson-track { gap: 14px; padding: 2px 2px 16px; scroll-padding-inline: 2px; }
+    .lesson-slide { margin: 0; box-shadow: 0 8px 24px rgba(35, 55, 38, .06); }
+    .lesson-slide h2 { margin-top: 0; line-height: 1.25; }
+    .lesson-slide p:last-child { margin-bottom: 0; }
+    .verb-bank, .table-wrap, .example, .question, .contrast, .contrastive-box { box-shadow: 0 2px 8px rgba(35, 55, 38, .04); }
+    button, select, .drop-slot, .verb-tile { transition: border-color .18s ease, background-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+    button:hover, button.verb-tile:hover { transform: translateY(-1px); }
+    button:focus-visible, select:focus-visible, .lesson-nav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .question { gap: 12px 16px; }
+    #feedback, #conjugation-feedback { line-height: 1.5; }
+    @media (max-width: 700px) {
+      .lesson-nav { top: 4px; }
+      .lesson-nav a { padding: 8px 10px; }
+      .lesson-track { gap: 10px; }
+      .lesson-slide { padding: 20px; }
+      table { min-width: 420px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .lesson-track { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body data-page-key="007_andare">
+  <main class="container">
+    <div id="unit-navigation"></div>
+    <script src="./007_unit-nav.js?v=1"></script>
+    <header class="hero">
+      <span class="eyebrow">Unità 7 · Grammatica</span>
+      <h1>Il verbo <em>andare</em></h1>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Navigazione delle schede">
+      <a href="#step-observe">1. Osserva</a>
+      <a href="#step-conjugation">2. Presente</a>
+      <a href="#step-use">3. Uso</a>
+      <a href="#step-practice">4. Prova tu</a>
+    </nav>
+    <div class="lesson-track" aria-label="Schede della lezione: scorri orizzontalmente">
+    <section class="card language-support lesson-slide" id="step-observe" aria-labelledby="notice-title">
+      <h2 id="notice-title">1. Osserva il racconto</h2>
+      <p class="lead">Rileggi, se necessario, <a href="007_lettura.html">La macchina</a>. Cerca le forme del verbo <em>andare</em> e chiediti: in questi passaggi, il dottor Donelli si sposta verso un luogo o va a fare qualcosa?</p>
+      <p lang="ru">Если нужно, перечитай рассказ «La macchina». Найди формы глагола <em>andare</em> и подумай: в этих фрагментах доктор Донелли направляется куда-то или собирается что-то сделать?</p>
+      <p class="note"><strong>Nel racconto:</strong> “<em>Va a lavorare in macchina</em>”, “<em>va in campagna</em>”, “<em>va in garage</em>”. In tutti questi casi <em>andare</em> indica uno spostamento; il contesto ci aiuta a capire dove o per quale attività.</p>
+      <p lang="ru">В рассказе <em>andare</em> обозначает перемещение; контекст помогает понять, куда направляется доктор Донелли или с какой целью.</p>
+      <div class="contrastive-box">
+        <h3>Confronto facoltativo con il russo · Сравнение с русским</h3>
+        <p lang="ru">В итальянском глагол <em>andare</em> сам по себе не показывает, идёт человек пешком или едет на транспорте. В русском это различие часто выражается глаголом: <em>идти / ехать</em>; привычное или повторяющееся движение — <em>ходить / ездить</em>. При необходимости укажи способ передвижения по-итальянски: <em>a piedi, in macchina, in autobus</em>.</p>
+        <p lang="ru">Предлоги <em>в</em> и <em>на</em> не переводятся автоматически как <em>in</em> или <em>a</em>: <em>в кино</em> = <em>al cinema</em>, <em>на работу</em> = <em>al lavoro</em>, <em>в центре</em> = <em>in centro</em>. Запоминай сочетание целиком и ориентируйся на итальянский пример.</p>
+      </div>
+    </section>
+
+    <section class="card language-support lesson-slide" id="step-conjugation" aria-labelledby="forms-title">
+      <h2 id="forms-title">2. Il presente indicativo</h2>
+      <p class="lead">Prima prova a completare a voce le forme che non trovi nel racconto; poi usa la tabella per controllare.</p>
+      <p lang="ru">Сначала попробуй вслух назвать формы, которых нет в рассказе. Затем заполни таблицу и проверь себя.</p>
+      <p>Trascina le forme nelle caselle oppure fai clic prima su una casella e poi su una forma, o viceversa.</p>
+      <p lang="ru">Перетащи формы в ячейки или сначала щёлкни по ячейке, а затем по форме — можно и наоборот.</p>
+      <div class="conjugation-activity">
+        <div class="table-wrap" role="region" aria-label="Tabella da completare con le forme di andare" tabindex="0">
+          <table>
+            <thead><tr><th scope="col">Persona</th><th scope="col">Forma</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">io</th><td class="drop-slot" data-answer="vado" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per io"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+              <tr><th scope="row">tu</th><td class="drop-slot" data-answer="vai" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per tu"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+              <tr><th scope="row">lui / lei</th><td class="drop-slot" data-answer="va" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per lui o lei"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+              <tr><th scope="row">noi</th><td class="drop-slot" data-answer="andiamo" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per noi"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+              <tr><th scope="row">voi</th><td class="drop-slot" data-answer="andate" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per voi"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+              <tr><th scope="row">loro</th><td class="drop-slot" data-answer="vanno" role="button" tabindex="0" aria-pressed="false" aria-label="Casella della forma per loro"><span class="slot-placeholder">Scegli una forma</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="verb-bank" aria-label="Forme verbali da usare">
+          <h3>Forme verbali</h3>
+          <div class="verb-tiles" id="verb-bank">
+            <button class="verb-tile" type="button" draggable="true" data-form="vanno" aria-pressed="false">vanno</button>
+            <button class="verb-tile" type="button" draggable="true" data-form="andiamo" aria-pressed="false">andiamo</button>
+            <button class="verb-tile" type="button" draggable="true" data-form="vado" aria-pressed="false">vado</button>
+            <button class="verb-tile" type="button" draggable="true" data-form="va" aria-pressed="false">va</button>
+            <button class="verb-tile" type="button" draggable="true" data-form="andate" aria-pressed="false">andate</button>
+            <button class="verb-tile" type="button" draggable="true" data-form="vai" aria-pressed="false">vai</button>
+          </div>
+        </aside>
+      </div>
+      <button id="check-conjugation" type="button">Controlla la tabella</button>
+      <button id="reset-conjugation" type="button">Ricomincia</button>
+      <p id="conjugation-feedback" role="status" aria-live="polite"></p>
+      <p class="legend"><strong style="color:#9a4e20">Forme da ricordare:</strong> <em>vado, vai, va, vanno</em>. <strong style="color:var(--primary-dark)">Forme con and-:</strong> <em>andiamo, andate</em>.</p>
+      <p class="note"><strong>Attenzione:</strong> <em>andare</em> è irregolare al presente: in quattro forme cambia rispetto all’infinito. Ricorda soprattutto <em>vado, vai, va, vanno</em>.</p>
+      <p lang="ru"><em>Andare</em> — неправильный глагол в настоящем времени: в четырёх формах его основа отличается от инфинитива. Особенно запомни <em>vado, vai, va, vanno</em>.</p>
+    </section>
+
+    <section class="card language-support lesson-slide" id="step-use" aria-labelledby="use-title">
+      <h2 id="use-title">3. Dove vai? Come ci vai?</h2>
+      <div class="examples">
+        <div class="example"><strong>andare a + destinazione</strong><br>Vado <em>a</em> casa. · Va <em>a</em> lavorare.</div>
+        <div class="example"><strong>andare in + alcuni luoghi</strong><br>Va <em>in</em> ufficio. · Vanno <em>in</em> campagna.</div>
+        <div class="example"><strong>in + mezzo di trasporto</strong><br>Va <em>in</em> macchina. · Andiamo <em>in</em> autobus.</div>
+        <div class="example"><strong>a piedi / da + persona</strong><br>Vado <em>a piedi</em>. · Vado <em>dal</em> medico, <em>dalla</em> nonna.</div>
+      </div>
+      <p class="note">Per dire il mezzo: <em>in macchina, in autobus, in treno</em>, ma <em>a piedi</em>. La preposizione della destinazione dipende dal luogo: <em>a casa, in ufficio, in campagna</em>.</p>
+      <p lang="ru">Чтобы назвать транспорт, используй <em>in</em>: <em>in macchina, in autobus, in treno</em>, но <em>a piedi</em> — пешком. Предлог перед названием места зависит от самого места: <em>a casa, in ufficio, in campagna</em>.</p>
+      <details class="tip language-support">
+        <summary>Espressione utile: «Come va?»</summary>
+        <p>Nel parlato, <em>Come va?</em> significa “Come stanno andando le cose?” o “Come stai?”. Qui <em>andare</em> non indica uno spostamento. È un’espressione frequente e informale.</p>
+        <p lang="ru">По смыслу: «Как дела?» или «Как ты?».</p>
+      </details>
+    </section>
+
+    <section class="card lesson-slide" id="step-practice" aria-labelledby="practice-title">
+      <h2 id="practice-title">4. Prova tu</h2>
+      <p class="lead">Scegli la forma di <em>andare</em> che completa ogni frase.</p>
+      <div class="quiz" id="quiz">
+        <div class="question" data-answer="va"><label for="q1">Il dottor Donelli ___ a lavorare in macchina.</label><select id="q1"><option value="">Scegli la forma</option><option>vado</option><option>va</option><option>vanno</option></select></div>
+        <div class="question" data-answer="vado"><label for="q2">Io ___ in ufficio alle otto.</label><select id="q2"><option value="">Scegli la forma</option><option>vado</option><option>vai</option><option>andate</option></select></div>
+        <div class="question" data-answer="andiamo"><label for="q3">Noi ___ in campagna domenica.</label><select id="q3"><option value="">Scegli la forma</option><option>va</option><option>andiamo</option><option>vanno</option></select></div>
+        <div class="question" data-answer="vai"><label for="q4">Tu ___ a casa in autobus?</label><select id="q4"><option value="">Scegli la forma</option><option>vado</option><option>vai</option><option>va</option></select></div>
+        <div class="question" data-answer="vanno"><label for="q5">I miei amici ___ al lavoro a piedi.</label><select id="q5"><option value="">Scegli la forma</option><option>andate</option><option>vanno</option><option>andiamo</option></select></div>
+      </div>
+      <button id="check" type="button">Controlla le risposte</button>
+      <p id="feedback" role="status" aria-live="polite"></p>
+      <div class="contrast language-support">
+        <strong>E tu? · А ты?</strong>
+        <p>Completa a voce o nei tuoi appunti con informazioni vere: <em>Io vado al lavoro / all’università in…</em> (oppure <em>a piedi</em>). <em>La domenica vado…</em></p>
+        <p lang="ru">Скажи вслух или запиши о себе: «Я езжу на работу / в университет…» (или «я хожу пешком»). «По воскресеньям я хожу / езжу…».</p>
+      </div>
+    </section>
+
+    </div>
+  </main>
+  <script>
+    const formTiles = [...document.querySelectorAll(".verb-tile")];
+    const dropSlots = [...document.querySelectorAll(".drop-slot")];
+    const conjugationFeedback = document.getElementById("conjugation-feedback");
+    let selectedTile = null;
+    let selectedSlot = null;
+
+    function selectTile(tile) {
+      if (selectedTile) selectedTile.setAttribute("aria-pressed", "false");
+      if (selectedSlot) selectedSlot.setAttribute("aria-pressed", "false");
+      selectedSlot = null;
+      selectedTile = tile;
+      if (selectedTile) selectedTile.setAttribute("aria-pressed", "true");
+      conjugationFeedback.textContent = selectedTile
+        ? `Hai selezionato «${selectedTile.dataset.form}». Ora scegli una casella.`
+        : "Selezione annullata.";
+    }
+
+    function selectSlot(slot) {
+      if (selectedTile) selectedTile.setAttribute("aria-pressed", "false");
+      if (selectedSlot) selectedSlot.setAttribute("aria-pressed", "false");
+      selectedTile = null;
+      selectedSlot = slot;
+      selectedSlot.setAttribute("aria-pressed", "true");
+      conjugationFeedback.textContent = "Casella selezionata. Ora scegli una forma verbale.";
+    }
+
+    function clearSelection() {
+      if (selectedTile) selectedTile.setAttribute("aria-pressed", "false");
+      if (selectedSlot) selectedSlot.setAttribute("aria-pressed", "false");
+      selectedTile = null;
+      selectedSlot = null;
+    }
+
+    function placeTile(tile, slot) {
+      if (!tile || !slot) return;
+      const oldTile = slot.querySelector(".verb-tile");
+      if (oldTile && oldTile !== tile) document.getElementById("verb-bank").append(oldTile);
+      slot.querySelector(".slot-placeholder")?.remove();
+      slot.append(tile);
+      slot.classList.remove("is-correct", "is-incorrect");
+      clearSelection();
+      conjugationFeedback.textContent = "Forma spostata. Puoi continuare a completare la tabella.";
+    }
+
+    formTiles.forEach(tile => {
+      tile.addEventListener("click", event => {
+        event.stopPropagation();
+        if (selectedSlot) placeTile(tile, selectedSlot);
+        else if (selectedTile === tile) selectTile(null);
+        else selectTile(tile);
+      });
+      tile.addEventListener("dragstart", event => {
+        event.dataTransfer.setData("text/plain", tile.dataset.form);
+        event.dataTransfer.effectAllowed = "move";
+        selectTile(tile);
+      });
+    });
+
+    dropSlots.forEach(slot => {
+      slot.addEventListener("click", () => {
+        if (selectedTile) placeTile(selectedTile, slot);
+        else if (selectedSlot === slot) selectTile(null);
+        else selectSlot(slot);
+      });
+      slot.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          if (selectedTile) placeTile(selectedTile, slot);
+          else selectSlot(slot);
+        }
+      });
+      slot.addEventListener("dragover", event => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+      });
+      slot.addEventListener("drop", event => {
+        event.preventDefault();
+        const form = event.dataTransfer.getData("text/plain");
+        const tile = formTiles.find(item => item.dataset.form === form);
+        if (tile) placeTile(tile, slot);
+      });
+    });
+
+    document.getElementById("check-conjugation").addEventListener("click", () => {
+      let correct = 0;
+      dropSlots.forEach(slot => {
+        const tile = slot.querySelector(".verb-tile");
+        const isCorrect = tile?.dataset.form === slot.dataset.answer;
+        slot.classList.toggle("is-correct", Boolean(isCorrect));
+        slot.classList.toggle("is-incorrect", Boolean(tile && !isCorrect));
+        if (isCorrect) correct++;
+      });
+      conjugationFeedback.textContent = correct === dropSlots.length
+        ? "Perfetto! Hai completato correttamente tutta la tabella."
+        : `Forme corrette: ${correct} su ${dropSlots.length}. Puoi spostare le forme e riprovare.`;
+    });
+
+    document.getElementById("reset-conjugation").addEventListener("click", () => {
+      dropSlots.forEach(slot => {
+        const tile = slot.querySelector(".verb-tile");
+        if (tile) document.getElementById("verb-bank").append(tile);
+        if (!slot.querySelector(".slot-placeholder")) {
+          const placeholder = document.createElement("span");
+          placeholder.className = "slot-placeholder";
+          placeholder.textContent = "Scegli una forma";
+          slot.append(placeholder);
+        }
+        slot.classList.remove("is-correct", "is-incorrect");
+      });
+      clearSelection();
+      conjugationFeedback.textContent = "Tabella azzerata. Ricomincia quando vuoi.";
+    });
+
+    document.getElementById("check").addEventListener("click", () => {
+      const questions = [...document.querySelectorAll("#quiz .question")];
+      let correct = 0;
+      questions.forEach(question => {
+        const select = question.querySelector("select");
+        const isCorrect = select.value === question.dataset.answer;
+        select.style.borderColor = isCorrect ? "var(--success)" : select.value ? "var(--error)" : "";
+        if (isCorrect) correct++;
+      });
+      const feedback = document.getElementById("feedback");
+      feedback.textContent = correct === questions.length
+        ? "Perfetto! Hai coniugato correttamente andare."
+        : `Risposte corrette: ${correct} su ${questions.length}. Rileggi la tabella e riprova.`;
+    });
+  </script>
+</body>
+</html>

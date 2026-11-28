@@ -1,0 +1,79 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px 16px;
+  color: var(--text);
+}
+.container { width: min(100%, 880px); margin: 0 auto; }
+.hero {
+  margin: 8px 0 20px;
+  padding: 24px 20px 22px;
+  text-align: center;
+  border: 1px solid rgba(71, 119, 85, .13);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 254, 250, .94), rgba(242, 247, 239, .91));
+}
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #eaf1e8;
+  color: var(--primary-dark);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  margin: 4px 0;
+  color: var(--primary-dark);
+  font-size: clamp(1.85rem, 5vw, 2.55rem);
+  letter-spacing: -.04em;
+  line-height: 1.12;
+}
+.title-translation { display: block; margin-top: .2em; font-size: .68em; letter-spacing: 0; }
+.hero-subtitle { margin: 8px 0 0; color: var(--text-muted); font-size: .96rem; }
+.self-assessment {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  background: var(--card-bg);
+}
+.assessment-subtitle, .assessment-intro { line-height: 1.65; }
+.assessment-subtitle [lang="ru"], .goal-translation, .choice-label [lang="ru"],
+.submit-label [lang="ru"], .feedback-translation, .stats-translation {
+  display: block;
+  margin-top: .2rem;
+}
+.assessment-intro { margin: 1rem 0 1.5rem; }
+.goal-list { display: grid; gap: 1rem; }
+.goal-item { padding: 1rem; border: 1px solid rgba(53, 78, 62, .18); border-radius: 14px; background: rgba(255, 255, 255, .78); }
+.goal-title { margin: 0 0 .85rem; font-weight: 700; line-height: 1.5; }
+.goal-translation { font-weight: 400; }
+.mood-options { display: flex; flex-wrap: wrap; gap: .6rem; }
+.mood-button { flex: 1 1 150px; min-height: 72px; display: grid; justify-items: center; align-content: center; gap: .15rem; padding: .55rem; border: 2px solid #d7ddd5; border-radius: 12px; background: #fff; color: inherit; cursor: pointer; text-align: center; }
+.mood-button:hover { border-color: #63856b; }
+.mood-button[aria-pressed="true"] { border-color: #3f7650; background: #edf6ed; box-shadow: 0 0 0 2px rgba(63, 118, 80, .12); }
+.mood-emoji { font-size: 1.7rem; line-height: 1.2; }
+.choice-label { font-size: .88rem; line-height: 1.35; }
+.choice-label [lang="ru"] { font-size: .82rem; }
+.assessment-submit { display: block; width: 100%; margin-top: 1.25rem; padding: .85rem 1rem; border: 0; border-radius: 12px; background: #426b4b; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.assessment-submit:disabled { opacity: .55; cursor: not-allowed; }
+.assessment-status, .assessment-feedback { margin-top: 1rem; padding: 1rem; border-radius: 12px; line-height: 1.55; }
+.assessment-status { background: #fff5df; }
+.assessment-feedback { background: #edf6ed; }
+.assessment-feedback h2 { margin: 0 0 .45rem; font-size: 1.15rem; }
+.assessment-feedback p { margin: .35rem 0; }
+.goal-stats { display: none; margin: .8rem 0 0; padding-top: .65rem; border-top: 1px solid rgba(53, 78, 62, .16); font-size: .92rem; }
+.goal-stats.is-visible { display: block; }
+.next-unit-navigation { display: grid; gap: .65rem; margin: 1.25rem 0 0; padding: 1rem; border: 1px solid var(--border); border-radius: 14px; background: rgba(255, 254, 250, .88); }
+.next-unit-link, .next-unit-enable { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; padding: .7rem 1rem; border: 0; border-radius: 10px; background: #426b4b; color: #fff; font: inherit; font-weight: 700; text-align: center; text-decoration: none; }
+.next-unit-link[aria-disabled="true"], .next-unit-enable:disabled { background: #e5e8e3; color: #656a64; cursor: not-allowed; }
+.next-unit-enable { cursor: pointer; }
+.next-unit-status { margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+@media (max-width: 560px) {
+  .mood-button { flex-basis: 100%; grid-template-columns: auto 1fr; justify-items: start; text-align: left; }
+}
